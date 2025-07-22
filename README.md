@@ -55,15 +55,15 @@ KRTK Adatbank: https://adatbank.krtk.mta.hu/
 
 # Acknowledgements
 - Project no. 144193 has been implemented with the support provided by the Ministry of 
-Culture and Innovation of Hungary from the National Research, Development and 
-Innovation Fund, financed under the KKP_22 funding scheme.
+  Culture and Innovation of Hungary from the National Research, Development and 
+  Innovation Fund, financed under the KKP_22 funding scheme.
 - This project was funded by the European Research Council (ERC Advanced Grant 
-agreement number 101097789). The views expressed in this research are those of the authors and 
-do not necessary reflect the official view of the European Union or the European 
-Research Council.
+  agreement number 101097789). The views expressed in this research are those of the authors and 
+  do not necessary reflect the official view of the European Union or the European 
+  Research Council.
 
 # References
 - HUN-REN KRTK (distributor). 2024. "Cégjegyzék LTS [data set]" Published by Opten 
-Zrt, Budapest. Contributions by CEU MicroData.
+  Zrt, Budapest. Contributions by CEU MicroData.
 - HUN-REN KRTK (distributor). 2024. "Mérleg LTS [data set]" Published by Opten Zrt, 
-Budapest. Contributions by CEU MicroData.
+  Budapest. Contributions by CEU MicroData.
