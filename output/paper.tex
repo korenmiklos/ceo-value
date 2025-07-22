@@ -80,11 +80,104 @@ Year & Observations & Year & Observations & Year & Observations \\
 Notes: Sample distribution after applying time period restrictions (1992-2022) and data quality filters.
 \end{table}
 
+\textbf{CEO panel construction.} We construct a panel of chief executive officers from the firm registry data, restricting the sample to the same 1992-2022 time period. The initial CEO panel contains information on 996,387 observations that are excluded due to the time restriction. The final CEO panel includes variables identifying the firm (frame\_id\_numeric), person (person\_id), year, as well as CEO characteristics including gender (male), birth year, manager category, and ownership status.
+
+The CEO data reveals substantial variation in the number of CEOs per firm-year. Among the 12,726,597 firm-year observations with CEO information, the vast majority (82.24\%) have a single CEO. However, 15.32\% of firm-years have two CEOs, 1.98\% have three CEOs, and small fractions have even larger numbers of CEOs, with some firms reporting up to 52 CEOs in a single year. This distribution reflects the complexity of executive structures in Hungarian firms, including cases where firms may have multiple managing directors or where CEO transitions occur within a year.
+
+\textbf{Sample merging and match rates.} We merge the CEO panel with the balance sheet data using firm identifiers and year. The merge process reveals important patterns in data availability across sources. Of the 15,980,738 total observations from both datasets, 11,886,636 observations (74.4\%) successfully match between CEO and balance sheet data. The remaining observations consist of 3,507,466 CEO observations without corresponding balance sheet data and 586,636 balance sheet observations without CEO information.
+
+At the firm level, the match rates are more favorable. Among the 1,200,145 unique firms in our combined dataset, 942,684 firms (78.55\%) have information in both datasets. The remaining firms are split between 238,852 firms (19.90\%) that appear only in the CEO registry and 18,609 firms (1.55\%) that appear only in the balance sheet data. This pattern suggests that CEO information is available for most active firms but may be missing for very small firms or those with simplified reporting requirements.
+
+\textbf{Industry composition.} We classify firms into broad industry sectors using the TEAOR08 classification system. The final analytical sample of 8,872,039 firm-year observations spans diverse industries, with notable concentration in service sectors. Wholesale, retail, and transportation activities account for the largest share at 3,430,342 observations (28.86\%). Nontradable services represent 3,176,339 observations (26.72\%), while telecom and business services contribute 2,249,271 observations (18.92\%). Manufacturing firms account for 1,254,792 observations (10.56\%), construction for 1,100,022 observations (9.25\%), and agriculture for 411,226 observations (3.46\%). Mining represents the smallest sector with 16,926 observations (0.14\%). Finance sector firms are separately identified with 247,718 observations (2.08\%).
+
+\textbf{CEO turnover and tenure patterns.} The data reveals substantial heterogeneity in CEO turnover across firms. We construct CEO spell variables to track the sequence of different CEO appointments within each firm. Among firm-year observations, 66.72\% represent the first CEO spell, meaning these are either firms with their original CEO or the first year of data for that CEO. Second CEO spells account for 22.90\% of observations, while 6.88\% represent third spells. The distribution has a long tail, with some firms experiencing up to 25 different CEO spells during the observation period.
+
+At the firm level, 62.97\% of the 1,012,113 firms in our sample experience only one CEO spell during the observation window. However, 24.07\% of firms have exactly two CEO spells, indicating at least one CEO change. The remaining 12.96\% of firms experience multiple CEO changes, with some firms having up to 25 CEO transitions. This pattern suggests that while many firms maintain stable CEO leadership, a substantial minority experience frequent executive turnover.
+
+\textbf{Sample restrictions and final dataset.} We apply several filters to focus on firms most suitable for productivity analysis. First, we exclude firms that ever have more than two CEOs in a single year, removing 1,519,524 observations. This filter eliminates firms with potentially complex or unstable governance structures that may confound productivity estimates. Second, we drop firms with more than six CEO spells over the observation period, removing an additional 45,216 observations to focus on firms with more stable executive structures.
+
+We also exclude certain industries that may have different production functions or regulatory environments. Agriculture, mining, construction, and finance sectors are dropped, removing 1,494,057 observations. The final restriction removes firms from these sectors because agricultural production functions differ fundamentally from other sectors, mining operations face unique resource constraints, construction has project-based rather than continuous production, and financial services operate under distinct regulatory frameworks that affect standard productivity measures.
+
 \textbf{Variable construction.} Missing values in financial variables are systematically recoded to zero, following standard practice in administrative data analysis where missing values typically indicate zero rather than unknown values. The extent of missing data varies considerably across variables, reflecting different reporting requirements and business activities. Export data has the highest rate of missing values, with 5,456,815 observations recoded, reflecting that many firms do not engage in export activities. Employment data required recoding for 1,138,791 observations, while sales revenue had relatively few missing values with only 486,197 observations recoded.
 
 For employment, we make an additional adjustment by setting values below one to equal one. This transformation affects 3,655,899 observations and acknowledges that active firms filing administrative reports must have positive employment. Zero or negative employment values likely reflect administrative reporting inconsistencies rather than true zero employment.
 
 We also address issues with wage bill and personnel expense variables, where 3,931,270 and 1,117,283 observations respectively are recoded from missing to zero. For asset variables, tangible assets required recoding for 1,014,331 observations while intangible assets had 4,299,589 missing values recoded, reflecting that many firms do not report significant intangible assets.
+
+We construct several derived variables for the analysis. EBITDA is calculated as sales minus personnel expenses minus materials. Log transformations are applied to key variables including sales (lnR), EBITDA (lnEBITDA), employment (lnL), and tangible assets (lnK). CEO tenure is measured as years since first appointment, while CEO age and firm age are calculated from birth year and founding year respectively. We also create indicator variables for expatriate CEOs (those with missing gender information, suggesting non-Hungarian names) and ownership status.
+
+The final analytical sample contains 8,872,039 firm-year observations representing 960,464 unique firms over the 1992-2022 period. This sample focuses on manufacturing, wholesale/retail/transportation, telecom/business services, and other nontradable services sectors, with firms having relatively stable CEO structures suitable for productivity analysis.
+
+\begin{table}[htbp]
+\centering
+\caption{Industry Composition of Final Sample}
+\label{tab:industry}
+\begin{tabular}{lrr}
+\toprule
+Industry Sector & Observations & Percent \\
+\midrule
+Wholesale, Retail, Transportation & 3,430,342 & 28.86 \\
+Nontradable Services & 3,176,339 & 26.72 \\
+Telecom and Business Services & 2,249,271 & 18.92 \\
+Manufacturing & 1,254,792 & 10.56 \\
+Construction\textsuperscript{*} & 1,100,022 & 9.25 \\
+Agriculture\textsuperscript{*} & 411,226 & 3.46 \\
+Finance\textsuperscript{*} & 247,718 & 2.08 \\
+Mining\textsuperscript{*} & 16,926 & 0.14 \\
+\midrule
+Total (before restrictions) & 11,886,636 & 100.00 \\
+Final analytical sample & 8,872,039 & -- \\
+\bottomrule
+\end{tabular}
+\footnotesize
+Notes: \textsuperscript{*}Industries excluded from final analytical sample. Industry classification based on TEAOR08 system.
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{CEO Structure and Turnover Patterns}
+\label{tab:ceo_structure}
+\begin{tabular}{lrr}
+\toprule
+\multicolumn{3}{c}{Panel A: Number of CEOs per Firm-Year} \\
+\midrule
+Number of CEOs & Observations & Percent \\
+\midrule
+1 & 10,466,412 & 82.24 \\
+2 & 1,949,370 & 15.32 \\
+3 & 251,882 & 1.98 \\
+4+ & 58,933 & 0.46 \\
+\midrule
+Total & 12,726,597 & 100.00 \\
+\\[0.5em]
+\multicolumn{3}{c}{Panel B: CEO Spells per Firm-Year} \\
+\midrule
+CEO Spell & Observations & Percent \\
+\midrule
+1 (First CEO) & 6,423,429 & 66.72 \\
+2 & 2,204,806 & 22.90 \\
+3 & 662,846 & 6.88 \\
+4 & 205,665 & 2.14 \\
+5+ & 130,738 & 1.36 \\
+\midrule
+Total & 9,627,484 & 100.00 \\
+\\[0.5em]
+\multicolumn{3}{c}{Panel C: Maximum CEO Spells per Firm} \\
+\midrule
+Max CEO Spells & Firms & Percent \\
+\midrule
+1 & 637,287 & 62.97 \\
+2 & 243,609 & 24.07 \\
+3 & 84,184 & 8.32 \\
+4-6 & 42,788 & 4.23 \\
+7+ & 4,245 & 0.42 \\
+\midrule
+Total & 1,012,113 & 100.00 \\
+\bottomrule
+\end{tabular}
+\footnotesize
+Notes: Panel A shows distribution of concurrent CEOs per firm-year. Panel B shows CEO spell distribution among successfully matched firm-years. Panel C shows maximum number of CEO changes per firm over entire observation period.
+\end{table}
 
 \section{Methodology}
 

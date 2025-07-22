@@ -1,12 +1,13 @@
 STATA := stata -b do
 LATEX := pdflatex
+UTILS := $(wildcard code/util/*.do)
 
 all: output/paper.pdf
 
 %.pdf: %.tex
 	cd $(dir $@) && $(LATEX) $(notdir $<) && $(LATEX) $(notdir $<)
 
-temp/analysis-sample.dta: code/create/analysis-sample.do temp/balance.dta temp/ceo-panel.dta
+temp/analysis-sample.dta: code/create/analysis-sample.do temp/balance.dta temp/ceo-panel.dta $(UTILS)
 	$(STATA) $<
 
 temp/balance.dta: code/create/balance.do input/merleg-LTS-2023/balance/balance_sheet_80_22.dta

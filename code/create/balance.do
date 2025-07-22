@@ -2,10 +2,11 @@ use "input/merleg-LTS-2023/balance/balance_sheet_80_22.dta", clear
 
 keep if inrange(year, 1992, 2022)
 drop if frame_id == "only_originalid"
+generate long frame_id_numeric = real(substr(frame_id, 3, .)) if substr(frame_id, 1, 2) == "ft"
 
 tabulate year, missing
 
-local dimensions frame_id originalid foundyear year teaor08_2d
+local dimensions frame_id_numeric originalid foundyear year teaor08_2d teaor08_1d
 local facts sales export emp tanass ranyag wbill persexp immat so3_with_mo3 fo3
 
 keep `dimensions' `facts'
