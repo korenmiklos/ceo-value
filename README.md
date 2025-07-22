@@ -153,6 +153,8 @@ The provided code reproduces:
 | Table 1 (Sample Distribution) | balance.do | Embedded in paper.tex | Temporal distribution by year |
 | Table 2 (Industry Composition) | analysis-sample.do | Embedded in paper.tex | Industry sector breakdown |
 | Table 3 (CEO Structure) | analysis-sample.do | Embedded in paper.tex | CEO turnover patterns |
+| Table 4 (Full Sample Regressions) | surplus.do | output/table/full_sample.tex | EBITDA, Sales, Employment regressions |
+| Table 5 (Sector Regressions) | surplus.do | output/table/EBITDA_sectors.tex | EBITDA regressions by industry sector |
 
 # Sample
 
