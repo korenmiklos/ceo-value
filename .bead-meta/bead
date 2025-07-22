@@ -1,4 +1,15 @@
 {
-    "inputs": {},
+    "inputs": {
+        "ceo-panel": {
+            "content_id": "4a789e2d4066c3b24cdc8233b49fca68f0609ed3ebe36caf66f2ac30e024faa5bedcf8cfc2fff346fd8118ae67f394ff264f93171aafbbd2e9f5459d6530a261",
+            "freeze_time": "20241125T153535400212+0100",
+            "kind": "8f68500668824a7b8b9486f034a6aded-e7db5a61-97b7-4d28-8e22-3ed70eade94b"
+        },
+        "merleg-LTS-2023": {
+            "content_id": "80c0aac26a582bab8ddcffce75902c68d5902ceee6f1aed41a407095cf1657caeee89ad265bde77875deb6ff7fdeaf40123fa40ad21645c9b0303aee1784c748",
+            "freeze_time": "20240913T134437850009+0200",
+            "kind": "dd1549031b41346f51108b1e8345cb30-e1a8ffea-2d02-4d4e-93d8-5dbc50684081"
+        }
+    },
     "kind": "33f3ac6552c548b0eda3df08a8c6a5b9-2bf4a0e7-1a08-44f0-9351-633f5591fd3b"
 }
