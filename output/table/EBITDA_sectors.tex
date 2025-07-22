@@ -1,0 +1,22 @@
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Non-CEO determinants firm performance}
+\begin{tabular}{l*{4}{c}}
+\hline\hline
+                    &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+                    &\multicolumn{1}{c}{EBITDA}&\multicolumn{1}{c}{Sales}&\multicolumn{1}{c}{Employment}&\multicolumn{1}{c}{Nontradable services}\\
+\hline
+Tangible assets (log)&       0.312\sym{***}&       0.263\sym{***}&       0.237\sym{***}&       0.222\sym{***}\\
+                    &     (0.003)         &     (0.002)         &     (0.002)         &     (0.002)         \\
+[1em]
+Foreign owned       &       0.035         &       0.004         &       0.028         &       0.007         \\
+                    &     (0.026)         &     (0.016)         &     (0.024)         &     (0.016)         \\
+[1em]
+State owned         &       0.019         &       0.006         &      -0.107\sym{*}  &      -0.025         \\
+                    &     (0.053)         &     (0.044)         &     (0.061)         &     (0.054)         \\
+\hline
+Observations        &      601181         &     1449208         &     1014497         &     1321569         \\
+\hline\hline
+\multicolumn{5}{l}{\footnotesize Controls: firm-CEO-spell fixed effects; industry-year fixed effects.}\\
+\end{tabular}
+\end{table}

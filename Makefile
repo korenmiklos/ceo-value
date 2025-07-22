@@ -4,8 +4,11 @@ UTILS := $(wildcard code/util/*.do)
 
 all: output/paper.pdf
 
-%.pdf: %.tex
+%.pdf: %.tex output/table/full_sample.tex output/table/EBITDA_sectors.tex
 	cd $(dir $@) && $(LATEX) $(notdir $<) && $(LATEX) $(notdir $<)
+
+output/table/full_sample.tex output/table/EBITDA_sectors.tex: code/estimate/surplus.do temp/analysis-sample.dta
+	$(STATA) $<
 
 temp/analysis-sample.dta: code/create/analysis-sample.do temp/balance.dta temp/ceo-panel.dta $(UTILS)
 	$(STATA) $<
