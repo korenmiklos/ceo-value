@@ -25,11 +25,14 @@ stata -b do code/create/ceo-panel.do
 # Create analysis sample
 stata -b do code/create/analysis-sample.do
 
+# Extract firm-manager edgelist
+stata -b do code/create/edgelist.do
+
+# Find largest connected component of managers
+julia --project=. code/create/connected_component.jl
+
 # Run econometric analysis
 stata -b do code/estimate/surplus.do
-
-# Julia graph analysis
-julia --project=. code/create/connected_component.jl
 
 # Compile LaTeX document
 cd output && pdflatex paper.tex && bibtex paper && pdflatex paper.tex && pdflatex paper.tex
@@ -54,6 +57,7 @@ cd output && pdflatex paper.tex && pdflatex paper.tex
    - `balance.do`: Processes balance sheets (1992-2022), creates standardized variables
    - `ceo-panel.do`: Processes CEO registry, constructs firm-person-year structure  
    - `analysis-sample.do`: Merges datasets, applies industry classifications and sample restrictions
+   - `edgelist.do`: Extracts firm-manager edgelist (frame_id_numeric, person_id) to CSV
 
 3. **Utilities** (`code/util/`): Helper scripts called by main processing
    - `industry.do`: TEAOR08 industry sector classifications
@@ -64,15 +68,17 @@ cd output && pdflatex paper.tex && pdflatex paper.tex
    - `surplus.do`: Generates regression tables for paper
 
 5. **Output** (`temp/`, `output/`): Intermediate data and final results
-   - `temp/`: Processed Stata datasets
+   - `temp/`: Processed Stata datasets, edgelist CSV, connected component results
    - `output/table/`: LaTeX tables for paper
    - `output/paper.pdf`: Final compiled document
 
-### Julia Component
-`code/create/connected_component.jl` implements graph algorithms for network analysis of CEO connections using:
-- Bipartite graph projection
-- Connected component analysis
-- Sparse matrix operations
+### Network Analysis Component
+`code/create/connected_component.jl` implements graph algorithms for CEO network analysis:
+- Reads firm-manager edgelist from `temp/edgelist.csv`
+- Projects bipartite graph to manager-manager network via shared firms
+- Finds largest connected component of managers
+- Outputs manager person_ids in largest component to `temp/largest_component_managers.csv`
+- Uses modular functions with configurable column names for flexibility
 
 ## Key Dependencies
 

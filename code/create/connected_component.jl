@@ -18,9 +18,9 @@ end
 
 # --- I/O --- #
 
-function read_edgelist(path::String)::BipartiteGraph
-    df = CSV.read(path, DataFrame; header=false, rename=["source", "target"])
-    return BipartiteGraph(Vector{Int}(df.source), Vector{Int}(df.target))
+function read_edgelist(path::String, source_col::String, target_col::String)::BipartiteGraph
+    df = CSV.read(path, DataFrame; header=true)
+    return BipartiteGraph(Vector{Int}(df[!, source_col]), Vector{Int}(df[!, target_col]))
 end
 
 function write_edgelist_csv(path::String, sources::Vector{Int}, targets::Vector{Int})
@@ -29,6 +29,11 @@ function write_edgelist_csv(path::String, sources::Vector{Int}, targets::Vector{
             println(io, "$s,$t")
         end
     end
+end
+
+function write_component_csv(path::String, person_ids::Vector{Int})
+    df = DataFrame(person_id=person_ids)
+    CSV.write(path, df)
 end
 
 # --- Core Logic --- #
@@ -73,14 +78,16 @@ function generate_edgelist(n_left::Int, n_right::Int, edges_per_right::Int)::Bip
     return BipartiteGraph(sources, targets)
 end
 
-# --- Example Usage --- #
+# --- Main Analysis --- #
 
-# Generate synthetic data
-bipartite = generate_edgelist(1_000_000, 1_000_000, 2)
-# write_edgelist_csv("test.csv", bipartite.sources, bipartite.targets)
+# Read firm-manager edgelist from Stata output
+bipartite = read_edgelist("temp/edgelist.csv", "frame_id_numeric", "person_id")
+println("Read ", length(bipartite.sources), " edges")
 
-# Read from CSV and compute largest component
-# bipartite = read_edgelist("test.csv")
+# Project to manager-manager network and find largest connected component
 graph = project_bipartite_graph(bipartite)
-largest = largest_connected_component(graph)
-println("Size of largest component: ", length(largest))
+largest_component_managers = largest_connected_component(graph)
+println("Size of largest component: ", length(largest_component_managers))
+
+# Write manager person_ids in largest component to CSV
+write_component_csv("temp/largest_component_managers.csv", largest_component_managers)
