@@ -1,6 +1,6 @@
 STATA := stata -b do
 LATEX := pdflatex
-JULIA := julia --project=. 
+JULIA := time julia --project=. 
 UTILS := $(wildcard code/util/*.do)
 
 all: output/paper.pdf
