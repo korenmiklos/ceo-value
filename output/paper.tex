@@ -39,53 +39,60 @@
 
 [Introduction to be written]
 
-\section{Modeling framework}
+\section{Modeling Framework}
+Firms produce output using a Cobb-Douglas production function that incorporates both fixed and variable inputs. Owing to the presence of fixed inputs, technology exhibits decreasing returns to scale. This will pin down the scale of the firm even when markets are perfectly competitive and the firm is a price taker in both input and output markets (<cite Ellen McGrattan's version of the Melitz model with decreasing returns to scale and perfect competition>).\footnote{Alternatively, we could assume that firms face downward sloping resudial demand curves, which would make the \emph{revenue production function} decreasing returns to scale. As long as residual demand is isoleastic, the analytical derivation of the model remains unchanged. The only difference is that the parameters have a different interpretation: the revenue elasticity of an input is the product of the input's share in revenue and $1-1/\sigma$, where $\sigma$ elasticity of residual demand (<cite De Loecker 2011 Econometrica>).}
 
-We model firm output using a production function that separates fixed and variable inputs. The production function for firm $i$ with manager $m$ in sector $s$ at time $t$ is:
+The production function for firm $i$ with manager $m$ at time $t$ is:
 \begin{equation}
-Q_{imt} = \Omega_{it}A_i^\chi K_{it}^\alpha Z_{m}^\nu L_{imt}^{1-\alpha-\nu-\chi}
+Q_{imt} = \Omega_{it}A_i Z_{m}^\nu  K_{it}^\alpha L_{imt}^{\beta} M_{imt}^{\gamma}
 \end{equation}
-where $\Omega_{it}$ is residual total factor productivity, $A_i$ represents time-invariant organizational capital and immaterial assets (location, brand value), $K_{it}$ is physical capital, $Z_m$ captures manager skill, and $L_{imt}$ is labor input. The parameters $\chi$, $\alpha$, and $\nu$ represent the elasticities with respect to organizational capital, physical capital, and manager skill, respectively.
+where $\Omega_{it}$ is residual total factor productivity, $A_i$ represents time-invariant organizational capital and immaterial assets (location, brand value <cite Atkeson Kehoe 2005 JPE>), $Z_m$ captures manager skill, $K_{it}$ is physical capital, $L_{imt}$ is labor input, $M_{imt}$ is intermediate input usage. The parameters $\nu$, $\alpha$, $\beta$ and $\gamma$ represent the elasticities with respect to manager skill, physical capital, labor and material inputs, respectively. We denote $\chi := 1 - \beta - \gamma$. Conditional on productivity, organizational capital and manager skill, the production function exhibits decreasing returns to scale, $\alpha + \beta + \gamma < 1$. In a traditional production function with only capital, labor and material as inputs, $\Omega$, $A$ and $Z$ would all be lumped together as \emph{total factor productivity}.
 
-Assuming managers optimize variable inputs while fixed inputs are determined by owners, and output is sold at sector-specific price $P_{st}$, the first-order condition for labor yields optimal labor demand. Substituting back into the production function, revenue becomes:
-\begin{equation}
-R_{imst} = (P_{st}\Omega_{it})^{1/(\alpha+\nu+\chi)}A_i^{\chi/(\alpha+\nu+\chi)}
-K_{it}^{\alpha/(\alpha+\nu+\chi)}
-Z_{m}^{\nu/(\alpha+\nu+\chi)}
-W_t^{-(1-\alpha-\nu-\chi)/(\alpha+\nu+\chi)}
-(1-\alpha-\nu-\chi)^{(1-\alpha-\nu-\chi)/(\alpha+\nu+\chi)}
-\end{equation}
+We assume managers optimize variable inputs $L_{imt}$ and $M_{imt}$ while taking fixed inputs $A_{i}$ and $Z_m$ and physical capital $K_{it}$ as given. In private businesses, owners typically have direct control over fixed inputs, including large-scale investments in organizational and physical capital (<cite evidence from cross-country EFIGE survey, plus some papers from corporate finance literature using US data>). Managers, on the other hand, are responsible for day-to-day operations and variable input choices.
 
-Surplus, defined as the share of revenue accruing to fixed factors, is:
-\begin{equation}
-S_{imst} = (\alpha+\nu+\chi) R_{imst}
+Output is sold at sector-specific price $P_{st}$, making the revenue of the firm $R_{imst} = P_{st}Q_{imt}$. The firm faces a wage rate $W_{st}$ for labor input, price $\varrho_{st}$ for intermediate inputs. After straightforward algebra solving for the optimal labor and intermediate input choices, the firm's revenue can be expressed as:
+\begin{equation}\label{eq:revenue}
+R_{imst} = (P_{st}\Omega_{it}A_i)^{1/\chi}
+Z_{m}^{\nu/\chi}
+K_{it}^{\alpha/\chi}
+W_{st}^{-\beta/\chi}
+\varrho_{st}^{-\gamma/\chi}
+(1-\chi)^{(1-\chi)/\chi}.
 \end{equation}
-of which $\nu R_{imst}$ should compensate managers, but only a fraction $\phi$ is actually paid:
-\begin{equation}
-W_{imst} = \phi\nu R_{imst}
-\end{equation}
+Revenue is increasing in fixed inputs $A_i$ and $Z_m$, physical capital $K_{it}$, and decreasing in the wage rate $W_{st}$ and material input price $\varrho_{st}$. Higher prices $P_{st}$ and productivity $\Omega_{it}$ also increase revenue. Note that because $\chi<1$, the elasticity of revenue with respect to fixed inputs is greater than the elasticity in the production function, i.e. $\nu/\chi > \nu$ and $\alpha/\chi > \alpha$. This is because the firm can leverage its fixed inputs to increase revenue more than proportionally by hiring more variable inputs.
 
-Taking logarithms of equation (3) and adding firm and industry-time fixed effects to control for time-invariant organizational capital and sector-specific price and wage variation:
-\begin{equation}
-s_{imst} = \frac{\alpha}{\alpha+\nu+\chi} k_{it} + \tilde{z}_{m} + \lambda_i + \mu_{st} + \tilde{\omega}_{it}
+As is usual under Cobb-Douglas production functions, the share of revenue accruing to each input is constant over time and across firms, equal to their elasticity in the production function. We define the rent accruing to fixed factors (including physical capital) 
+\begin{equation}\label{eq:rent}
+S_{imst} = R_{imst} - W_{st}L_{imt} - \varrho_{st}M_{imt} = \chi R_{imst}.
 \end{equation}
-where $s_{imst} = \ln S_{imst}$, $k_{it} = \ln K_{it}$, $\tilde{z}_m = \frac{\nu}{\alpha+\nu+\chi}z_{m}$ captures manager fixed effects, $\lambda_i$ are firm fixed effects, $\mu_{st}$ are industry-time fixed effects, and $\tilde{\omega}_{it} = \ln\Omega_{it}/(\alpha+\nu+\chi)$ is the residual.
+Taking logarithms of equations \eqref{eq:revenue} and \eqref{eq:rent}, we can express the log surplus as:      
+\begin{equation}\label{eq:log_surplus}
+s_{imst} = C+\frac\alpha\chi k_{it} + \frac1\chi {z}_{m} + \frac1\chi p_{st} + \frac1\chi{\omega}_{it}+\frac1\chi a_i 
+- \frac\beta\chi w_{st} - \frac\gamma\chi \rho_{st},
+\end{equation}
+where $C$ is a constant only depending on fixed parameters, $k_{it} = \ln K_{it}$, ${z}_{m} = \ln Z_m$ , $ p_{st} = \ln P_{st}$, ${\omega}_{it} = \ln\Omega_{it}$, $a_i = \ln A_i$, and $w_{st} = \ln W_{st}$, $\rho_{st} = \ln \varrho_{st}$. 
 
-For a manager change from manager $m$ to manager $m'$, the change in surplus attributable to the new manager skill is:
-\begin{equation}
-\Delta \tilde{z}_{mm'} = \tilde{z}_{m'} - \tilde{z}_{m}
+Equation \eqref{eq:log_surplus} shows how surplus depends on manager skills, holding fixed the inputs chosen by the owner and the input and output prices prevailing in the sector. Taking two managers $m$ and $m'$ with skills ${z}_m$ and ${z}_{m'}$ at the same firm, the change in surplus attributable to the new manager is:
+\begin{equation}\label{eq:manager_change}
+s_{im'st} - s_{imst} = \frac1\chi({z}_{m'} - {z}_{m}).
 \end{equation}
+The \emph{value} of the new manager to the owners of the firm is the change in surplus. This value is proportional to the difference in manager skills, scaled by the inverse of the elasticity of revenue with respect to fixed inputs $\chi$. In what follows, we aim to measure this value by estimating the change in surplus following a manager change.
 
-The expected change in manager compensation following equation (4) is:
-\begin{equation}
-\text{E}[\Delta W_{it}] = \phi S_{i,t-1} \Delta \tilde{z}_{mm'}
+\paragraph{Estimable equation.} In absence of observing organization capital and input prices, we can substitute these out with fixed effects, leading to the following estimable equation:
+\begin{equation}\label{eq:estimation}
+s_{imst} = \frac\alpha\chi k_{it}  + \frac1\chi\tilde{z}_m + \lambda_i + \mu_{st} + \tilde \omega_{it}
 \end{equation}
-where $S_{i,t-1}$ is the pre-change surplus level. This yields the key relationship for estimating the sharing parameter:
-\begin{equation}
-\frac{\text{E}[\Delta W_{it}]}{S_{i,t-1}} = \phi \Delta \tilde{z}_{mm'}
-\end{equation}
+where $\lambda_i = a_i/\chi$ is a firm fixed effect capturing time-invariant organizational capital, $\mu_{st} = C + p_{st}/\chi - \beta w_{st}/\chi - \gamma\rho_{st}/\chi$ is an industry-time fixed effect capturing sector-specific prices and wages, and $\tilde\omega_{it} = \omega_{it}/\chi$ is a rescaled time-varying firm productivity shock. 
 
-\section{Data and measurement}
+Assuming that residual productivity $\tilde\omega_{it}$ is uncorrelated with manager skills and physical capital, we can estimate the model using ordinary least squares with fixed effects (OLSFE). Note that we do \emph{not} assume that manager skills are uncorrelated with physical capital, organizational capital or sectoral prices. It may well be the case that better firms with good price conditions hire better managers and invest more. 
+
+Given our estimated parameters and fixed effects, we can recover manager skills as:
+\begin{equation}\label{eq:estimated}
+\hat\chi s_{imst} -  \hat\alpha k_{it}  -\hat\chi \lambda_i -\hat\chi \mu_{st} := \tilde s_{imst} = \hat z_m + \hat\omega_{it}. 
+\end{equation}
+We remove the contribution of physical capital, firm and industry-year fixed effects from log surplus to obtain a \emph{reisudalized surplus} $\tilde s_{imst}$. Because $\omega_{it}$ is assumed to be mean zero independent of $m$, we can estimate $\hat z_m$ as the average of $\tilde s_{imst}$ across all observations for manager $m$. This gives us a consistent estimate of manager skill, $\hat z_m = \frac1{N_m}\sum_{i,t} \tilde s_{imst}$, where $N_m$ is the number of observations for manager $m$.\footnote{This is equivalent to including a manager fixed effect in the regression, similar in spirit to <Abowd Kramarz Margolis 1999> and <card cardoso? correcting for limited mobility bias>. This notation emphasizes that manager effects estimated from fewer observations are noisier.}
+
+\section{Data and Measurement}
 
 \textbf{Measurement of Model Variables.} We measure the key variables from the theoretical framework as follows:
 
