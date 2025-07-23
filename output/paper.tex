@@ -39,7 +39,69 @@
 
 [Introduction to be written]
 
-\section{Data}
+\section{Modeling framework}
+
+We model firm output using a production function that separates fixed and variable inputs. The production function for firm $i$ with manager $m$ in sector $s$ at time $t$ is:
+\begin{equation}
+Q_{imt} = \Omega_{it}A_i^\chi K_{it}^\alpha Z_{m}^\nu L_{imt}^{1-\alpha-\nu-\chi}
+\end{equation}
+where $\Omega_{it}$ is residual total factor productivity, $A_i$ represents time-invariant organizational capital and immaterial assets (location, brand value), $K_{it}$ is physical capital, $Z_m$ captures manager skill, and $L_{imt}$ is labor input. The parameters $\chi$, $\alpha$, and $\nu$ represent the elasticities with respect to organizational capital, physical capital, and manager skill, respectively.
+
+Assuming managers optimize variable inputs while fixed inputs are determined by owners, and output is sold at sector-specific price $P_{st}$, the first-order condition for labor yields optimal labor demand. Substituting back into the production function, revenue becomes:
+\begin{equation}
+R_{imst} = (P_{st}\Omega_{it})^{1/(\alpha+\nu+\chi)}A_i^{\chi/(\alpha+\nu+\chi)}
+K_{it}^{\alpha/(\alpha+\nu+\chi)}
+Z_{m}^{\nu/(\alpha+\nu+\chi)}
+W_t^{-(1-\alpha-\nu-\chi)/(\alpha+\nu+\chi)}
+(1-\alpha-\nu-\chi)^{(1-\alpha-\nu-\chi)/(\alpha+\nu+\chi)}
+\end{equation}
+
+Surplus, defined as the share of revenue accruing to fixed factors, is:
+\begin{equation}
+S_{imst} = (\alpha+\nu+\chi) R_{imst}
+\end{equation}
+of which $\nu R_{imst}$ should compensate managers, but only a fraction $\phi$ is actually paid:
+\begin{equation}
+W_{imst} = \phi\nu R_{imst}
+\end{equation}
+
+Taking logarithms of equation (3) and adding firm and industry-time fixed effects to control for time-invariant organizational capital and sector-specific price and wage variation:
+\begin{equation}
+s_{imst} = \frac{\alpha}{\alpha+\nu+\chi} k_{it} + \tilde{z}_{m} + \lambda_i + \mu_{st} + \tilde{\omega}_{it}
+\end{equation}
+where $s_{imst} = \ln S_{imst}$, $k_{it} = \ln K_{it}$, $\tilde{z}_m = \frac{\nu}{\alpha+\nu+\chi}z_{m}$ captures manager fixed effects, $\lambda_i$ are firm fixed effects, $\mu_{st}$ are industry-time fixed effects, and $\tilde{\omega}_{it} = \ln\Omega_{it}/(\alpha+\nu+\chi)$ is the residual.
+
+For a manager change from manager $m$ to manager $m'$, the change in surplus attributable to the new manager skill is:
+\begin{equation}
+\Delta \tilde{z}_{mm'} = \tilde{z}_{m'} - \tilde{z}_{m}
+\end{equation}
+
+The expected change in manager compensation following equation (4) is:
+\begin{equation}
+\text{E}[\Delta W_{it}] = \phi S_{i,t-1} \Delta \tilde{z}_{mm'}
+\end{equation}
+where $S_{i,t-1}$ is the pre-change surplus level. This yields the key relationship for estimating the sharing parameter:
+\begin{equation}
+\frac{\text{E}[\Delta W_{it}]}{S_{i,t-1}} = \phi \Delta \tilde{z}_{mm'}
+\end{equation}
+
+\section{Data and measurement}
+
+\textbf{Measurement of Model Variables.} We measure the key variables from the theoretical framework as follows:
+
+\textit{Physical capital} ($K_{it}$): Tangible assets from balance sheet data, including machinery, equipment, and buildings, measured in logarithmic form as $k_{it} = \ln K_{it}$.
+
+\textit{Surplus} ($S_{imst}$): EBITDA (Earnings Before Interest, Taxes, Depreciation, and Amortization), calculated as sales revenue minus personnel expenses minus material costs, measured in logarithmic form as $s_{imst} = \ln S_{imst}$.
+
+\textit{Manager skill} ($Z_m$): CEO fixed effects $\tilde{z}_m$ estimated from the regression in equation (5), capturing time-invariant managerial ability.
+
+\textit{Labor input} ($L_{imt}$): Employment measured as the number of employees, transformed to logarithmic form as $l_{imt} = \ln L_{imt}$.
+
+\textit{Manager compensation} ($W_{imst}$): CEO wages including base salary and bonuses from administrative records (not yet available in current analysis).
+
+\textit{Organizational capital} ($A_i$): Time-invariant firm characteristics including location, brand value, and market position, captured by firm fixed effects $\lambda_i$ and not directly observed.
+
+\textit{Sector-time variation}: Industry-specific prices and wages controlled through industry-time fixed effects $\mu_{st}$ using TEAOR08 sector classifications.
 
 \textbf{Main data sources.} Our analysis uses comprehensive administrative data on Hungarian firms during 1992-2022, created by merging balance sheet data with firm registry information. The balance sheet data come from the Mérleg LTS dataset, which contains financial information for essentially all Hungarian firms required to file annual reports. The firm registry data come from the Cégjegyzék LTS dataset, which includes information on firm registration, ownership structure, and executive appointments. Both datasets are distributed by HUN-REN KRTK and originally published by Opten Zrt \citep{merleg2024,cegjegyzek2024}.
 
