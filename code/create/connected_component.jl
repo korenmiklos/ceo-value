@@ -54,9 +54,7 @@ function largest_connected_component(graph::ProjectedGraph)::Vector{Int}
     G = SimpleGraph(graph.adjacency)
     components = connected_components(G)
     println("Number of components: ", length(components))
-    println("Component sizes: ", [length(c) for c in components])
     _, largest_idx = findmax(length, components)
-    println("Largest component index: ", largest_idx)
     largest_component = components[largest_idx]
     idx_to_id = Dict(v => k for (k, v) in graph.node_idx)
     return [idx_to_id[i] for i in largest_component]
@@ -78,7 +76,7 @@ end
 # --- Example Usage --- #
 
 # Generate synthetic data
-bipartite = generate_edgelist(500_000, 1_000_000, 3)
+bipartite = generate_edgelist(1_000_000, 1_000_000, 2)
 # write_edgelist_csv("test.csv", bipartite.sources, bipartite.targets)
 
 # Read from CSV and compute largest component
