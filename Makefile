@@ -1,5 +1,6 @@
 STATA := stata -b do
 LATEX := pdflatex
+JULIA := julia --project=. 
 UTILS := $(wildcard code/util/*.do)
 
 all: output/paper.pdf
@@ -19,3 +20,5 @@ temp/balance.dta: code/create/balance.do input/merleg-LTS-2023/balance/balance_s
 temp/ceo-panel.dta: code/create/ceo-panel.do input/ceo-panel/ceo-panel.dta
 	$(STATA) $<
 
+julia: code/create/connected_component.jl
+	$(JULIA) $<
