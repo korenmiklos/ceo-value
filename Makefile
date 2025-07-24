@@ -5,11 +5,8 @@ UTILS := $(wildcard code/util/*.do)
 
 all: output/paper.pdf
 
-%.pdf: %.tex output/table/full_sample.tex output/table/EBITDA_sectors.tex output/references.bib
+%.pdf: %.tex output/table/revenue_function.tex output/table/revenue_sectors.tex output/references.bib
 	cd $(dir $@) && $(LATEX) $(notdir $<) && bibtex $(notdir $(basename $<)) && $(LATEX) $(notdir $<) && $(LATEX) $(notdir $<)
-
-output/table/full_sample.tex output/table/EBITDA_sectors.tex: code/estimate/surplus.do temp/analysis-sample.dta temp/large_component_managers.csv code/create/network-sample.do
-	$(STATA) $<
 
 temp/analysis-sample.dta: code/create/analysis-sample.do temp/balance.dta temp/ceo-panel.dta $(UTILS)
 	$(STATA) $<
@@ -21,6 +18,9 @@ temp/ceo-panel.dta: code/create/ceo-panel.do input/ceo-panel/ceo-panel.dta
 	$(STATA) $<
 
 temp/edgelist.csv: code/create/edgelist.do temp/analysis-sample.dta
+	$(STATA) $<
+
+output/table/revenue_function.tex output/table/revenue_sectors.tex: code/estimate/revenue_function.do temp/analysis-sample.dta temp/large_component_managers.csv code/create/network-sample.do
 	$(STATA) $<
 
 temp/large_component_managers.csv: code/create/connected_component.jl temp/edgelist.csv
