@@ -1,7 +1,7 @@
 use "temp/analysis-sample.dta", clear
 
 local FEs frame_id_numeric##ceo_spell sector_time=teaor08_2d##year
-local controls lnK intangible_share foreign_owned state_owned
+local controls lnK intangible_share foreign_owned 
 
 * build linear prediction of the outcome variable
 local predicted 0

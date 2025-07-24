@@ -16,7 +16,7 @@ foreach X in sector teaor08_2d {
     drop `constant_sector'
 }
 
-label define sector 1 "Agriculture" 2 "Mining" 3 "Manufacturing" 4 "Wholesale, Retail, Transportation" 5 "Telecom and Business Services" 6 "Construction" 7 "Nontradable services"
+label define sector 1 "Agriculture" 2 "Mining" 3 "Manufacturing" 4 "Wholesale, Retail, Transportation" 5 "Telecom and Business Services" 6 "Construction" 7 "Nontradable services" 9 "Finance, Insurance and Real Estate"
 label values sector sector
 
 compress

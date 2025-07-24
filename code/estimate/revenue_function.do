@@ -3,7 +3,7 @@ use "temp/analysis-sample.dta", clear
 * Create connected component indicator
 do "code/create/network-sample.do"
 
-local controls lnK intangible_share foreign_owned state_owned
+local controls lnK intangible_share foreign_owned
 local FEs frame_id_numeric##ceo_spell teaor08_2d##year
 
 egen max_ceo_spell = max(ceo_spell), by(frame_id_numeric)
