@@ -1,0 +1,25 @@
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{The revenue function in various samples}
+\begin{tabular}{l*{6}{c}}
+\hline\hline
+                    &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}\\
+                    &\multicolumn{1}{c}{Full}&\multicolumn{1}{c}{sample}&\multicolumn{1}{c}{First CEO spell}&\multicolumn{1}{c}{Single CEO spell}&\multicolumn{1}{c}{Multiple CEO spells}&\multicolumn{1}{c}{Firms with 5+ employees}\\
+\hline
+Tangible and intangible assets (log)&       0.248\sym{***}&       0.249\sym{***}&       0.250\sym{***}&       0.243\sym{***}&       0.318\sym{***}&       0.269\sym{***}\\
+                    &     (0.001)         &     (0.001)         &     (0.001)         &     (0.001)         &     (0.001)         &     (0.002)         \\
+[1em]
+Intangible assets share&      -0.033\sym{***}&      -0.032\sym{***}&      -0.043\sym{***}&      -0.020\sym{**} &      -0.029\sym{**} &      -0.046\sym{***}\\
+                    &     (0.008)         &     (0.009)         &     (0.011)         &     (0.010)         &     (0.012)         &     (0.014)         \\
+[1em]
+Foreign owned       &       0.019\sym{**} &       0.019\sym{*}  &       0.003         &       0.025\sym{**} &       0.033\sym{***}&       0.025\sym{*}  \\
+                    &     (0.009)         &     (0.011)         &     (0.015)         &     (0.011)         &     (0.012)         &     (0.014)         \\
+[1em]
+State owned         &      -0.015         &      -0.014         &       0.003         &      -0.003         &       0.043         &      -0.039         \\
+                    &     (0.024)         &     (0.025)         &     (0.040)         &     (0.029)         &     (0.027)         &     (0.041)         \\
+\hline
+Observations        &     5848010         &     3839586         &     2651137         &     3196820         &     2526830         &     1558649         \\
+\hline\hline
+\multicolumn{7}{l}{\footnotesize Controls: firm-CEO-spell fixed effects; industry-year fixed effects.}\\
+\end{tabular}
+\end{table}

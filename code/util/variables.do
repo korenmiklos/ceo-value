@@ -4,8 +4,10 @@ generate EBITDA = sales - personnel_expenses - materials
 generate lnR = ln(sales)
 generate lnEBITDA = ln(EBITDA)
 generate lnL = ln(employment)
-generate lnK = ln(tangible_assets)
-generate lnK_w_immat = ln(tangible_assets + intangible_assets)
+generate lnK = ln(tangible_assets + intangible_assets)
+generate intangible_share = intangible_assets / (tangible_assets + intangible_assets)
+replace intangible_share = 0 if intangible_share < 0 | missing(intangible_share)
+replace intangible_share = 1 if intangible_share > 1
 
 * manager spells etc
 egen firm_year_tag = tag(frame_id_numeric year)
@@ -67,5 +69,5 @@ label variable n_ceo "Number of CEOs in a year"
 label variable lnR "Sales (log)"
 label variable lnEBITDA "EBITDA (log)"
 label variable lnL "Employment (log)"
-label variable lnK "Tangible assets (log)"
-label variable lnK_w_immat "Tangible assets + Intangible assets (log)"
+label variable lnK "Tangible and intangible assets (log)"
+label variable intangible_share "Intangible assets share"
