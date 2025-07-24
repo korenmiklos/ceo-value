@@ -1,0 +1,58 @@
+This is BibTeX, Version 0.99d (TeX Live 2024/Homebrew)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: paper.aux
+The style file: apacite.bst
+Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
+Reallocated global_strs (elt_size=200001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=4) to 20 items from 10.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: references.bib
+apacite.bst [2013/07/21 v6.03 APA bibliography style]
+Warning--No address in Navaretti2010EFIGE
+You've used 16 entries,
+            6951 wiz_defined-function locations,
+            1383 strings with 13391 characters,
+and the built_in function-call counts, 28305 in all, are:
+= -- 3444
+> -- 254
+< -- 1261
++ -- 1265
+- -- 35
+* -- 1822
+:= -- 4986
+add.period$ -- 67
+call.type$ -- 16
+change.case$ -- 295
+chr.to.int$ -- 0
+cite$ -- 33
+duplicate$ -- 787
+empty$ -- 1222
+format.name$ -- 433
+if$ -- 5479
+int.to.chr$ -- 0
+int.to.str$ -- 52
+missing$ -- 0
+newline$ -- 402
+num.names$ -- 120
+pop$ -- 564
+preamble$ -- 1
+purify$ -- 71
+quote$ -- 0
+skip$ -- 1832
+stack$ -- 0
+substring$ -- 1365
+swap$ -- 489
+text.length$ -- 42
+text.prefix$ -- 0
+top$ -- 1
+type$ -- 1304
+warning$ -- 1
+while$ -- 155
+width$ -- 0
+write$ -- 507
+(There was 1 warning)

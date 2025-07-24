@@ -3,8 +3,8 @@ use "temp/analysis-sample.dta", clear
 * Create connected component indicator
 do "code/create/network-sample.do"
 
-* Check connected component size by employment
-tabulate connected_component [aw=employment], missing
+* Check component distribution by employment
+tabulate component_id [aw=employment], missing
 
 local FEs frame_id_numeric##ceo_spell teaor08_2d##year
 local outcomes lnEBITDA lnR lnL
@@ -16,7 +16,7 @@ local esttab_options replace se label title("Non-CEO determinants firm performan
 eststo clear
 
 foreach outcome of local outcomes {
-    reghdfe `outcome' lnK foreign_owned state_owned if connected_component, absorb(`FEs') vce(cluster frame_id_numeric)
+    reghdfe `outcome' lnK foreign_owned state_owned if component_id == 1, absorb(`FEs') vce(cluster frame_id_numeric)
     eststo
 }
 
@@ -26,7 +26,7 @@ levelsof sector, local(sectors)
 eststo clear
 foreach sector of local sectors {
     local lab : label (sector) `sector'
-    reghdfe lnEBITDA lnK foreign_owned state_owned if sector == `sector' & connected_component, absorb(`FEs') vce(cluster frame_id_numeric)
+    reghdfe lnEBITDA lnK foreign_owned state_owned if sector == `sector' & component_id == 1, absorb(`FEs') vce(cluster frame_id_numeric)
     eststo, title("`lab'") 
 }
 
