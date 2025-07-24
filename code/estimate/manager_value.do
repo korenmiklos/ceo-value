@@ -12,10 +12,10 @@ drop first_ceo
 
 * convert manager skill to revenue/surplus contribution
 summarize within_firm if ceo_spell > 1, detail
-display "IQR of within-firm variation in manager skill: " r(p75) - r(p25)
+display "IQR of within-firm variation in manager skill: " exp(r(p75) - r(p25))*100 - 100
 replace within_firm = within_firm / chi
 summarize within_firm if ceo_spell > 1, detail
-display "IQR of within-firm variation in manager surplus: " r(p75) - r(p25)
+display "IQR of within-firm variation in manager surplus: " exp(r(p75) - r(p25))*100 - 100
 
 local outcomes lnR lnEBITDA lnL
 foreach outcome of local outcomes {
@@ -26,16 +26,17 @@ foreach outcome of local outcomes {
 * now do cross section, but only on connected components
 keep if component_id == 1
 
-reghdfe lnStilde, absorb(frame_id_numeric manager_skill=person_id)
+reghdfe lnStilde, absorb(frame_id_numeric manager_skill=person_id) keepsingletons
 
 summarize manager_skill, detail
-display "IQR of manager skill: " r(p75) - r(p25)
+replace manager_skill = manager_skill - r(mean)
+display "IQR of manager skill: " exp(r(p75) - r(p25))*100 - 100
 replace manager_skill = manager_skill / chi
 summarize manager_skill, detail
-display "IQR of manager surplus: " r(p75) - r(p25)
+display "IQR of manager surplus: " exp(r(p75) - r(p25))*100 - 100
 
 local outcomes lnR lnEBITDA lnL
 foreach outcome of local outcomes {
     display "Explaining variation in `outcome'..."
-    regress manager_skill `outcome', cluster(frame_id_numeric)
+    reghdfe manager_skill `outcome', a(teaor08_2d##year) vce(cluster frame_id_numeric) keepsingletons
 }

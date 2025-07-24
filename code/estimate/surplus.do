@@ -26,7 +26,7 @@ foreach sector of local sectors {
     drop sector_time
 }
 
-keep frame_id_numeric year sector ceo_spell person_id lnR lnEBITDA lnL lnStilde chi
+keep frame_id_numeric year teaor08_2d sector ceo_spell person_id lnR lnEBITDA lnL lnStilde chi
 
 table sector, stat(mean chi)
 
