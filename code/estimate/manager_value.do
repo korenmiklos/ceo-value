@@ -17,6 +17,14 @@ replace within_firm = within_firm / chi
 summarize within_firm if ceo_spell > 1, detail
 display "IQR of within-firm variation in manager surplus: " exp(r(p75) - r(p25))*100 - 100
 
+* Create histogram for within-firm manager skill variation
+histogram within_firm if ceo_spell > 1, ///
+    title("Panel A: Within-firm Manager Skill Distribution") ///
+    xtitle("Manager Skill (log points)") ///
+    ytitle("Density") ///
+    normal
+graph export "output/figure/manager_skill_within.pdf", replace
+
 local outcomes lnR lnEBITDA lnL
 foreach outcome of local outcomes {
     display "Explaining within-firm variation in `outcome'..."
@@ -35,8 +43,29 @@ replace manager_skill = manager_skill / chi
 summarize manager_skill, detail
 display "IQR of manager surplus: " exp(r(p75) - r(p25))*100 - 100
 
+* Create histogram for connected component manager skill distribution
+histogram manager_skill, ///
+    title("Panel B: Connected Component Manager Skill Distribution") ///
+    xtitle("Manager Skill (log points)") ///
+    ytitle("Density") ///
+    normal
+graph export "output/figure/manager_skill_connected.pdf", replace
+
+* Create regression table for manager skill effects
+eststo clear
 local outcomes lnR lnEBITDA lnL
+local titles "Revenue" "EBITDA" "Employment"
+local i = 1
 foreach outcome of local outcomes {
     display "Explaining variation in `outcome'..."
-    reghdfe manager_skill `outcome', a(teaor08_2d##year) vce(cluster frame_id_numeric) keepsingletons
+    eststo: reghdfe manager_skill `outcome', a(teaor08_2d##year) vce(cluster frame_id_numeric) keepsingletons
+    local ++i
 }
+
+esttab using "output/table/manager_effects.tex", replace ///
+    title("Manager Skill Effects on Firm Outcomes") ///
+    label booktabs ///
+    b(3) se(3) ///
+    mtitles("Revenue" "EBITDA" "Employment") ///
+    addnotes("Standard errors clustered at firm level." "All regressions include industry-year fixed effects.") ///
+    stats(N r2_a, fmt(0 3) labels("Observations" "Adjusted R-squared"))
