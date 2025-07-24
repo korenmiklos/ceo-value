@@ -1,3 +1,19 @@
 temp/
 input/
 *.log
+
+# LaTeX auxiliary files
+output/*.aux
+output/*.bbl
+output/*.blg
+output/*.fdb_latexmk
+output/*.fls
+output/*.log
+output/*.out
+output/*.synctex.gz
+output/*.toc
+output/*.lof
+output/*.lot
+output/*.nav
+output/*.snm
+output/*.vrb
