@@ -162,18 +162,18 @@ The project includes a **Makefile** that automates the entire analysis pipeline.
 - The Stata scripts generate comprehensive log files documenting all data processing steps
 - Intermediate datasets are saved in the `temp/` directory
 - The final analytical sample contains 8,872,039 firm-year observations representing 960,464 unique firms
-- Manager skill analysis identifies 189,835 managers in the largest connected component
+- Manager skill analysis identifies 180,421 managers in the largest connected component
 - All file paths in the scripts are relative to the project root directory
 
 ## Main Results
 
 Our analysis yields three key findings about CEO value in Hungarian private firms:
 
-1. **Substantial CEO heterogeneity**: Within firms, replacing a CEO at the 25th percentile of the skill distribution with one at the 75th percentile increases firm productivity by 9.7% and surplus by 120%.
+1. **Substantial CEO heterogeneity**: Within firms, replacing a CEO at the 25th percentile of the skill distribution with one at the 75th percentile increases firm productivity by 9.8% and surplus by 118%.
 
-2. **Even larger variation across the managerial labor market**: In the connected component of managers who move between firms, the same percentile replacement increases productivity by 26.6% and surplus by 510%.
+2. **Even larger variation across the managerial labor market**: In the connected component of managers who move between firms, the same percentile replacement increases productivity by 25.6% and surplus by 461%.
 
-3. **Meaningful contribution to firm outcomes**: Manager skills exhibit significant correlations with revenue (coefficient: 0.088), EBITDA (0.059), and employment (0.094) in the connected component analysis.
+3. **Meaningful contribution to firm outcomes**: Manager skills exhibit significant correlations with revenue (coefficient: 0.086), EBITDA (0.055), and employment (0.090) in the connected component analysis.
 
 These results demonstrate quantifiable CEO value in private firms using administrative data, with implications for entrepreneurship policy and economic development.
 

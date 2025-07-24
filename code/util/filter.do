@@ -7,9 +7,12 @@ drop if max_n_ceo > 2
 
 drop if max_ceo_spell > 6
 
-* drop agriculture, mining, construction and finance sectors
+* drop mining and finance sectors
 tabulate sector if firm_tag
-drop if inlist(sector, 1, 2, 6, 9)
+drop if inlist(sector, 2, 9)
+
+egen ever_state_owned = max(state_owned), by(frame_id_numeric)
+drop if ever_state_owned == 1
 
 * clean up
 drop max_n_ceo firm_tag max_ceo_spell
