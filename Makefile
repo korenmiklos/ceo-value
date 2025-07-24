@@ -25,3 +25,6 @@ output/table/revenue_function.tex output/table/revenue_sectors.tex: code/estimat
 
 temp/large_component_managers.csv: code/create/connected_component.jl temp/edgelist.csv
 	$(JULIA) $<
+
+temp/surplus.dta: code/estimate/surplus.do temp/analysis-sample.dta
+	$(STATA) $<
