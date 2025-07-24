@@ -226,6 +226,32 @@ Card, D.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Correia%
+}{%
+Correia%
+}{%
+{\protect \APACyear {2023}}%
+}]{%
+reghdfe}
+\APACinsertmetastar {%
+reghdfe}%
+\begin{APACrefauthors}%
+Correia, S.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2023}{{\APACmonth{08}}}{}.
+\newblock
+{\BBOQ}\APACrefatitle {{REGHDFE}: Stata module to perform linear or
+  instrumental-variable regression absorbing any number of high-dimensional
+  fixed effects [software]} {{REGHDFE}: Stata module to perform linear or
+  instrumental-variable regression absorbing any number of high-dimensional
+  fixed effects [software]}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Statistical Software Components}{}{}{}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 \APACcitebtitle {Cégtörvény}}{%
 \APACcitebtitle {Cégtörvény}}{%
 {\protect \APACyear {1997}}%

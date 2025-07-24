@@ -1,0 +1,29 @@
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Manager Skill Effects on Firm Outcomes}
+\begin{tabular}{l*{3}{c}}
+\toprule
+                    &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}\\
+                    &\multicolumn{1}{c}{Revenue}&\multicolumn{1}{c}{EBITDA}&\multicolumn{1}{c}{Employment}\\
+\midrule
+Sales (log)         &       0.088\sym{***}&                     &                     \\
+                    &     (0.005)         &                     &                     \\
+\addlinespace
+EBITDA (log)        &                     &       0.059\sym{***}&                     \\
+                    &                     &     (0.005)         &                     \\
+\addlinespace
+Employment (log)    &                     &                     &       0.094\sym{***}\\
+                    &                     &                     &     (0.009)         \\
+\addlinespace
+Constant            &      -0.882\sym{***}&      -0.463\sym{***}&      -0.090\sym{***}\\
+                    &     (0.045)         &     (0.041)         &     (0.012)         \\
+\midrule
+Observations        &     1611007         &     1215276         &     1611007         \\
+Adjusted R-squared  &       0.005         &       0.002         &       0.002         \\
+\bottomrule
+\multicolumn{4}{l}{\footnotesize Standard errors in parentheses}\\
+\multicolumn{4}{l}{\footnotesize Standard errors clustered at firm level.}\\
+\multicolumn{4}{l}{\footnotesize All regressions include industry-year fixed effects.}\\
+\multicolumn{4}{l}{\footnotesize \sym{*} \(p<0.05\), \sym{**} \(p<0.01\), \sym{***} \(p<0.001\)}\\
+\end{tabular}
+\end{table}

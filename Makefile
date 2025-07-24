@@ -5,7 +5,7 @@ UTILS := $(wildcard code/util/*.do)
 
 all: output/paper.pdf
 
-%.pdf: %.tex output/table/revenue_function.tex output/table/revenue_sectors.tex output/references.bib
+%.pdf: %.tex output/table/revenue_function.tex output/table/revenue_sectors.tex output/table/manager_effects.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/references.bib
 	cd $(dir $@) && $(LATEX) $(notdir $<) && bibtex $(notdir $(basename $<)) && $(LATEX) $(notdir $<) && $(LATEX) $(notdir $<)
 
 temp/analysis-sample.dta: code/create/analysis-sample.do temp/balance.dta temp/ceo-panel.dta $(UTILS)
@@ -27,4 +27,8 @@ temp/large_component_managers.csv: code/create/connected_component.jl temp/edgel
 	$(JULIA) $<
 
 temp/surplus.dta: code/estimate/surplus.do temp/analysis-sample.dta
+	$(STATA) $<
+
+output/table/manager_effects.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf: code/estimate/manager_value.do temp/surplus.dta temp/large_component_managers.csv code/create/network-sample.do
+	mkdir -p output/figure
 	$(STATA) $<
