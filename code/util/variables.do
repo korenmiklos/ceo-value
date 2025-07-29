@@ -22,8 +22,10 @@ replace ceo_spell = tmp if missing(ceo_spell)
 tabulate ceo_spell if firm_year_tag, missing
 egen max_ceo_spell = max(ceo_spell), by(frame_id_numeric)
 tabulate max_ceo_spell if firm_tag, missing
+egen last_year = max(year), by(frame_id_numeric)
+generate byte exit = (year == last_year)
 
-drop tmp n_new_ceo first_time firm_year_tag firm_tag
+drop tmp n_new_ceo first_time firm_year_tag firm_tag last_year
 
 * we only infer gender from Hungarian names
 generate expat = missing(male)
