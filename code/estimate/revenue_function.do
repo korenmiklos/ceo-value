@@ -50,3 +50,25 @@ foreach sector of local sectors {
 
 esttab using "output/table/revenue_sectors.tex", `esttab_options' mtitle(`mtitle') ///
     title("The revenue function by sector") 
+
+do "code/estimate/exit.do"
+
+* various controls
+local common_controls `controls'
+local controls1 firm_age firm_age_sq ceo_tenure ceo_tenure_sq
+local controls2 Chebyshev_1 Chebyshev_2 Chebyshev_3
+local controls3 `controls1' `controls2'
+
+local title1 "Firm age and CEO tenure"
+local title2 "Endogenous exit"
+local title3 "Both controls"
+
+eststo clear
+local mtitle ""
+forvalues i = 1/3 {
+    reghdfe lnR `common_controls' `controls`i'' if `sample1', absorb(`FEs') vce(cluster frame_id_numeric)
+    eststo
+    local mtitle `mtitle' "`title`i''"
+}
+esttab using "output/table/revenue_controls.tex", `esttab_options' mtitle(`mtitle') ///
+    title("The revenue function with various controls")

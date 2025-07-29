@@ -5,6 +5,7 @@ generate lnR = ln(sales)
 generate lnEBITDA = ln(EBITDA)
 generate lnL = ln(employment)
 generate lnK = ln(tangible_assets + intangible_assets)
+generate lnM = ln(materials)
 generate intangible_share = intangible_assets / (tangible_assets + intangible_assets)
 replace intangible_share = 0 if intangible_share < 0 | missing(intangible_share)
 replace intangible_share = 1 if intangible_share > 1
@@ -72,4 +73,5 @@ label variable lnR "Sales (log)"
 label variable lnEBITDA "EBITDA (log)"
 label variable lnL "Employment (log)"
 label variable lnK "Tangible and intangible assets (log)"
+label variable lnM "Materials (log)"
 label variable intangible_share "Intangible assets share"
