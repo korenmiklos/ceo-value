@@ -6,9 +6,6 @@ do "code/create/network-sample.do"
 local controls lnK intangible_share foreign_owned
 local FEs frame_id_numeric##ceo_spell teaor08_2d##year
 
-egen max_ceo_spell = max(ceo_spell), by(frame_id_numeric)
-egen max_employment = max(employment), by(frame_id_numeric)
-
 * samples for different models
 local sample1 1
 local sample2 ceo_spell == 1

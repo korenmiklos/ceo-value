@@ -15,4 +15,4 @@ egen ever_state_owned = max(state_owned), by(frame_id_numeric)
 drop if ever_state_owned == 1
 
 * clean up
-drop max_n_ceo firm_tag max_ceo_spell
+drop max_n_ceo firm_tag
