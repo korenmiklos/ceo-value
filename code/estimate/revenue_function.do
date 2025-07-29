@@ -14,15 +14,13 @@ local sample1 1
 local sample2 ceo_spell == 1
 local sample3 max_ceo_spell == 1
 local sample4 max_ceo_spell > 1
-local sample5 max_employment >= 5
-local sample6 component_id == 1
+local sample5 component_id == 1
 
 local title1 "Full sample"
 local title2 "First CEO spell"
 local title3 "Single CEO spell"
 local title4 "Multiple CEO spells"
-local title5 "Firms with 5+ employees"
-local title6 "Giant connected component"
+local title5 "Giant connected component"
 
 local esttab_options replace se label ///
     star(* 0.10 ** 0.05 *** 0.01) b(3) se(3)  ///
@@ -32,7 +30,7 @@ local esttab_options replace se label ///
 eststo clear
 
 local mtitle ""
-forvalues i = 1/6 {
+forvalues i = 1/5 {
     local sample `sample`i''
     local title `title`i''
     reghdfe lnR `controls' if `sample', absorb(`FEs') vce(cluster frame_id_numeric)
