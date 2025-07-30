@@ -69,3 +69,6 @@ esttab using "output/table/manager_effects.tex", replace ///
     mtitles("Revenue" "EBITDA" "Employment") ///
     addnotes("Standard errors clustered at firm level." "All regressions include industry-year fixed effects.") ///
     stats(N r2_a, fmt(0 3) labels("Observations" "Adjusted R-squared"))
+
+keep frame_id_numeric person_id year manager_skill lnStilde
+save "temp/manager_value.dta", replace
