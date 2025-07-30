@@ -13,6 +13,7 @@ drop first_ceo
 * convert manager skill to revenue/surplus contribution
 summarize within_firm if ceo_spell > 1, detail
 display "IQR of within-firm variation in manager skill: " exp(r(p75) - r(p25))*100 - 100
+replace within_firm = . if !inrange(within_firm, -1, +1)
 
 * Create histogram for within-firm manager skill variation
 histogram within_firm if ceo_spell > 1, ///
@@ -40,6 +41,7 @@ reghdfe lnStilde, absorb(frame_id_numeric manager_skill=person_id) keepsingleton
 summarize manager_skill, detail
 replace manager_skill = manager_skill - r(mean)
 display "IQR of manager skill: " exp(r(p75) - r(p25))*100 - 100
+replace manager_skill = . if !inrange(manager_skill, -2, +2)
 
 * Create histogram for connected component manager skill distribution
 histogram manager_skill, ///
