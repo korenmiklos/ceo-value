@@ -29,6 +29,9 @@ temp/large_component_managers.csv: code/create/connected_component.jl temp/edgel
 temp/surplus.dta: code/estimate/surplus.do temp/analysis-sample.dta
 	$(STATA) $<
 
-output/table/manager_effects.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf: code/estimate/manager_value.do temp/surplus.dta temp/large_component_managers.csv code/create/network-sample.do
+output/table/manager_effects.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf temp/manager_value.dta: code/estimate/manager_value.do temp/surplus.dta temp/large_component_managers.csv code/create/network-sample.do
 	mkdir -p output/figure
+	$(STATA) $<
+
+install.log: code/util/install.do 
 	$(STATA) $<
