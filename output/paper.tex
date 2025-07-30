@@ -287,7 +287,20 @@ Using standard graph analysis, we find the largest connected component of manage
 
 Figure \ref{fig:manager_skills} Panel B shows the distribution of relative manager skills in the largest connected component. The distribution is centered around zero by construction. The interquartile range of relative skills corresponds to a 25.6 percent difference in firm productivity. Because higher productivity can be leveraged by buying more variable inputs, this would lead to a 461 percent increase in revenue and surplus. This larger variation compared to within-firm estimates suggests that good managers tend to be replaced by other good managers within the firm. 
 
-In the cross section, the contribution of manager skills is less important relative to other fixed factors (captured by firm fixed effects). Manager skills explain 5 to 9 percent of within-industry variation in log revenue, log surplus and log employment. 
+In the cross section, the contribution of manager skills is less important relative to other fixed factors (captured by firm fixed effects). Manager skills explain 5 to 9 percent of within-industry variation in log revenue, log surplus and log employment.
+
+\paragraph{Event study analysis.}
+To provide additional evidence on the causal effect of CEO skill differences, we conduct an event study around CEO transitions. We restrict the sample to firms experiencing exactly one CEO change during our observation period, focusing on transitions between first and second CEOs to ensure clean identification. Our analysis examines 94,185 firms where we can measure the skill difference between consecutive CEOs.
+
+We classify CEO transitions into two categories based on measured skill differences. In 52.87 percent of cases (49,797 firms), the new CEO has higher estimated skill than the departing CEO ("better manager" transitions). In the remaining 47.13 percent of cases (44,388 firms), the replacement CEO has lower skill ("worse manager" transitions). This distribution suggests that while firms often replace CEOs with more skilled managers, there is substantial variation in the direction of skill changes.
+
+Figure \ref{fig:event_study} presents the results of our event study estimation using the two-treatment difference-in-differences methodology of \citet{Callaway2021JoLE}, extended to handle two treatment groups as in \citet{Koren2023expat} and implemented using the \texttt{xt2treatments} Stata command \citep{Koren2024xt2treatments}. We compare the evolution of residual surplus between firms that hire better managers versus those that hire worse managers, with the analysis window spanning from 10 years before to 10 years after the CEO change (event time 0). The baseline period is set to 2 years before the transition (event time -2).
+
+The results reveal several key patterns. First, there are pre-existing differences between the two groups of firms prior to the CEO change. Firms that will hire better managers show consistently lower surplus in the years leading up to the transition, with the difference reaching approximately 8 percentage points at event time -10. This suggests that underperforming firms are more likely to seek higher-skilled replacement CEOs.
+
+Second, we observe a sharp reversal in relative performance immediately following the CEO transition. At event time 0, firms hiring better managers show 21 percentage points higher surplus compared to firms hiring worse managers. This differential persists and even grows slightly over the subsequent decade, reaching approximately 26 percentage points by event time +10.
+
+The event study provides compelling evidence that measured CEO skill differences translate into real differences in firm performance. The persistence of the effect over the 10-year post-transition period suggests that the impact of CEO quality is not merely temporary but represents a sustained change in firm productivity. The magnitude of the effects is economically significant, with skill-driven CEO changes generating substantial differences in surplus that persist for years following the transition. 
 
 \section{Conclusion}
 
@@ -308,6 +321,15 @@ In the cross section, the contribution of manager skills is less important relat
 \label{fig:manager_skills}
 \footnotesize
 Notes: Panel A shows the distribution of within-firm manager skill variation for firms with multiple CEOs. Panel B shows the distribution of manager skills in the largest connected component of managers. Both distributions show manager skills in log points after normalization and scaling.
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{figure/event_study.pdf}
+\caption{Event Study: Impact of CEO Skill Changes on Firm Surplus}
+\label{fig:event_study}
+\footnotesize
+Notes: Event study comparing firms that hire better managers (higher skill) versus worse managers (lower skill). The figure shows the difference in residual surplus between the two groups from 10 years before to 10 years after CEO transitions. Event time 0 represents the year of CEO change. Baseline period is 2 years before transition (event time -2). Gray shaded area represents 95\% confidence intervals. Sample includes 94,185 firms with exactly one CEO change during the observation period.
 \end{figure}
 
 \input{table/manager_effects}
@@ -349,3 +371,6 @@ Notes: Panel A shows the distribution of within-firm manager skill variation for
 % merleg2024
 % McGrattanPrescott2008WP396
 % Bloom2014-ux
+% Callaway2021JoLE
+% Koren2023expat
+% Koren2024xt2treatments
