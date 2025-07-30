@@ -2,25 +2,25 @@ use "temp/manager_value.dta", clear
 merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match) nogen
 
 * limit sample to clean changes between first and second CEO 
-keep if max_ceo_spell >= 2
-keep if ceo_spell <= 2
+keep if max_ceo_spell >= 3
+keep if inrange(ceo_spell, 2, 3)
 keep if n_ceo == 1
 keep if !missing(lnStilde)
 
-egen change_year = min(cond(ceo_spell == 2, year, .)), by(frame_id_numeric)
+egen change_year = min(cond(ceo_spell == 3, year, .)), by(frame_id_numeric)
 generate event_time = year - change_year
 drop change_year
 
-egen MS1 = min(cond(ceo_spell == 1, manager_skill, .)), by(frame_id_numeric)
-egen MS2 = min(cond(ceo_spell == 2, manager_skill, .)), by(frame_id_numeric)
+egen MS1 = min(cond(ceo_spell == 2, manager_skill, .)), by(frame_id_numeric)
+egen MS2 = min(cond(ceo_spell == 3, manager_skill, .)), by(frame_id_numeric)
 drop if missing(MS1, MS2)
 egen firm_tag = tag(frame_id_numeric)
 
 set seed 2181
 scatter MS2 MS1 if firm_tag & uniform() < 0.1, ///
-    title("Manager Skills of First and Second CEO") ///
-    xtitle("Skill of First CEO (log points)") ///
-    ytitle("Skill of Second CEO (log points)") ///
+    title("Manager Skills of Second and Third CEO") ///
+    xtitle("Skill of Second CEO (log points)") ///
+    ytitle("Skill of Third CEO (log points)") ///
     msize(tiny) mcolor(blue%25)
 graph export "output/figure/manager_skill_correlation.pdf", replace
 
@@ -56,6 +56,6 @@ frame worse_ceo: frget coef_better lower_better upper_better, from(better_ceo)
 frame worse_ceo: graph twoway ///
     (rarea lower_worse upper_worse xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_worse xvar, lcolor(blue) mcolor(blue)) ///
     (rarea lower_better upper_better xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_better xvar, lcolor(red) mcolor(red)) ///
-    , graphregion(color(white)) xlabel(-10(1)10) legend(order(4 "Better CEO" 2 "Worse CEO")) xline(-0.5) xscale(range (-10 10)) xtitle("Time since CEO change (year)") yline(0) ytitle("Residual surplus relative to first CEO")
+    , graphregion(color(white)) xlabel(-10(1)10) legend(order(4 "Better CEO" 2 "Worse CEO")) xline(-0.5) xscale(range (-10 10)) xtitle("Time since CEO change (year)") yline(0) ytitle("Residual surplus relative to previous CEO")
 
 graph export "output/figure/event_study.pdf", replace
