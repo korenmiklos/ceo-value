@@ -13,6 +13,7 @@ drop change_year
 
 egen MS1 = min(cond(ceo_spell == 1, manager_skill, .)), by(frame_id_numeric)
 egen MS2 = min(cond(ceo_spell == 2, manager_skill, .)), by(frame_id_numeric)
+drop if missing(MS1, MS2)
 egen firm_tag = tag(frame_id_numeric)
 
 scatter MS2 MS1 if firm_tag, ///
