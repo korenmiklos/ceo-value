@@ -20,9 +20,9 @@ quietly generate exit_hat = .
 levelsof sector, local(sectors)
 
 foreach sector of local sectors {
-    logit exit lnKM* i.year if sector == `sector'
-    predict pr if sector == `sector', pr
-    replace exit_hat = pr if sector == `sector'
+    quietly logit exit lnKM* i.year if sector == `sector'
+    quietly predict pr if sector == `sector', pr
+    quietly replace exit_hat = pr if sector == `sector'
     drop pr
 }
 

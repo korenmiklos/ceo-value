@@ -1,7 +1,8 @@
 use "temp/analysis-sample.dta", clear
+do "code/estimate/exit.do"
 
 local FEs frame_id_numeric##ceo_spell sector_time=teaor08_2d##year
-local controls lnK intangible_share foreign_owned 
+local controls lnK intangible_share foreign_owned Chebyshev_1 Chebyshev_2 Chebyshev_3 
 
 * build linear prediction of the outcome variable
 local predicted 0
@@ -26,7 +27,7 @@ foreach sector of local sectors {
     drop sector_time
 }
 
-keep frame_id_numeric year teaor08_2d sector ceo_spell person_id lnR lnEBITDA lnL lnStilde chi
+keep frame_id_numeric year teaor08_2d sector ceo_spell person_id lnR lnEBITDA lnL lnStilde chi Chebyshev_*
 
 table sector, stat(mean chi)
 
