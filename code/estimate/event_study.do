@@ -24,7 +24,7 @@ scatter MS2 MS1 if firm_tag & uniform() < 0.1, ///
     msize(tiny) mcolor(blue%25)
 graph export "output/figure/manager_skill_correlation.pdf", replace
 
-local cutoff 0.05
+local cutoff 0.02
 generate skill_change = MS2 - MS1
 recode skill_change min/-`cutoff' = -1 -`cutoff'/`cutoff' = 0 `cutoff'/max = 1
 
@@ -56,6 +56,6 @@ frame worse_ceo: frget coef_better lower_better upper_better, from(better_ceo)
 frame worse_ceo: graph twoway ///
     (rarea lower_worse upper_worse xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_worse xvar, lcolor(blue) mcolor(blue)) ///
     (rarea lower_better upper_better xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_better xvar, lcolor(red) mcolor(red)) ///
-    , graphregion(color(white)) xlabel(-10(1)10) legend(order(4 "Better CEO" 2 "Worse CEO")) xline(-0.5) xscale(range (-10 10)) xtitle("Time since CEO change (year)") yline(0) ytitle("Residual surplus relative to first CEO")
+    , graphregion(color(white)) xlabel(-10(1)10) legend(order(4 "Better CEO" 2 "Worse CEO")) xline(-0.5) xscale(range (-10 10)) xtitle("Time since CEO change (year)") yline(0) ytitle("Log TFP relative to first CEO")
 
 graph export "output/figure/event_study.pdf", replace
