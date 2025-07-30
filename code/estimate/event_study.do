@@ -52,11 +52,10 @@ foreach X in coef lower upper {
 }
 frame worse_ceo: frlink 1:1 xvar, frame(better_ceo)
 frame worse_ceo: frget coef_better lower_better upper_better, from(better_ceo)
-frame worse_ceo: list
 
 frame worse_ceo: graph twoway ///
-    (rarea lower_worse upper_worse xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_worse xvar, lcolor(blue)) ///
-    (rarea lower_better upper_better xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_better xvar, lcolor(red)) ///
-    , graphregion(color(white)) xlabel(-10(1)10) legend(order(1 "Worse CEO" 2 "Better CEO")) xline(-0.5) xscale(range (-10 10)) xtitle("Time since CEO change (year)") yline(0) ytitle("Residual surplus relative to first CEO")
+    (rarea lower_worse upper_worse xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_worse xvar, lcolor(blue) mcolor(blue)) ///
+    (rarea lower_better upper_better xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_better xvar, lcolor(red) mcolor(red)) ///
+    , graphregion(color(white)) xlabel(-10(1)10) legend(order(4 "Better CEO" 2 "Worse CEO")) xline(-0.5) xscale(range (-10 10)) xtitle("Time since CEO change (year)") yline(0) ytitle("Residual surplus relative to first CEO")
 
 graph export "output/figure/event_study.pdf", replace
