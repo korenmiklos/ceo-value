@@ -37,5 +37,9 @@ output/figure/manager_skill_correlation.pdf output/figure/event_study.pdf: code/
 	mkdir -p output/figure
 	$(STATA) $<
 
+output/test/test_paths.csv: code/test/test_network.jl temp/edgelist.csv temp/large_component_managers.csv
+	mkdir -p output/test
+	$(JULIA) $< 1000 10
+
 install.log: code/util/install.do 
 	$(STATA) $<
