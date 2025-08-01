@@ -20,6 +20,9 @@ temp/ceo-panel.dta: code/create/ceo-panel.do input/ceo-panel/ceo-panel.dta
 temp/edgelist.csv: code/create/edgelist.do temp/analysis-sample.dta
 	$(STATA) $<
 
+temp/placebo.dta: code/create/placebo.do temp/analysis-sample.dta
+	$(STATA) $<
+
 output/table/revenue_function.tex output/table/revenue_sectors.tex output/table/revenue_controls.tex: code/estimate/revenue_function.do code/estimate/exit.do temp/analysis-sample.dta temp/large_component_managers.csv code/create/network-sample.do
 	$(STATA) $<
 
