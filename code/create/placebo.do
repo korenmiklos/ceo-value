@@ -41,7 +41,7 @@ egen too_close_after = min(cond(placebo_change, actual_event_time, .)), by(frame
 egen too_close_before = max(cond(actual_change, placebo_event_time, .)), by(frame_id_numeric)
 
 * exclude entire firms where the change and placebo change are too close
-drop if too_close_after <= 5 | too_close_before  <= 5
+drop if too_close_after <= 3 | too_close_before  <= 3
 
 keep frame_id_numeric year placebo_spell
 save "temp/placebo.dta", replace
