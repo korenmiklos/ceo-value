@@ -95,6 +95,42 @@ cd output && pdflatex paper.tex && pdflatex paper.tex
 - Log files generated for all Stata operations
 - Final analytical sample: 8,872,039 firm-year observations
 
+## Stata Coding Style
+
+Beyond the CEU MicroData Stata Style Guide, this project follows additional conventions:
+
+### Script Structure
+- Start with `*!` version and description comments
+- Use `clear all` for setup (not `set more off` or `cap log close`)
+- Use section dividers with `* =============================================================================`
+- End sections with descriptive `display` statements
+
+### Variable Creation
+- Use `generate byte` for binary variables when memory efficient
+- Use `generate str` for string variables with explicit type
+- Prefer `egen` functions with `by()` option over `bysort` + `generate`
+- Use descriptive temporary variable names (e.g., `fmtag`, `max_n_managers`)
+
+### Data Manipulation Patterns
+- Use `keep if` early to reduce dataset size
+- Use `drop` immediately after variables are no longer needed
+- Use `preserve`/`restore` for temporary data operations
+- Use `tempfile` and backtick notation for temporary datasets
+- Use `collapse` with multiple statistics: `(mean) var1 (firstnm) var2`
+
+### Advanced Techniques
+- Use `egen tag()` for creating unique identifiers across groups
+- Use `reshape wide` for pivoting data with string suffixes
+- Use `merge ... using ..., keep(match) nogen` for clean merging
+- Use `inrange()` function instead of `>= & <=` conditions
+- Use `!missing()` instead of `~missing()` for clarity
+
+### Comments and Documentation
+- Use explanatory comments before complex operations
+- Include verification steps with `count if` statements
+- Add context for business logic (e.g., "switching years can be noisy")
+- Use descriptive variable names that don't require comments
+
 ## Data Confidentiality
 
 This project uses proprietary data that cannot be shared. Data files in `input/` are not included in repository and must be obtained separately from HUN-REN KRTK or Opten Zrt.
