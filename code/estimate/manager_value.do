@@ -37,7 +37,7 @@ drop within_firm_chi
 * now do cross section, but only on connected components
 keep if component_id == 1
 
-reghdfe lnStilde, absorb(frame_id_numeric manager_skill=person_id) keepsingletons
+reghdfe lnStilde, absorb(firm_fixed_effect=frame_id_numeric manager_skill=person_id) keepsingletons
 
 summarize manager_skill, detail
 replace manager_skill = manager_skill - r(mean)
@@ -76,5 +76,5 @@ esttab using "output/table/manager_effects.tex", replace ///
     addnotes("Standard errors clustered at firm level." "All regressions include industry-year fixed effects.") ///
     stats(N r2_a, fmt(0 3) labels("Observations" "Adjusted R-squared"))
 
-keep frame_id_numeric person_id year manager_skill lnStilde chi
+keep frame_id_numeric person_id year manager_skill firm_fixed_effect lnStilde chi
 save "temp/manager_value.dta", replace

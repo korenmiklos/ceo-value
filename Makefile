@@ -41,5 +41,9 @@ output/test/test_paths.csv: code/test/test_network.jl temp/edgelist.csv temp/lar
 	mkdir -p output/test
 	$(JULIA) $< 1000 10
 
+output/extracts/extract1_2022_values.dta output/extracts/extract2_manager_changes_2015.dta output/extracts/extract3_connected_managers.dta: code/create/extract.do temp/manager_value.dta temp/analysis-sample.dta temp/ceo-panel.dta temp/large_component_managers.csv
+	mkdir -p output/extracts
+	$(STATA) $<
+
 install.log: code/util/install.do 
 	$(STATA) $<
