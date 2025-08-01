@@ -17,3 +17,6 @@ output/*.lot
 output/*.nav
 output/*.snm
 output/*.vrb
+
+# Confidential data extracts
+output/extracts/
