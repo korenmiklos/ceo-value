@@ -3,157 +3,112 @@
 
 * Standard setup
 clear all
-set more off
-cap log close
-
-log using temp/extract.log, text replace
-
-* Create output directory if it doesn't exist
-cap mkdir output/extracts
-
 * Load manager value data with firm fixed effects
-use temp/manager_value.dta, clear
+use "temp/manager_value.dta", clear
 
 * =============================================================================
 * Extract 1: Year 2022 - firm FE and manager value
 * =============================================================================
 
-preserve
-	keep if year == 2022
-	rename frame_id_numeric frame_id
-	rename manager_skill manager_value
-	keep frame_id firm_fixed_effect manager_value
-	compress
-	save "output/extracts/extract1_2022_values.dta", replace
-restore
+keep if year == 2022
+keep frame_id_numeric firm_fixed_effect manager_skill
+compress
+save "output/extract/2022_values.dta", replace
 
-di "Extract 1 saved: 2022 firm FE and manager values"
+display "Extract 1 saved: 2022 firm FE and manager values"
 
 * =============================================================================
 * Extract 2: Manager changes in 2015
 * =============================================================================
 
-* Load analysis sample for detailed firm-year data
-use temp/analysis-sample.dta, clear
-
-* Keep only firms with exactly one CEO
-keep if n_ceo == 1
+use "temp/surplus.dta", clear
+keep if inrange(year, 2012, 2017)
 
 * Identify managers who started in 2015
-bys person_id: egen first_year = min(year)
-gen started_2015 = (first_year == 2015)
-
-* Identify firms that had a manager change in 2015
-bys frame_id: egen has_2015_change = max(started_2015)
+egen first_year = min(year), by(frame_id_numeric ceo_spell)
+egen has_2015_change = max(year == 2015 & first_year == 2015), by(frame_id_numeric)
 keep if has_2015_change == 1
+drop has_2015_change first_year
 
-* Sort by firm and year
-sort frame_id year
+* switching years can be noisy
+drop if inrange(year, 2014, 2015)
+generate byte before = year < 2015
 
-* Identify the manager before and after 2015
-bys frame_id: gen before_manager = person_id if year < 2015
-bys frame_id: gen after_manager = person_id if year >= 2015
+* how many managers per firm before and after 2015?
+egen fmtag = tag(frame_id_numeric person_id before)
+egen n_managers = total(fmtag), by(frame_id_numeric before)
+tabulate n_managers before, missing
 
-* Fill in manager IDs across years
-bys frame_id: egen before_manager_id = mode(before_manager), minmode
-bys frame_id: egen after_manager_id = mode(after_manager), minmode
+* Keep only firms with exactly one manager before and after 2015
+egen max_n_managers = max(n_managers), by(frame_id_numeric)
+keep if max_n_managers == 1
+drop max_n_managers
 
-* Check stability: before manager unchanged 2012-2013
+* now ready to compute statistics
+collapse (mean) lnStilde (firstnm) person_id chi, by(frame_id_numeric before)
+generate str when = cond(before, "_before", "_after")
+drop before
+reshape wide lnStilde person_id, i(frame_id_numeric) j(when) string
+* verify that managers are different
+count if person_id_before == person_id_after
+drop if person_id_before == person_id_after
+
+keep if !missing(lnStilde_before, lnStilde_after)
+generate surplus_change = lnStilde_after - lnStilde_before
+keep frame_id_numeric surplus_change chi
+
+* convert this to forints
 preserve
+	use "temp/analysis-sample.dta", clear
+	keep frame_id_numeric year EBITDA sales sector teaor08_2d
+
 	keep if inrange(year, 2012, 2013)
-	bys frame_id: egen n_before_managers = nvals(person_id)
-	keep frame_id n_before_managers
-	duplicates drop
-	tempfile before_stable
-	save `before_stable'
+	collapse (mean) EBITDA sales (firstnm) sector teaor08_2d, by(frame_id_numeric)
+
+	tempfile EBITDA
+	save `EBITDA', replace
 restore
 
-* Check stability: after manager unchanged 2015-2017
-preserve
-	keep if inrange(year, 2015, 2017)
-	bys frame_id: egen n_after_managers = nvals(person_id)
-	keep frame_id n_after_managers
-	duplicates drop
-	tempfile after_stable
-	save `after_stable'
-restore
+merge 1:1 frame_id_numeric using `EBITDA', keep(match) nogen
+rename EBITDA EBITDA1
+generate EBITDA2 = sales * chi
 
-* Merge stability checks
-merge m:1 frame_id using `before_stable', nogen
-merge m:1 frame_id using `after_stable', nogen
+egen total_sales3 = total(sales), by(sector)
+egen total_EBITDA3 = total(EBITDA1), by(sector)
+egen total_sales4 = total(sales), by(teaor08_2d)
+egen total_EBITDA4 = total(EBITDA2), by(teaor08_2d)
 
-* Keep only stable transitions
-keep if n_before_managers == 1 & n_after_managers == 1
+generate EBITDA3 = total_EBITDA3 / total_sales3 * sales
+generate EBITDA4 = total_EBITDA4 / total_sales4 * sales
 
-* Calculate average lnStilde for 2012-2013
-preserve
-	keep if inrange(year, 2012, 2013)
-	collapse (mean) lnStilde_before = lnStilde, by(frame_id)
-	tempfile before_avg
-	save `before_avg'
-restore
+drop total_*
 
-* Calculate average lnStilde for 2016-2017
-preserve
-	keep if inrange(year, 2016, 2017)
-	collapse (mean) lnStilde_after = lnStilde, by(frame_id)
-	tempfile after_avg
-	save `after_avg'
-restore
+correlated EBITDA?
+summarize EBITDA1, detail
+count if EBITDA1 < 0 
+* actual EBITDA is often negative, but inferring from sales is very similar
 
-* Combine results
-use `before_avg', clear
-merge 1:1 frame_id using `after_avg', nogen keep(match)
+keep frame_id_numeric surplus_change chi sales EBITDA1 EBITDA2 
+save "output/extract/manager_changes_2015.dta", replace
 
-compress
-save "output/extracts/extract2_manager_changes_2015.dta", replace
-
-di "Extract 2 saved: Firms with manager changes in 2015"
+display "Extract 2 saved: Firms with manager changes in 2015"
 
 * =============================================================================
 * Extract 3: Connected component managers
 * =============================================================================
 
-* Load manager value data
-use temp/manager_value.dta, clear
-
-* Load connected component managers
-preserve
-	import delimited "temp/large_component_managers.csv", clear
-	keep if component_id == 1
-	keep person_id
-	tempfile connected_managers
-	save `connected_managers'
-restore
-
-* Keep only managers in connected component
-merge m:1 person_id using `connected_managers', keep(match) nogen
-
-* Keep one observation per manager (most recent year)
-bys person_id: egen max_year = max(year)
-keep if year == max_year
-duplicates drop person_id, force
-
 * Get first year from CEO panel
-preserve
-	use temp/ceo-panel.dta, clear
-	bys person_id: egen first_ceo_year = min(year)
-	keep person_id first_ceo_year
-	duplicates drop
-	tempfile first_year
-	save `first_year'
-restore
+use "input/ceo-panel/ceo-panel.dta", clear
+collapse (min) entry_year = year (firstnm) birth_year hungarian_name male, by(person_id)
+tempfile first_year
+save `first_year'
 
-* Merge first year information
+use "temp/manager_value.dta", clear
+collapse (firstnm) manager_skill, by(person_id)
+keep if !missing(manager_skill)
+
 merge 1:1 person_id using `first_year', keep(match) nogen
-
-* Keep relevant variables
-rename manager_skill manager_value
-keep person_id manager_value gender birth_year first_ceo_year
-
 compress
-save "output/extracts/extract3_connected_managers.dta", replace
+save "output/extract/connected_managers.dta", replace
 
-di "Extract 3 saved: Connected component managers with characteristics"
-
-log close
+display "Extract 3 saved: Connected component managers with characteristics"
