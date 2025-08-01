@@ -39,10 +39,10 @@ generate worse_ceo = event_time >= 0 & skill_change == -1
 keep if inrange(event_time, -10, 10)
 xtset frame_id_numeric year
 
-xt2treatments lnStilde if inlist(skill_change, -1, 0), treatment(worse_ceo) control(same_ceo) pre(10) post(10) baseline(average) weighting(optimal)
+xt2treatments lnStilde if inlist(skill_change, -1, 0), treatment(worse_ceo) control(same_ceo) pre(10) post(10) baseline(-2) weighting(optimal)
 e2frame, generate(worse_ceo)
 
-xt2treatments lnStilde if inlist(skill_change, 1, 0), treatment(better_ceo) control(same_ceo) pre(10) post(10) baseline(average) weighting(optimal)
+xt2treatments lnStilde if inlist(skill_change, 1, 0), treatment(better_ceo) control(same_ceo) pre(10) post(10) baseline(-2) weighting(optimal)
 e2frame, generate(better_ceo)
 
 * now link the two frames, better_ceo and worse_ceo and create the event study figure with two lines
