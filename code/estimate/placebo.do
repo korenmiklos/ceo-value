@@ -1,13 +1,23 @@
+use "temp/manager_value.dta", clear
+* to limit sample to giant component
+keep frame_id_numeric
+duplicates drop
+tempfile giant_component
+save `giant_component', replace
+
 use "temp/surplus.dta", clear
+* to limit sample to giant component
+merge m:1 frame_id_numeric using `giant_component', keep(match) nogen
 merge m:1 frame_id_numeric year using "temp/placebo.dta", keep(match) nogen
+rename ceo_spell actual_spell
 
 * pretend these spells are the real ones
-replace ceo_spell = placebo_spell
+rename placebo_spell ceo_spell
 
 * limit sample to clean changes between first and second CEO 
 egen max_ceo_spell = max(ceo_spell), by(frame_id_numeric)
 keep if max_ceo_spell >= 2
-keep if placebo_spell <= 2
+keep if ceo_spell <= 2
 keep if !missing(lnStilde)
 
 egen change_year = min(cond(ceo_spell == 2, year, .)), by(frame_id_numeric)

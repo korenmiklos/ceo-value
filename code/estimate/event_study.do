@@ -1,4 +1,6 @@
-use "temp/manager_value.dta", clear
+use "temp/surplus.dta", clear
+* to limit sample to giant component
+merge 1:1 frame_id_numeric person_id year using "temp/manager_value.dta", keep(match) nogen
 merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match) nogen
 
 * limit sample to clean changes between first and second CEO 
@@ -11,8 +13,8 @@ egen change_year = min(cond(ceo_spell == 2, year, .)), by(frame_id_numeric)
 generate event_time = year - change_year
 drop change_year
 
-egen MS1 = min(cond(ceo_spell == 1, manager_skill, .)), by(frame_id_numeric)
-egen MS2 = min(cond(ceo_spell == 2, manager_skill, .)), by(frame_id_numeric)
+egen MS1 = min(cond(ceo_spell == 1, lnStilde, .)), by(frame_id_numeric)
+egen MS2 = min(cond(ceo_spell == 2, lnStilde, .)), by(frame_id_numeric)
 drop if missing(MS1, MS2)
 egen firm_tag = tag(frame_id_numeric)
 
