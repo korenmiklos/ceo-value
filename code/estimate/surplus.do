@@ -1,7 +1,16 @@
 use "temp/analysis-sample.dta", clear
 
+* control for firm age as a step function
+local knots 3 4 5 10 20 40
+local current_knot 2
+foreach knot of local knots {
+    quietly generate byte A`current_knot' = inrange(firm_age, `current_knot', `knot'-1)
+    local current_knot `knot'
+}
+quietly generate byte A`current_knot' = firm_age >= `current_knot'
+
 local FEs frame_id_numeric##ceo_spell sector_time=teaor08_2d##year
-local controls lnK intangible_share foreign_owned 
+local controls lnK intangible_share foreign_owned A2 A3 A4 A5 A10 A20 A40
 
 * build linear prediction of the outcome variable
 local predicted 0

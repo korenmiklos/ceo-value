@@ -4,8 +4,10 @@ egen firm_tag = tag(frame_id_numeric)
 tabulate max_n_ceo if firm_tag, missing
 
 drop if max_n_ceo > 2
-
 drop if max_ceo_spell > 6
+
+* first year of firm is often incomplete, so we drop it
+drop if firm_age == 0
 
 * drop mining and finance sectors
 tabulate sector if firm_tag
