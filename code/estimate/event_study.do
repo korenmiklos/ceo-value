@@ -13,8 +13,8 @@ egen change_year = min(cond(ceo_spell == 2, year, .)), by(frame_id_numeric)
 generate event_time = year - change_year
 drop change_year
 
-egen MS1 = min(cond(ceo_spell == 1, lnStilde, .)), by(frame_id_numeric)
-egen MS2 = min(cond(ceo_spell == 2, lnStilde, .)), by(frame_id_numeric)
+egen MS1 = min(cond(ceo_spell == 1, manager_skill, .)), by(frame_id_numeric)
+egen MS2 = min(cond(ceo_spell == 2, manager_skill, .)), by(frame_id_numeric)
 drop if missing(MS1, MS2)
 egen firm_tag = tag(frame_id_numeric)
 
@@ -48,10 +48,10 @@ egen n_after = sum(event_time >= 0), by(frame_id_numeric)
 keep if inrange(event_time, -10, 10) & n_before >= 3 & n_after >= 3
 xtset frame_id_numeric year
 
-xt2treatments lnStilde if inlist(skill_change, -1, 0), treatment(worse_ceo) control(same_ceo) pre(10) post(10) baseline(-2) weighting(optimal)
+xt2treatments lnStilde if inlist(skill_change, -1, 0), treatment(worse_ceo) control(same_ceo) pre(10) post(10) baseline(-10) weighting(optimal)
 e2frame, generate(worse_ceo)
 
-xt2treatments lnStilde if inlist(skill_change, 1, 0), treatment(better_ceo) control(same_ceo) pre(10) post(10) baseline(-2) weighting(optimal)
+xt2treatments lnStilde if inlist(skill_change, 1, 0), treatment(better_ceo) control(same_ceo) pre(10) post(10) baseline(-10) weighting(optimal)
 e2frame, generate(better_ceo)
 
 * now link the two frames, better_ceo and worse_ceo and create the event study figure with two lines
@@ -65,6 +65,6 @@ frame worse_ceo: frget coef_better lower_better upper_better, from(better_ceo)
 frame worse_ceo: graph twoway ///
     (rarea lower_worse upper_worse xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_worse xvar, lcolor(blue) mcolor(blue)) ///
     (rarea lower_better upper_better xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_better xvar, lcolor(red) mcolor(red)) ///
-    , graphregion(color(white)) xlabel(-10(1)10) legend(order(4 "Better CEO" 2 "Worse CEO")) xline(-0.5) xscale(range (-10 10)) xtitle("Time since CEO change (year)") yline(0) ytitle("Log TFP relative to first CEO")
+    , graphregion(color(white)) xlabel(-10(1)10) legend(order(4 "Better CEO" 2 "Worse CEO")) xline(-0.5) xscale(range (-10 10)) xtitle("Time since CEO change (year)") yline(0) ytitle("Log TFP relative to beginning of event window") ///
 
 graph export "output/figure/event_study.pdf", replace
