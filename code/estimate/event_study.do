@@ -48,23 +48,11 @@ egen n_after = sum(event_time >= 0), by(frame_id_numeric)
 keep if inrange(event_time, -10, 10) & n_before >= 3 & n_after >= 3
 xtset frame_id_numeric year
 
-xt2treatments lnStilde if inlist(skill_change, -1, 0), treatment(worse_ceo) control(same_ceo) pre(10) post(10) baseline(-2) weighting(optimal)
-e2frame, generate(worse_ceo)
-
-xt2treatments lnStilde if inlist(skill_change, 1, 0), treatment(better_ceo) control(same_ceo) pre(10) post(10) baseline(-2) weighting(optimal)
+xt2treatments lnStilde if inlist(skill_change, 1, -1), treatment(better_ceo) control(worse_ceo) pre(10) post(10) baseline(-2) weighting(optimal)
 e2frame, generate(better_ceo)
 
-* now link the two frames, better_ceo and worse_ceo and create the event study figure with two lines
-foreach X in coef lower upper {
-    frame better_ceo: rename `X' `X'_better
-    frame worse_ceo: rename `X' `X'_worse
-}
-frame worse_ceo: frlink 1:1 xvar, frame(better_ceo)
-frame worse_ceo: frget coef_better lower_better upper_better, from(better_ceo)
-
-frame worse_ceo: graph twoway ///
-    (rarea lower_worse upper_worse xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_worse xvar, lcolor(blue) mcolor(blue)) ///
-    (rarea lower_better upper_better xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_better xvar, lcolor(red) mcolor(red)) ///
-    , graphregion(color(white)) xlabel(-10(1)10) legend(order(4 "Better CEO" 2 "Worse CEO")) xline(-0.5) xscale(range (-10 10)) xtitle("Time since CEO change (year)") yline(0) ytitle("Log TFP relative to first CEO")
+frame better_ceo: graph twoway ///
+    (rarea lower upper xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef xvar, lcolor(red) mcolor(red)) ///
+    , graphregion(color(white)) xlabel(-10(1)10) legend(off) xline(-0.5) xscale(range (-10 10)) xtitle("Time since CEO change (year)") yline(0) ytitle("Log TFP relative to first CEO")
 
 graph export "output/figure/event_study.pdf", replace
