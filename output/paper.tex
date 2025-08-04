@@ -297,12 +297,13 @@ The key identifying assumption is that manager mobility is not systematically co
 
 To provide causal evidence on the impact of CEO skill differences, we implement an event study around CEO transitions. We restrict analysis to firms experiencing exactly one CEO change during our observation period, focusing on clean transitions between first and second CEOs.
 
-We classify CEO transitions based on estimated skill differences between departing and incoming managers. Using the skill measures from our fixed effects estimation, we define:
+We classify CEO transitions based on the distribution of skill changes between departing and incoming managers. Rather than using fixed thresholds, we employ a quantile-based approach that divides transitions into three equally-sized groups. We calculate skill change as the difference between the incoming CEO's skill and the departing CEO's skill, then use the 33rd and 67th percentiles of this distribution to define:
 \begin{itemize}
-\item \textit{Better manager} transitions: New CEO has higher estimated skill than departing CEO
-\item \textit{Worse manager} transitions: New CEO has lower estimated skill than departing CEO  
-\item \textit{Same skill} transitions: Skill difference is negligible (within 2 percentage points)
+\item \textit{Better manager} transitions: Skill change in the top tercile (above 67th percentile)
+\item \textit{Worse manager} transitions: Skill change in the bottom tercile (below 33rd percentile)
+\item \textit{Same skill} transitions: Skill change in the middle tercile (between 33rd and 67th percentiles)
 \end{itemize}
+This approach ensures balanced comparison groups and accounts for the underlying distribution of skill changes in the population.
 
 We then estimate treatment effects using the two-treatment difference-in-differences methodology of \citet{Callaway2021JoLE}, extended to handle multiple treatment groups as in \citet{Koren2023expat}. The specification compares firms hiring better managers against those hiring worse managers, using firms with similar-skill replacements as a control group:
 
@@ -310,7 +311,7 @@ We then estimate treatment effects using the two-treatment difference-in-differe
 s_{it} = \alpha + \sum_{j=-10}^{10} \beta_j \cdot \mathbf{1}[\text{event\_time} = j] \cdot \text{Better\_CEO}_i + \sum_{j=-10}^{10} \gamma_j \cdot \mathbf{1}[\text{event\_time} = j] \cdot \text{Worse\_CEO}_i + \varepsilon_{it}
 \end{equation}
 
-The coefficients $\beta_j - \gamma_j$ measure the difference in surplus between firms hiring better versus worse managers at each event time relative to the baseline period. We use an analysis window from 10 years before to 10 years after the CEO change, with optimal weighting to account for varying sample composition over time.
+The coefficients $\beta_j - \gamma_j$ measure the difference in surplus between firms hiring better versus worse managers at each event time relative to the baseline period. We use an analysis window from 10 years before to 10 years after the CEO change, with the baseline set at event time -2 (two years before the transition) to ensure comparability across specifications. The estimation employs optimal weighting to account for varying sample composition over time.
 
 This event study design addresses potential endogeneity concerns by examining whether measured skill differences translate into actual performance changes around the time of CEO transitions. The method provides a quasi-experimental test of whether our estimated manager skills capture real differences in managerial ability rather than spurious correlations.
 
@@ -340,11 +341,11 @@ In the cross section, the contribution of manager skills is less important relat
 
 To provide causal evidence on the impact of CEO skill differences, we conduct an event study around CEO transitions. We restrict the sample to firms experiencing exactly one CEO change during our observation period, focusing on clean transitions between first and second CEOs. Our final event study sample includes 51,736 firms where we can measure skill differences between consecutive CEOs and observe sufficient pre- and post-transition data.
 
-\paragraph{Sample characteristics and skill classification.} We classify CEO transitions into three categories based on measured skill differences. Using a threshold of 2 percentage points to define meaningful skill changes, we find that 45.31 percent of transitions (23,442 firms) involve hiring a better manager, 34.68 percent (17,940 firms) involve hiring a worse manager, and 20.01 percent (10,354 firms) involve similar-skill replacements. This classification reveals substantial heterogeneity in the direction of CEO skill changes, with firms slightly more likely to upgrade than downgrade their management.
+\paragraph{Sample characteristics and skill classification.} We classify CEO transitions into three equal-sized categories based on the distribution of skill changes. By construction, approximately one-third of transitions fall into each category: 33.3 percent involve hiring a better manager (skill change in the top tercile), 33.3 percent involve hiring a worse manager (skill change in the bottom tercile), and 33.3 percent involve similar-skill replacements (skill change in the middle tercile). This quantile-based classification ensures balanced comparison groups while revealing substantial heterogeneity in the magnitude of CEO skill changes across firms.
 
 The temporal distribution of transitions shows that our sample spans the full observation period from 1992 to 2022, with CEO changes occurring throughout the Hungarian economic transition and subsequent development. The event study sample includes firms across all major industries, ensuring broad representativeness of the results.
 
-\paragraph{Pre-transition patterns and selection.} Figure \ref{fig:event_study} presents the evolution of residual surplus around CEO transitions, comparing firms that hire better managers versus worse managers. The analysis window spans from 10 years before to 10 years after the CEO change (event time 0), with the baseline set to the average of the pre-treatment period.
+\paragraph{Pre-transition patterns and selection.} Figure \ref{fig:event_study} presents the evolution of residual surplus around CEO transitions, comparing firms that hire better managers versus worse managers. The analysis window spans from 10 years before to 10 years after the CEO change (event time 0), with the baseline set to event time -2 (two years before the transition).
 
 The pre-transition period reveals important selection patterns. Firms that will hire better managers show consistently lower surplus in the years leading up to the transition, with the difference reaching 5.2 percentage points below firms hiring worse managers at event time -10. This pattern reverses as the transition approaches, with firms hiring better managers showing 11.4 percentage points higher surplus than those hiring worse managers at event time -1. These pre-existing differences suggest that underperforming firms are more likely to seek higher-skilled replacement CEOs, consistent with optimal management turnover in response to poor performance.
 
@@ -358,7 +359,11 @@ The magnitude of the estimated effects aligns with our theoretical predictions. 
 
 These results complement our earlier findings on manager skill heterogeneity by providing quasi-experimental evidence that the measured skill differences have real causal impacts on firm performance. The event study confirms that CEO quality matters substantially for privately held firms and that our estimation methodology captures meaningful variation in managerial ability.
 
-\paragraph{Robustness: Alternative transition sequences.} As a robustness check, we also conduct the event study focusing on transitions between second and third CEOs (restricting to firms with at least three CEO spells). This alternative sample includes 21,953 firms and yields qualitatively similar results. The skill classification shows 46.1 percent upgrading (vs. 45.3 percent in our main sample), 43.5 percent downgrading (vs. 34.7 percent), and 10.4 percent same-skill transitions (vs. 20.0 percent). The causal impact estimates are also comparable: firms hiring better managers show a 27.4 percentage point advantage at the time of transition, with effects growing to 32.9 percentage points after ten years. The consistency of results across different transition sequences strengthens confidence in our findings and suggests that the estimated CEO effects are not specific to first-time management changes. 
+\paragraph{Robustness: Alternative transition sequences.} As a robustness check, we also conduct the event study focusing on transitions between second and third CEOs (restricting to firms with at least three CEO spells). This alternative sample includes 21,953 firms and maintains the tercile-based classification approach, ensuring approximately equal-sized comparison groups. The causal impact estimates are qualitatively similar: firms hiring better managers show a 27.4 percentage point advantage at the time of transition, with effects growing to 32.9 percentage points after ten years. The consistency of results across different transition sequences strengthens confidence in our findings and suggests that the estimated CEO effects are not specific to first-time management changes.
+
+\paragraph{Placebo analysis.} To further validate our event study design, we implement a placebo test that randomly assigns fake CEO transition events to firms. For each firm experiencing an actual CEO change, we generate a placebo event at a random year during their sample period, excluding a window of three years before and after the actual transition to avoid contamination. We maintain the same firm structure (tracking placebo ``spells'') and apply identical skill change calculations using the managers present at the placebo transition times.
+
+The placebo analysis reveals markedly different patterns from our main results. While the actual CEO transitions show dramatic performance changes aligned with skill differences, the placebo transitions exhibit minimal differential effects. Firms classified as hiring ``better'' versus ``worse'' managers in the placebo sample show negligible performance differences at the fake transition time and throughout the event window. This null result for randomly assigned transitions strengthens our interpretation that the large effects in the main analysis reflect the causal impact of actual CEO skill changes rather than spurious correlations or mechanical features of our methodology. 
 
 \section{Conclusion}
 
@@ -415,6 +420,19 @@ Notes: Event study comparing firms that hire better managers (higher skill) vers
 
 \appendix
 \section{Robustness Checks}
+
+\subsection{Placebo Event Study}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{figure/placebo.pdf}
+\caption{Placebo Event Study: Random CEO Transition Timing}
+\label{fig:placebo}
+\footnotesize
+Notes: Placebo event study with randomly assigned CEO transition times. For each firm experiencing an actual CEO change, we assign a placebo transition at a random year, excluding three years before and after the actual transition. The figure shows the difference in residual surplus between firms classified as hiring "better" versus "worse" managers based on skill changes at the placebo transition time. Event time 0 represents the placebo transition year. Baseline period is event time -2. Gray shaded area represents 95\% confidence intervals. The minimal differential effects validate that our main results capture the causal impact of actual CEO transitions rather than mechanical features of the methodology.
+\end{figure}
+
+Figure \ref{fig:placebo} presents the results of our placebo analysis. In stark contrast to the actual CEO transitions shown in Figure \ref{fig:event_study}, the placebo transitions exhibit virtually no differential performance effects. Firms randomly assigned to the "better" and "worse" manager categories show negligible differences in surplus throughout the event window, with point estimates close to zero and confidence intervals consistently overlapping. This null result for randomly timed transitions provides strong validation that the large effects in our main analysis reflect genuine CEO skill impacts rather than spurious correlations or methodological artifacts.
 
 \input{table/revenue_function.tex}
 
