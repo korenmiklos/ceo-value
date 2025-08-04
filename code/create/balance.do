@@ -1,6 +1,13 @@
+* =============================================================================
+* BALANCE SHEET DATA PARAMETERS
+* =============================================================================
+local start_year 1992             // Start year for data inclusion
+local end_year 2022               // End year for data inclusion
+local min_employment 1            // Minimum employment threshold
+
 use "input/merleg-LTS-2023/balance/balance_sheet_80_22.dta", clear
 
-keep if inrange(year, 1992, 2022)
+keep if inrange(year, `start_year', `end_year')
 drop if frame_id == "only_originalid"
 generate long frame_id_numeric = real(substr(frame_id, 3, .)) if substr(frame_id, 1, 2) == "ft"
 
@@ -22,7 +29,7 @@ rename so3_with_mo3 state_owned
 rename fo3 foreign_owned
 
 mvencode sales export employment tangible_assets materials wagebill personnel_expenses intangible_assets state_owned foreign_owned, mv(0) override
-replace employment = 1 if employment < 1
+replace employment = `min_employment' if employment < `min_employment'
 
 compress
 

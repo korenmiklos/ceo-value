@@ -1,9 +1,17 @@
+* =============================================================================
+* PLACEBO CREATION PARAMETERS
+* =============================================================================
+local single_ceo_only 1           // Constraint to firms with single CEO only
+local placebo_seed 8211           // Random seed for placebo generation
+local first_placebo_spell 1       // First placebo spell number for analysis
+local second_placebo_spell 2      // Second placebo spell number for analysis
+
 use "temp/analysis-sample.dta", clear
 
 egen max_n_ceo = max(n_ceo), by(frame_id_numeric)
 tabulate n_ceo max_n_ceo, missing
 
-keep if max_n_ceo == 1
+keep if max_n_ceo == `single_ceo_only'
 xtset frame_id_numeric year
 
 * compute staistics to generate a placebo sample of CEOs
@@ -17,7 +25,7 @@ generate byte actual_change = (year == spell_begin) & (year > first_ever_year)
 summarize actual_change if year > first_ever_year
 scalar p = r(mean)
 display "Actual change probability: " p
-set seed 8211
+set seed `placebo_seed'
 generate byte placebo_change = (uniform() < p) & (year > first_ever_year)
 
 tabulate placebo_change actual_change, missing
@@ -32,8 +40,8 @@ egen has_actual_change = max(actual_change), by(frame_id_numeric placebo_spell)
 
 tabulate placebo_spell has_actual_change, missing
 
-egen has_actual_change_1 = max(cond(placebo_spell == 1, actual_change, .)), by(frame_id_numeric)
-egen has_actual_change_2 = max(cond(placebo_spell == 2, actual_change, .)), by(frame_id_numeric)
+egen has_actual_change_1 = max(cond(placebo_spell == `first_placebo_spell', actual_change, .)), by(frame_id_numeric)
+egen has_actual_change_2 = max(cond(placebo_spell == `second_placebo_spell', actual_change, .)), by(frame_id_numeric)
 
 tabulate placebo_spell if has_actual_change_1 == 0 & has_actual_change_2 == 0, missing
 keep if has_actual_change_1 == 0 & has_actual_change_2 == 0
