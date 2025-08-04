@@ -20,3 +20,4 @@ output/*.vrb
 
 # Confidential data extracts
 output/extract/
+output/test/
