@@ -71,3 +71,11 @@ frame worse_ceo: graph twoway ///
     , graphregion(color(white)) xlabel(-10(1)10) legend(order(4 "Better CEO" 2 "Worse CEO")) xline(-0.5) xscale(range (-10 10)) xtitle("Time since CEO change (year)") yline(0) ytitle("Log TFP relative to beginning of event window") ///
 
 graph export "output/figure/event_study.pdf", replace
+
+* save difference for tests
+xt2treatments lnStilde if inlist(skill_change, 1, -1), treatment(better_ceo) control(worse_ceo) pre(10) post(10) baseline(-10) weighting(optimal)
+e2frame, generate(difference)
+foreach X in coef lower upper {
+    frame difference: rename `X' `X'_actual
+}
+frame difference: save "output/test/event_study.dta", replace
