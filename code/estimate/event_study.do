@@ -48,7 +48,7 @@ egen n_before = sum(event_time < 0), by(frame_id_numeric)
 egen n_after = sum(event_time >= 0), by(frame_id_numeric)
 
 * prepare for event study estimation
-keep if inrange(event_time, -10, 10) & n_before >= 2 & n_after >= 1
+keep if inrange(event_time, -10, 10) & n_before >= 1 & n_after >= 1
 xtset frame_id_numeric year
 
 xt2treatments lnStilde if inlist(skill_change, -1, 0), treatment(worse_ceo) control(same_ceo) pre(10) post(10) baseline(-2) weighting(optimal)
