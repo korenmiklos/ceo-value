@@ -31,7 +31,6 @@ drop if missing(MS1, MS2)
 egen firm_tag = tag(frame_id_numeric)
 
 generate skill_change = MS2 - MS1
-summarize skill_change if event_time == 0, detail
 egen cutoff1 = pctile(skill_change), p(33)
 egen cutoff2 = pctile(skill_change), p(67)
 replace skill_change = -1 if inrange(skill_change, -1e10, cutoff1)
@@ -49,6 +48,9 @@ generate worse_ceo = event_time >= 0 & skill_change == -1
 * prepare for event study estimation
 keep if inrange(event_time, -10, 10)
 xtset frame_id_numeric year
+
+* save snapshot for tests
+save "output/test/placebo.dta", replace
 
 xt2treatments lnStilde if inlist(skill_change, -1, 0), treatment(worse_ceo) control(same_ceo) pre(10) post(10) baseline(-2) weighting(optimal)
 e2frame, generate(worse_ceo)

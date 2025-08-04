@@ -27,7 +27,6 @@ scatter MS2 MS1 if firm_tag & uniform() < 0.1, ///
 graph export "output/figure/manager_skill_correlation.pdf", replace
 
 generate skill_change = MS2 - MS1
-summarize skill_change if event_time == 0, detail
 egen cutoff1 = pctile(skill_change), p(33)
 egen cutoff2 = pctile(skill_change), p(67)
 replace skill_change = -1 if inrange(skill_change, -1e10, cutoff1)
