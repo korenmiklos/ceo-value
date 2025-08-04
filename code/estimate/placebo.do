@@ -24,12 +24,9 @@ egen change_year = min(cond(ceo_spell == 2, year, .)), by(frame_id_numeric)
 generate event_time = year - change_year
 drop change_year
 
-* ignore years around CEO change
-replace change_window = inrange(event_time, -1, 0)
-
 * there is no separate measure of CEO skill, so we use lnStilde
-egen MS1 = min(cond(ceo_spell == 1 & change_window == 0, lnStilde, .)), by(frame_id_numeric)
-egen MS2 = min(cond(ceo_spell == 2 & change_window == 0, lnStilde, .)), by(frame_id_numeric)
+egen MS1 = min(cond(ceo_spell == 1, lnStilde, .)), by(frame_id_numeric)
+egen MS2 = min(cond(ceo_spell == 2, lnStilde, .)), by(frame_id_numeric)
 drop if missing(MS1, MS2)
 egen firm_tag = tag(frame_id_numeric)
 
