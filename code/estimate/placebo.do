@@ -22,12 +22,15 @@ drop if missing(MS1, MS2)
 egen firm_tag = tag(frame_id_numeric)
 
 generate skill_change = MS2 - MS1
-egen cutoff1 = pctile(skill_change), p(33)
-egen cutoff2 = pctile(skill_change), p(67)
-replace skill_change = -1 if inrange(skill_change, -1e10, cutoff1)
-replace skill_change = 0 if inrange(skill_change, cutoff1, cutoff2)
-replace skill_change = 1 if inrange(skill_change, cutoff2, 1e10)
-drop cutoff1 cutoff2
+
+count if inrange(skill_change, -100, 100) & event_time == 0
+count if inrange(skill_change, -0.1, 0.1) & event_time == 0
+count if inrange(skill_change, -0.05, 0.05) & event_time == 0
+
+local cutoff1 -0.05
+local cutoff2 0.05
+
+recode skill_change (min/`cutoff1' = -1) (`cutoff1'/`cutoff2' = 0) (`cutoff2'/max = 1)
 
 tabulate skill_change if firm_tag, missing
 tabulate event_time skill_change, missing
