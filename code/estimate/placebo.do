@@ -78,3 +78,19 @@ frame worse_ceo: graph twoway ///
     , graphregion(color(white)) xlabel(-10(1)10) legend(order(4 "Improving firm" 2 "Worsening firm")) xline(-0.5) xscale(range (-10 10)) xtitle("Time since placebo change (year)") yline(0) ytitle("Log TFP relative to beginning of sample")
 
 graph export "output/figure/placebo.pdf", replace
+
+* save difference for tests
+xt2treatments lnStilde if inlist(skill_change, 1, -1), treatment(better_ceo) control(worse_ceo) pre(10) post(10) baseline(-10) weighting(optimal)
+e2frame, generate(difference)
+foreach X in coef lower upper {
+    frame difference: rename `X' `X'_placebo
+}
+* merge on actual results and plot on the same graph
+frame difference: merge 1:1 xvar using "output/test/event_study.dta", keep(match) nogen
+frame difference: graph twoway ///
+    (rarea lower_placebo upper_placebo xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_placebo xvar, lcolor(blue) mcolor(blue)) ///
+    (rarea lower_actual upper_actual xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_actual xvar, lcolor(red) mcolor(red)) ///
+    , graphregion(color(white)) xlabel(-10(1)10) ///
+    legend(order(4 "Actual change" 2 "Placebo change")) xline(-0.5) xscale(range (-10 10)) ///
+    xtitle("Time since CEU change (year)") yline(0) ytitle("Log TFP relative to beginning of sample")
+graph export "output/figure/placebo_vs_actual.pdf", replace
