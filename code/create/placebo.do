@@ -28,20 +28,15 @@ replace placebo_spell = placebo_spell + 1
 
 correlate ceo_spell placebo_spell
 
-* exclude firms where the two spells are too close
-egen placebo_spell_begin = min(year), by(frame_id_numeric placebo_spell)
-generate placebo_event_time = year - placebo_spell_begin
-generate actual_event_time = year - spell_begin
+egen has_actual_change = max(actual_change), by(frame_id_numeric placebo_spell)
 
-* plot some stats first
-tabulate actual_event_time if placebo_change, missing
-tabulate placebo_event_time if actual_change, missing
+tabulate placebo_spell has_actual_change, missing
 
-egen too_close_after = min(cond(placebo_change, actual_event_time, .)), by(frame_id_numeric)
-egen too_close_before = max(cond(actual_change, placebo_event_time, .)), by(frame_id_numeric)
+egen has_actual_change_1 = max(cond(placebo_spell == 1, actual_change, .)), by(frame_id_numeric)
+egen has_actual_change_2 = max(cond(placebo_spell == 2, actual_change, .)), by(frame_id_numeric)
 
-* exclude entire firms where the change and placebo change are too close
-drop if too_close_after <= 3 | too_close_before  <= 3
+tabulate placebo_spell if has_actual_change_1 == 0 & has_actual_change_2 == 0, missing
+keep if has_actual_change_1 == 0 & has_actual_change_2 == 0
 
 keep frame_id_numeric year placebo_spell
 save "temp/placebo.dta", replace
