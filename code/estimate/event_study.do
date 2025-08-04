@@ -27,17 +27,12 @@ scatter MS2 MS1 if firm_tag & uniform() < 0.1, ///
 graph export "output/figure/manager_skill_correlation.pdf", replace
 
 generate skill_change = MS2 - MS1
-egen cutoff1 = pctile(skill_change), p(33)
-egen cutoff2 = pctile(skill_change), p(67)
-replace skill_change = -1 if inrange(skill_change, -1e10, cutoff1)
-replace skill_change = 0 if inrange(skill_change, cutoff1, cutoff2)
-replace skill_change = 1 if inrange(skill_change, cutoff2, 1e10)
-drop cutoff1 cutoff2
+replace skill_change = -1 if inrange(skill_change, -1e10, 0)
+replace skill_change = 1 if inrange(skill_change, 0, 1e10)
 
 tabulate skill_change if firm_tag, missing
 tabulate event_time skill_change, missing
 
-generate same_ceo = event_time >= 0 & skill_change == 0
 generate better_ceo = event_time >= 0 & skill_change == 1
 generate worse_ceo = event_time >= 0 & skill_change == -1
 
@@ -45,7 +40,7 @@ egen n_before = sum(event_time < 0), by(frame_id_numeric)
 egen n_after = sum(event_time >= 0), by(frame_id_numeric)
 
 * prepare for event study estimation
-keep if inrange(event_time, -10, 10) & n_before >= 3 & n_after >= 3
+keep if inrange(event_time, -10, 10) & n_before >= 5 & n_after >= 5
 xtset frame_id_numeric year
 
 xt2treatments lnStilde if inlist(skill_change, 1, -1), treatment(better_ceo) control(worse_ceo) pre(10) post(10) baseline(-2) weighting(optimal)
