@@ -26,9 +26,14 @@ scatter MS2 MS1 if firm_tag & uniform() < 0.1, ///
     msize(tiny) mcolor(blue%25)
 graph export "output/figure/manager_skill_correlation.pdf", replace
 
-local cutoff 0.02
 generate skill_change = MS2 - MS1
-recode skill_change min/-`cutoff' = -1 -`cutoff'/`cutoff' = 0 `cutoff'/max = 1
+summarize skill_change if event_time == 0, detail
+egen cutoff1 = pctile(skill_change), p(33)
+egen cutoff2 = pctile(skill_change), p(67)
+replace skill_change = -1 if inrange(skill_change, -1e10, cutoff1)
+replace skill_change = 0 if inrange(skill_change, cutoff1, cutoff2)
+replace skill_change = 1 if inrange(skill_change, cutoff2, 1e10)
+drop cutoff1 cutoff2
 
 tabulate skill_change if firm_tag, missing
 tabulate event_time skill_change, missing
