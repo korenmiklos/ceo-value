@@ -1,13 +1,4 @@
-use "temp/manager_value.dta", clear
-* to limit sample to giant component
-keep frame_id_numeric
-duplicates drop
-tempfile giant_component
-save `giant_component', replace
-
 use "temp/surplus.dta", clear
-* to limit sample to giant component
-merge m:1 frame_id_numeric using `giant_component', keep(match) nogen
 merge m:1 frame_id_numeric year using "temp/placebo.dta", keep(match) nogen
 rename ceo_spell actual_spell
 
