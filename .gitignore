@@ -21,3 +21,6 @@ output/*.vrb
 # Confidential data extracts
 output/extract/
 output/test/
+
+* MacOS system files
+.DS_Store

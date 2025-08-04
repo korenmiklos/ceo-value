@@ -45,8 +45,11 @@ generate same_ceo = event_time >= 0 & skill_change == 0
 generate better_ceo = event_time >= 0 & skill_change == 1
 generate worse_ceo = event_time >= 0 & skill_change == -1
 
+egen n_before = sum(event_time < 0), by(frame_id_numeric)
+egen n_after = sum(event_time >= 0), by(frame_id_numeric)
+
 * prepare for event study estimation
-keep if inrange(event_time, -10, 10)
+keep if inrange(event_time, -10, 10) & n_before >= 3 & n_after >= 3
 xtset frame_id_numeric year
 
 * save snapshot for tests
