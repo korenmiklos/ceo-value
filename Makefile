@@ -41,9 +41,11 @@ output/figure/manager_skill_correlation.pdf output/figure/event_study.pdf output
 	mkdir -p output/test
 	$(STATA) $<
 
-output/figure/placebo.pdf output/figure/placebo_vs_actual.pdf: code/estimate/placebo.do temp/surplus.dta temp/placebo.dta output/test/event_study.dta
+output/figure/placebo.pdf: code/estimate/placebo.do temp/surplus.dta temp/placebo.dta output/test/event_study.dta
 	mkdir -p output/figure
 	$(STATA) $<
+
+output/figure/placebo_vs_actual.pdf: output/figure/placebo.pdf
 
 output/test/test_paths.csv: code/test/test_network.jl temp/edgelist.csv temp/large_component_managers.csv
 	mkdir -p output/test
