@@ -1,6 +1,6 @@
 use "temp/surplus.dta", clear
 * to limit sample to giant component
-merge 1:1 frame_id_numeric person_id year using "temp/manager_value.dta", keep(match) nogen
+merge m:1 frame_id_numeric person_id using "temp/manager_value.dta", keep(match) nogen
 merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match) nogen
 
 * limit sample to clean changes between first and second CEO 
@@ -48,13 +48,13 @@ egen n_before = sum(event_time < 0), by(frame_id_numeric)
 egen n_after = sum(event_time >= 0), by(frame_id_numeric)
 
 * prepare for event study estimation
-keep if inrange(event_time, -10, 10)
+keep if inrange(event_time, -10, 10) & n_before >= 2 & n_after >= 1
 xtset frame_id_numeric year
 
-xt2treatments lnStilde if inlist(skill_change, -1, 0), treatment(worse_ceo) control(same_ceo) pre(10) post(10) baseline(-10) weighting(optimal)
+xt2treatments lnStilde if inlist(skill_change, -1, 0), treatment(worse_ceo) control(same_ceo) pre(10) post(10) baseline(-2) weighting(optimal)
 e2frame, generate(worse_ceo)
 
-xt2treatments lnStilde if inlist(skill_change, 1, 0), treatment(better_ceo) control(same_ceo) pre(10) post(10) baseline(-10) weighting(optimal)
+xt2treatments lnStilde if inlist(skill_change, 1, 0), treatment(better_ceo) control(same_ceo) pre(10) post(10) baseline(-2) weighting(optimal)
 e2frame, generate(better_ceo)
 
 * now link the two frames, better_ceo and worse_ceo and create the event study figure with two lines
@@ -68,12 +68,11 @@ frame worse_ceo: frget coef_better lower_better upper_better, from(better_ceo)
 frame worse_ceo: graph twoway ///
     (rarea lower_worse upper_worse xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_worse xvar, lcolor(blue) mcolor(blue)) ///
     (rarea lower_better upper_better xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_better xvar, lcolor(red) mcolor(red)) ///
-    , graphregion(color(white)) xlabel(-10(1)10) legend(order(4 "Better CEO" 2 "Worse CEO")) xline(-0.5) xscale(range (-10 10)) xtitle("Time since CEO change (year)") yline(0) ytitle("Log TFP relative to beginning of event window") ///
-
+    , graphregion(color(white)) xlabel(-10(1)10) legend(order(4 "Better CEO" 2 "Worse CEO")) xline(-0.5) xscale(range (-10 10)) xtitle("Time since CEO change (year)") yline(0) ytitle("Log TFP relative to year -2") 
 graph export "output/figure/event_study.pdf", replace
 
 * save difference for tests
-xt2treatments lnStilde if inlist(skill_change, 1, -1), treatment(better_ceo) control(worse_ceo) pre(10) post(10) baseline(-10) weighting(optimal)
+xt2treatments lnStilde if inlist(skill_change, 1, -1), treatment(better_ceo) control(worse_ceo) pre(10) post(10) baseline(-2) weighting(optimal)
 e2frame, generate(difference)
 foreach X in coef lower upper {
     frame difference: rename `X' `X'_actual

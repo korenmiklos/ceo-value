@@ -5,7 +5,7 @@ do "code/create/network-sample.do"
 
 egen max_ceo_spell = max(ceo_spell), by(frame_id_numeric)
 
-egen within_firm = mean(lnStilde), by(frame_id_numeric person_id)
+egen within_firm = mean(cond(change_window, ., lnStilde)), by(frame_id_numeric person_id)
 egen first_ceo = mean(cond(ceo_spell == 1, within_firm, .)), by(frame_id_numeric)
 replace within_firm = within_firm - first_ceo
 drop first_ceo
@@ -37,7 +37,7 @@ drop within_firm_chi
 * now do cross section, but only on connected components
 keep if component_id == 1
 
-reghdfe lnStilde, absorb(firm_fixed_effect=frame_id_numeric manager_skill=person_id) keepsingletons
+reghdfe lnStilde if change_window == 0, absorb(firm_fixed_effect=frame_id_numeric manager_skill=person_id) keepsingletons
 
 summarize manager_skill, detail
 replace manager_skill = manager_skill - r(mean)
@@ -76,5 +76,5 @@ esttab using "output/table/manager_effects.tex", replace ///
     addnotes("Standard errors clustered at firm level." "All regressions include industry-year fixed effects.") ///
     stats(N r2_a, fmt(0 3) labels("Observations" "Adjusted R-squared"))
 
-keep frame_id_numeric person_id year manager_skill firm_fixed_effect lnStilde chi
+collapse (firstnm) firm_fixed_effect manager_skill chi, by(frame_id_numeric person_id)
 save "temp/manager_value.dta", replace
