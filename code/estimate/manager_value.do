@@ -1,3 +1,12 @@
+* =============================================================================
+* MANAGER VALUE PARAMETERS
+* =============================================================================
+local within_firm_skill_min -1     // Minimum within-firm manager skill bound
+local within_firm_skill_max 1      // Maximum within-firm manager skill bound  
+local connected_skill_min -2       // Minimum connected component skill bound
+local connected_skill_max 2        // Maximum connected component skill bound
+local largest_component_id 1       // ID of largest connected component
+
 use "temp/surplus.dta", clear
 
 * Create connected component indicator
@@ -13,7 +22,7 @@ drop first_ceo
 * convert manager skill to revenue/surplus contribution
 summarize within_firm if ceo_spell > 1, detail
 display "IQR of within-firm variation in manager skill: " exp(r(p75) - r(p25))*100 - 100
-replace within_firm = . if !inrange(within_firm, -1, +1)
+replace within_firm = . if !inrange(within_firm, `within_firm_skill_min', `within_firm_skill_max')
 
 * Create histogram for within-firm manager skill variation
 histogram within_firm if ceo_spell > 1, ///
@@ -35,14 +44,14 @@ foreach outcome of local outcomes {
 drop within_firm_chi
 
 * now do cross section, but only on connected components
-keep if component_id == 1
+keep if component_id == `largest_component_id'
 
 reghdfe lnStilde, absorb(firm_fixed_effect=frame_id_numeric manager_skill=person_id) keepsingletons
 
 summarize manager_skill, detail
 replace manager_skill = manager_skill - r(mean)
 display "IQR of manager skill: " exp(r(p75) - r(p25))*100 - 100
-replace manager_skill = . if !inrange(manager_skill, -2, +2)
+replace manager_skill = . if !inrange(manager_skill, `connected_skill_min', `connected_skill_max')
 
 * Create histogram for connected component manager skill distribution
 histogram manager_skill, ///
