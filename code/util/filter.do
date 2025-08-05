@@ -5,6 +5,7 @@ local max_ceos_per_year 2         // Maximum number of CEOs allowed per firm per
 local max_ceo_spells 6            // Maximum CEO spell threshold
 local min_firm_age 1              // Minimum firm age (drops age 0)
 local excluded_sectors "2, 9"     // Sector codes to exclude (mining, finance)
+local min_employment 1           // Minimum employment for analysis
 
 * drop if firm has ever more than specified number of CEOs in a year
 egen max_n_ceo = max(n_ceo), by(frame_id_numeric)
@@ -23,6 +24,10 @@ drop if inlist(sector, `excluded_sectors')
 
 egen ever_state_owned = max(state_owned), by(frame_id_numeric)
 drop if ever_state_owned == 1
+
+* drop firms with too few employees
+summarize max_employment if firm_tag, detail
+drop if max_employment < `min_employment'
 
 * clean up
 drop max_n_ceo firm_tag

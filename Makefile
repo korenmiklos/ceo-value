@@ -5,7 +5,7 @@ UTILS := $(wildcard code/util/*.do)
 
 all: output/paper.pdf
 
-%.pdf: %.tex output/table/revenue_function.tex output/table/revenue_sectors.tex output/table/manager_effects.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/manager_skill_correlation.pdf output/figure/event_study.pdf output/figure/placebo.pdf output/figure/placebo_vs_actual.pdf output/references.bib
+%.pdf: %.tex output/table/revenue_function.tex output/table/revenue_sectors.tex output/table/manager_effects.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/manager_skill_correlation.pdf output/figure/event_study.pdf output/references.bib
 	cd $(dir $@) && $(LATEX) $(notdir $<) && bibtex $(notdir $(basename $<)) && $(LATEX) $(notdir $<) && $(LATEX) $(notdir $<)
 
 temp/analysis-sample.dta: code/create/analysis-sample.do temp/balance.dta temp/ceo-panel.dta $(UTILS)
@@ -36,16 +36,10 @@ output/table/manager_effects.tex output/figure/manager_skill_within.pdf output/f
 	mkdir -p output/figure
 	$(STATA) $<
 
-output/figure/manager_skill_correlation.pdf output/figure/event_study.pdf output/test/event_study.dta: code/estimate/event_study.do temp/manager_value.dta temp/analysis-sample.dta
+output/figure/manager_skill_correlation.pdf output/figure/event_study.pdf output/test/event_study.dta: code/estimate/event_study.do temp/manager_value.dta temp/analysis-sample.dta temp/placebo.dta
 	mkdir -p output/figure
 	mkdir -p output/test
 	$(STATA) $<
-
-output/figure/placebo.pdf: code/estimate/placebo.do temp/surplus.dta temp/placebo.dta output/test/event_study.dta
-	mkdir -p output/figure
-	$(STATA) $<
-
-output/figure/placebo_vs_actual.pdf: output/figure/placebo.pdf
 
 output/test/test_paths.csv: code/test/test_network.jl temp/edgelist.csv temp/large_component_managers.csv
 	mkdir -p output/test
