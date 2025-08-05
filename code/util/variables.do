@@ -9,6 +9,7 @@ generate lnM = ln(materials)
 generate intangible_share = intangible_assets / (tangible_assets + intangible_assets)
 replace intangible_share = 0 if intangible_share < 0 | missing(intangible_share)
 replace intangible_share = 1 if intangible_share > 1
+egen max_employment = max(employment), by(frame_id_numeric)
 
 * manager spells etc
 egen firm_year_tag = tag(frame_id_numeric year)

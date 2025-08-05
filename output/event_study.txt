@@ -1,0 +1,108 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/koren/Tresorit/Mac/projects/ceo-value/output/event_study.tx
+> t
+  log type:  text
+ opened on:   5 Aug 2025, 20:53:40
+
+. display "Event study results for better CEOs:"
+Event study results for better CEOs:
+
+. * compare naive control to placebo controlled event study
+. xt2treatments lnStilde if placebo == 0, treatment(better_ceo) control(worse_c
+> eo) pre(`=-1*`event_window_start'') post(`event_window_end') baseline(atet) w
+> eighting(optimal)
+
+Panel variable: fake_id (unbalanced)
+ Time variable: year, 1992 to 2022, but with gaps
+         Delta: 1 unit
+
+Event study relative to atet           Number of obs = 103,996
+
+------------------------------------------------------------------------------
+    lnStilde |       ATET   Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        ATET |   .2559698    .003763    68.02   0.000     .2485944    .2633452
+------------------------------------------------------------------------------
+
+. scalar total_atet = _b[ATET]
+
+. 
+. xt2treatments lnStilde if placebo == 1, treatment(better_ceo) control(worse_c
+> eo) pre(`=-1*`event_window_start'') post(`event_window_end') baseline(atet) w
+> eighting(optimal)
+
+Panel variable: fake_id (unbalanced)
+ Time variable: year, 1992 to 2022, but with gaps
+         Delta: 1 unit
+
+Event study relative to atet           Number of obs = 247,973
+
+------------------------------------------------------------------------------
+    lnStilde |       ATET   Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        ATET |   .1880765   .0015692   119.86   0.000     .1850009    .1911521
+------------------------------------------------------------------------------
+
+. scalar placebo_atet = _b[ATET]
+
+. 
+. xt2treatments lnStilde if skill_change == -1, treatment(actual_ceo) control(p
+> lacebo_ceo) pre(`=-1*`event_window_start'') post(`event_window_end') baseline
+> (atet) weighting(optimal)
+
+Panel variable: fake_id (unbalanced)
+ Time variable: year, 1992 to 2022, but with gaps
+         Delta: 1 unit
+
+Event study relative to atet           Number of obs = 167,329
+
+------------------------------------------------------------------------------
+    lnStilde |       ATET   Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        ATET |   -.021031   .0029552    -7.12   0.000    -.0268232   -.0152389
+------------------------------------------------------------------------------
+
+. scalar worse_atet = _b[ATET]
+
+. 
+. xt2treatments lnStilde if skill_change == 1, treatment(actual_ceo) control(pl
+> acebo_ceo) pre(`=-1*`event_window_start'') post(`event_window_end') baseline(
+> atet) weighting(optimal)
+
+Panel variable: fake_id (unbalanced)
+ Time variable: year, 1992 to 2022, but with gaps
+         Delta: 1 unit
+
+Event study relative to atet           Number of obs = 184,640
+
+------------------------------------------------------------------------------
+    lnStilde |       ATET   Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        ATET |   .0464916   .0028074    16.56   0.000     .0409892     .051994
+------------------------------------------------------------------------------
+
+. scalar better_atet = _b[ATET]
+
+. 
+. scalar proper_atet1 = better_atet - worse_atet
+
+. scalar proper_atet2 = total_atet - placebo_atet
+
+. 
+. display "Total ATET: " total_atet
+Total ATET: .25596982
+
+. display "Placebo-controlled ATET 1: " proper_atet1
+Placebo-controlled ATET 1: .06752267
+
+. display "Placebo-controlled ATET 2: " proper_atet2
+Placebo-controlled ATET 2: .06789334
+
+. log close
+      name:  <unnamed>
+       log:  /Users/koren/Tresorit/Mac/projects/ceo-value/output/event_study.tx
+> t
+  log type:  text
+ closed on:   5 Aug 2025, 21:00:00
+-------------------------------------------------------------------------------
