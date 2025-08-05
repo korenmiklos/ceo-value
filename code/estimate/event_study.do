@@ -27,9 +27,6 @@ tabulate placebo, missing
 * prepare actual and placebo ids
 replace ceo_spell = placebo_spell if placebo
 egen long fake_id = group(frame_id_numeric placebo)
-egen MS = mean(lnStilde), by(fake_id ceo_spell)
-replace manager_skill = MS if placebo
-drop MS
 *********************************
 drop max_ceo_spell expand_N placebo_spell
 egen max_ceo_spell = max(ceo_spell), by(fake_id)
@@ -50,6 +47,13 @@ drop change_year
 
 egen MS1 = min(cond(ceo_spell == 1, manager_skill, .)), by(fake_id)
 egen MS2 = min(cond(ceo_spell == 2, manager_skill, .)), by(fake_id)
+
+egen MS1p = min(cond(ceo_spell == 1, lnStilde, .)) if placebo, by(fake_id)
+egen MS2p = min(cond(ceo_spell == 2, lnStilde, .)) if placebo, by(fake_id)
+
+replace MS1 = MS1p if placebo
+replace MS2 = MS2p if placebo
+drop MS1p MS2p
 
 drop if missing(MS1, MS2)
 egen firm_tag = tag(fake_id)
