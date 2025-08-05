@@ -16,55 +16,72 @@ use "temp/surplus.dta", clear
 merge m:1 frame_id_numeric person_id using "temp/manager_value.dta", keep(match) nogen
 merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match) nogen
 
+* merge on placebo spells
+merge m:1 frame_id_numeric year using "temp/placebo.dta", keep(master match) nogen
+generate byte expand_N = cond(!missing(placebo_spell), 2, 1)
+expand expand_N, generate(placebo)
+
+tabulate placebo, missing
+
+*********************************
+* prepare actual and placebo ids
+replace ceo_spell = placebo_spell if placebo
+egen long fake_id = group(frame_id_numeric placebo)
+egen MS = mean(lnStilde), by(fake_id ceo_spell)
+replace manager_skill = MS if placebo
+drop MS
+*********************************
+drop max_ceo_spell expand_N placebo_spell
+egen max_ceo_spell = max(ceo_spell), by(fake_id)
+
 * limit sample to clean changes between first and second CEO 
 keep if max_ceo_spell >= `max_spell_analysis'
 keep if ceo_spell <= `max_spell_analysis'
 keep if n_ceo == 1
-keep if !missing(lnStilde)
+keep if !missing(lnStilde, manager_skill)
 
-egen change_year = min(cond(ceo_spell == 2, year, .)), by(frame_id_numeric)
+egen change_year = min(cond(ceo_spell == 2, year, .)), by(fake_id)
 generate event_time = year - change_year
+
+tabulate ceo_spell placebo, missing
+tabulate change_year placebo, missing
+tabulate event_time placebo, missing
 drop change_year
 
-egen MS1 = min(cond(ceo_spell == 1, manager_skill, .)), by(frame_id_numeric)
-egen MS2 = min(cond(ceo_spell == 2, manager_skill, .)), by(frame_id_numeric)
+egen MS1 = min(cond(ceo_spell == 1, manager_skill, .)), by(fake_id)
+egen MS2 = min(cond(ceo_spell == 2, manager_skill, .)), by(fake_id)
+
 drop if missing(MS1, MS2)
-egen firm_tag = tag(frame_id_numeric)
+egen firm_tag = tag(fake_id)
 
-set seed `random_seed'
-scatter MS2 MS1 if firm_tag & uniform() < `scatter_sample_prob', ///
-    title("Manager Skills of First and Second CEO") ///
-    xtitle("Skill of First CEO (log points)") ///
-    ytitle("Skill of Second CEO (log points)") ///
-    msize(tiny) mcolor(blue%25)
-graph export "output/figure/manager_skill_correlation.pdf", replace
-
-generate skill_change = MS2 - MS1
-
-count if inrange(skill_change, -100, 100) & event_time == 0
-count if inrange(skill_change, -0.1, 0.1) & event_time == 0
-count if inrange(skill_change, `skill_cutoff_lower', `skill_cutoff_upper') & event_time == 0
-
-recode skill_change (min/`skill_cutoff_lower' = -1) (`skill_cutoff_lower'/`skill_cutoff_upper' = 0) (`skill_cutoff_upper'/max = 1)
+generate byte skill_change = (MS2 - MS1) > 0
 
 tabulate skill_change if firm_tag, missing
 tabulate event_time skill_change, missing
 
-generate same_ceo = event_time >= 0 & skill_change == 0
-generate better_ceo = event_time >= 0 & skill_change == 1
-generate worse_ceo = event_time >= 0 & skill_change == -1
+generate byte actual_ceo = event_time >= 0 & placebo == 0
+generate byte placebo_ceo = event_time >= 0 & placebo == 1
 
-egen n_before = sum(event_time < 0), by(frame_id_numeric)
-egen n_after = sum(event_time >= 0), by(frame_id_numeric)
+egen n_before = sum(event_time < 0), by(fake_id)
+egen n_after = sum(event_time >= 0), by(fake_id)
 
 * prepare for event study estimation
 keep if inrange(event_time, `event_window_start', `event_window_end') & n_before >= `min_obs_threshold' & n_after >= `min_obs_threshold'
-xtset frame_id_numeric year
 
-xt2treatments lnStilde if inlist(skill_change, -1, 0), treatment(worse_ceo) control(same_ceo) pre(`=-1*`event_window_start'') post(`event_window_end') baseline(`baseline_year') weighting(optimal)
+display "Worsening CEOs"
+tabulate event_time placebo if skill_change == 0, missing
+table event_time placebo if skill_change == 0, stat(mean lnStilde)
+
+display "Improving CEOs"
+tabulate event_time placebo if skill_change == 1, missing
+table event_time placebo if skill_change == 1, stat(mean lnStilde)
+BRK
+xtset fake_id year
+
+xt2treatments lnStilde if skill_change == 0, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*`event_window_start'') post(`event_window_end') baseline(`baseline_year') weighting(optimal)
 e2frame, generate(worse_ceo)
 
-xt2treatments lnStilde if inlist(skill_change, 1, 0), treatment(better_ceo) control(same_ceo) pre(`=-1*`event_window_start'') post(`event_window_end') baseline(`baseline_year') weighting(optimal)
+xt2treatments lnStilde if skill_change == 1, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*`event_window_start'') post(`event_window_end') baseline(`baseline_year') weighting(optimal)
 e2frame, generate(better_ceo)
 
 * now link the two frames, better_ceo and worse_ceo and create the event study figure with two lines
@@ -80,7 +97,7 @@ frame worse_ceo: graph twoway ///
     (rarea lower_better upper_better xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_better xvar, lcolor(red) mcolor(red)) ///
     , graphregion(color(white)) xlabel(`event_window_start'(1)`event_window_end') legend(order(4 "Better CEO" 2 "Worse CEO")) xline(-0.5) xscale(range (`event_window_start' `event_window_end')) xtitle("Time since CEO change (year)") yline(0) ytitle("Log TFP relative to year `baseline_year'") 
 graph export "output/figure/event_study.pdf", replace
-
+BRK
 * save difference for tests
 xt2treatments lnStilde if inlist(skill_change, 1, -1), treatment(better_ceo) control(worse_ceo) pre(`=-1*`event_window_start'') post(`event_window_end') baseline(`baseline_year') weighting(optimal)
 e2frame, generate(difference)
