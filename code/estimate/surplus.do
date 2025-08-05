@@ -45,12 +45,12 @@ foreach sector of local sectors {
     summarize surplus_share if sector == `sector' [aw=sales], meanonly
     quietly replace chi = r(mean) if sector == `sector'
 
-    reghdfe lnR `controls' if sector == `sector', absorb(`FEs') vce(cluster frame_id_numeric) residuals keepsingletons
+    reghdfe lnR `controls' change_window if sector == `sector', absorb(`FEs') vce(cluster frame_id_numeric) residuals keepsingletons
     quietly replace lnStilde = chi*(lnR - (`predicted') - sector_time) if sector == `sector'
     drop sector_time
 }
 
-keep frame_id_numeric year teaor08_2d sector ceo_spell person_id lnR lnEBITDA lnL lnStilde chi
+keep frame_id_numeric year teaor08_2d sector ceo_spell person_id lnR lnEBITDA lnL lnStilde chi change_window
 
 table sector, stat(mean chi)
 
