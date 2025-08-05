@@ -61,6 +61,9 @@ egen n_after = sum(event_time >= 0), by(frame_id_numeric)
 keep if inrange(event_time, `event_window_start', `event_window_end') & n_before >= `min_obs_threshold' & n_after >= `min_obs_threshold'
 xtset frame_id_numeric year
 
+tabulate event_time skill_change, missing
+table event_time skill_change, stat(mean lnStilde)
+
 xt2treatments lnStilde if inlist(skill_change, -1, 0), treatment(worse_ceo) control(same_ceo) pre(`=-1*`event_window_start'') post(`event_window_end') baseline(`baseline_year') weighting(optimal)
 e2frame, generate(worse_ceo)
 
