@@ -7,6 +7,7 @@ local event_window_start -2      // Event study window start
 local event_window_end 3         // Event study window end
 local baseline_year -2            // Baseline year for event study
 local min_obs_threshold 1         // Minimum observations before/after
+local min_T 3                      // Minimum observations to estimate fixed effects
 local random_seed 2181            // Random seed for reproducibility
 
 use "temp/surplus.dta", clear
@@ -53,6 +54,10 @@ replace MS1 = MS1p if placebo
 replace MS2 = MS2p if placebo
 drop MS1p MS2p
 
+egen T1 = total((ceo_spell == 1) & !missing(lnStilde)), by(fake_id)
+egen T2 = total((ceo_spell == 2) & !missing(lnStilde)), by(fake_id)
+
+drop if T1 < `min_T' | T2 < `min_T'
 drop if missing(MS1, MS2)
 egen firm_tag = tag(fake_id)
 
