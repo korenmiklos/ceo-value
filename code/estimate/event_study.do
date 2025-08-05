@@ -6,8 +6,8 @@ local skill_cutoff 0.0            // Upper skill change cutoff
 local event_window_start -10      // Event study window start
 local event_window_end 10         // Event study window end
 local baseline_year -2            // Baseline year for event study
-local min_obs_threshold 3         // Minimum observations before/after
-local min_T 3                     // Minimum observations to estimate fixed effects
+local min_obs_threshold 1         // Minimum observations before/after
+local min_T 1                     // Minimum observations to estimate fixed effects
 local random_seed 2181            // Random seed for reproducibility
 local sample 10                   // Sample selection for analysis
 
