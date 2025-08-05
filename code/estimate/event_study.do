@@ -2,7 +2,7 @@
 * EVENT STUDY PARAMETERS
 * =============================================================================
 local max_spell_analysis 2        // Maximum CEO spell for analysis
-local skill_cutoff 0.0     // Upper skill change cutoff  
+local skill_cutoff 0.0            // Upper skill change cutoff  
 local event_window_start -10      // Event study window start
 local event_window_end 10         // Event study window end
 local baseline_year -2            // Baseline year for event study
