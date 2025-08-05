@@ -4,9 +4,9 @@
 local max_spell_analysis 2        // Maximum CEO spell for analysis
 local skill_cutoff_lower -0.05    // Lower skill change cutoff
 local skill_cutoff_upper 0.05     // Upper skill change cutoff  
-local event_window_start -5      // Event study window start
-local event_window_end 5         // Event study window end
-local baseline_year -5            // Baseline year for event study
+local event_window_start -10      // Event study window start
+local event_window_end 10         // Event study window end
+local baseline_year -10            // Baseline year for event study
 local min_obs_threshold 1         // Minimum observations before/after
 local scatter_sample_prob 0.1     // Sampling probability for scatter plot
 local random_seed 2181            // Random seed for reproducibility
