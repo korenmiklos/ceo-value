@@ -203,11 +203,11 @@ or include them in the full pipeline with `make all`.
 
 Our analysis yields three key findings about CEO value in Hungarian private firms:
 
-1. **Placebo-controlled causal effects**: The naive comparison shows firms hiring better CEOs outperform those hiring worse CEOs by 24.6%. However, placebo transitions reveal an 18.8% spurious effect, implying the true causal impact is 5.8%—statistically significant but only 24% of the raw correlation.
+1. **Placebo-controlled causal effects**: The naive comparison shows firms hiring better CEOs outperform those hiring worse CEOs by 25.6%. However, placebo transitions reveal an 18.8% spurious effect, implying the true causal impact is 6.8%—statistically significant but only 27% of the raw correlation.
 
 2. **Substantial skill heterogeneity**: Within firms, replacing a CEO at the 25th percentile with one at the 75th percentile increases productivity by 9.8%. Across the connected component of mobile managers, the same replacement increases productivity by 25.6%.
 
-3. **Methodological implications**: Our placebo analysis reveals that 76% of apparent CEO effects reflect spurious correlations rather than true managerial impact, suggesting standard approaches substantially overstate CEO importance.
+3. **Methodological implications**: Our placebo analysis reveals that 73% of apparent CEO effects reflect spurious correlations rather than true managerial impact, suggesting standard approaches substantially overstate CEO importance.
 
 These results provide a more nuanced understanding of CEO value and demonstrate the importance of rigorous identification strategies in managerial effects research.
 
