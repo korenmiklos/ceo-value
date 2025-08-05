@@ -2,7 +2,8 @@
 * EVENT STUDY PARAMETERS
 * =============================================================================
 local max_spell_analysis 2        // Maximum CEO spell for analysis
-local skill_cutoff 0.0            // Upper skill change cutoff  
+local skill_cutoff_upper 0.05    // Upper skill change cutoff
+local skill_cutoff_lower -0.05   // Lower skill change cutoff
 local event_window_start -5      // Event study window start
 local event_window_end 5         // Event study window end
 local baseline_year -5            // Baseline year for event study
@@ -62,7 +63,7 @@ drop if missing(MS1, MS2)
 egen firm_tag = tag(fake_id)
 
 generate skill_change = (MS2 - MS1)
-recode skill_change (min/`skill_cutoff' = -1) (`skill_cutoff'/max = 1)
+recode skill_change (min/`skill_cutoff_lower' = -1) (`skill_cutoff_lower'/`skill_cutoff_upper' = 0) (`skill_cutoff_upper'/max = 1)
 
 tabulate skill_change if firm_tag, missing
 tabulate event_time skill_change, missing
