@@ -59,8 +59,8 @@ egen MS2a = mean(cond(ceo_spell == 2, manager_skill, .)), by(fake_id)
 egen MS1 = mean(cond(ceo_spell == 1, lnStilde, .)), by(fake_id)
 egen MS2 = mean(cond(ceo_spell == 2, lnStilde, .)), by(fake_id)
 
-replace MS1 = MS1a if !placebo
-replace MS2 = MS2a if !placebo
+replace MS1 = MS1a if !placebo & !missing(MS1a)
+replace MS2 = MS2a if !placebo & !missing(MS2a)
 
 egen T1 = total((ceo_spell == 1) & !missing(lnStilde)), by(fake_id)
 egen T2 = total((ceo_spell == 2) & !missing(lnStilde)), by(fake_id)
