@@ -33,8 +33,7 @@ foreach var of local controls {
     local predicted `predicted' + _b[`var']*`var'
 }
 
-* for singletons fully explained by fixed effects, we use the average 0
-quietly generate double lnStilde = 0
+quietly generate double lnStilde = .
 quietly generate double chi = .
 
 generate double surplus_share = EBITDA / sales
