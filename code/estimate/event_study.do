@@ -2,8 +2,8 @@
 * EVENT STUDY PARAMETERS
 * =============================================================================
 local max_spell_analysis 2        // Maximum CEO spell for analysis
-local skill_cutoff_upper 0.05    // Upper skill change cutoff
-local skill_cutoff_lower -0.05   // Lower skill change cutoff
+local skill_cutoff_upper 0.0    // Upper skill change cutoff
+local skill_cutoff_lower -0.0   // Lower skill change cutoff
 local event_window_start -5      // Event study window start
 local event_window_end 5         // Event study window end
 local baseline_year -5            // Baseline year for event study
@@ -110,3 +110,26 @@ frame worse_ceo: graph twoway ///
     (rarea lower_better upper_better xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_better xvar, lcolor(red) mcolor(red)) ///
     , graphregion(color(white)) xlabel(`event_window_start'(1)`event_window_end') legend(order(4 "Better CEO" 2 "Worse CEO")) xline(-0.5) xscale(range (`event_window_start' `event_window_end')) xtitle("Time since CEO change (year)") yline(0) ytitle("Log TFP relative to year `baseline_year'") 
 graph export "output/figure/event_study.pdf", replace
+
+log using "output/event_study.txt", replace text
+display "Event study results for better CEOs:"
+* compare naive control to placebo controlled event study
+xt2treatments lnStilde if placebo == 0, treatment(better_ceo) control(worse_ceo) pre(`=-1*`event_window_start'') post(`event_window_end') baseline(atet) weighting(optimal)
+scalar total_atet = _b[ATET]
+
+xt2treatments lnStilde if placebo == 1, treatment(better_ceo) control(worse_ceo) pre(`=-1*`event_window_start'') post(`event_window_end') baseline(atet) weighting(optimal)
+scalar placebo_atet = _b[ATET]
+
+xt2treatments lnStilde if skill_change == -1, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*`event_window_start'') post(`event_window_end') baseline(atet) weighting(optimal)
+scalar worse_atet = _b[ATET]
+
+xt2treatments lnStilde if skill_change == 1, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*`event_window_start'') post(`event_window_end') baseline(atet) weighting(optimal)
+scalar better_atet = _b[ATET]
+
+scalar proper_atet1 = better_atet - worse_atet
+scalar proper_atet2 = total_atet - placebo_atet
+
+display "Total ATET: " total_atet
+display "Placebo-controlled ATET 1: " proper_atet1
+display "Placebo-controlled ATET 2: " proper_atet2
+log close

@@ -1,0 +1,101 @@
+{smcl}
+{txt}{sf}{ul off}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/Users/koren/Tresorit/Mac/projects/ceo-value/output/event_study.txt
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 5 Aug 2025, 19:28:56
+{txt}
+{com}. display "Event study results for better CEOs:"
+{res}Event study results for better CEOs:
+{txt}
+{com}. * compare naive control to placebo controlled event study
+. xt2treatments lnStilde if placebo == 0, treatment(better_ceo) control(worse_ceo) pre(`=-1*`event_window_start'') post(`event_window_end') baseline(atet) weighting(optimal)
+{res}
+{col 1}{txt:Panel variable: }{res:fake_id}{txt: (unbalanced)}
+{p 1 16 2}{txt:Time variable: }{res:year}{txt:, }{res:{bind:1992}}{txt: to }{res:{bind:2022}}{txt:, but with gaps}{p_end}
+{txt}{col 10}Delta: {res}1 unit
+
+{txt}{col 1}Event study relative to atet{col 40}{lalign 13:Number of obs}{col 53} = {res}{ralign 7:219,173}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    lnStilde{col 14}{c |}       ATET{col 26}   Std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}ATET {c |}{col 14}{res}{space 2}   .24553{col 26}{space 2} .0021223{col 37}{space 1}  115.69{col 46}{space 3}0.000{col 54}{space 4} .2413703{col 67}{space 3} .2496897
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. scalar total_atet = _b[ATET]
+{txt}
+{com}. 
+. xt2treatments lnStilde if placebo == 1, treatment(better_ceo) control(worse_ceo) pre(`=-1*`event_window_start'') post(`event_window_end') baseline(atet) weighting(optimal)
+{res}
+{col 1}{txt:Panel variable: }{res:fake_id}{txt: (unbalanced)}
+{p 1 16 2}{txt:Time variable: }{res:year}{txt:, }{res:{bind:1992}}{txt: to }{res:{bind:2022}}{txt:, but with gaps}{p_end}
+{txt}{col 10}Delta: {res}1 unit
+
+{txt}{col 1}Event study relative to atet{col 40}{lalign 13:Number of obs}{col 53} = {res}{ralign 7:162,774}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    lnStilde{col 14}{c |}       ATET{col 26}   Std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}ATET {c |}{col 14}{res}{space 2} .1880895{col 26}{space 2} .0019404{col 37}{space 1}   96.93{col 46}{space 3}0.000{col 54}{space 4} .1842864{col 67}{space 3} .1918926
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. scalar placebo_atet = _b[ATET]
+{txt}
+{com}. 
+. xt2treatments lnStilde if skill_change == -1, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*`event_window_start'') post(`event_window_end') baseline(atet) weighting(optimal)
+{res}
+{col 1}{txt:Panel variable: }{res:fake_id}{txt: (unbalanced)}
+{p 1 16 2}{txt:Time variable: }{res:year}{txt:, }{res:{bind:1992}}{txt: to }{res:{bind:2022}}{txt:, but with gaps}{p_end}
+{txt}{col 10}Delta: {res}1 unit
+
+{txt}{col 1}Event study relative to atet{col 40}{lalign 13:Number of obs}{col 53} = {res}{ralign 7:184,963}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    lnStilde{col 14}{c |}       ATET{col 26}   Std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}ATET {c |}{col 14}{res}{space 2}-.0206113{col 26}{space 2} .0021005{col 37}{space 1}   -9.81{col 46}{space 3}0.000{col 54}{space 4}-.0247282{col 67}{space 3}-.0164944
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. scalar worse_atet = _b[ATET]
+{txt}
+{com}. 
+. xt2treatments lnStilde if skill_change == 1, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*`event_window_start'') post(`event_window_end') baseline(atet) weighting(optimal)
+{res}
+{col 1}{txt:Panel variable: }{res:fake_id}{txt: (unbalanced)}
+{p 1 16 2}{txt:Time variable: }{res:year}{txt:, }{res:{bind:1992}}{txt: to }{res:{bind:2022}}{txt:, but with gaps}{p_end}
+{txt}{col 10}Delta: {res}1 unit
+
+{txt}{col 1}Event study relative to atet{col 40}{lalign 13:Number of obs}{col 53} = {res}{ralign 7:196,984}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    lnStilde{col 14}{c |}       ATET{col 26}   Std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}ATET {c |}{col 14}{res}{space 2} .0373656{col 26}{space 2}   .00198{col 37}{space 1}   18.87{col 46}{space 3}0.000{col 54}{space 4} .0334849{col 67}{space 3} .0412464
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. scalar better_atet = _b[ATET]
+{txt}
+{com}. 
+. scalar proper_atet1 = better_atet - worse_atet
+{txt}
+{com}. scalar proper_atet2 = total_atet - placebo_atet
+{txt}
+{com}. 
+. display "Total ATET: " total_atet
+{res}Total ATET: .24553
+{txt}
+{com}. display "Placebo-controlled ATET 1: " proper_atet1
+{res}Placebo-controlled ATET 1: .05797695
+{txt}
+{com}. display "Placebo-controlled ATET 2: " proper_atet2
+{res}Placebo-controlled ATET 2: .05744051
+{txt}
+{com}. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/Users/koren/Tresorit/Mac/projects/ceo-value/output/event_study.txt
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 5 Aug 2025, 19:36:04
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}
