@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is an academic research project analyzing the impact of CEOs on privately held Hungarian businesses from 1992-2022. The project processes proprietary administrative data using Stata, Julia, and LaTeX to generate tables and figures for an economics paper.
+This is an academic research project implementing a novel placebo-controlled event study design to estimate the causal effect of CEO quality on firm performance. Using comprehensive administrative data from Hungarian firms (1992-2022), the project separates true managerial effects from spurious correlations by comparing actual CEO transitions to carefully constructed placebo transitions. The analysis uses Stata for data processing and econometric estimation, Julia for network analysis, and LaTeX for paper compilation.
 
 ## Core Commands
 
@@ -25,6 +25,9 @@ stata -b do code/create/ceo-panel.do
 # Create analysis sample
 stata -b do code/create/analysis-sample.do
 
+# Generate placebo CEO transitions
+stata -b do code/create/placebo.do
+
 # Extract firm-manager edgelist
 stata -b do code/create/edgelist.do
 
@@ -33,6 +36,9 @@ julia --project=. code/create/connected_component.jl
 
 # Run econometric analysis
 stata -b do code/estimate/surplus.do
+
+# Run placebo-controlled event study
+stata -b do code/estimate/event_study.do
 
 # Compile LaTeX document
 cd output && pdflatex paper.tex && bibtex paper && pdflatex paper.tex && pdflatex paper.tex
@@ -57,6 +63,7 @@ cd output && pdflatex paper.tex && pdflatex paper.tex
    - `balance.do`: Processes balance sheets (1992-2022), creates standardized variables
    - `ceo-panel.do`: Processes CEO registry, constructs firm-person-year structure  
    - `analysis-sample.do`: Merges datasets, applies industry classifications and sample restrictions
+   - `placebo.do`: Generates placebo CEO transitions with same probability as actual changes but excluding actual transition periods
    - `edgelist.do`: Extracts firm-manager edgelist (frame_id_numeric, person_id) to CSV
 
 3. **Utilities** (`code/util/`): Helper scripts called by main processing
@@ -65,7 +72,9 @@ cd output && pdflatex paper.tex && pdflatex paper.tex
    - `filter.do`: Final sample restrictions
 
 4. **Analysis** (`code/estimate/`): Econometric estimation
-   - `surplus.do`: Generates regression tables for paper
+   - `surplus.do`: Estimates revenue function and residualizes surplus for skill identification
+   - `event_study.do`: Implements placebo-controlled event study design comparing actual vs placebo CEO transitions
+   - `manager_value.do`: Estimates manager fixed effects and generates distribution plots
 
 5. **Output** (`temp/`, `output/`): Intermediate data and final results
    - `temp/`: Processed Stata datasets, edgelist CSV, connected component results
@@ -94,6 +103,8 @@ cd output && pdflatex paper.tex && pdflatex paper.tex
 - Intermediate data saved to `temp/`
 - Log files generated for all Stata operations
 - Final analytical sample: 8,872,039 firm-year observations
+- Event study sample: 51,736 firms with exactly one CEO change
+- Placebo-controlled treatment effect: 5.8% (24% of raw correlation)
 
 ## Stata Coding Style
 

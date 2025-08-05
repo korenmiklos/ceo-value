@@ -4,7 +4,7 @@
 
 ## Overview
 
-This project analyzes the impact of CEOs on the performance of privately held businesses in Hungary from 1992 to 2022. The code in this replication package constructs the analysis files from two main proprietary data sources using Stata and Julia. The Makefile automates the entire process to generate the data for tables and figures in the paper. The replicator should expect the code to run for approximately 2-4 hours on a standard desktop machine.
+This project implements a novel placebo-controlled event study design to estimate the causal effect of CEO quality on firm performance using comprehensive administrative data from Hungarian firms (1992-2022). The code constructs placebo CEO transitions—randomly assigned fake transitions that exclude periods of actual CEO changes—to separate true managerial effects from spurious correlations. The Makefile automates the entire process to generate the data for tables and figures in the paper. The replicator should expect the code to run for approximately 2-4 hours on a standard desktop machine.
 
 ## Data Availability and Provenance Statements
 
@@ -117,10 +117,12 @@ The project includes a **Makefile** that automates the entire analysis pipeline.
 - `code/create/balance.do`: Processes raw balance sheet data, applies time restrictions (1992-2022), filters data quality issues, and creates standardized variables
 - `code/create/ceo-panel.do`: Processes CEO registry data, constructs CEO panel with firm-person-year structure, and generates CEO count variables
 - `code/create/analysis-sample.do`: Merges CEO and balance sheet data, applies industry classifications, creates analysis variables, and implements sample restrictions
+- `code/create/placebo.do`: Generates placebo CEO transitions with same probability as actual changes but excluding actual transition periods
 - `code/create/edgelist.do`: Extracts firm-manager edgelist from analysis sample and exports to CSV format
 - `code/create/connected_component.jl`: Julia script for network analysis that projects bipartite firm-manager graph and identifies largest connected component of managers
 - `code/create/extract.do`: Creates confidential data extracts for external analysis (2022 values, 2015 manager changes, connected component managers)
 - `code/estimate/surplus.do`: Estimates revenue function and residualizes surplus for manager skill identification
+- `code/estimate/event_study.do`: Implements placebo-controlled event study comparing actual vs placebo CEO transitions
 - `code/estimate/manager_value.do`: Estimates manager skills using fixed effects, creates histograms and regression tables showing manager effects on firm outcomes
 - `code/util/industry.do`: Creates industry sector classifications using TEAOR08 codes
 - `code/util/variables.do`: Constructs derived variables including log transformations, CEO tenure, age variables, and firm characteristics
@@ -201,13 +203,13 @@ or include them in the full pipeline with `make all`.
 
 Our analysis yields three key findings about CEO value in Hungarian private firms:
 
-1. **Substantial CEO heterogeneity**: Within firms, replacing a CEO at the 25th percentile of the skill distribution with one at the 75th percentile increases firm productivity by 9.8% and surplus by 118%.
+1. **Placebo-controlled causal effects**: The naive comparison shows firms hiring better CEOs outperform those hiring worse CEOs by 24.6%. However, placebo transitions reveal an 18.8% spurious effect, implying the true causal impact is 5.8%—statistically significant but only 24% of the raw correlation.
 
-2. **Even larger variation across the managerial labor market**: In the connected component of managers who move between firms, the same percentile replacement increases productivity by 25.6% and surplus by 461%.
+2. **Substantial skill heterogeneity**: Within firms, replacing a CEO at the 25th percentile with one at the 75th percentile increases productivity by 9.8%. Across the connected component of mobile managers, the same replacement increases productivity by 25.6%.
 
-3. **Meaningful contribution to firm outcomes**: Manager skills exhibit significant correlations with revenue (coefficient: 0.086), EBITDA (0.055), and employment (0.090) in the connected component analysis.
+3. **Methodological implications**: Our placebo analysis reveals that 76% of apparent CEO effects reflect spurious correlations rather than true managerial impact, suggesting standard approaches substantially overstate CEO importance.
 
-These results demonstrate quantifiable CEO value in private firms using administrative data, with implications for entrepreneurship policy and economic development.
+These results provide a more nuanced understanding of CEO value and demonstrate the importance of rigorous identification strategies in managerial effects research.
 
 ## List of tables and programs
 
@@ -221,6 +223,8 @@ The provided code reproduces:
 | Table 2 (Industry Composition) | analysis-sample.do | Embedded in paper.tex | Industry sector breakdown |
 | Table 3 (CEO Structure) | analysis-sample.do | Embedded in paper.tex | CEO turnover patterns |
 | Figure 1 (Manager Skill Distributions) | manager_value.do | output/figure/manager_skill_within.pdf, output/figure/manager_skill_connected.pdf | Panel A: Within-firm variation, Panel B: Connected component |
+| Figure 2 (Event Study) | event_study.do | output/figure/event_study.pdf | Placebo-controlled event study results |
+| Event Study Results | event_study.do | output/event_study.txt | Treatment effects and placebo analysis |
 | Table 4 (Manager Skill Effects) | manager_value.do | output/table/manager_effects.tex | Effects on revenue, EBITDA, employment |
 | Table 5 (Revenue Function) | surplus.do | output/table/revenue_function.tex | Revenue function estimates |
 | Table 6 (Revenue by Sector) | surplus.do | output/table/revenue_sectors.tex | Revenue function by industry |
