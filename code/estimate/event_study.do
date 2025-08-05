@@ -11,8 +11,6 @@ local min_T 3                      // Minimum observations to estimate fixed eff
 local random_seed 2181            // Random seed for reproducibility
 
 use "temp/surplus.dta", clear
-* to limit sample to giant component
-merge m:1 frame_id_numeric person_id using "temp/manager_value.dta", keep(match) nogen
 merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match) nogen
 
 * merge on placebo spells
@@ -34,7 +32,7 @@ egen max_ceo_spell = max(ceo_spell), by(fake_id)
 keep if max_ceo_spell >= `max_spell_analysis'
 keep if ceo_spell <= `max_spell_analysis'
 keep if n_ceo == 1
-keep if !missing(lnStilde, manager_skill)
+keep if !missing(lnStilde)
 
 egen change_year = min(cond(ceo_spell == 2, year, .)), by(fake_id)
 generate event_time = year - change_year
@@ -44,15 +42,8 @@ tabulate change_year placebo, missing
 tabulate event_time placebo, missing
 drop change_year
 
-egen MS1 = min(cond(ceo_spell == 1, manager_skill, .)), by(fake_id)
-egen MS2 = min(cond(ceo_spell == 2, manager_skill, .)), by(fake_id)
-
-egen MS1p = mean(cond(ceo_spell == 1, lnStilde, .)) if placebo, by(fake_id)
-egen MS2p = mean(cond(ceo_spell == 2, lnStilde, .)) if placebo, by(fake_id)
-
-replace MS1 = MS1p if placebo
-replace MS2 = MS2p if placebo
-drop MS1p MS2p
+egen MS1 = mean(cond(ceo_spell == 1, lnStilde, .)), by(fake_id)
+egen MS2 = mean(cond(ceo_spell == 2, lnStilde, .)), by(fake_id)
 
 egen T1 = total((ceo_spell == 1) & !missing(lnStilde)), by(fake_id)
 egen T2 = total((ceo_spell == 2) & !missing(lnStilde)), by(fake_id)
