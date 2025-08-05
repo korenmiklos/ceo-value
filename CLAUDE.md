@@ -104,7 +104,7 @@ cd output && pdflatex paper.tex && pdflatex paper.tex
 - Log files generated for all Stata operations
 - Final analytical sample: 8,872,039 firm-year observations
 - Event study sample: 51,736 firms with exactly one CEO change
-- Placebo-controlled treatment effect: 5.8% (24% of raw correlation)
+- Placebo-controlled treatment effect: 6.8% (27% of raw correlation)
 
 ## Stata Coding Style
 
