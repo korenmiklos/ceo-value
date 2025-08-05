@@ -48,8 +48,8 @@ drop change_year
 egen MS1 = min(cond(ceo_spell == 1, manager_skill, .)), by(fake_id)
 egen MS2 = min(cond(ceo_spell == 2, manager_skill, .)), by(fake_id)
 
-egen MS1p = min(cond(ceo_spell == 1, lnStilde, .)) if placebo, by(fake_id)
-egen MS2p = min(cond(ceo_spell == 2, lnStilde, .)) if placebo, by(fake_id)
+egen MS1p = mean(cond(ceo_spell == 1, lnStilde, .)) if placebo, by(fake_id)
+egen MS2p = mean(cond(ceo_spell == 2, lnStilde, .)) if placebo, by(fake_id)
 
 replace MS1 = MS1p if placebo
 replace MS2 = MS2p if placebo
