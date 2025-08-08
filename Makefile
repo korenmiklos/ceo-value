@@ -22,7 +22,7 @@ all: report
 install: install.log
 
 # Data wrangling pipeline
-data: temp/analysis-sample.dta temp/placebo.dta temp/large_component_managers.csv
+data: temp/unfiltered.dta temp/analysis-sample.dta temp/placebo.dta temp/large_component_managers.csv
 
 # Statistical analysis pipeline  
 analysis: temp/surplus.dta temp/manager_value.dta temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/revenue_models.ster
@@ -43,7 +43,7 @@ temp/ceo-panel.dta: code/create/ceo-panel.do input/ceo-panel/ceo-panel.dta
 	$(STATA) $<
 
 # Create analysis sample
-temp/analysis-sample.dta: code/create/analysis-sample.do temp/balance.dta temp/ceo-panel.dta $(UTILS)
+temp/analysis-sample.dta: code/create/analysis-sample.do temp/unfiltered.dta code/util/filter.do
 	$(STATA) $<
 
 # Generate placebo CEO transitions
@@ -57,6 +57,10 @@ temp/edgelist.csv: code/create/edgelist.do temp/analysis-sample.dta
 # Find largest connected component of managers
 temp/large_component_managers.csv: code/create/connected_component.jl temp/edgelist.csv
 	$(JULIA) $<
+
+# Create unfiltered dataset for table creation
+temp/unfiltered.dta: code/create/unfiltered.do temp/balance.dta temp/ceo-panel.dta $(UTILS)
+	$(STATA) $<
 
 # =============================================================================
 # Statistical analysis
@@ -85,12 +89,12 @@ temp/revenue_models.ster: code/estimate/revenue_function.do temp/analysis-sample
 # =============================================================================
 
 # Table 1: Sample distribution over time
-output/table/table1.tex: code/exhibit/table1.do temp/analysis-sample.dta temp/balance.dta temp/large_component_managers.csv
+output/table/table1.tex: code/exhibit/table1.do temp/unfiltered.dta temp/analysis-sample.dta temp/large_component_managers.csv
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
 # Table 2: Industry-level summary statistics
-output/table/table2.tex: code/exhibit/table2.do temp/balance.dta temp/analysis-sample.dta $(UTILS)
+output/table/table2.tex: code/exhibit/table2.do temp/unfiltered.dta temp/analysis-sample.dta $(UTILS)
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
@@ -100,7 +104,7 @@ output/table/table3.tex: code/exhibit/table3.do temp/revenue_models.ster temp/an
 	$(STATA) $<
 
 # Table 6: CEO patterns and spell length analysis (two panels)
-output/table/table6_panelA.tex output/table/table6_panelB.tex: code/exhibit/table6.do temp/analysis-sample.dta temp/placebo.dta
+output/table/table6_panelA.tex output/table/table6_panelB.tex: code/exhibit/table6.do temp/unfiltered.dta temp/placebo.dta
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
