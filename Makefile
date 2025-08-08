@@ -5,13 +5,18 @@ UTILS := $(wildcard code/util/*.do)
 
 all: output/paper.pdf
 
-%.pdf: %.tex output/table/table1.tex output/table/revenue_function.tex output/table/revenue_sectors.tex output/table/manager_effects.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/manager_skill_correlation.pdf output/figure/event_study.pdf output/references.bib
+%.pdf: %.tex output/table/table1.tex output/table/table6.tex output/table/revenue_function.tex output/table/revenue_sectors.tex output/table/manager_effects.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/manager_skill_correlation.pdf output/figure/event_study.pdf output/references.bib
 	cd $(dir $@) && $(LATEX) $(notdir $<) && bibtex $(notdir $(basename $<)) && $(LATEX) $(notdir $<) && $(LATEX) $(notdir $<)
 
 temp/analysis-sample.dta: code/create/analysis-sample.do temp/balance.dta temp/ceo-panel.dta $(UTILS)
 	$(STATA) $<
 
 output/table/table1.tex: code/exhibit/table1.do temp/analysis-sample.dta temp/balance.dta temp/large_component_managers.csv
+	mkdir -p $(dir $@)
+	$(STATA) $<
+
+output/table/table6.tex: code/exhibit/table6.do temp/analysis-sample.dta temp/placebo.dta
+	mkdir -p $(dir $@)
 	$(STATA) $<
 
 temp/balance.dta: code/create/balance.do input/merleg-LTS-2023/balance/balance_sheet_80_22.dta
@@ -27,6 +32,7 @@ temp/placebo.dta: code/create/placebo.do temp/analysis-sample.dta
 	$(STATA) $<
 
 output/table/revenue_function.tex output/table/revenue_sectors.tex output/table/revenue_controls.tex: code/estimate/revenue_function.do code/estimate/exit.do temp/analysis-sample.dta temp/large_component_managers.csv code/create/network-sample.do
+	mkdir -p $(dir $@)
 	$(STATA) $<
 
 temp/large_component_managers.csv: code/create/connected_component.jl temp/edgelist.csv
@@ -36,20 +42,19 @@ temp/surplus.dta: code/estimate/surplus.do temp/analysis-sample.dta
 	$(STATA) $<
 
 output/table/manager_effects.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf temp/manager_value.dta: code/estimate/manager_value.do temp/surplus.dta temp/large_component_managers.csv code/create/network-sample.do
-	mkdir -p output/figure
+	mkdir -p $(dir $@)
 	$(STATA) $<
 
 output/figure/manager_skill_correlation.pdf output/figure/event_study.pdf output/test/event_study.dta: code/estimate/event_study.do temp/manager_value.dta temp/analysis-sample.dta temp/placebo.dta
-	mkdir -p output/figure
-	mkdir -p output/test
+	mkdir -p $(dir $@)
 	$(STATA) $<
 
 output/test/test_paths.csv: code/test/test_network.jl temp/edgelist.csv temp/large_component_managers.csv
-	mkdir -p output/test
+	mkdir -p $(dir $@)
 	$(JULIA) $< 1000 10
 
 output/extract/2022_values.dta output/extract/manager_changes_2015.dta output/extract/connected_managers.dta: code/create/extract.do temp/manager_value.dta temp/surplus.dta temp/analysis-sample.dta input/ceo-panel/ceo-panel.dta
-	mkdir -p output/extract
+	mkdir -p $(dir $@)
 	$(STATA) $<
 
 install.log: code/util/install.do 
