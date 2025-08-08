@@ -1,42 +1,26 @@
 \begin{table}[htbp]\centering
 \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
-\caption{Revenue Function Estimation Results}
+\caption{Surplus Function Estimation Results}
 \begin{tabular}{l*{6}{c}}
 \toprule
                     &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}\\
-                    &\multicolumn{1}{c}{Log Revenue}&\multicolumn{1}{c}{Log EBITDA}&\multicolumn{1}{c}{Log Employment}&\multicolumn{1}{c}{Log Revenue}&\multicolumn{1}{c}{Log Revenue}&\multicolumn{1}{c}{Log Revenue}\\
+                    &\multicolumn{1}{c}{Revenue}&\multicolumn{1}{c}{EBITDA}&\multicolumn{1}{c}{Wagebill}&\multicolumn{1}{c}{Materials}&\multicolumn{1}{c}{Revenue}&\multicolumn{1}{c}{Revenue}\\
 \midrule
-Tangible and intangible assets (log)&       0.249\sym{***}&       0.251\sym{***}&       0.112\sym{***}&       0.245\sym{***}&       0.245\sym{***}&       0.266\sym{***}\\
-                    &     (0.001)         &     (0.001)         &     (0.000)         &     (0.001)         &     (0.001)         &     (0.002)         \\
+Fixed assets (log)  &       0.244\sym{***}&       0.248\sym{***}&       0.199\sym{***}&       0.292\sym{***}&       0.240\sym{***}&       0.258\sym{***}\\
+                    &     (0.001)         &     (0.001)         &     (0.001)         &     (0.001)         &     (0.001)         &     (0.002)         \\
 \addlinespace
-Intangible assets share&                     &                     &                     &      -0.019\sym{**} &      -0.016\sym{*}  &      -0.037\sym{**} \\
-                    &                     &                     &                     &     (0.007)         &     (0.009)         &     (0.015)         \\
+Has intangible assets&       0.189\sym{***}&       0.106\sym{***}&       0.195\sym{***}&       0.232\sym{***}&       0.184\sym{***}&       0.227\sym{***}\\
+                    &     (0.002)         &     (0.003)         &     (0.003)         &     (0.003)         &     (0.002)         &     (0.005)         \\
 \addlinespace
-Foreign owned       &                     &                     &                     &       0.011         &       0.013         &       0.017         \\
-                    &                     &                     &                     &     (0.009)         &     (0.011)         &     (0.014)         \\
-\addlinespace
-Firm age (years)    &                     &                     &                     &      -0.842\sym{***}&      -0.817\sym{***}&      -0.804\sym{***}\\
-                    &                     &                     &                     &     (0.013)         &     (0.014)         &     (0.040)         \\
-\addlinespace
-Firm age squared    &                     &                     &                     &      -0.001\sym{***}&      -0.001\sym{***}&      -0.001\sym{***}\\
-                    &                     &                     &                     &     (0.000)         &     (0.000)         &     (0.000)         \\
-\addlinespace
-CEO tenure (years)  &                     &                     &                     &      -0.001\sym{**} &       0.000         &       0.002         \\
-                    &                     &                     &                     &     (0.001)         &         (.)         &     (0.001)         \\
-\addlinespace
-CEO tenure squared  &                     &                     &                     &       0.000         &       0.000         &      -0.000\sym{***}\\
-                    &                     &                     &                     &     (0.000)         &     (0.000)         &     (0.000)         \\
+Foreign owned       &       0.008         &       0.001         &       0.038\sym{***}&       0.012         &       0.009         &       0.016         \\
+                    &     (0.008)         &     (0.009)         &     (0.009)         &     (0.010)         &     (0.008)         &     (0.014)         \\
 \midrule
-Observations        &     6415898         &     4863441         &     6882863         &     6415898         &     4183377         &     1609596         \\
+Observations        &     6415898         &     4863441         &     5834287         &     6697215         &     6415898         &     1609596         \\
 \bottomrule
 \multicolumn{7}{l}{\footnotesize Standard errors in parentheses}\\
-\multicolumn{7}{l}{\footnotesize All models include firm-CEO-spell fixed effects and industry-year fixed effects.}\\
-\multicolumn{7}{l}{\footnotesize Standard errors (in parentheses) are clustered at the firm level.}\\
-\multicolumn{7}{l}{\footnotesize Models (1)-(3) include only log capital as control.}\\
-\multicolumn{7}{l}{\footnotesize Models (4)-(6) include rich controls.}\\
-\multicolumn{7}{l}{\footnotesize Model (5) restricts to first CEO spells only.}\\
+\multicolumn{7}{l}{\footnotesize All models include firm-CEO-spell fixed effects and industry-year fixed effects. Outcome variables are}\\
+\multicolumn{7}{l}{\footnotesize log-transformed. Models (5) and (6) include quadratic controls for firm age and CEO tenure.}\\
 \multicolumn{7}{l}{\footnotesize Model (6) restricts to largest connected component.}\\
-\multicolumn{7}{l}{\footnotesize Significance levels: *** p<0.01, ** p<0.05, * p<0.1.}\\
 \multicolumn{7}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<0.05\), \sym{***} \(p<0.01\)}\\
 \end{tabular}
 \end{table}
