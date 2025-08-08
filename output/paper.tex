@@ -6,6 +6,7 @@
 \usepackage{natbib}
 \usepackage{graphicx}
 \usepackage{booktabs}
+\usepackage{threeparttable}
 \usepackage{url}
 \usepackage{hyperref}
 \usepackage[margin=2.5cm]{geometry}
@@ -137,6 +138,10 @@ At the firm level, the match rates are more favorable. Among the 1,200,145 uniqu
 \textbf{CEO turnover and tenure patterns.} The data reveals substantial heterogeneity in CEO turnover across firms. We construct CEO spell variables to track the sequence of different CEO appointments within each firm. Among firm-year observations, 66.72\% represent the first CEO spell, meaning these are either firms with their original CEO or the first year of data for that CEO. Second CEO spells account for 22.90\% of observations, while 6.88\% represent third spells. The distribution has a long tail, with some firms experiencing up to 25 different CEO spells during the observation period.
 
 At the firm level, 62.97\% of the 1,012,113 firms in our sample experience only one CEO spell during the observation window. However, 24.07\% of firms have exactly two CEO spells, indicating at least one CEO change. The remaining 12.96\% of firms experience multiple CEO changes, with some firms having up to 25 CEO transitions. This pattern suggests that while many firms maintain stable CEO leadership, a substantial minority experience frequent executive turnover.
+
+\input{table/table6}
+
+Table \ref{tab:ceo_patterns} provides a detailed breakdown of CEO patterns and spell lengths in our data. Panel A shows that 84\% of firm-years have exactly one CEO, while 16\% have multiple CEOs per year. At the firm level, 64\% of firms have only one CEO spell throughout the observation period, while 36\% experience at least one CEO transition. Panel B compares the distribution of CEO spell lengths between actual and placebo data. The placebo mechanism generates spell length distributions very similar to the actual data, with both showing that approximately 60\% of spells last four or more years. This similarity validates our placebo construction methodology, which follows an exponential distribution with the same transition probability as actual CEO changes.
 
 \textbf{Sample restrictions and final dataset.} We apply several filters to focus on firms most suitable for productivity analysis. First, we exclude firms that ever have more than two CEOs in a single year, removing 1,519,524 observations. This filter eliminates firms with potentially complex or unstable governance structures that may confound productivity estimates. Second, we drop firms with more than six CEO spells over the observation period, removing an additional 45,216 observations to focus on firms with more stable executive structures.
 
