@@ -171,9 +171,9 @@ file write table "\begin{table}[htbp]" _n
 file write table "\centering" _n
 file write table "\caption{Sample Description Over Time}" _n
 file write table "\label{tab:sample}" _n
-file write table "\begin{tabular}{*{6}{c}}" _n  // Equal width columns
+file write table "\begin{tabular}{*{6}{c}}" _n  // Equal width centered columns
 file write table "\toprule" _n
-file write table "Year & Total firms & Filtered firms & CEOs & \multicolumn{2}{c}{Connected component} \\" _n
+file write table "Year & \shortstack{Total\\firms} & \shortstack{Sample\\firms} & CEOs & \multicolumn{2}{c}{Connected component} \\" _n
 file write table "\cmidrule(lr){5-6}" _n
 file write table " & & & & Firms & CEOs \\" _n
 file write table "\midrule" _n
@@ -195,11 +195,11 @@ forvalues i = 1/`=_N' {
 * Write table footer with notes
 file write table "\bottomrule" _n
 file write table "\end{tabular}" _n
-file write table "\begin{minipage}{\textwidth}" _n
+file write table "\begin{minipage}{12cm}" _n  // Match table width (6 columns × 2cm)
 file write table "\footnotesize" _n
 file write table "\textit{Notes:} This table presents the evolution of the sample from 1992 to 2022. "
 file write table "Column (1) shows the total number of distinct firms with balance sheet data. "
-file write table "Column (2) shows the number of distinct firms after applying sample filters "
+file write table "Column (2) shows the number of distinct sample firms after applying filters "
 file write table "(excluding financial and real estate sectors, requiring positive employment and revenue). "
 file write table "Column (3) shows the number of distinct CEOs (person IDs) across all years. "
 file write table "Columns (4) and (5) show the subset of distinct firms and CEOs that belong to the largest connected component "

@@ -4,6 +4,7 @@ input/
 
 # LaTeX auxiliary files
 output/*.aux
+output/*.bak
 output/*.bbl
 output/*.blg
 output/*.fdb_latexmk
