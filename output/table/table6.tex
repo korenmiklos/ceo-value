@@ -1,0 +1,37 @@
+\begin{table}[htbp]
+\centering
+\caption{CEO Patterns and Spell Length Analysis}
+\label{tab:ceo_patterns}
+\begin{threeparttable}
+\begin{tabular}{lcc}
+\toprule
+\multicolumn{3}{l}{\textbf{Panel A: CEO Patterns}} \\
+ & CEOs per & CEO Spells per \\
+ & Firm-Year & Firm \\
+\midrule
+1 & 84\% & 64\% \\
+2 & 16\% & 25\% \\
+3 & \% & 8\% \\
+4+ & \% & 3\% \\
+Total &    8,221,740 &      890,389 \\
+\midrule
+\multicolumn{3}{l}{\textbf{Panel B: CEO Spell Length Distribution}} \\
+Spell Length (Years) & Actual Spells & Placebo Spells \\
+\midrule
+1 & 17\% & 18\% \\
+2 & 15\% & 15\% \\
+3 & 9\% & 12\% \\
+4+ & 59\% & 56\% \\
+Total &    1,328,034 &      280,565 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\footnotesize
+\item \textbf{Panel A} reports the distribution of CEOs at firms. Column 1 shows the percentage of firm-year observations with 1, 2, 3, or 4+ CEOs. Column 2 shows the percentage of firms with 1, 2, 3, or 4+ CEO spells over the sample period.
+\item \textbf{Panel B} reports the distribution of CEO spell lengths. Actual spells are computed from the administrative data (1992-2022). Placebo spells follow an exponential distribution with the same transition probability as actual CEO changes, but exclude periods of actual CEO transitions.
+\item A CEO spell is defined as a continuous period of employment by the same person at the same firm. Spell length is measured in years.
+\item Sample includes Hungarian firms with complete balance sheet and CEO data. Firms with more than 6 CEO spells are excluded from the analysis sample.
+\item Percentages are rounded to whole numbers. Total observations reported in bottom rows.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

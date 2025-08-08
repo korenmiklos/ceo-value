@@ -12,7 +12,7 @@ This is an academic research project implementing a novel placebo-controlled eve
 ```bash
 make all
 ```
-This runs all Stata scripts in dependency order and compiles the final PDF.
+This runs all Stata scripts in dependency order and compiles the final PDF, including all tables and figures.
 
 ### Individual components
 ```bash
@@ -34,15 +34,19 @@ stata -b do code/create/edgelist.do
 # Find largest connected component of managers
 julia --project=. code/create/connected_component.jl
 
-# Generate tables for paper
+# Generate exhibit tables
 stata -b do code/exhibit/table1.do
 stata -b do code/exhibit/table2.do
+stata -b do code/exhibit/table6.do
 
 # Run econometric analysis
 stata -b do code/estimate/surplus.do
 
-# Run placebo-controlled event study
+# Run placebo-controlled event study (estimation)
 stata -b do code/estimate/event_study.do
+
+# Create event study figure
+stata -b do code/exhibit/figure1.do
 
 # Compile LaTeX document
 cd output && pdflatex paper.tex && bibtex paper && pdflatex paper.tex && pdflatex paper.tex
@@ -66,6 +70,7 @@ stata -b do code/estimate/manager_value.do
 # Generate exhibits/tables
 stata -b do code/exhibit/table1.do
 stata -b do code/exhibit/table2.do
+stata -b do code/exhibit/table6.do
 
 # Create data extracts (optional)
 stata -b do code/create/extract.do
@@ -103,9 +108,16 @@ cd output && pdflatex paper.tex && bibtex paper && pdflatex paper.tex && pdflate
    - `event_study.do`: Implements placebo-controlled event study design comparing actual vs placebo CEO transitions
    - `manager_value.do`: Estimates manager fixed effects and generates distribution plots
 
-6. **Output** (`temp/`, `output/`): Intermediate data and final results
-   - `temp/`: Processed Stata datasets, edgelist CSV, connected component results
+6. **Exhibits** (`code/exhibit/`): Table and figure generation
+   - `table1.do`: Descriptive statistics over time
+   - `table2.do`: Industry-level summary statistics
+   - `table6.do`: CEO patterns and spell length analysis  
+   - `figure1.do`: Event study two-panel figure creation
+
+7. **Output** (`temp/`, `output/`): Intermediate data and final results
+   - `temp/`: Processed Stata datasets, edgelist CSV, connected component results, event study frames
    - `output/table/`: LaTeX tables for paper
+   - `output/figure/`: Publication-ready figures  
    - `output/paper.pdf`: Final compiled document
 
 ### Network Analysis Component

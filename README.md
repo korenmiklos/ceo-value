@@ -127,6 +127,7 @@ The project includes a **Makefile** that automates the entire analysis pipeline.
 - `code/exhibit/table1.do`: Creates temporal distribution table showing firm-year observations by year
 - `code/exhibit/table2.do`: Creates industry-level summary statistics table using TEAOR08 classifications
 - `code/exhibit/table3.do`: Creates revenue function estimation results table with 6 model specifications
+- `code/exhibit/table6.do`: Creates CEO pattern and spell length tables (Panel A/B)
 - `code/util/industry.do`: Creates industry sector classifications using TEAOR08 codes
 - `code/util/variables.do`: Constructs derived variables including log transformations, CEO tenure, age variables, and firm characteristics
 - `code/util/filter.do`: Applies final sample restrictions excluding firms with complex CEO structures or specific industries
@@ -230,12 +231,13 @@ The provided code reproduces:
 | Table 1 (Sample Distribution) | code/exhibit/table1.do | output/table/table1.tex | Temporal distribution by year |
 | Table 2 (Industry Statistics) | code/exhibit/table2.do | output/table/table2.tex | Industry-level summary using TEAOR08 |
 | Table 3 (Revenue Function) | code/exhibit/table3.do | output/table/table3.tex | Revenue function estimation results |
-| Figure 1 (Manager Skill Distributions) | manager_value.do | output/figure/manager_skill_within.pdf, output/figure/manager_skill_connected.pdf | Panel A: Within-firm variation, Panel B: Connected component |
-| Figure 2 (Event Study) | event_study.do | output/figure/event_study.pdf | Placebo-controlled event study results |
-| Event Study Results | event_study.do | output/event_study.txt | Treatment effects and placebo analysis |
-| Table 4 (Manager Skill Effects) | manager_value.do | output/table/manager_effects.tex | Effects on revenue, EBITDA, employment |
-| Table 5 (Revenue Function) | surplus.do | output/table/revenue_function.tex | Revenue function estimates |
-| Table 6 (Revenue by Sector) | surplus.do | output/table/revenue_sectors.tex | Revenue function by industry |
+| Table 6 (CEO Patterns & Spell Lengths) | code/exhibit/table6.do | output/table/table6.tex | Panel A: CEO patterns, Panel B: Actual vs placebo spell lengths |
+| Figure 1 (Manager Skill Distributions) | code/estimate/manager_value.do | output/figure/manager_skill_within.pdf, output/figure/manager_skill_connected.pdf | Panel A: Within-firm variation, Panel B: Connected component |
+| Figure 2 (Event Study) | code/estimate/event_study.do + code/exhibit/figure1.do | output/figure/event_study.pdf | Panel A: Raw event study, Panel B: Placebo-controlled results |
+| Event Study Results | code/estimate/event_study.do | output/event_study.txt | Treatment effects and placebo analysis |
+| Table 4 (Manager Skill Effects) | code/estimate/manager_value.do | output/table/manager_effects.tex | Effects on revenue, EBITDA, employment |
+| Table 5 (Revenue Function) | code/estimate/surplus.do | output/table/revenue_function.tex | Revenue function estimates |
+| Table 7 (Revenue by Sector) | code/estimate/surplus.do | output/table/revenue_sectors.tex | Revenue function by industry |
 
 # Sample
 
