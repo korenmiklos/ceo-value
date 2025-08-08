@@ -2,24 +2,26 @@
 \centering
 \caption{Sample Description Over Time}
 \label{tab:sample}
-\begin{tabular}{lccccc}
+\begin{tabular}{*{6}{c}}
 \toprule
-Year & Total firms & Filtered firms & CEOs & CEOs (connected) & Firms (connected) \\
+Year & Total firms & Filtered firms & CEOs & \multicolumn{2}{c}{Connected component} \\
+\cmidrule(lr){5-6}
+ & & & & Firms & CEOs \\
 \midrule
-1992 &       98,780 &       61,736 &       72,698 &       16,000 &       13,971 \\
-1995 &      171,759 &      123,086 &      137,292 &       28,364 &       26,707 \\
-2000 &      280,386 &      218,819 &      233,757 &       48,173 &       48,608 \\
-2005 &      326,905 &      265,158 &      279,456 &       58,890 &       61,565 \\
-2010 &      384,570 &      306,372 &      315,279 &       66,944 &       77,462 \\
-2015 &      433,371 &      364,644 &      347,673 &       72,924 &       95,284 \\
-2020 &      424,501 &      358,476 &      331,636 &       66,732 &       93,607 \\
-2022 &      454,106 &      387,170 &      355,311 &       66,034 &       94,837 \\
+1992 &       98,780 &       61,736 &       72,698 &       13,971 &       16,000 \\
+1995 &      171,759 &      123,086 &      137,292 &       26,707 &       28,364 \\
+2000 &      280,386 &      218,819 &      233,757 &       48,608 &       48,173 \\
+2005 &      326,905 &      265,158 &      279,456 &       61,565 &       58,890 \\
+2010 &      384,570 &      306,372 &      315,279 &       77,462 &       66,944 \\
+2015 &      433,371 &      364,644 &      347,673 &       95,284 &       72,924 \\
+2020 &      424,501 &      358,476 &      331,636 &       93,607 &       66,732 \\
+2022 &      454,106 &      387,170 &      355,311 &       94,837 &       66,034 \\
 \midrule
-Total &   10,214,120 &    8,221,740 &    8,270,877 &    1,719,541 &    2,022,253 \\
+Total &    1,063,172 &      890,389 &    1,030,522 &      201,582 &      189,073 \\
 \bottomrule
 \end{tabular}
 \begin{minipage}{\textwidth}
 \footnotesize
-\textit{Notes:} This table presents the evolution of the sample from 1992 to 2022. Column (1) shows the total number of firms with balance sheet data. Column (2) shows the number of firms after applying sample filters (excluding financial and real estate sectors, requiring positive employment and revenue). Column (3) shows the number of distinct CEOs (person IDs) in each year. Columns (4) and (5) show the subset of CEOs and firms that belong to the largest connected component of the manager network, where managers are connected if they have worked at the same firm. The table shows every fifth year plus the first year (1992), last year (2022), and totals. Source: Hungarian administrative data combining firm balance sheets and CEO registry.
+\textit{Notes:} This table presents the evolution of the sample from 1992 to 2022. Column (1) shows the total number of distinct firms with balance sheet data. Column (2) shows the number of distinct firms after applying sample filters (excluding financial and real estate sectors, requiring positive employment and revenue). Column (3) shows the number of distinct CEOs (person IDs) across all years. Columns (4) and (5) show the subset of distinct firms and CEOs that belong to the largest connected component of the manager network, where managers are connected if they have worked at the same firm. The table shows every fifth year plus the first year (1992), last year (2022), and totals of distinct counts. Source: Hungarian administrative data combining firm balance sheets and CEO registry.
 \end{minipage}
 \end{table}
