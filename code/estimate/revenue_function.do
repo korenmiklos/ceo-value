@@ -19,42 +19,26 @@ local FEs frame_id_numeric##ceo_spell teaor08_2d##year
 eststo clear
 
 * Model 1: Log revenue ~ log assets (baseline)
-reghdfe lnR lnK, absorb(`FEs') vce(cluster frame_id_numeric)
-eststo model1
+eststo model1: reghdfe lnR lnK, absorb(`FEs') vce(cluster frame_id_numeric)
+estimates save "temp/revenue_models.ster", replace
 
-* Model 2: Log EBIT ~ log assets  
-reghdfe lnEBIT lnK, absorb(`FEs') vce(cluster frame_id_numeric)
-eststo model2
+* Model 2: Log EBITDA ~ log assets  
+eststo model2: reghdfe lnEBITDA lnK, absorb(`FEs') vce(cluster frame_id_numeric)
+estimates save "temp/revenue_models.ster", append
 
 * Model 3: Log employment ~ log assets
-reghdfe lnL lnK, absorb(`FEs') vce(cluster frame_id_numeric) 
-eststo model3
+eststo model3: reghdfe lnL lnK, absorb(`FEs') vce(cluster frame_id_numeric) 
+estimates save "temp/revenue_models.ster", append
 
 * Model 4: Log revenue ~ log assets + rich controls
-reghdfe lnR `rich_controls', absorb(`FEs') vce(cluster frame_id_numeric)
-eststo model4
+eststo model4: reghdfe lnR `rich_controls', absorb(`FEs') vce(cluster frame_id_numeric)
+estimates save "temp/revenue_models.ster", append
 
 * Model 5: Log revenue ~ log assets + rich controls (1st CEO spell only)
-reghdfe lnR `rich_controls' if ceo_spell == 1, absorb(`FEs') vce(cluster frame_id_numeric)
-eststo model5
+eststo model5: reghdfe lnR `rich_controls' if ceo_spell == 1, absorb(`FEs') vce(cluster frame_id_numeric)
+estimates save "temp/revenue_models.ster", append
 
 * Model 6: Log revenue ~ log assets + rich controls (largest connected component)
-reghdfe lnR `rich_controls' if component_id == 1, absorb(`FEs') vce(cluster frame_id_numeric)
-eststo model6
+eststo model6: reghdfe lnR `rich_controls' if component_id == 1, absorb(`FEs') vce(cluster frame_id_numeric)
+estimates save "temp/revenue_models.ster", append
 
-* Save estimates to file for table3.do to read
-estimates save "temp/revenue_function_estimates.ster", replace
-
-display "Revenue function estimates saved to temp/revenue_function_estimates.ster"
-display "Summary:"
-display "Model 1 (lnR~lnK): " e(N) " observations"
-estimates restore model2
-display "Model 2 (lnEBIT~lnK): " e(N) " observations" 
-estimates restore model3
-display "Model 3 (lnW~lnK): " e(N) " observations"
-estimates restore model4 
-display "Model 4 (lnR~rich): " e(N) " observations"
-estimates restore model5
-display "Model 5 (lnR~rich, 1st spell): " e(N) " observations"
-estimates restore model6
-display "Model 6 (lnR~rich, connected): " e(N) " observations"
