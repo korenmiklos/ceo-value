@@ -219,8 +219,8 @@ The provided code reproduces:
 
 | Figure/Table # | Program | Output file | Note |
 |----------------|---------|-------------|----- |
-| Table 1 (Sample Distribution) | balance.do | Embedded in paper.tex | Temporal distribution by year |
-| Table 2 (Industry Composition) | analysis-sample.do | Embedded in paper.tex | Industry sector breakdown |
+| Table 1 (Sample Distribution) | table1.do | output/table/table1.tex | Temporal distribution by year |
+| Table 2 (Industry Statistics) | table2.do | output/table/table2.tex | Industry-level summary using TEAOR08 |
 | Table 3 (CEO Structure) | analysis-sample.do | Embedded in paper.tex | CEO turnover patterns |
 | Figure 1 (Manager Skill Distributions) | manager_value.do | output/figure/manager_skill_within.pdf, output/figure/manager_skill_connected.pdf | Panel A: Within-firm variation, Panel B: Connected component |
 | Figure 2 (Event Study) | event_study.do | output/figure/event_study.pdf | Placebo-controlled event study results |

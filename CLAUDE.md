@@ -34,6 +34,10 @@ stata -b do code/create/edgelist.do
 # Find largest connected component of managers
 julia --project=. code/create/connected_component.jl
 
+# Generate tables for paper
+stata -b do code/exhibit/table1.do
+stata -b do code/exhibit/table2.do
+
 # Run econometric analysis
 stata -b do code/estimate/surplus.do
 
@@ -46,10 +50,29 @@ cd output && pdflatex paper.tex && bibtex paper && pdflatex paper.tex && pdflate
 
 ### Manual execution (if Make unavailable)
 ```bash
+# Process data with Stata
 stata -b do code/create/balance.do
 stata -b do code/create/ceo-panel.do  
 stata -b do code/create/analysis-sample.do
-cd output && pdflatex paper.tex && pdflatex paper.tex
+stata -b do code/create/edgelist.do
+
+# Run network analysis with Julia
+julia --project=. code/create/connected_component.jl
+
+# Generate econometric analysis
+stata -b do code/estimate/surplus.do
+stata -b do code/estimate/manager_value.do
+
+# Generate exhibits/tables
+stata -b do code/exhibit/table1.do
+stata -b do code/exhibit/table2.do
+
+# Create data extracts (optional)
+stata -b do code/create/extract.do
+```
+Then compile the LaTeX document:
+```bash
+cd output && pdflatex paper.tex && bibtex paper && pdflatex paper.tex && pdflatex paper.tex
 ```
 
 ## Architecture
@@ -71,12 +94,16 @@ cd output && pdflatex paper.tex && pdflatex paper.tex
    - `variables.do`: Derived variables (logs, tenure, age, firm characteristics)
    - `filter.do`: Final sample restrictions
 
-4. **Analysis** (`code/estimate/`): Econometric estimation
+4. **Exhibits** (`code/exhibit/`): Table generation for paper  
+   - `table1.do`: Creates Table 1 - Sample Distribution Over Time with temporal distribution by year
+   - `table2.do`: Creates Table 2 - Industry-Level Summary Statistics using TEAOR08 classification
+
+5. **Analysis** (`code/estimate/`): Econometric estimation
    - `surplus.do`: Estimates revenue function and residualizes surplus for skill identification
    - `event_study.do`: Implements placebo-controlled event study design comparing actual vs placebo CEO transitions
    - `manager_value.do`: Estimates manager fixed effects and generates distribution plots
 
-5. **Output** (`temp/`, `output/`): Intermediate data and final results
+6. **Output** (`temp/`, `output/`): Intermediate data and final results
    - `temp/`: Processed Stata datasets, edgelist CSV, connected component results
    - `output/table/`: LaTeX tables for paper
    - `output/paper.pdf`: Final compiled document
