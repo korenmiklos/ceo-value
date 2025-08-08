@@ -1,35 +1,42 @@
-\begin{table}[htbp]
-\centering
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
 \caption{Revenue Function Estimation Results}
-\label{tab:revenuefunction}
-\begin{tabular}{*{7}{c}}
+\begin{tabular}{l*{6}{c}}
 \toprule
-                    &\multicolumn{3}{c}{Basic Models}                                 &\multicolumn{3}{c}{Extended Models}                              \\\cmidrule(lr){2-4}\cmidrule(lr){5-7}
                     &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}\\
-                    &\multicolumn{1}{c}{Log Revenue}&\multicolumn{1}{c}{Log EBIT}&\multicolumn{1}{c}{Log Employment}&\multicolumn{1}{c}{Log Revenue}&\multicolumn{1}{c}{Log Revenue}&\multicolumn{1}{c}{Log Revenue}\\
+                    &\multicolumn{1}{c}{Log Revenue}&\multicolumn{1}{c}{Log EBITDA}&\multicolumn{1}{c}{Log Employment}&\multicolumn{1}{c}{Log Revenue}&\multicolumn{1}{c}{Log Revenue}&\multicolumn{1}{c}{Log Revenue}\\
 \midrule
 Tangible and intangible assets (log)&       0.249\sym{***}&       0.251\sym{***}&       0.112\sym{***}&       0.245\sym{***}&       0.245\sym{***}&       0.266\sym{***}\\
                     &     (0.001)         &     (0.001)         &     (0.000)         &     (0.001)         &     (0.001)         &     (0.002)         \\
-[1em]
+\addlinespace
 Intangible assets share&                     &                     &                     &      -0.019\sym{**} &      -0.016\sym{*}  &      -0.037\sym{**} \\
                     &                     &                     &                     &     (0.007)         &     (0.009)         &     (0.015)         \\
-[1em]
+\addlinespace
 Foreign owned       &                     &                     &                     &       0.011         &       0.013         &       0.017         \\
                     &                     &                     &                     &     (0.009)         &     (0.011)         &     (0.014)         \\
-[1em]
+\addlinespace
 Firm age (years)    &                     &                     &                     &      -0.842\sym{***}&      -0.817\sym{***}&      -0.804\sym{***}\\
                     &                     &                     &                     &     (0.013)         &     (0.014)         &     (0.040)         \\
-[1em]
+\addlinespace
 Firm age squared    &                     &                     &                     &      -0.001\sym{***}&      -0.001\sym{***}&      -0.001\sym{***}\\
                     &                     &                     &                     &     (0.000)         &     (0.000)         &     (0.000)         \\
-[1em]
+\addlinespace
 CEO tenure (years)  &                     &                     &                     &      -0.001\sym{**} &       0.000         &       0.002         \\
                     &                     &                     &                     &     (0.001)         &         (.)         &     (0.001)         \\
-[1em]
+\addlinespace
 CEO tenure squared  &                     &                     &                     &       0.000         &       0.000         &      -0.000\sym{***}\\
                     &                     &                     &                     &     (0.000)         &     (0.000)         &     (0.000)         \\
 \midrule
 Observations        &     6415898         &     4863441         &     6882863         &     6415898         &     4183377         &     1609596         \\
 \bottomrule
+\multicolumn{7}{l}{\footnotesize Standard errors in parentheses}\\
+\multicolumn{7}{l}{\footnotesize All models include firm-CEO-spell fixed effects and industry-year fixed effects.}\\
+\multicolumn{7}{l}{\footnotesize Standard errors (in parentheses) are clustered at the firm level.}\\
+\multicolumn{7}{l}{\footnotesize Models (1)-(3) include only log capital as control.}\\
+\multicolumn{7}{l}{\footnotesize Models (4)-(6) include rich controls.}\\
+\multicolumn{7}{l}{\footnotesize Model (5) restricts to first CEO spells only.}\\
+\multicolumn{7}{l}{\footnotesize Model (6) restricts to largest connected component.}\\
+\multicolumn{7}{l}{\footnotesize Significance levels: *** p<0.01, ** p<0.05, * p<0.1.}\\
+\multicolumn{7}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<0.05\), \sym{***} \(p<0.01\)}\\
 \end{tabular}
 \end{table}

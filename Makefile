@@ -25,7 +25,7 @@ install: install.log
 data: temp/analysis-sample.dta temp/placebo.dta temp/large_component_managers.csv
 
 # Statistical analysis pipeline  
-analysis: temp/surplus.dta temp/manager_value.dta temp/event_study_panel_a.dta temp/event_study_panel_b.dta
+analysis: temp/surplus.dta temp/manager_value.dta temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/revenue_models.ster
 
 # Final reporting pipeline
 report: output/paper.pdf
@@ -76,9 +76,8 @@ temp/event_study_panel_a.dta temp/event_study_panel_b.dta output/figure/manager_
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
-# Revenue function estimation results
-output/table/revenue_function.tex output/table/revenue_sectors.tex output/table/revenue_controls.tex: code/estimate/revenue_function.do code/estimate/exit.do temp/analysis-sample.dta temp/large_component_managers.csv code/create/network-sample.do
-	mkdir -p $(dir $@)
+# Revenue function estimation results - saves all model estimates
+temp/revenue_models.ster: code/estimate/revenue_function.do temp/analysis-sample.dta temp/large_component_managers.csv code/create/network-sample.do
 	$(STATA) $<
 
 # =============================================================================
@@ -95,8 +94,8 @@ output/table/table2.tex: code/exhibit/table2.do temp/balance.dta temp/analysis-s
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
-# Table 3: Network statistics
-output/table/table3.tex: code/exhibit/table3.do temp/analysis-sample.dta temp/large_component_managers.csv code/create/network-sample.do
+# Table 3: Revenue function estimation results
+output/table/table3.tex: code/exhibit/table3.do temp/revenue_models.ster temp/analysis-sample.dta temp/large_component_managers.csv code/create/network-sample.do
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
