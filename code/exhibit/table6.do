@@ -4,12 +4,7 @@
 
 local max_spell_analysis = 2
 
-use "temp/balance.dta", clear
-merge 1:m frame_id_numeric year using "temp/ceo-panel.dta", keep(master match) nogen
-
-* Apply industry classification
-do "code/util/industry.do"
-do "code/util/variables.do"
+use "temp/unfiltered.dta", clear
 
 * =============================================================================
 * PANEL A: CEO PATTERNS ANALYSIS  
@@ -54,6 +49,9 @@ preserve
     keep if max_ceo_spell >= `max_spell_analysis'
     * do not use last spell, because it ends in firm death, not CEO change
     keep if ceo_spell < max_ceo_spell
+    * drop firms with more than one CEO per year
+    egen max_n_ceo = max(n_ceo ), by(frame_id_numeric )
+    drop if max_n_ceo > 1
 
     egen spell_tag = tag(frame_id_numeric ceo_spell)
     egen spell_year_tag = tag(frame_id_numeric ceo_spell year)
