@@ -154,6 +154,16 @@ Beyond the CEU MicroData Stata Style Guide, this project follows additional conv
 - Create summary statistics at the end of scripts for log file documentation
 - In Makefile: exhibit dependencies include both data files and connected component CSV files
 
+### LaTeX Table Formatting Preferences
+- Use equal-width centered columns: `\begin{tabular}{*{6}{c}}` instead of `lccccc`
+- Use `\multicolumn{2}{c}{Group header}` with `\cmidrule(lr){5-6}` for column groupings
+- Use `\shortstack{Text\\line}` for multi-line column headers to save horizontal space
+- Set minipage width to match table content (e.g., `\begin{minipage}{12cm}` for 6×2cm columns)
+- Prefer descriptive but concise column names: "Sample firms" over "Filtered firms"
+- Avoid table width wider than column content - table notes should not extend beyond table
+- When calculating totals, use distinct counts not sums of yearly observations
+- Structure complex data processing with multiple `preserve`/`restore` blocks and `tempfile` operations
+
 ## Data Confidentiality
 
 This project uses proprietary data that cannot be shared. Data files in `input/` are not included in repository and must be obtained separately from HUN-REN KRTK or Opten Zrt.
@@ -162,3 +172,8 @@ This project uses proprietary data that cannot be shared. Data files in `input/`
 
 - **Make Timeout**: 
   * make takes long to run, adjust the timeout. 5 minutes is expected
+
+### Git and File Management
+- Add `.bak` files to `.gitignore` alongside other LaTeX auxiliary files
+- When creating backup files, use `.bak` extension consistently
+- Ensure auxiliary file patterns in `.gitignore` cover all LaTeX compilation outputs
