@@ -3,11 +3,11 @@
        log:  /Users/koren/Tresorit/Mac/projects/ceo-value/output/event_study.tx
 > t
   log type:  text
- opened on:   8 Aug 2025, 18:28:29
+ opened on:   8 Aug 2025, 20:00:26
 
 . 
 . drop if skill_change == 0
-(50,969 observations deleted)
+(111,510 observations deleted)
 
 . 
 . display "Event study results for better CEOs:"
@@ -22,12 +22,12 @@ Panel variable: fake_id (unbalanced)
  Time variable: year, 1992 to 2022, but with gaps
          Delta: 1 unit
 
-Event study relative to atet            Number of obs = 50,873
+Event study relative to atet           Number of obs = 102,086
 
 ------------------------------------------------------------------------------
     lnStilde |       ATET   Std. err.      z    P>|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
-        ATET |   .2670102   .0052306    51.05   0.000     .2567584    .2772621
+        ATET |   .2697814   .0037304    72.32   0.000       .26247    .2770927
 ------------------------------------------------------------------------------
 
 . scalar total_atet = _b[ATET]
@@ -41,12 +41,12 @@ Panel variable: fake_id (unbalanced)
  Time variable: year, 1992 to 2022, but with gaps
          Delta: 1 unit
 
-Event study relative to atet           Number of obs = 320,731
+Event study relative to atet           Number of obs = 730,792
 
 ------------------------------------------------------------------------------
     lnStilde |       ATET   Std. err.      z    P>|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
-        ATET |   .2444862   .0016381   149.25   0.000     .2412755    .2476968
+        ATET |   .2435615   .0010915   223.14   0.000     .2414222    .2457008
 ------------------------------------------------------------------------------
 
 . scalar placebo_atet = _b[ATET]
@@ -60,12 +60,12 @@ Panel variable: fake_id (unbalanced)
  Time variable: year, 1992 to 2022, but with gaps
          Delta: 1 unit
 
-Event study relative to atet           Number of obs = 170,071
+Event study relative to atet           Number of obs = 388,579
 
 ------------------------------------------------------------------------------
     lnStilde |       ATET   Std. err.      z    P>|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
-        ATET |  -.0056749   .0038658    -1.47   0.142    -.0132518     .001902
+        ATET |  -.0037223   .0027553    -1.35   0.177    -.0091226    .0016779
 ------------------------------------------------------------------------------
 
 . scalar worse_atet = _b[ATET]
@@ -79,12 +79,12 @@ Panel variable: fake_id (unbalanced)
  Time variable: year, 1992 to 2022, but with gaps
          Delta: 1 unit
 
-Event study relative to atet           Number of obs = 201,533
+Event study relative to atet           Number of obs = 444,299
 
 ------------------------------------------------------------------------------
     lnStilde |       ATET   Std. err.      z    P>|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
-        ATET |     .01696   .0038488     4.41   0.000     .0094166    .0245035
+        ATET |   .0222239   .0027318     8.14   0.000     .0168697    .0275781
 ------------------------------------------------------------------------------
 
 . scalar better_atet = _b[ATET]
@@ -96,18 +96,18 @@ Event study relative to atet           Number of obs = 201,533
 
 . 
 . display "Total ATET: " total_atet
-Total ATET: .26701021
+Total ATET: .26978137
 
 . display "Placebo-controlled ATET 1: " proper_atet1
-Placebo-controlled ATET 1: .02263492
+Placebo-controlled ATET 1: .02594624
 
 . display "Placebo-controlled ATET 2: " proper_atet2
-Placebo-controlled ATET 2: .02252405
+Placebo-controlled ATET 2: .02621987
 
 . log close
       name:  <unnamed>
        log:  /Users/koren/Tresorit/Mac/projects/ceo-value/output/event_study.tx
 > t
   log type:  text
- closed on:   8 Aug 2025, 18:35:30
+ closed on:   8 Aug 2025, 20:54:40
 -------------------------------------------------------------------------------
