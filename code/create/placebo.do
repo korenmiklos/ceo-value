@@ -14,18 +14,17 @@ keep if max_n_ceo <= `max_n_ceo'
 xtset frame_id_numeric year
 
 * compute staistics to generate a placebo sample of CEOs
-egen spell_begin = min(year), by(frame_id_numeric ceo_spell)
-egen first_ever_year = min(year), by(frame_id_numeric)
+egen spell_end = max(year), by(frame_id_numeric ceo_spell)
 
 * previous version was meassuring length of spell, but that inlcuded firm exits, not just CEO changes
 
 * assume each manager exits with the same probability each year
-generate byte actual_change = (year == spell_begin) & (year > first_ever_year)
-summarize actual_change if year > first_ever_year
+generate byte actual_change = (year == spell_end)  & (ceo_spell < max_ceo_spell)
+summarize actual_change if ceo_spell < max_ceo_spell
 scalar p = r(mean)
 display "Actual change probability: " p
 set seed `placebo_seed'
-generate byte placebo_change = (uniform() < p) & (year > first_ever_year)
+generate byte placebo_change = (uniform() < p)
 
 tabulate placebo_change actual_change, missing
 
