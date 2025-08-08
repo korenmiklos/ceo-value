@@ -127,21 +127,11 @@ foreach X in coef lower upper {
 frame worse_ceo2: frlink 1:1 xvar, frame(better_ceo2)
 frame worse_ceo2: frget coef_better lower_better upper_better, from(better_ceo2)
 
-frame worse_ceo1: graph twoway ///
-    (rarea lower_worse upper_worse xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_worse xvar, lcolor(blue) mcolor(blue)) ///
-    (rarea lower_better upper_better xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_better xvar, lcolor(red) mcolor(red)) ///
-    , graphregion(color(white)) xlabel(`event_window_start'(1)`event_window_end') legend(off) xline(-0.5) xscale(range (`event_window_start' `event_window_end')) xtitle("Time since CEO change (year)") yline(0) ytitle("Log TFP relative to year `baseline_year'") title("Panel A: Raw Event Study", size(medium)) saving("temp/event_study_panel_a.gph", replace)
+* Save frames for figure creation
+frame worse_ceo1: save "temp/event_study_panel_a.dta", replace
+frame worse_ceo2: save "temp/event_study_panel_b.dta", replace
 
-frame worse_ceo2: graph twoway ///
-    (rarea lower_worse upper_worse xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_worse xvar, lcolor(blue) mcolor(blue)) ///
-    (rarea lower_better upper_better xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_better xvar, lcolor(red) mcolor(red)) ///
-    , graphregion(color(white)) xlabel(`event_window_start'(1)`event_window_end') legend(off) xline(-0.5) xscale(range (`event_window_start' `event_window_end')) xtitle("Time since CEO change (year)") yline(0) ytitle("Log TFP relative to year `baseline_year'") title("Panel B: Placebo-Controlled Event Study", size(medium)) saving("temp/event_study_panel_b.gph", replace)
-
-* Combine panels with common Y-scale and legend at bottom
-graph combine "temp/event_study_panel_a.gph" "temp/event_study_panel_b.gph", ///
-    cols(2) ycommon graphregion(color(white)) imargin(small) ///
-    note("Note: {bf:Blue line} = Worse CEO; {bf:Red line} = Better CEO. Confidence intervals shown in gray.", size(small) position(6) span)
-graph export "output/figure/event_study.pdf", replace
+display "Event study estimation complete. Data saved to temp/ for figure creation."
 
 log using "output/event_study.txt", replace text
 

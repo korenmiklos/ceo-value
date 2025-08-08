@@ -224,7 +224,7 @@ The provided code reproduces:
 | Table 3 (CEO Structure) | analysis-sample.do | Embedded in paper.tex | CEO turnover patterns |
 | Table 6 (CEO Patterns & Spell Lengths) | table6.do | output/table/table6.tex | Panel A: CEO patterns, Panel B: Actual vs placebo spell lengths |
 | Figure 1 (Manager Skill Distributions) | manager_value.do | output/figure/manager_skill_within.pdf, output/figure/manager_skill_connected.pdf | Panel A: Within-firm variation, Panel B: Connected component |
-| Figure 2 (Event Study) | event_study.do | output/figure/event_study.pdf | Panel A: Raw event study, Panel B: Placebo-controlled results |
+| Figure 2 (Event Study) | event_study.do + figure1.do | output/figure/event_study.pdf | Panel A: Raw event study, Panel B: Placebo-controlled results |
 | Event Study Results | event_study.do | output/event_study.txt | Treatment effects and placebo analysis |
 | Table 4 (Manager Skill Effects) | manager_value.do | output/table/manager_effects.tex | Effects on revenue, EBITDA, employment |
 | Table 5 (Revenue Function) | surplus.do | output/table/revenue_function.tex | Revenue function estimates |

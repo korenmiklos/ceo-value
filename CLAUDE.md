@@ -41,8 +41,11 @@ stata -b do code/exhibit/table6.do
 # Run econometric analysis
 stata -b do code/estimate/surplus.do
 
-# Run placebo-controlled event study
+# Run placebo-controlled event study (estimation)
 stata -b do code/estimate/event_study.do
+
+# Create event study figure
+stata -b do code/exhibit/figure1.do
 
 # Compile LaTeX document
 cd output && pdflatex paper.tex && bibtex paper && pdflatex paper.tex && pdflatex paper.tex
@@ -80,9 +83,15 @@ cd output && pdflatex paper.tex && pdflatex paper.tex
    - `event_study.do`: Implements placebo-controlled event study design comparing actual vs placebo CEO transitions
    - `manager_value.do`: Estimates manager fixed effects and generates distribution plots
 
-5. **Output** (`temp/`, `output/`): Intermediate data and final results
-   - `temp/`: Processed Stata datasets, edgelist CSV, connected component results
+5. **Exhibits** (`code/exhibit/`): Table and figure generation
+   - `table1.do`: Descriptive statistics over time
+   - `table6.do`: CEO patterns and spell length analysis  
+   - `figure1.do`: Event study two-panel figure creation
+
+6. **Output** (`temp/`, `output/`): Intermediate data and final results
+   - `temp/`: Processed Stata datasets, edgelist CSV, connected component results, event study frames
    - `output/table/`: LaTeX tables for paper
+   - `output/figure/`: Publication-ready figures  
    - `output/paper.pdf`: Final compiled document
 
 ### Network Analysis Component
