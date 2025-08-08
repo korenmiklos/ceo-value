@@ -10,21 +10,26 @@ clear all
 * =============================================================================
 
 use "temp/balance.dta", clear
+merge 1:m frame_id_numeric year using "temp/ceo-panel.dta", keep(master match) nogen
 
 * Apply industry classification
 do "code/util/industry.do"
+do "code/util/variables.do"
 
 * Create exclusion indicator based on filter criteria
 generate byte excluded = inlist(sector, 2, 9)  // Mining and finance excluded
-label define excluded 0 "Included" 1 "Excluded"
+label define excluded 0 "" 1 "*"
 label values excluded excluded
 
 * =============================================================================
 * Calculate basic industry statistics from balance data
 * =============================================================================
 
+egen firm_year_tag = tag(frame_id_numeric year)
+
 * Count total firm-year observations by industry
 preserve
+    keep if firm_year_tag
     collapse (count) n_obs = frame_id_numeric, by(sector excluded)
     tempfile industry_obs
     save `industry_obs'
@@ -44,15 +49,7 @@ restore
 * =============================================================================
 
 preserve
-    use "temp/analysis-sample.dta", clear
-    
-    * Apply same industry classification
-    capture label drop sector  // Avoid label redefinition error
-    do "code/util/industry.do"
-    generate byte excluded = inlist(sector, 2, 9)
-    
-    * Count distinct managers by industry (including excluded sectors)
-    egen manager_tag = tag(person_id)
+    egen manager_tag = tag(frame_id_numeric person_id)
     keep if manager_tag
     collapse (count) n_managers = person_id, by(sector excluded)
     tempfile industry_managers
@@ -64,53 +61,12 @@ restore
 * =============================================================================
 
 preserve
-    capture use "temp/surplus.dta", clear
-    if _rc == 0 {
-        * Surplus data already has sector variable from original processing
-        * Just check if it has the surplus variable and sector classification
-        capture confirm variable surplus sector
-        if _rc == 0 {
-            generate byte excluded = inlist(sector, 2, 9)
-            
-            * Calculate surplus share by industry
-            * (Surplus share = mean surplus as share of revenue)
-            collapse (mean) surplus_share = surplus, by(sector excluded)
-            replace surplus_share = surplus_share * 100  // Convert to percentage
-            format surplus_share %5.1f
-            tempfile industry_surplus
-            save `industry_surplus'
-            
-            local have_surplus = 1
-        }
-        else {
-            * Surplus data doesn't have expected variables
-            clear
-            set obs 8
-            generate sector = _n
-            replace sector = 9 if sector == 8
-            generate excluded = inlist(sector, 2, 9)
-            generate surplus_share = .
-            tempfile industry_surplus
-            save `industry_surplus'
-            
-            local have_surplus = 0
-            display "Note: surplus.dta missing surplus or sector variables"
-        }
-    }
-    else {
-        * Create empty surplus data if surplus.dta doesn't exist
-        clear
-        set obs 8
-        generate sector = _n
-        replace sector = 9 if sector == 8
-        generate excluded = inlist(sector, 2, 9)
-        generate surplus_share = .
-        tempfile industry_surplus
-        save `industry_surplus'
-        
-        local have_surplus = 0
-        display "Note: surplus.dta not found, surplus share will be missing"
-    }
+    keep if firm_year_tag
+    collapse (mean) EBITDA sales, by(sector excluded)
+    generate surplus_share = (EBITDA / sales) * 100
+    drop EBITDA sales
+    tempfile industry_surplus
+    save `industry_surplus'
 restore
 
 * =============================================================================
@@ -150,8 +106,8 @@ replace teaor_code = "Other" if sector == 7
 replace teaor_code = "K,L" if sector == 9
 
 * Create combined industry identifier for table
-generate str industry_label = teaor_code + ": " + industry_name
-replace industry_label = industry_label + " (Excluded)" if excluded == 1
+generate str industry_label = industry_name + " (" + teaor_code + ")"
+replace industry_label = industry_label + "*" if excluded == 1
 
 * Sort by exclusion status and then by number of observations (descending)
 sort excluded sector
@@ -166,53 +122,25 @@ local outfile "output/table/table2.tex"
 file open table using "`outfile'", write replace
 file write table "\begin{table}[htbp]" _n
 file write table "\centering" _n
-file write table "\caption{Industry-Level Summary Statistics}" _n
+file write table "\caption{Industry Breakdown}" _n
 file write table "\label{tab:industry_stats}" _n
 
 * Determine number of columns based on surplus availability
-if `have_surplus' {
-    file write table "\begin{tabular}{*{6}{l}}" _n
-    file write table "\toprule" _n
-    file write table "Industry (TEAOR08) & \shortstack{Firm-year\\obs.} & \shortstack{Distinct\\firms} & \shortstack{Distinct\\managers} & \shortstack{Surplus\\share (\%)} & Status \\" _n
-}
-else {
-    file write table "\begin{tabular}{*{5}{l}}" _n
-    file write table "\toprule" _n
-    file write table "Industry (TEAOR08) & \shortstack{Firm-year\\obs.} & \shortstack{Distinct\\firms} & \shortstack{Distinct\\managers} & Status \\" _n
-}
+file write table "\begin{tabular}{l*{5}{r}}" _n
+file write table "\toprule" _n
+file write table "Industry (NACE) & \shortstack{Obs.} & \shortstack{Firms} & \shortstack{CEOs} & \shortstack{Surplus\\share (\%)} \\" _n
+
 file write table "\midrule" _n
 
 * Write data rows
-local prev_excluded = -1
-forvalues i = 1/`=_N' {
-    * Add separator when moving from included to excluded sectors
-    if excluded[`i'] != `prev_excluded' & `prev_excluded' != -1 {
-        file write table "\midrule" _n
-    }
-    local prev_excluded = excluded[`i']
-    
+forvalues i = 1/`=_N' {    
     * Write row data
     file write table (industry_label[`i']) " & "
     file write table %12.0fc (n_obs[`i']) " & "
     file write table %12.0fc (n_firms[`i']) " & "
     file write table %12.0fc (n_managers[`i'])
     
-    if `have_surplus' {
-        if !missing(surplus_share[`i']) {
-            file write table " & " %5.1fc (surplus_share[`i'])
-        }
-        else {
-            file write table " & ---"
-        }
-    }
-    
-    * Status column
-    if excluded[`i'] == 1 {
-        file write table " & Excluded"
-    }
-    else {
-        file write table " & Included"  
-    }
+    file write table " & " %5.1fc (surplus_share[`i'])
     
     file write table " \\" _n
 }
@@ -223,21 +151,14 @@ file write table "\end{tabular}" _n
 file write table "\begin{minipage}{\textwidth}" _n
 file write table "\footnotesize" _n
 file write table "\textit{Notes:} This table presents industry-level summary statistics using the TEAOR08 classification system. "
-file write table "Column (1) shows the industry name and corresponding TEAOR08 sector codes. "
+file write table "Column (1) shows the industry name and corresponding NACE sector codes. "
 file write table "Column (2) shows the total number of firm-year observations in the balance sheet data (1992-2022). "
 file write table "Column (3) shows the number of distinct firms with balance sheet data. "
 file write table "Column (4) shows the number of distinct managers (CEOs) from the firm registry data. "
-if `have_surplus' {
-    file write table "Column (5) shows the average production function surplus as a percentage of revenue. "
-    file write table "Column (6) indicates whether the industry is included in or excluded from the main analysis. "
-}
-else {
-    file write table "Column (5) indicates whether the industry is included in or excluded from the main analysis. "
-}
+file write table "Column (5) shows the average EBITDA as a percentage of revenue. "
 file write table "Mining (sector B) and Finance/Insurance/Real Estate (sectors K,L) are excluded from the main analysis "
 file write table "due to different production function characteristics. "
-file write table "The TEAOR08 classification follows the Hungarian adaptation of the NACE Rev. 2 system. "
-file write table "Source: Hungarian administrative data combining firm balance sheets and CEO registry." _n
+file write table "The NACE classification follows the Hungarian adaptation of the NACE Rev. 2 system. "
 file write table "\end{minipage}" _n
 file write table "\end{table}" _n
 file close table
@@ -249,12 +170,7 @@ display "Table 2 written to `outfile'"
 * =============================================================================
 
 display _n "Industry-level summary statistics:"
-if `have_surplus' {
-    list industry_name n_obs n_firms n_managers surplus_share excluded, sep(0) noobs
-}
-else {
-    list industry_name n_obs n_firms n_managers excluded, sep(0) noobs
-}
+list industry_name n_obs n_firms n_managers surplus_share excluded, sep(0) noobs
 
 display _n "Total statistics:"
 collapse (sum) n_obs n_firms n_managers, by(excluded)
