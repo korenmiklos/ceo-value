@@ -142,6 +142,23 @@ Beyond the CEU MicroData Stata Style Guide, this project follows additional conv
 - Add context for business logic (e.g., "switching years can be noisy")
 - Use descriptive variable names that don't require comments
 
+### Creating Exhibits and Tables
+- Exhibit code lives in `code/exhibit/` directory
+- Exhibits are named `table1.do`, `table2.do`, etc. (not `exhibit1.do`)
+- Output files are named `output/table/table1.tex`, etc. (matching the .do filename)
+- Use programmatic LaTeX generation with `file write` commands
+- Include comprehensive table notes using `\begin{tablenotes}[flushleft]` and `\footnotesize`
+- For long tables, show selected rows (e.g., every 5th year + first/last + totals)
+- Use 9999 as indicator for total/summary rows when appending aggregated data
+- Format numbers with thousand separators using `%12.0fc`
+- Create summary statistics at the end of scripts for log file documentation
+- In Makefile: exhibit dependencies include both data files and connected component CSV files
+
 ## Data Confidentiality
 
 This project uses proprietary data that cannot be shared. Data files in `input/` are not included in repository and must be obtained separately from HUN-REN KRTK or Opten Zrt.
+
+## Build and Development Notes
+
+- **Make Timeout**: 
+  * make takes long to run, adjust the timeout. 5 minutes is expected
