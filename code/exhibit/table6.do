@@ -75,24 +75,16 @@ preserve
 restore
 
 * =============================================================================
-* CREATE LATEX TABLE
+* CREATE LATEX TABLES - SEPARATE PANELS
 * =============================================================================
 
-* Write LaTeX table
-file open table using "output/table/table6.tex", write replace text
+* Write Panel A LaTeX table
+file open panelA using "output/table/table6_panelA.tex", write replace text
 
-file write table "\begin{table}[htbp]" _n
-file write table "\centering" _n
-file write table "\caption{CEO Patterns and Spell Length Analysis}" _n
-file write table "\label{tab:ceo_patterns}" _n
-file write table "\begin{tabular}{lcc}" _n
-file write table "\toprule" _n
-
-* Panel A header
-file write table "\multicolumn{3}{l}{\textbf{Panel A: CEO Patterns}} \\" _n
-file write table " & CEOs per & CEO Spells per \\" _n
-file write table " & Firm-Year & Firm \\" _n
-file write table "\midrule" _n
+file write panelA "\begin{tabular}{lcc}" _n
+file write panelA "\toprule" _n
+file write panelA "CEOs & Firm-Year & Firm \\" _n
+file write panelA "\midrule" _n
 
 * Panel A data
 use `panel_a_col1', clear
@@ -122,7 +114,7 @@ forvalues i = 1/`=max(`N1',`N2')' {
     }
     
     if "`col1_pct'" != "" | "`col2_pct'" != "" {
-        file write table "`row_label' & `col1_pct'\% & `col2_pct'\% \\" _n
+        file write panelA "`row_label' & `col1_pct'\% & `col2_pct'\% \\" _n
     }
 }
 
@@ -132,13 +124,20 @@ local total_firm_years = total_obs[_N]
 use `panel_a_col2', clear  
 local total_firms = total_firms[_N]
 
-file write table "Total & " %12.0fc (`total_firm_years') " & " %12.0fc (`total_firms') " \\" _n
-file write table "\midrule" _n
+file write panelA "Total & " %12.0fc (`total_firm_years') " & " %12.0fc (`total_firms') " \\" _n
+file write panelA "\bottomrule" _n
+file write panelA "\end{tabular}" _n
 
-* Panel B header
-file write table "\multicolumn{3}{l}{\textbf{Panel B: CEO Spell Length Distribution}} \\" _n
-file write table "Spell Length (Years) & Actual Spells & Placebo Spells \\" _n
-file write table "\midrule" _n
+file close panelA
+
+* Write Panel B LaTeX table
+file open panelB using "output/table/table6_panelB.tex", write replace text
+
+file write panelB "\begin{tabular}{lcc}" _n
+file write panelB "\toprule" _n
+file write panelB "Length & Actual & Placebo \\" _n
+file write panelB "(Years) & Spells & Spells \\" _n
+file write panelB "\midrule" _n
 
 * Panel B data - write rows by combining the two datasets
 use `panel_b_col1', clear
@@ -164,7 +163,7 @@ forvalues i = 1/`=max(`N1',`N2')' {
     }
     
     if "`actual_pct'" != "" | "`placebo_pct'" != "" {
-        file write table "`row_label' & `actual_pct'\% & `placebo_pct'\% \\" _n
+        file write panelB "`row_label' & `actual_pct'\% & `placebo_pct'\% \\" _n
     }
 }
 
@@ -173,22 +172,11 @@ use `panel_b_col1', clear
 local total_actual = total_spells[_N]
 use `panel_b_col2', clear
 local total_placebo = total_spells[_N]
-file write table "Total & " %12.0fc (`total_actual') " & " %12.0fc (`total_placebo') " \\" _n
+file write panelB "Total & " %12.0fc (`total_actual') " & " %12.0fc (`total_placebo') " \\" _n
 
-file write table "\bottomrule" _n
-file write table "\end{tabular}" _n
+file write panelB "\bottomrule" _n
+file write panelB "\end{tabular}" _n
 
-* Table notes
-file write table "\begin{tablenotes}[flushleft]" _n
-file write table "\footnotesize" _n
-file write table "\item \textbf{Panel A} reports the distribution of CEOs at firms. Column 1 shows the percentage of firm-year observations with 1, 2, 3, or 4+ CEOs. Column 2 shows the percentage of firms with 1, 2, 3, or 4+ CEO spells over the sample period." _n
-file write table "\item \textbf{Panel B} reports the distribution of CEO spell lengths. Actual spells are computed from the administrative data (1992-2022). Placebo spells follow an exponential distribution with the same transition probability as actual CEO changes, but exclude periods of actual CEO transitions." _n
-file write table "\item A CEO spell is defined as a continuous period of employment by the same person at the same firm. Spell length is measured in years." _n
-file write table "\item Sample includes Hungarian firms with complete balance sheet and CEO data. Firms with more than 6 CEO spells are excluded from the analysis sample." _n
-file write table "\item Percentages are rounded to whole numbers. Total observations reported in bottom rows." _n
-file write table "\end{tablenotes}" _n
-file write table "\end{table}" _n
+file close panelB
 
-file close table
-
-display "Exhibit 6 table created: output/table/table6.tex"
+display "Exhibit 6 panels created: output/table/table6_panelA.tex and output/table/table6_panelB.tex"
