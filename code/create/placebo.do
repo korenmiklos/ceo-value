@@ -1,7 +1,7 @@
 * =============================================================================
 * PLACEBO CREATION PARAMETERS
 * =============================================================================
-local single_ceo_only 1           // Constraint to firms with single CEO only
+local max_n_ceo 1            // Maximum number of CEOs per firm-year
 local placebo_seed 8211           // Random seed for placebo generation
 local first_placebo_spell 1       // First placebo spell number for analysis
 local second_placebo_spell 2      // Second placebo spell number for analysis
@@ -10,8 +10,7 @@ use "temp/analysis-sample.dta", clear
 
 egen max_n_ceo = max(n_ceo), by(frame_id_numeric)
 tabulate n_ceo max_n_ceo, missing
-
-keep if max_n_ceo == `single_ceo_only'
+keep if max_n_ceo <= `max_n_ceo'
 xtset frame_id_numeric year
 
 * compute staistics to generate a placebo sample of CEOs
