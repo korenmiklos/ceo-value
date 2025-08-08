@@ -45,7 +45,11 @@ output/table/manager_effects.tex output/figure/manager_skill_within.pdf output/f
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
-output/figure/manager_skill_correlation.pdf output/figure/event_study.pdf output/test/event_study.dta: code/estimate/event_study.do temp/manager_value.dta temp/analysis-sample.dta temp/placebo.dta
+temp/event_study_panel_a.dta temp/event_study_panel_b.dta output/figure/manager_skill_correlation.pdf output/test/event_study.dta: code/estimate/event_study.do temp/manager_value.dta temp/analysis-sample.dta temp/placebo.dta
+	mkdir -p $(dir $@)
+	$(STATA) $<
+
+output/figure/event_study.pdf: code/exhibit/figure1.do temp/event_study_panel_a.dta temp/event_study_panel_b.dta
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
