@@ -181,76 +181,7 @@ We construct several derived variables for the analysis. EBITDA is calculated as
 
 The final analytical sample contains 8,872,039 firm-year observations representing 960,464 unique firms over the 1992-2022 period. This sample focuses on manufacturing, wholesale/retail/transportation, telecom/business services, and other nontradable services sectors, with firms having relatively stable CEO structures suitable for productivity analysis.
 
-\begin{table}[htbp]
-\centering
-\caption{Industry Composition of Final Sample}
-\label{tab:industry}
-\begin{tabular}{lrr}
-\toprule
-Industry Sector & Observations & Percent \\
-\midrule
-Wholesale, Retail, Transportation & 3,430,342 & 28.86 \\
-Nontradable Services & 3,176,339 & 26.72 \\
-Telecom and Business Services & 2,249,271 & 18.92 \\
-Manufacturing & 1,254,792 & 10.56 \\
-Construction & 1,100,022 & 9.25 \\
-Agriculture & 411,226 & 3.46 \\
-Finance\textsuperscript{*} & 247,718 & 2.08 \\
-Mining\textsuperscript{*} & 16,926 & 0.14 \\
-\midrule
-Total (before restrictions) & 11,886,636 & 100.00 \\
-Final analytical sample & 8,872,039 & -- \\
-\bottomrule
-\end{tabular}
-\footnotesize
-Notes: \textsuperscript{*}Industries excluded from final analytical sample. Additional restrictions exclude firms that were ever state-owned. Industry classification based on TEAOR08 system.
-\end{table}
 
-\begin{table}[htbp]
-\centering
-\caption{CEO Structure and Turnover Patterns}
-\label{tab:ceo_structure}
-\begin{tabular}{lrr}
-\toprule
-\multicolumn{3}{c}{Panel A: Number of CEOs per Firm-Year} \\
-\midrule
-Number of CEOs & Observations & Percent \\
-\midrule
-1 & 10,466,412 & 82.24 \\
-2 & 1,949,370 & 15.32 \\
-3 & 251,882 & 1.98 \\
-4+ & 58,933 & 0.46 \\
-\midrule
-Total & 12,726,597 & 100.00 \\
-\\[0.5em]
-\multicolumn{3}{c}{Panel B: CEO Spells per Firm-Year} \\
-\midrule
-CEO Spell & Observations & Percent \\
-\midrule
-1 (First CEO) & 6,423,429 & 66.72 \\
-2 & 2,204,806 & 22.90 \\
-3 & 662,846 & 6.88 \\
-4 & 205,665 & 2.14 \\
-5+ & 130,738 & 1.36 \\
-\midrule
-Total & 9,627,484 & 100.00 \\
-\\[0.5em]
-\multicolumn{3}{c}{Panel C: Maximum CEO Spells per Firm} \\
-\midrule
-Max CEO Spells & Firms & Percent \\
-\midrule
-1 & 637,287 & 62.97 \\
-2 & 243,609 & 24.07 \\
-3 & 84,184 & 8.32 \\
-4-6 & 42,788 & 4.23 \\
-7+ & 4,245 & 0.42 \\
-\midrule
-Total & 1,012,113 & 100.00 \\
-\bottomrule
-\end{tabular}
-\footnotesize
-Notes: Panel A shows distribution of concurrent CEOs per firm-year. Panel B shows CEO spell distribution among successfully matched firm-years. Panel C shows maximum number of CEO changes per firm over entire observation period.
-\end{table}
 
 \section{Methodology}
 
@@ -313,18 +244,17 @@ Because we are estimating manager skills conditional on firm and industry-year f
 \paragraph{Within-firm manager changes.}
 First we study the impact of within-firm manager changes on firm surplus. If there are $n$ managers in a firm, we can estimate $n-1$ manager fixed effects. We normalize the log skill of the first manager of the firm to zero. The remaining $n-1$ manager fixed effects are then interpreted as the difference in skills relative to the first manager. Naturally, this calculation only makes sense for $n>1$, i.e. for firms that have at least two managers in the sample. The relative manager skills are estimated as the average of the residualized surplus $\tilde s_{imst}$ across all observations for that manager, as described in equation \eqref{eq:estimated}. 
 
-Figure \ref{fig:manager_skills} Panel A shows the distribution of relative manager skills in the sample with at least two managers. The distribution is centered a bit higher than zero, with a mean of 0.16. This means that, on average, second and subsequent managers are 16 percent more skilled than the first manager of the firm. This is expected if under-performing managers are more likely to be replaced, leading to a positive selection bias in the sample of second and subsequent managers. 
+The distribution of relative manager skills in the sample with at least two managers is centered a bit higher than zero, with a mean of 0.16. This means that, on average, second and subsequent managers are 16 percent more skilled than the first manager of the firm. This is expected if under-performing managers are more likely to be replaced, leading to a positive selection bias in the sample of second and subsequent managers. 
 
 There is, however, substantial variation around this mean, with some managers being significantly more skilled than the first manager and others being less skilled. The interquartile range of relative skills corresponds to a 9.8 percent difference in firm productivity. Because higher productivity can be leveraged by buying more variable inputs, this would lead to a larger increase in revenue and surplus. The counterfactual manager change mentioned above would increase revenue and surplus by 118 percent.
 
-Table \ref{tab:manager_effects} shows the relationship between manager skills and firm outcomes. The regression coefficients indicate how manager skills correlate with revenue, EBITDA, and employment within the connected component of managers.
 
 \paragraph{Largest connected component.}
 Managers that lead mutiple firms (even at different times) help identify the skills of other managers. To consider a specific example, suppose manager B replaces manager A at firm 1 with a measured skill increase of 0.2, and manager B is replaced by manager C at firm 2 with a measured skill drop of 0.05. We can then infer the relative skill of manager C compared to manager A as $+0.15$. This process can be repeated for all managers that are connected through a chain of replacements, leading to a large connected component of managers.
 
 Using standard graph analysis, we find the largest connected component of managers in our sample, which contains 180,421 managers. These managers account for 27.1 percent of all firm-year observations.\footnote{The second largest connected component contains only a small fraction of managers, so the largest connected component is overwhelmingly dominant, as is often the case in real-world networks.} For these managers, their skills can be estimated by two-way firm and manager fixed effects \citep{Abowd1999Econometrica,reghdfe}. We normalize log manager skills to zero, so the estimated skills can be interpreted as deviation from the average manager in the largest connected component. 
 
-Figure \ref{fig:manager_skills} Panel B shows the distribution of relative manager skills in the largest connected component. The distribution is centered around zero by construction. The interquartile range of relative skills corresponds to a 25.6 percent difference in firm productivity. Because higher productivity can be leveraged by buying more variable inputs, this would lead to a 461 percent increase in revenue and surplus. This larger variation compared to within-firm estimates suggests that good managers tend to be replaced by other good managers within the firm. 
+The distribution of relative manager skills in the largest connected component is centered around zero by construction. The interquartile range of relative skills corresponds to a 25.6 percent difference in firm productivity. Because higher productivity can be leveraged by buying more variable inputs, this would lead to a 461 percent increase in revenue and surplus. This larger variation compared to within-firm estimates suggests that good managers tend to be replaced by other good managers within the firm. 
 
 In the cross section, the contribution of manager skills is less important relative to other fixed factors (captured by firm fixed effects). Manager skills explain 5 to 9 percent of within-industry variation in log revenue, log surplus and log employment.
 
@@ -339,6 +269,15 @@ The temporal distribution of transitions shows that our sample spans the full ob
 \paragraph{Pre-transition patterns and selection.} Figure \ref{fig:event_study} presents the evolution of residual surplus around CEO transitions, comparing firms that hire better managers versus worse managers. The analysis window spans from 10 years before to 10 years after the CEO change (event time 0), with the baseline set to event time -2 (two years before the transition).
 
 The pre-transition period reveals important selection patterns. Firms that will hire better managers show consistently lower surplus in the years leading up to the transition, with the difference reaching 5.2 percentage points below firms hiring worse managers at event time -10. This pattern reverses as the transition approaches, with firms hiring better managers showing 11.4 percentage points higher surplus than those hiring worse managers at event time -1. These pre-existing differences suggest that underperforming firms are more likely to seek higher-skilled replacement CEOs, consistent with optimal management turnover in response to poor performance.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{figure/event_study.pdf}
+\caption{Event Study: Impact of CEO Skill Changes on Firm Surplus}
+\label{fig:event_study}
+\footnotesize
+Notes: Event study comparing firms that hire better managers (higher skill) versus worse managers (lower skill). The figure shows the difference in residual surplus between the two groups from 10 years before to 10 years after CEO transitions. Event time 0 represents the year of CEO change. Baseline period is 2 years before transition (event time -2). Gray shaded area represents 95\% confidence intervals. Sample includes 94,185 firms with exactly one CEO change during the observation period.
+\end{figure}
 
 \paragraph{Causal impact of skill differences.} The event study reveals substantial performance differences following CEO transitions, but our placebo analysis provides crucial context. The naive treatment effect comparing better versus worse CEOs is 25.6 percent (ATET = 0.256, s.e. = 0.004). However, the same comparison using placebo transitions---randomly assigned fake CEO changes that exclude actual transition periods---yields an effect of 18.8 percent (ATET = 0.188, s.e. = 0.002).
 
@@ -380,6 +319,15 @@ Our methodological findings have important implications for how researchers shou
 
 Despite the measurement challenges, our findings demonstrate that CEO quality has real causal effects on firm performance in privately held businesses. The placebo-controlled estimate of 6.8 percent represents a meaningful economic impact\---firms genuinely benefit from better managerial talent. However, recognizing that most of the apparent correlation reflects spurious factors fundamentally changes how we should interpret the managerial effects literature. Standard fixed-effects estimates likely overstate CEO importance by a factor of three or more. This evidence supports a more nuanced view: CEOs matter for firm performance, but their true impact is modest compared to what conventional methodologies suggest. Our placebo-controlled approach and practical guidelines for using CEO quality measures provide a methodological framework for more rigorous analysis of managerial value in future research.
 
+
+\bibliographystyle{apacite}
+\bibliography{references}
+
+\appendix
+\section{Online Appendix}
+
+\subsection{Additional Figures and Tables}
+
 \begin{figure}[htbp]
 \centering
 \begin{minipage}{0.48\textwidth}
@@ -392,27 +340,12 @@ Despite the measurement challenges, our findings demonstrate that CEO quality ha
 \includegraphics[width=\textwidth]{figure/manager_skill_connected.pdf}
 \end{minipage}
 \caption{Manager Skill Distributions}
-\label{fig:manager_skills}
+\label{fig:manager_skills_appendix}
 \footnotesize
 Notes: Panel A shows the distribution of within-firm manager skill variation for firms with multiple CEOs. Panel B shows the distribution of manager skills in the largest connected component of managers. Both distributions show manager skills in log points after normalization and scaling.
 \end{figure}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.8\textwidth]{figure/event_study.pdf}
-\caption{Event Study: Impact of CEO Skill Changes on Firm Surplus}
-\label{fig:event_study}
-\footnotesize
-Notes: Event study comparing firms that hire better managers (higher skill) versus worse managers (lower skill). The figure shows the difference in residual surplus between the two groups from 10 years before to 10 years after CEO transitions. Event time 0 represents the year of CEO change. Baseline period is 2 years before transition (event time -2). Gray shaded area represents 95\% confidence intervals. Sample includes 94,185 firms with exactly one CEO change during the observation period.
-\end{figure}
-
 \input{table/manager_effects}
-
-\bibliographystyle{apacite}
-\bibliography{references}
-
-\appendix
-\section{Robustness Checks}
 
 \subsection{Placebo Event Study}
 
