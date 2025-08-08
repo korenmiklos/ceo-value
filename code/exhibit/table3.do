@@ -1,6 +1,6 @@
 *! version 1.0.0 2025-08-08
 * =============================================================================
-* Revenue Function Estimation - Issue #14 Specifications
+* Exhibit 3: Revenue Function Estimation Results Table
 * =============================================================================
 
 clear all
@@ -42,19 +42,24 @@ eststo model5
 reghdfe lnR `rich_controls' if component_id == 1, absorb(`FEs') vce(cluster frame_id_numeric)
 eststo model6
 
-* Save estimates to file for table3.do to read
-estimates save "temp/revenue_function_estimates.ster", replace
+* Generate LaTeX table using esttab 
+esttab model1 model2 model3 model4 model5 model6 using "output/table/table3.tex", ///
+    replace booktabs label star(* 0.10 ** 0.05 *** 0.01) b(3) se(3) ///
+    mtitle("Log Revenue" "Log EBIT" "Log Employment" "Log Revenue" "Log Revenue" "Log Revenue") ///
+    title("Revenue Function Estimation Results") ///
+    keep(lnK intangible_share foreign_owned firm_age firm_age_sq ceo_tenure ceo_tenure_sq) ///
+    order(lnK intangible_share foreign_owned firm_age firm_age_sq ceo_tenure ceo_tenure_sq) ///
+    addnote("All models include firm-CEO-spell fixed effects and industry-year fixed effects." ///
+            "Standard errors (in parentheses) are clustered at the firm level." ///
+            "Models (1)-(3) include only log capital as control." ///
+            "Models (4)-(6) include rich controls." ///
+            "Model (5) restricts to first CEO spells only." ///
+            "Model (6) restricts to largest connected component." ///
+            "Significance levels: *** p<0.01, ** p<0.05, * p<0.1.")
 
-display "Revenue function estimates saved to temp/revenue_function_estimates.ster"
-display "Summary:"
-display "Model 1 (lnR~lnK): " e(N) " observations"
-estimates restore model2
-display "Model 2 (lnEBIT~lnK): " e(N) " observations" 
-estimates restore model3
-display "Model 3 (lnW~lnK): " e(N) " observations"
-estimates restore model4 
-display "Model 4 (lnR~rich): " e(N) " observations"
-estimates restore model5
-display "Model 5 (lnR~rich, 1st spell): " e(N) " observations"
-estimates restore model6
-display "Model 6 (lnR~rich, connected): " e(N) " observations"
+* Fix the label in the generated .tex file to avoid LaTeX issues
+local oldlabel `"tab:revenue\_function"'
+local newlabel "tab:revenuefunction"  
+filefilter "output/table/table3.tex" "output/table/table3.tex", from("`oldlabel'") to("`newlabel'") replace
+
+display "Table 3 generated: output/table/table3.tex"

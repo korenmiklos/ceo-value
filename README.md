@@ -124,6 +124,9 @@ The project includes a **Makefile** that automates the entire analysis pipeline.
 - `code/estimate/surplus.do`: Estimates revenue function and residualizes surplus for manager skill identification
 - `code/estimate/event_study.do`: Implements placebo-controlled event study comparing actual vs placebo CEO transitions
 - `code/estimate/manager_value.do`: Estimates manager skills using fixed effects, creates histograms and regression tables showing manager effects on firm outcomes
+- `code/exhibit/table1.do`: Creates temporal distribution table showing firm-year observations by year
+- `code/exhibit/table2.do`: Creates industry-level summary statistics table using TEAOR08 classifications
+- `code/exhibit/table3.do`: Creates revenue function estimation results table with 6 model specifications
 - `code/util/industry.do`: Creates industry sector classifications using TEAOR08 codes
 - `code/util/variables.do`: Constructs derived variables including log transformations, CEO tenure, age variables, and firm characteristics
 - `code/util/filter.do`: Applies final sample restrictions excluding firms with complex CEO structures or specific industries
@@ -156,6 +159,11 @@ The project includes a **Makefile** that automates the entire analysis pipeline.
    # Generate econometric analysis
    stata -b do code/estimate/surplus.do
    stata -b do code/estimate/manager_value.do
+   
+   # Create exhibit tables
+   stata -b do code/exhibit/table1.do
+   stata -b do code/exhibit/table2.do
+   stata -b do code/exhibit/table3.do
    
    # Create data extracts (optional)
    stata -b do code/create/extract.do
@@ -219,9 +227,9 @@ The provided code reproduces:
 
 | Figure/Table # | Program | Output file | Note |
 |----------------|---------|-------------|----- |
-| Table 1 (Sample Distribution) | table1.do | output/table/table1.tex | Temporal distribution by year |
-| Table 2 (Industry Statistics) | table2.do | output/table/table2.tex | Industry-level summary using TEAOR08 |
-| Table 3 (CEO Structure) | analysis-sample.do | Embedded in paper.tex | CEO turnover patterns |
+| Table 1 (Sample Distribution) | code/exhibit/table1.do | output/table/table1.tex | Temporal distribution by year |
+| Table 2 (Industry Statistics) | code/exhibit/table2.do | output/table/table2.tex | Industry-level summary using TEAOR08 |
+| Table 3 (Revenue Function) | code/exhibit/table3.do | output/table/table3.tex | Revenue function estimation results |
 | Figure 1 (Manager Skill Distributions) | manager_value.do | output/figure/manager_skill_within.pdf, output/figure/manager_skill_connected.pdf | Panel A: Within-firm variation, Panel B: Connected component |
 | Figure 2 (Event Study) | event_study.do | output/figure/event_study.pdf | Placebo-controlled event study results |
 | Event Study Results | event_study.do | output/event_study.txt | Treatment effects and placebo analysis |

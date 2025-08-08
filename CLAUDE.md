@@ -173,13 +173,15 @@ Beyond the CEU MicroData Stata Style Guide, this project follows additional conv
 - Exhibit code lives in `code/exhibit/` directory
 - Exhibits are named `table1.do`, `table2.do`, etc. (not `exhibit1.do`)
 - Output files are named `output/table/table1.tex`, etc. (matching the .do filename)
-- Use programmatic LaTeX generation with `file write` commands
+- Use programmatic LaTeX generation with `file write` commands for custom tables
+- Use `esttab` for regression tables with `booktabs` option for clean formatting
 - Include comprehensive table notes using `\begin{tablenotes}[flushleft]` and `\footnotesize`
 - For long tables, show selected rows (e.g., every 5th year + first/last + totals)
 - Use 9999 as indicator for total/summary rows when appending aggregated data
 - Format numbers with thousand separators using `%12.0fc`
 - Create summary statistics at the end of scripts for log file documentation
 - In Makefile: exhibit dependencies include both data files and connected component CSV files
+- For esttab labels with underscores, use `filefilter` to clean LaTeX-incompatible characters
 
 ### LaTeX Table Formatting Preferences
 - Use equal-width centered columns: `\begin{tabular}{*{6}{c}}` instead of `lccccc`
