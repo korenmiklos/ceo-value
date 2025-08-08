@@ -169,7 +169,7 @@ local outfile "output/table/table1.tex"
 file open table using "`outfile'", write replace
 file write table "\begin{table}[htbp]" _n
 file write table "\centering" _n
-file write table "\caption{Sample Description Over Time}" _n
+file write table "\caption{Sample Over Time}" _n
 file write table "\label{tab:sample}" _n
 file write table "\begin{tabular}{*{6}{c}}" _n  // Equal width centered columns
 file write table "\toprule" _n
@@ -199,13 +199,11 @@ file write table "\begin{minipage}{12cm}" _n  // Match table width (6 columns ×
 file write table "\footnotesize" _n
 file write table "\textit{Notes:} This table presents the evolution of the sample from 1992 to 2022. "
 file write table "Column (1) shows the total number of distinct firms with balance sheet data. "
-file write table "Column (2) shows the number of distinct sample firms after applying filters "
-file write table "(excluding financial and real estate sectors, requiring positive employment and revenue). "
-file write table "Column (3) shows the number of distinct CEOs (person IDs) across all years. "
+file write table "Column (2) shows the number of distinct firms after applying data quality filters. "
+file write table "Column (3) shows the number of distinct CEOs. "
 file write table "Columns (4) and (5) show the subset of distinct firms and CEOs that belong to the largest connected component "
 file write table "of the manager network, where managers are connected if they have worked at the same firm. "
 file write table "The table shows every fifth year plus the first year (1992), last year (2022), and totals of distinct counts. "
-file write table "Source: Hungarian administrative data combining firm balance sheets and CEO registry." _n
 file write table "\end{minipage}" _n
 file write table "\end{table}" _n
 file close table
