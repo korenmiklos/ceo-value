@@ -5,13 +5,16 @@ UTILS := $(wildcard code/util/*.do)
 
 all: output/paper.pdf
 
-%.pdf: %.tex output/table/table1.tex output/table/revenue_function.tex output/table/revenue_sectors.tex output/table/manager_effects.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/manager_skill_correlation.pdf output/figure/event_study.pdf output/references.bib
+%.pdf: %.tex output/table/table1.tex output/table/table2.tex output/table/revenue_function.tex output/table/revenue_sectors.tex output/table/manager_effects.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/manager_skill_correlation.pdf output/figure/event_study.pdf output/references.bib
 	cd $(dir $@) && $(LATEX) $(notdir $<) && bibtex $(notdir $(basename $<)) && $(LATEX) $(notdir $<) && $(LATEX) $(notdir $<)
 
 temp/analysis-sample.dta: code/create/analysis-sample.do temp/balance.dta temp/ceo-panel.dta $(UTILS)
 	$(STATA) $<
 
 output/table/table1.tex: code/exhibit/table1.do temp/analysis-sample.dta temp/balance.dta temp/large_component_managers.csv
+	$(STATA) $<
+
+output/table/table2.tex: code/exhibit/table2.do temp/balance.dta temp/analysis-sample.dta temp/surplus.dta $(UTILS)
 	$(STATA) $<
 
 temp/balance.dta: code/create/balance.do input/merleg-LTS-2023/balance/balance_sheet_80_22.dta
