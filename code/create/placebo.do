@@ -5,6 +5,7 @@ local max_n_ceo 1            // Maximum number of CEOs per firm-year
 local placebo_seed 8211           // Random seed for placebo generation
 local first_placebo_spell 1       // First placebo spell number for analysis
 local second_placebo_spell 2      // Second placebo spell number for analysis
+local max_ceo_spells 6            // Maximum CEO spell threshold
 
 use "temp/analysis-sample.dta", clear
 
@@ -24,13 +25,23 @@ summarize actual_change if ceo_spell < max_ceo_spell
 scalar p = r(mean)
 display "Actual change probability: " p
 set seed `placebo_seed'
-generate byte placebo_change = (uniform() < p)
+* pcb flags the last year of a spell
+generate byte pcb = (uniform() < p)
+xtset frame_id_numeric year
+* we need the first year of a spell
+generate byte placebo_change = (L.pcb == 1)
+drop pcb
 
 tabulate placebo_change actual_change, missing
 
 * now build placebo spells. these will be further pruned to exclude times when the actual manager changed
 bysort frame_id_numeric (year): generate placebo_spell = sum(placebo_change)
 replace placebo_spell = placebo_spell + 1
+egen max_placebo_spell = max(placebo_spell), by(frame_id_numeric)
+
+* consistent sampling
+drop if max_placebo_spell > `max_ceo_spells'
+drop if max_placebo_spell < 2
 
 correlate ceo_spell placebo_spell
 

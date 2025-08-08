@@ -71,6 +71,10 @@ restore
 merge m:1 frame_id_numeric year using "temp/placebo.dta", keep(match) nogen
 preserve
     keep if !missing(placebo_spell)
+    egen max_placebo_spell = max(placebo_spell), by(frame_id_numeric)
+    * drop last spell, because it ends in firm death, not CEO change
+    keep if placebo_spell < max_ceo_spell
+
     egen spell_tag = tag(frame_id_numeric placebo_spell)
     egen spell_year_tag = tag(frame_id_numeric placebo_spell year)
     egen T_spell = total(spell_year_tag), by(frame_id_numeric placebo_spell)
