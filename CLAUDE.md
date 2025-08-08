@@ -12,7 +12,7 @@ This is an academic research project implementing a novel placebo-controlled eve
 ```bash
 make all
 ```
-This runs all Stata scripts in dependency order and compiles the final PDF.
+This runs all Stata scripts in dependency order and compiles the final PDF, including all tables and figures.
 
 ### Individual components
 ```bash
@@ -33,6 +33,10 @@ stata -b do code/create/edgelist.do
 
 # Find largest connected component of managers
 julia --project=. code/create/connected_component.jl
+
+# Generate exhibit tables
+stata -b do code/exhibit/table1.do
+stata -b do code/exhibit/table6.do
 
 # Run econometric analysis
 stata -b do code/estimate/surplus.do
