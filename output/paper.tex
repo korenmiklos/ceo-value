@@ -144,7 +144,26 @@ At the firm level, the match rates are more favorable. Among the 1,200,145 uniqu
 
 At the firm level, 62.97\% of the 1,012,113 firms in our sample experience only one CEO spell during the observation window. However, 24.07\% of firms have exactly two CEO spells, indicating at least one CEO change. The remaining 12.96\% of firms experience multiple CEO changes, with some firms having up to 25 CEO transitions. This pattern suggests that while many firms maintain stable CEO leadership, a substantial minority experience frequent executive turnover.
 
-\input{table/table6}
+\begin{table}[htbp]
+\centering
+\caption{Number and Job Spell of CEOs}
+\label{tab:ceo_patterns}
+\begin{minipage}{0.48\textwidth}
+\centering
+\textbf{Panel A: Number of CEOs}
+\input{table/table6_panelA}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+\centering
+\textbf{Panel B: Spell Lengths}
+\input{table/table6_panelB}
+\end{minipage}
+\begin{tablenotes}[flushleft]
+\footnotesize
+\item\textbf{Panel A} reports the distribution of CEOs at firms. Column 1 shows the percentage of firm-year observations with 1, 2, 3, or 4+ CEOs. Column 2 shows the percentage of firms with 1, 2, 3, or 4+ CEO spells over the sample period. \textbf{Panel B} reports the distribution of CEO spell lengths. Actual spells are computed from the administrative data (1992-2022). Placebo spells follow an exponential distribution with the same exit probability as actual CEOs, but exclude periods of actual CEO transitions. A CEO spell is defined as a continuous period of the same person serving at the same firm.
+\end{tablenotes}
+\end{table}
 
 Table \ref{tab:ceo_patterns} provides a detailed breakdown of CEO patterns and spell lengths in our data. Panel A shows that 84\% of firm-years have exactly one CEO, while 16\% have multiple CEOs per year. At the firm level, 64\% of firms have only one CEO spell throughout the observation period, while 36\% experience at least one CEO transition. Panel B compares the distribution of CEO spell lengths between actual and placebo data. The placebo mechanism generates spell length distributions very similar to the actual data, with both showing that approximately 60\% of spells last four or more years. This similarity validates our placebo construction methodology, which follows an exponential distribution with the same transition probability as actual CEO changes.
 

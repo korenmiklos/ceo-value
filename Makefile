@@ -99,8 +99,8 @@ output/table/table3.tex: code/exhibit/table3.do temp/revenue_models.ster temp/an
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
-# Table 6: CEO patterns and spell length analysis
-output/table/table6.tex: code/exhibit/table6.do temp/analysis-sample.dta temp/placebo.dta
+# Table 6: CEO patterns and spell length analysis (two panels)
+output/table/table6_panelA.tex output/table/table6_panelB.tex: code/exhibit/table6.do temp/analysis-sample.dta temp/placebo.dta
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
@@ -114,7 +114,7 @@ output/figure/event_study.pdf: code/exhibit/figure1.do temp/event_study_panel_a.
 # =============================================================================
 
 # Compile final paper
-output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2.tex output/table/table3.tex output/table/table6.tex output/table/manager_effects.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/manager_skill_correlation.pdf output/figure/event_study.pdf output/references.bib
+output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2.tex output/table/table3.tex output/table/table6_panelA.tex output/table/table6_panelB.tex output/table/manager_effects.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/manager_skill_correlation.pdf output/figure/event_study.pdf output/references.bib
 	cd output && $(LATEX) paper.tex && bibtex paper && $(LATEX) paper.tex && $(LATEX) paper.tex
 
 # =============================================================================
