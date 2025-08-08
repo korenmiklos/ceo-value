@@ -6,9 +6,11 @@ generate lnEBITDA = ln(EBITDA)
 generate lnL = ln(employment)
 generate lnK = ln(tangible_assets + intangible_assets)
 generate lnM = ln(materials)
+generate lnWL = ln(personnel_expenses)
 generate intangible_share = intangible_assets / (tangible_assets + intangible_assets)
 replace intangible_share = 0 if intangible_share < 0 | missing(intangible_share)
 replace intangible_share = 1 if intangible_share > 1
+generate byte has_intangible = intangible_assets > 0
 egen max_employment = max(employment), by(frame_id_numeric)
 
 * manager spells etc
@@ -73,6 +75,8 @@ label variable n_ceo "Number of CEOs in a year"
 label variable lnR "Sales (log)"
 label variable lnEBITDA "EBITDA (log)"
 label variable lnL "Employment (log)"
-label variable lnK "Tangible and intangible assets (log)"
+label variable lnK "Fixed assets (log)"
 label variable lnM "Materials (log)"
 label variable intangible_share "Intangible assets share"
+label variable lnWL "Wagebill (log)"
+label variable has_intangible "Has intangible assets"
