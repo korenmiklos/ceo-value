@@ -2,7 +2,14 @@
 *! Panel A: CEO patterns per firm-year and firm
 *! Panel B: CEO spell length distribution (actual vs placebo)
 
-use "temp/analysis-sample.dta", clear
+local max_spell_analysis = 2
+
+use "temp/balance.dta", clear
+merge 1:m frame_id_numeric year using "temp/ceo-panel.dta", keep(master match) nogen
+
+* Apply industry classification
+do "code/util/industry.do"
+do "code/util/variables.do"
 
 * =============================================================================
 * PANEL A: CEO PATTERNS ANALYSIS  
@@ -44,8 +51,12 @@ restore
 * PANEL B: SPELL LENGTH ANALYSIS
 * =============================================================================
 preserve
+    keep if ceo_spell <= `max_spell_analysis'
+    keep if max_ceo_spell >= `max_spell_analysis'
+
     egen spell_tag = tag(frame_id_numeric ceo_spell)
-    egen T_spell = total(1), by(frame_id_numeric ceo_spell)
+    egen spell_year_tag = tag(frame_id_numeric ceo_spell year)
+    egen T_spell = total(spell_year_tag), by(frame_id_numeric ceo_spell)
     keep if spell_tag 
 
     recode T_spell (4/max = 4)
@@ -62,8 +73,9 @@ merge m:1 frame_id_numeric year using "temp/placebo.dta", keep(match) nogen
 preserve
     keep if !missing(placebo_spell)
     egen spell_tag = tag(frame_id_numeric placebo_spell)
-    egen T_spell = total(1), by(frame_id_numeric placebo_spell)
-    keep if spell_tag 
+    egen spell_year_tag = tag(frame_id_numeric placebo_spell year)
+    egen T_spell = total(spell_year_tag), by(frame_id_numeric placebo_spell)
+    keep if spell_tag
 
     recode T_spell 4/max = 4
 
