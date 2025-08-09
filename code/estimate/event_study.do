@@ -10,7 +10,7 @@ local baseline_year -5            // Baseline year for event study
 local min_obs_threshold 1         // Minimum observations before/after
 local min_T 1                     // Minimum observations to estimate fixed effects
 local random_seed 2181            // Random seed for reproducibility
-local sample 100                   // Sample selection for analysis
+local sample 30                   // Sample selection for analysis
 
 use "temp/surplus.dta", clear
 merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match) nogen
