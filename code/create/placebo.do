@@ -53,7 +53,6 @@ egen has_actual_change_1 = max(cond(placebo_spell == `first_placebo_spell', actu
 egen has_actual_change_2 = max(cond(placebo_spell == `second_placebo_spell', actual_change, .)), by(frame_id_numeric)
 
 tabulate placebo_spell if has_actual_change_1 == 0 & has_actual_change_2 == 0, missing
-keep if has_actual_change_1 == 0 & has_actual_change_2 == 0
 
 keep frame_id_numeric year placebo_spell
 save "temp/placebo.dta", replace
