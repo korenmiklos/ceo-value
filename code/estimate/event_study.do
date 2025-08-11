@@ -11,10 +11,16 @@ local min_obs_threshold 1         // Minimum observations before/after
 local min_T 1                     // Minimum observations to estimate fixed effects
 local random_seed 2181            // Random seed for reproducibility
 local sample 25                   // Sample selection for analysis
+local max_n_ceo 1                // Maximum number of CEOs per firm for analysis
 
 use "temp/surplus.dta", clear
 merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match) nogen
 merge m:1 frame_id_numeric person_id using "temp/manager_value.dta", keep(master match) nogen
+
+* keep single-ceo firms
+egen max_n_ceo = max(n_ceo), by(frame_id_numeric)
+tabulate n_ceo max_n_ceo, missing
+keep if max_n_ceo <= `max_n_ceo'
 
 * sample for performance when testing
 set seed `random_seed'
@@ -42,7 +48,6 @@ egen max_ceo_spell = max(ceo_spell), by(fake_id)
 * limit sample to clean changes between first and second CEO 
 keep if max_ceo_spell >= `max_spell_analysis'
 keep if ceo_spell <= `max_spell_analysis'
-keep if n_ceo == 1
 keep if !missing(lnStilde)
 
 egen change_year = min(cond(ceo_spell == 2, year, .)), by(fake_id)
@@ -58,6 +63,9 @@ egen MS2a = mean(cond(ceo_spell == 2, manager_skill, .)), by(fake_id)
 
 egen MS1 = mean(cond(ceo_spell == 1, lnStilde, .)), by(fake_id)
 egen MS2 = mean(cond(ceo_spell == 2, lnStilde, .)), by(fake_id)
+
+replace MS1 = MS1a if !placebo
+replace MS2 = MS2a if !placebo
 
 egen T1 = total((ceo_spell == 1) & !missing(lnStilde)), by(fake_id)
 egen T2 = total((ceo_spell == 2) & !missing(lnStilde)), by(fake_id)
