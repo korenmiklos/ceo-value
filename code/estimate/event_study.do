@@ -10,7 +10,7 @@ local baseline_year -2            // Baseline year for event study
 local min_obs_threshold 1         // Minimum observations before/after
 local min_T 1                     // Minimum observations to estimate fixed effects
 local random_seed 2181            // Random seed for reproducibility
-local sample 100                   // Sample selection for analysis
+local sample 25                   // Sample selection for analysis
 
 use "temp/surplus.dta", clear
 merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match) nogen
@@ -58,9 +58,6 @@ egen MS2a = mean(cond(ceo_spell == 2, manager_skill, .)), by(fake_id)
 
 egen MS1 = mean(cond(ceo_spell == 1, lnStilde, .)), by(fake_id)
 egen MS2 = mean(cond(ceo_spell == 2, lnStilde, .)), by(fake_id)
-
-replace MS1 = MS1a if !placebo
-replace MS2 = MS2a if !placebo
 
 egen T1 = total((ceo_spell == 1) & !missing(lnStilde)), by(fake_id)
 egen T2 = total((ceo_spell == 2) & !missing(lnStilde)), by(fake_id)
