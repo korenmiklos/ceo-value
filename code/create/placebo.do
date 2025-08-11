@@ -6,6 +6,7 @@ local placebo_seed 8211           // Random seed for placebo generation
 local first_placebo_spell 1       // First placebo spell number for analysis
 local second_placebo_spell 2      // Second placebo spell number for analysis
 local max_ceo_spells 6            // Maximum CEO spell threshold
+local longest_spell 31            // Maximum length of CEO spell for analysis
 
 use "temp/analysis-sample.dta", clear
 
@@ -22,10 +23,41 @@ egen spell_end = max(year), by(frame_id_numeric ceo_spell)
 * assume each manager exits with the same probability each year
 generate byte actual_change = (year == spell_end)  & (ceo_spell < max_ceo_spell)
 
-summarize actual_change if ceo_spell < max_ceo_spell
-scalar p = r(mean)
-display "Actual change probability: " p
+bysort frame_id_numeric ceo_spell (year): generate year_of_spell = sum(1)
+
+tabulate year_of_spell actual_change if ceo_spell < max_ceo_spell , row
+summarize year_of_spell if ceo_spell < max_ceo_spell
+local max_spell_length = r(max)
+
+bysort frame_id_numeric (year): generate byte running_index = 1 if _n == 1
+xtset frame_id_numeric year
 set seed `placebo_seed'
+forvalues t = 1/4 {
+    summarize actual_change if year_of_spell == `t' & ceo_spell < max_ceo_spell
+    local p_`t' = r(mean)
+    display "Probability of change in year `t': " `p_`t''
+}
+generate p_change = .
+generate byte pcb = .
+generate byte pointer = 1 if running_index == 1
+
+forvalues t = 1/2 {
+    * we may already have previous indexes
+    forvalues s = 1/`t' {
+        quietly replace p_change = `p_`s'' if running_index == `s'
+    }
+    quietly replace pcb = (uniform() < p_change) if pointer == 1
+    * update running index if no change simulated
+    quietly replace running_index = L.running_index + 1 if L.pointer == 1 & L.pcb == 0
+    * start counting from 1 if there is a change
+    quietly replace running_index = 1 if L.pointer == 1 & L.pcb == 1
+    * move pointer one year ahead
+    quietly replace pointer = 1 if inlist(L.pcb, 0, 1) 
+    quietly replace pointer = 0 if inlist(pcb, 0, 1)
+}
+
+BRK
+
 * pcb flags the last year of a spell
 generate byte pcb = (uniform() < p)
 xtset frame_id_numeric year
