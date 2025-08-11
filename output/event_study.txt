@@ -3,7 +3,7 @@
        log:  /Users/koren/Tresorit/Mac/projects/ceo-value/output/event_study.tx
 > t
   log type:  text
- opened on:  11 Aug 2025, 21:40:24
+ opened on:  11 Aug 2025, 22:17:52
 
 . 
 . drop if skill_change == 0
@@ -109,5 +109,5 @@ Placebo-controlled ATET 2: .05507665
        log:  /Users/koren/Tresorit/Mac/projects/ceo-value/output/event_study.tx
 > t
   log type:  text
- closed on:  11 Aug 2025, 21:50:49
+ closed on:  11 Aug 2025, 22:25:23
 -------------------------------------------------------------------------------
