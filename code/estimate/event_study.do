@@ -8,10 +8,10 @@ local skill_cutoff_lower -0.01   // Lower skill change cutoff
 local event_window_start -3      // Event study window start
 local event_window_end 3         // Event study window end
 local baseline_year -3            // Baseline year for event study
-local min_obs_threshold 3         // Minimum observations before/after
-local min_T 3                     // Minimum observations to estimate fixed effects
+local min_obs_threshold 1         // Minimum observations before/after
+local min_T 1                     // Minimum observations to estimate fixed effects
 local random_seed 2181            // Random seed for reproducibility
-local sample 25                   // Sample selection for analysis
+local sample 100                   // Sample selection for analysis
 local max_n_ceo 1                // Maximum number of CEOs per firm for analysis
 
 use "temp/surplus.dta", clear
