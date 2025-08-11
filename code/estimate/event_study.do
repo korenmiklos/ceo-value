@@ -1,13 +1,13 @@
 * =============================================================================
 * EVENT STUDY PARAMETERS
 * =============================================================================
-local first_spell 2                // First spell for event study
-local second_spell 3               // Second spell for event study
+local first_spell 1                // First spell for event study
+local second_spell 2               // Second spell for event study
 local skill_cutoff_upper 0.01    // Upper skill change cutoff
 local skill_cutoff_lower -0.01   // Lower skill change cutoff
-local event_window_start -5      // Event study window start
-local event_window_end 5         // Event study window end
-local baseline_year -5            // Baseline year for event study
+local event_window_start -3      // Event study window start
+local event_window_end 3         // Event study window end
+local baseline_year -3            // Baseline year for event study
 local min_obs_threshold 1         // Minimum observations before/after
 local min_T 1                     // Minimum observations to estimate fixed effects
 local random_seed 2181            // Random seed for reproducibility

@@ -7,8 +7,8 @@ local first_placebo_spell 1       // First placebo spell number for analysis
 local second_placebo_spell 2      // Second placebo spell number for analysis
 local max_ceo_spells 6            // Maximum CEO spell threshold
 local longest_spell 31            // Maximum length of CEO spell for analysis
-local pre 5                     // Pre-period for analysis
-local post 5                    // Post-period for analysis
+local pre 3                     // Pre-period for analysis
+local post 3                    // Post-period for analysis
 
 use "temp/analysis-sample.dta", clear
 

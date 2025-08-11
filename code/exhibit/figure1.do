@@ -4,9 +4,9 @@
 * =============================================================================
 * FIGURE PARAMETERS
 * =============================================================================
-local event_window_start -5      // Event study window start
-local event_window_end 5         // Event study window end
-local baseline_year -5            // Baseline year for event study
+local event_window_start -3      // Event study window start
+local event_window_end 3         // Event study window end
+local baseline_year -3            // Baseline year for event study
 
 * =============================================================================
 * LOAD SAVED EVENT STUDY DATA
