@@ -3,7 +3,7 @@
 * =============================================================================
 local min_surplus_share 0          // Minimum surplus share bound
 local max_surplus_share 1          // Maximum surplus share bound
-local controls lnK foreign_owned has_intangible firm_age firm_age_sq ceo_tenure ceo_tenure_sq
+local controls lnK foreign_owned has_intangible firm_age firm_age_sq
 local FEs frame_id_numeric##ceo_spell sector_time=teaor08_2d##year
 
 use "temp/analysis-sample.dta", clear

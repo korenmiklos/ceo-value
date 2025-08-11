@@ -1,20 +1,27 @@
 * =============================================================================
 * EVENT STUDY PARAMETERS
 * =============================================================================
-local max_spell_analysis 2        // Maximum CEO spell for analysis
+local first_spell 1                // First spell for event study
+local second_spell 2               // Second spell for event study
 local skill_cutoff_upper 0.01    // Upper skill change cutoff
 local skill_cutoff_lower -0.01   // Lower skill change cutoff
-local event_window_start -5      // Event study window start
-local event_window_end 5         // Event study window end
-local baseline_year -5            // Baseline year for event study
+local event_window_start -3      // Event study window start
+local event_window_end 3         // Event study window end
+local baseline_year -3            // Baseline year for event study
 local min_obs_threshold 1         // Minimum observations before/after
 local min_T 1                     // Minimum observations to estimate fixed effects
 local random_seed 2181            // Random seed for reproducibility
 local sample 100                   // Sample selection for analysis
+local max_n_ceo 1                // Maximum number of CEOs per firm for analysis
 
 use "temp/surplus.dta", clear
 merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match) nogen
 merge m:1 frame_id_numeric person_id using "temp/manager_value.dta", keep(master match) nogen
+
+* keep single-ceo firms
+egen max_n_ceo = max(n_ceo), by(frame_id_numeric)
+tabulate n_ceo max_n_ceo, missing
+keep if max_n_ceo <= `max_n_ceo'
 
 * sample for performance when testing
 set seed `random_seed'
@@ -40,12 +47,11 @@ drop max_ceo_spell expand_N placebo_spell
 egen max_ceo_spell = max(ceo_spell), by(fake_id)
 
 * limit sample to clean changes between first and second CEO 
-keep if max_ceo_spell >= `max_spell_analysis'
-keep if ceo_spell <= `max_spell_analysis'
-keep if n_ceo == 1
+keep if ceo_spell <= max_ceo_spell
 keep if !missing(lnStilde)
+keep if inlist(ceo_spell, `first_spell', `second_spell')
 
-egen change_year = min(cond(ceo_spell == 2, year, .)), by(fake_id)
+egen change_year = min(cond(ceo_spell == `second_spell', year, .)), by(fake_id)
 generate event_time = year - change_year
 
 tabulate ceo_spell placebo, missing
@@ -53,17 +59,17 @@ tabulate change_year placebo, missing
 tabulate event_time placebo, missing
 drop change_year
 
-egen MS1a = mean(cond(ceo_spell == 1, manager_skill, .)), by(fake_id)
-egen MS2a = mean(cond(ceo_spell == 2, manager_skill, .)), by(fake_id)
+egen MS1a = mean(cond(ceo_spell == `first_spell', manager_skill, .)), by(fake_id)
+egen MS2a = mean(cond(ceo_spell == `second_spell', manager_skill, .)), by(fake_id)
 
-egen MS1 = mean(cond(ceo_spell == 1, lnStilde, .)), by(fake_id)
-egen MS2 = mean(cond(ceo_spell == 2, lnStilde, .)), by(fake_id)
+egen MS1 = mean(cond(ceo_spell == `first_spell', lnStilde, .)), by(fake_id)
+egen MS2 = mean(cond(ceo_spell == `second_spell', lnStilde, .)), by(fake_id)
 
 replace MS1 = MS1a if !placebo
 replace MS2 = MS2a if !placebo
 
-egen T1 = total((ceo_spell == 1) & !missing(lnStilde)), by(fake_id)
-egen T2 = total((ceo_spell == 2) & !missing(lnStilde)), by(fake_id)
+egen T1 = total((ceo_spell == `first_spell') & !missing(lnStilde)), by(fake_id)
+egen T2 = total((ceo_spell == `second_spell') & !missing(lnStilde)), by(fake_id)
 
 drop if T1 < `min_T' | T2 < `min_T'
 drop if missing(MS1, MS2)
