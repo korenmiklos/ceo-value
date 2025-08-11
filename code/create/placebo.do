@@ -44,6 +44,8 @@ egen T_actual = total(1), by(frame_id_numeric ceo_spell)
 egen actual_spell_tag = tag(frame_id_numeric ceo_spell)
 tabulate T_actual if actual_spell_tag & ceo_spell < max_ceo_spell, missing
 
+* most relevant firms are those that WILL change CEO in the future
+keep if max_ceo_spell >= 2
 * only use long spells for placebo
 keep if ceo_spell == 1
 keep if T_actual >= `pre' + `post' + 1
