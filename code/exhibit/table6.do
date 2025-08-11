@@ -46,6 +46,7 @@ restore
 * =============================================================================
 * PANEL B: SPELL LENGTH ANALYSIS
 * =============================================================================
+use "temp/analysis-sample.dta", clear
 preserve
     keep if max_ceo_spell >= `max_spell_analysis'
     * do not use last spell, because it ends in firm death, not CEO change
