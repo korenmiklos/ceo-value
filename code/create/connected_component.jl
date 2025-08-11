@@ -20,6 +20,8 @@ end
 
 function read_edgelist(path::String, source_col::String, target_col::String)::BipartiteGraph
     df = CSV.read(path, DataFrame; header=true)
+    # Drop rows with missing person_id
+    df = df[.!ismissing.(df[!, target_col]), :]
     return BipartiteGraph(Vector{Int}(df[!, source_col]), Vector{Int}(df[!, target_col]))
 end
 

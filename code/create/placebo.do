@@ -21,6 +21,7 @@ egen spell_end = max(year), by(frame_id_numeric ceo_spell)
 
 * assume each manager exits with the same probability each year
 generate byte actual_change = (year == spell_end)  & (ceo_spell < max_ceo_spell)
+
 summarize actual_change if ceo_spell < max_ceo_spell
 scalar p = r(mean)
 display "Actual change probability: " p
