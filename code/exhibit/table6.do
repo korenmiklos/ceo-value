@@ -3,6 +3,7 @@
 *! Panel B: CEO spell length distribution (actual vs placebo)
 
 local max_spell_analysis = 2
+local max_n_ceo 1
 
 use "temp/unfiltered.dta", clear
 
@@ -45,13 +46,15 @@ restore
 * =============================================================================
 * PANEL B: SPELL LENGTH ANALYSIS
 * =============================================================================
+use "temp/analysis-sample.dta", clear
 preserve
     keep if max_ceo_spell >= `max_spell_analysis'
     * do not use last spell, because it ends in firm death, not CEO change
     keep if ceo_spell < max_ceo_spell
     * drop firms with more than one CEO per year
-    egen max_n_ceo = max(n_ceo ), by(frame_id_numeric )
-    drop if max_n_ceo > 1
+    egen max_n_ceo = max(n_ceo), by(frame_id_numeric)
+    tabulate n_ceo max_n_ceo, missing
+    keep if max_n_ceo <= `max_n_ceo'
 
     egen spell_tag = tag(frame_id_numeric ceo_spell)
     egen spell_year_tag = tag(frame_id_numeric ceo_spell year)

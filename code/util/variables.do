@@ -16,20 +16,29 @@ egen max_employment = max(employment), by(frame_id_numeric)
 * manager spells etc
 egen firm_year_tag = tag(frame_id_numeric year)
 egen firm_tag = tag(frame_id_numeric)
-egen first_time = min(year), by(frame_id_numeric person_id)
-generate ceo_tenure = year - first_time
-egen n_new_ceo = sum(first_time == year), by(frame_id_numeric year)
-bysort firm_year_tag frame_id_numeric (year): generate ceo_spell = sum(n_new_ceo > 0) if firm_year_tag
+
+egen first_time = min(year) if !missing(person_id), by(frame_id_numeric person_id)
+egen first_ceo_in_sample = min(first_time), by(frame_id_numeric)
+generate byte ceo_tenure = year - first_time
+egen byte has_new_ceo = max(first_time == year), by(frame_id_numeric year)
+
+tabulate has_new_ceo if firm_year_tag, missing
+
+bysort firm_year_tag frame_id_numeric (year): generate ceo_spell = sum(has_new_ceo) if firm_year_tag
 egen tmp = max(ceo_spell), by(frame_id_numeric year)
 replace ceo_spell = tmp if missing(ceo_spell)
+
+* ceo_spell = 0 denotes early firm-years with no CEO
+* if CEO is missing in later years, we assume that the CEO did not change
 
 tabulate ceo_spell if firm_year_tag, missing
 egen max_ceo_spell = max(ceo_spell), by(frame_id_numeric)
 tabulate max_ceo_spell if firm_tag, missing
+
 egen last_year = max(year), by(frame_id_numeric)
 generate byte exit = (year == last_year)
 
-drop tmp n_new_ceo first_time firm_year_tag firm_tag last_year
+drop tmp has_new_ceo first_time first_ceo_in_sample firm_year_tag firm_tag last_year
 
 * we only infer gender from Hungarian names
 generate expat = missing(male)

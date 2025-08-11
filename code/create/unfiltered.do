@@ -13,6 +13,9 @@ merge 1:m frame_id_numeric year using "temp/ceo-panel.dta", keep(master match) n
 do "code/util/industry.do"
 do "code/util/variables.do"
 
+* even in unfiltered data, firms that never report a CEO are dropped
+drop if max_ceo_spell == 0
+
 * Save unfiltered dataset
 save "temp/unfiltered.dta", replace
 

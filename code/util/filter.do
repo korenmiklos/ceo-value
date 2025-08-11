@@ -7,8 +7,8 @@ local min_firm_age 1              // Minimum firm age (drops age 0)
 local excluded_sectors "2, 9"     // Sector codes to exclude (mining, finance)
 local min_employment 1           // Minimum employment for analysis
 
-* drop firms that do not have a CEO
-drop if missing(n_ceo)
+* drop firm-years that do not have a CEO
+drop if ceo_spell == 0
 
 * drop if firm has ever more than specified number of CEOs in a year
 egen max_n_ceo = max(n_ceo), by(frame_id_numeric)
