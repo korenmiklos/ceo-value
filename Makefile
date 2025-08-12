@@ -93,8 +93,8 @@ output/table/table1.tex: code/exhibit/table1.do temp/unfiltered.dta temp/analysi
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
-# Table 2: Industry-level summary statistics
-output/table/table2.tex: code/exhibit/table2.do temp/unfiltered.dta temp/analysis-sample.dta $(UTILS)
+# Table A1: Industry-level summary statistics (moved to appendix)
+output/table/tableA1.tex: code/exhibit/tableA1.do temp/unfiltered.dta temp/analysis-sample.dta $(UTILS)
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
@@ -103,8 +103,8 @@ output/table/table3.tex: code/exhibit/table3.do temp/revenue_models.ster temp/an
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
-# Table 6: CEO patterns and spell length analysis (two panels)
-output/table/table6_panelA.tex output/table/table6_panelB.tex: code/exhibit/table6.do temp/unfiltered.dta temp/placebo.dta
+# Table 2: CEO patterns and spell length analysis (two panels) - moved from Table 6
+output/table/table2_panelA.tex output/table/table2_panelB.tex: code/exhibit/table2.do temp/unfiltered.dta temp/placebo.dta
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
@@ -118,7 +118,7 @@ output/figure/event_study.pdf: code/exhibit/figure1.do temp/event_study_panel_a.
 # =============================================================================
 
 # Compile final paper
-output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2.tex output/table/table3.tex output/table/table6_panelA.tex output/table/table6_panelB.tex output/table/manager_effects.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/manager_skill_correlation.pdf output/figure/event_study.pdf output/references.bib
+output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/tableA1.tex output/table/manager_effects.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/manager_skill_correlation.pdf output/figure/event_study.pdf output/references.bib
 	cd output && $(LATEX) paper.tex && bibtex paper && $(LATEX) paper.tex && $(LATEX) paper.tex
 
 # =============================================================================

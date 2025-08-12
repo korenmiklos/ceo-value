@@ -1,8 +1,3 @@
-*! version 1.0.0 2025-08-08
-* =============================================================================
-* Exhibit 3: Revenue Function Estimation Results Table
-* =============================================================================
-
 clear all
 
 use "temp/analysis-sample.dta", clear

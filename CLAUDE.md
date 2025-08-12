@@ -56,7 +56,8 @@ cd output && pdflatex paper.tex && bibtex paper && pdflatex paper.tex && pdflate
 ```bash
 # Process data with Stata
 stata -b do code/create/balance.do
-stata -b do code/create/ceo-panel.do  
+stata -b do code/create/ceo-panel.do
+stata -b do code/create/unfiltered.do
 stata -b do code/create/analysis-sample.do
 stata -b do code/create/edgelist.do
 
@@ -70,7 +71,8 @@ stata -b do code/estimate/manager_value.do
 # Generate exhibits/tables
 stata -b do code/exhibit/table1.do
 stata -b do code/exhibit/table2.do
-stata -b do code/exhibit/table6.do
+stata -b do code/exhibit/table3.do
+stata -b do code/exhibit/tableA1.do
 
 # Create data extracts (optional)
 stata -b do code/create/extract.do
@@ -89,8 +91,9 @@ cd output && pdflatex paper.tex && bibtex paper && pdflatex paper.tex && pdflate
 
 2. **Processing** (`code/create/`): Stata scripts that clean and merge data
    - `balance.do`: Processes balance sheets (1992-2022), creates standardized variables
-   - `ceo-panel.do`: Processes CEO registry, constructs firm-person-year structure  
-   - `analysis-sample.do`: Merges datasets, applies industry classifications and sample restrictions
+   - `ceo-panel.do`: Processes CEO registry, constructs firm-person-year structure
+   - `unfiltered.do`: Merges datasets, applies industry classifications, creates variables
+   - `analysis-sample.do`: Applies sample restrictions to create final analytical dataset
    - `placebo.do`: Generates placebo CEO transitions with same probability as actual changes but excluding actual transition periods
    - `edgelist.do`: Extracts firm-manager edgelist (frame_id_numeric, person_id) to CSV
 
@@ -101,7 +104,9 @@ cd output && pdflatex paper.tex && bibtex paper && pdflatex paper.tex && pdflate
 
 4. **Exhibits** (`code/exhibit/`): Table generation for paper  
    - `table1.do`: Creates Table 1 - Sample Distribution Over Time with temporal distribution by year
-   - `table2.do`: Creates Table 2 - Industry-Level Summary Statistics using TEAOR08 classification
+   - `table2.do`: Creates Table 2 - CEO Patterns and Spell Length Analysis (two panels)
+   - `table3.do`: Creates Table 3 - Revenue Function Estimation Results
+   - `tableA1.do`: Creates Table A1 - Industry-Level Summary Statistics using TEAOR08 classification (appendix)
 
 5. **Analysis** (`code/estimate/`): Econometric estimation
    - `surplus.do`: Estimates revenue function and residualizes surplus for skill identification
@@ -110,8 +115,9 @@ cd output && pdflatex paper.tex && bibtex paper && pdflatex paper.tex && pdflate
 
 6. **Exhibits** (`code/exhibit/`): Table and figure generation
    - `table1.do`: Descriptive statistics over time
-   - `table2.do`: Industry-level summary statistics
-   - `table6.do`: CEO patterns and spell length analysis  
+   - `table2.do`: CEO patterns and spell length analysis (two panels)
+   - `table3.do`: Revenue function estimation results
+   - `tableA1.do`: Industry-level summary statistics (appendix)
    - `figure1.do`: Event study two-panel figure creation
 
 7. **Output** (`temp/`, `output/`): Intermediate data and final results
@@ -143,7 +149,7 @@ cd output && pdflatex paper.tex && bibtex paper && pdflatex paper.tex && pdflate
 - Log files generated for all Stata operations
 - Final analytical sample: 8,872,039 firm-year observations
 - Event study sample: 51,736 firms with exactly one CEO change
-- Placebo-controlled treatment effect: 6.8% (27% of raw correlation)
+- Placebo-controlled treatment effect: 5.5% (22% of raw correlation)
 
 ## Stata Coding Style
 
@@ -183,8 +189,8 @@ Beyond the CEU MicroData Stata Style Guide, this project follows additional conv
 
 ### Creating Exhibits and Tables
 - Exhibit code lives in `code/exhibit/` directory
-- Exhibits are named `table1.do`, `table2.do`, etc. (not `exhibit1.do`)
-- Output files are named `output/table/table1.tex`, etc. (matching the .do filename)
+- Exhibits are named `table1.do`, `table2.do`, `table3.do`, `tableA1.do`, etc.
+- Output files are named `output/table/table1.tex`, `table2_panelA.tex`, `table2_panelB.tex`, `table3.tex`, `tableA1.tex`, etc.
 - Use programmatic LaTeX generation with `file write` commands for custom tables
 - Use `esttab` for regression tables with `booktabs` option for clean formatting
 - Include comprehensive table notes using `\begin{tablenotes}[flushleft]` and `\footnotesize`

@@ -1,179 +1,196 @@
-*! version 1.0.0 2025-08-08
-* =============================================================================
-* Exhibit 2: Industry-Level Summary Statistics (TEAOR08 Classification)
-* =============================================================================
+local max_spell_analysis = 2
+local max_n_ceo 1
 
-clear all
+use "temp/unfiltered.dta", clear
 
 * =============================================================================
-* Load analysis sample with balance data for comprehensive industry coverage
+* PANEL A: CEO PATTERNS ANALYSIS  
 * =============================================================================
 
-use "temp/balance.dta", clear
-merge 1:m frame_id_numeric year using "temp/ceo-panel.dta", keep(master match) nogen
-
-* Apply industry classification
-do "code/util/industry.do"
-do "code/util/variables.do"
-
-* Create exclusion indicator based on filter criteria
-generate byte excluded = inlist(sector, 2, 9)  // Mining and finance excluded
-label define excluded 0 "" 1 "*"
-label values excluded excluded
-
-* =============================================================================
-* Calculate basic industry statistics from balance data
-* =============================================================================
-
-egen firm_year_tag = tag(frame_id_numeric year)
-
-* Count total firm-year observations by industry
+* Column 1: CEOs per firm-year analysis
 preserve
+    egen firm_year_tag = tag(frame_id_numeric year)
     keep if firm_year_tag
-    collapse (count) n_obs = frame_id_numeric, by(sector excluded)
-    tempfile industry_obs
-    save `industry_obs'
+
+    * n_ceo already exists, don't recompute it
+    recode n_ceo 4/max = 4
+
+    * Generate statistics
+    tempfile panel_a_col1
+    collapse (count) n_obs = frame_id_numeric, by(n_ceo)
+    generate total_obs = sum(n_obs)
+    generate pct = round(n_obs / total_obs[_N] * 100)
+    save `panel_a_col1'
 restore
 
-* Count distinct firms by industry
+* Column 2: CEO spells per firm analysis  
 preserve
     egen firm_tag = tag(frame_id_numeric)
     keep if firm_tag
-    collapse (count) n_firms = frame_id_numeric, by(sector excluded)
-    tempfile industry_firms
-    save `industry_firms'
+
+    * max_ceo_spell already exists, don't recompute it
+    recode max_ceo_spell (4/max = 4)
+
+    * Generate statistics
+    tempfile panel_a_col2
+    collapse (count) n_firms = frame_id_numeric, by(max_ceo_spell)
+    generate total_firms = sum(n_firms)
+    generate pct = round(n_firms / total_firms[_N] * 100)
+    save `panel_a_col2'
 restore
 
 * =============================================================================
-* Load analysis sample to get manager statistics
+* PANEL B: SPELL LENGTH ANALYSIS
 * =============================================================================
-
+use "temp/analysis-sample.dta", clear
 preserve
-    egen manager_tag = tag(frame_id_numeric person_id)
-    keep if manager_tag
-    collapse (count) n_managers = person_id, by(sector excluded)
-    tempfile industry_managers
-    save `industry_managers'
+    keep if max_ceo_spell >= `max_spell_analysis'
+    * do not use last spell, because it ends in firm death, not CEO change
+    keep if ceo_spell < max_ceo_spell
+    * drop firms with more than one CEO per year
+    egen max_n_ceo = max(n_ceo), by(frame_id_numeric)
+    tabulate n_ceo max_n_ceo, missing
+    keep if max_n_ceo <= `max_n_ceo'
+
+    egen spell_tag = tag(frame_id_numeric ceo_spell)
+    egen spell_year_tag = tag(frame_id_numeric ceo_spell year)
+    egen T_spell = total(spell_year_tag), by(frame_id_numeric ceo_spell)
+    keep if spell_tag 
+
+    recode T_spell (4/max = 4)
+
+    tempfile panel_b_col1
+    collapse (count) n_spells = frame_id_numeric, by(T_spell)
+    generate total_spells = sum(n_spells)
+    generate pct = round(n_spells / total_spells[_N] * 100)
+    save `panel_b_col1'
 restore
 
-* =============================================================================
-* Load surplus data for surplus share calculation
-* =============================================================================
-
+* Placebo spell length analysis - merge placebo data with main data
+merge m:1 frame_id_numeric year using "temp/placebo.dta", keep(match) nogen
 preserve
-    keep if firm_year_tag
-    collapse (mean) EBITDA sales, by(sector excluded)
-    generate surplus_share = (EBITDA / sales) * 100
-    drop EBITDA sales
-    tempfile industry_surplus
-    save `industry_surplus'
+    keep if !missing(placebo_spell)
+    egen max_placebo_spell = max(placebo_spell), by(frame_id_numeric)
+    * drop last spell, because it ends in firm death, not CEO change
+    keep if placebo_spell < max_ceo_spell
+
+    egen spell_tag = tag(frame_id_numeric placebo_spell)
+    egen spell_year_tag = tag(frame_id_numeric placebo_spell year)
+    egen T_spell = total(spell_year_tag), by(frame_id_numeric placebo_spell)
+    keep if spell_tag
+
+    recode T_spell 4/max = 4
+
+    tempfile panel_b_col2
+    collapse (count) n_spells = frame_id_numeric, by(T_spell)
+    generate total_spells = sum(n_spells)
+    generate pct = round(n_spells / total_spells[_N] * 100)
+    save `panel_b_col2'
 restore
 
 * =============================================================================
-* Combine all statistics and create final table data
+* CREATE LATEX TABLES - SEPARATE PANELS
 * =============================================================================
 
-use `industry_obs', clear
-merge 1:1 sector excluded using `industry_firms', nogen
-merge 1:1 sector excluded using `industry_managers', nogen
-merge 1:1 sector excluded using `industry_surplus', nogen
+* Write Panel A LaTeX table
+file open panelA using "output/table/table2_panelA.tex", write replace text
 
-* Fill missing values with zeros where appropriate
-foreach var in n_obs n_firms n_managers {
-    replace `var' = 0 if missing(`var')
+file write panelA "\begin{tabular}{lcc}" _n
+file write panelA "\toprule" _n
+file write panelA "CEOs & Firm-Year & Firm \\" _n
+file write panelA "\midrule" _n
+
+* Panel A data
+use `panel_a_col1', clear
+local N1 = _N
+use `panel_a_col2', clear
+local N2 = _N
+
+forvalues i = 1/`=max(`N1',`N2')' {
+    local row_label = cond(`i' <= 3, "`i'", "4+")
+    
+    * Get column 1 data
+    use `panel_a_col1', clear
+    local col1_pct ""
+    local col1_obs ""
+    if `i' <= `N1' {
+        local col1_pct = pct[`i']
+        local col1_obs = n_obs[`i']
+    }
+    
+    * Get column 2 data  
+    use `panel_a_col2', clear
+    local col2_pct ""
+    local col2_obs ""
+    if `i' <= `N2' {
+        local col2_pct = pct[`i']
+        local col2_obs = n_firms[`i']
+    }
+    
+    if "`col1_pct'" != "" | "`col2_pct'" != "" {
+        file write panelA "`row_label' & `col1_pct'\% & `col2_pct'\% \\" _n
+    }
 }
 
-* Create industry labels
-generate str industry_name = ""
-replace industry_name = "Agriculture, Forestry, Fishing" if sector == 1
-replace industry_name = "Mining, Quarrying" if sector == 2  
-replace industry_name = "Manufacturing" if sector == 3
-replace industry_name = "Wholesale, Retail, Transportation" if sector == 4
-replace industry_name = "Telecom, Business Services" if sector == 5
-replace industry_name = "Construction" if sector == 6
-replace industry_name = "Nontradable Services" if sector == 7
-replace industry_name = "Finance, Insurance, Real Estate" if sector == 9
+* Panel A totals
+use `panel_a_col1', clear
+local total_firm_years = total_obs[_N]
+use `panel_a_col2', clear  
+local total_firms = total_firms[_N]
 
-* Create TEAOR08 codes for display
-generate str teaor_code = ""
-replace teaor_code = "A" if sector == 1
-replace teaor_code = "B" if sector == 2
-replace teaor_code = "C" if sector == 3
-replace teaor_code = "G,H" if sector == 4
-replace teaor_code = "J,M" if sector == 5
-replace teaor_code = "F" if sector == 6
-replace teaor_code = "Other" if sector == 7
-replace teaor_code = "K,L" if sector == 9
+file write panelA "Total & " %12.0fc (`total_firm_years') " & " %12.0fc (`total_firms') " \\" _n
+file write panelA "\bottomrule" _n
+file write panelA "\end{tabular}" _n
 
-* Create combined industry identifier for table
-generate str industry_label = industry_name + " (" + teaor_code + ")"
-replace industry_label = industry_label + "*" if excluded == 1
+file close panelA
 
-* Sort by exclusion status and then by number of observations (descending)
-sort excluded sector
+* Write Panel B LaTeX table
+file open panelB using "output/table/table2_panelB.tex", write replace text
 
-* =============================================================================
-* Create LaTeX table using programmatic generation
-* =============================================================================
+file write panelB "\begin{tabular}{lcc}" _n
+file write panelB "\toprule" _n
+file write panelB "Length & Actual & Placebo \\" _n
+file write panelB "(Years) & Spells & Spells \\" _n
+file write panelB "\midrule" _n
 
-local outfile "output/table/table2.tex"
+* Panel B data - write rows by combining the two datasets
+use `panel_b_col1', clear
+local N1 = _N
+use `panel_b_col2', clear  
+local N2 = _N
 
-* Create table header
-file open table using "`outfile'", write replace
-file write table "\begin{table}[htbp]" _n
-file write table "\centering" _n
-file write table "\caption{Industry Breakdown}" _n
-file write table "\label{tab:industry_stats}" _n
-
-* Determine number of columns based on surplus availability
-file write table "\begin{tabular}{l*{5}{r}}" _n
-file write table "\toprule" _n
-file write table "Industry (NACE) & \shortstack{Obs.} & \shortstack{Firms} & \shortstack{CEOs} & \shortstack{Surplus\\share (\%)} \\" _n
-
-file write table "\midrule" _n
-
-* Write data rows
-forvalues i = 1/`=_N' {    
-    * Write row data
-    file write table (industry_label[`i']) " & "
-    file write table %12.0fc (n_obs[`i']) " & "
-    file write table %12.0fc (n_firms[`i']) " & "
-    file write table %12.0fc (n_managers[`i'])
+forvalues i = 1/`=max(`N1',`N2')' {
+    local row_label = cond(`i' <= 3, "`i'", "4+")
     
-    file write table " & " %5.1fc (surplus_share[`i'])
+    * Get actual data
+    use `panel_b_col1', clear
+    local actual_pct ""
+    if `i' <= `N1' {
+        local actual_pct = pct[`i']
+    }
     
-    file write table " \\" _n
+    * Get placebo data  
+    use `panel_b_col2', clear
+    local placebo_pct ""
+    if `i' <= `N2' {
+        local placebo_pct = pct[`i']
+    }
+    
+    if "`actual_pct'" != "" | "`placebo_pct'" != "" {
+        file write panelB "`row_label' & `actual_pct'\% & `placebo_pct'\% \\" _n
+    }
 }
 
-* Write table footer with comprehensive notes
-file write table "\bottomrule" _n
-file write table "\end{tabular}" _n
-file write table "\begin{minipage}{\textwidth}" _n
-file write table "\footnotesize" _n
-file write table "\textit{Notes:} This table presents industry-level summary statistics using the TEAOR08 classification system. "
-file write table "Column (1) shows the industry name and corresponding NACE sector codes. "
-file write table "Column (2) shows the total number of firm-year observations in the balance sheet data (1992-2022). "
-file write table "Column (3) shows the number of distinct firms with balance sheet data. "
-file write table "Column (4) shows the number of distinct managers (CEOs) from the firm registry data. "
-file write table "Column (5) shows the average EBITDA as a percentage of revenue. "
-file write table "Mining (sector B) and Finance/Insurance/Real Estate (sectors K,L) are excluded from the main analysis "
-file write table "due to different production function characteristics. "
-file write table "The NACE classification follows the Hungarian adaptation of the NACE Rev. 2 system. "
-file write table "\end{minipage}" _n
-file write table "\end{table}" _n
-file close table
+* Panel B totals  
+use `panel_b_col1', clear
+local total_actual = total_spells[_N]
+use `panel_b_col2', clear
+local total_placebo = total_spells[_N]
+file write panelB "Total & " %12.0fc (`total_actual') " & " %12.0fc (`total_placebo') " \\" _n
 
-display "Table 2 written to `outfile'"
+file write panelB "\bottomrule" _n
+file write panelB "\end{tabular}" _n
 
-* =============================================================================
-* Summary statistics for log file
-* =============================================================================
+file close panelB
 
-display _n "Industry-level summary statistics:"
-list industry_name n_obs n_firms n_managers surplus_share excluded, sep(0) noobs
-
-display _n "Total statistics:"
-collapse (sum) n_obs n_firms n_managers, by(excluded)
-list, sep(0) noobs
-
-display _n "Table 2 generation completed successfully"
+display "Exhibit 2 panels created: output/table/table2_panelA.tex and output/table/table2_panelB.tex"
