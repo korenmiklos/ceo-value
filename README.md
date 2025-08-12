@@ -103,7 +103,8 @@ The project includes a **Makefile** that automates the entire analysis pipeline.
 
 - `temp/balance.dta` depends on `code/create/balance.do` and input balance sheet data
 - `temp/ceo-panel.dta` depends on `code/create/ceo-panel.do` and input CEO panel data  
-- `temp/analysis-sample.dta` depends on `code/create/analysis-sample.do`, balance data, CEO data, and utility scripts
+- `temp/unfiltered.dta` depends on `code/create/unfiltered.do`, balance data, CEO data, and utility scripts
+- `temp/analysis-sample.dta` depends on `code/create/analysis-sample.do` and unfiltered data
 - `temp/edgelist.csv` depends on `code/create/edgelist.do` and analysis sample data
 - `temp/large_component_managers.csv` depends on `code/create/connected_component.jl` and edgelist data
 - `temp/surplus.dta` depends on `code/estimate/surplus.do` and analysis sample data
@@ -116,7 +117,8 @@ The project includes a **Makefile** that automates the entire analysis pipeline.
 
 - `code/create/balance.do`: Processes raw balance sheet data, applies time restrictions (1992-2022), filters data quality issues, and creates standardized variables
 - `code/create/ceo-panel.do`: Processes CEO registry data, constructs CEO panel with firm-person-year structure, and generates CEO count variables
-- `code/create/analysis-sample.do`: Merges CEO and balance sheet data, applies industry classifications, creates analysis variables, and implements sample restrictions
+- `code/create/unfiltered.do`: Merges CEO and balance sheet data, applies industry classifications, creates analysis variables
+- `code/create/analysis-sample.do`: Applies sample restrictions to create final analytical dataset
 - `code/create/placebo.do`: Generates placebo CEO transitions with same probability as actual changes but excluding actual transition periods
 - `code/create/edgelist.do`: Extracts firm-manager edgelist from analysis sample and exports to CSV format
 - `code/create/connected_component.jl`: Julia script for network analysis that projects bipartite firm-manager graph and identifies largest connected component of managers
@@ -178,8 +180,8 @@ The project includes a **Makefile** that automates the entire analysis pipeline.
 
 - The Stata scripts generate comprehensive log files documenting all data processing steps
 - Intermediate datasets are saved in the `temp/` directory
-- The final analytical sample contains 8,872,039 firm-year observations representing 960,464 unique firms
-- Manager skill analysis identifies 180,421 managers in the largest connected component
+- The final analytical sample contains 8,872,039 firm-year observations representing 891,631 unique firms
+- Manager skill analysis identifies 189,108 managers in the largest connected component
 - All file paths in the scripts are relative to the project root directory
 
 ## Confidential Data Extracts
@@ -212,11 +214,11 @@ or include them in the full pipeline with `make all`.
 
 Our analysis yields three key findings about CEO value in Hungarian private firms:
 
-1. **Placebo-controlled causal effects**: The naive comparison shows firms hiring better CEOs outperform those hiring worse CEOs by 25.6%. However, placebo transitions reveal an 18.8% spurious effect, implying the true causal impact is 6.8%—statistically significant but only 27% of the raw correlation.
+1. **Placebo-controlled causal effects**: The naive comparison shows firms hiring better CEOs outperform those hiring worse CEOs by 25.3%. However, placebo transitions reveal a 19.7% spurious effect, implying the true causal impact is 5.5%—statistically significant but only 22% of the raw correlation.
 
-2. **Substantial skill heterogeneity**: Within firms, replacing a CEO at the 25th percentile with one at the 75th percentile increases productivity by 9.8%. Across the connected component of mobile managers, the same replacement increases productivity by 25.6%.
+2. **Substantial skill heterogeneity**: Within firms, replacing a CEO at the 25th percentile with one at the 75th percentile increases productivity by 9.6%. Across the connected component of mobile managers, the same replacement increases productivity by 24.6%.
 
-3. **Methodological implications**: Our placebo analysis reveals that 73% of apparent CEO effects reflect spurious correlations rather than true managerial impact, suggesting standard approaches substantially overstate CEO importance.
+3. **Methodological implications**: Our placebo analysis reveals that 77% of apparent CEO effects reflect spurious correlations rather than true managerial impact, suggesting standard approaches substantially overstate CEO importance.
 
 These results provide a more nuanced understanding of CEO value and demonstrate the importance of rigorous identification strategies in managerial effects research.
 
@@ -229,9 +231,9 @@ The provided code reproduces:
 | Figure/Table # | Program | Output file | Note |
 |----------------|---------|-------------|----- |
 | Table 1 (Sample Distribution) | code/exhibit/table1.do | output/table/table1.tex | Temporal distribution by year |
-| Table 2 (Industry Statistics) | code/exhibit/table2.do | output/table/table2.tex | Industry-level summary using TEAOR08 |
+| Table 2 (CEO Patterns & Spell Lengths) | code/exhibit/table2.do | output/table/table2_panelA.tex, table2_panelB.tex | Panel A: CEO patterns, Panel B: Actual vs placebo spell lengths |
 | Table 3 (Revenue Function) | code/exhibit/table3.do | output/table/table3.tex | Revenue function estimation results |
-| Table 6 (CEO Patterns & Spell Lengths) | code/exhibit/table6.do | output/table/table6.tex | Panel A: CEO patterns, Panel B: Actual vs placebo spell lengths |
+| Table A1 (Industry Statistics) | code/exhibit/tableA1.do | output/table/tableA1.tex | Industry-level summary using TEAOR08 (in appendix) |
 | Figure 1 (Manager Skill Distributions) | code/estimate/manager_value.do | output/figure/manager_skill_within.pdf, output/figure/manager_skill_connected.pdf | Panel A: Within-firm variation, Panel B: Connected component |
 | Figure 2 (Event Study) | code/estimate/event_study.do + code/exhibit/figure1.do | output/figure/event_study.pdf | Panel A: Raw event study, Panel B: Placebo-controlled results |
 | Event Study Results | code/estimate/event_study.do | output/event_study.txt | Treatment effects and placebo analysis |

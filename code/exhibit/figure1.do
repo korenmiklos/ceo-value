@@ -1,9 +1,3 @@
-*! Create Figure 1: Event Study Results - Raw and Placebo-Controlled
-*! Reads data from event study estimation and creates combined two-panel figure
-
-* =============================================================================
-* FIGURE PARAMETERS
-* =============================================================================
 local event_window_start -3      // Event study window start
 local event_window_end 3         // Event study window end
 local baseline_year -3            // Baseline year for event study
