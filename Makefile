@@ -70,8 +70,8 @@ temp/unfiltered.dta: code/create/unfiltered.do temp/balance.dta temp/ceo-panel.d
 temp/surplus.dta: code/estimate/surplus.do temp/analysis-sample.dta
 	$(STATA) $<
 
-# Estimate manager fixed effects
-temp/manager_value.dta output/table/manager_effects.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf: code/estimate/manager_value.do temp/surplus.dta temp/large_component_managers.csv code/create/network-sample.do
+# Estimate manager fixed effects and variance decomposition components
+temp/manager_value.dta temp/within_firm.dta temp/cross_section.dta output/table/manager_effects.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf: code/estimate/manager_value.do temp/surplus.dta temp/large_component_managers.csv code/create/network-sample.do
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
@@ -108,6 +108,11 @@ output/table/table2_panelA.tex output/table/table2_panelB.tex: code/exhibit/tabl
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
+# Table 4: Variance decomposition
+output/table/table4a.tex: code/exhibit/table4.do temp/within_firm.dta temp/cross_section.dta
+	mkdir -p $(dir $@)
+	$(STATA) $<
+
 # Figure 1: Event study results
 output/figure/event_study.pdf: code/exhibit/figure1.do temp/event_study_panel_a.dta temp/event_study_panel_b.dta
 	mkdir -p $(dir $@)
@@ -118,7 +123,7 @@ output/figure/event_study.pdf: code/exhibit/figure1.do temp/event_study_panel_a.
 # =============================================================================
 
 # Compile final paper
-output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/tableA1.tex output/table/manager_effects.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/manager_skill_correlation.pdf output/figure/event_study.pdf output/references.bib
+output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/table4a.tex output/table/tableA1.tex output/table/manager_effects.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/manager_skill_correlation.pdf output/figure/event_study.pdf output/references.bib
 	cd output && $(LATEX) paper.tex && bibtex paper && $(LATEX) paper.tex && $(LATEX) paper.tex
 
 # =============================================================================
