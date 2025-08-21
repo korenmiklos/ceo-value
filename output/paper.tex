@@ -13,6 +13,9 @@
 \usepackage{setspace}
 \onehalfspacing
 
+\newcommand{\Var}{\text{Var}}
+\newcommand{\Cov}{\text{Cov}}
+
 % Define \sym command for significance stars from esttab
 \newcommand{\sym}[1]{{#1}}
 
@@ -179,7 +182,7 @@ We let the production function \eqref{eq:production} and, correspondingly, surpl
 
 We follow \citet{Gandhi2020-nu} and use the first-order condition for the demand for variable inputs to estimate $\chi$ as one minus the share of labor and material in revenue. Hence $\chi$ is the (revenue-weighted) average of the EBITDA-revenue ratio for the industry.
 
-Given our assumptions about fixed effects and error structure, equation \eqref{eq:estimation} can be estimated with OLSE using `reghdfe` \citep{reghdfe}.\footnote{Structural estimates in the spirit of \citet{Olley1996-wy} yield similar results.} The resulting capital coefficient is $\alpha/\chi$, which we multiply by $\hat\chi$ to obtain the estimated capital elasticity. In addition to fixed assets, we also include a dummy for whether the firm has reported any intangible assets, and another dummy for whether it has a majority foreign owner.
+Given our assumptions about fixed effects and error structure, equation \eqref{eq:estimation} can be estimated with OLSE using \texttt{reghdfe} \citep{reghdfe}.\footnote{Structural estimates in the spirit of \citet{Olley1996-wy} yield similar results.} The resulting capital coefficient is $\alpha/\chi$, which we multiply by $\hat\chi$ to obtain the estimated capital elasticity. In addition to fixed assets, we also include a dummy for whether the firm has reported any intangible assets, and another dummy for whether it has a majority foreign owner.
 
 To control for CEO effects when estimating the production function, we allow for firm-CEO fixed effects in \eqref{eq:estimation}. That is, instead of $z_m$ as in the model, we allow for $z_{im}$. This allows for the firm to have different TFP under different leadership, but is not yet used as a measure of CEO skill. 
 
@@ -202,7 +205,7 @@ To mitigate this bias, we create a control group of firms in the same industry t
 
 Because our control group is also receiving a ``treatment'' (albeit a placebo), we need to use a modified version of the difference-in-differences estimator \citep{Callaway2021JoLE} that accounts for the two treatment groups \citep{Koren2023expat,Koren2024xt2treatments}. The estimated effects can be interpreted as the change in the outcome variable, relative to the baseline time period, relative to the same change in the placebo-controlled group.
 
-
+UNEDITED BEGIN
 
 Within the largest connected component, we estimate manager skills using the two-way fixed effects framework of \citet{abowd1999high}:
 \begin{equation}
@@ -211,6 +214,20 @@ s_{imst} = \frac{\alpha}{\chi} k_{it} + \psi_m + \lambda_i + \mu_{st} + \varepsi
 where $\psi_m$ are manager fixed effects normalized to have mean zero across all managers in the connected component. This approach provides estimates of absolute manager skill differences that can be compared across the entire managerial labor market.
 
 The key identifying assumption is that manager mobility is not systematically correlated with unobserved firm or time-varying productivity shocks. Recent work by \citet{metcalfe2023managers} suggests this assumption is reasonable in settings with substantial manager turnover, as in our Hungarian data.
+
+UNEDITED END
+
+\paragraph{Variance decomposition.} To quantify the contribution of manager skills to firm performance, we conduct a variance decomposition of various firm outcomes. Recall from equation \eqref{eq:log_surplus} that log EBITDA (and hence log revenue, up to a constant) can be written as the sum if ?? components
+
+We first remove price effects by comparing all firms to the average firm in their industry,
+\begin{equation}
+s_{imst} - \Bar s_{st} = \frac1\chi a_i + \frac\alpha\chi (k_{it} - \Bar k_{st}) + \frac1\chi {z}_{m}+ \frac1\chi{\omega}_{it},
+\end{equation}
+where we have normalized manager and firm fixed effects to be zero in each industry-year cell.
+
+Firms have higher earnings (respectively, revenue or employment) relative to the industry average whenever they have higher firm-specific fixed inputs, higher capital intensity, or higher manager skills. Finally, firms may differ in residual TFP, contributing to their overall performance.
+
+We can write the within-industry variance of firm outcomes as the sum of the covariance of these components with the outcome, and the relative contributions to the variance can be expressed as the regression coefficient of the component \emph{on} the outcome (and not the other way around).\footnote{This is because when $y = x_1 + x_2$, then $\Var(y) = \Cov(y, x_1) + \Cov(y, x_2)$ and $1 = \Cov(y, x_1) / \Var(y) + \Cov(y, x_2) / \Var(y) = \beta(x_1, y) + \beta(x_2, y)$.}
 
 \section{Results}
 
