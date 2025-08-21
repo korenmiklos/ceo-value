@@ -63,7 +63,7 @@ file write table4a "\begin{tabular}{l*{6}{c}}" _n
 file write table4a "\toprule" _n
 file write table4a " & \multicolumn{3}{c}{Panel Data} & \multicolumn{3}{c}{Cross-Section} \\" _n
 file write table4a "\cmidrule(lr){2-4} \cmidrule(lr){5-7}" _n
-file write table4a " & Revenue & EBIT & Employment & Revenue & EBIT & Employment \\" _n
+file write table4a " & Revenue & EBITDA & Employment & Revenue & EBITDA & Employment \\" _n
 file write table4a " & (1) & (2) & (3) & (4) & (5) & (6) \\" _n
 file write table4a "\midrule" _n
 
