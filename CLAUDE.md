@@ -106,23 +106,25 @@ cd output && pdflatex paper.tex && bibtex paper && pdflatex paper.tex && pdflate
    - `table1.do`: Creates Table 1 - Sample Distribution Over Time with temporal distribution by year
    - `table2.do`: Creates Table 2 - CEO Patterns and Spell Length Analysis (two panels)
    - `table3.do`: Creates Table 3 - Revenue Function Estimation Results
+   - `table4.do`: Creates Table 4 - Variance Decomposition of Firm Performance (reads pre-computed components from manager_value.do)
    - `tableA1.do`: Creates Table A1 - Industry-Level Summary Statistics using TEAOR08 classification (appendix)
 
 5. **Analysis** (`code/estimate/`): Econometric estimation
    - `surplus.do`: Estimates revenue function and residualizes surplus for skill identification
    - `event_study.do`: Implements placebo-controlled event study design comparing actual vs placebo CEO transitions
-   - `manager_value.do`: Estimates manager fixed effects and generates distribution plots
+   - `manager_value.do`: Estimates manager fixed effects, generates distribution plots, and computes variance decomposition components (saved to temp/within_firm.dta and temp/cross_section.dta)
 
 6. **Exhibits** (`code/exhibit/`): Table and figure generation
    - `table1.do`: Descriptive statistics over time
    - `table2.do`: CEO patterns and spell length analysis (two panels)
    - `table3.do`: Revenue function estimation results
+   - `table4.do`: Variance decomposition table (uses pre-computed components from manager_value.do)
    - `tableA1.do`: Industry-level summary statistics (appendix)
    - `figure1.do`: Event study two-panel figure creation
 
 7. **Output** (`temp/`, `output/`): Intermediate data and final results
-   - `temp/`: Processed Stata datasets, edgelist CSV, connected component results, event study frames
-   - `output/table/`: LaTeX tables for paper
+   - `temp/`: Processed Stata datasets, edgelist CSV, connected component results, event study frames, variance decomposition components
+   - `output/table/`: LaTeX tables for paper (including table4a.tex for variance decomposition)
    - `output/figure/`: Publication-ready figures  
    - `output/paper.pdf`: Final compiled document
 
