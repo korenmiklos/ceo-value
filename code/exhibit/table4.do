@@ -12,27 +12,44 @@ frame panel: use "temp/within_firm.dta", clear
 frame create cross
 frame cross: use "temp/cross_section.dta", clear
 
-* Extract values into locals
+* Extract all values into named locals
 local outcomes lnR lnEBITDA lnL
-local controls manager lnK foreign_owned has_intangible residual
 
 foreach outcome of local outcomes {
-    foreach control of local controls {
-        * Panel data
-        frame panel: summarize contribution if outcome == "`outcome'" & control == "`control'"
-        local `outcome'_`control'_p = r(mean)
-        if missing(r(mean)) local `outcome'_`control'_p = 0
-        
-        * Cross-section
-        frame cross: summarize contribution if outcome == "`outcome'" & control == "`control'"
-        local `outcome'_`control'_c = r(mean)
-        if missing(r(mean)) local `outcome'_`control'_c = 0
-    }
+    * Panel data
+    frame panel: summarize contribution if outcome == "`outcome'" & control == "manager"
+    local `outcome'_manager_p = r(mean)
     
-    * Get firm FE for cross-section only
+    frame panel: summarize contribution if outcome == "`outcome'" & control == "lnK"
+    local `outcome'_capital_p = r(mean)
+    
+    frame panel: summarize contribution if outcome == "`outcome'" & control == "foreign_owned"
+    local `outcome'_foreign_p = r(mean)
+    
+    frame panel: summarize contribution if outcome == "`outcome'" & control == "has_intangible"
+    local `outcome'_intangible_p = r(mean)
+    
+    frame panel: summarize contribution if outcome == "`outcome'" & control == "residual"
+    local `outcome'_residual_p = r(mean)
+    
+    * Cross-section
+    frame cross: summarize contribution if outcome == "`outcome'" & control == "manager"
+    local `outcome'_manager_c = r(mean)
+    
     frame cross: summarize contribution if outcome == "`outcome'" & control == "firm"
     local `outcome'_firm_c = r(mean)
-    if missing(r(mean)) local `outcome'_firm_c = 0
+    
+    frame cross: summarize contribution if outcome == "`outcome'" & control == "lnK"
+    local `outcome'_capital_c = r(mean)
+    
+    frame cross: summarize contribution if outcome == "`outcome'" & control == "foreign_owned"
+    local `outcome'_foreign_c = r(mean)
+    
+    frame cross: summarize contribution if outcome == "`outcome'" & control == "has_intangible"
+    local `outcome'_intangible_c = r(mean)
+    
+    frame cross: summarize contribution if outcome == "`outcome'" & control == "residual"
+    local `outcome'_residual_c = r(mean)
 }
 
 * Create table
@@ -50,36 +67,30 @@ file write table4a " & Revenue & EBIT & Employment & Revenue & EBIT & Employment
 file write table4a " & (1) & (2) & (3) & (4) & (5) & (6) \\" _n
 file write table4a "\midrule" _n
 
-* Row labels and variable names
-local rows "Capital:lnK" "Foreign ownership:foreign_owned" "Intangible assets:has_intangible" "Manager FE:manager" "Firm FE:firm" "Residual:residual"
+* Write rows
+file write table4a "Capital & "
+file write table4a %5.1f (`lnR_capital_p') " & " %5.1f (`lnEBITDA_capital_p') " & " %5.1f (`lnL_capital_p') " & "
+file write table4a %5.1f (`lnR_capital_c') " & " %5.1f (`lnEBITDA_capital_c') " & " %5.1f (`lnL_capital_c') " \\" _n
 
-foreach row of local rows {
-    gettoken label varname : row, parse(":")
-    local varname : subinstr local varname ":" ""
-    
-    file write table4a "`label' & "
-    
-    * Panel columns
-    foreach outcome of local outcomes {
-        if inlist("`varname'", "firm") {
-            file write table4a "-- & "
-        }
-        else {
-            file write table4a %5.1f (``outcome'_`varname'_p') " & "
-        }
-    }
-    
-    * Cross-section columns  
-    foreach outcome of local outcomes {
-        file write table4a %5.1f (``outcome'_`varname'_c') " "
-        if "`outcome'" != "lnL" file write table4a "& "
-    }
-    file write table4a "\\" _n
-}
+file write table4a "Foreign ownership & "
+file write table4a %5.1f (`lnR_foreign_p') " & " %5.1f (`lnEBITDA_foreign_p') " & " %5.1f (`lnL_foreign_p') " & "
+file write table4a %5.1f (`lnR_foreign_c') " & " %5.1f (`lnEBITDA_foreign_c') " & " %5.1f (`lnL_foreign_c') " \\" _n
 
-file write table4a "\midrule" _n
+file write table4a "Intangible assets & "
+file write table4a %5.1f (`lnR_intangible_p') " & " %5.1f (`lnEBITDA_intangible_p') " & " %5.1f (`lnL_intangible_p') " & "
+file write table4a %5.1f (`lnR_intangible_c') " & " %5.1f (`lnEBITDA_intangible_c') " & " %5.1f (`lnL_intangible_c') " \\" _n
 
-file write table4a "\\" _n
+file write table4a "Manager FE & "
+file write table4a %5.1f (`lnR_manager_p') " & " %5.1f (`lnEBITDA_manager_p') " & " %5.1f (`lnL_manager_p') " & "
+file write table4a %5.1f (`lnR_manager_c') " & " %5.1f (`lnEBITDA_manager_c') " & " %5.1f (`lnL_manager_c') " \\" _n
+
+file write table4a "Firm FE & "
+file write table4a "-- & -- & -- & "
+file write table4a %5.1f (`lnR_firm_c') " & " %5.1f (`lnEBITDA_firm_c') " & " %5.1f (`lnL_firm_c') " \\" _n
+
+file write table4a "Residual & "
+file write table4a %5.1f (`lnR_residual_p') " & " %5.1f (`lnEBITDA_residual_p') " & " %5.1f (`lnL_residual_p') " & "
+file write table4a %5.1f (`lnR_residual_c') " & " %5.1f (`lnEBITDA_residual_c') " & " %5.1f (`lnL_residual_c') " \\" _n
 
 file write table4a "\bottomrule" _n
 file write table4a "\end{tabular}" _n
