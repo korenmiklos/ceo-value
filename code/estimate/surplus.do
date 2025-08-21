@@ -15,6 +15,7 @@ egen first_ever_year = min(year), by(frame_id_numeric)
 local predicted 0
 foreach var of local controls {
     local predicted `predicted' + _b[`var']*`var'
+    quietly generate double B_`var' = .
 }
 
 quietly generate double lnStilde = .
@@ -31,10 +32,13 @@ foreach sector of local sectors {
 
     reghdfe lnR `controls' if sector == `sector', absorb(`FEs') vce(cluster frame_id_numeric) residuals keepsingletons
     quietly replace lnStilde = chi*(lnR - (`predicted') - sector_time) if sector == `sector'
+    foreach var of local controls {
+        quietly replace B_`var' = _b[`var'] * `var' if sector == `sector'
+    }
     drop sector_time
 }
 
-keep frame_id_numeric year teaor08_2d sector ceo_spell person_id lnR lnEBITDA lnL lnStilde chi `controls'
+keep frame_id_numeric year teaor08_2d sector ceo_spell person_id lnR lnEBITDA lnL lnStilde chi `controls' B_*
 
 table sector, stat(mean chi)
 
