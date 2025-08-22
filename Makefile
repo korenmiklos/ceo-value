@@ -30,6 +30,8 @@ analysis: temp/surplus.dta temp/manager_value.dta temp/event_study_panel_a.dta t
 # Final reporting pipeline
 report: output/paper.pdf
 
+extract: output/extract/manager_changes_2015.dta output/extract/connected_managers.dta
+
 # =============================================================================
 # Data wrangling
 # =============================================================================
@@ -71,12 +73,12 @@ temp/surplus.dta: code/estimate/surplus.do temp/analysis-sample.dta
 	$(STATA) $<
 
 # Estimate manager fixed effects and variance decomposition components
-temp/manager_value.dta temp/within_firm.dta temp/cross_section.dta output/table/manager_effects.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf: code/estimate/manager_value.do temp/surplus.dta temp/large_component_managers.csv code/create/network-sample.do
+temp/manager_value.dta temp/within_firm.dta temp/cross_section.dta output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf: code/estimate/manager_value.do temp/surplus.dta temp/large_component_managers.csv code/create/network-sample.do
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
 # Run placebo-controlled event study
-temp/event_study_panel_a.dta temp/event_study_panel_b.dta output/figure/manager_skill_correlation.pdf output/test/event_study.dta: code/estimate/event_study.do temp/manager_value.dta temp/analysis-sample.dta temp/placebo.dta
+temp/event_study_panel_a.dta temp/event_study_panel_b.dta output/figure/manager_skill_correlation.pdf output/test/event_study.dta output/event_study.txt: code/estimate/event_study.do temp/manager_value.dta temp/analysis-sample.dta temp/placebo.dta
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
@@ -123,7 +125,7 @@ output/figure/event_study.pdf: code/exhibit/figure1.do temp/event_study_panel_a.
 # =============================================================================
 
 # Compile final paper
-output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/table4a.tex output/table/tableA1.tex output/table/manager_effects.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/manager_skill_correlation.pdf output/figure/event_study.pdf output/references.bib
+output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/table4a.tex output/table/tableA1.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/manager_skill_correlation.pdf output/figure/event_study.pdf output/references.bib
 	cd output && $(LATEX) paper.tex && bibtex paper && $(LATEX) paper.tex && $(LATEX) paper.tex
 
 # =============================================================================
@@ -131,7 +133,7 @@ output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2_p
 # =============================================================================
 
 # Data extracts for external sharing
-output/extract/2022_values.dta output/extract/manager_changes_2015.dta output/extract/connected_managers.dta: code/create/extract.do temp/manager_value.dta temp/surplus.dta temp/analysis-sample.dta input/ceo-panel/ceo-panel.dta
+output/extract/manager_changes_2015.dta output/extract/connected_managers.dta: code/create/extract.do temp/manager_value.dta temp/surplus.dta temp/analysis-sample.dta input/ceo-panel/ceo-panel.dta
 	mkdir -p $(dir $@)
 	$(STATA) $<
 

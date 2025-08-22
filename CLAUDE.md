@@ -37,10 +37,14 @@ julia --project=. code/create/connected_component.jl
 # Generate exhibit tables
 stata -b do code/exhibit/table1.do
 stata -b do code/exhibit/table2.do
-stata -b do code/exhibit/table6.do
+stata -b do code/exhibit/table3.do
+stata -b do code/exhibit/table4.do
+stata -b do code/exhibit/tableA1.do
 
 # Run econometric analysis
 stata -b do code/estimate/surplus.do
+stata -b do code/estimate/revenue_function.do
+stata -b do code/estimate/manager_value.do
 
 # Run placebo-controlled event study (estimation)
 stata -b do code/estimate/event_study.do
@@ -59,6 +63,7 @@ stata -b do code/create/balance.do
 stata -b do code/create/ceo-panel.do
 stata -b do code/create/unfiltered.do
 stata -b do code/create/analysis-sample.do
+stata -b do code/create/placebo.do
 stata -b do code/create/edgelist.do
 
 # Run network analysis with Julia
@@ -66,13 +71,19 @@ julia --project=. code/create/connected_component.jl
 
 # Generate econometric analysis
 stata -b do code/estimate/surplus.do
+stata -b do code/estimate/revenue_function.do
 stata -b do code/estimate/manager_value.do
+
+# Run event study
+stata -b do code/estimate/event_study.do
 
 # Generate exhibits/tables
 stata -b do code/exhibit/table1.do
 stata -b do code/exhibit/table2.do
 stata -b do code/exhibit/table3.do
+stata -b do code/exhibit/table4.do
 stata -b do code/exhibit/tableA1.do
+stata -b do code/exhibit/figure1.do
 
 # Create data extracts (optional)
 stata -b do code/create/extract.do
@@ -111,6 +122,7 @@ cd output && pdflatex paper.tex && bibtex paper && pdflatex paper.tex && pdflate
 
 5. **Analysis** (`code/estimate/`): Econometric estimation
    - `surplus.do`: Estimates revenue function and residualizes surplus for skill identification
+   - `revenue_function.do`: Estimates revenue function models and saves results for table creation  
    - `event_study.do`: Implements placebo-controlled event study design comparing actual vs placebo CEO transitions
    - `manager_value.do`: Estimates manager fixed effects, generates distribution plots, and computes variance decomposition components (saved to temp/within_firm.dta and temp/cross_section.dta)
 
@@ -133,7 +145,7 @@ cd output && pdflatex paper.tex && bibtex paper && pdflatex paper.tex && pdflate
 - Reads firm-manager edgelist from `temp/edgelist.csv`
 - Projects bipartite graph to manager-manager network via shared firms
 - Finds largest connected component of managers
-- Outputs manager person_ids in largest component to `temp/largest_component_managers.csv`
+- Outputs manager person_ids in largest component to `temp/large_component_managers.csv`
 - Uses modular functions with configurable column names for flexibility
 
 ## Key Dependencies
@@ -192,7 +204,7 @@ Beyond the CEU MicroData Stata Style Guide, this project follows additional conv
 ### Creating Exhibits and Tables
 - Exhibit code lives in `code/exhibit/` directory
 - Exhibits are named `table1.do`, `table2.do`, `table3.do`, `tableA1.do`, etc.
-- Output files are named `output/table/table1.tex`, `table2_panelA.tex`, `table2_panelB.tex`, `table3.tex`, `tableA1.tex`, etc.
+- Output files are named `output/table/table1.tex`, `table2_panelA.tex`, `table2_panelB.tex`, `table3.tex`, `table4a.tex`, `tableA1.tex`, etc.
 - Use programmatic LaTeX generation with `file write` commands for custom tables
 - Use `esttab` for regression tables with `booktabs` option for clean formatting
 - Include comprehensive table notes using `\begin{tablenotes}[flushleft]` and `\footnotesize`

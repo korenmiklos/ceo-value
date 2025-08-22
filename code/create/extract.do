@@ -3,36 +3,22 @@
 
 * Standard setup
 clear all
-* Load manager value data with firm fixed effects
-use "temp/manager_value.dta", clear
-
-* =============================================================================
-* Extract 1: Year 2022 - firm FE and manager value
-* =============================================================================
-
-keep if year == 2022
-keep frame_id_numeric firm_fixed_effect manager_skill
-compress
-save "output/extract/2022_values.dta", replace
-
-display "Extract 1 saved: 2022 firm FE and manager values"
-
-* =============================================================================
-* Extract 2: Manager changes in 2015
-* =============================================================================
-
 use "temp/surplus.dta", clear
-keep if inrange(year, 2012, 2017)
 
 * Identify managers who started in 2015
 egen first_year = min(year), by(frame_id_numeric ceo_spell)
-egen has_2015_change = max(year == 2015 & first_year == 2015), by(frame_id_numeric)
-keep if has_2015_change == 1
-drop has_2015_change first_year
+egen ceo_spell_in_2015 = mean(cond(year == 2015 & first_year == 2015, ceo_spell, .)), by(frame_id_numeric)
 
-* switching years can be noisy
-drop if inrange(year, 2014, 2015)
+* no change in 2015
+drop if missing(ceo_spell_in_2015)
+* this is the start, not a change
+drop if ceo_spell_in_2015 == 1
+
+* keep the 2015 starter and the previous CEO
+keep if inrange(ceo_spell, ceo_spell_in_2015 - 1, ceo_spell_in_2015)
+
 generate byte before = year < 2015
+tabulate ceo_spell before, missing
 
 * how many managers per firm before and after 2015?
 egen fmtag = tag(frame_id_numeric person_id before)
@@ -45,16 +31,19 @@ keep if max_n_managers == 1
 drop max_n_managers
 
 * now ready to compute statistics
-collapse (mean) lnStilde (firstnm) person_id chi, by(frame_id_numeric before)
+collapse (mean) lnStilde (firstnm) person_id chi (count) T_spell = lnStilde, by(frame_id_numeric before)
 generate str when = cond(before, "_before", "_after")
 drop before
-reshape wide lnStilde person_id, i(frame_id_numeric) j(when) string
+reshape wide lnStilde person_id T_spell, i(frame_id_numeric) j(when) string
 * verify that managers are different
 count if person_id_before == person_id_after
 drop if person_id_before == person_id_after
 
+* only keep firms with same two managers in 2013-2017 period
+drop if T_spell_before < 2 | T_spell_after < 3
+
 keep if !missing(lnStilde_before, lnStilde_after)
-generate surplus_change = lnStilde_after - lnStilde_before
+generate surplus_change = (lnStilde_after - lnStilde_before) / chi
 keep frame_id_numeric surplus_change chi
 
 * convert this to forints
@@ -73,22 +62,12 @@ merge 1:1 frame_id_numeric using `EBITDA', keep(match) nogen
 rename EBITDA EBITDA1
 generate EBITDA2 = sales * chi
 
-egen total_sales3 = total(sales), by(sector)
-egen total_EBITDA3 = total(EBITDA1), by(sector)
-egen total_sales4 = total(sales), by(teaor08_2d)
-egen total_EBITDA4 = total(EBITDA2), by(teaor08_2d)
-
-generate EBITDA3 = total_EBITDA3 / total_sales3 * sales
-generate EBITDA4 = total_EBITDA4 / total_sales4 * sales
-
-drop total_*
-
-correlated EBITDA?
+correlate EBITDA?
 summarize EBITDA1, detail
 count if EBITDA1 < 0 
 * actual EBITDA is often negative, but inferring from sales is very similar
 
-keep frame_id_numeric surplus_change chi sales EBITDA1 EBITDA2 
+keep frame_id_numeric surplus_change sales EBITDA1 EBITDA2 
 save "output/extract/manager_changes_2015.dta", replace
 
 display "Extract 2 saved: Firms with manager changes in 2015"
