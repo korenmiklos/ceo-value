@@ -79,14 +79,23 @@ display "Extract 2 saved: Firms with manager changes in 2015"
 * Get first year from CEO panel
 use "input/ceo-panel/ceo-panel.dta", clear
 collapse (min) entry_year = year (firstnm) birth_year hungarian_name male, by(person_id)
+* we may not observe true entry, assume CEOs were at least 18 when they started
+replace entry_year = birth_year + 18 if entry_year < birth_year + 18 & !missing(birth_year)
+* we don't know gender if non-Hungarian, assume male
+replace male = 1 if missing(male)
+
 tempfile first_year
 save `first_year'
 
-use "temp/manager_value.dta", clear
+use "temp/surplus.dta", clear
 collapse (firstnm) manager_skill, by(person_id)
 keep if !missing(manager_skill)
 
 merge 1:1 person_id using `first_year', keep(match) nogen
+generate ceo_age = year - birth_year if !missing(birth_year)
+replace ceo_age = 18 if ceo_age < 18
+replace ceo_age = 90 if ceo_age > 90 & !missing(ceo_age)
+
 compress
 save "output/extract/connected_managers.dta", replace
 
