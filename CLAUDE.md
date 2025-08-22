@@ -148,12 +148,28 @@ cd output && pdflatex paper.tex && bibtex paper && pdflatex paper.tex && pdflate
 - Outputs manager person_ids in largest component to `temp/large_component_managers.csv`
 - Uses modular functions with configurable column names for flexibility
 
+## Key Methodological Contributions
+
+### Placebo-Controlled Event Study Design
+The project implements a novel placebo-controlled approach to identify true CEO effects:
+- **Placebo transitions**: Randomly assigned fake CEO changes that exclude actual transition periods
+- **Key finding**: 77% of apparent CEO effects are spurious (noise rather than true skill differences)
+- **True causal effect**: 5.5% (only 22% of the raw 25.3% correlation)
+- **Validation**: Aligns with theoretical predictions from Gaure (2014), Bonhomme et al. (2023), and Andrews et al. (2008)
+
+### Addressing Measurement Challenges
+The methodology addresses fundamental issues in the manager effects literature:
+- **Limited mobility bias**: Placebo design separates mechanical bias from true effects
+- **Correlation bias**: Two-way fixed effects carefully implemented with connected component restriction
+- **Scale advantage**: 1M firms and 1M managers over 30 years provides unprecedented statistical power
+- **External validation**: Quasi-experimental studies (Bennedsen et al. 2020, Chandra et al. 2016) find similar magnitudes
+
 ## Key Dependencies
 
 - **Stata 18.0**: All data processing and econometric analysis
 - **Julia**: Graph algorithms (packages: CSV, DataFrames, Graphs, SparseArrays)
-- **LaTeX**: Document compilation with standard packages (booktabs, graphicx, natbib, hyperref)
-- **Make**: Build automation
+- **LaTeX**: Document compilation with standard packages (booktabs, graphicx, natbib, hyperref, apacite)
+- **Make**: Build automation (NOTE: `make clean` preserves output/ directory to protect paper.tex and other outputs)
 
 ## File Structure Notes
 
