@@ -103,15 +103,11 @@ The code was last run on a **MacOS machine with Stata 18.0 and Julia 1.10.4**. P
 
 The project includes a **Makefile** that automates the entire analysis pipeline. The Makefile specifies dependencies between scripts and ensures proper execution order:
 
-- `temp/balance.dta` depends on `code/create/balance.do` and input balance sheet data
-- `temp/ceo-panel.dta` depends on `code/create/ceo-panel.do` and input CEO panel data  
-- `temp/unfiltered.dta` depends on `code/create/unfiltered.do`, balance data, CEO data, and utility scripts
-- `temp/analysis-sample.dta` depends on `code/create/analysis-sample.do` and unfiltered data
-- `temp/edgelist.csv` depends on `code/create/edgelist.do` and analysis sample data
-- `temp/large_component_managers.csv` depends on `code/create/connected_component.jl` and edgelist data
-- `temp/surplus.dta` depends on `code/estimate/surplus.do` and analysis sample data
-- `output/table/manager_effects.tex` and `output/figure/*.pdf` depend on `code/estimate/manager_value.do` and surplus data
-- `output/paper.pdf` depends on `output/paper.tex` and all tables and figures
+- Data processing is sequential: balance.do → ceo-panel.do → unfiltered.do → analysis-sample.do → placebo.do
+- Network analysis: edgelist.do → connected_component.jl
+- Estimation pipeline: surplus.do → revenue_function.do → manager_value.do → event_study.do
+- Tables depend on appropriate estimation outputs and data files
+- Final PDF compilation requires all tables and figures to be generated first
 
 **All commands must be run from the project root directory.**
 
@@ -126,12 +122,15 @@ The project includes a **Makefile** that automates the entire analysis pipeline.
 - `code/create/connected_component.jl`: Julia script for network analysis that projects bipartite firm-manager graph and identifies largest connected component of managers
 - `code/create/extract.do`: Creates confidential data extracts for external analysis (2022 values, 2015 manager changes, connected component managers)
 - `code/estimate/surplus.do`: Estimates revenue function and residualizes surplus for manager skill identification
+- `code/estimate/revenue_function.do`: Estimates revenue function models and saves results for table creation
 - `code/estimate/event_study.do`: Implements placebo-controlled event study comparing actual vs placebo CEO transitions
 - `code/estimate/manager_value.do`: Estimates manager skills using fixed effects, creates histograms and regression tables showing manager effects on firm outcomes
-- `code/exhibit/table1.do`: Creates temporal distribution table showing firm-year observations by year
-- `code/exhibit/table2.do`: Creates industry-level summary statistics table using TEAOR08 classifications
-- `code/exhibit/table3.do`: Creates revenue function estimation results table with 6 model specifications
-- `code/exhibit/table6.do`: Creates CEO pattern and spell length tables (Panel A/B)
+- `code/exhibit/table1.do`: Creates Table 1 - Sample distribution over time
+- `code/exhibit/table2.do`: Creates Table 2 - CEO patterns and spell length analysis (two panels)
+- `code/exhibit/table3.do`: Creates Table 3 - Revenue function estimation results
+- `code/exhibit/table4.do`: Creates Table 4 - Variance decomposition of firm performance
+- `code/exhibit/tableA1.do`: Creates Table A1 - Industry-level summary statistics (appendix)
+- `code/exhibit/figure1.do`: Creates Figure 1 - Event study results (two panels)
 - `code/util/industry.do`: Creates industry sector classifications using TEAOR08 codes
 - `code/util/variables.do`: Constructs derived variables including log transformations, CEO tenure, age variables, and firm characteristics
 - `code/util/filter.do`: Applies final sample restrictions excluding firms with complex CEO structures or specific industries
@@ -144,13 +143,22 @@ The project includes a **Makefile** that automates the entire analysis pipeline.
    - Place `balance_sheet_80_22.dta` in `input/merleg-LTS-2023/balance/`
    - Place `ceo-panel.dta` in `input/ceo-panel/`
 
-3. **Run the analysis**: From the project root directory, execute:
+3. **Install dependencies**: Run the following to install required Stata packages:
+   ```bash
+   make install
+   ```
+   or manually:
+   ```bash
+   stata -b do code/util/install.do
+   ```
+
+4. **Run the analysis**: From the project root directory, execute:
    ```bash
    make all
    ```
    This will run all Stata scripts in the correct order and compile the LaTeX document.
 
-4. **Alternative manual execution**: If Make is not available, run the following commands from the project root:
+5. **Alternative manual execution**: If Make is not available, run the following commands from the project root:
    ```bash
    # Process data with Stata
    stata -b do code/create/balance.do
@@ -230,18 +238,16 @@ The provided code reproduces:
 
 - [x] All tables and figures in the paper
 
-| Figure/Table # | Program | Output file | Note |
-|----------------|---------|-------------|----- |
-| Table 1 (Sample Distribution) | code/exhibit/table1.do | output/table/table1.tex | Temporal distribution by year |
-| Table 2 (CEO Patterns & Spell Lengths) | code/exhibit/table2.do | output/table/table2_panelA.tex, table2_panelB.tex | Panel A: CEO patterns, Panel B: Actual vs placebo spell lengths |
-| Table 3 (Revenue Function) | code/exhibit/table3.do | output/table/table3.tex | Revenue function estimation results |
-| Table A1 (Industry Statistics) | code/exhibit/tableA1.do | output/table/tableA1.tex | Industry-level summary using TEAOR08 (in appendix) |
-| Figure 1 (Manager Skill Distributions) | code/estimate/manager_value.do | output/figure/manager_skill_within.pdf, output/figure/manager_skill_connected.pdf | Panel A: Within-firm variation, Panel B: Connected component |
-| Figure 2 (Event Study) | code/estimate/event_study.do + code/exhibit/figure1.do | output/figure/event_study.pdf | Panel A: Raw event study, Panel B: Placebo-controlled results |
-| Event Study Results | code/estimate/event_study.do | output/event_study.txt | Treatment effects and placebo analysis |
-| Table 4 (Manager Skill Effects) | code/estimate/manager_value.do | output/table/manager_effects.tex | Effects on revenue, EBITDA, employment |
-| Table 5 (Revenue Function) | code/estimate/surplus.do | output/table/revenue_function.tex | Revenue function estimates |
-| Table 7 (Revenue by Sector) | code/estimate/surplus.do | output/table/revenue_sectors.tex | Revenue function by industry |
+| Figure/Table #    | Program                  | Output file                      | Description                     |
+|-------------------|--------------------------|----------------------------------|---------------------------------|
+| Table 1           | code/exhibit/table1.do   | output/table/table1.tex          | Sample distribution over time   |
+| Table 2           | code/exhibit/table2.do   | output/table/table2_panelA.tex, table2_panelB.tex | CEO patterns and spell analysis (two panels) |
+| Table 3           | code/exhibit/table3.do   | output/table/table3.tex          | Revenue function estimation results |
+| Table 4           | code/exhibit/table4.do   | output/table/table4a.tex         | Variance decomposition of firm performance |
+| Table A1          | code/exhibit/tableA1.do  | output/table/tableA1.tex         | Industry-level summary statistics (appendix) |
+| Figure 1          | code/exhibit/figure1.do  | output/figure/event_study.pdf    | Event study: actual vs placebo transitions |
+| Manager Skills    | code/estimate/manager_value.do | output/figure/manager_skill_within.pdf, manager_skill_connected.pdf | Manager skill distributions |
+| Correlation Plot  | code/estimate/event_study.do | output/figure/manager_skill_correlation.pdf | Firm vs manager fixed effects |
 
 # Sample
 
