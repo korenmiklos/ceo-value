@@ -150,6 +150,6 @@ output/test/test_paths.csv: code/test/test_network.jl temp/edgelist.csv temp/lar
 install.log: code/util/install.do
 	$(STATA) $<
 
-# Clean temporary and output files
+# Clean temporary files only (preserves output)
 clean:
-	rm -rf temp/* output/*
+	rm -rf temp/*
