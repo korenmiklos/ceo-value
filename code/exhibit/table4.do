@@ -20,7 +20,10 @@ tabulate size foreign_owned, missing
 generate manager_revenue = manager_skill / chi
 collapse (mean) manager_revenue (count) n = manager_revenue, by(sector foreign_owned size)
 
-replace manager_revenue = . if n < 50
+replace manager_revenue = . if n < 30
+
+* Sort data for consistent access  
+sort size sector foreign_owned
 
 * Create LaTeX table for small firms (size == 0)
 file open table_small using "output/table/table4_panelA.tex", write replace
@@ -32,77 +35,61 @@ file write table_small "\cmidrule(lr){2-3}" _n
 file write table_small "Sector & No & Yes \\" _n
 file write table_small "\midrule" _n
 
-* Loop through sectors and foreign ownership to write values
-forvalues s = 2/5 {
-    * Get sector name
-    local sector_name ""
-    if `s' == 2 local sector_name "Manufacturing"
-    if `s' == 3 local sector_name "Wholesale, Retail, Transportation"
-    if `s' == 4 local sector_name "Telecom and Business Services"
-    if `s' == 5 local sector_name "Nontradable services"
-    
-    * Get values for domestic and foreign
-    quietly sum manager_revenue if sector == `s' & foreign_owned == 0 & size == 0
-    if r(N) > 0 {
-        local val_dom = string(r(mean), "%9.3f")
-    }
-    else {
-        local val_dom "."
-    }
-    
-    quietly sum manager_revenue if sector == `s' & foreign_owned == 1 & size == 0
-    if r(N) > 0 {
-        local val_for = string(r(mean), "%9.3f")
-    }
-    else {
-        local val_for "."
-    }
-    
-    file write table_small "`sector_name' & `val_dom' & `val_for' \\" _n
-}
+* Get values directly from sorted data
+* Manufacturing: rows 1 (domestic) and 2 (foreign) 
+local val_dom = string(manager_revenue[1], "%9.3f")
+local val_for = string(manager_revenue[2], "%9.3f")
+file write table_small "Manufacturing & `val_dom' & `val_for' \\" _n
+
+* Wholesale/Retail: rows 3 (domestic) and 4 (foreign)
+local val_dom = string(manager_revenue[3], "%9.3f") 
+local val_for = string(manager_revenue[4], "%9.3f")
+file write table_small "Wholesale, Retail, Transportation & `val_dom' & `val_for' \\" _n
+
+* Telecom: rows 5 (domestic) and 6 (foreign)
+local val_dom = string(manager_revenue[5], "%9.3f")
+local val_for = string(manager_revenue[6], "%9.3f")
+file write table_small "Telecom and Business Services & `val_dom' & `val_for' \\" _n
+
+* Nontradable: rows 7 (domestic) and 8 (foreign)
+local val_dom = string(manager_revenue[7], "%9.3f")
+local val_for = string(manager_revenue[8], "%9.3f")
+file write table_small "Nontradable services & `val_dom' & `val_for' \\" _n
 
 file write table_small "\bottomrule" _n
 file write table_small "\end{tabular}" _n
 file close table_small
 
-* Create LaTeX table for large firms (size == 1)
+* Create LaTeX table for large firms (size == 1) - no sector names
 file open table_large using "output/table/table4_panelB.tex", write replace
 
-file write table_large "\begin{tabular}{lcc}" _n
+file write table_large "\begin{tabular}{cc}" _n
 file write table_large "\toprule" _n
-file write table_large " & \multicolumn{2}{c}{Foreign owned} \\" _n
-file write table_large "\cmidrule(lr){2-3}" _n
-file write table_large "Sector & No & Yes \\" _n
+file write table_large "\multicolumn{2}{c}{Foreign owned} \\" _n
+file write table_large "\cmidrule(lr){1-2}" _n
+file write table_large "No & Yes \\" _n
 file write table_large "\midrule" _n
 
-* Loop through sectors and foreign ownership to write values
-forvalues s = 2/5 {
-    * Get sector name
-    local sector_name ""
-    if `s' == 2 local sector_name "Manufacturing"
-    if `s' == 3 local sector_name "Wholesale, Retail, Transportation"
-    if `s' == 4 local sector_name "Telecom and Business Services"
-    if `s' == 5 local sector_name "Nontradable services"
-    
-    * Get values for domestic and foreign
-    quietly sum manager_revenue if sector == `s' & foreign_owned == 0 & size == 1
-    if r(N) > 0 {
-        local val_dom = string(r(mean), "%9.3f")
-    }
-    else {
-        local val_dom "."
-    }
-    
-    quietly sum manager_revenue if sector == `s' & foreign_owned == 1 & size == 1
-    if r(N) > 0 {
-        local val_for = string(r(mean), "%9.3f")
-    }
-    else {
-        local val_for "."
-    }
-    
-    file write table_large "`sector_name' & `val_dom' & `val_for' \\" _n
-}
+* Get values for large firms (size==1, starting at row 9)
+* Manufacturing: rows 9 (domestic) and 10 (foreign)
+local val_dom = string(manager_revenue[9], "%9.3f")
+local val_for = string(manager_revenue[10], "%9.3f")
+file write table_large "`val_dom' & `val_for' \\" _n
+
+* Wholesale/Retail: rows 11 (domestic) and 12 (foreign)
+local val_dom = string(manager_revenue[11], "%9.3f")
+local val_for = string(manager_revenue[12], "%9.3f")
+file write table_large "`val_dom' & `val_for' \\" _n
+
+* Telecom: rows 13 (domestic) and 14 (foreign)
+local val_dom = string(manager_revenue[13], "%9.3f")
+local val_for = string(manager_revenue[14], "%9.3f")
+file write table_large "`val_dom' & `val_for' \\" _n
+
+* Nontradable: rows 15 (domestic) and 16 (foreign)
+local val_dom = string(manager_revenue[15], "%9.3f")
+local val_for = string(manager_revenue[16], "%9.3f")
+file write table_large "`val_dom' & `val_for' \\" _n
 
 file write table_large "\bottomrule" _n
 file write table_large "\end{tabular}" _n
