@@ -186,7 +186,7 @@ We let the production function \eqref{eq:production} and, correspondingly, surpl
 
 We follow \citet{Gandhi2020-nu} and use the first-order condition for the demand for variable inputs to estimate $\chi$ as one minus the share of labor and material in revenue. Hence $\chi$ is the (revenue-weighted) average of the EBITDA-revenue ratio for the industry.
 
-Given our assumptions about fixed effects and error structure, equation \eqref{eq:estimation} can be estimated with OLSE using \texttt{reghdfe} \citep{reghdfe}.\footnote{Structural estimates in the spirit of \citet{Olley1996-wy} yield similar results.} The resulting capital coefficient is $\alpha/\chi$, which we multiply by $\hat\chi$ to obtain the estimated capital elasticity. In addition to fixed assets, we also include a dummy for whether the firm has reported any intangible assets, and another dummy for whether it has a majority foreign owner.
+Given our assumptions about fixed effects and error structure, equation \eqref{eq:estimation} can be estimated with OLSFE using \texttt{reghdfe} \citep{reghdfe}.\footnote{Structural estimates in the spirit of \citet{Olley1996-wy} yield similar results.} The resulting capital coefficient is $\alpha/\chi$, which we multiply by $\hat\chi$ to obtain the estimated capital elasticity. In addition to fixed assets, we also include a dummy for whether the firm has reported any intangible assets, and another dummy for whether it has a majority foreign owner.
 
 To control for CEO effects when estimating the production function, we allow for firm-CEO fixed effects in \eqref{eq:estimation}. That is, instead of $z_m$ as in the model, we allow for $z_{im}$. This allows for the firm to have different TFP under different leadership, but is not yet used as a measure of CEO skill. 
 
@@ -263,11 +263,30 @@ The distribution of relative manager skills in the largest connected component i
 
 In the cross section, the contribution of manager skills is less important relative to other fixed factors (captured by firm fixed effects). Manager skills explain 5 to 9 percent of within-industry variation in log revenue, log surplus and log employment.
 
-\paragraph{Variance decomposition.} Table~\ref{tab:variance_decomposition} presents a formal variance decomposition of firm performance, quantifying the relative contributions of different factors. The analysis separates the roles of observable inputs (capital, foreign ownership, intangible assets), manager fixed effects, firm fixed effects, and residual variation. Panel data estimates (columns 1-3) show within-firm variation, while cross-sectional estimates (columns 4-6) decompose variation across firms in the largest connected component.
+\paragraph{Manager skills by sector and ownership.} Table 4 presents average manager skills across different sectors, split by foreign ownership and firm size. The analysis focuses on firms in 2022 with at least 10 employees, excluding state-owned enterprises.
 
-The decomposition reveals that manager fixed effects account for a modest but economically meaningful portion of performance variation. In the cross-section, manager fixed effects explain 5-9 percent of the variance in revenue, EBIT, and employment, consistent with our regression-based estimates. Observable production inputs, particularly capital, explain a larger share of variation (20-30 percent), while firm fixed effects dominate the cross-sectional decomposition, accounting for 40-60 percent of the variance. These patterns hold across all three outcome measures, confirming that while manager quality matters, firm-specific factors play the dominant role in explaining performance differences.
+\begin{table}[htbp]
+\centering
+\caption{Manager Skills by Sector and Ownership}
+\label{tab:manager_skills}
+\begin{minipage}{0.48\textwidth}
+\centering
+\textbf{Panel A: Small firms (<50 employees)}
+\input{table/table4_panelA}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+\centering
+\textbf{Panel B: Large firms (50+ employees)}
+\input{table/table4_panelB}
+\end{minipage}
+\begin{tablenotes}[flushleft]
+\footnotesize
+\item\textbf{Notes:} Average manager skill (contribution to log revenue) by sector, foreign ownership, and size. Sample restricted to 2022, firms with 10+ employees, excluding state-owned enterprises. Cells with fewer than 50 observations are suppressed.
+\end{tablenotes}
+\end{table}
 
-\input{table/table4a}
+Several patterns emerge from Table 4. Foreign-owned firms consistently employ higher-skilled managers, with the gap particularly pronounced among large firms (Panel B). In manufacturing, large foreign firms have managers with skills averaging 0.790, compared to 0.178 for domestic firms. The foreign advantage is smallest in telecom and business services, where domestic firms may have stronger local knowledge advantages. These patterns suggest that foreign firms either attract better managerial talent through higher compensation or transfer superior management practices from their parent companies.
 
 \subsection{Event Study Results}
 
