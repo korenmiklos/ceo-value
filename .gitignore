@@ -1,6 +1,8 @@
 temp/
 input/
 *.log
+env/
+.vscode/
 
 # LaTeX auxiliary files
 output/*.aux
@@ -18,6 +20,12 @@ output/*.lot
 output/*.nav
 output/*.snm
 output/*.vrb
+
+# LaTeX packages (generated)
+apacite.sty
+apacite.bst
+output/apacite.sty
+output/apacite.bst
 
 # Confidential data extracts
 output/extract/
