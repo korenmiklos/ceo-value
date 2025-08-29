@@ -1,0 +1,2752 @@
+---------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/koren/Downloads/ORG_Replication/../issue29.txt
+  log type:  text
+ opened on:  29 Aug 2025, 09:25:50
+
+. d
+
+Contains data from /Users/koren/Downloads/ORG_Replication/replication.dta
+ Observations:         3,655                  
+    Variables:           164                  19 Feb 2012 12:36
+                                              (_dta has notes)
+---------------------------------------------------------------------------------------------------------------
+Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+---------------------------------------------------------------------------------------------------------------
+IDV_cty         byte    %10.0g                Hofsted measure, Individualism
+IDV_cty_o       byte    %10.0g                Hofsted measure, Individualism
+MNE_3y          byte    %9.0g                 Was this an MNE 3 years ago?
+MNE_cover       byte    %9.0g                 Part of an MNE with this many traced subsids abroad
+MNE_cty         str12   %12s                  Country where firm's headquarters are located
+MNE_d           byte    %9.0g                 =1 if firm is domestic MNE
+MNE_f           byte    %9.0g                 =1 if firm is foreign MNE
+MNE_o           byte    %9.0g      mne        1=f_MNE; 2=d_MNE; 3=dom
+MNE_ownership   str19   %19s                  Originating country by groups
+MNE_pct_home    float   %8.0g                 Percentage of managers from home country (MNE's only)
+MNE_pct_homem   byte    %9.0g                 Multinational percentage of home managers missing
+MNE_pct_orig    float   %8.0g                 Percentage of managers from originating country (MNE's only)
+aa1             byte    %8.0g                 analyst==Agniezska
+aa2             byte    %8.0g                 analyst==Ai
+aa3             byte    %8.0g                 analyst==Anita
+aa4             byte    %8.0g                 analyst==Arianna
+aa5             byte    %8.0g                 analyst==Bodhi
+aa6             byte    %8.0g                 analyst==Carina
+aa7             byte    %8.0g                 analyst==Carlos
+aa8             byte    %8.0g                 analyst==Christine
+aa9             byte    %8.0g                 analyst==Christos
+aa10            byte    %8.0g                 analyst==David
+aa11            byte    %8.0g                 analyst==DavidC
+aa12            byte    %8.0g                 analyst==Diego
+aa13            byte    %8.0g                 analyst==Eisuke
+aa14            byte    %8.0g                 analyst==Elena
+aa15            byte    %8.0g                 analyst==Frederique
+aa16            byte    %8.0g                 analyst==George
+aa17            byte    %8.0g                 analyst==Greg
+aa18            byte    %8.0g                 analyst==Jeffrey
+aa19            byte    %8.0g                 analyst==Julie
+aa20            byte    %8.0g                 analyst==Kanan
+aa21            byte    %8.0g                 analyst==Ketki
+aa22            byte    %8.0g                 analyst==Kevin
+aa23            byte    %8.0g                 analyst==Laura
+aa24            byte    %8.0g                 analyst==Maki
+aa25            byte    %8.0g                 analyst==Matteo
+aa26            byte    %8.0g                 analyst==May
+aa27            byte    %8.0g                 analyst==Michael
+aa28            byte    %8.0g                 analyst==Mimi
+aa29            byte    %8.0g                 analyst==Nat
+aa30            byte    %8.0g                 analyst==Nick
+aa31            byte    %8.0g                 analyst==Nicolas
+aa32            byte    %8.0g                 analyst==Nikki
+aa33            byte    %8.0g                 analyst==Raquel
+aa34            byte    %8.0g                 analyst==Rebecca
+aa35            byte    %8.0g                 analyst==Sebastian
+aa36            byte    %8.0g                 analyst==Simon
+aa37            byte    %8.0g                 analyst==Stefan
+aa38            byte    %8.0g                 analyst==Swami
+aa39            byte    %8.0g                 analyst==Tejas
+aa40            byte    %8.0g                 analyst==Upneet
+aa41            byte    %8.0g                 analyst==Vagellis
+aa42            byte    %8.0g                 analyst==Vickram
+aa43            byte    %8.0g                 analyst==Vishal
+aa44            byte    %8.0g                 analyst==Yuetian
+aa45            byte    %8.0g                 analyst==Zhiteng
+analyst         str10   %10s                  Name of analyst running the interview
+aut_hq          float   %9.0g                 Preference for autonomy in region/country of CHQ location
+bilateral_trust float   %8.0g                 Bilateral trust measure, from Guiso, Sapienza, Zingales 2009
+bonus2          float   %8.0g                 Bonus as % total
+bonus2_miss     byte    %9.0g                 Dummy=1 if bonus2_ is missing
+cc_br           byte    %9.0g                 cty=br
+cc_ca           byte    %9.0g                 cty=ca
+cc_cn           byte    %9.0g                 cty=cn
+cc_fr           byte    %9.0g                 cty=fr
+cc_ge           byte    %9.0g                 cty=ge
+cc_gr           byte    %9.0g                 cty=gr
+cc_in           byte    %9.0g                 cty=in
+cc_ir           byte    %9.0g                 cty=ir
+cc_it           byte    %9.0g                 cty=it
+cc_jp           byte    %9.0g                 cty=jp
+cc_po           byte    %9.0g                 cty=po
+cc_pt           byte    %9.0g                 cty=pt
+cc_sw           byte    %9.0g                 cty=sw
+cc_uk           byte    %9.0g                 cty=uk
+central         float   %9.0g                 Average of all autonomy questions
+central4        byte    %8.0g                 Plant manager hiring autonomy
+central5        double  %12.0g                Plant manager max cap inv autonomy
+central6        byte    %8.0g                 Plant manager sales and marketing activity
+central7        byte    %8.0g                 Plant manager new product intro activity
+civic_hq        float   %9.0g                 Civic in region/country of CHQ location
+clu_hq          str30   %30s                  Region/country of CHQ location
+colony          byte    %8.0g                 Colonial-tie dummy
+comlang_ethno   byte    %8.0g                 1 if a language is spoken by at least 9% of the population in
+                                                both countries
+compe           byte    %9.0g                 Competition
+compem          byte    %9.0g                 Dummy=1 if compe is missing
+contig          byte    %8.0g                 Contiguity dummy
+country         str8    %9s                   Country where firm is located
+cty             str2    %9s                   Country
+date            str8    %9s                   Date of interview
+dd1             byte    %8.0g                 dow== 0.0000
+dd2             byte    %8.0g                 dow== 1.0000
+dd3             byte    %8.0g                 dow== 2.0000
+dd4             byte    %8.0g                 dow== 3.0000
+dd5             byte    %8.0g                 dow== 4.0000
+dd6             byte    %8.0g                 dow== 5.0000
+dd7             byte    %8.0g                 dow== 6.0000
+dd8             byte    %8.0g                 dow== 7.0000
+diff_hq         byte    %9.0g                 Dummy=1 if region and CHQ are in different region/country
+duration        byte    %8.0g                 Interview duration (min)
+durationmiss    byte    %9.0g                 Dummy=1 if duration is missing
+emp_firm        long    %12.0g                Emp of firm as declared in interview
+family          byte    %9.0g                 1=Ownership belongs to family (2nd gen onwards)
+g               int     %9.0g                 group(MNE_cty country)
+gdp_hq          float   %9.0g                 Log GDP per capita in region/country of CHQ location
+gdp_hqm         byte    %9.0g                 Dummy=1 if gdp_hq is missing
+gdp_pc_cty      float   %9.0g                 Log GDP per capita in country of CHQ location
+gdp_pc_reg_old2 float   %9.0g                 Log GDP per capita in region of plant location
+gdp_pc_regm     byte    %9.0g                 Dummy=1 if gdp_pc_reg is missing
+hier_old        float   %9.0g                 Pct of people belonging to a hierarchical religion in region
+                                                (WVS)
+i_comptenure    float   %9.0g                 Manager's tenure in company
+i_comptenurem~s byte    %9.0g                 Dummy=1 if i_comptenure is missing
+i_seniority     byte    %8.0g                 Manager's position
+i_senioritymiss byte    %9.0g                 Dummy=1 if i_seniority is missing
+id              int     %9.0g                 Company_id
+ldegree_t       float   %9.0g                 Log Pct managers with a college degree
+ldegree_tmiss   byte    %9.0g                 Dummy=1 if Log Pct managers with a college degree is missing
+ldist           float   %9.0g                 Log distance
+ln_N            float   %9.0g                 Log firm employment
+ln_N_miss       byte    %9.0g                 Dummy=1 if ln_N_ is missing
+management      float   %9.0g                 Our management score - average across 18 questions
+managementm     byte    %9.0g                 Dummy=1 if management is missing
+onsite          byte    %9.0g                 CEO is on site
+pop_cty         double  %10.0g                Log population in country of CHQ location
+pop_hq          float   %9.0g                 Log population in region/country of CHQ location
+pop_hqm         byte    %9.0g                 Dummy=1 if pop_hq is missing
+pop_reg_old2    float   %9.0g                 Log population in region of plant location
+pop_regm        byte    %9.0g                 Dummy=1 if pop_reg is missing
+public          byte    %8.0g      pro        Publicy traded
+publicmiss      byte    %9.0g                 Dummy=1 if public is missing
+rel_div_raf     float   %9.0g                 Religious diversity, built by Raf
+reliability     byte    %9.0g                 Reliability measure=knowledge+willingness score
+reliabilitymiss byte    %9.0g                 Dummy=1 if reliability is missing
+rol_cty         float   %9.0g                 Rule of Law, cty of location
+sha_hq1         float   %9.0g                 Share of WVS respondents in region/country of CHQ location (=1
+                                                for MNEs)
+sha_w           float   %9.0g                 Share of WVS respondents in region of plant location
+sha_w_largest~q float   %9.0g                 Share of WVS respondents in region when trust computed using
+                                                largest WVS wave
+sha_w_latest_hq float   %9.0g                 Share of WVS respondents in region when trust computed using
+                                                latest WVS wave
+sha_w_old       float   %9.0g                 Share of WVS respondents in region of plant location used in 2009
+                                                version of the
+share           float   %9.0g                 Plant employment/firm employment
+sharemiss       byte    %9.0g                 Dummy=1 if plant emplyment/firm employment is missing
+sic             int     %8.0g                 US Sic code
+sic2            byte    %9.0g                 2 digits SIC code
+som_dist2       float   %9.0g                 somatic distance based on hair, cephalic, height
+trust           float   %15.2g                Trust in region of plant location
+trust_hq        float   %9.0g                 Trust in region/country of CHQ location
+trust_hq_larg~t float   %9.0g                 Trust in region/country of CHQ location using largest WVS wave
+trust_hq_latest float   %9.0g                 Trust in region/country of CHQ location using latest WVS wave
+wave_largest_~e int     %9.0g                 WVS wave used to compute trust_largest
+wave_latest_h~e int     %9.0g                 WVS wave used to compute trust_latest
+wvs_reg         str30   %30s                  WVS region
+wvs_reg_old     str30   %30s                  WVS region used in 2009 version of the paper
+zcentral4       float   %9.0g                 Z-scored of hiring autonomy
+zcentral5       float   %9.0g                 Z-scored of investment autonomy
+zcentral6       float   %9.0g                 Z-scored of sales and marketing autonomy
+zcentral7       float   %9.0g                 Z-scored of new product intro autonomy
+zcount          byte    %9.0g                 Number of non missing autonomy questions included in zorg
+zcount4         byte    %9.0g                 Dummy=1 if zcentral4 is missing
+zcount5         byte    %9.0g                 Dummy=1 if zcentral5 is missing
+zcount6         byte    %9.0g                 Dummy=1 if zcentral6 is missing
+zcount7         byte    %9.0g                 Dummy=1 if zcentral7 is missing
+zorg            float   %9.0g                 Average of all Z-scored autonomy questions
+zorg_alt        float   %9.0g                 Average of Z-scored autonomy questions, excluding investments
+---------------------------------------------------------------------------------------------------------------
+Sorted by: id
+
+. tab cty
+
+    Country |      Freq.     Percent        Cum.
+------------+-----------------------------------
+         cn |        537       14.69       14.69
+         fr |        217        5.94       20.63
+         ge |        327        8.95       29.58
+         gr |        183        5.01       34.58
+         in |        397       10.86       45.44
+         it |         96        2.63       48.07
+         jp |        120        3.28       51.35
+         po |        222        6.07       57.43
+         pt |        145        3.97       61.40
+         sw |        216        5.91       67.31
+         uk |        557       15.24       82.54
+         us |        638       17.46      100.00
+------------+-----------------------------------
+      Total |      3,655      100.00
+
+. count
+  3,655
+
+. count if !missing(central5)
+  3,381
+
+. describe central5 family public cty
+
+Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+---------------------------------------------------------------------------------------------------------------
+central5        double  %12.0g                Plant manager max cap inv autonomy
+family          byte    %9.0g                 1=Ownership belongs to family (2nd gen onwards)
+public          byte    %8.0g      pro        Publicy traded
+cty             str2    %9s                   Country
+
+. inspect central5 family public cty
+
+central5:  Plant manager max cap inv aut        Number of observations
+-------------------------------------------------------------------------------
+                                             Total      Integers   Nonintegers
+|  #                         Negative            -             -             -
+|  #                         Zero              617           617             -
+|  #                         Positive        2,764         2,142           622
+|  #                                   -----------   -----------   -----------
+|  #                         Total           3,381         2,759           622
+|  #   .   .   .   .         Missing           274
++----------------------                -----------
+0               1000000                      3,655
+(More than 99 unique values)
+
+family:  1=Ownership belongs to family (        Number of observations
+-------------------------------------------------------------------------------
+                                             Total      Integers   Nonintegers
+|  #                         Negative            -             -             -
+|  #                         Zero            2,994         2,994             -
+|  #                         Positive          661           661             -
+|  #                                   -----------   -----------   -----------
+|  #                         Total           3,655         3,655             -
+|  #   #                     Missing             -
++----------------------                -----------
+0                     1                      3,655
+   (2 unique values)
+
+public:  Publicy traded                         Number of observations
+-----------------------                ---------------------------------------
+                                             Total      Integers   Nonintegers
+|          #                 Negative           36            36             -
+|          #                 Zero            3,108         3,108             -
+|          #                 Positive          511           511             -
+|          #                           -----------   -----------   -----------
+|          #                 Total           3,655         3,655             -
+|  .   .   #                 Missing             -
++----------------------                -----------
+-99                   1                      3,655
+   (3 unique values)
+
+      public is labeled and all values are documented in the label.
+
+cty:  Country                                   Number of observations
+-------------                          ---------------------------------------
+                                             Total      Integers   Nonintegers
+|                            Negative            -             -             -
+|                            Zero                -             -             -
+|                            Positive            -             -             -
+|                                      -----------   -----------   -----------
+|                            Total               -             -             -
+|                            Missing         3,655
++----------------------                -----------
+.             -9.0e+307                      3,655
+   (0 unique value)
+
+. tabulate family
+
+1=Ownership |
+ belongs to |
+family (2nd |
+        gen |
+   onwards) |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |      2,994       81.92       81.92
+          1 |        661       18.08      100.00
+------------+-----------------------------------
+      Total |      3,655      100.00
+
+. tabulate public
+
+    Publicy |
+     traded |      Freq.     Percent        Cum.
+------------+-----------------------------------
+    Missing |         36        0.98        0.98
+         No |      3,108       85.03       86.02
+        Yes |        511       13.98      100.00
+------------+-----------------------------------
+      Total |      3,655      100.00
+
+. label list
+pro:
+         -99 Missing
+           0 No
+           1 Yes
+
+. replace public = 0 if public == -99
+(36 real changes made)
+
+. tabulate family public 
+
+1=Ownershi |
+ p belongs |
+ to family |
+  (2nd gen |    Publicy traded
+  onwards) |        No        Yes |     Total
+-----------+----------------------+----------
+         0 |     2,549        445 |     2,994 
+         1 |       595         66 |       661 
+-----------+----------------------+----------
+     Total |     3,144        511 |     3,655 
+
+. tabulate family public , miss
+
+1=Ownershi |
+ p belongs |
+ to family |
+  (2nd gen |    Publicy traded
+  onwards) |        No        Yes |     Total
+-----------+----------------------+----------
+         0 |     2,549        445 |     2,994 
+         1 |       595         66 |       661 
+-----------+----------------------+----------
+     Total |     3,144        511 |     3,655 
+
+. tabult cty public
+command tabult is unrecognized
+r(199);
+
+. tabulate cty public 
+
+           |    Publicy traded
+   Country |        No        Yes |     Total
+-----------+----------------------+----------
+        cn |       524         13 |       537 
+        fr |       204         13 |       217 
+        ge |       270         57 |       327 
+        gr |       149         34 |       183 
+        in |       289        108 |       397 
+        it |        93          3 |        96 
+        jp |        85         35 |       120 
+        po |       215          7 |       222 
+        pt |       136          9 |       145 
+        sw |       211          5 |       216 
+        uk |       523         34 |       557 
+        us |       445        193 |       638 
+-----------+----------------------+----------
+     Total |     3,144        511 |     3,655 
+
+. ppmlhdfe central5 public, a(cty) cluster(id)
+Iteration 1:   deviance = 4.5272e+08  eps = .         iters = 1    tol = 1.0e-04  min(eta) =  -2.22  P   
+Iteration 2:   deviance = 3.9664e+08  eps = 1.41e-01  iters = 1    tol = 1.0e-04  min(eta) =  -2.66      
+Iteration 3:   deviance = 3.9285e+08  eps = 9.64e-03  iters = 1    tol = 1.0e-04  min(eta) =  -2.79      
+Iteration 4:   deviance = 3.9281e+08  eps = 1.05e-04  iters = 1    tol = 1.0e-04  min(eta) =  -2.80      
+Iteration 5:   deviance = 3.9281e+08  eps = 4.29e-08  iters = 1    tol = 1.0e-04  min(eta) =  -2.80      
+Iteration 6:   deviance = 3.9281e+08  eps = 2.18e-14  iters = 1    tol = 1.0e-05  min(eta) =  -2.80   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 6 iterations and 6 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      3,381
+Absorbing 1 HDFE group                            Residual df     =      3,290
+Statistics robust to heteroskedasticity           Wald chi2(1)    =       0.02
+Deviance             =  392810077.1               Prob > chi2     =     0.8759
+Log pseudolikelihood = -196419557.8               Pseudo R2       =     0.1328
+
+Number of clusters (id)     =      3,291
+                                 (Std. err. adjusted for 3,291 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+    central5 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      public |   .0285174   .1825798     0.16   0.876    -.3293324    .3863672
+       _cons |   10.75095   .0606814   177.17   0.000     10.63201    10.86988
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+-----------------------------------------------------+
+
+. ppmlhdfe central5 family , a(cty) cluster(id)
+Iteration 1:   deviance = 4.5091e+08  eps = .         iters = 1    tol = 1.0e-04  min(eta) =  -2.52  P   
+Iteration 2:   deviance = 3.9525e+08  eps = 1.41e-01  iters = 1    tol = 1.0e-04  min(eta) =  -2.94      
+Iteration 3:   deviance = 3.9156e+08  eps = 9.42e-03  iters = 1    tol = 1.0e-04  min(eta) =  -3.06      
+Iteration 4:   deviance = 3.9152e+08  eps = 9.46e-05  iters = 1    tol = 1.0e-04  min(eta) =  -3.07      
+Iteration 5:   deviance = 3.9152e+08  eps = 2.96e-08  iters = 1    tol = 1.0e-05  min(eta) =  -3.07      
+Iteration 6:   deviance = 3.9152e+08  eps = 9.29e-15  iters = 1    tol = 1.0e-06  min(eta) =  -3.07   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 6 iterations and 6 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      3,381
+Absorbing 1 HDFE group                            Residual df     =      3,290
+Statistics robust to heteroskedasticity           Wald chi2(1)    =       3.25
+Deviance             =  391524485.6               Prob > chi2     =     0.0716
+Log pseudolikelihood = -195776762.1               Pseudo R2       =     0.1356
+
+Number of clusters (id)     =      3,291
+                                 (Std. err. adjusted for 3,291 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+    central5 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |  -.2688583   .1492321    -1.80   0.072    -.5613478    .0236313
+       _cons |   10.80617   .0627002   172.35   0.000     10.68328    10.92906
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+-----------------------------------------------------+
+
+. ppmlhdfe central5 family public , a(cty) cluster(id)
+Iteration 1:   deviance = 4.5130e+08  eps = .         iters = 1    tol = 1.0e-04  min(eta) =  -2.52  P   
+Iteration 2:   deviance = 3.9531e+08  eps = 1.42e-01  iters = 1    tol = 1.0e-04  min(eta) =  -2.94      
+Iteration 3:   deviance = 3.9156e+08  eps = 9.58e-03  iters = 1    tol = 1.0e-04  min(eta) =  -3.06      
+Iteration 4:   deviance = 3.9152e+08  eps = 9.85e-05  iters = 1    tol = 1.0e-04  min(eta) =  -3.07      
+Iteration 5:   deviance = 3.9152e+08  eps = 3.13e-08  iters = 1    tol = 1.0e-05  min(eta) =  -3.07      
+Iteration 6:   deviance = 3.9152e+08  eps = 1.02e-14  iters = 1    tol = 1.0e-06  min(eta) =  -3.07   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 6 iterations and 6 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      3,381
+Absorbing 1 HDFE group                            Residual df     =      3,290
+Statistics robust to heteroskedasticity           Wald chi2(2)    =       3.40
+Deviance             =  391524484.1               Prob > chi2     =     0.1825
+Log pseudolikelihood = -195776761.3               Pseudo R2       =     0.1356
+
+Number of clusters (id)     =      3,291
+                                 (Std. err. adjusted for 3,291 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+    central5 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |  -.2688329   .1528698    -1.76   0.079    -.5684521    .0307864
+      public |   .0003373   .1877458     0.00   0.999    -.3676376    .3683122
+       _cons |   10.80612   .0694141   155.68   0.000     10.67007    10.94217
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+-----------------------------------------------------+
+
+. ppmlhdfe central5 family public , cluster(id)
+Iteration 1:   deviance = 4.9817e+08  eps = .         iters = 1    tol = 1.0e-04  min(eta) =  -0.76  P   
+Iteration 2:   deviance = 4.5492e+08  eps = 9.51e-02  iters = 1    tol = 1.0e-04  min(eta) =  -1.16      
+Iteration 3:   deviance = 4.5285e+08  eps = 4.57e-03  iters = 1    tol = 1.0e-04  min(eta) =  -1.27      
+Iteration 4:   deviance = 4.5284e+08  eps = 1.64e-05  iters = 1    tol = 1.0e-04  min(eta) =  -1.27      
+Iteration 5:   deviance = 4.5284e+08  eps = 2.53e-10  iters = 1    tol = 1.0e-05  min(eta) =  -1.27   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 5 iterations and 5 HDFE sub-iterations (tol = 1.0e-08)
+
+PPML regression                                   No. of obs      =      3,381
+                                                  Residual df     =      3,290
+Statistics robust to heteroskedasticity           Wald chi2(2)    =       0.28
+Deviance             =  452838596.4               Prob > chi2     =     0.8715
+Log pseudolikelihood = -226433817.4               Pseudo R2       =     0.0002
+
+Number of clusters (id)     =      3,291
+                                 (Std. err. adjusted for 3,291 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+    central5 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |  -.0782812   .1540459    -0.51   0.611    -.3802056    .2236433
+      public |  -.0005563   .1826029    -0.00   0.998    -.3584515    .3573389
+       _cons |    10.5271   .0696724   151.09   0.000     10.39055    10.66366
+------------------------------------------------------------------------------
+
+. d sic sic2 date
+
+Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+---------------------------------------------------------------------------------------------------------------
+sic             int     %8.0g                 US Sic code
+sic2            byte    %9.0g                 2 digits SIC code
+date            str8    %9s                   Date of interview
+
+. tabulate sic
+
+US Sic code |      Freq.     Percent        Cum.
+------------+-----------------------------------
+        109 |          1        0.03        0.03
+        154 |          1        0.03        0.05
+        173 |          1        0.03        0.08
+        200 |          1        0.03        0.11
+        201 |         46        1.26        1.37
+        202 |         33        0.90        2.27
+        203 |         74        2.02        4.30
+        204 |         30        0.82        5.12
+        205 |         44        1.20        6.32
+        206 |         14        0.38        6.70
+        207 |         18        0.49        7.20
+        208 |         59        1.61        8.81
+        209 |         42        1.15        9.96
+        211 |          4        0.11       10.07
+        214 |          1        0.03       10.10
+        220 |          4        0.11       10.21
+        221 |         14        0.38       10.59
+        222 |          4        0.11       10.70
+        224 |          3        0.08       10.78
+        225 |         27        0.74       11.52
+        226 |          9        0.25       11.76
+        227 |         14        0.38       12.15
+        228 |         29        0.79       12.94
+        229 |         21        0.57       13.52
+        230 |          4        0.11       13.63
+        231 |          4        0.11       13.73
+        232 |         28        0.77       14.50
+        233 |          4        0.11       14.61
+        235 |          1        0.03       14.64
+        238 |         38        1.04       15.68
+        239 |         46        1.26       16.94
+        242 |         16        0.44       17.37
+        243 |         24        0.66       18.03
+        244 |          1        0.03       18.06
+        245 |         23        0.63       18.69
+        249 |          7        0.19       18.88
+        251 |         45        1.23       20.11
+        252 |         15        0.41       20.52
+        253 |          1        0.03       20.55
+        254 |          4        0.11       20.66
+        259 |          1        0.03       20.68
+        260 |          2        0.05       20.74
+        261 |          5        0.14       20.88
+        262 |         42        1.15       22.02
+        263 |          3        0.08       22.11
+        265 |         63        1.72       23.83
+        267 |         54        1.48       25.31
+        271 |          6        0.16       25.47
+        273 |         17        0.47       25.94
+        274 |          5        0.14       26.07
+        275 |         70        1.92       27.99
+        278 |          6        0.16       28.15
+        279 |          2        0.05       28.21
+        281 |         36        0.98       29.19
+        282 |         51        1.40       30.59
+        283 |        102        2.79       33.38
+        284 |         46        1.26       34.64
+        285 |         28        0.77       35.40
+        286 |         26        0.71       36.11
+        287 |         20        0.55       36.66
+        289 |        118        3.23       39.89
+        291 |          2        0.05       39.95
+        292 |          1        0.03       39.97
+        295 |          2        0.05       40.03
+        299 |         16        0.44       40.47
+        301 |          6        0.16       40.63
+        302 |         28        0.77       41.40
+        305 |          3        0.08       41.48
+        306 |         41        1.12       42.60
+        308 |        169        4.62       47.22
+        310 |          1        0.03       47.25
+        311 |          6        0.16       47.41
+        313 |          1        0.03       47.44
+        314 |         12        0.33       47.77
+        316 |          1        0.03       47.80
+        317 |          6        0.16       47.96
+        319 |          1        0.03       47.99
+        320 |          1        0.03       48.02
+        321 |          6        0.16       48.18
+        322 |         19        0.52       48.70
+        323 |          7        0.19       48.89
+        324 |         27        0.74       49.63
+        325 |         21        0.57       50.21
+        326 |         23        0.63       50.83
+        327 |         42        1.15       51.98
+        328 |          4        0.11       52.09
+        329 |         13        0.36       52.45
+        330 |          1        0.03       52.48
+        331 |         94        2.57       55.05
+        332 |         21        0.57       55.62
+        333 |         25        0.68       56.31
+        334 |          3        0.08       56.39
+        335 |         15        0.41       56.80
+        336 |         13        0.36       57.15
+        339 |          7        0.19       57.35
+        341 |         17        0.47       57.81
+        342 |         23        0.63       58.44
+        343 |          4        0.11       58.55
+        344 |         74        2.02       60.57
+        345 |         15        0.41       60.98
+        346 |         26        0.71       61.70
+        347 |          4        0.11       61.81
+        348 |          6        0.16       61.97
+        349 |        111        3.04       65.01
+        350 |          1        0.03       65.03
+        351 |         11        0.30       65.34
+        352 |         17        0.47       65.80
+        353 |        116        3.17       68.97
+        354 |         46        1.26       70.23
+        355 |         85        2.33       72.56
+        356 |        112        3.06       75.62
+        357 |         47        1.29       76.91
+        358 |          9        0.25       77.15
+        359 |          9        0.25       77.40
+        360 |          2        0.05       77.46
+        361 |         10        0.27       77.73
+        362 |         55        1.50       79.23
+        363 |         29        0.79       80.03
+        364 |         65        1.78       81.81
+        365 |         14        0.38       82.19
+        366 |         36        0.98       83.17
+        367 |         87        2.38       85.55
+        369 |         51        1.40       86.95
+        371 |        141        3.86       90.81
+        372 |         23        0.63       91.44
+        373 |         22        0.60       92.04
+        374 |          8        0.22       92.26
+        375 |         12        0.33       92.59
+        376 |          1        0.03       92.61
+        379 |          7        0.19       92.80
+        380 |          1        0.03       92.83
+        381 |         46        1.26       94.09
+        382 |         58        1.59       95.68
+        384 |         61        1.67       97.35
+        386 |          2        0.05       97.40
+        387 |          4        0.11       97.51
+        390 |          1        0.03       97.54
+        391 |          9        0.25       97.78
+        393 |          3        0.08       97.87
+        394 |         13        0.36       98.22
+        395 |          6        0.16       98.39
+        396 |          3        0.08       98.47
+        399 |         17        0.47       98.93
+        503 |          1        0.03       98.96
+        671 |          9        0.25       99.21
+        737 |          2        0.05       99.26
+        769 |          1        0.03       99.29
+        999 |         26        0.71      100.00
+------------+-----------------------------------
+      Total |      3,655      100.00
+
+. tabulate sic2
+
+   2 digits |
+   SIC code |      Freq.     Percent        Cum.
+------------+-----------------------------------
+         10 |          1        0.03        0.03
+         15 |          1        0.03        0.05
+         17 |          1        0.03        0.08
+         20 |        361        9.88        9.96
+         21 |          5        0.14       10.10
+         22 |        125        3.42       13.52
+         23 |        125        3.42       16.94
+         24 |         71        1.94       18.88
+         25 |         66        1.81       20.68
+         26 |        169        4.62       25.31
+         27 |        106        2.90       28.21
+         28 |        427       11.68       39.89
+         29 |         21        0.57       40.47
+         30 |        247        6.76       47.22
+         31 |         28        0.77       47.99
+         32 |        163        4.46       52.45
+         33 |        179        4.90       57.35
+         34 |        280        7.66       65.01
+         35 |        453       12.39       77.40
+         36 |        349        9.55       86.95
+         37 |        214        5.85       92.80
+         38 |        172        4.71       97.51
+         39 |         52        1.42       98.93
+         50 |          1        0.03       98.96
+         67 |          9        0.25       99.21
+         73 |          2        0.05       99.26
+         76 |          1        0.03       99.29
+         99 |         26        0.71      100.00
+------------+-----------------------------------
+      Total |      3,655      100.00
+
+. tabulate analyst 
+
+    Name of |
+    analyst |
+running the |
+  interview |      Freq.     Percent        Cum.
+------------+-----------------------------------
+  Agniezska |         94        2.57        2.57
+         Ai |         43        1.18        3.75
+      Anita |         33        0.90        4.65
+    Arianna |         32        0.88        5.53
+      Bodhi |         83        2.27        7.80
+     Carina |        110        3.01       10.81
+     Carlos |         70        1.92       12.72
+  Christine |        106        2.90       15.62
+   Christos |         77        2.11       17.73
+      David |         75        2.05       19.78
+     DavidC |         44        1.20       20.98
+      Diego |         61        1.67       22.65
+     Eisuke |         21        0.57       23.23
+      Elena |        210        5.75       28.97
+ Frederique |         90        2.46       31.44
+     George |        141        3.86       35.29
+       Greg |         69        1.89       37.18
+    Jeffrey |        224        6.13       43.31
+      Julie |         70        1.92       45.23
+      Kanan |        127        3.47       48.70
+      Ketki |         59        1.61       50.31
+      Kevin |          5        0.14       50.45
+      Laura |        145        3.97       54.42
+       Maki |         19        0.52       54.94
+     Matteo |         15        0.41       55.35
+        May |        158        4.32       59.67
+    Michael |         60        1.64       61.31
+       Mimi |        189        5.17       66.48
+        Nat |         47        1.29       67.77
+       Nick |          3        0.08       67.85
+    Nicolas |        147        4.02       71.87
+      Nikki |          5        0.14       72.01
+     Raquel |         78        2.13       74.15
+    Rebecca |        247        6.76       80.90
+  Sebastian |         69        1.89       82.79
+      Simon |         23        0.63       83.42
+     Stefan |        182        4.98       88.40
+      Swami |         29        0.79       89.19
+      Tejas |         13        0.36       89.55
+     Upneet |         74        2.02       91.57
+   Vagellis |         94        2.57       94.15
+    Vickram |         46        1.26       95.40
+     Vishal |         98        2.68       98.08
+    Yuetian |         25        0.68       98.77
+    Zhiteng |         45        1.23      100.00
+------------+-----------------------------------
+      Total |      3,655      100.00
+
+. inspect date
+
+date:  Date of interview                        Number of observations
+------------------------               ---------------------------------------
+                                             Total      Integers   Nonintegers
+|                            Negative            -             -             -
+|                            Zero                -             -             -
+|                            Positive            -             -             -
+|                                      -----------   -----------   -----------
+|                            Total               -             -             -
+|                            Missing         3,655
++----------------------                -----------
+.             -9.0e+307                      3,655
+   (0 unique value)
+
+. ppmlhdfe central5 family public , a(cty sic2) cluster(id)
+(dropped 4 observations that are either singletons or separated by a fixed effect)
+Iteration 1:   deviance = 4.4125e+08  eps = .         iters = 4    tol = 1.0e-04  min(eta) =  -3.42  P   
+Iteration 2:   deviance = 3.8091e+08  eps = 1.58e-01  iters = 3    tol = 1.0e-04  min(eta) =  -4.12      
+Iteration 3:   deviance = 3.7620e+08  eps = 1.25e-02  iters = 3    tol = 1.0e-04  min(eta) =  -4.55      
+Iteration 4:   deviance = 3.7612e+08  eps = 2.06e-04  iters = 3    tol = 1.0e-04  min(eta) =  -4.72      
+Iteration 5:   deviance = 3.7612e+08  eps = 2.24e-07  iters = 2    tol = 1.0e-04  min(eta) =  -4.74      
+Iteration 6:   deviance = 3.7612e+08  eps = 4.34e-12  iters = 2    tol = 1.0e-05  min(eta) =  -4.74   S  
+Iteration 7:   deviance = 3.7612e+08  eps = 0.00e+00  iters = 2    tol = 1.0e-08  min(eta) =  -4.74   S  
+Iteration 8:   deviance = 3.7612e+08  eps = 1.49e-16  iters = 1    tol = 1.0e-09  min(eta) =  -4.74   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 8 iterations and 20 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      3,377
+Absorbing 2 HDFE groups                           Residual df     =      3,286
+Statistics robust to heteroskedasticity           Wald chi2(2)    =       2.72
+Deviance             =  376120199.1               Prob > chi2     =     0.2566
+Log pseudolikelihood = -188074601.4               Pseudo R2       =     0.1692
+
+Number of clusters (id)     =      3,287
+                                 (Std. err. adjusted for 3,287 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+    central5 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |  -.2326835   .1590467    -1.46   0.143    -.5444093    .0790423
+      public |   .0494678   .1917315     0.26   0.796    -.3263191    .4252547
+       _cons |   10.85535   .0698578   155.39   0.000     10.71843    10.99227
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        23           1          22     |
+-----------------------------------------------------+
+
+. ppmlhdfe central5 family public , a(cty sic2 analyst ) cluster(id)
+(dropped 4 observations that are either singletons or separated by a fixed effect)
+Iteration 1:   deviance = 4.1765e+08  eps = .         iters = 15   tol = 1.0e-04  min(eta) =  -5.29  P   
+Iteration 2:   deviance = 3.5089e+08  eps = 1.90e-01  iters = 16   tol = 1.0e-04  min(eta) =  -5.51      
+Iteration 3:   deviance = 3.4484e+08  eps = 1.76e-02  iters = 10   tol = 1.0e-04  min(eta) =  -5.47      
+Iteration 4:   deviance = 3.4467e+08  eps = 4.76e-04  iters = 8    tol = 1.0e-04  min(eta) =  -5.70      
+Iteration 5:   deviance = 3.4467e+08  eps = 1.92e-06  iters = 5    tol = 1.0e-04  min(eta) =  -5.73      
+Iteration 6:   deviance = 3.4467e+08  eps = 1.70e-08  iters = 10   tol = 1.0e-05  min(eta) =  -5.73   S  
+Iteration 7:   deviance = 3.4467e+08  eps = 2.54e-13  iters = 13   tol = 1.0e-07  min(eta) =  -5.73   S  
+Iteration 8:   deviance = 3.4467e+08  eps = 8.13e-16  iters = 10   tol = 1.0e-09  min(eta) =  -5.73   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 8 iterations and 87 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      3,377
+Absorbing 3 HDFE groups                           Residual df     =      3,286
+Statistics robust to heteroskedasticity           Wald chi2(2)    =       2.30
+Deviance             =  344672449.6               Prob > chi2     =     0.3171
+Log pseudolikelihood = -172350726.7               Pseudo R2       =     0.2387
+
+Number of clusters (id)     =      3,287
+                                 (Std. err. adjusted for 3,287 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+    central5 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |   -.178151   .1579436    -1.13   0.259    -.4877148    .1314127
+      public |   .1229187   .1875936     0.66   0.512    -.2447579    .4905953
+       _cons |   10.96235   .0665956   164.61   0.000     10.83183    11.09288
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        23           1          22     |
+     analyst |        45           1          44    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+
+. ppmlhdfe central5 family, a(cty sic2 analyst ) cluster(id)
+(dropped 4 observations that are either singletons or separated by a fixed effect)
+Iteration 1:   deviance = 4.1766e+08  eps = .         iters = 13   tol = 1.0e-04  min(eta) =  -5.27  P   
+Iteration 2:   deviance = 3.5104e+08  eps = 1.90e-01  iters = 16   tol = 1.0e-04  min(eta) =  -5.50      
+Iteration 3:   deviance = 3.4501e+08  eps = 1.75e-02  iters = 10   tol = 1.0e-04  min(eta) =  -5.47      
+Iteration 4:   deviance = 3.4485e+08  eps = 4.70e-04  iters = 8    tol = 1.0e-04  min(eta) =  -5.69      
+Iteration 5:   deviance = 3.4485e+08  eps = 1.86e-06  iters = 6    tol = 1.0e-04  min(eta) =  -5.73      
+Iteration 6:   deviance = 3.4485e+08  eps = 1.26e-08  iters = 5    tol = 1.0e-05  min(eta) =  -5.73   S  
+Iteration 7:   deviance = 3.4485e+08  eps = 1.64e-09  iters = 13   tol = 1.0e-07  min(eta) =  -5.73   S  
+Iteration 8:   deviance = 3.4485e+08  eps = 1.20e-14  iters = 16   tol = 1.0e-09  min(eta) =  -5.73   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 8 iterations and 87 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      3,377
+Absorbing 3 HDFE groups                           Residual df     =      3,286
+Statistics robust to heteroskedasticity           Wald chi2(1)    =       1.44
+Deviance             =  344845789.7               Prob > chi2     =     0.2307
+Log pseudolikelihood = -172437396.8               Pseudo R2       =     0.2383
+
+Number of clusters (id)     =      3,287
+                                 (Std. err. adjusted for 3,287 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+    central5 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |   -.186225   .1553754    -1.20   0.231    -.4907553    .1183052
+       _cons |   10.97986   .0613946   178.84   0.000     10.85953    11.10019
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        23           1          22     |
+     analyst |        45           1          44    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+
+. ppmlhdfe central5 public, a(cty sic2 analyst ) cluster(id)
+(dropped 4 observations that are either singletons or separated by a fixed effect)
+Iteration 1:   deviance = 4.1829e+08  eps = .         iters = 15   tol = 1.0e-04  min(eta) =  -5.27  P   
+Iteration 2:   deviance = 3.5144e+08  eps = 1.90e-01  iters = 12   tol = 1.0e-04  min(eta) =  -5.47      
+Iteration 3:   deviance = 3.4536e+08  eps = 1.76e-02  iters = 10   tol = 1.0e-04  min(eta) =  -5.42      
+Iteration 4:   deviance = 3.4519e+08  eps = 4.79e-04  iters = 8    tol = 1.0e-04  min(eta) =  -5.71      
+Iteration 5:   deviance = 3.4519e+08  eps = 1.94e-06  iters = 4    tol = 1.0e-04  min(eta) =  -5.75      
+Iteration 6:   deviance = 3.4519e+08  eps = 4.23e-08  iters = 8    tol = 1.0e-05  min(eta) =  -5.75   S  
+Iteration 7:   deviance = 3.4519e+08  eps = 3.17e-11  iters = 13   tol = 1.0e-07  min(eta) =  -5.75   S  
+Iteration 8:   deviance = 3.4519e+08  eps = 2.27e-15  iters = 12   tol = 1.0e-09  min(eta) =  -5.75   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 8 iterations and 82 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      3,377
+Absorbing 3 HDFE groups                           Residual df     =      3,286
+Statistics robust to heteroskedasticity           Wald chi2(1)    =       0.59
+Deviance             =  345191651.2               Prob > chi2     =     0.4436
+Log pseudolikelihood = -172610327.5               Pseudo R2       =     0.2376
+
+Number of clusters (id)     =      3,287
+                                 (Std. err. adjusted for 3,287 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+    central5 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      public |    .140112    .182902     0.77   0.444    -.2183694    .4985934
+       _cons |   10.92732   .0576806   189.45   0.000     10.81427    11.04038
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        23           1          22     |
+     analyst |        45           1          44    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+
+. generate private = !public | family
+
+. ppmlhdfe central5 private, a(cty sic2 analyst ) cluster(id)
+(dropped 4 observations that are either singletons or separated by a fixed effect)
+Iteration 1:   deviance = 4.1850e+08  eps = .         iters = 15   tol = 1.0e-04  min(eta) =  -5.26  P   
+Iteration 2:   deviance = 3.5165e+08  eps = 1.90e-01  iters = 11   tol = 1.0e-04  min(eta) =  -5.46      
+Iteration 3:   deviance = 3.4558e+08  eps = 1.76e-02  iters = 10   tol = 1.0e-04  min(eta) =  -5.42      
+Iteration 4:   deviance = 3.4541e+08  eps = 4.73e-04  iters = 7    tol = 1.0e-04  min(eta) =  -5.70      
+Iteration 5:   deviance = 3.4541e+08  eps = 1.88e-06  iters = 4    tol = 1.0e-04  min(eta) =  -5.74      
+Iteration 6:   deviance = 3.4541e+08  eps = 5.97e-08  iters = 8    tol = 1.0e-05  min(eta) =  -5.74   S  
+Iteration 7:   deviance = 3.4541e+08  eps = 1.05e-11  iters = 14   tol = 1.0e-07  min(eta) =  -5.74   S  
+Iteration 8:   deviance = 3.4541e+08  eps = 6.49e-16  iters = 11   tol = 1.0e-09  min(eta) =  -5.74   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 8 iterations and 80 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      3,377
+Absorbing 3 HDFE groups                           Residual df     =      3,286
+Statistics robust to heteroskedasticity           Wald chi2(1)    =       0.01
+Deviance             =  345414187.3               Prob > chi2     =     0.9205
+Log pseudolikelihood = -172721595.5               Pseudo R2       =     0.2371
+
+Number of clusters (id)     =      3,287
+                                 (Std. err. adjusted for 3,287 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+    central5 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     private |   .0191891   .1921979     0.10   0.920    -.3575118      .39589
+       _cons |   10.92848   .1839307    59.42   0.000     10.56799    11.28898
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        23           1          22     |
+     analyst |        45           1          44    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+
+. ppmlhdfe central5 private, a(cty analyst ) cluster(id)
+Iteration 1:   deviance = 4.3265e+08  eps = .         iters = 12   tol = 1.0e-04  min(eta) =  -5.79  P   
+Iteration 2:   deviance = 3.6695e+08  eps = 1.79e-01  iters = 11   tol = 1.0e-04  min(eta) =  -5.90      
+Iteration 3:   deviance = 3.6137e+08  eps = 1.54e-02  iters = 9    tol = 1.0e-04  min(eta) =  -5.76      
+Iteration 4:   deviance = 3.6126e+08  eps = 2.94e-04  iters = 7    tol = 1.0e-04  min(eta) =  -5.72      
+Iteration 5:   deviance = 3.6126e+08  eps = 4.06e-07  iters = 5    tol = 1.0e-04  min(eta) =  -5.71      
+Iteration 6:   deviance = 3.6126e+08  eps = 3.10e-09  iters = 5    tol = 1.0e-05  min(eta) =  -5.71   S  
+Iteration 7:   deviance = 3.6126e+08  eps = 1.84e-10  iters = 11   tol = 1.0e-08  min(eta) =  -5.71   S  
+Iteration 8:   deviance = 3.6126e+08  eps = 3.87e-15  iters = 11   tol = 1.0e-09  min(eta) =  -5.71   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 8 iterations and 71 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      3,381
+Absorbing 2 HDFE groups                           Residual df     =      3,290
+Statistics robust to heteroskedasticity           Wald chi2(1)    =       0.08
+Deviance             =  361259792.4               Prob > chi2     =     0.7814
+Log pseudolikelihood = -180644415.4               Pseudo R2       =     0.2024
+
+Number of clusters (id)     =      3,291
+                                 (Std. err. adjusted for 3,291 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+    central5 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     private |   .0523807   .1887518     0.28   0.781    -.3175661    .4223275
+       _cons |   10.83493   .1814972    59.70   0.000      10.4792    11.19065
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+     analyst |        45           1          44     |
+-----------------------------------------------------+
+
+. ppmlhdfe central5 family public , a(cty analyst ) cluster(id)
+Iteration 1:   deviance = 4.3232e+08  eps = .         iters = 12   tol = 1.0e-04  min(eta) =  -5.80  P   
+Iteration 2:   deviance = 3.6616e+08  eps = 1.81e-01  iters = 10   tol = 1.0e-04  min(eta) =  -5.96      
+Iteration 3:   deviance = 3.6050e+08  eps = 1.57e-02  iters = 9    tol = 1.0e-04  min(eta) =  -5.86      
+Iteration 4:   deviance = 3.6038e+08  eps = 3.08e-04  iters = 8    tol = 1.0e-04  min(eta) =  -5.81      
+Iteration 5:   deviance = 3.6038e+08  eps = 4.66e-07  iters = 6    tol = 1.0e-04  min(eta) =  -5.81      
+Iteration 6:   deviance = 3.6038e+08  eps = 3.10e-09  iters = 5    tol = 1.0e-05  min(eta) =  -5.81   S  
+Iteration 7:   deviance = 3.6038e+08  eps = 2.06e-10  iters = 11   tol = 1.0e-08  min(eta) =  -5.81   S  
+Iteration 8:   deviance = 3.6038e+08  eps = 1.86e-15  iters = 11   tol = 1.0e-09  min(eta) =  -5.81   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 8 iterations and 72 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      3,381
+Absorbing 2 HDFE groups                           Residual df     =      3,290
+Statistics robust to heteroskedasticity           Wald chi2(2)    =       2.68
+Deviance             =  360383713.5               Prob > chi2     =     0.2622
+Log pseudolikelihood =   -180206376               Pseudo R2       =     0.2043
+
+Number of clusters (id)     =      3,291
+                                 (Std. err. adjusted for 3,291 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+    central5 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |  -.2212329   .1495946    -1.48   0.139    -.5144328    .0719671
+      public |   .0539986   .1829594     0.30   0.768    -.3045952    .4125924
+       _cons |   10.91576    .066309   164.62   0.000      10.7858    11.04573
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+     analyst |        45           1          44     |
+-----------------------------------------------------+
+
+. ppmlhdfe central5 family public , a(cty  ) cluster(id)
+Iteration 1:   deviance = 4.5130e+08  eps = .         iters = 1    tol = 1.0e-04  min(eta) =  -2.52  P   
+Iteration 2:   deviance = 3.9531e+08  eps = 1.42e-01  iters = 1    tol = 1.0e-04  min(eta) =  -2.94      
+Iteration 3:   deviance = 3.9156e+08  eps = 9.58e-03  iters = 1    tol = 1.0e-04  min(eta) =  -3.06      
+Iteration 4:   deviance = 3.9152e+08  eps = 9.85e-05  iters = 1    tol = 1.0e-04  min(eta) =  -3.07      
+Iteration 5:   deviance = 3.9152e+08  eps = 3.13e-08  iters = 1    tol = 1.0e-05  min(eta) =  -3.07      
+Iteration 6:   deviance = 3.9152e+08  eps = 1.02e-14  iters = 1    tol = 1.0e-06  min(eta) =  -3.07   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 6 iterations and 6 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      3,381
+Absorbing 1 HDFE group                            Residual df     =      3,290
+Statistics robust to heteroskedasticity           Wald chi2(2)    =       3.40
+Deviance             =  391524484.1               Prob > chi2     =     0.1825
+Log pseudolikelihood = -195776761.3               Pseudo R2       =     0.1356
+
+Number of clusters (id)     =      3,291
+                                 (Std. err. adjusted for 3,291 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+    central5 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |  -.2688329   .1528698    -1.76   0.079    -.5684521    .0307864
+      public |   .0003373   .1877458     0.00   0.999    -.3676376    .3683122
+       _cons |   10.80612   .0694141   155.68   0.000     10.67007    10.94217
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+-----------------------------------------------------+
+
+. su central5 , d
+
+             Plant manager max cap inv autonomy
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%            0              0
+ 5%            0              0
+10%            0              0       Obs               3,381
+25%          310              0       Sum of wgt.       3,381
+
+50%         3300                      Mean           36796.09
+                        Largest       Std. dev.      123099.4
+75%        15000        1000000
+90%        69000        1000000       Variance       1.52e+10
+95%       138000        1000000       Skewness       5.904534
+99%       750000        1000000       Kurtosis       41.49546
+
+. bro if central5 == 0
+
+. gen lnI = ln(central5 )
+(891 missing values generated)
+
+. reghdfe lnI family public , a(cty  ) cluster(id)
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,764
+Absorbing 1 HDFE group                            F(   2,   2693) =       2.10
+Statistics robust to heteroskedasticity           Prob > F        =     0.1230
+                                                  R-squared       =     0.2565
+                                                  Adj R-squared   =     0.2530
+                                                  Within R-sq.    =     0.0015
+Number of clusters (id)      =      2,694         Root MSE        =     1.8836
+
+                                 (Std. err. adjusted for 2,694 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+         lnI | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |   -.142697   .0961685    -1.48   0.138    -.3312685    .0458745
+      public |    .135646   .1160324     1.17   0.242    -.0918755    .3631676
+       _cons |   8.674008   .0438836   197.66   0.000     8.587959    8.760057
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+-----------------------------------------------------+
+
+. reghdfe lnI family public , a(cty sic2  ) cluster(id)
+(dropped 4 singleton observations)
+(MWFE estimator converged in 6 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,760
+Absorbing 2 HDFE groups                           F(   2,   2689) =       1.56
+Statistics robust to heteroskedasticity           Prob > F        =     0.2095
+                                                  R-squared       =     0.2678
+                                                  Adj R-squared   =     0.2584
+                                                  Within R-sq.    =     0.0011
+Number of clusters (id)      =      2,690         Root MSE        =     1.8750
+
+                                 (Std. err. adjusted for 2,690 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+         lnI | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |  -.1186376   .0978305    -1.21   0.225    -.3104682    .0731931
+      public |    .133545   .1186719     1.13   0.261    -.0991523    .3662423
+       _cons |   8.672694   .0438413   197.82   0.000     8.586728     8.75866
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        23           1          22     |
+-----------------------------------------------------+
+
+. reghdfe lnI family public , a(cty sic2 analyst  ) cluster(id)
+(dropped 4 singleton observations)
+(MWFE estimator converged in 20 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,760
+Absorbing 3 HDFE groups                           F(   2,   2680) =       1.21
+Statistics robust to heteroskedasticity           Prob > F        =     0.2986
+                                                  R-squared       =     0.3112
+                                                  Adj R-squared   =     0.2909
+                                                  Within R-sq.    =     0.0009
+Number of clusters (id)      =      2,690         Root MSE        =     1.8334
+
+                                 (Std. err. adjusted for 2,690 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+         lnI | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |  -.0999986   .0984617    -1.02   0.310    -.2930672      .09307
+      public |   .1238797   .1202654     1.03   0.303    -.1119427     .359702
+       _cons |   8.670723   .0431295   201.04   0.000     8.586152    8.755293
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        23           1          22     |
+     analyst |        45           1          44    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+
+. reghdfe lnI public if !family, a(cty  ) cluster(id)
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,275
+Absorbing 1 HDFE group                            F(   1,   2223) =       0.34
+Statistics robust to heteroskedasticity           Prob > F        =     0.5618
+                                                  R-squared       =     0.2656
+                                                  Adj R-squared   =     0.2617
+                                                  Within R-sq.    =     0.0002
+Number of clusters (id)      =      2,224         Root MSE        =     1.8979
+
+                                 (Std. err. adjusted for 2,224 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+         lnI | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      public |   .0706454   .1217391     0.58   0.562    -.1680888    .3093795
+       _cons |   8.626532   .0435031   198.30   0.000      8.54122    8.711843
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+-----------------------------------------------------+
+
+. reghdfe lnI public if !family, a(cty sic2 ) cluster(id)
+(dropped 4 singleton observations)
+(MWFE estimator converged in 6 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,271
+Absorbing 2 HDFE groups                           F(   1,   2219) =       0.15
+Statistics robust to heteroskedasticity           Prob > F        =     0.6965
+                                                  R-squared       =     0.2794
+                                                  Adj R-squared   =     0.2684
+                                                  Within R-sq.    =     0.0001
+Number of clusters (id)      =      2,220         Root MSE        =     1.8870
+
+                                 (Std. err. adjusted for 2,220 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+         lnI | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      public |   .0483256   .1238674     0.39   0.696    -.1945824    .2912336
+       _cons |   8.632973   .0436194   197.92   0.000     8.547434    8.718512
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        23           1          22     |
+-----------------------------------------------------+
+
+. reghdfe lnI public if !family, a(cty sic2 analyst ) cluster(id)
+(dropped 4 singleton observations)
+(MWFE estimator converged in 20 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,271
+Absorbing 3 HDFE groups                           F(   1,   2192) =       0.18
+Statistics robust to heteroskedasticity           Prob > F        =     0.6683
+                                                  R-squared       =     0.3299
+                                                  Adj R-squared   =     0.3061
+                                                  Within R-sq.    =     0.0001
+Number of clusters (id)      =      2,220         Root MSE        =     1.8379
+
+                                 (Std. err. adjusted for 2,220 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+         lnI | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      public |   .0538142   .1255613     0.43   0.668    -.1924174    .3000457
+       _cons |   8.632163   .0428165   201.61   0.000     8.548198    8.716129
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        23           1          22     |
+     analyst |        45           1          44    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+
+. ppmlhdfe central5 public if !family, a(cty sic2 analyst ) cluster(id)
+(dropped 4 observations that are either singletons or separated by a fixed effect)
+Iteration 1:   deviance = 3.4172e+08  eps = .         iters = 17   tol = 1.0e-04  min(eta) =  -6.03  P   
+Iteration 2:   deviance = 2.8490e+08  eps = 1.99e-01  iters = 12   tol = 1.0e-04  min(eta) =  -6.73      
+Iteration 3:   deviance = 2.7940e+08  eps = 1.97e-02  iters = 9    tol = 1.0e-04  min(eta) =  -7.12      
+Iteration 4:   deviance = 2.7921e+08  eps = 6.83e-04  iters = 8    tol = 1.0e-04  min(eta) =  -7.20      
+Iteration 5:   deviance = 2.7921e+08  eps = 4.88e-06  iters = 6    tol = 1.0e-04  min(eta) =  -7.20      
+Iteration 6:   deviance = 2.7921e+08  eps = 2.69e-08  iters = 10   tol = 1.0e-05  min(eta) =  -7.20   S  
+Iteration 7:   deviance = 2.7921e+08  eps = 8.64e-12  iters = 13   tol = 1.0e-07  min(eta) =  -7.20   S  
+Iteration 8:   deviance = 2.7921e+08  eps = 2.85e-15  iters = 11   tol = 1.0e-09  min(eta) =  -7.20   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 8 iterations and 86 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      2,758
+Absorbing 3 HDFE groups                           Residual df     =      2,679
+Statistics robust to heteroskedasticity           Wald chi2(1)    =       0.10
+Deviance             =  279205553.2               Prob > chi2     =     0.7491
+Log pseudolikelihood = -139614675.2               Pseudo R2       =     0.2580
+
+Number of clusters (id)     =      2,692
+                                 (Std. err. adjusted for 2,692 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+    central5 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      public |  -.0626521   .1959199    -0.32   0.749     -.446648    .3213438
+       _cons |   11.00766   .0635096   173.32   0.000     10.88319    11.13214
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        23           1          22     |
+     analyst |        45           1          44    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+
+. ppmlhdfe central5 family if !public, a(cty sic2 analyst ) cluster(id)
+(dropped 5 observations that are either singletons or separated by a fixed effect)
+Iteration 1:   deviance = 3.5206e+08  eps = .         iters = 13   tol = 1.0e-04  min(eta) =  -5.28  P   
+Iteration 2:   deviance = 2.9479e+08  eps = 1.94e-01  iters = 16   tol = 1.0e-04  min(eta) =  -5.50      
+Iteration 3:   deviance = 2.8949e+08  eps = 1.83e-02  iters = 10   tol = 1.0e-04  min(eta) =  -5.62      
+Iteration 4:   deviance = 2.8934e+08  eps = 5.27e-04  iters = 8    tol = 1.0e-04  min(eta) =  -5.91      
+Iteration 5:   deviance = 2.8933e+08  eps = 2.49e-06  iters = 5    tol = 1.0e-04  min(eta) =  -5.94      
+Iteration 6:   deviance = 2.8933e+08  eps = 3.10e-08  iters = 8    tol = 1.0e-05  min(eta) =  -5.94   S  
+Iteration 7:   deviance = 2.8933e+08  eps = 3.88e-10  iters = 13   tol = 1.0e-07  min(eta) =  -5.94   S  
+Iteration 8:   deviance = 2.8933e+08  eps = 1.36e-14  iters = 14   tol = 1.0e-09  min(eta) =  -5.94   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 8 iterations and 87 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      2,915
+Absorbing 3 HDFE groups                           Residual df     =      2,838
+Statistics robust to heteroskedasticity           Wald chi2(1)    =       3.95
+Deviance             =  289334964.4               Prob > chi2     =     0.0468
+Log pseudolikelihood = -144679957.6               Pseudo R2       =     0.2596
+
+Number of clusters (id)     =      2,848
+                                 (Std. err. adjusted for 2,848 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+    central5 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |  -.3182276   .1600417    -1.99   0.047    -.6319035   -.0045518
+       _cons |   11.03901   .0650448   169.71   0.000     10.91152    11.16649
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        21           1          20     |
+     analyst |        45           1          44    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+
+. ppmlhdfe central5 family if !public, a(cty ) cluster(id)
+Iteration 1:   deviance = 3.8265e+08  eps = .         iters = 1    tol = 1.0e-04  min(eta) =  -2.61  P   
+Iteration 2:   deviance = 3.3414e+08  eps = 1.45e-01  iters = 1    tol = 1.0e-04  min(eta) =  -3.07      
+Iteration 3:   deviance = 3.3090e+08  eps = 9.80e-03  iters = 1    tol = 1.0e-04  min(eta) =  -3.24      
+Iteration 4:   deviance = 3.3086e+08  eps = 1.01e-04  iters = 1    tol = 1.0e-04  min(eta) =  -3.26      
+Iteration 5:   deviance = 3.3086e+08  eps = 3.63e-08  iters = 1    tol = 1.0e-04  min(eta) =  -3.26      
+Iteration 6:   deviance = 3.3086e+08  eps = 1.75e-14  iters = 1    tol = 1.0e-05  min(eta) =  -3.26   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 6 iterations and 6 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      2,920
+Absorbing 1 HDFE group                            Residual df     =      2,852
+Statistics robust to heteroskedasticity           Wald chi2(1)    =       6.06
+Deviance             =  330862178.1               Prob > chi2     =     0.0139
+Log pseudolikelihood = -165443588.3               Pseudo R2       =     0.1538
+
+Number of clusters (id)     =      2,853
+                                 (Std. err. adjusted for 2,853 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+    central5 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |  -.3828561   .1555665    -2.46   0.014    -.6877608   -.0779514
+       _cons |   10.85602    .066751   162.63   0.000      10.7252    10.98685
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+-----------------------------------------------------+
+
+. ppmlhdfe central5 family if !public, a(cty sic2 ) cluster(id)
+(dropped 5 observations that are either singletons or separated by a fixed effect)
+Iteration 1:   deviance = 3.7401e+08  eps = .         iters = 4    tol = 1.0e-04  min(eta) =  -3.47  P   
+Iteration 2:   deviance = 3.2265e+08  eps = 1.59e-01  iters = 3    tol = 1.0e-04  min(eta) =  -4.30      
+Iteration 3:   deviance = 3.1869e+08  eps = 1.24e-02  iters = 3    tol = 1.0e-04  min(eta) =  -4.88      
+Iteration 4:   deviance = 3.1862e+08  eps = 2.15e-04  iters = 2    tol = 1.0e-04  min(eta) =  -5.09      
+Iteration 5:   deviance = 3.1862e+08  eps = 6.42e-07  iters = 2    tol = 1.0e-04  min(eta) =  -5.11      
+Iteration 6:   deviance = 3.1862e+08  eps = 7.77e-11  iters = 2    tol = 1.0e-05  min(eta) =  -5.11   S  
+Iteration 7:   deviance = 3.1862e+08  eps = 1.75e-16  iters = 2    tol = 1.0e-08  min(eta) =  -5.11   S  
+Iteration 8:   deviance = 3.1862e+08  eps = 1.75e-16  iters = 1    tol = 1.0e-09  min(eta) =  -5.11   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 8 iterations and 19 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      2,915
+Absorbing 2 HDFE groups                           Residual df     =      2,847
+Statistics robust to heteroskedasticity           Wald chi2(1)    =       5.27
+Deviance             =  318620206.3               Prob > chi2     =     0.0217
+Log pseudolikelihood = -159322578.5               Pseudo R2       =     0.1847
+
+Number of clusters (id)     =      2,848
+                                 (Std. err. adjusted for 2,848 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+    central5 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |  -.3692206   .1608869    -2.29   0.022    -.6845531   -.0538881
+       _cons |   10.91099   .0667061   163.57   0.000     10.78025    11.04173
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        21           1          20     |
+-----------------------------------------------------+
+
+. reghdfe lnI family if !public, a(cty sic2 analyst ) cluster(id)
+(dropped 5 singleton observations)
+(MWFE estimator converged in 20 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,379
+Absorbing 3 HDFE groups                           F(   1,   2302) =       2.87
+Statistics robust to heteroskedasticity           Prob > F        =     0.0902
+                                                  R-squared       =     0.3376
+                                                  Adj R-squared   =     0.3157
+                                                  Within R-sq.    =     0.0012
+Number of clusters (id)      =      2,327         Root MSE        =     1.8103
+
+                                 (Std. err. adjusted for 2,327 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+         lnI | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |  -.1706114   .1006522    -1.70   0.090    -.3679899    .0267671
+       _cons |   8.681275   .0423787   204.85   0.000      8.59817    8.764379
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        21           1          20     |
+     analyst |        45           1          44    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+
+. reghdfe lnI family if !public, a(cty sic2 ) cluster(id)
+(dropped 5 singleton observations)
+(MWFE estimator converged in 6 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,379
+Absorbing 2 HDFE groups                           F(   1,   2326) =       4.03
+Statistics robust to heteroskedasticity           Prob > F        =     0.0448
+                                                  R-squared       =     0.2885
+                                                  Adj R-squared   =     0.2788
+                                                  Within R-sq.    =     0.0016
+Number of clusters (id)      =      2,327         Root MSE        =     1.8585
+
+                                 (Std. err. adjusted for 2,327 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+         lnI | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |  -.2001523   .0997048    -2.01   0.045    -.3956718   -.0046328
+       _cons |   8.686788   .0433699   200.30   0.000      8.60174    8.771836
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        21           1          20     |
+-----------------------------------------------------+
+
+. reghdfe lnI family if !public, a(cty) cluster(id)
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,384
+Absorbing 1 HDFE group                            F(   1,   2331) =       4.39
+Statistics robust to heteroskedasticity           Prob > F        =     0.0363
+                                                  R-squared       =     0.2789
+                                                  Adj R-squared   =     0.2752
+                                                  Within R-sq.    =     0.0017
+Number of clusters (id)      =      2,332         Root MSE        =     1.8652
+
+                                 (Std. err. adjusted for 2,332 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+         lnI | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |  -.2060437   .0983415    -2.10   0.036    -.3988897   -.0131978
+       _cons |   8.685773   .0434787   199.77   0.000     8.600512    8.771034
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+-----------------------------------------------------+
+
+. summarize central5 if !public, d
+
+             Plant manager max cap inv autonomy
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%            0              0
+ 5%            0              0
+10%            0              0       Obs               2,920
+25%          305              0       Sum of wgt.       2,920
+
+50%         3125                      Mean           36777.33
+                        Largest       Std. dev.      122214.2
+75%        13800        1000000
+90%        75000        1000000       Variance       1.49e+10
+95%       138000        1000000       Skewness        5.84932
+99%       732000        1000000       Kurtosis       40.98392
+
+. label list
+pro:
+         -99 Missing
+           0 No
+           1 Yes
+
+. display "What is the unit of investment? PPP adjusted dollars? check paper Bloom, N., Sadun, R., & Van Reenen
+> , J. (2012). The Organization of Firms Across Countries. The Quarterly Journal of Economics, 127(4), 1663–170
+> 5.
+What is the unit of investment? PPP adjusted dollars? check paper Bloom, N., Sadun, R., & Van Reenen, J. (2012)
+> . The Organization of Firms Across Countries. The Quarterly Journal of Economics, 127(4), 1663–1705.
+
+. "
+" is not a valid command name
+r(199);
+
+. summarize central5 if !public & family, d
+
+             Plant manager max cap inv autonomy
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%            0              0
+ 5%            0              0
+10%            0              0       Obs                 557
+25%          250              0       Sum of wgt.         557
+
+50%         3660                      Mean           31916.25
+                        Largest       Std. dev.      106615.8
+75%        18300         915000
+90%        62500        1000000       Variance       1.14e+10
+95%       125000        1000000       Skewness       6.578541
+99%       625000        1000000       Kurtosis       52.55506
+
+. reghdfe lnI family if !public, cluster(id)
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,384
+Absorbing 1 HDFE group                            F(   1,   2331) =       3.09
+Statistics robust to heteroskedasticity           Prob > F        =     0.0789
+                                                  R-squared       =     0.0011
+                                                  Adj R-squared   =     0.0007
+                                                  Within R-sq.    =     0.0011
+Number of clusters (id)      =      2,332         Root MSE        =     2.1901
+
+                                 (Std. err. adjusted for 2,332 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+         lnI | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |   .1886126   .1072948     1.76   0.079    -.0217906    .3990158
+       _cons |   8.612271   .0510931   168.56   0.000     8.512078    8.712464
+------------------------------------------------------------------------------
+
+. reghdfe lnI family public, cluster(id)
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,764
+Absorbing 1 HDFE group                            F(   2,   2693) =       2.07
+Statistics robust to heteroskedasticity           Prob > F        =     0.1270
+                                                  R-squared       =     0.0015
+                                                  Adj R-squared   =     0.0008
+                                                  Within R-sq.    =     0.0015
+Number of clusters (id)      =      2,694         Root MSE        =     2.1785
+
+                                 (Std. err. adjusted for 2,694 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+         lnI | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |   .1809835   .1048156     1.73   0.084    -.0245437    .3865107
+      public |    .157839   .1196567     1.32   0.187    -.0767893    .3924672
+       _cons |   8.613692   .0507623   169.69   0.000     8.514155    8.713229
+------------------------------------------------------------------------------
+
+. reghdfe lnI family public, a(sic2) cluster(id)
+(dropped 4 singleton observations)
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,760
+Absorbing 1 HDFE group                            F(   2,   2689) =       1.27
+Statistics robust to heteroskedasticity           Prob > F        =     0.2804
+                                                  R-squared       =     0.0324
+                                                  Adj R-squared   =     0.0239
+                                                  Within R-sq.    =     0.0010
+Number of clusters (id)      =      2,690         Root MSE        =     2.1510
+
+                                 (Std. err. adjusted for 2,690 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+         lnI | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |   .1598617   .1073243     1.49   0.136    -.0505848    .3703082
+      public |   .0932516    .124362     0.75   0.453    -.1506031    .3371064
+       _cons |   8.628899   .0501506   172.06   0.000     8.530562    8.727237
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+        sic2 |        23           0          23     |
+-----------------------------------------------------+
+
+. tabulate public 
+
+    Publicy |
+     traded |      Freq.     Percent        Cum.
+------------+-----------------------------------
+         No |      3,144       86.02       86.02
+        Yes |        511       13.98      100.00
+------------+-----------------------------------
+      Total |      3,655      100.00
+
+. tabulate cty public , row
+
++----------------+
+| Key            |
+|----------------|
+|   frequency    |
+| row percentage |
++----------------+
+
+           |    Publicy traded
+   Country |        No        Yes |     Total
+-----------+----------------------+----------
+        cn |       524         13 |       537 
+           |     97.58       2.42 |    100.00 
+-----------+----------------------+----------
+        fr |       204         13 |       217 
+           |     94.01       5.99 |    100.00 
+-----------+----------------------+----------
+        ge |       270         57 |       327 
+           |     82.57      17.43 |    100.00 
+-----------+----------------------+----------
+        gr |       149         34 |       183 
+           |     81.42      18.58 |    100.00 
+-----------+----------------------+----------
+        in |       289        108 |       397 
+           |     72.80      27.20 |    100.00 
+-----------+----------------------+----------
+        it |        93          3 |        96 
+           |     96.88       3.12 |    100.00 
+-----------+----------------------+----------
+        jp |        85         35 |       120 
+           |     70.83      29.17 |    100.00 
+-----------+----------------------+----------
+        po |       215          7 |       222 
+           |     96.85       3.15 |    100.00 
+-----------+----------------------+----------
+        pt |       136          9 |       145 
+           |     93.79       6.21 |    100.00 
+-----------+----------------------+----------
+        sw |       211          5 |       216 
+           |     97.69       2.31 |    100.00 
+-----------+----------------------+----------
+        uk |       523         34 |       557 
+           |     93.90       6.10 |    100.00 
+-----------+----------------------+----------
+        us |       445        193 |       638 
+           |     69.75      30.25 |    100.00 
+-----------+----------------------+----------
+     Total |     3,144        511 |     3,655 
+           |     86.02      13.98 |    100.00 
+
+. display "There are very few public firms in the survey in most countries. But for among private firms, once w
+> e control for country fixed effects, family controlled firms have less autonomy on investment decisions. Whet
+> her estimate with Poisson, log OLS, controlling for industry and analyst FE."
+There are very few public firms in the survey in most countries. But for among private firms, once we control f
+> or country fixed effects, family controlled firms have less autonomy on investment decisions. Whether estimat
+> e with Poisson, log OLS, controlling for industry and analyst FE.
+
+. display "This is supportive evidence, but is not exactly about our question. Plants have limited autonomy ove
+> r HQ, but we don't know who is sitting in HQ. "
+This is supportive evidence, but is not exactly about our question. Plants have limited autonomy over HQ, but w
+> e don't know who is sitting in HQ. 
+
+. inspect hier_old 
+
+hier_old:  Pct of people belonging to a         Number of observations
+-------------------------------------------------------------------------------
+                                             Total      Integers   Nonintegers
+|                  #         Negative          356           356             -
+|                  #         Zero              150           150             -
+|                  #         Positive        3,149             -         3,149
+|                  #                   -----------   -----------   -----------
+|                  #         Total           3,655           506         3,149
+|  .   .   .   .   #         Missing             -
++----------------------                -----------
+-99            .9936709                      3,655
+(More than 99 unique values)
+
+. summarize hier_old , d
+
+     Pct of people belonging to a hierarchical religion
+                       in region (WVS)
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%          -99            -99
+ 5%          -99            -99
+10%            0            -99       Obs               3,655
+25%     .0406504            -99       Sum of wgt.       3,655
+
+50%     .1466083                      Mean          -9.339752
+                        Largest       Std. dev.      29.45887
+75%     .5068027       .9717224
+90%      .875969       .9717224       Variance       867.8248
+95%     .9403579       .9936709       Skewness      -2.715119
+99%     .9704841       .9936709       Kurtosis       8.373073
+
+. display "misunderstood, this is not relevant"
+misunderstood, this is not relevant
+
+. inspect management 
+
+management:  Our management score - aver        Number of observations
+-------------------------------------------------------------------------------
+                                             Total      Integers   Nonintegers
+|                  #         Negative            1             1             -
+|                  #         Zero                -             -             -
+|                  #         Positive        3,654           218         3,436
+|                  #                   -----------   -----------   -----------
+|                  #         Total           3,655           219         3,436
+|  .   .   .   .   #         Missing             -
++----------------------                -----------
+-99            4.888889                      3,655
+(More than 99 unique values)
+
+. inspect managementm 
+
+managementm:  Dummy=1 if management is m        Number of observations
+-------------------------------------------------------------------------------
+                                             Total      Integers   Nonintegers
+|  #                         Negative            -             -             -
+|  #                         Zero            3,654         3,654             -
+|  #                         Positive            1             1             -
+|  #                                   -----------   -----------   -----------
+|  #                         Total           3,655         3,655             -
+|  #   .                     Missing             -
++----------------------                -----------
+0                     1                      3,655
+   (2 unique values)
+
+. tabulate onsite, miss
+
+  CEO is on |
+       site |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |      1,375       37.62       37.62
+          1 |      2,280       62.38      100.00
+------------+-----------------------------------
+      Total |      3,655      100.00
+
+. tabulate onsite public 
+
+ CEO is on |    Publicy traded
+      site |        No        Yes |     Total
+-----------+----------------------+----------
+         0 |     1,134        241 |     1,375 
+         1 |     2,010        270 |     2,280 
+-----------+----------------------+----------
+     Total |     3,144        511 |     3,655 
+
+. tabulate onsite family 
+
+           |  1=Ownership belongs
+           |  to family (2nd gen
+ CEO is on |       onwards)
+      site |         0          1 |     Total
+-----------+----------------------+----------
+         0 |     1,170        205 |     1,375 
+         1 |     1,824        456 |     2,280 
+-----------+----------------------+----------
+     Total |     2,994        661 |     3,655 
+
+. tabulate onsite family if !public
+
+           |  1=Ownership belongs
+           |  to family (2nd gen
+ CEO is on |       onwards)
+      site |         0          1 |     Total
+-----------+----------------------+----------
+         0 |       965        169 |     1,134 
+         1 |     1,584        426 |     2,010 
+-----------+----------------------+----------
+     Total |     2,549        595 |     3,144 
+
+. reghdfe lnI family if !public, a(cty sic2 analyst ) cluster(id)
+(dropped 5 singleton observations)
+(MWFE estimator converged in 20 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,379
+Absorbing 3 HDFE groups                           F(   1,   2302) =       2.87
+Statistics robust to heteroskedasticity           Prob > F        =     0.0902
+                                                  R-squared       =     0.3376
+                                                  Adj R-squared   =     0.3157
+                                                  Within R-sq.    =     0.0012
+Number of clusters (id)      =      2,327         Root MSE        =     1.8103
+
+                                 (Std. err. adjusted for 2,327 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+         lnI | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |  -.1706114   .1006522    -1.70   0.090    -.3679899    .0267671
+       _cons |   8.681275   .0423787   204.85   0.000      8.59817    8.764379
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        21           1          20     |
+     analyst |        45           1          44    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+
+. reghdfe lnI family onsite if !public, a(cty sic2 analyst ) cluster(id)
+(dropped 5 singleton observations)
+(MWFE estimator converged in 20 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,379
+Absorbing 3 HDFE groups                           F(   2,   2301) =      11.68
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.3433
+                                                  Adj R-squared   =     0.3214
+                                                  Within R-sq.    =     0.0099
+Number of clusters (id)      =      2,327         Root MSE        =     1.8028
+
+                                 (Std. err. adjusted for 2,327 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+         lnI | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |  -.1249288   .1006401    -1.24   0.215    -.3222836    .0724259
+      onsite |  -.3778615   .0831354    -4.55   0.000    -.5408896   -.2148334
+       _cons |   8.905279   .0657686   135.40   0.000     8.776307    9.034251
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        21           1          20     |
+     analyst |        45           1          44    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+
+. reghdfe lnI family onsite if !public, a(cty sic2) cluster(id)
+(dropped 5 singleton observations)
+(MWFE estimator converged in 6 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,379
+Absorbing 2 HDFE groups                           F(   2,   2326) =      10.77
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.2937
+                                                  Adj R-squared   =     0.2837
+                                                  Within R-sq.    =     0.0089
+Number of clusters (id)      =      2,327         Root MSE        =     1.8521
+
+                                 (Std. err. adjusted for 2,327 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+         lnI | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |  -.1580622   .0999363    -1.58   0.114    -.3540357    .0379114
+      onsite |  -.3505145   .0841966    -4.16   0.000    -.5156228   -.1854062
+       _cons |   8.894634   .0662241   134.31   0.000     8.764769    9.024498
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        21           1          20     |
+-----------------------------------------------------+
+
+. ppmlhdfe central5  family onsite if !public, a(cty sic2) cluster(id)
+(dropped 5 observations that are either singletons or separated by a fixed effect)
+Iteration 1:   deviance = 3.7268e+08  eps = .         iters = 4    tol = 1.0e-04  min(eta) =  -3.60  P   
+Iteration 2:   deviance = 3.1983e+08  eps = 1.65e-01  iters = 3    tol = 1.0e-04  min(eta) =  -4.41      
+Iteration 3:   deviance = 3.1547e+08  eps = 1.38e-02  iters = 3    tol = 1.0e-04  min(eta) =  -4.97      
+Iteration 4:   deviance = 3.1538e+08  eps = 2.82e-04  iters = 3    tol = 1.0e-04  min(eta) =  -5.17      
+Iteration 5:   deviance = 3.1538e+08  eps = 7.31e-07  iters = 2    tol = 1.0e-04  min(eta) =  -5.20      
+Iteration 6:   deviance = 3.1538e+08  eps = 5.73e-11  iters = 2    tol = 1.0e-05  min(eta) =  -5.20   S  
+Iteration 7:   deviance = 3.1538e+08  eps = 3.53e-16  iters = 2    tol = 1.0e-08  min(eta) =  -5.20   S  
+Iteration 8:   deviance = 3.1538e+08  eps = 0.00e+00  iters = 1    tol = 1.0e-09  min(eta) =  -5.20   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 8 iterations and 20 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      2,915
+Absorbing 2 HDFE groups                           Residual df     =      2,847
+Statistics robust to heteroskedasticity           Wald chi2(2)    =      18.30
+Deviance             =  315379451.3               Prob > chi2     =     0.0001
+Log pseudolikelihood =   -157702201               Pseudo R2       =     0.1930
+
+Number of clusters (id)     =      2,848
+                                 (Std. err. adjusted for 2,848 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+    central5 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |  -.3121462   .1657716    -1.88   0.060    -.6370526    .0127601
+      onsite |  -.3765337   .1218345    -3.09   0.002    -.6153249   -.1377425
+       _cons |   11.10729    .086292   128.72   0.000     10.93816    11.27642
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        21           1          20     |
+-----------------------------------------------------+
+
+. ppmlhdfe central5  family onsite public, a(cty sic2) cluster(id)
+(dropped 4 observations that are either singletons or separated by a fixed effect)
+Iteration 1:   deviance = 4.4028e+08  eps = .         iters = 4    tol = 1.0e-04  min(eta) =  -3.51  P   
+Iteration 2:   deviance = 3.7884e+08  eps = 1.62e-01  iters = 3    tol = 1.0e-04  min(eta) =  -4.07      
+Iteration 3:   deviance = 3.7377e+08  eps = 1.36e-02  iters = 3    tol = 1.0e-04  min(eta) =  -4.38      
+Iteration 4:   deviance = 3.7367e+08  eps = 2.64e-04  iters = 3    tol = 1.0e-04  min(eta) =  -4.55      
+Iteration 5:   deviance = 3.7367e+08  eps = 3.55e-07  iters = 2    tol = 1.0e-04  min(eta) =  -4.56      
+Iteration 6:   deviance = 3.7367e+08  eps = 3.95e-12  iters = 2    tol = 1.0e-05  min(eta) =  -4.56   S  
+Iteration 7:   deviance = 3.7367e+08  eps = 3.00e-16  iters = 2    tol = 1.0e-08  min(eta) =  -4.56   S  
+Iteration 8:   deviance = 3.7367e+08  eps = 1.50e-16  iters = 1    tol = 1.0e-09  min(eta) =  -4.56   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 8 iterations and 20 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      3,377
+Absorbing 2 HDFE groups                           Residual df     =      3,286
+Statistics robust to heteroskedasticity           Wald chi2(3)    =      12.34
+Deviance             =  373672097.5               Prob > chi2     =     0.0063
+Log pseudolikelihood = -186850550.7               Pseudo R2       =     0.1747
+
+Number of clusters (id)     =      3,287
+                                 (Std. err. adjusted for 3,287 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+    central5 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |  -.1938454   .1624028    -1.19   0.233    -.5121489    .1244582
+      onsite |  -.3027107   .1202489    -2.52   0.012    -.5383943   -.0670272
+      public |   .0542289   .1905535     0.28   0.776     -.319249    .4277068
+       _cons |   11.01553   .0884506   124.54   0.000     10.84217    11.18889
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        23           1          22     |
+-----------------------------------------------------+
+
+. note: When CEO is onsite, thereis less autonomy in investment. why? check paper. so this suggests that CEO is
+>  the source of power for investment, consistent with our story.
+
+. su central4 central6 central7 
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    central4 |      3,649    3.167169    1.516541          1          5
+    central6 |      3,643    1.993687    1.392186          1          5
+    central7 |      3,552    2.304617    1.370774          1          5
+
+. su central4, d
+
+                Plant manager hiring autonomy
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%            1              1
+ 5%            1              1
+10%            1              1       Obs               3,649
+25%            2              1       Sum of wgt.       3,649
+
+50%            3                      Mean           3.167169
+                        Largest       Std. dev.      1.516541
+75%            5              5
+90%            5              5       Variance       2.299898
+95%            5              5       Skewness      -.1303801
+99%            5              5       Kurtosis       1.626439
+
+. tabulate central4
+
+      Plant |
+    manager |
+     hiring |
+   autonomy |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |        803       22.01       22.01
+          2 |        403       11.04       33.05
+          3 |        953       26.12       59.17
+          4 |        361        9.89       69.06
+          5 |      1,129       30.94      100.00
+------------+-----------------------------------
+      Total |      3,649      100.00
+
+. generate byte hiring = central4 == 5
+
+. su central6, d
+
+         Plant manager sales and marketing activity
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%            1              1
+ 5%            1              1
+10%            1              1       Obs               3,643
+25%            1              1       Sum of wgt.       3,643
+
+50%            1                      Mean           1.993687
+                        Largest       Std. dev.      1.392186
+75%            3              5
+90%            5              5       Variance       1.938181
+95%            5              5       Skewness       1.115288
+99%            5              5       Kurtosis       2.847145
+
+. su central7, d
+
+          Plant manager new product intro activity
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%            1              1
+ 5%            1              1
+10%            1              1       Obs               3,552
+25%            1              1       Sum of wgt.       3,552
+
+50%            2                      Mean           2.304617
+                        Largest       Std. dev.      1.370774
+75%            3              5
+90%            5              5       Variance       1.879021
+95%            5              5       Skewness       .6372847
+99%            5              5       Kurtosis        2.20737
+
+. tabulate central6 
+
+      Plant |
+    manager |
+  sales and |
+  marketing |
+   activity |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |      2,146       58.91       58.91
+          2 |        356        9.77       68.68
+          3 |        572       15.70       84.38
+          4 |        156        4.28       88.66
+          5 |        413       11.34      100.00
+------------+-----------------------------------
+      Total |      3,643      100.00
+
+. tabulate central7 
+
+      Plant |
+manager new |
+    product |
+      intro |
+   activity |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |      1,537       43.27       43.27
+          2 |        418       11.77       55.04
+          3 |        976       27.48       82.52
+          4 |        220        6.19       88.71
+          5 |        401       11.29      100.00
+------------+-----------------------------------
+      Total |      3,552      100.00
+
+. generate byte marketing = central6 == 5
+
+. generate byte product = central7 == 5
+
+. tabulate hiring public
+
+           |    Publicy traded
+    hiring |        No        Yes |     Total
+-----------+----------------------+----------
+         0 |     2,176        350 |     2,526 
+         1 |       968        161 |     1,129 
+-----------+----------------------+----------
+     Total |     3,144        511 |     3,655 
+
+. tabulate public hiring, row
+
++----------------+
+| Key            |
+|----------------|
+|   frequency    |
+| row percentage |
++----------------+
+
+   Publicy |        hiring
+    traded |         0          1 |     Total
+-----------+----------------------+----------
+        No |     2,176        968 |     3,144 
+           |     69.21      30.79 |    100.00 
+-----------+----------------------+----------
+       Yes |       350        161 |       511 
+           |     68.49      31.51 |    100.00 
+-----------+----------------------+----------
+     Total |     2,526      1,129 |     3,655 
+           |     69.11      30.89 |    100.00 
+
+. tabulate family hiring, row
+
++----------------+
+| Key            |
+|----------------|
+|   frequency    |
+| row percentage |
++----------------+
+
+1=Ownershi |
+ p belongs |
+ to family |
+  (2nd gen |        hiring
+  onwards) |         0          1 |     Total
+-----------+----------------------+----------
+         0 |     2,066        928 |     2,994 
+           |     69.00      31.00 |    100.00 
+-----------+----------------------+----------
+         1 |       460        201 |       661 
+           |     69.59      30.41 |    100.00 
+-----------+----------------------+----------
+     Total |     2,526      1,129 |     3,655 
+           |     69.11      30.89 |    100.00 
+
+. tabulate family hiring if !public, row
+
++----------------+
+| Key            |
+|----------------|
+|   frequency    |
+| row percentage |
++----------------+
+
+1=Ownershi |
+ p belongs |
+ to family |
+  (2nd gen |        hiring
+  onwards) |         0          1 |     Total
+-----------+----------------------+----------
+         0 |     1,769        780 |     2,549 
+           |     69.40      30.60 |    100.00 
+-----------+----------------------+----------
+         1 |       407        188 |       595 
+           |     68.40      31.60 |    100.00 
+-----------+----------------------+----------
+     Total |     2,176        968 |     3,144 
+           |     69.21      30.79 |    100.00 
+
+. tabulate family marketing if !public, row
+
++----------------+
+| Key            |
+|----------------|
+|   frequency    |
+| row percentage |
++----------------+
+
+1=Ownershi |
+ p belongs |
+ to family |
+  (2nd gen |       marketing
+  onwards) |         0          1 |     Total
+-----------+----------------------+----------
+         0 |     2,239        310 |     2,549 
+           |     87.84      12.16 |    100.00 
+-----------+----------------------+----------
+         1 |       548         47 |       595 
+           |     92.10       7.90 |    100.00 
+-----------+----------------------+----------
+     Total |     2,787        357 |     3,144 
+           |     88.65      11.35 |    100.00 
+
+. tabulate family product if !public, row
+
++----------------+
+| Key            |
+|----------------|
+|   frequency    |
+| row percentage |
++----------------+
+
+1=Ownershi |
+ p belongs |
+ to family |
+  (2nd gen |        product
+  onwards) |         0          1 |     Total
+-----------+----------------------+----------
+         0 |     2,244        305 |     2,549 
+           |     88.03      11.97 |    100.00 
+-----------+----------------------+----------
+         1 |       547         48 |       595 
+           |     91.93       8.07 |    100.00 
+-----------+----------------------+----------
+     Total |     2,791        353 |     3,144 
+           |     88.77      11.23 |    100.00 
+
+. ppmlhdfe hiring family public onsite, a(cty sic2) cluster(id)
+(dropped 5 observations that are either singletons or separated by a fixed effect)
+Iteration 1:   deviance = 2.5176e+03  eps = .         iters = 4    tol = 1.0e-04  min(eta) =  -1.83  P   
+Iteration 2:   deviance = 2.4407e+03  eps = 3.15e-02  iters = 3    tol = 1.0e-04  min(eta) =  -2.24      
+Iteration 3:   deviance = 2.4397e+03  eps = 4.35e-04  iters = 2    tol = 1.0e-04  min(eta) =  -2.34      
+Iteration 4:   deviance = 2.4397e+03  eps = 1.91e-07  iters = 2    tol = 1.0e-04  min(eta) =  -2.34      
+Iteration 5:   deviance = 2.4397e+03  eps = 4.91e-13  iters = 2    tol = 1.0e-05  min(eta) =  -2.34   S  
+Iteration 6:   deviance = 2.4397e+03  eps = 0.00e+00  iters = 2    tol = 1.0e-08  min(eta) =  -2.34   S  
+Iteration 7:   deviance = 2.4397e+03  eps = 0.00e+00  iters = 1    tol = 1.0e-09  min(eta) =  -2.34   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 7 iterations and 16 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      3,650
+Absorbing 2 HDFE groups                           Residual df     =      3,536
+Statistics robust to heteroskedasticity           Wald chi2(3)    =      15.99
+Deviance             =  2439.677087               Prob > chi2     =     0.0011
+Log pseudolikelihood = -2347.838544               Pseudo R2       =     0.0427
+
+Number of clusters (id)     =      3,537
+                                 (Std. err. adjusted for 3,537 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+      hiring | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |   .0911975   .0658971     1.38   0.166    -.0379585    .2203536
+      public |   .0015014   .0713151     0.02   0.983    -.1382737    .1412765
+      onsite |  -.1955555   .0503613    -3.88   0.000    -.2942619   -.0968491
+       _cons |  -.9872753   .0392861   -25.13   0.000    -1.064275    -.910276
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        23           1          22     |
+-----------------------------------------------------+
+
+. ppmlhdfe hiring family onsite if !public , a(cty sic2) cluster(id)
+(dropped 6 observations that are either singletons or separated by a fixed effect)
+Iteration 1:   deviance = 2.1717e+03  eps = .         iters = 4    tol = 1.0e-04  min(eta) =  -1.83  P   
+Iteration 2:   deviance = 2.1055e+03  eps = 3.14e-02  iters = 3    tol = 1.0e-04  min(eta) =  -2.20      
+Iteration 3:   deviance = 2.1046e+03  eps = 4.22e-04  iters = 2    tol = 1.0e-04  min(eta) =  -2.28      
+Iteration 4:   deviance = 2.1046e+03  eps = 1.36e-07  iters = 2    tol = 1.0e-04  min(eta) =  -2.29      
+Iteration 5:   deviance = 2.1046e+03  eps = 1.13e-13  iters = 2    tol = 1.0e-05  min(eta) =  -2.29   S  
+Iteration 6:   deviance = 2.1046e+03  eps = 0.00e+00  iters = 2    tol = 1.0e-08  min(eta) =  -2.29   S  
+Iteration 7:   deviance = 2.1046e+03  eps = 0.00e+00  iters = 1    tol = 1.0e-09  min(eta) =  -2.29   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 7 iterations and 16 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      3,138
+Absorbing 2 HDFE groups                           Residual df     =      3,048
+Statistics robust to heteroskedasticity           Wald chi2(2)    =      25.64
+Deviance             =  2104.629136               Prob > chi2     =     0.0000
+Log pseudolikelihood = -2019.314568               Pseudo R2       =     0.0408
+
+Number of clusters (id)     =      3,049
+                                 (Std. err. adjusted for 3,049 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+      hiring | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |   .1248376   .0687547     1.82   0.069    -.0099192    .2595943
+      onsite |  -.2703955   .0548251    -4.93   0.000    -.3778507   -.1629403
+       _cons |   -.959263   .0401202   -23.91   0.000    -1.037897   -.8806288
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        21           1          20     |
+-----------------------------------------------------+
+
+. ppmlhdfe marketing family onsite if !public , a(cty sic2) cluster(id)
+(dropped 11 observations that are either singletons or separated by a fixed effect)
+Iteration 1:   deviance = 1.5821e+03  eps = .         iters = 4    tol = 1.0e-04  min(eta) =  -2.99  P   
+Iteration 2:   deviance = 1.4259e+03  eps = 1.10e-01  iters = 4    tol = 1.0e-04  min(eta) =  -3.72      
+Iteration 3:   deviance = 1.4164e+03  eps = 6.67e-03  iters = 3    tol = 1.0e-04  min(eta) =  -4.20      
+Iteration 4:   deviance = 1.4163e+03  eps = 6.12e-05  iters = 2    tol = 1.0e-04  min(eta) =  -4.39      
+Iteration 5:   deviance = 1.4163e+03  eps = 1.59e-07  iters = 2    tol = 1.0e-05  min(eta) =  -4.40      
+Iteration 6:   deviance = 1.4163e+03  eps = 8.55e-12  iters = 2    tol = 1.0e-06  min(eta) =  -4.40   S  
+Iteration 7:   deviance = 1.4163e+03  eps = 2.04e-16  iters = 2    tol = 1.0e-08  min(eta) =  -4.40   S  
+Iteration 8:   deviance = 1.4163e+03  eps = 2.04e-16  iters = 1    tol = 1.0e-09  min(eta) =  -4.40   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 8 iterations and 20 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      3,133
+Absorbing 2 HDFE groups                           Residual df     =      3,043
+Statistics robust to heteroskedasticity           Wald chi2(2)    =      10.16
+Deviance             =  1416.328086               Prob > chi2     =     0.0062
+Log pseudolikelihood = -1064.164043               Pseudo R2       =     0.0585
+
+Number of clusters (id)     =      3,044
+                                 (Std. err. adjusted for 3,044 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+   marketing | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |  -.3091266   .1547505    -2.00   0.046     -.612432   -.0058212
+      onsite |  -.2242676   .1078074    -2.08   0.038    -.4355662    -.012969
+       _cons |   -1.82368   .0761768   -23.94   0.000    -1.972984   -1.674376
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        20           1          19     |
+-----------------------------------------------------+
+
+. ppmlhdfe product family onsite if !public , a(cty sic2) cluster(id)
+(dropped 30 observations that are either singletons or separated by a fixed effect)
+Iteration 1:   deviance = 1.6049e+03  eps = .         iters = 4    tol = 1.0e-04  min(eta) =  -2.89  P   
+Iteration 2:   deviance = 1.4447e+03  eps = 1.11e-01  iters = 4    tol = 1.0e-04  min(eta) =  -3.19      
+Iteration 3:   deviance = 1.4344e+03  eps = 7.14e-03  iters = 3    tol = 1.0e-04  min(eta) =  -3.23      
+Iteration 4:   deviance = 1.4343e+03  eps = 5.79e-05  iters = 3    tol = 1.0e-04  min(eta) =  -3.23      
+Iteration 5:   deviance = 1.4343e+03  eps = 6.84e-09  iters = 3    tol = 1.0e-05  min(eta) =  -3.23      
+Iteration 6:   deviance = 1.4343e+03  eps = 2.01e-16  iters = 2    tol = 1.0e-06  min(eta) =  -3.23   S  
+Iteration 7:   deviance = 1.4343e+03  eps = 2.01e-16  iters = 2    tol = 1.0e-09  min(eta) =  -3.23   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 7 iterations and 21 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      3,114
+Absorbing 2 HDFE groups                           Residual df     =      3,024
+Statistics robust to heteroskedasticity           Wald chi2(2)    =      16.59
+Deviance             =  1434.334104               Prob > chi2     =     0.0002
+Log pseudolikelihood = -1070.167052               Pseudo R2       =     0.0458
+
+Number of clusters (id)     =      3,025
+                                 (Std. err. adjusted for 3,025 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+     product | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |  -.2392381   .1517823    -1.58   0.115    -.5367259    .0582497
+      onsite |  -.3848015   .1089132    -3.53   0.000    -.5982674   -.1713355
+       _cons |  -1.795257   .0767595   -23.39   0.000    -1.945703   -1.644811
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        19           1          18     |
+-----------------------------------------------------+
+
+. ppmlhdfe central5  family onsite if !public , a(cty sic2) cluster(id)
+(dropped 5 observations that are either singletons or separated by a fixed effect)
+Iteration 1:   deviance = 3.7268e+08  eps = .         iters = 4    tol = 1.0e-04  min(eta) =  -3.60  P   
+Iteration 2:   deviance = 3.1983e+08  eps = 1.65e-01  iters = 3    tol = 1.0e-04  min(eta) =  -4.41      
+Iteration 3:   deviance = 3.1547e+08  eps = 1.38e-02  iters = 3    tol = 1.0e-04  min(eta) =  -4.97      
+Iteration 4:   deviance = 3.1538e+08  eps = 2.82e-04  iters = 3    tol = 1.0e-04  min(eta) =  -5.17      
+Iteration 5:   deviance = 3.1538e+08  eps = 7.31e-07  iters = 2    tol = 1.0e-04  min(eta) =  -5.20      
+Iteration 6:   deviance = 3.1538e+08  eps = 5.73e-11  iters = 2    tol = 1.0e-05  min(eta) =  -5.20   S  
+Iteration 7:   deviance = 3.1538e+08  eps = 3.53e-16  iters = 2    tol = 1.0e-08  min(eta) =  -5.20   S  
+Iteration 8:   deviance = 3.1538e+08  eps = 0.00e+00  iters = 1    tol = 1.0e-09  min(eta) =  -5.20   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 8 iterations and 20 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      2,915
+Absorbing 2 HDFE groups                           Residual df     =      2,847
+Statistics robust to heteroskedasticity           Wald chi2(2)    =      18.30
+Deviance             =  315379451.3               Prob > chi2     =     0.0001
+Log pseudolikelihood =   -157702201               Pseudo R2       =     0.1930
+
+Number of clusters (id)     =      2,848
+                                 (Std. err. adjusted for 2,848 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+    central5 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |  -.3121462   .1657716    -1.88   0.060    -.6370526    .0127601
+      onsite |  -.3765337   .1218345    -3.09   0.002    -.6153249   -.1377425
+       _cons |   11.10729    .086292   128.72   0.000     10.93816    11.27642
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        21           1          20     |
+-----------------------------------------------------+
+
+. tab onsite
+
+  CEO is on |
+       site |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |      1,375       37.62       37.62
+          1 |      2,280       62.38      100.00
+------------+-----------------------------------
+      Total |      3,655      100.00
+
+. ppmlhdfe hiring family if !public & !onsite , a(cty sic2) cluster(id)
+(dropped 1 observations that are either singletons or separated by a fixed effect)
+Iteration 1:   deviance = 7.7693e+02  eps = .         iters = 4    tol = 1.0e-04  min(eta) =  -1.64  P   
+Iteration 2:   deviance = 7.5805e+02  eps = 2.49e-02  iters = 4    tol = 1.0e-04  min(eta) =  -2.01      
+Iteration 3:   deviance = 7.5785e+02  eps = 2.59e-04  iters = 2    tol = 1.0e-04  min(eta) =  -2.09      
+Iteration 4:   deviance = 7.5785e+02  eps = 7.18e-08  iters = 2    tol = 1.0e-04  min(eta) =  -2.09      
+Iteration 5:   deviance = 7.5785e+02  eps = 7.62e-14  iters = 2    tol = 1.0e-05  min(eta) =  -2.09   S  
+Iteration 6:   deviance = 7.5785e+02  eps = 1.45e-16  iters = 3    tol = 1.0e-09  min(eta) =  -2.09   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 6 iterations and 17 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      1,133
+Absorbing 2 HDFE groups                           Residual df     =      1,100
+Statistics robust to heteroskedasticity           Wald chi2(1)    =       1.03
+Deviance             =  757.8522873               Prob > chi2     =     0.3096
+Log pseudolikelihood = -797.9261436               Pseudo R2       =     0.0453
+
+Number of clusters (id)     =      1,110
+                                 (Std. err. adjusted for 1,110 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+      hiring | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |   .1083063    .106596     1.02   0.310     -.100618    .3172307
+       _cons |  -.9206431   .0407947   -22.57   0.000    -1.000599   -.8406869
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        21           1          20     |
+-----------------------------------------------------+
+
+. ppmlhdfe marketing family if !public & !onsite , a(cty sic2) cluster(id)
+(dropped 30 observations that are either singletons or separated by a fixed effect)
+Iteration 1:   deviance = 6.0577e+02  eps = .         iters = 4    tol = 1.0e-04  min(eta) =  -2.42  P   
+Iteration 2:   deviance = 5.5829e+02  eps = 8.50e-02  iters = 4    tol = 1.0e-04  min(eta) =  -3.01      
+Iteration 3:   deviance = 5.5607e+02  eps = 3.99e-03  iters = 3    tol = 1.0e-04  min(eta) =  -3.24      
+Iteration 4:   deviance = 5.5606e+02  eps = 1.63e-05  iters = 2    tol = 1.0e-04  min(eta) =  -3.27      
+Iteration 5:   deviance = 5.5606e+02  eps = 5.56e-10  iters = 2    tol = 1.0e-05  min(eta) =  -3.27   S  
+Iteration 6:   deviance = 5.5606e+02  eps = 5.73e-16  iters = 2    tol = 1.0e-06  min(eta) =  -3.27   S  
+Iteration 7:   deviance = 5.5606e+02  eps = 1.43e-16  iters = 2    tol = 1.0e-09  min(eta) =  -3.27   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 7 iterations and 19 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      1,104
+Absorbing 2 HDFE groups                           Residual df     =      1,074
+Statistics robust to heteroskedasticity           Wald chi2(1)    =       0.11
+Deviance             =  556.0574301               Prob > chi2     =     0.7421
+Log pseudolikelihood =  -436.028715               Pseudo R2       =     0.0626
+
+Number of clusters (id)     =      1,081
+                                 (Std. err. adjusted for 1,081 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+   marketing | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |   .0696625   .2116685     0.33   0.742    -.3452002    .4845252
+       _cons |  -1.768493   .0762259   -23.20   0.000    -1.917894   -1.619093
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        18           1          17     |
+-----------------------------------------------------+
+
+. ppmlhdfe product family if !public & !onsite , a(cty sic2) cluster(id)
+(dropped 12 observations that are either singletons or separated by a fixed effect)
+Iteration 1:   deviance = 6.4561e+02  eps = .         iters = 4    tol = 1.0e-04  min(eta) =  -2.70  P   
+Iteration 2:   deviance = 5.9725e+02  eps = 8.10e-02  iters = 4    tol = 1.0e-04  min(eta) =  -3.20      
+Iteration 3:   deviance = 5.9513e+02  eps = 3.57e-03  iters = 3    tol = 1.0e-04  min(eta) =  -3.38      
+Iteration 4:   deviance = 5.9512e+02  eps = 1.24e-05  iters = 2    tol = 1.0e-04  min(eta) =  -3.40      
+Iteration 5:   deviance = 5.9512e+02  eps = 3.46e-10  iters = 2    tol = 1.0e-05  min(eta) =  -3.40   S  
+Iteration 6:   deviance = 5.9512e+02  eps = 4.07e-16  iters = 2    tol = 1.0e-06  min(eta) =  -3.40   S  
+Iteration 7:   deviance = 5.9512e+02  eps = 1.36e-16  iters = 2    tol = 1.0e-09  min(eta) =  -3.40   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 7 iterations and 19 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      1,122
+Absorbing 2 HDFE groups                           Residual df     =      1,091
+Statistics robust to heteroskedasticity           Wald chi2(1)    =       0.69
+Deviance             =   595.119169               Prob > chi2     =     0.4070
+Log pseudolikelihood = -463.5595845               Pseudo R2       =     0.0407
+
+Number of clusters (id)     =      1,099
+                                 (Std. err. adjusted for 1,099 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+     product | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |  -.1882161   .2270078    -0.83   0.407    -.6331432     .256711
+       _cons |  -1.770985   .0748716   -23.65   0.000     -1.91773   -1.624239
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        19           1          18     |
+-----------------------------------------------------+
+
+. ppmlhdfe central5  family if !public & !onsite , a(cty sic2) cluster(id)
+(dropped 1 observations that are either singletons or separated by a fixed effect)
+Iteration 1:   deviance = 1.4974e+08  eps = .         iters = 4    tol = 1.0e-04  min(eta) =  -3.94  P   
+Iteration 2:   deviance = 1.3106e+08  eps = 1.43e-01  iters = 3    tol = 1.0e-04  min(eta) =  -4.75      
+Iteration 3:   deviance = 1.2989e+08  eps = 9.05e-03  iters = 3    tol = 1.0e-04  min(eta) =  -5.20      
+Iteration 4:   deviance = 1.2987e+08  eps = 1.43e-04  iters = 3    tol = 1.0e-04  min(eta) =  -5.30      
+Iteration 5:   deviance = 1.2987e+08  eps = 9.74e-07  iters = 2    tol = 1.0e-04  min(eta) =  -5.30      
+Iteration 6:   deviance = 1.2987e+08  eps = 3.37e-10  iters = 2    tol = 1.0e-05  min(eta) =  -5.30   S  
+Iteration 7:   deviance = 1.2987e+08  eps = 1.28e-16  iters = 2    tol = 1.0e-08  min(eta) =  -5.30   S  
+Iteration 8:   deviance = 1.2987e+08  eps = 1.28e-16  iters = 1    tol = 1.0e-09  min(eta) =  -5.30   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 8 iterations and 20 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      1,057
+Absorbing 2 HDFE groups                           Residual df     =      1,024
+Statistics robust to heteroskedasticity           Wald chi2(1)    =       0.00
+Deviance             =    129869055               Prob > chi2     =     0.9984
+Log pseudolikelihood = -64939480.78               Pseudo R2       =     0.2529
+
+Number of clusters (id)     =      1,036
+                                 (Std. err. adjusted for 1,036 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+    central5 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |  -.0005435   .2685457    -0.00   0.998    -.5268834    .5257963
+       _cons |   11.23716   .0919631   122.19   0.000     11.05692     11.4174
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        21           1          20     |
+-----------------------------------------------------+
+
+. ppmlhdfe hiring family if !public & onsite , a(cty sic2) cluster(id)
+(dropped 8 observations that are either singletons or separated by a fixed effect)
+Iteration 1:   deviance = 1.3730e+03  eps = .         iters = 4    tol = 1.0e-04  min(eta) =  -2.38  P   
+Iteration 2:   deviance = 1.3232e+03  eps = 3.77e-02  iters = 3    tol = 1.0e-04  min(eta) =  -3.07      
+Iteration 3:   deviance = 1.3222e+03  eps = 7.42e-04  iters = 3    tol = 1.0e-04  min(eta) =  -3.42      
+Iteration 4:   deviance = 1.3222e+03  eps = 4.34e-06  iters = 2    tol = 1.0e-04  min(eta) =  -3.49      
+Iteration 5:   deviance = 1.3222e+03  eps = 5.05e-09  iters = 2    tol = 1.0e-05  min(eta) =  -3.49   S  
+Iteration 6:   deviance = 1.3222e+03  eps = 8.59e-15  iters = 2    tol = 1.0e-07  min(eta) =  -3.49   S  
+Iteration 7:   deviance = 1.3222e+03  eps = 1.53e-16  iters = 2    tol = 1.0e-09  min(eta) =  -3.49   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 7 iterations and 18 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      2,002
+Absorbing 2 HDFE groups                           Residual df     =      1,966
+Statistics robust to heteroskedasticity           Wald chi2(1)    =       1.35
+Deviance             =  1322.199927               Prob > chi2     =     0.2444
+Log pseudolikelihood = -1209.099964               Pseudo R2       =     0.0389
+
+Number of clusters (id)     =      1,967
+                                 (Std. err. adjusted for 1,967 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+      hiring | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |   .1041504   .0894791     1.16   0.244    -.0712255    .2795263
+       _cons |  -1.230144   .0413202   -29.77   0.000     -1.31113   -1.149158
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        20           1          19     |
+-----------------------------------------------------+
+
+. ppmlhdfe marketing family if !public & onsite , a(cty sic2) cluster(id)
+(dropped 109 observations that are either singletons or separated by a fixed effect)
+Iteration 1:   deviance = 9.2611e+02  eps = .         iters = 4    tol = 1.0e-04  min(eta) =  -3.11  P   
+Iteration 2:   deviance = 8.2680e+02  eps = 1.20e-01  iters = 4    tol = 1.0e-04  min(eta) =  -3.82      
+Iteration 3:   deviance = 8.2018e+02  eps = 8.08e-03  iters = 3    tol = 1.0e-04  min(eta) =  -4.19      
+Iteration 4:   deviance = 8.2012e+02  eps = 6.91e-05  iters = 2    tol = 1.0e-04  min(eta) =  -4.26      
+Iteration 5:   deviance = 8.2012e+02  eps = 1.04e-08  iters = 3    tol = 1.0e-05  min(eta) =  -4.26      
+Iteration 6:   deviance = 8.2012e+02  eps = 1.19e-15  iters = 2    tol = 1.0e-06  min(eta) =  -4.26   S  
+Iteration 7:   deviance = 8.2012e+02  eps = 1.69e-16  iters = 2    tol = 1.0e-09  min(eta) =  -4.26   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 7 iterations and 20 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      1,901
+Absorbing 2 HDFE groups                           Residual df     =      1,865
+Statistics robust to heteroskedasticity           Wald chi2(1)    =       6.66
+Deviance             =  820.1189909               Prob > chi2     =     0.0098
+Log pseudolikelihood = -608.0594955               Pseudo R2       =     0.0585
+
+Number of clusters (id)     =      1,866
+                                 (Std. err. adjusted for 1,866 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+   marketing | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |  -.5430456   .2103641    -2.58   0.010    -.9553517   -.1307395
+       _cons |  -1.996956   .0711907   -28.05   0.000    -2.136487   -1.857425
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        11           0          11     |
+        sic2 |        20           1          19     |
+-----------------------------------------------------+
+
+. ppmlhdfe product family if !public & onsite , a(cty sic2) cluster(id)
+(dropped 78 observations that are either singletons or separated by a fixed effect)
+Iteration 1:   deviance = 8.9817e+02  eps = .         iters = 4    tol = 1.0e-04  min(eta) =  -3.78  P   
+Iteration 2:   deviance = 7.9061e+02  eps = 1.36e-01  iters = 3    tol = 1.0e-04  min(eta) =  -4.30      
+Iteration 3:   deviance = 7.8231e+02  eps = 1.06e-02  iters = 3    tol = 1.0e-04  min(eta) =  -4.53      
+Iteration 4:   deviance = 7.8221e+02  eps = 1.37e-04  iters = 3    tol = 1.0e-04  min(eta) =  -4.59      
+Iteration 5:   deviance = 7.8221e+02  eps = 5.31e-08  iters = 2    tol = 1.0e-04  min(eta) =  -4.59      
+Iteration 6:   deviance = 7.8221e+02  eps = 5.05e-14  iters = 2    tol = 1.0e-05  min(eta) =  -4.59   S  
+Iteration 7:   deviance = 7.8221e+02  eps = 0.00e+00  iters = 2    tol = 1.0e-09  min(eta) =  -4.59   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 7 iterations and 19 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      1,932
+Absorbing 2 HDFE groups                           Residual df     =      1,897
+Statistics robust to heteroskedasticity           Wald chi2(1)    =       2.26
+Deviance             =  782.2064557               Prob > chi2     =     0.1328
+Log pseudolikelihood = -578.1032278               Pseudo R2       =     0.0731
+
+Number of clusters (id)     =      1,898
+                                 (Std. err. adjusted for 1,898 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+     product | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |  -.2982802   .1984176    -1.50   0.133    -.6871717    .0906112
+       _cons |  -2.045204   .0741813   -27.57   0.000    -2.190596   -1.899811
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        17           1          16     |
+-----------------------------------------------------+
+
+. ppmlhdfe central5  family if !public & onsite , a(cty sic2) cluster(id)
+(dropped 4 observations that are either singletons or separated by a fixed effect)
+Iteration 1:   deviance = 2.0600e+08  eps = .         iters = 4    tol = 1.0e-04  min(eta) =  -3.62  P   
+Iteration 2:   deviance = 1.7057e+08  eps = 2.08e-01  iters = 4    tol = 1.0e-04  min(eta) =  -4.33      
+Iteration 3:   deviance = 1.6686e+08  eps = 2.23e-02  iters = 3    tol = 1.0e-04  min(eta) =  -4.93      
+Iteration 4:   deviance = 1.6674e+08  eps = 6.81e-04  iters = 3    tol = 1.0e-04  min(eta) =  -5.22      
+Iteration 5:   deviance = 1.6674e+08  eps = 1.94e-06  iters = 2    tol = 1.0e-04  min(eta) =  -5.27      
+Iteration 6:   deviance = 1.6674e+08  eps = 2.18e-10  iters = 2    tol = 1.0e-05  min(eta) =  -5.27   S  
+Iteration 7:   deviance = 1.6674e+08  eps = 0.00e+00  iters = 2    tol = 1.0e-07  min(eta) =  -5.27   S  
+Iteration 8:   deviance = 1.6674e+08  eps = 1.44e-16  iters = 1    tol = 1.0e-09  min(eta) =  -5.27   S O
+------------------------------------------------------------------------------------------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon below tolerance)
+Converged in 8 iterations and 21 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      1,858
+Absorbing 2 HDFE groups                           Residual df     =      1,825
+Statistics robust to heteroskedasticity           Wald chi2(1)    =       5.09
+Deviance             =  166743744.7               Prob > chi2     =     0.0241
+Log pseudolikelihood = -83379394.47               Pseudo R2       =     0.2032
+
+Number of clusters (id)     =      1,833
+                                 (Std. err. adjusted for 1,833 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+    central5 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      family |  -.4541252   .2012909    -2.26   0.024    -.8486482   -.0596023
+       _cons |   10.75953     .09254   116.27   0.000     10.57816    10.94091
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         cty |        12           0          12     |
+        sic2 |        21           1          20     |
+-----------------------------------------------------+
+
+. note: If CEO is onsite, the control of PRODUCTION manager is usually curtain, they receive more supervision f
+> rom CEO. But not necessarily from owner. So this does not prove our story, but is consistent with it.
+
+. note: Family firms exert more control over investment, marketing and product introduction, dont care about hi
+> ring
+
+. note: This is consistent with delegating decisions on L but not on K
+
+. note: Write a data availability statement and citation for replication package of Bloom, N., Sadun, R., & Van
+>  Reenen, J. (2012). The Organization of Firms Across Countries. The Quarterly Journal of Economics, 127(4), 1
+> 663–1705. Available from Nicholas Bloom's research website at Stanford University, https://drive.google.com/f
+> ile/d/1z0Z-pE9r7Liuge8QGSyS5PCRJxDNgbeT/view?usp=sharing 
+
+. save centralization
+file centralization.dta saved
+
+. log close
+      name:  <unnamed>
+       log:  /Users/koren/Downloads/ORG_Replication/../issue29.txt
+  log type:  text
+ closed on:  29 Aug 2025, 10:04:21
+---------------------------------------------------------------------------------------------------------------
