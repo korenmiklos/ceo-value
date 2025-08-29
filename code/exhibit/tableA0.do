@@ -29,45 +29,38 @@ label variable product "Full product intro autonomy"
 * Run specification 4: Private firms only with country and industry FE
 * =============================================================================
 
-* Investment autonomy - PPML
-quietly ppmlhdfe central5 family if !public, ///
-    absorb(cty sic2) cluster(id)
-eststo ppml_investment
-estadd local country_fe "Yes"
-estadd local industry_fe "Yes"
-estadd scalar observations = e(N)
+* Define regression options
+local fe_spec "absorb(cty sic2)"
+local clustering "cluster(id)"
+local sample "if !public"
 
-* Investment autonomy - Log OLS
-quietly reghdfe lnI family if !public, ///
-    absorb(cty sic2) cluster(id)
-eststo ols_investment
-estadd local country_fe "Yes"
-estadd local industry_fe "Yes"
-estadd scalar observations = e(N)
+* Define outcomes and methods
+local outcomes "central5 lnI marketing product hiring"
+local methods "ppml ols ppml ppml ppml"
+local labels "ppml_investment ols_investment ppml_marketing ppml_product ppml_hiring"
 
-* Marketing autonomy - PPML
-quietly ppmlhdfe marketing family if !public, ///
-    absorb(cty sic2) cluster(id)
-eststo ppml_marketing
-estadd local country_fe "Yes"
-estadd local industry_fe "Yes"
-estadd scalar observations = e(N)
-
-* Product introduction autonomy - PPML
-quietly ppmlhdfe product family if !public, ///
-    absorb(cty sic2) cluster(id)
-eststo ppml_product
-estadd local country_fe "Yes"
-estadd local industry_fe "Yes"
-estadd scalar observations = e(N)
-
-* Hiring autonomy - PPML
-quietly ppmlhdfe hiring family if !public, ///
-    absorb(cty sic2) cluster(id)
-eststo ppml_hiring
-estadd local country_fe "Yes"
-estadd local industry_fe "Yes"
-estadd scalar observations = e(N)
+* Loop through outcomes and run regressions
+local i = 1
+foreach outcome of local outcomes {
+    local method : word `i' of `methods'
+    local label : word `i' of `labels'
+    
+    * Run appropriate regression
+    if "`method'" == "ppml" {
+        quietly ppmlhdfe `outcome' family `sample', `fe_spec' `clustering'
+    }
+    else {
+        quietly reghdfe `outcome' family `sample', `fe_spec' `clustering'
+    }
+    
+    * Store results
+    eststo `label'
+    estadd local country_fe "Yes"
+    estadd local industry_fe "Yes"
+    estadd scalar observations = e(N)
+    
+    local ++i
+}
 
 * =============================================================================
 * Generate LaTeX table
