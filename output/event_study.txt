@@ -1,13 +1,12 @@
 -------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  /Users/koren/Tresorit/Mac/projects/ceo-value/output/event_study.tx
-> t
+       log:  /srv/project/balance/ceo-value/output/event_study.txt
   log type:  text
- opened on:  20 Aug 2025, 14:45:54
+ opened on:  28 Aug 2025, 16:35:42
 
 . 
 . drop if skill_change == 0
-(59,969 observations deleted)
+(178,435 observations deleted)
 
 . 
 . display "Event study results for better CEOs:"
@@ -22,12 +21,12 @@ Panel variable: fake_id (unbalanced)
  Time variable: year, 1992 to 2022, but with gaps
          Delta: 1 unit
 
-Event study relative to atet           Number of obs = 119,483
+Event study relative to atet            Number of obs = 94,564
 
 ------------------------------------------------------------------------------
     lnStilde |       ATET   Std. err.      z    P>|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
-        ATET |   .2525186   .0026606    94.91   0.000     .2473039    .2577333
+        ATET |   .1304795   .0015407    84.69   0.000     .1274597    .1334993
 ------------------------------------------------------------------------------
 
 . scalar total_atet = _b[ATET]
@@ -41,12 +40,12 @@ Panel variable: fake_id (unbalanced)
  Time variable: year, 1992 to 2022, but with gaps
          Delta: 1 unit
 
-Event study relative to atet           Number of obs = 361,329
+Event study relative to atet           Number of obs = 267,145
 
 ------------------------------------------------------------------------------
     lnStilde |       ATET   Std. err.      z    P>|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
-        ATET |    .197442   .0010589   186.46   0.000     .1953665    .1995174
+        ATET |   .1059991   .0006541   162.04   0.000      .104717    .1072812
 ------------------------------------------------------------------------------
 
 . scalar placebo_atet = _b[ATET]
@@ -60,12 +59,12 @@ Panel variable: fake_id (unbalanced)
  Time variable: year, 1992 to 2022, but with gaps
          Delta: 1 unit
 
-Event study relative to atet           Number of obs = 213,826
+Event study relative to atet           Number of obs = 161,361
 
 ------------------------------------------------------------------------------
     lnStilde |       ATET   Std. err.      z    P>|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
-        ATET |  -.0174455   .0020853    -8.37   0.000    -.0215327   -.0133584
+        ATET |  -.0055708    .001214    -4.59   0.000    -.0079503   -.0031914
 ------------------------------------------------------------------------------
 
 . scalar worse_atet = _b[ATET]
@@ -79,12 +78,12 @@ Panel variable: fake_id (unbalanced)
  Time variable: year, 1992 to 2022, but with gaps
          Delta: 1 unit
 
-Event study relative to atet           Number of obs = 266,986
+Event study relative to atet           Number of obs = 200,348
 
 ------------------------------------------------------------------------------
     lnStilde |       ATET   Std. err.      z    P>|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
-        ATET |   .0390761   .0020726    18.85   0.000     .0350137    .0431384
+        ATET |   .0183675   .0012154    15.11   0.000     .0159854    .0207496
 ------------------------------------------------------------------------------
 
 . scalar better_atet = _b[ATET]
@@ -96,18 +95,17 @@ Event study relative to atet           Number of obs = 266,986
 
 . 
 . display "Total ATET: " total_atet
-Total ATET: .25251861
+Total ATET: .13047946
 
 . display "Placebo-controlled ATET 1: " proper_atet1
-Placebo-controlled ATET 1: .0565216
+Placebo-controlled ATET 1: .02393835
 
 . display "Placebo-controlled ATET 2: " proper_atet2
-Placebo-controlled ATET 2: .05507665
+Placebo-controlled ATET 2: .02448037
 
 . log close
       name:  <unnamed>
-       log:  /Users/koren/Tresorit/Mac/projects/ceo-value/output/event_study.tx
-> t
+       log:  /srv/project/balance/ceo-value/output/event_study.txt
   log type:  text
- closed on:  20 Aug 2025, 14:55:35
+ closed on:  28 Aug 2025, 16:40:06
 -------------------------------------------------------------------------------

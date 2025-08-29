@@ -4,7 +4,7 @@ foreach X in xt2treatments e2frame {
 }
 
 * from SSC
-foreach X in reghdfe estout {
+foreach X in ftools reghdfe estout {
     ssc install `X', replace
     which `X'
 }
