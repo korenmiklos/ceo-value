@@ -1,0 +1,24 @@
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Plant Manager Autonomy in Family-Controlled Firms}
+\begin{tabular}{l*{5}{c}}
+\toprule
+                    &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}\\
+                    &\multicolumn{1}{c}{Investment}&\multicolumn{1}{c}{Investment}&\multicolumn{1}{c}{Marketing}&\multicolumn{1}{c}{Product}&\multicolumn{1}{c}{Hiring}\\
+\midrule
+Family ownership    &      -0.369\sym{**} &      -0.200\sym{**} &      -0.344\sym{**} &      -0.299\sym{**} &       0.086         \\
+                    &     (0.161)         &     (0.100)         &     (0.153)         &     (0.151)         &     (0.068)         \\
+\midrule
+Observations        &       2,915         &       2,379         &       3,133         &       3,114         &       3,138         \\
+Country FE          &         Yes         &         Yes         &         Yes         &         Yes         &         Yes         \\
+Industry FE         &         Yes         &         Yes         &         Yes         &         Yes         &         Yes         \\
+\bottomrule
+\multicolumn{6}{l}{\footnotesize Standard errors in parentheses}\\
+\multicolumn{6}{l}{\footnotesize Data source: Bloom, Sadun, and Van Reenen (2012). Sample restricted to private (non-publicly traded) firms.}\\
+\multicolumn{6}{l}{\footnotesize Investment autonomy measured as maximum capital investment plant manager can approve (USD).}\\
+\multicolumn{6}{l}{\footnotesize Other autonomy dimensions are binary indicators for full autonomy (score = 5 on 1-5 scale).}\\
+\multicolumn{6}{l}{\footnotesize PPML = Poisson Pseudo-Maximum Likelihood. Standard errors clustered at firm level.}\\
+\multicolumn{6}{l}{\footnotesize All specifications include country and 2-digit SIC industry fixed effects.}\\
+\multicolumn{6}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<0.05\), \sym{***} \(p<0.01\)}\\
+\end{tabular}
+\end{table}

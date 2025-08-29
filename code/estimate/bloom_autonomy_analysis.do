@@ -122,34 +122,24 @@ display _n "=============================================================="
 display "OLS Regressions on Log Investment Autonomy (Robustness)"
 display "=============================================================="
 
-* Define specifications to test
-local specs "family public" "family" "family onsite"
-local samples "1" "!public" "!public"
-local spec_labels "Full sample" "Private firms only" "Private firms with CEO control"
+* Run three main specifications
+display _n "1. Full sample - Country and Industry FE"
+reghdfe lnI family public, `preferred_fe' `cluster'
 
-local i = 1
-foreach spec of local specs {
-    local sample : word `i' of `samples'
-    local label : word `i' of `spec_labels'
-    
-    display _n "`label' - Country and Industry FE"
-    if "`sample'" == "1" {
-        reghdfe lnI `spec', `preferred_fe' `cluster'
-    }
-    else {
-        reghdfe lnI `spec' if `sample', `preferred_fe' `cluster'
-    }
-    
-    display _n "`label' - With Analyst FE"
-    if "`sample'" == "1" {
-        reghdfe lnI `spec', `robust_fe' `cluster'
-    }
-    else {
-        reghdfe lnI `spec' if `sample', `robust_fe' `cluster'
-    }
-    
-    local ++i
-}
+display _n "2. Full sample - With Analyst FE"
+reghdfe lnI family public, `robust_fe' `cluster'
+
+display _n "3. Private firms only - Country and Industry FE"
+reghdfe lnI family if !public, `preferred_fe' `cluster'
+
+display _n "4. Private firms only - With Analyst FE"
+reghdfe lnI family if !public, `robust_fe' `cluster'
+
+display _n "5. Private firms with CEO control - Country and Industry FE"
+reghdfe lnI family onsite if !public, `preferred_fe' `cluster'
+
+display _n "6. Private firms with CEO control - With Analyst FE"
+reghdfe lnI family onsite if !public, `robust_fe' `cluster'
 
 * =============================================================================
 * Summary of findings

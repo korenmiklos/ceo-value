@@ -25,7 +25,7 @@ install: install.log
 data: temp/unfiltered.dta temp/analysis-sample.dta temp/placebo.dta temp/large_component_managers.csv
 
 # Statistical analysis pipeline  
-analysis: temp/surplus.dta temp/manager_value.dta temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/revenue_models.ster
+analysis: temp/surplus.dta temp/manager_value.dta temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/revenue_models.ster bloom_autonomy_analysis.log
 
 # Final reporting pipeline
 report: output/paper.pdf
@@ -86,12 +86,21 @@ temp/event_study_panel_a.dta temp/event_study_panel_b.dta output/figure/manager_
 temp/revenue_models.ster: code/estimate/revenue_function.do temp/analysis-sample.dta temp/large_component_managers.csv code/create/network-sample.do
 	$(STATA) $<
 
+# Bloom et al. (2012) autonomy analysis - supporting evidence
+bloom_autonomy_analysis.log: code/estimate/bloom_autonomy_analysis.do input/bloom-et-al-2012/replication.dta
+	$(STATA) $<
+
 # =============================================================================
 # Exhibits (tables and figures)
 # =============================================================================
 
 # Table 1: Sample distribution over time
 output/table/table1.tex: code/exhibit/table1.do temp/unfiltered.dta temp/analysis-sample.dta temp/large_component_managers.csv
+	mkdir -p $(dir $@)
+	$(STATA) $<
+
+# Table A0: Bloom et al. (2012) autonomy analysis
+output/table/tableA0.tex: code/exhibit/tableA0.do input/bloom-et-al-2012/replication.dta
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
