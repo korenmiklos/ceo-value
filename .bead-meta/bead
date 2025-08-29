@@ -1,5 +1,10 @@
 {
     "inputs": {
+        "bloom-et-al-2012": {
+            "content_id": "4fb3d38666111413207369aa9ee9136d24ebf6b49b0cae08d9a701b0531b83a6a1eb120a7e12866d40224a95c99b892bcfa47c20d33d5ffbd53e954a8ca43089",
+            "freeze_time": "20250829T101546412743+0200",
+            "kind": "f45b97d11ff8b08bc718d4bd9adeff8b-67dd96f4-58a5-4a86-a321-2e6ed6330bee"
+        },
         "ceo-panel": {
             "content_id": "4a789e2d4066c3b24cdc8233b49fca68f0609ed3ebe36caf66f2ac30e024faa5bedcf8cfc2fff346fd8118ae67f394ff264f93171aafbbd2e9f5459d6530a261",
             "freeze_time": "20241125T153535400212+0100",
