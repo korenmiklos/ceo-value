@@ -28,8 +28,10 @@ rename immat intangible_assets
 rename so3_with_mo3 state_owned
 rename fo3 foreign_owned
 
+
 mvencode sales export employment tangible_assets materials wagebill personnel_expenses intangible_assets state_owned foreign_owned, mv(0) override
 replace employment = `min_employment' if employment < `min_employment'
+replace employment = int(employment)
 
 compress
 
