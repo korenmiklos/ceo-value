@@ -153,8 +153,11 @@ cd output && pdflatex paper.tex && bibtex paper && pdflatex paper.tex && pdflate
 ### Placebo-Controlled Event Study Design
 The project implements a novel placebo-controlled approach to identify true CEO effects:
 - **Placebo transitions**: Randomly assigned fake CEO changes that exclude actual transition periods
-- **Key finding**: 77% of apparent CEO effects are spurious (noise rather than true skill differences)
-- **True causal effect**: 5.5% (only 22% of the raw 25.3% correlation)
+- **Sample selection**: Excludes firms that never reach 5 employees to focus on economically meaningful businesses
+- **Event window**: Examines -4 to +3 years around CEO transition with year -1 as baseline
+- **Key finding**: 75% of apparent CEO effects are spurious (noise rather than true skill differences)
+- **True causal effect**: 5.5% (only 25% of the raw 22.5% correlation)
+- **Variance analysis**: Tracks both mean and variance of revenue changes, where increased post-transition variance indicates heterogeneous firm responses to new management
 - **Validation**: Aligns with theoretical predictions from Gaure (2014), Bonhomme et al. (2023), and Andrews et al. (2008)
 
 ### Addressing Measurement Challenges
@@ -177,9 +180,11 @@ The methodology addresses fundamental issues in the manager effects literature:
 - Relative paths are used throughout
 - Intermediate data saved to `temp/`
 - Log files generated for all Stata operations
-- Final analytical sample: 8,872,039 firm-year observations
-- Event study sample: 51,736 firms with exactly one CEO change
-- Placebo-controlled treatment effect: 5.5% (22% of raw correlation)
+- Final analytical sample: Firm-year observations excluding firms never reaching 5 employees
+- Event study sample: Firms with exactly one CEO change (after 5-employee filter)
+- Event study baseline: Year -1 (one year before CEO transition)
+- Event study window: -4 to +3 years around transition
+- Placebo-controlled treatment effect: 5.5% (25% of raw correlation)
 
 ## Stata Coding Style
 

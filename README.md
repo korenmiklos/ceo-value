@@ -4,7 +4,7 @@
 
 ## Overview
 
-This project implements a novel placebo-controlled event study design to estimate the causal effect of CEO quality on firm performance using comprehensive administrative data from Hungarian firms (1992-2022). The code constructs placebo CEO transitions—randomly assigned fake transitions that exclude periods of actual CEO changes—to separate true managerial effects from spurious correlations. The Makefile automates the entire process to generate the data for tables and figures in the paper. The replicator should expect the code to run for approximately 2-4 hours on a standard desktop machine.
+This project implements a novel placebo-controlled event study design to estimate the causal effect of CEO quality on firm performance using comprehensive administrative data from Hungarian firms (1992-2022). The code constructs placebo CEO transitions—randomly assigned fake transitions that exclude periods of actual CEO changes—to separate true managerial effects from spurious correlations. The analysis focuses on economically meaningful firms by excluding those that never reach 5 employees during their lifetime. The event study uses year -1 as the baseline period and examines both the mean and variance of revenue changes around CEO transitions, where increased variance after CEO changes reflects greater heterogeneity in firm outcomes under new management. The Makefile automates the entire process to generate the data for tables and figures in the paper. The replicator should expect the code to run for approximately 2-4 hours on a standard desktop machine.
 
 ## Data Availability and Provenance Statements
 
