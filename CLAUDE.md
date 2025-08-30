@@ -169,7 +169,7 @@ The methodology addresses fundamental issues in the manager effects literature:
 - **Stata 18.0**: All data processing and econometric analysis
 - **Julia**: Graph algorithms (packages: CSV, DataFrames, Graphs, SparseArrays)
 - **LaTeX**: Document compilation with standard packages (booktabs, graphicx, natbib, hyperref, apacite)
-- **Make**: Build automation (NOTE: `make clean` preserves output/ directory to protect paper.tex and other outputs)
+- **Make**: Build automation with dependency tracking
 
 ## File Structure Notes
 
@@ -249,6 +249,10 @@ This project uses proprietary data that cannot be shared. Data files in `input/`
 
 - **Make Timeout**: 
   * make takes long to run, adjust the timeout. 5 minutes is expected
+- **Intermediate Files**:
+  * Files in `temp/` are marked as `.PRECIOUS` in Makefile to prevent automatic deletion
+  * These files are computationally expensive to generate (especially .dta, .csv, .ster files)
+  * No `make clean` target exists - manual cleanup if needed
 
 ### Git and File Management
 - Add `.bak` files to `.gitignore` alongside other LaTeX auxiliary files

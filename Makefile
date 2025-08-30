@@ -9,11 +9,22 @@ JULIA := julia --project=.
 LATEX := pdflatex
 UTILS := $(wildcard code/util/*.do)
 
+# Define costly intermediate files to preserve
+PRECIOUS_FILES := temp/balance.dta temp/ceo-panel.dta temp/unfiltered.dta \
+                  temp/analysis-sample.dta temp/placebo.dta temp/edgelist.csv \
+                  temp/large_component_managers.csv temp/surplus.dta \
+                  temp/manager_value.dta temp/revenue_models.ster \
+                  temp/event_study_panel_a.dta temp/event_study_panel_b.dta \
+                  temp/event_study_moments.dta
+
+# Mark these files as PRECIOUS so make won't delete them
+.PRECIOUS: $(PRECIOUS_FILES)
+
 # =============================================================================
 # Main targets
 # =============================================================================
 
-.PHONY: all clean install data analysis report
+.PHONY: all install data analysis report
 
 # Complete workflow: data → analysis → report
 all: report
@@ -25,7 +36,7 @@ install: install.log
 data: temp/unfiltered.dta temp/analysis-sample.dta temp/placebo.dta temp/large_component_managers.csv
 
 # Statistical analysis pipeline  
-analysis: temp/surplus.dta temp/manager_value.dta temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/revenue_models.ster bloom_autonomy_analysis.log
+analysis: temp/surplus.dta temp/manager_value.dta temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_moments.dta temp/revenue_models.ster bloom_autonomy_analysis.log
 
 # Final reporting pipeline
 report: output/paper.pdf
@@ -78,8 +89,8 @@ temp/manager_value.dta output/figure/manager_skill_within.pdf output/figure/mana
 	$(STATA) $<
 
 # Run placebo-controlled event study
-temp/event_study_panel_a.dta temp/event_study_panel_b.dta output/figure/manager_skill_correlation.pdf output/test/event_study.dta output/event_study.txt: code/estimate/event_study.do temp/manager_value.dta temp/analysis-sample.dta temp/placebo.dta
-	mkdir -p $(dir $@)
+temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_moments.dta output/event_study.txt: code/estimate/event_study.do temp/surplus.dta temp/analysis-sample.dta temp/manager_value.dta temp/placebo.dta
+	mkdir -p temp output
 	$(STATA) $<
 
 # Revenue function estimation results - saves all model estimates
@@ -124,8 +135,8 @@ output/table/table4_panelA.tex output/table/table4_panelB.tex: code/exhibit/tabl
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
-# Figure 1: Event study results
-output/figure/event_study.pdf: code/exhibit/figure1.do temp/event_study_panel_a.dta temp/event_study_panel_b.dta
+# Figure 1: Event study results (both main figure and panel C)
+output/figure/event_study.pdf output/figure/event_study_panel_c.pdf: code/exhibit/figure1.do temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_moments.dta
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
@@ -134,7 +145,7 @@ output/figure/event_study.pdf: code/exhibit/figure1.do temp/event_study_panel_a.
 # =============================================================================
 
 # Compile final paper
-output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/table4_panelA.tex output/table/table4_panelB.tex output/table/tableA1.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/manager_skill_correlation.pdf output/figure/event_study.pdf output/references.bib
+output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/table4_panelA.tex output/table/table4_panelB.tex output/table/tableA1.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/event_study.pdf output/figure/event_study_panel_c.pdf output/references.bib
 	cd output && $(LATEX) paper.tex && bibtex paper && $(LATEX) paper.tex && $(LATEX) paper.tex
 
 # =============================================================================
@@ -158,7 +169,3 @@ output/test/test_paths.csv: code/test/test_network.jl temp/edgelist.csv temp/lar
 # Install Stata packages
 install.log: code/util/install.do
 	$(STATA) $<
-
-# Clean temporary files only (preserves output)
-clean:
-	rm -rf temp/*
