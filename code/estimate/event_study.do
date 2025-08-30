@@ -51,6 +51,8 @@ keep if ceo_spell <= max_ceo_spell
 keep if !missing(lnStilde)
 keep if inlist(ceo_spell, `first_spell', `second_spell')
 
+generate lnStilde_sq = lnStilde^2
+
 egen change_year = min(cond(ceo_spell == `second_spell', year, .)), by(fake_id)
 generate event_time = year - change_year
 
@@ -104,6 +106,17 @@ table event_time placebo if skill_change == 1, stat(mean lnStilde)
 
 xtset fake_id year
 
+xt2treatments lnStilde, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*`event_window_start'') post(`event_window_end') baseline(`baseline_year') weighting(optimal)
+e2frame, generate(ceo_mean)
+
+* now that we have mean effects, we can compute variance effects
+frlink m:1 event_time, frame(ceo_mean xvar)
+frget coef, from(ceo_mean)
+generate lnStilde_var = (lnStilde - coef)^2
+
+xt2treatments lnStilde_var, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*`event_window_start'') post(`event_window_end') baseline(`baseline_year') weighting(optimal)
+e2frame, generate(ceo_var)
+
 xt2treatments lnStilde if placebo == 0 & inlist(skill_change, -1, 0), treatment(worse_ceo) control(same_ceo) pre(`=-1*`event_window_start'') post(`event_window_end') baseline(`baseline_year') weighting(optimal)
 e2frame, generate(worse_ceo1)
 
@@ -121,9 +134,15 @@ e2frame, generate(better_ceo2)
 foreach X in coef lower upper {
     frame better_ceo1: rename `X' `X'_better
     frame worse_ceo1: rename `X' `X'_worse
+    frame ceo_mean: rename `X' `X'_mean
+    frame ceo_var: rename `X' `X'_var
 }
 frame worse_ceo1: frlink 1:1 xvar, frame(better_ceo1)
 frame worse_ceo1: frget coef_better lower_better upper_better, from(better_ceo1)
+
+frame ceo_var: frlink 1:1 xvar, frame(ceo_mean)
+frame ceo_var: frget coef_mean lower_mean upper_mean, from(ceo_mean)
+frame ceo_var: save "temp/event_study_moments.dta", replace
 
 * Create Panel B: Placebo-controlled event study (better vs worse, actual vs placebo)
 foreach X in coef lower upper {
