@@ -5,7 +5,7 @@ local first_spell 1                // First spell for event study
 local second_spell 2               // Second spell for event study
 local skill_cutoff_upper 0.01    // Upper skill change cutoff
 local skill_cutoff_lower -0.01   // Lower skill change cutoff
-local event_window_start -3      // Event study window start
+local event_window_start -4      // Event study window start
 local event_window_end 3         // Event study window end
 local baseline_year -1            // Baseline year for event study
 local min_obs_threshold 1         // Minimum observations before/after
