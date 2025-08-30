@@ -42,7 +42,7 @@ use "temp/event_study_moments.dta", clear
 graph twoway ///
     (rarea lower_mean upper_mean xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_mean xvar, lcolor(blue) mcolor(blue)) ///
     (rarea lower_var upper_var xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_var xvar, lcolor(red) mcolor(red)) ///
-    , graphregion(color(white)) xlabel(`event_window_start'(1)`event_window_end') legend(order(1 "Mean" 2 "Variance")) ///
+    , graphregion(color(white)) xlabel(`event_window_start'(1)`event_window_end') legend(order(2 "Mean" 4 "Variance")) ///
     xline(-0.5) xscale(range (`event_window_start' `event_window_end')) ///
     xtitle("Time since CEO change (year)") yline(0) ///
     ytitle("Moments of log TFP relative to year `baseline_year'") ///
