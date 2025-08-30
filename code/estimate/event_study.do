@@ -5,9 +5,9 @@ local first_spell 1                // First spell for event study
 local second_spell 2               // Second spell for event study
 local skill_cutoff_upper 0.01    // Upper skill change cutoff
 local skill_cutoff_lower -0.01   // Lower skill change cutoff
-local event_window_start -5      // Event study window start
-local event_window_end 5         // Event study window end
-local baseline_year -5            // Baseline year for event study
+local event_window_start -3      // Event study window start
+local event_window_end 3         // Event study window end
+local baseline_year -1            // Baseline year for event study
 local min_obs_threshold 1         // Minimum observations before/after
 local min_T 1                     // Minimum observations to estimate fixed effects
 local random_seed 2181            // Random seed for reproducibility
@@ -112,7 +112,9 @@ e2frame, generate(ceo_mean)
 * now that we have mean effects, we can compute variance effects
 frlink m:1 event_time, frame(ceo_mean xvar)
 frget coef, from(ceo_mean)
-generate lnStilde_var = (lnStilde - coef)^2
+
+egen lnS_at_baseline = mean(cond(event_time == `baseline_year', lnStilde, .)), by(fake_id)
+generate lnStilde_var = (lnStilde - lnS_at_baseline - coef)^2
 
 xt2treatments lnStilde_var, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*`event_window_start'') post(`event_window_end') baseline(`baseline_year') weighting(optimal)
 e2frame, generate(ceo_var)
