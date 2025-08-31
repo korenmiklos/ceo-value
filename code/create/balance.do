@@ -30,7 +30,7 @@ foreach x in gdp ranyag immat_clean tanass_clean {
 tabulate year, missing
 
 local dimensions frame_id_numeric originalid foundyear year teaor08_2d teaor08_1d
-local facts sales export emp tanass_clean22 ranyag22 wbill22 persexp22 immat_clean22 so3_with_mo3 fo3
+local facts sales22 export22 emp tanass_clean22 ranyag22 wbill22 persexp22 immat_clean22 so3_with_mo3 fo3
 
 keep `dimensions' `facts'
 order `dimensions' `facts'
@@ -44,7 +44,7 @@ rename immat_clean22 intangible_assets
 rename so3_with_mo3 state_owned
 rename fo3 foreign_owned
 
-mvencode sales export employment tangible_assets materials wagebill personnel_expenses intangible_assets state_owned foreign_owned, mv(0) override
+mvencode sales22 export22 employment tangible_assets materials wagebill personnel_expenses intangible_assets state_owned foreign_owned, mv(0) override
 replace employment = `min_employment' if employment < `min_employment'
 
 compress

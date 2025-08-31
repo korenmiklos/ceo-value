@@ -122,7 +122,7 @@ data: temp/unfiltered.dta temp/analysis-sample.dta temp/placebo.dta temp/large_c
 analysis: temp/surplus.dta temp/manager_value.dta temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/revenue_models.ster
 
 # Generate all tables (core tables that are actually generated)
-tables: output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/table4a.tex output/table/tableA1.tex
+tables: output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/table4a.tex output/table/tableA1.tex output/table/outcome_rotation.tex output/table/coverage_rationale.tex output/table/missingness_patterns.tex
 
 # Additional tables (if they exist or can be generated)
 tables-extra: 
@@ -231,6 +231,22 @@ output/table/table4a.tex: code/exhibit/table4.do temp/within_firm.dta temp/cross
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
+# NEW TABLES FOR ISSUE #10
+
+# Outcome rotation analysis
+output/table/outcome_rotation.tex output/table/outcome_sample_sizes.tex: code/estimate/outcome_rotation.do temp/analysis-sample.dta
+	mkdir -p $(dir $@)
+	$(STATA) $<
+
+# Missingness analysis
+output/table/missingness_patterns.tex output/table/coverage_rationale.tex: code/estimate/missingness_analysis.do temp/analysis-sample.dta
+	mkdir -p $(dir $@)
+	$(STATA) $<
+
+# Exhibit reorganization plan
+temp/reorganization_plan.txt: code/exhibit/reorganize_exhibits.do
+	$(STATA) $<
+
 # Figure 1: Event study results
 output/figure/event_study.pdf: code/exhibit/figure1.do temp/event_study_panel_a.dta temp/event_study_panel_b.dta
 	mkdir -p $(dir $@)
@@ -254,7 +270,7 @@ output/apacite.sty output/apacite.bst: apacite.sty
 	fi
 
 # Compile final paper
-output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/table4a.tex output/table/tableA1.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/manager_skill_correlation.pdf output/figure/event_study.pdf output/figure/placebo.pdf output/figure/placebo_vs_actual.pdf output/references.bib output/apacite.sty output/apacite.bst
+output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/table4a.tex output/table/tableA1.tex output/table/outcome_rotation.tex output/table/coverage_rationale.tex output/table/missingness_patterns.tex output/table/outcome_sample_sizes.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/event_study.pdf output/references.bib output/apacite.sty output/apacite.bst
 	@if [ ! -f output/paper.tex ]; then \
 		echo "Error: output/paper.tex not found. Please create the LaTeX source file."; \
 		exit 1; \
