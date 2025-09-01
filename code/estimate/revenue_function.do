@@ -12,10 +12,10 @@ do "code/create/network-sample.do"
 
 * Define rich controls for models 4-6
 local controls lnK foreign_owned has_intangible 
-local rich_controls `controls' firm_age firm_age_sq ceo_tenure ceo_tenure_sq ceo_age ceo_age_sq
+local rich_controls `controls' firm_age firm_age_sq ceo_tenure ceo_tenure_sq ceo_age ceo_age_sq second_ceo third_ceo
 
 * Fixed effects specifications
-local FEs frame_id_numeric##ceo_spell teaor08_2d##year
+local FEs frame_id_numeric teaor08_2d##year
 
 eststo clear
 

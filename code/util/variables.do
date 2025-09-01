@@ -44,6 +44,8 @@ drop tmp has_new_ceo first_time first_ceo_in_sample firm_year_tag firm_tag last_
 generate expat = missing(male)
 generate firm_age = year - foundyear
 generate ceo_age = year - birth_year
+generate byte second_ceo = (ceo_spell == 2)
+generate byte third_ceo = (ceo_spell >= 3)
 
 * quadratics
 foreach var in ceo_age firm_age ceo_tenure {
@@ -64,6 +66,8 @@ label variable firm_age "Firm age (years)"
 label variable ceo_age "CEO age (years)"
 label variable ceo_tenure "CEO tenure (years)"
 label variable ceo_spell "CEO spell"
+label variable second_ceo "Second CEO"
+label variable third_ceo "Third or later CEO"
 * quadratics
 label variable ceo_age_sq "CEO age squared"
 label variable firm_age_sq "Firm age squared"
