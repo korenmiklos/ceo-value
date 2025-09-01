@@ -3,7 +3,7 @@
        log:  /Users/koren/Tresorit/Mac/projects/ceo-value/output/event_study.tx
 > t
   log type:  text
- opened on:   1 Sep 2025, 23:02:30
+ opened on:   1 Sep 2025, 23:45:35
 
 . 
 . drop if skill_change == 0
@@ -15,8 +15,8 @@ Event study results for better CEOs:
 
 . * compare naive control to placebo controlled event study
 . xt2treatments lnStilde if placebo == 0, treatment(better_ceo) control(worse_c
-> eo) pre(`=-1*`event_window_start'') post(`event_window_end') baseline(atet) w
-> eighting(optimal)
+> eo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(atet)
+>  weighting(optimal)
 
 Panel variable: fake_id (unbalanced)
  Time variable: year, 1992 to 2022, but with gaps
@@ -34,8 +34,8 @@ Event study relative to atet            Number of obs = 17,459
 
 . 
 . xt2treatments lnStilde if placebo == 1, treatment(better_ceo) control(worse_c
-> eo) pre(`=-1*`event_window_start'') post(`event_window_end') baseline(atet) w
-> eighting(optimal)
+> eo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(atet)
+>  weighting(optimal)
 
 Panel variable: fake_id (unbalanced)
  Time variable: year, 1992 to 2022, but with gaps
@@ -53,8 +53,8 @@ Event study relative to atet           Number of obs = 135,734
 
 . 
 . xt2treatments lnStilde if skill_change == -1, treatment(actual_ceo) control(p
-> lacebo_ceo) pre(`=-1*`event_window_start'') post(`event_window_end') baseline
-> (atet) weighting(optimal)
+> lacebo_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseli
+> ne(atet) weighting(optimal)
 
 Panel variable: fake_id (unbalanced)
  Time variable: year, 1992 to 2022, but with gaps
@@ -72,8 +72,8 @@ Event study relative to atet            Number of obs = 68,265
 
 . 
 . xt2treatments lnStilde if skill_change == 1, treatment(actual_ceo) control(pl
-> acebo_ceo) pre(`=-1*`event_window_start'') post(`event_window_end') baseline(
-> atet) weighting(optimal)
+> acebo_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baselin
+> e(atet) weighting(optimal)
 
 Panel variable: fake_id (unbalanced)
  Time variable: year, 1992 to 2022, but with gaps
@@ -109,5 +109,5 @@ Placebo-controlled ATET 2: .04981061
        log:  /Users/koren/Tresorit/Mac/projects/ceo-value/output/event_study.tx
 > t
   log type:  text
- closed on:   1 Sep 2025, 23:04:47
+ closed on:   1 Sep 2025, 23:48:31
 -------------------------------------------------------------------------------
