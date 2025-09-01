@@ -13,6 +13,7 @@ preserve
     keep if firm_year_tag
 
     * n_ceo already exists, don't recompute it
+    drop if missing(n_ceo)
     recode n_ceo 4/max = 4
 
     * Generate statistics
