@@ -62,7 +62,7 @@ frame within_firm: save "temp/within_firm.dta", replace
 * now do cross section, but only on connected components
 keep if component_id == `largest_component_id'
 
-reghdfe lnStilde, absorb(firm_fixed_effect=frame_id_numeric manager_skill=person_id) keepsingletons
+reghdfe lnStilde i.ceo_spell, absorb(firm_fixed_effect=frame_id_numeric manager_skill=person_id) keepsingletons
 
 summarize manager_skill, detail
 replace manager_skill = manager_skill - r(mean)
