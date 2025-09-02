@@ -34,7 +34,7 @@
 \maketitle
 
 \begin{abstract}
-We develop a model-based approach to measure CEO value in privately held businesses, holding fixed inputs chosen by owners while substituting out variable inputs optimized by managers. Using the universe of Hungarian firms and their CEO networks over three decades ([[start year]]-[[end year]]), we estimate skill differences that translate into measurable productivity impacts. Most importantly, we develop a novel placebo-controlled event study design that reveals [[percent noise in fixed effects]] percent of typical fixed-effect estimates reflect noise rather than true CEO effects. The naive comparison shows firms hiring better CEOs outperform those hiring worse CEOs by [[raw CEO effect]] percent, but placebo transitions---randomly assigned fake CEO changes excluding actual transition periods---generate a [[placebo effect]] percent spurious effect. The true causal impact is thus [[true CEO effect]] percent: statistically significant and economically meaningful, but only [[true effect as percent of raw]] percent of the raw correlation. This methodology addresses a fundamental identification challenge in the managerial effects literature and suggests new approaches for using CEO quality measures in empirical work.
+We develop a model-based approach to measure CEO value in privately held businesses, holding fixed inputs chosen by owners while substituting out variable inputs optimized by managers. Using the universe of Hungarian firms and their CEO networks over three decades (1992-2022), we estimate skill differences that translate into measurable productivity impacts. Most importantly, we develop a novel placebo-controlled event study design that reveals [[percent noise in fixed effects]] percent of typical fixed-effect estimates reflect noise rather than true CEO effects. The naive comparison shows firms hiring better CEOs outperform those hiring worse CEOs by [[raw CEO effect]] percent, but placebo transitions---randomly assigned fake CEO changes excluding actual transition periods---generate a [[placebo effect]] percent spurious effect. The true causal impact is thus [[true CEO effect]] percent: statistically significant and economically meaningful, but only [[true effect as percent of raw]] percent of the raw correlation. This methodology addresses a fundamental identification challenge in the managerial effects literature and suggests new approaches for using CEO quality measures in empirical work.
 \end{abstract}
 
 \textbf{Keywords:} CEO value, private firms, productivity
@@ -101,7 +101,7 @@ The value of replacing manager $m$ with manager $m'$ at the same firm is:
 r_{im'st} - r_{imst} = \frac{1}{\chi}(z_{m'} - z_{m})
 \end{equation}
 
-Manager value equals the skill difference scaled by $1/\chi$. This scaling reflects the leverage effect: a 1\% increase in manager skill generates a $(1/\chi)\%$ increase in revenue, typically [[leverage range]]% given our estimates of $\chi \approx$ [[chi range]].
+Manager value equals the skill difference scaled by $1/\chi$. This scaling reflects the leverage effect: a 1\% increase in manager skill generates a $(1/\chi)\%$ increase in revenue.
 
 \subsection{Empirical Specification}
 
@@ -127,11 +127,11 @@ Our placebo-controlled approach addresses these challenges by explicitly measuri
 
 \section{Corporate Data from Hungary}
 
-Hungary provides an ideal setting for studying CEO effects in private firms. The country offers complete administrative data coverage for all incorporated businesses with mandatory CEO registration, spanning over [[data years]] years from the transition economy of the [[transition decade]] through EU accession in [[EU accession year]] to the present. This comprehensive coverage enables us to track CEO careers across firms and construct the mobility networks necessary for identification.
+Hungary provides an ideal setting for studying CEO effects in private firms. The country offers complete administrative data coverage for all incorporated businesses with mandatory CEO registration, spanning over 30 years from the transition economy of the 1990s through EU accession in 2004 to the present. This comprehensive coverage enables us to track CEO careers across firms and construct the mobility networks necessary for identification.
 
 \subsection{Data Sources}
 
-Our analysis combines two administrative datasets. The firm registry, maintained by Hungarian corporate courts, contains legally mandated records on all company representatives—individuals authorized to act on behalf of firms in legal and business matters. These records include CEOs and other executives with signatory rights, tracked through a temporal database where each entry reflects representation status over specific time intervals. Updates occur not only when positions change but also when personal identifiers are modified or reporting standards evolve. The registry provides names, addresses, dates of birth (from [[birthdate availability year]]), and mother's names (from [[mother name availability year]]), though numerical identifiers only exist from [[numerical ID year]] onward.
+Our analysis combines two administrative datasets. The firm registry, maintained by Hungarian corporate courts, contains legally mandated records on all company representatives—individuals authorized to act on behalf of firms in legal and business matters. These records include CEOs and other executives with signatory rights, tracked through a temporal database where each entry reflects representation status over specific time intervals. Updates occur not only when positions change but also when personal identifiers are modified or reporting standards evolve. The registry provides names, addresses, dates of birth (from 2010), and mother's names (from 1999), though numerical identifiers only exist from 2013 onward.
 
 The balance sheet dataset contains annual financial reports for essentially all Hungarian firms required to file statements. This includes sales revenue, export revenue, employment counts, tangible and intangible assets, raw material and intermediate input costs, personnel expenses, and indicators for state and foreign ownership. The two datasets together cover [[total firms]] firms over [[total years]] years, yielding [[total firm-years]] firm-year observations before sample restrictions.
 
@@ -139,9 +139,9 @@ The balance sheet dataset contains annual financial reports for essentially all 
 
 Constructing a panel of CEOs requires resolving two fundamental questions: what constitutes a firm and who qualifies as a CEO. For firms, we track legal entities through time using tax identifiers, which remain relatively stable despite occasional reuse (approximately [[tax ID reuse percent]]\% of cases). Mergers and acquisitions create new entities in our framework—we follow individual legal entities rather than economic conglomerates.
 
-Identifying individual CEOs poses greater challenges. Before [[numerical ID year]], no numerical identifiers existed, requiring entity resolution based on names, addresses, mother's names, and birthdates. We link records across these dimensions to create unique person identifiers, enabling tracking across firms and over time. The quality of matching improves substantially after [[mother name availability year]] (mother's names) and [[birthdate availability year]] (birthdates), though even the [[early decade]] data achieves reasonable coverage through careful name and address matching.
+Identifying individual CEOs poses greater challenges. Before 2013, no numerical identifiers existed, requiring entity resolution based on names, addresses, mother's names, and birthdates. We link records across these dimensions to create unique person identifiers, enabling tracking across firms and over time. The quality of matching improves substantially after 1999 (mother's names) and 2010 (birthdates), though even the 1990s data achieves reasonable coverage through careful name and address matching.
 
-CEO identification within firms requires additional heuristics since job titles are inconsistently recorded. When explicit "managing director" titles exist (approximately [[managing director percent]]\% of cases), we use them directly. For remaining cases, we assume all representatives are CEOs if three or fewer exist at the firm. When more than three representatives are present, we assign CEO status based on continuity with previously identified CEOs. Time spans between appointments are often unclosed or non-contiguous, requiring imputation based on sequential information and assuming representatives remain active if their tenure includes [[reference date]] of each year.
+CEO identification within firms requires additional heuristics since job titles are inconsistently recorded. When explicit "managing director" titles exist (approximately [[managing director percent]]\% of cases), we use them directly. For remaining cases, we assume all representatives are CEOs if three or fewer exist at the firm. When more than three representatives are present, we assign CEO status based on continuity with previously identified CEOs. Time spans between appointments are often unclosed or non-contiguous, requiring imputation based on sequential information and assuming representatives remain active if their tenure includes June 21 of each year.
 
 \subsection{Sample Restrictions}
 
@@ -173,7 +173,7 @@ The parameter $\chi$—the share of surplus in revenue—determines how manager 
 \end{equation}
 where the summation runs over firms in sector $s$.
 
-This approach yields sector-specific estimates ranging from [[chi min]] to [[chi max]]. Manufacturing shows lower values (around [[chi manufacturing]]) while services show higher values (around [[chi services]]). These estimates imply substantial leverage: a 1\% improvement in manager skill generates a [[leverage range]]\% increase in surplus through the $1/\chi$ scaling in our framework.
+This approach yields sector-specific estimates of $\chi$. The $1/\chi$ scaling in our framework creates a leverage effect where manager skill is amplified in its impact on firm performance.
 
 \subsection{Step 2: Estimating the Revenue Function}
 
@@ -187,7 +187,7 @@ In practice, we allow firm productivity to vary across CEOs by including firm-CE
 
 The key assumptions are: (1) all firms within a sector face the same prices, (2) residual productivity $\tilde{\epsilon}_{it}$ is uncorrelated with owner and manager choices, and (3) owner and manager choices can be arbitrarily correlated with each other. Assumption (2) is critical—we do not require random manager assignment, only that the residual productivity after controlling for observables is orthogonal to CEO changes.
 
-We estimate using OLS with high-dimensional fixed effects via \texttt{reghdfe} \citep{reghdfe}. The coefficient on log capital is $\hat{\alpha}/\hat{\chi}$, which we multiply by $\hat{\chi}$ to recover $\hat{\alpha}$. Estimates of $\alpha$ range from [[alpha min]] to [[alpha max]] across industries.
+We estimate using OLS with high-dimensional fixed effects via \texttt{reghdfe} \citep{reghdfe}. The coefficient on log capital is $\hat{\alpha}/\hat{\chi}$, which we multiply by $\hat{\chi}$ to recover $\hat{\alpha}$.
 
 \subsection{Step 3: Recovering Manager Fixed Effects}
 
@@ -213,7 +213,7 @@ For broader comparisons across firms, we estimate a two-way fixed effects model:
 \omega_{imst} = a_i + z_m + \epsilon_{it}
 \end{equation}
 
-This system is only identified within connected components—groups of firms and managers linked through mobility. Two managers can be compared if they worked at the same firm or connect through a chain of shared employment relationships. Our largest connected component contains 26,000 managers, enabling meaningful comparisons within this network. Following \citet{Abowd1999Econometrica}, we normalize one manager's effect to zero and estimate via within-transformation.
+This system is only identified within connected components—groups of firms and managers linked through mobility. Two managers can be compared if they worked at the same firm or connect through a chain of shared employment relationships. Our largest connected component contains [[connected component size]] managers, enabling meaningful comparisons within this network. Following \citet{Abowd1999Econometrica}, we normalize one manager's effect to zero and estimate via within-transformation.
 
 \subsubsection{Three Identification Challenges}
 
@@ -221,7 +221,7 @@ First, residual productivity trends may correlate with manager changes (reverse 
 
 Second, firm and manager effects are only interpretable within their connected component. Effects measure relative differences from a baseline group, limiting cross-component comparisons.
 
-Third, and most critically, estimated fixed effects contain substantial small-sample noise. With typical CEO tenures of 3-5 years, the averaged residual productivity $\bar{\epsilon}_{im}$ often overwhelms true skill differences. Instrumental variable approaches that rely on exogenous CEO removal (death, hospitalization) address reverse causality but exacerbate the small-sample problem by further restricting the data.
+Third, and most critically, estimated fixed effects contain substantial small-sample noise. With short CEO tenures, the averaged residual productivity $\bar{\epsilon}_{im}$ often overwhelms true skill differences. Instrumental variable approaches that rely on exogenous CEO removal (death, hospitalization) address reverse causality but exacerbate the small-sample problem by further restricting the data.
 
 \subsection{Step 4: Placebo-Controlled Event Studies}
 
@@ -234,9 +234,9 @@ By applying the same estimation procedure to "non-changes," we can measure and f
 
 \subsubsection{Constructing Placebo Transitions}
 
-We construct placebo CEO transitions in three steps. First, we estimate the time-varying hazard of actual CEO changes, which averages approximately 20\% per year. Second, we identify firms with long CEO tenures (7+ years) where no actual change occurs. Third, we randomly assign placebo transitions to these stable firms using the estimated hazard function.
+We construct placebo CEO transitions in three steps. First, we estimate the time-varying hazard of actual CEO changes. Second, we identify firms with long CEO tenures (7+ years) where no actual change occurs. Third, we randomly assign placebo transitions to these stable firms using the estimated hazard function.
 
-For instance, a firm with the same CEO from 1992-2000 might receive a placebo transition in 1996, artificially splitting the tenure into two pseudo-CEOs. The timing follows the empirical hazard: just as real CEOs face a 20\% annual exit probability, placebo CEOs "exit" with the same rate. This ensures the mechanical noise properties—averaging residual productivity over varying tenure lengths—match between actual and placebo groups.
+For instance, a firm with the same CEO from 1992-2000 might receive a placebo transition in 1996, artificially splitting the tenure into two pseudo-CEOs. The timing follows the empirical hazard, ensuring the mechanical noise properties—averaging residual productivity over varying tenure lengths—match between actual and placebo groups.
 
 \subsubsection{Event Study Design}
 
@@ -257,8 +257,6 @@ This classification is noisy—"good" CEOs are partly lucky (positive $\epsilon$
 
 \subsubsection{The Placebo Correction in Practice}
 
-The results are striking. The raw comparison suggests good CEOs outperform bad ones by 22.5\%. But placebo transitions—where no skill change occurs—generate a 17.0\% gap purely from noise. The true causal effect is the difference: 5.5\%.
-
-This decomposition reveals that three-quarters of apparent CEO effects are spurious. The finding explains why studies using manager fixed effects as explanatory variables often find weak or inconsistent results—they are measuring mostly noise. Our placebo method provides a practical solution for future research: always benchmark against placebo transitions to isolate true effects from mechanical bias.
+The placebo control reveals the extent of noise contamination in estimated manager effects. The decomposition shows that a substantial portion of apparent CEO effects are spurious, explaining why studies using manager fixed effects as explanatory variables often find weak or inconsistent results—they are measuring mostly noise. Our placebo method provides a practical solution for future research: always benchmark against placebo transitions to isolate true effects from mechanical bias.
 
 \end{document}
