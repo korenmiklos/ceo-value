@@ -1,8 +1,8 @@
 * =============================================================================
 * BALANCE SHEET DATA PARAMETERS
 * =============================================================================
-local start_year 2002             // Start year for data inclusion
-local end_year 2011               // End year for data inclusion
+local start_year 2012             // Start year for data inclusion
+local end_year 2022               // End year for data inclusion
 local min_employment 1            // Minimum employment threshold
 
 use "input/merleg-LTS-2023/balance/balance_sheet_80_22.dta", clear

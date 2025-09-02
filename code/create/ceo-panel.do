@@ -1,8 +1,8 @@
 * =============================================================================
 * CEO PANEL DATA PARAMETERS
 * =============================================================================
-local start_year 2002             // Start year for data inclusion
-local end_year 2011               // End year for data inclusion
+local start_year 2012             // Start year for data inclusion
+local end_year 2022               // End year for data inclusion
 
 use "input/ceo-panel/ceo-panel.dta", clear
 
