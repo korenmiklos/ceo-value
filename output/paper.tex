@@ -259,4 +259,104 @@ This classification is noisy—"good" CEOs are partly lucky (positive $\epsilon$
 
 The placebo control reveals the extent of noise contamination in estimated manager effects. The decomposition shows that a substantial portion of apparent CEO effects are spurious, explaining why studies using manager fixed effects as explanatory variables often find weak or inconsistent results—they are measuring mostly noise. Our placebo method provides a practical solution for future research: always benchmark against placebo transitions to isolate true effects from mechanical bias.
 
+\section{Results}
+
+\subsection{Surplus Share and Revenue Function Estimates}
+
+Table \ref{tab:surplus_share} in the Appendix reports our estimates of the surplus share $\chi$ by industry. The estimates range from [[chi min]] to [[chi max]] across sectors, with wholesale, retail, and transport showing the lowest values and professional services showing the highest. These estimates imply that a 1\% increase in TFP increases revenue by [[revenue amplification range]] percent through the leverage effect of scaling variable inputs.
+
+Table \ref{tab:revenue_function} presents the revenue function estimates. We include controls for log capital, firm age, presence of intangible assets, and foreign ownership, along with firm-CEO and sector-year fixed effects. The capital coefficient is precisely estimated at [[capital coefficient]] (standard error [[capital SE]]), consistent with capital's limited but significant role in private businesses. The intangible asset dummy shows a positive coefficient of [[intangible coefficient]], while foreign ownership contributes [[foreign coefficient]] to log revenue. Firm age exhibits diminishing returns with a coefficient of [[age coefficient]] on log age. These controls explain [[R-squared]] of the variation in log revenue. Additional robustness checks varying the control set and sample restrictions, reported in the Appendix, yield similar estimates.
+
+\begin{table}[htbp]
+\centering
+\caption{Revenue Function Estimation}
+\label{tab:revenue_function}
+\input{table/table3.tex}
+\end{table}
+
+\subsection{Distribution of Manager Fixed Effects}
+
+After removing the contribution of capital and other controls from revenue, we estimate manager fixed effects within the largest connected component. Figure \ref{fig:manager_distribution} shows the distribution of these estimated effects. The raw dispersion is substantial: the interquartile range spans [[IQR]] log points, suggesting that moving from a 25th percentile to a 75th percentile CEO would increase firm productivity by approximately [[raw IQR productivity difference]] percent. However, as we demonstrate below, most of this variation reflects noise rather than true skill differences.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{figure/manager_skill_connected.pdf}
+\caption{Distribution of Manager Fixed Effects in the Connected Component}
+\label{fig:manager_distribution}
+\end{figure}
+
+\subsection{Event Study Evidence}
+
+To examine the dynamics of firm performance around CEO transitions, we implement an event study analysis. Figure \ref{fig:event_study_combined} presents both the mean and variance of log TFP in event time, where year 0 marks the first year of the new CEO.
+
+We examine variance alongside mean effects for a specific reason. Under our framework, if CEO changes are real and consequential, they should increase the cross-sectional variance of outcomes—some firms get better CEOs, others get worse ones. In contrast, pure noise or firm-specific trends would not systematically alter variance at the transition point.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{figure/event_study_panel_c.pdf}
+\caption{Mean and Variance of TFP Around CEO Transitions}
+\label{fig:event_study_combined}
+\end{figure}
+
+The results reveal two key patterns. First, average TFP dips slightly in the two years before CEO change, declining by approximately [[pre-transition dip]] percent relative to year -3. This suggests firms experiencing performance difficulties are more likely to replace their CEOs, though the magnitude is modest. Second, and more importantly, the variance of TFP jumps sharply at the transition point, increasing by [[variance jump]] percent and remaining elevated thereafter. This variance increase is exactly what we would expect if CEO changes introduce real heterogeneity in managerial quality.
+
+\subsection{Separating Good from Bad CEOs: Placebo-Controlled Estimates}
+
+To quantify the causal effect of CEO quality, we split CEO transitions based on the incoming manager's estimated fixed effect. CEOs with above-median fixed effects are classified as "good," those below as "bad." We emphasize that this classification is based on noisy estimates that combine true skill with averaged residual productivity shocks.
+
+Figure \ref{fig:event_study_split} presents the event study results for these two groups, comparing actual transitions to placebo transitions. The left panel shows firms hiring "good" CEOs, the right panel those hiring "bad" CEOs.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figure/event_study.pdf}
+\caption{Event Study by CEO Quality: Actual vs Placebo Transitions}
+\label{fig:event_study_split}
+\end{figure}
+
+Without the placebo control, we would conclude that good CEOs improve TFP by [[raw good CEO effect]] percent while bad CEOs reduce it by [[raw bad CEO effect]] percent, yielding a total gap of [[raw CEO gap]] percent. However, the placebo transitions—where no actual skill change occurs—generate effects of [[placebo good effect]] and [[placebo bad effect]] percent respectively, a gap of [[placebo gap]] percent driven purely by mechanical selection on noise.
+
+Table \ref{tab:atet_manager} reports the average treatment effects on the treated (ATET), computed as the difference between actual and placebo effects. The true causal impact of hiring a good versus bad CEO is [[true CEO effect]] percent—statistically significant but only [[true as percent of raw]] percent of the raw correlation. This decomposition reveals that approximately [[percent noise]] percent of the apparent variation in CEO effects is spurious.
+
+\begin{table}[htbp]
+\centering
+\caption{Treatment Effects on TFP and Manager-Controlled Outcomes}
+\label{tab:atet_manager}
+\input{table/atet_manager.tex}
+\end{table}
+
+\subsection{Effects on Different Outcomes}
+
+Our model predicts that CEOs should primarily affect outcomes they control (labor, materials) rather than those controlled by owners (capital, organizational structure). Tables \ref{tab:atet_manager} and \ref{tab:atet_owner} test these predictions by examining various outcomes.
+
+Good CEOs have immediate and substantial effects on manager-controlled variables. Log employment increases by [[employment effect]] percent, log materials by [[materials effect]] percent, and log revenue by [[revenue effect]] percent. These effects appear immediately in year 0 and persist throughout the post-period, consistent with new CEOs quickly adjusting operational scale.
+
+\begin{table}[htbp]
+\centering
+\caption{Treatment Effects on Owner-Controlled Outcomes}
+\label{tab:atet_owner}
+\input{table/atet_owner.tex}
+\end{table}
+
+In contrast, owner-controlled variables show markedly different patterns. Fixed assets exhibit no significant change ([[capital effect]] percent, not statistically different from zero), validating our assumption that CEOs cannot independently alter capital stock. Foreign ownership probability increases gradually by [[foreign ownership effect]] percentage points, but only after year 2, suggesting this reflects owner decisions rather than CEO actions.
+
+Intangible assets present an interesting intermediate case. Figure \ref{fig:intangibles} shows that the probability of reporting intangibles increases by [[intangible effect]] percentage points under good CEOs, but the effect builds gradually over three years rather than jumping immediately. This pattern suggests intangibles may reflect joint owner-CEO decisions or that successful CEOs earn greater owner trust over time.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{figure/event_study_has_intangible.pdf}
+\caption{Evolution of Intangible Assets Under Good vs Bad CEOs}
+\label{fig:intangibles}
+\end{figure}
+
+The contrasting dynamics between materials and capital provide particularly compelling evidence for our framework. Figure \ref{fig:materials} shows that material purchases jump immediately by [[immediate materials jump]] percent in year 0 under good CEOs, consistent with managers having direct control over input purchases. Meanwhile, capital shows no discontinuous change at the transition point, confirming that physical investment remains under owner control.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{figure/event_study_lnM.pdf}
+\caption{Immediate Adjustment of Material Inputs Under New CEOs}
+\label{fig:materials}
+\end{figure}
+
+These differential effects across outcomes—immediate for manager-controlled variables, gradual or absent for owner-controlled ones—support our model's division of decision rights and strengthen the causal interpretation of our estimates.
+
 \end{document}
