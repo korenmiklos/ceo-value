@@ -1,7 +1,7 @@
 * =============================================================================
 * BALANCE SHEET DATA PARAMETERS
 * =============================================================================
-local start_year 1992             // Start year for data inclusion
+local start_year 2004             // Start year for data inclusion
 local end_year 2022               // End year for data inclusion
 local min_employment 1            // Minimum employment threshold
 
