@@ -110,8 +110,8 @@ println("Read ", length(bipartite.sources), " edges")
 
 # Project to manager-manager network and find large connected components
 graph = project_bipartite_graph(bipartite)
-person_ids, component_ids = large_connected_components(graph, 1000)
-println("Total managers in components with 1000+ nodes: ", length(person_ids))
+person_ids, component_ids = large_connected_components(graph, 100)
+println("Total managers in components with 100+ nodes: ", length(person_ids))
 
 # Write manager person_ids and component_ids to CSV
 write_component_csv("temp/large_component_managers.csv", person_ids, component_ids)
