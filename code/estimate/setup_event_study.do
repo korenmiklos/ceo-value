@@ -68,15 +68,18 @@ drop if T1 < ${min_T} | T2 < ${min_T}
 summarize lnStilde
 replace lnStilde = lnStilde - r(mean)
 
+egen MS1a = mean(cond(ceo_spell == ${first_spell}, manager_skill, .)), by(fake_id)
+egen MS1 = mean(cond(ceo_spell == ${first_spell}, lnStilde, .)), by(fake_id)
 egen MS2a = mean(cond(ceo_spell == ${second_spell}, manager_skill, .)), by(fake_id)
 egen MS2 = mean(cond(ceo_spell == ${second_spell}, lnStilde, .)), by(fake_id)
 
+replace MS1 = MS1a if !placebo
 replace MS2 = MS2a if !placebo
 
-drop if missing(MS2)
+drop if missing(MS1, MS2)
 egen firm_tag = tag(fake_id)
 
-generate byte good_ceo = (MS2 > 0)
+generate byte good_ceo = (MS2 > MS1)
 
 * small change firms can be used as control
 tabulate good_ceo if firm_tag, missing
