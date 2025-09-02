@@ -14,10 +14,10 @@ lang: en
 ## Acknowledgements
 ::: {.columns}
 :::: {.column width=50%}
-![](images/erc.png)
+![](figure/erc.png)
 ::::
 :::: {.column width=50%}
-![](images/elvonal.png)
+![](figure/elvonal.png)
 ::::
 :::
 
@@ -187,16 +187,16 @@ Exclude firms that:
 
 ## Temporal Patterns
 
-\input{tables/table1.tex}
+\input{table/table1.tex}
 
 ## CEO Turnover Patterns
 
 ::: {.columns}
 :::: {.column}
-\input{tables/table2_panelA.tex}
+\input{table/table2_panelA.tex}
 ::::
 :::: {.column}
-\input{tables/table2_panelB.tex}
+\input{table/table2_panelB.tex}
 ::::
 :::
 
@@ -298,17 +298,17 @@ with $\gamma$ estimated with 2-treatment version of Callaway--Sant'Anna (2020), 
 
 ## Manager Fixed Effects in the Giant Component (3)
 
-![](figures/manager_skill_connected.pdf){ width=80% }
+![](figure/manager_skill_connected.pdf){ width=80% }
 
 P25-P75 difference: 24.6% productivity
 
 ## Event Study (4)
-![](figures/event_study_panel_c.pdf){ width=80% }
+![](figure/event_study_panel_c.pdf){ width=80% }
 
 Dip in average TFP before CEO change. Elevated variance, stabilizing after CEO change.
 
 ## Split by "Good" and "Bad" CEOs ($\pm$ 1%)
-![](figures/event_study.pdf){ width=80% }
+![](figure/event_study.pdf){ width=80% }
 
 ## Actual vs Placebo Effects
 
@@ -319,16 +319,16 @@ Dip in average TFP before CEO change. Elevated variance, stabilizing after CEO c
 | Gap | 22.1*** | 17.1*** | 5.0*** |
 
 ## Treatment Effects and Correlations with Outcomes (1)
-\input{tables/atet_manager.tex}
+\input{table/atet_manager.tex}
 
 ## Treatment Effects and Correlations with Outcomes (2)
-\input{tables/atet_owner.tex}
+\input{table/atet_owner.tex}
 
 ## Good Managers Gradually Receive/Build Intangible Assets
-![](figures/event_study_has_intangible.pdf)
+![](figure/event_study_has_intangible.pdf)
 
 ## But They Immediately Purchase More Material
-![](figures/event_study_lnM.pdf)
+![](figure/event_study_lnM.pdf)
 
 ## Guidance For Empirical Research
 
@@ -366,16 +366,15 @@ Physical capital investment, intellectual property, industry and location, CEO h
 Labor hiring, input purchasing, operations, day-to-day decisions
 
 ## Evidence on Manager Control Rights
-\input{tables/tableA0.tex}
+\input{table/tableA0.tex}
 
 ## Surplus Share by Industry (1)
-\input{tables/tableA1.tex}
+\input{table/tableA1.tex}
 
 ## Revenue Function Estimation (2)
-\input{tables/table3.tex}
-
+\input{table/table3.tex}
 
 
 ## Placebo Spells are Similar to Actual Ones
-\input{tables/table2_panelB.tex}
+\input{table/table2_panelB.tex}
 

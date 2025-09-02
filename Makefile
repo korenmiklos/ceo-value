@@ -7,6 +7,7 @@
 STATA := stata -b do
 JULIA := julia --project=.
 LATEX := pdflatex
+PANDOC := pandoc
 UTILS := $(wildcard code/util/*.do)
 
 # Define costly intermediate files to preserve
@@ -39,7 +40,7 @@ data: temp/unfiltered.dta temp/analysis-sample.dta temp/placebo.dta temp/large_c
 analysis: temp/surplus.dta temp/manager_value.dta temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_moments.dta temp/revenue_models.ster bloom_autonomy_analysis.log output/table/atet_owner.tex output/table/atet_manager.tex
 
 # Final reporting pipeline
-report: output/paper.pdf
+report: output/paper.pdf output/slides60.pdf
 
 extract: output/extract/manager_changes_2015.dta output/extract/connected_managers.dta
 
@@ -156,6 +157,10 @@ output/figure/event_study.pdf output/figure/event_study_panel_c.pdf: code/exhibi
 # Compile final paper
 output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/table4_panelA.tex output/table/table4_panelB.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/event_study.pdf output/figure/event_study_panel_c.pdf output/references.bib
 	cd output && $(LATEX) paper.tex && bibtex paper && $(LATEX) paper.tex && $(LATEX) paper.tex
+
+# Compile presentation slides
+output/slides60.pdf: output/slides60.md output/preamble-slides.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_connected.pdf output/figure/event_study.pdf output/figure/event_study_panel_c.pdf $(EVENT_STUDY_FIGURES)
+	cd output && $(PANDOC) slides60.md -t beamer --slide-level 2 -H preamble-slides.tex -o slides60.pdf
 
 # =============================================================================
 # Optional extracts and tests
