@@ -36,7 +36,7 @@ install: install.log
 data: temp/unfiltered.dta temp/analysis-sample.dta temp/placebo.dta temp/large_component_managers.csv
 
 # Statistical analysis pipeline  
-analysis: temp/surplus.dta temp/manager_value.dta temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_moments.dta temp/revenue_models.ster bloom_autonomy_analysis.log
+analysis: temp/surplus.dta temp/manager_value.dta temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_moments.dta temp/revenue_models.ster bloom_autonomy_analysis.log output/table/atet_owner.tex output/table/atet_manager.tex
 
 # Final reporting pipeline
 report: output/paper.pdf
@@ -101,6 +101,15 @@ temp/revenue_models.ster: code/estimate/revenue_function.do temp/analysis-sample
 bloom_autonomy_analysis.log: code/estimate/bloom_autonomy_analysis.do input/bloom-et-al-2012/replication.dta
 	$(STATA) $<
 
+# Define event study outcome variables
+EVENT_STUDY_OUTCOMES := lnK has_intangible foreign_owned lnR lnWL lnM
+EVENT_STUDY_FIGURES := $(patsubst %,output/figure/event_study_%.pdf,$(EVENT_STUDY_OUTCOMES))
+
+# Event study outcomes analysis - heterogeneous treatment effects
+output/table/atet_owner.tex output/table/atet_manager.tex $(EVENT_STUDY_FIGURES): code/estimate/event_study_outcomes.do code/estimate/setup_event_study.do temp/surplus.dta temp/analysis-sample.dta temp/manager_value.dta temp/placebo.dta
+	mkdir -p output/table output/figure
+	$(STATA) $<
+
 # =============================================================================
 # Exhibits (tables and figures)
 # =============================================================================
@@ -145,7 +154,7 @@ output/figure/event_study.pdf output/figure/event_study_panel_c.pdf: code/exhibi
 # =============================================================================
 
 # Compile final paper
-output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/table4_panelA.tex output/table/table4_panelB.tex output/table/tableA0.tex output/table/tableA1.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/event_study.pdf output/figure/event_study_panel_c.pdf output/references.bib
+output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/table4_panelA.tex output/table/table4_panelB.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/event_study.pdf output/figure/event_study_panel_c.pdf output/references.bib
 	cd output && $(LATEX) paper.tex && bibtex paper && $(LATEX) paper.tex && $(LATEX) paper.tex
 
 # =============================================================================
