@@ -1,3 +1,4 @@
+clear all
 do "code/estimate/setup_event_study.do"
 
 local owner_controlled lnK has_intangible foreign_owned
@@ -13,14 +14,14 @@ foreach Y in `owner_controlled' `manager_controlled' {
 
 eststo clear
 foreach Y in `owner_controlled'  {
-    xt2treatments `Y' if skill_change == 1, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(atet) weighting(optimal) 
+    xt2treatments `Y' if good_ceo == 1, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(atet) weighting(optimal) 
     eststo
 }
 esttab using "output/table/atet_owner.tex", `estab_options'
 
 eststo clear
 foreach Y in `manager_controlled' {
-    xt2treatments `Y' if skill_change == 1, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(atet) weighting(optimal) 
+    xt2treatments `Y' if good_ceo == 1, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(atet) weighting(optimal) 
     eststo
 }
 esttab using "output/table/atet_manager.tex", `estab_options'
@@ -31,7 +32,7 @@ local legend_order ""
 local i = 0
 foreach Y in `owner_controlled' {
     local lbl : variable label `Y'
-    xt2treatments `Y' if skill_change == 1, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(${baseline_year}) weighting(optimal)
+    xt2treatments `Y' if good_ceo == 1, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(${baseline_year}) weighting(optimal)
     capture frame drop figure_`Y'
     e2frame, generate(figure_`Y')
     frame figure_`Y': {
@@ -83,7 +84,7 @@ local legend_order ""
 local i = 0
 foreach Y in `manager_controlled' {
     local lbl : variable label `Y'
-    xt2treatments `Y' if skill_change == 1, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(${baseline_year}) weighting(optimal)
+    xt2treatments `Y' if good_ceo == 1, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(${baseline_year}) weighting(optimal)
     capture frame drop figure_`Y'
     e2frame, generate(figure_`Y')
     frame figure_`Y': {

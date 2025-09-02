@@ -9,13 +9,13 @@ local baseline_year -3            // Baseline year for event study
 use "temp/event_study_panel_a.dta", clear
 
 graph twoway ///
-    (rarea lower_worse upper_worse xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_worse xvar, lcolor(blue) mcolor(blue)) ///
-    (rarea lower_better upper_better xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_better xvar, lcolor(red) mcolor(red)) ///
+    (rarea lower_actual upper_actual xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_actual xvar, lcolor(blue) mcolor(blue)) ///
+    (rarea lower_placebo upper_placebo xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_placebo xvar, lcolor(red) mcolor(red)) ///
     , graphregion(color(white)) xlabel(`event_window_start'(1)`event_window_end') legend(off) ///
     xline(-0.5) xscale(range (`event_window_start' `event_window_end')) ///
     xtitle("Time since CEO change (year)") yline(0) ///
     ytitle("Log TFP relative to year `baseline_year'") ///
-    title("Panel A: Raw Event Study", size(medium)) ///
+    title("Panel A: Actual vs Placebo", size(medium)) ///
     ylabel(, angle(0)) ///
     saving("temp/event_study_panel_a.gph", replace)
 
