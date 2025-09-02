@@ -1,6 +1,6 @@
 And so when Amanda told me about this workshop, my first reaction was, wow, this is something that I would be super, super interested in because we've been working with very similar data for a long time.
 
-And actually, in that time, we were starting to write this paper on which is mostly about what this data looks like and how you can estimate CU value in this data set.
+And actually, in that time, we were starting to write this paper on which is mostly about what this data looks like and how you can estimate CEO value in this data set.
 
 So I got super excited about the opportunity.
 
@@ -10,11 +10,11 @@ But I also added that because I think we're having very, very similar data clean
 
 So this is joint work with a large group of people.
 
-Christina is at Monash.
+Krisztina is at Monash.
 
 Balint and Andras are at the research institute where I am when I am in Budapest.
 
-And then Almo is at Corvinus, which is the business school in Budapest.
+And then Almos is at Corvinus, which is the business school in Budapest.
 
 And also I should put up some acknowledgment and disclaimer about funding.
 
@@ -280,7 +280,7 @@ So 1 over chi is a relatively big number.
 
 And that basically means that all of these firm and manager-decided inputs get leveraged, get magnified.
 
-And the idea is that if you're a 1% better manager-- so Zn goes up by 1%-- your surplus doesn't go up by 1% because you can actually grow bigger.
+And the idea is that if you're a 1% better manager-- so Zm goes up by 1%-- your surplus doesn't go up by 1% because you can actually grow bigger.
 
 You can hire more workers, buy more materials, and you can expand by more than 1%, 7%, 8%.
 
@@ -796,7 +796,7 @@ So if you remove from the revenue, if you remove the firm average, you're basica
 
 And the delta R can be attributed to two things at the firm.
 
-The actual change in the CEO still, delta ZM, so if they are better, they should bring in more revenue.
+The actual change in the CEO skill, delta Zm, so if they are better, they should bring in more revenue.
 
 And this Omega, which I call residual productivity, and I said it's just noise, which is fine, but still it's noise.
 
@@ -1106,7 +1106,7 @@ So one thing that we, now that we know that it's very noisy, what should we do i
 
 So instead of just using fixed effects, why don't you actually try to bring in some CEO observables and measure.
 
-So instead of just saying ZM is a fixed effect, why don't you model ZM as beta times X, some parametric function of observables.
+So instead of just saying Zm is a fixed effect, why don't you model Zm as beta times X, some parametric function of observables.
 
 So with Amanda, we are working on looking at biographies of entrepreneurs and CEOs and see whether there's cooling, their work experience, their foreign experience, how it affects their productivity.
 
@@ -1118,7 +1118,7 @@ And actually we find that when there is a foreign acquisition, if you don't repl
 
 So the good things that people often associate with foreign acquisitions come from replacing the manager with a foreign manager, at least in Hungary.
 
-And then with Christina, we are working on a more macro paper that's looking at the endogenous selection of entering into the CEO market and then like in which cohort you are entering and how selective was the competition in that cohort is an important part of the model and that is something we can observe.
+And then with Krisztina, we are working on a more macro paper that's looking at the endogenous selection of entering into the CEO market and then like in which cohort you are entering and how selective was the competition in that cohort is an important part of the model and that is something we can observe.
 
 So we hope that we can still measure CEO quality precisely in this case.
 
@@ -1126,4 +1126,3 @@ So yeah, I think that's it from me.
 
 Thank you very much for your questions and comments.
 
-[Applause] [End of Audio]
