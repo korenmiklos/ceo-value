@@ -161,29 +161,31 @@ To validate our placebo methodology, we verify that synthetically generated CEO 
 
 \section{Estimation}
 
-Our estimation strategy proceeds in four steps: measuring the surplus share, estimating the revenue function, recovering manager fixed effects, and validating causality through event studies. Each step addresses specific challenges in identifying true CEO effects amid substantial noise.
+Our estimation proceeds in four steps: measuring the surplus share, estimating the revenue function, recovering manager fixed effects, and validating causality through event studies. Each step builds toward separating true CEO effects from the substantial noise that contaminates raw estimates.
 
 \subsection{Step 1: Measuring the Surplus Share}
 
-The parameter $\chi$—the share of surplus in revenue—is fundamental to our framework as it determines how manager skill translates into firm performance. Under Cobb-Douglas technology, this share equals one minus the combined shares of labor and materials in revenue. We can therefore measure $\chi$ directly from the data without estimation.
+The parameter $\chi$—the share of surplus in revenue—determines how manager skill translates into firm performance. Under Cobb-Douglas technology, this share equals one minus the combined revenue shares of labor and materials. Following \citet{Gandhi2020-nu}, we measure $\chi$ directly from the data as:
+\begin{equation}
+\hat{\chi}_s = 1 - \frac{\sum_{i \in s}(W_{st}L_{it} + \varrho_{st}M_{it})}{\sum_{i \in s} R_{it}}
+\end{equation}
+where the summation runs over firms in sector $s$.
 
-Following \citet{Gandhi2020-nu}, we compute $\chi$ as the revenue-weighted average of firm-level EBITDA-to-revenue ratios within each industry. EBITDA (earnings before interest, taxes, depreciation, and amortization) equals sales revenue minus personnel expenses minus material costs, capturing returns to fixed factors including physical capital, organizational assets, and managerial skill. Across industries, $\chi$ ranges from 0.10 to 0.20, with manufacturing sectors typically showing lower values (around 0.12) and service sectors higher values (around 0.18). These estimates imply that a 1\% improvement in manager skill generates a 5-10\% increase in surplus—a substantial leverage effect arising from the ability to scale variable inputs.
+This approach yields sector-specific estimates ranging from 0.10 to 0.20. Manufacturing shows lower values (around 0.12) while services show higher values (around 0.18). These estimates imply substantial leverage: a 1\% improvement in manager skill generates a 5-10\% increase in surplus through the $1/\chi$ scaling in our framework.
 
 \subsection{Step 2: Estimating the Revenue Function}
 
-With $\chi$ in hand, we estimate the revenue function to recover the capital elasticity and control for observable factors affecting productivity. The estimating equation is:
+With $\hat{\chi}$ measured, we estimate the revenue function to recover the capital elasticity and control for observable factors. Using lowercase letters for logarithms, the estimating equation is:
 \begin{equation}
-\log S_{imst} = \frac{\alpha}{\chi} \log K_{it} + \text{controls} + \lambda_{im} + \mu_{st} + \epsilon_{imst}
+r_{imst} = \frac{\alpha}{\chi} k_{it} + \frac{1}{\chi}z_m + \lambda_i + \mu_{st} + \tilde{\omega}_{it}
 \end{equation}
-where $S_{imst}$ is surplus (EBITDA), $K_{it}$ is physical capital, $\lambda_{im}$ are firm-CEO fixed effects, and $\mu_{st}$ are sector-year fixed effects.
+where $r_{imst} = \log S_{imst}$ is log surplus, $k_{it} = \log K_{it}$ is log capital, $\lambda_i$ captures firm fixed effects, $\mu_{st}$ are sector-year fixed effects, and $\tilde{\omega}_{it} = \omega_{it}/\chi$ is rescaled residual productivity.
 
-The firm-CEO fixed effects $\lambda_{im}$ capture the combined effect of organizational capital and CEO skill for each firm-manager pair. This specification allows firm productivity to differ across CEOs—a crucial feature since we want to measure how performance changes with leadership. Including these fixed effects when estimating the production function ensures that the capital coefficient is not contaminated by correlation between investment and unobserved manager quality.
+In practice, we allow firm productivity to vary across CEOs by including firm-CEO fixed effects $\lambda_{im}$ rather than separate firm and manager effects. This captures the joint contribution of organizational capital and manager skill for each firm-manager pair. We also include controls for firm age, intangible asset presence, and foreign ownership, though these barely affect the capital coefficient.
 
-We include additional controls for firm characteristics that may affect productivity: firm age (years since founding), a dummy for whether the firm reports intangible assets on its balance sheet, and a dummy for majority foreign ownership. These variables capture factors potentially correlated with both manager assignment and firm performance, though their inclusion barely affects the estimated capital coefficient, suggesting our fixed effects adequately control for selection.
+The key assumptions are: (1) all firms within a sector face the same prices, (2) residual TFP $\tilde{\omega}_{it}$ is uncorrelated with owner and manager choices, and (3) owner and manager choices can be arbitrarily correlated with each other. Assumption (2) is critical—we do not require random manager assignment, only that the residual productivity after controlling for observables is orthogonal to CEO changes.
 
-For firms with two simultaneous CEOs, we duplicate the observation and include it once for each CEO. This approach lets both CEOs' tenures inform their respective skill estimates in subsequent steps. We estimate this equation using ordinary least squares with high-dimensional fixed effects via the \texttt{reghdfe} package \citep{reghdfe}, which efficiently handles the thousands of fixed effects in our specification.
-
-The estimated coefficient on log capital is $\hat{\alpha}/\hat{\chi}$, which we multiply by our measured $\hat{\chi}$ to recover the capital elasticity $\hat{\alpha}$. Typical estimates of $\alpha$ range from 0.03 to 0.05 across industries, consistent with capital's limited role in service-oriented private businesses.
+We estimate using OLS with high-dimensional fixed effects via \texttt{reghdfe} \citep{reghdfe}. The coefficient on log capital is $\hat{\alpha}/\hat{\chi}$, which we multiply by $\hat{\chi}$ to recover $\hat{\alpha}$. Estimates of $\alpha$ range from 0.03 to 0.05 across industries.
 
 \subsection{Step 3: Recovering Manager Fixed Effects}
 
