@@ -1,0 +1,140 @@
+\section{Modeling Framework}
+Firms produce output using a Cobb-Douglas production function that incorporates both fixed and variable inputs. Owing to the presence of fixed inputs, technology exhibits decreasing returns to scale. This will pin down the scale of the firm even when markets are perfectly competitive and the firm is a price taker in both input and output markets \citep{AtkesonKehoe2005JPE,McGrattan2012RED}.\footnote{Alternatively, we could assume that firms face downward sloping residual demand curves, which would make the \emph{revenue production function} decreasing returns to scale. As long as residual demand is isoelastic, the analytical derivation of the model remains unchanged. The only difference is that the parameters have a different interpretation: the revenue elasticity of an input is the product of the input's share in revenue and $1-1/\sigma$, where $\sigma$ is the elasticity of residual demand \citep{DeLoecker2011Econometrica}.}
+
+The production function for firm $i$ with manager $m$ at time $t$ is:
+\begin{equation}\label{eq:production}
+Q_{imt} = \Omega_{it}A_i Z_{m}  K_{it}^\alpha L_{imt}^{\beta} M_{imt}^{\gamma}
+\end{equation}
+where $\Omega_{it}$ is residual total factor productivity, $A_i$ represents time-invariant organizational capital and immaterial assets (location, brand value), $Z_m$ captures manager skill, $K_{it}$ is physical capital, $L_{imt}$ is labor input, $M_{imt}$ is intermediate input usage. The parameters $\alpha$, $\beta$ and $\gamma$ represent the elasticities with respect to physical capital, labor and material inputs, respectively. We denote $\chi := 1 - \beta - \gamma$. Conditional on productivity, organizational capital and manager skill, the production function exhibits decreasing returns to scale, $\alpha + \beta + \gamma < 1$. In a traditional production function with only capital, labor and material as inputs, $\Omega$, $A$ and $Z$ would all be lumped together as \emph{total factor productivity}.
+
+We assume managers optimize variable inputs $L_{imt}$ and $M_{imt}$ while taking fixed inputs $A_{i}$ and $Z_m$ and physical capital $K_{it}$ as given. This separation reflects the institutional reality of private businesses, where owners typically retain direct control over strategic investments while delegating operational decisions to managers. Specifically, owners control physical capital investment, intellectual property, industry and location choices, and CEO hiring/firing decisions, while managers control labor hiring, input purchasing, operations, and day-to-day decisions. As discussed in the Introduction, both theoretical frameworks \citep{fama1983separation, jensen1976theory, burkart2003family} and empirical evidence \citep{bloom2012organization} indicate that private firm owners often retain control over capital allocation and organizational structure. We cite \citet{Navaretti2010EFIGE} for descriptive context on European firms, not as direct evidence on intra-firm control rights. Our framework captures this division of decision rights by treating capital and organizational assets as predetermined from the manager's perspective.
+
+Output is sold at sector-specific price $P_{st}$, making the revenue of the firm $R_{imst} = P_{st}Q_{imt}$. The firm faces a wage rate $W_{st}$ for labor input, price $\varrho_{st}$ for intermediate inputs. After straightforward algebra solving for the optimal labor and intermediate input choices, the firm's revenue can be expressed as:
+\begin{equation}\label{eq:revenue}
+R_{imst} = (P_{st}\Omega_{it}A_i Z_m)^{1/\chi}
+K_{it}^{\alpha/\chi}
+W_{st}^{-\beta/\chi}
+\varrho_{st}^{-\gamma/\chi}
+(1-\chi)^{(1-\chi)/\chi}.
+\end{equation}
+Revenue is increasing in fixed inputs $A_i$ and $Z_m$, physical capital $K_{it}$, and decreasing in the wage rate $W_{st}$ and material input price $\varrho_{st}$. Higher prices $P_{st}$ and productivity $\Omega_{it}$ also increase revenue. Note that because $\chi<1$, the elasticity of revenue with respect to fixed inputs is greater than the elasticity in the production function, i.e. $\alpha/\chi > \alpha$. This is because the firm can leverage its fixed inputs to increase revenue more than proportionally by hiring more variable inputs.
+
+As is usual under Cobb-Douglas production functions, the share of revenue accruing to each input is constant over time and across firms, equal to their elasticity in the production function. We define the rent accruing to fixed factors (including physical capital) 
+\begin{equation}\label{eq:rent}
+S_{imst} = R_{imst} - W_{st}L_{imt} - \varrho_{st}M_{imt} = \chi R_{imst}.
+\end{equation}
+Taking logarithms of equations \eqref{eq:revenue} and \eqref{eq:rent}, we can express the log surplus as:      
+\begin{equation}\label{eq:log_surplus}
+s_{imst} = C+\frac\alpha\chi k_{it} + \frac1\chi {z}_{m} + \frac1\chi p_{st} + \frac1\chi{\omega}_{it}+\frac1\chi a_i 
+- \frac\beta\chi w_{st} - \frac\gamma\chi \rho_{st},
+\end{equation}
+where $C$ is a constant only depending on fixed parameters, $k_{it} = \ln K_{it}$, ${z}_{m} = \ln Z_m$ , $ p_{st} = \ln P_{st}$, ${\omega}_{it} = \ln\Omega_{it}$, $a_i = \ln A_i$, and $w_{st} = \ln W_{st}$, $\rho_{st} = \ln \varrho_{st}$. 
+
+Equation \eqref{eq:log_surplus} shows how surplus depends on manager skills, holding fixed the inputs chosen by the owner and the input and output prices prevailing in the sector. Taking two managers $m$ and $m'$ with skills ${z}_m$ and ${z}_{m'}$ at the same firm, the change in surplus attributable to the new manager is:
+\begin{equation}\label{eq:manager_change}
+s_{im'st} - s_{imst} = \frac1\chi({z}_{m'} - {z}_{m}).
+\end{equation}
+The \emph{value} of the new manager to the owners of the firm is the change in surplus. This value is proportional to the difference in manager skills, scaled by the inverse of the elasticity of revenue with respect to fixed inputs $\chi$. In what follows, we aim to measure this value by estimating the change in surplus following a manager change.
+
+\paragraph{Estimable equation.} In absence of observing organization capital and input prices, we can substitute these out with fixed effects, leading to the following estimable equation:
+\begin{equation}\label{eq:estimation}
+s_{imst} = \frac\alpha\chi k_{it}  + \frac1\chi\tilde{z}_m + \lambda_i + \mu_{st} + \tilde \omega_{it}
+\end{equation}
+where $\lambda_i = a_i/\chi$ is a firm fixed effect capturing time-invariant organizational capital, $\mu_{st} = C + p_{st}/\chi - \beta w_{st}/\chi - \gamma\rho_{st}/\chi$ is an industry-time fixed effect capturing sector-specific prices and wages, and $\tilde\omega_{it} = \omega_{it}/\chi$ is a rescaled time-varying firm productivity shock. 
+
+Assuming that residual productivity $\tilde\omega_{it}$ is uncorrelated with manager skills and physical capital, we can estimate the model using ordinary least squares with fixed effects (OLSFE). Note that we do \emph{not} assume that manager skills are uncorrelated with physical capital, organizational capital or sectoral prices. It may well be the case that better firms with good price conditions hire better managers and invest more. 
+
+Given our estimated parameters and fixed effects, we can recover manager skills as:
+\begin{equation}\label{eq:estimated}
+\hat z_m :=
+\frac1{N_m}\sum_{i,s,t}(
+        \hat\chi s_{imst} -  \hat\alpha k_{it}  -\hat\chi \lambda_i -\hat\chi \mu_{st}
+). 
+\end{equation}
+We remove the contribution of physical capital, firm and industry-year fixed effects from log surplus to obtain a \emph{residualized surplus} $\tilde s_{imst}$. Because $\omega_{it}$ is assumed to be mean zero independent of $m$, we can estimate $\hat z_m$ as the average of $\tilde s_{imst}$ across all observations for manager $m$. This gives us a consistent estimate of manager skill when $N_m$ is large, but includes average residual productivity $\hat\omega_{it}$.\footnote{This is equivalent to including a manager fixed effect in the regression, similar in spirit to \citet{Abowd1999Econometrica} and \citet{Card2018JoLE}. This notation emphasizes that manager effects estimated from fewer observations are noisier.}
+
+Because this estimate of manager effects is noisy when $N_m$ is small, we implement a placebo strategy to estimate the true effects of managers, as described in ??.
+
+\section{Data and Measurement}
+\paragraph{Main data sources.} Our analysis uses comprehensive administrative data on Hungarian firms between 1992 and 2022, created by merging balance sheet and financial statement data with firm registry information. Hungary provides an ideal setting for this research: complete administrative data covering all incorporated businesses with mandatory CEO registration over 30+ years of coverage, spanning the transition economy of the 1990s, EU accession in 2004, and a mix of domestic and foreign firms. % [We thought we were sitting on a goldmine when we first saw this dataset - even though it's only 30 years, universal coverage is very rare in this field] The balance sheet data comes from \citet{merleg2024} and contains financial information for essentially all Hungarian firms required to file annual reports. The firm registry data comes from \citet{cegjegyzek2024} and includes information on firm registration, ownership structure, and director appointments.\footnote{The data cannot be publicly shared due to privacy and licensing restrictions. The replication package available at https://github.com/korenmiklos/ceo-value describes how to get access to the data.}
+
+The balance sheet dataset contains detailed financial information including sales revenue, export revenue, employment, tangible and intangible assets, raw material and intermediate input costs, personnel expenses, and ownership indicators for state and foreign control.
+
+Registry information is collected by the Hungarian Corporate Court, which maintains legally mandated public records on firms \citep{cegtv}. These records include information on company representatives---individuals authorized to act on behalf of the firm in legal and business matters. Representatives may include CEOs and other executives, but also lower-level employees with signatory rights. We exclude the rare instances where the representative is a legal entity. The dataset is structured as a temporal database: each entry has an effective date interval and reflects the state of representation at a given time. Updates occur not only when positions change but also when personal identifiers (e.g., address) are modified or when reporting standards evolve. Start and end dates are often missing, and prior to 2010, the data does not contain unique numerical identifiers for individuals.
+
+We resolve individual identities by linking records based on name, date of birth, mother's name, and home address, creating a unique identifier for each person. This entity resolution step enables tracking of representatives over time and across firms. The challenge is substantial: before 2013 there were no numerical identifiers, time spells are not always closed or contiguous, and the managing director title is sometimes missing, requiring imputation from past and future records. % [Our data engineer once said: in this dataset, everything and its opposite is true - for example, tax IDs are unique except when they're not] To construct an annual panel of top managers, we infer the period of service for each representative using available date bounds and sequential information. A representative is considered active in a given year if their tenure includes June 21 of each year.
+
+Because job titles are not standardized, identifying the CEO requires heuristic rules. When an explicit title such as \emph{managing director} is available, we classify the individual accordingly. For firms lacking such labels, we assume that all representatives are CEOs if the number of representatives is three or fewer. If there are more than three and one of them was previously identified as a CEO, we assign the CEO role based on continuity. This approach allows us to systematically identify the firm's top executive across years.
+
+\paragraph{Target population.} Our initial sample contains 1,063,172 firms spanning 31 years with 10,151,997 firm-year observations. Table \ref{tab:sample} shows the temporal distribution of observations in our final sample. The sample exhibits steady growth from 61,730 firms in 1992 to 390,632 firms in 2022. This expansion reflects the growth of entrepreneurship in Hungary following the transition to a market economy.
+
+\input{table/table1}
+
+Some firms have more than one CEO at a time. Among the 12,726,597 firm-year observations with CEO information, the vast majority (82\%) have a single CEO. However, 15\% of firm-years have two CEOs, 2\% have three CEOs, and small fractions have even larger numbers of CEOs (Table \ref{tab:ceo_patterns}, Panel A). Over the life of a firm, it is not uncommon for multiple individuals to hold the CEO title, reflecting changes in leadership and organizational structure. As the second column of the Table shows, however, a large fraction of firms (63\%) is managed by the same CEO during their entire lifetime.
+
+\begin{table}[htbp]
+\centering
+\caption{Number and Job Spell of CEOs}
+\label{tab:ceo_patterns}
+\begin{minipage}{0.48\textwidth}
+\centering
+\textbf{Panel A: Number of CEOs}
+\input{table/table2_panelA}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+\centering
+\textbf{Panel B: Spell Lengths}
+\input{table/table2_panelB}
+\end{minipage}
+\begin{tablenotes}[flushleft]
+\footnotesize
+\item\textbf{Panel A} reports the distribution of CEOs at firms. Column 1 shows the percentage of firm-year observations with 1, 2, 3, or 4+ CEOs. Column 2 shows the percentage of firms with 1, 2, 3, or 4+ CEO spells over the sample period. \textbf{Panel B} reports the distribution of CEO spell lengths. A CEO spell is defined as a continuous period of the same person serving at the same firm.
+Actual spells are computed from the administrative data (1992-2022), excluding firms with more than one CEO per year and the last spell (because these end in firm death, not CEO change). Placebo spells follow an exponential distribution with the same exit probability as actual CEOs. We exclude firms where a placebo spell would overlap with an actual spell.
+\end{tablenotes}
+\end{table}
+
+Panel B of Table \ref{tab:ceo_patterns} shows the distribution of CEO spell lengths. We exclude the last CEO of the firm (and hence all firms with only a single CEO), because these spells end in firm death or sample truncation, not CEO turnover. The typical CEO is replaced with a hazard rate of about 20\%/year. The empirical distribution of spell lengths is displayed in the first column, with a mode at one year (23\% of spells).
+
+Column 2 of Panel B shows the distribution of spell lengths for placebo CEO changes, which were generated by randomly assigning CEO exit times to firms with long CEO spells. More specifically, we took firms which were lead by the same CEO in at least the first seven years of their lives. We then introduced random (``placebo'') CEO switches in these firms using the empirical hazard function of CEO change in the true data. For example, 24\% of CEOs are replaced after their first year, 22\% after their second year, and so on.\footnote{In practice, using a constant hazard rate of CEO change leads to similar results.} We then excluded the last placebo spell, to exclude sample truncation. By construction, the empirical distribution of spell lengths is very similar to that of actual CEO spells (Column 1), although small random variations are to be expected.
+
+\paragraph{Sample definition.} 
+We classify firms into broad industry using the NACE Revision 2 classification system. We exclude mining and finance, due to their different accounting, reporting and regulatory frameworks. Detailed industry-level summary statistics are presented in Table \ref{tab:industry_stats} in the Online Appendix. We also exclude firms that ever have more than two CEOs in a single year, removing 1,519,524 observations. This filter eliminates firms with potentially complex or unstable governance structures. Third, we drop firms with more than six CEO spells over the observation period, removing an additional 45,216 observations. Additionally, we exclude all firms that were ever state-owned during the observation period, as state ownership introduces different objective functions and constraints that may confound our productivity analysis of private firm management.
+
+\paragraph{Measurement of model variables.} We measure the key variables from the theoretical framework as follows. Revenue ($R_{it}$) is the real sales revenue of the firm, inflated to 2022 prices. Capital ($K_{it}$) is measured as the book value of fixed assets (also at 2022 prices). As another variable controlled primarily by the owner, we include a dummy for whether the firm has reported any intangible assets on its balance sheet. In addition, the presence of a majority foreign owner is also measured as reported in the annual report of the firm.
+
+We compute EBITDA (Earnings Before Interest, Taxes, Depreciation, and Amortization, $S_{it}$) as sales revenue minus personnel expenses minus material costs. Personnel expenses (wage bill inclusive of payroll taxes) and material expenditures are directly used from the financial statement. In some of the analysis, we control for firm age (years passed since foundation) and CEO tenure (years since CEO took over).
+
+\section{Estimation}
+
+We are interested in recovering $z_m$, the (log) skill of manager $m$. This requires estimating the production function parameters in equation \eqref{eq:estimation}, then computing the manager fixed effects using equation \eqref{eq:estimated}.
+
+\paragraph{Production function.}
+Equation \eqref{eq:estimation} controls for time-invariant firm characteristics (organizational capital, location, brand value) through firm fixed effects and sector-specific price and wage variation through industry-time fixed effects. The key identifying assumption is that residual productivity shocks $\tilde{\omega}_{it}$ are uncorrelated with manager skills and physical capital conditional on these fixed effects.
+
+We let the production function \eqref{eq:production} and, correspondingly, surplus function \eqref{eq:estimation} vary across sectors. In addition to fixed effects, the parameters to estimate are the elasticity of output with respect to capital $\alpha$ and the share of surplus in revenue $\chi$. 
+
+We follow \citet{Gandhi2020-nu} and use the first-order condition for the demand for variable inputs to estimate $\chi$ as one minus the share of labor and material in revenue. Hence $\chi$ is the (revenue-weighted) average of the EBITDA-revenue ratio for the industry.
+
+Given our assumptions about fixed effects and error structure, equation \eqref{eq:estimation} can be estimated with OLSFE using \texttt{reghdfe} \citep{reghdfe}.\footnote{Structural estimates in the spirit of \citet{Olley1996-wy} yield similar results.} The resulting capital coefficient is $\alpha/\chi$, which we multiply by $\hat\chi$ to obtain the estimated capital elasticity. In addition to fixed assets, we also include a dummy for whether the firm has reported any intangible assets, and another dummy for whether it has a majority foreign owner.
+
+To control for CEO effects when estimating the production function, we allow for firm-CEO fixed effects in \eqref{eq:estimation}. That is, instead of $z_m$ as in the model, we allow for $z_{im}$. This allows for the firm to have different TFP under different leadership, but is not yet used as a measure of CEO skill. 
+
+There are cases when the firm has two CEOs. (More than two have been excluded from the sample.) In such cases, we repeat the observation, once for each CEO, and proceed as detailed above. This is to let these years inform the estimation of the skill of each of its CEO, as explained below.
+
+Once we have all the parameters, we can compute the residual surplus as defined in \eqref{eq:estimated}. Because the residual surplus removes firm and industry-year fixed effects, it will always have mean zero within each firm and within each industry-year cell. To identify an interpretable manager effect, we proceed as follows.
+
+\paragraph{Within-firm CEO changes.}
+First we study the impact of within-firm CEO changes on firm surplus. If there are $n$ CEOs in a firm, we can estimate $n-1$ CEO fixed effects. We normalize the log skill of the first CEO of the firm to zero. The remaining $n-1$ CEO fixed effects are then interpreted as the difference in skills relative to the first CEO. Naturally, this calculation only makes sense for $n>1$, i.e. for firms that have at least two CEOs in the sample.
+
+\paragraph{Largest connected component.}
+We can also estimate a two-way fixed effects model for firms and managers \citep{Abowd1999Econometrica,Card2018JoLE,reghdfe} and recover the estimated manager fixed effects as measures of CEO skill. Because fixed effects are only meaningful relative to a common baseline group, we only estimate them for the largest connected component of the firm-manager network \citep{Bonhomme2023-dx}. Intuitively, the skills of two CEOs can only be compared if they ever worked for the same firm, or are connected via a path of CEOs with whom they did.
+
+\paragraph{Event study.}
+Finally, to check the dynamic effects around CEO changes, we conduct an event study analysis. This involves estimating the impact of CEO transitions on firm performance over time, allowing us to observe any pre-trends and post-trends associated with the change in leadership. 
+
+Because we do not use any CEO observables, we compare firms hiring better CEOs against those hiring worse CEOs, as defined by their estimated fixed effects. This approach, however, suffers from potential bias because the estimated fixed effects include an average of residual TFP. Even if residual TFP is uncorrelated with CEO replacement, as we assumed, differentiating ``better'' and ``worse'' CEOs based on this noisy measure will overestimate the effect of CEO skill.
+
+To mitigate this bias, we implement a novel placebo-controlled approach. We create ``placebo'' CEO transitions by randomly assigning fake CEO changes to firms with long CEO tenures (7+ years), using the empirical hazard function (approximately 20 percent per year) while ensuring placebo changes never overlap with actual transition periods. The placebo treatment captures the mechanical bias: it measures the average residual TFP before and after random splits when CEO skill has not actually changed. By comparing actual CEO transitions to these carefully constructed placebos, we can filter out the noise and identify the true causal effect. 
+
+Because our control group is also receiving a ``treatment'' (albeit a placebo), we need to use a modified version of the difference-in-differences estimator \citep{Callaway2021JoLE} that accounts for the two treatment groups \citep{Koren2023expat,Koren2024xt2treatments}. The estimated effects can be interpreted as the change in the outcome variable, relative to the baseline time period, relative to the same change in the placebo-controlled group.
