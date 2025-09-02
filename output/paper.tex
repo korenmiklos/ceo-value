@@ -59,9 +59,11 @@ We develop a framework to measure CEO value in privately held firms where owners
 
 Firms produce output using a Cobb-Douglas production function with both fixed and variable inputs. The production function for firm $i$ with manager $m$ at time $t$ is:
 \begin{equation}\label{eq:production}
-Q_{imt} = \Omega_{it}A_i Z_{m}  K_{it}^\alpha L_{imt}^{\beta} M_{imt}^{\gamma}
+Q_{imt} = A_i Z_{m} \varepsilon_{it} K_{it}^\alpha L_{imt}^{\beta} M_{imt}^{\gamma}
 \end{equation}
-where $\Omega_{it}$ is residual total factor productivity, $A_i$ represents time-invariant organizational capital (location, brand value, customer relationships), $Z_m$ captures manager skill, $K_{it}$ is physical capital, $L_{imt}$ is labor input, and $M_{imt}$ is intermediate input usage. 
+where $A_i$ represents time-invariant organizational capital (location, brand value, customer relationships), $Z_m$ captures manager skill, $\varepsilon_{it}$ is residual productivity, $K_{it}$ is physical capital, $L_{imt}$ is labor input, and $M_{imt}$ is intermediate input usage. 
+
+In standard production function estimation, these three components would be combined into a single measure: $\Omega_{it} = A_i Z_m \varepsilon_{it}$, commonly called total factor productivity (TFP). Our framework decomposes TFP into firm-specific advantages ($A_i$), manager-specific skill ($Z_m$), and residual productivity shocks ($\varepsilon_{it}$) to identify the distinct contribution of managers. 
 
 The key institutional feature we model is the separation of decision rights. Owners control physical capital investment ($K_{it}$) and organizational assets ($A_i$), including location choices, brand development, and CEO hiring decisions. Managers control labor hiring ($L_{imt}$), input purchasing ($M_{imt}$), and day-to-day operations. This separation reflects the reality of private businesses where owners maintain direct involvement in strategic decisions while delegating operational management.
 
@@ -71,7 +73,7 @@ With $\chi := 1 - \beta - \gamma$, the production function exhibits decreasing r
 
 Managers maximize profit by choosing variable inputs optimally given the owner's fixed choices. Under sector-specific output price $P_{st}$, wage rate $W_{st}$, and material price $\varrho_{st}$, the first-order conditions yield closed-form solutions for optimal input demands. Substituting these back into the revenue function gives:
 \begin{equation}\label{eq:revenue}
-R_{imst} = (P_{st}\Omega_{it}A_i Z_m)^{1/\chi}
+R_{imst} = (P_{st}A_i Z_m \varepsilon_{it})^{1/\chi}
 K_{it}^{\alpha/\chi}
 W_{st}^{-\beta/\chi}
 \varrho_{st}^{-\gamma/\chi}
@@ -89,10 +91,10 @@ S_{imst} = R_{imst} - W_{st}L_{imt} - \varrho_{st}M_{imt} = \chi R_{imst}
 
 Under Cobb-Douglas technology, surplus is a constant fraction $\chi$ of revenue. This proportionality means we can work directly with revenue throughout our analysis, simplifying estimation while preserving all economic insights. Taking logarithms of the revenue equation:
 \begin{equation}\label{eq:log_revenue}
-r_{imst} = C+\frac{\alpha}{\chi} k_{it} + \frac{1}{\chi} z_{m} + \frac{1}{\chi} a_i + \frac{1}{\chi} p_{st} + \frac{1}{\chi}\omega_{it} 
+r_{imst} = C+\frac{\alpha}{\chi} k_{it} + \frac{1}{\chi} z_{m} + \frac{1}{\chi} a_i + \frac{1}{\chi} p_{st} + \frac{1}{\chi}\epsilon_{it} 
 - \frac{\beta}{\chi} w_{st} - \frac{\gamma}{\chi} \rho_{st}
 \end{equation}
-where lowercase letters denote logarithms and $C$ is a constant.
+where lowercase letters denote logarithms (e.g., $\epsilon_{it} = \log \varepsilon_{it}$) and $C$ is a constant.
 
 The value of replacing manager $m$ with manager $m'$ at the same firm is:
 \begin{equation}\label{eq:manager_value}
@@ -105,21 +107,21 @@ Manager value equals the skill difference scaled by $1/\chi$. This scaling refle
 
 To estimate manager effects from observational data, we substitute unobserved prices and organizational capital with fixed effects:
 \begin{equation}\label{eq:empirical}
-r_{imst} = \frac{\alpha}{\chi} k_{it} + \frac{1}{\chi}\tilde{z}_m + \lambda_i + \mu_{st} + \tilde{\omega}_{it}
+r_{imst} = \frac{\alpha}{\chi} k_{it} + \frac{1}{\chi}z_m + \lambda_i + \mu_{st} + \tilde{\epsilon}_{it}
 \end{equation}
-where $\lambda_i = a_i/\chi$ captures time-invariant firm characteristics, $\mu_{st}$ absorbs sector-time variation in prices, and $\tilde{\omega}_{it} = \omega_{it}/\chi$ is rescaled residual productivity.
+where $\lambda_i = a_i/\chi$ captures time-invariant firm characteristics, $\mu_{st}$ absorbs sector-time variation in prices, and $\tilde{\epsilon}_{it} = \epsilon_{it}/\chi$ is rescaled residual productivity.
 
-The key identifying assumption is that residual productivity $\tilde{\omega}_{it}$ is uncorrelated with manager assignment conditional on firm and sector-time fixed effects. This allows manager skills and physical capital to be arbitrarily correlated with firm quality and market conditions—better firms may hire better managers and invest more. We only require that the residual variation in productivity is orthogonal to manager assignment.
+The key identifying assumption is that residual productivity $\tilde{\epsilon}_{it}$ is uncorrelated with manager assignment conditional on firm and sector-time fixed effects. This allows manager skills and physical capital to be arbitrarily correlated with firm quality and market conditions—better firms may hire better managers and invest more. We only require that the residual variation in productivity is orthogonal to manager assignment.
 
 \subsection{Challenges in Estimating Manager Effects}
 
 Three challenges complicate the estimation of manager effects from equation \eqref{eq:empirical}:
 
-First, residual productivity $\tilde{\omega}_{it}$ may correlate with manager changes if firms replace CEOs in response to productivity shocks. This reverse causality would bias estimates of manager effects.
+First, residual productivity $\tilde{\epsilon}_{it}$ may correlate with manager changes if firms replace CEOs in response to productivity shocks. This reverse causality would bias estimates of manager effects.
 
 Second, manager fixed effects are only identified for the connected set of firms and managers linked through mobility. Effects are measured relative to a reference group within each connected component, limiting comparability across components.
 
-Third, and most importantly, estimated manager effects $\hat{z}_m$ include both true skill and averaged residual productivity: $\hat{z}_m = z_m + \bar{\omega}_{im}$ where $\bar{\omega}_{im}$ is the average $\tilde{\omega}_{it}$ during manager $m$'s tenure at firm $i$. When managers have short tenures, this noise component dominates the signal, making raw fixed effects unreliable measures of true skill.
+Third, and most importantly, estimated manager effects $\hat{z}_m$ include both true skill and averaged residual productivity: $\hat{z}_m = z_m + \bar{\epsilon}_{im}$ where $\bar{\epsilon}_{im}$ is the average $\tilde{\epsilon}_{it}$ during manager $m$'s tenure at firm $i$. When managers have short tenures, this noise component dominates the signal, making raw fixed effects unreliable measures of true skill.
 
 Our placebo-controlled approach addresses these challenges by explicitly measuring and removing the noise component from estimated manager effects.
 
@@ -177,53 +179,55 @@ This approach yields sector-specific estimates ranging from 0.10 to 0.20. Manufa
 
 With $\hat{\chi}$ measured, we estimate the revenue function to recover the capital elasticity and control for observable factors. Using lowercase letters for logarithms, the estimating equation is:
 \begin{equation}
-r_{imst} = \frac{\alpha}{\chi} k_{it} + \frac{1}{\chi}z_m + \lambda_i + \mu_{st} + \tilde{\omega}_{it}
+r_{imst} = \frac{\alpha}{\chi} k_{it} + \frac{1}{\chi}z_m + \lambda_i + \mu_{st} + \tilde{\epsilon}_{it}
 \end{equation}
-where $r_{imst} = \log R_{imst}$ is log revenue, $k_{it} = \log K_{it}$ is log capital, $\lambda_i$ captures firm fixed effects, $\mu_{st}$ are sector-year fixed effects, and $\tilde{\omega}_{it} = \omega_{it}/\chi$ is rescaled residual productivity.
+where $r_{imst} = \log R_{imst}$ is log revenue, $k_{it} = \log K_{it}$ is log capital, $\lambda_i$ captures firm fixed effects, $\mu_{st}$ are sector-year fixed effects, and $\tilde{\epsilon}_{it} = \epsilon_{it}/\chi$ is rescaled residual productivity.
 
 In practice, we allow firm productivity to vary across CEOs by including firm-CEO fixed effects $\lambda_{im}$ rather than separate firm and manager effects. This captures the joint contribution of organizational capital and manager skill for each firm-manager pair. We also include controls for firm age, intangible asset presence, and foreign ownership, though these barely affect the capital coefficient.
 
-The key assumptions are: (1) all firms within a sector face the same prices, (2) residual TFP $\tilde{\omega}_{it}$ is uncorrelated with owner and manager choices, and (3) owner and manager choices can be arbitrarily correlated with each other. Assumption (2) is critical—we do not require random manager assignment, only that the residual productivity after controlling for observables is orthogonal to CEO changes.
+The key assumptions are: (1) all firms within a sector face the same prices, (2) residual productivity $\tilde{\epsilon}_{it}$ is uncorrelated with owner and manager choices, and (3) owner and manager choices can be arbitrarily correlated with each other. Assumption (2) is critical—we do not require random manager assignment, only that the residual productivity after controlling for observables is orthogonal to CEO changes.
 
 We estimate using OLS with high-dimensional fixed effects via \texttt{reghdfe} \citep{reghdfe}. The coefficient on log capital is $\hat{\alpha}/\hat{\chi}$, which we multiply by $\hat{\chi}$ to recover $\hat{\alpha}$. Estimates of $\alpha$ range from 0.03 to 0.05 across industries.
 
 \subsection{Step 3: Recovering Manager Fixed Effects}
 
-After estimating the revenue function, we compute total factor productivity (TFP) by removing the contribution of capital from revenue:
+After estimating the revenue function, we compute log total factor productivity by removing the contribution of capital from revenue:
 \begin{equation}
-\text{TFP}_{imst} = \hat{\chi} r_{imst} - \hat{\alpha} k_{it} - \hat{\mu}_{st} = z_m + \lambda_i + \omega_{it}
+\omega_{imst} = \hat{\chi} r_{imst} - \hat{\alpha} k_{it} - \hat{\mu}_{st} = z_m + a_i + \epsilon_{it}
 \end{equation}
 
-This TFP measure contains manager skill, firm effects, and residual productivity. To isolate manager effects, we remove the firm fixed effect by subtracting the firm average:
+This measure of log TFP contains manager skill, firm effects, and residual productivity. Recall that in standard production function estimation, this entire term would be treated as a single TFP measure. Our decomposition separates the manager contribution from other sources of productivity.
+
+To isolate manager effects, we remove the firm fixed effect by subtracting the firm average:
 \begin{equation}
-\Delta\text{TFP}_{imt} = \Delta z_{m_{it}} + \Delta\omega_{it}
+\Delta\omega_{imt} = \Delta z_{m_{it}} + \Delta\epsilon_{it}
 \end{equation}
 where $\Delta x_{it} := x_{it} - \frac{1}{N_i}\sum_{\tau} x_{i\tau}$ denotes the within-firm deviation.
 
-When a firm changes CEOs, the change in TFP captures both the true skill difference and accumulated noise. The noise component—the average of residual productivity shocks during each manager's tenure—can dominate the signal when tenures are short.
+When a firm changes CEOs, the change in log TFP captures both the true skill difference and accumulated noise. The noise component—the average of residual productivity shocks during each manager's tenure—can dominate the signal when tenures are short.
 
 \subsubsection{Two-Way Fixed Effects in the Connected Component}
 
 For broader comparisons across firms, we estimate a two-way fixed effects model:
 \begin{equation}
-\text{TFP}_{imst} = \lambda_i + \psi_m + \omega_{it}
+\omega_{imst} = a_i + z_m + \epsilon_{it}
 \end{equation}
 
 This system is only identified within connected components—groups of firms and managers linked through mobility. Two managers can be compared if they worked at the same firm or connect through a chain of shared employment relationships. Our largest connected component contains 26,000 managers, enabling meaningful comparisons within this network. Following \citet{Abowd1999Econometrica}, we normalize one manager's effect to zero and estimate via within-transformation.
 
 \subsubsection{Three Identification Challenges}
 
-First, residual TFP trends may correlate with manager changes (reverse causality). Firms might replace CEOs when productivity declines, creating spurious negative effects for incoming managers. We do not need random mobility—manager quality can correlate with firm quality—but we require that residual productivity shocks are orthogonal to CEO transitions.
+First, residual productivity trends may correlate with manager changes (reverse causality). Firms might replace CEOs when $\epsilon_{it}$ declines, creating spurious negative effects for incoming managers. We do not need random mobility—manager quality can correlate with firm quality—but we require that residual productivity shocks are orthogonal to CEO transitions.
 
 Second, firm and manager effects are only interpretable within their connected component. Effects measure relative differences from a baseline group, limiting cross-component comparisons.
 
-Third, and most critically, estimated fixed effects contain substantial small-sample noise. With typical CEO tenures of 3-5 years, the averaged residual productivity often overwhelms true skill differences. Instrumental variable approaches that rely on exogenous CEO removal (death, hospitalization) address reverse causality but exacerbate the small-sample problem by further restricting the data.
+Third, and most critically, estimated fixed effects contain substantial small-sample noise. With typical CEO tenures of 3-5 years, the averaged residual productivity $\bar{\epsilon}_{im}$ often overwhelms true skill differences. Instrumental variable approaches that rely on exogenous CEO removal (death, hospitalization) address reverse causality but exacerbate the small-sample problem by further restricting the data.
 
 \subsection{Step 4: Placebo-Controlled Event Studies}
 
-Our solution to the noise problem leverages a simple insight: when CEOs do not change, we still observe variation in TFP driven purely by noise:
+Our solution to the noise problem leverages a simple insight: when CEOs do not change, we still observe variation in log TFP driven purely by noise:
 \begin{equation}
-\Delta\text{TFP}_{imt} = \Delta\omega_{it}
+\Delta\omega_{imt} = \Delta\epsilon_{it}
 \end{equation}
 
 By applying the same estimation procedure to "non-changes," we can measure and filter out the noise component.
@@ -238,18 +242,18 @@ For instance, a firm with the same CEO from 1992-2000 might receive a placebo tr
 
 We implement the event study around CEO transitions at time $g$, comparing actual changes (treatment) to placebo changes (control):
 \begin{equation}
-\text{TFP}_{imt} = \lambda_i + \gamma_{t-g} + \omega_{it}
+\omega_{imt} = a_i + \gamma_{t-g} + \epsilon_{it}
 \end{equation}
 
-The coefficients $\gamma_{t-g}$ capture the evolution of TFP in event time, where $t-g \in \{-4, -3, -2, -1, 0, 1, 2, 3\}$ and we normalize $\gamma_{-1} = 0$.
+The coefficients $\gamma_{t-g}$ capture the evolution of log TFP in event time, where $t-g \in \{-4, -3, -2, -1, 0, 1, 2, 3\}$ and we normalize $\gamma_{-1} = 0$.
 
 Because both groups receive a "treatment" (actual or placebo), standard difference-in-differences fails. We adapt the \citet{Callaway2021JoLE} estimator for two treatment types using the \texttt{xt2treatments} package \citep{Koren2024xt2treatments}. The key innovation is precisely aligning transitions in event time—both actual and placebo changes occur at $t=0$—enabling clean comparison of dynamics.
 
 \subsubsection{Separating Good from Bad CEOs}
 
-To examine heterogeneity in CEO quality, we split actual transitions based on the incoming CEO's estimated fixed effect $\hat{\psi}_m$ from Step 3. CEOs with above-median $\hat{\psi}_m$ are classified as "good," those below as "bad."
+To examine heterogeneity in CEO quality, we split actual transitions based on the incoming CEO's estimated fixed effect $\hat{z}_m$ from Step 3. CEOs with above-median $\hat{z}_m$ are classified as "good," those below as "bad."
 
-This classification is noisy—"good" CEOs are partly lucky (positive $\omega$ draws), "bad" CEOs partly unlucky (negative $\omega$ draws). But this is precisely the bias our placebo control corrects. When we randomly split stable tenures and classify the resulting pseudo-CEOs as good or bad based on their averaged $\omega$, we generate the same mechanical selection bias without any true quality difference.
+This classification is noisy—"good" CEOs are partly lucky (positive $\epsilon$ draws), "bad" CEOs partly unlucky (negative $\epsilon$ draws). But this is precisely the bias our placebo control corrects. When we randomly split stable tenures and classify the resulting pseudo-CEOs as good or bad based on their averaged $\epsilon_{it}$, we generate the same mechanical selection bias without any true quality difference.
 
 \subsubsection{The Placebo Correction in Practice}
 
