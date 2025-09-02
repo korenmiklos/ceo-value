@@ -45,5 +45,118 @@ We develop a model-based approach to measure CEO value in privately held busines
 
 \section{Introduction}
 
+[To be written]
+
+\section{Related Literature}
+
+[To be written]
+
+\section{Conceptual Framework}
+
+We develop a framework to measure CEO value in privately held firms where owners retain control over strategic decisions while delegating operational choices to managers. This division of decision rights, common in private businesses, has important implications for identifying manager effects.
+
+\subsection{Production and Decision Rights}
+
+Firms produce output using a Cobb-Douglas production function with both fixed and variable inputs. The production function for firm $i$ with manager $m$ at time $t$ is:
+\begin{equation}\label{eq:production}
+Q_{imt} = \Omega_{it}A_i Z_{m}  K_{it}^\alpha L_{imt}^{\beta} M_{imt}^{\gamma}
+\end{equation}
+where $\Omega_{it}$ is residual total factor productivity, $A_i$ represents time-invariant organizational capital (location, brand value, customer relationships), $Z_m$ captures manager skill, $K_{it}$ is physical capital, $L_{imt}$ is labor input, and $M_{imt}$ is intermediate input usage. 
+
+The key institutional feature we model is the separation of decision rights. Owners control physical capital investment ($K_{it}$) and organizational assets ($A_i$), including location choices, brand development, and CEO hiring decisions. Managers control labor hiring ($L_{imt}$), input purchasing ($M_{imt}$), and day-to-day operations. This separation reflects the reality of private businesses where owners maintain direct involvement in strategic decisions while delegating operational management.
+
+With $\chi := 1 - \beta - \gamma$, the production function exhibits decreasing returns to scale in variable inputs ($\beta + \gamma < 1$), which pins down optimal firm size even under perfect competition. Fixed inputs $A_i$ and $Z_m$ create firm-specific and manager-specific advantages that generate economic rents.
+
+\subsection{Optimal Input Choices and Revenue}
+
+Managers maximize profit by choosing variable inputs optimally given the owner's fixed choices. Under sector-specific output price $P_{st}$, wage rate $W_{st}$, and material price $\varrho_{st}$, the first-order conditions yield closed-form solutions for optimal input demands. Substituting these back into the revenue function gives:
+\begin{equation}\label{eq:revenue}
+R_{imst} = (P_{st}\Omega_{it}A_i Z_m)^{1/\chi}
+K_{it}^{\alpha/\chi}
+W_{st}^{-\beta/\chi}
+\varrho_{st}^{-\gamma/\chi}
+(1-\chi)^{(1-\chi)/\chi}
+\end{equation}
+
+Revenue increases in manager skill $Z_m$, organizational capital $A_i$, and physical capital $K_{it}$, while decreasing in input prices. The elasticity of revenue with respect to manager skill is $1/\chi > 1$, reflecting the leverage effect: better managers can scale up operations by hiring more variable inputs, amplifying their productivity advantage.
+
+\subsection{Surplus and Manager Value}
+
+The surplus accruing to fixed factors equals revenue minus payments to variable inputs:
+\begin{equation}\label{eq:surplus}
+S_{imst} = R_{imst} - W_{st}L_{imt} - \varrho_{st}M_{imt} = \chi R_{imst}
+\end{equation}
+
+Under Cobb-Douglas technology, surplus is a constant fraction $\chi$ of revenue. Taking logarithms:
+\begin{equation}\label{eq:log_surplus}
+s_{imst} = C+\frac{\alpha}{\chi} k_{it} + \frac{1}{\chi} z_{m} + \frac{1}{\chi} a_i + \frac{1}{\chi} p_{st} + \frac{1}{\chi}\omega_{it} 
+- \frac{\beta}{\chi} w_{st} - \frac{\gamma}{\chi} \rho_{st}
+\end{equation}
+where lowercase letters denote logarithms and $C$ is a constant.
+
+The value of replacing manager $m$ with manager $m'$ at the same firm is:
+\begin{equation}\label{eq:manager_value}
+s_{im'st} - s_{imst} = \frac{1}{\chi}(z_{m'} - z_{m})
+\end{equation}
+
+Manager value equals the skill difference scaled by $1/\chi$. This scaling reflects the leverage effect: a 1\% increase in manager skill generates a $(1/\chi)\%$ increase in surplus, typically 5-10\% given our estimates of $\chi \approx 0.1-0.2$.
+
+\subsection{Empirical Specification}
+
+To estimate manager effects from observational data, we substitute unobserved prices and organizational capital with fixed effects:
+\begin{equation}\label{eq:empirical}
+s_{imst} = \frac{\alpha}{\chi} k_{it} + \frac{1}{\chi}\tilde{z}_m + \lambda_i + \mu_{st} + \tilde{\omega}_{it}
+\end{equation}
+where $\lambda_i = a_i/\chi$ captures time-invariant firm characteristics, $\mu_{st}$ absorbs sector-time variation in prices, and $\tilde{\omega}_{it} = \omega_{it}/\chi$ is rescaled residual productivity.
+
+The key identifying assumption is that residual productivity $\tilde{\omega}_{it}$ is uncorrelated with manager assignment conditional on firm and sector-time fixed effects. This allows manager skills and physical capital to be arbitrarily correlated with firm quality and market conditions—better firms may hire better managers and invest more. We only require that the residual variation in productivity is orthogonal to manager assignment.
+
+\subsection{Challenges in Estimating Manager Effects}
+
+Three challenges complicate the estimation of manager effects from equation \eqref{eq:empirical}:
+
+First, residual productivity $\tilde{\omega}_{it}$ may correlate with manager changes if firms replace CEOs in response to productivity shocks. This reverse causality would bias estimates of manager effects.
+
+Second, manager fixed effects are only identified for the connected set of firms and managers linked through mobility. Effects are measured relative to a reference group within each connected component, limiting comparability across components.
+
+Third, and most importantly, estimated manager effects $\hat{z}_m$ include both true skill and averaged residual productivity: $\hat{z}_m = z_m + \bar{\omega}_{im}$ where $\bar{\omega}_{im}$ is the average $\tilde{\omega}_{it}$ during manager $m$'s tenure at firm $i$. When managers have short tenures, this noise component dominates the signal, making raw fixed effects unreliable measures of true skill.
+
+Our placebo-controlled approach addresses these challenges by explicitly measuring and removing the noise component from estimated manager effects.
+
+\section{Corporate Data from Hungary}
+
+Hungary provides an ideal setting for studying CEO effects in private firms. The country offers complete administrative data coverage for all incorporated businesses with mandatory CEO registration, spanning over 30 years from the transition economy of the 1990s through EU accession in 2004 to the present. This comprehensive coverage enables us to track CEO careers across firms and construct the mobility networks necessary for identification.
+
+\subsection{Data Sources}
+
+Our analysis combines two administrative datasets. The firm registry, maintained by Hungarian corporate courts, contains legally mandated records on all company representatives—individuals authorized to act on behalf of firms in legal and business matters. These records include CEOs and other executives with signatory rights, tracked through a temporal database where each entry reflects representation status over specific time intervals. Updates occur not only when positions change but also when personal identifiers are modified or reporting standards evolve. The registry provides names, addresses, dates of birth (from 2010), and mother's names (from 1999), though numerical identifiers only exist from 2013 onward.
+
+The balance sheet dataset contains annual financial reports for essentially all Hungarian firms required to file statements. This includes sales revenue, export revenue, employment counts, tangible and intangible assets, raw material and intermediate input costs, personnel expenses, and indicators for state and foreign ownership. The two datasets together cover 1,063,172 firms over 31 years, yielding 10,151,997 firm-year observations before sample restrictions.
+
+\subsection{Entity Resolution and CEO Identification}
+
+Constructing a panel of CEOs requires resolving two fundamental questions: what constitutes a firm and who qualifies as a CEO. For firms, we track legal entities through time using tax identifiers, which remain relatively stable despite occasional reuse (approximately 2\% of cases). Mergers and acquisitions create new entities in our framework—we follow individual legal entities rather than economic conglomerates.
+
+Identifying individual CEOs poses greater challenges. Before 2013, no numerical identifiers existed, requiring entity resolution based on names, addresses, mother's names, and birthdates. We link records across these dimensions to create unique person identifiers, enabling tracking across firms and over time. The quality of matching improves substantially after 1999 (mother's names) and 2010 (birthdates), though even the 1990s data achieves reasonable coverage through careful name and address matching.
+
+CEO identification within firms requires additional heuristics since job titles are inconsistently recorded. When explicit "managing director" titles exist (approximately 80\% of cases), we use them directly. For remaining cases, we assume all representatives are CEOs if three or fewer exist at the firm. When more than three representatives are present, we assign CEO status based on continuity with previously identified CEOs. Time spans between appointments are often unclosed or non-contiguous, requiring imputation based on sequential information and assuming representatives remain active if their tenure includes June 21 of each year.
+
+\subsection{Sample Restrictions}
+
+We apply several restrictions to create a sample suitable for productivity analysis. First, we exclude mining and finance sectors due to their specialized accounting frameworks and regulatory environments. Second, we drop firms ever having more than two simultaneous CEOs (removing 1,519,524 observations) to avoid complex governance structures that complicate identification. Third, we exclude firms with more than six CEO changes over the sample period (45,216 observations) to reduce noise from potentially misclassified transitions. Fourth, we remove all state-owned enterprises, as their objectives and constraints differ fundamentally from private businesses.
+
+Most importantly, we restrict attention to firms that at some point employ at least five workers. This filter removes three-quarters of observations but eliminates shell companies, tax optimization vehicles, and self-employment arrangements masquerading as corporations. The remaining firms represent genuine businesses with meaningful economic activity where management quality plausibly affects performance.
+
+\subsection{CEO and Firm Characteristics}
+
+The resulting sample contains distinctive patterns of CEO demographics and tenure. Among CEOs in our analysis sample, 95\% have Hungarian names (verified algorithmically), with only 5\% foreign. Gender identification among Hungarian-named CEOs reveals 73\% male representation. Remarkably, 69\% of CEOs were present at their firm's founding, highlighting the prevalence of founder-managers in private businesses.
+
+CEO mobility creates networks essential for fixed effects identification. Approximately 18\% of CEOs manage multiple firms during the sample period, generating connections between firms. The largest connected component of the bipartite firm-CEO network contains 26,000 managers and a comparable number of firms—roughly 10-15\% of all managers but representing a substantial share of economic activity. This connected component enables comparison of CEO effects within a common reference frame, though raises questions about representativeness we address in robustness checks.
+
+\subsection{CEO Turnover Patterns}
+
+CEO tenure exhibits substantial variation across firms. While 63\% of firms retain the same CEO throughout their observed lifetime, the remaining firms experience leadership transitions that enable identification. Among firm-years with CEO information, 82\% have single CEOs, 15\% have two, and 3\% have more (before our sample restrictions). CEO spell lengths follow approximately an exponential distribution with a 20\% annual hazard rate, implying typical tenures of 4-5 years.
+
+To validate our placebo methodology, we verify that synthetically generated CEO transitions match actual patterns. Taking firms with stable leadership (same CEO for 7+ years), we randomly assign placebo transitions using the empirical hazard function. The resulting spell length distribution closely mirrors actual CEO changes: 23\% last one year, 18\% two years, declining thereafter. This similarity confirms that our placebo transitions capture realistic turnover dynamics while maintaining the crucial property that no actual skill change occurs.
 
 \end{document}

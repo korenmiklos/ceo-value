@@ -32,3 +32,18 @@
 ```
 temp/analysis-sample.dta → temp/edgelist.csv → temp/largest_component_managers.csv
 ```
+
+---
+you are a top economist writing clearly for a general interest journal. your job
+is to write a first draft of a paper based on a presentation and a paper outline,
+following a style. paper outline: @doc/outline.md writing stlye you should
+STRICTLY follow when writing and explaining complex economic and econometric
+issues: @doc/style.tex  the content of the paper is based on this presentation
+@doc/presentation-summary.md if you need more details (but only to fill in
+details), you can check the presentation transcript @doc/2025-09-02-lugano.txt and
+the exhibits in output/table/*.tex or output/figure/*.pdf. write the draft in
+output/paper.tex
+
+proceed by section. follow the outline closely and ensure that each section is well-developed and clearly articulated. 
+
+first write section 3, conceptual framework,
