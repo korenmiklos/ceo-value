@@ -82,30 +82,30 @@ Revenue increases in manager skill $Z_m$, organizational capital $A_i$, and phys
 
 \subsection{Surplus and Manager Value}
 
-The surplus accruing to fixed factors equals revenue minus payments to variable inputs:
+The surplus accruing to fixed factors—what owners and managers ultimately care about—equals revenue minus payments to variable inputs:
 \begin{equation}\label{eq:surplus}
 S_{imst} = R_{imst} - W_{st}L_{imt} - \varrho_{st}M_{imt} = \chi R_{imst}
 \end{equation}
 
-Under Cobb-Douglas technology, surplus is a constant fraction $\chi$ of revenue. Taking logarithms:
-\begin{equation}\label{eq:log_surplus}
-s_{imst} = C+\frac{\alpha}{\chi} k_{it} + \frac{1}{\chi} z_{m} + \frac{1}{\chi} a_i + \frac{1}{\chi} p_{st} + \frac{1}{\chi}\omega_{it} 
+Under Cobb-Douglas technology, surplus is a constant fraction $\chi$ of revenue. This proportionality means we can work directly with revenue throughout our analysis, simplifying estimation while preserving all economic insights. Taking logarithms of the revenue equation:
+\begin{equation}\label{eq:log_revenue}
+r_{imst} = C+\frac{\alpha}{\chi} k_{it} + \frac{1}{\chi} z_{m} + \frac{1}{\chi} a_i + \frac{1}{\chi} p_{st} + \frac{1}{\chi}\omega_{it} 
 - \frac{\beta}{\chi} w_{st} - \frac{\gamma}{\chi} \rho_{st}
 \end{equation}
 where lowercase letters denote logarithms and $C$ is a constant.
 
 The value of replacing manager $m$ with manager $m'$ at the same firm is:
 \begin{equation}\label{eq:manager_value}
-s_{im'st} - s_{imst} = \frac{1}{\chi}(z_{m'} - z_{m})
+r_{im'st} - r_{imst} = \frac{1}{\chi}(z_{m'} - z_{m})
 \end{equation}
 
-Manager value equals the skill difference scaled by $1/\chi$. This scaling reflects the leverage effect: a 1\% increase in manager skill generates a $(1/\chi)\%$ increase in surplus, typically 5-10\% given our estimates of $\chi \approx 0.1-0.2$.
+Manager value equals the skill difference scaled by $1/\chi$. This scaling reflects the leverage effect: a 1\% increase in manager skill generates a $(1/\chi)\%$ increase in revenue, typically 5-10\% given our estimates of $\chi \approx 0.1-0.2$.
 
 \subsection{Empirical Specification}
 
 To estimate manager effects from observational data, we substitute unobserved prices and organizational capital with fixed effects:
 \begin{equation}\label{eq:empirical}
-s_{imst} = \frac{\alpha}{\chi} k_{it} + \frac{1}{\chi}\tilde{z}_m + \lambda_i + \mu_{st} + \tilde{\omega}_{it}
+r_{imst} = \frac{\alpha}{\chi} k_{it} + \frac{1}{\chi}\tilde{z}_m + \lambda_i + \mu_{st} + \tilde{\omega}_{it}
 \end{equation}
 where $\lambda_i = a_i/\chi$ captures time-invariant firm characteristics, $\mu_{st}$ absorbs sector-time variation in prices, and $\tilde{\omega}_{it} = \omega_{it}/\chi$ is rescaled residual productivity.
 
@@ -179,7 +179,7 @@ With $\hat{\chi}$ measured, we estimate the revenue function to recover the capi
 \begin{equation}
 r_{imst} = \frac{\alpha}{\chi} k_{it} + \frac{1}{\chi}z_m + \lambda_i + \mu_{st} + \tilde{\omega}_{it}
 \end{equation}
-where $r_{imst} = \log S_{imst}$ is log surplus, $k_{it} = \log K_{it}$ is log capital, $\lambda_i$ captures firm fixed effects, $\mu_{st}$ are sector-year fixed effects, and $\tilde{\omega}_{it} = \omega_{it}/\chi$ is rescaled residual productivity.
+where $r_{imst} = \log R_{imst}$ is log revenue, $k_{it} = \log K_{it}$ is log capital, $\lambda_i$ captures firm fixed effects, $\mu_{st}$ are sector-year fixed effects, and $\tilde{\omega}_{it} = \omega_{it}/\chi$ is rescaled residual productivity.
 
 In practice, we allow firm productivity to vary across CEOs by including firm-CEO fixed effects $\lambda_{im}$ rather than separate firm and manager effects. This captures the joint contribution of organizational capital and manager skill for each firm-manager pair. We also include controls for firm age, intangible asset presence, and foreign ownership, though these barely affect the capital coefficient.
 
@@ -189,81 +189,72 @@ We estimate using OLS with high-dimensional fixed effects via \texttt{reghdfe} \
 
 \subsection{Step 3: Recovering Manager Fixed Effects}
 
-After estimating the revenue function, we compute residualized surplus by removing the contributions of physical capital and other controls:
+After estimating the revenue function, we compute total factor productivity (TFP) by removing the contribution of capital from revenue:
 \begin{equation}
-\tilde{s}_{imst} = s_{imst} - \hat{\alpha} k_{it} - \text{controls} - \hat{\mu}_{st}
+\text{TFP}_{imst} = \hat{\chi} r_{imst} - \hat{\alpha} k_{it} - \hat{\mu}_{st} = z_m + \lambda_i + \omega_{it}
 \end{equation}
 
-This residualized surplus contains three components: organizational capital ($a_i$), manager skill ($z_m$), and residual productivity ($\omega_{it}$). To separate manager effects from firm effects, we implement three complementary approaches.
-
-\subsubsection{Within-Firm CEO Changes}
-
-For firms experiencing CEO transitions, we can identify relative skill differences between successive CEOs. Normalizing the first CEO's skill to zero, subsequent CEOs' effects measure productivity changes relative to this baseline. If a firm has $n$ CEOs over time, we can estimate $n-1$ relative effects. This within-firm approach differences out time-invariant organizational capital, providing clean identification under our assumption that residual productivity shocks are uncorrelated with CEO changes.
-
-The challenge is that these within-firm estimates only identify relative, not absolute, skill levels. We cannot compare CEOs across different firms without additional structure. Moreover, firms with CEO changes may differ systematically from those with stable leadership, limiting external validity.
-
-\subsubsection{Largest Connected Component}
-
-To enable broader comparisons, we estimate a two-way fixed effects model in the spirit of \citet{Abowd1999Econometrica}:
+This TFP measure contains manager skill, firm effects, and residual productivity. To isolate manager effects, we remove the firm fixed effect by subtracting the firm average:
 \begin{equation}
-\tilde{s}_{imst} = \theta_i + \psi_m + \nu_{imst}
+\Delta\text{TFP}_{imt} = \Delta z_{m_{it}} + \Delta\omega_{it}
 \end{equation}
-where $\theta_i$ are firm fixed effects and $\psi_m$ are manager fixed effects.
+where $\Delta x_{it} := x_{it} - \frac{1}{N_i}\sum_{\tau} x_{i\tau}$ denotes the within-firm deviation.
 
-This system is only identified for firms and managers in the same connected component—sets linked through manager mobility. Two CEOs' skills can be compared if they worked at the same firm or connect through a chain of firms and CEOs. Think of it as a network where firms are squares, managers are circles, and edges represent employment relationships. Within a connected component, all manager effects are comparable because they share a common reference point.
+When a firm changes CEOs, the change in TFP captures both the true skill difference and accumulated noise. The noise component—the average of residual productivity shocks during each manager's tenure—can dominate the signal when tenures are short.
 
-Our largest connected component contains roughly 26,000 managers and comparable numbers of firms. While this represents only 10-15\% of all managers, it captures a substantial share of economic activity since connected firms tend to be larger and more successful. Managers outside this component—typically founders who never leave their firms—cannot be compared to those within it.
+\subsubsection{Two-Way Fixed Effects in the Connected Component}
 
-The practical estimation proceeds by selecting the largest connected component, normalizing one manager's effect to zero as the reference point, and estimating the system via within-transformation. The resulting manager fixed effects $\hat{\psi}_m$ represent skill differences relative to the reference manager.
-
-\subsubsection{The Noise Problem}
-
-Both approaches yield manager effect estimates, but these estimates combine true skill with noise. Specifically, the estimated effect for manager $m$ at firm $i$ equals:
+For broader comparisons across firms, we estimate a two-way fixed effects model:
 \begin{equation}
-\hat{\psi}_m = \psi_m + \frac{1}{N_{im}} \sum_{t \in T_{im}} \omega_{it}
+\text{TFP}_{imst} = \lambda_i + \psi_m + \omega_{it}
 \end{equation}
-where $N_{im}$ is the number of years manager $m$ works at firm $i$, and $T_{im}$ denotes their tenure period.
 
-This averaging of residual productivity creates a severe small-sample problem. Consider a CEO managing a firm for just three years—a typical tenure in our data. Their estimated fixed effect includes the average of three random productivity shocks. If these shocks happen to be positive, we incorrectly classify them as a "good" CEO; if negative, as "bad." With short tenures dominating private firm data, most of the variation in estimated fixed effects reflects noise rather than true skill differences.
+This system is only identified within connected components—groups of firms and managers linked through mobility. Two managers can be compared if they worked at the same firm or connect through a chain of shared employment relationships. Our largest connected component contains 26,000 managers, enabling meaningful comparisons within this network. Following \citet{Abowd1999Econometrica}, we normalize one manager's effect to zero and estimate via within-transformation.
+
+\subsubsection{Three Identification Challenges}
+
+First, residual TFP trends may correlate with manager changes (reverse causality). Firms might replace CEOs when productivity declines, creating spurious negative effects for incoming managers. We do not need random mobility—manager quality can correlate with firm quality—but we require that residual productivity shocks are orthogonal to CEO transitions.
+
+Second, firm and manager effects are only interpretable within their connected component. Effects measure relative differences from a baseline group, limiting cross-component comparisons.
+
+Third, and most critically, estimated fixed effects contain substantial small-sample noise. With typical CEO tenures of 3-5 years, the averaged residual productivity often overwhelms true skill differences. Instrumental variable approaches that rely on exogenous CEO removal (death, hospitalization) address reverse causality but exacerbate the small-sample problem by further restricting the data.
 
 \subsection{Step 4: Placebo-Controlled Event Studies}
 
-To separate signal from noise, we implement a novel placebo-controlled event study design. The key insight is that randomly splitting a long CEO tenure creates the same mechanical averaging problem as actual CEO changes, but without any true skill difference. By comparing actual transitions to these placebo transitions, we can filter out the noise component.
+Our solution to the noise problem leverages a simple insight: when CEOs do not change, we still observe variation in TFP driven purely by noise:
+\begin{equation}
+\Delta\text{TFP}_{imt} = \Delta\omega_{it}
+\end{equation}
+
+By applying the same estimation procedure to "non-changes," we can measure and filter out the noise component.
 
 \subsubsection{Constructing Placebo Transitions}
 
-We begin by identifying firms with stable leadership—those where the same CEO remains for at least seven consecutive years. These firms provide a clean environment where we know no actual skill change occurs. Within each stable firm, we randomly assign a placebo CEO change using the empirical hazard function from actual transitions (approximately 20\% annual probability).
+We construct placebo CEO transitions in three steps. First, we estimate the time-varying hazard of actual CEO changes, which averages approximately 20\% per year. Second, we identify firms with long CEO tenures (7+ years) where no actual change occurs. Third, we randomly assign placebo transitions to these stable firms using the estimated hazard function.
 
-For example, consider a firm with the same CEO from 1992 to 2000. We might randomly assign a placebo transition in 1996, splitting the tenure into two pseudo-CEOs: one from 1992-1995 and another from 1996-2000. Crucially, we ensure placebo transitions never overlap with actual CEO changes in the same firm, preserving the interpretation that no real skill change occurs.
-
-The timing of placebo transitions follows the same distribution as actual changes. Just as real CEOs face a 20\% annual replacement probability, our placebo CEOs "exit" with the same hazard. This ensures the mechanical noise properties—the averaging of residual productivity over different tenure lengths—match between treatment and placebo groups.
+For instance, a firm with the same CEO from 1992-2000 might receive a placebo transition in 1996, artificially splitting the tenure into two pseudo-CEOs. The timing follows the empirical hazard: just as real CEOs face a 20\% annual exit probability, placebo CEOs "exit" with the same rate. This ensures the mechanical noise properties—averaging residual productivity over varying tenure lengths—match between actual and placebo groups.
 
 \subsubsection{Event Study Design}
 
-We implement the event study over a seven-year window: four years before the CEO change ($t \in \{-4, -3, -2, -1\}$) and three years after ($t \in \{0, 1, 2, 3\}$), where $t=0$ denotes the first year of the new CEO. The pre-period allows us to check for anticipation effects or reverse causality, while the post-period captures the new CEO's impact.
-
-For both actual and placebo transitions, we estimate:
+We implement the event study around CEO transitions at time $g$, comparing actual changes (treatment) to placebo changes (control):
 \begin{equation}
-s_{it} = \sum_{\tau=-4}^{3} \beta_\tau D_{it}^\tau + \gamma_i + \delta_t + \varepsilon_{it}
+\text{TFP}_{imt} = \lambda_i + \gamma_{t-g} + \omega_{it}
 \end{equation}
-where $D_{it}^\tau$ indicates event time $\tau$, $\gamma_i$ are firm fixed effects, and $\delta_t$ are calendar year effects. We normalize $\beta_{-1} = 0$, making the year before transition our reference point.
 
-The challenge is that our "control" group (placebo firms) also receives a treatment, just a fake one. Standard difference-in-differences estimators assume untreated controls. We therefore adapt the approach, similar to \citet{Callaway2021JoLE}, to account for two treatment types. The key innovation is aligning placebo transitions with actual transitions in event time—both groups experience their respective "changes" at $t=0$, enabling precise comparison of dynamics.
+The coefficients $\gamma_{t-g}$ capture the evolution of TFP in event time, where $t-g \in \{-4, -3, -2, -1, 0, 1, 2, 3\}$ and we normalize $\gamma_{-1} = 0$.
 
-\subsubsection{Identifying Variation in CEO Quality}
+Because both groups receive a "treatment" (actual or placebo), standard difference-in-differences fails. We adapt the \citet{Callaway2021JoLE} estimator for two treatment types using the \texttt{xt2treatments} package \citep{Koren2024xt2treatments}. The key innovation is precisely aligning transitions in event time—both actual and placebo changes occur at $t=0$—enabling clean comparison of dynamics.
 
-Simply comparing average outcomes between actual and placebo transitions would only reveal whether CEO changes matter at all, not whether better CEOs outperform worse ones. To examine quality differences, we split actual transitions based on the incoming CEO's estimated fixed effect from Step 3.
+\subsubsection{Separating Good from Bad CEOs}
 
-Despite the noise in these estimates, they contain signal about true quality. CEOs with above-median estimated effects are classified as "good," those below as "bad." We then run separate event studies for each group, always comparing against the same placebo transitions.
+To examine heterogeneity in CEO quality, we split actual transitions based on the incoming CEO's estimated fixed effect $\hat{\psi}_m$ from Step 3. CEOs with above-median $\hat{\psi}_m$ are classified as "good," those below as "bad."
 
-This approach creates a specific bias: since estimated effects include noise, "good" CEOs are partly good by luck (positive residual productivity draws), while "bad" CEOs are partly bad by misfortune. The placebo control precisely corrects this bias by measuring how much of the apparent quality difference stems from this mechanical selection on noise.
+This classification is noisy—"good" CEOs are partly lucky (positive $\omega$ draws), "bad" CEOs partly unlucky (negative $\omega$ draws). But this is precisely the bias our placebo control corrects. When we randomly split stable tenures and classify the resulting pseudo-CEOs as good or bad based on their averaged $\omega$, we generate the same mechanical selection bias without any true quality difference.
 
-\subsubsection{Interpreting the Placebo Correction}
+\subsubsection{The Placebo Correction in Practice}
 
-The event study yields three key pieces of evidence. First, examining pre-trends reveals whether firms change CEOs in response to performance changes. Second, comparing actual to placebo transitions identifies the average causal effect of CEO replacement. Third, contrasting good versus bad CEOs (both relative to placebos) estimates the variance in CEO quality.
+The results are striking. The raw comparison suggests good CEOs outperform bad ones by 22.5\%. But placebo transitions—where no skill change occurs—generate a 17.0\% gap purely from noise. The true causal effect is the difference: 5.5\%.
 
-The placebo correction is substantial. Without it, we would conclude that good CEOs improve firm performance by 22.5\% relative to bad CEOs. The placebo transitions, however, generate a 17.0\% "effect" despite no actual change occurring—pure noise from the mechanical averaging problem. The true causal difference is thus only 5.5\% (22.5\% - 17.0\%), meaning three-quarters of the apparent CEO effect is spurious.
-
-This finding has profound implications for empirical work using manager fixed effects. Studies that treat estimated manager effects as explanatory variables likely capture mostly noise, especially when based on short panels. Our placebo method provides a practical solution: always benchmark against placebo transitions to separate signal from noise.
+This decomposition reveals that three-quarters of apparent CEO effects are spurious. The finding explains why studies using manager fixed effects as explanatory variables often find weak or inconsistent results—they are measuring mostly noise. Our placebo method provides a practical solution for future research: always benchmark against placebo transitions to isolate true effects from mechanical bias.
 
 \end{document}
