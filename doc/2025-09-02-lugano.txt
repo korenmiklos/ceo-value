@@ -1,0 +1,1129 @@
+And so when Amanda told me about this workshop, my first reaction was, wow, this is something that I would be super, super interested in because we've been working with very similar data for a long time.
+
+And actually, in that time, we were starting to write this paper on which is mostly about what this data looks like and how you can estimate CU value in this data set.
+
+So I got super excited about the opportunity.
+
+And we can geek out on some of the data details maybe later in coffee break.
+
+But I also added that because I think we're having very, very similar data cleaning issues in Hungary as in Switzerland.
+
+So this is joint work with a large group of people.
+
+Christina is at Monash.
+
+Balint and Andras are at the research institute where I am when I am in Budapest.
+
+And then Almo is at Corvinus, which is the business school in Budapest.
+
+And also I should put up some acknowledgment and disclaimer about funding.
+
+I'm grateful for funding of the ERC and the Hungarian Innovation Office.
+
+So what we are trying to do in this research is to think about what is the marginal product of a CEO.
+
+And there's a large literature about CEOs.
+
+There's also a large literature about management practices.
+
+And so we know that what CEOs do is important and different management practices can change firm valuation and productivity and can have all kinds of impact on the firm.
+
+So this is just a very, very selective, just some pointers to the literature.
+
+But not all, but a lot of this literature is starting from, say, publicly listed companies in the US.
+
+So you go to, honestly, that's what the data is.
+
+So you go to your university website and you download Compustat and you play with the data and you're happy.
+
+And of course, there's a lot of good work.
+
+I don't know what I mean.
+
+But I think there's a lot of action among public firms in different settings.
+
+I'm sorry, non-public firms.
+
+And so this is what we're thinking about.
+
+So why is that potentially different?
+
+One is that in privately held companies, you have fewer reporting requirements.
+
+So hopefully you find some balance sheet and we'll talk about that.
+
+But we know almost nothing about CEO compensation.
+
+We don't really know about the decisions, unlike in very, very well, highly transparent public corporations.
+
+Another issue, this is like a data issue.
+
+There's fewer data.
+
+Another issue is more like an economic question that private corporations, their owners typically have some degree of control over decisions.
+
+So in a large publicly listed company, ownership is so dispersed that the board of directors has basically complete control of what happens to the firm.
+
+Whereas if you have a family firm or a very, very small, maybe venture capital funded, but a small private business, then typically the owners have some say.
+
+So we want to say something about that as well.
+
+And many of these firms are small.
+
+So even if they do have data, they are more noisy.
+
+And this is something we will see in our application as well.
+
+So we're trying to make three contributions here.
+
+One is kind of a model based approach to this.
+
+So how can we measure CEO effects when some of the decisions are made by the owners?
+
+I call it a model, but it's basically going to be a production function.
+
+But at least it's a theoretical framework to think about the measurements.
+
+The second is the data effort.
+
+And I hope you will be sympathetic.
+
+We don't go back 140 years.
+
+Just in this case, 30 years.
+
+We actually have some data from the '80s.
+
+But as you can imagine, it's messier.
+
+So I'm just going to focus on the last 30 years of Hungarian corporations.
+
+And then we also identified some kind of econometric issues that we're solving with a new method.
+
+And just to give a very quick preview of the result, when we look at CEO tenure-- so remember, we have 31 years of data.
+
+Of course, not for every firm, because not every firm lives for 31 years.
+
+But for a long-lived firm, we have a good, long data set.
+
+And when they change CEOs, we can see what happens at the company.
+
+And we can correlate these with outcomes, what's happening at the firm.
+
+But a lot of this correlation with outcomes is going to be noise.
+
+And I will explain why there is.
+
+So if you try to compare what's happening under good CEOs versus bad CEOs, then about 3/4 or 4/5, depending on the sample of the differences, is noise.
+
+But we do find meaningful and statistically significantly different effects between good and bad CEOs to outcomes.
+
+So 5% is on TFP.
+
+So it's actually a good-- it's a big effect, you see.
+
+In some sense, a 22% effect on TFP would be huge.
+
+And you shouldn't believe it, because actually much of it is just noise.
+
+So I'll tell you about the modeling framework.
+
+Then we'll jump into the-- but I think we can be quick with the data, because it's going to be very, very similar to what you are working on.
+
+And then estimation methods and show you some results.
+
+As I mentioned, this is the first time we are presenting this.
+
+So we did a whole bunch of robustness checks with the results.
+
+I'm not going to show all of that.
+
+But if you have any other suggestions of what else to check and why you don't believe us, we're super happy to hear about that.
+
+So as I mentioned, we're going to work with a production function.
+
+But it's important to enumerate the inputs here.
+
+So I is going to be the firm, M is going to be the manager, and T is time.
+
+And sometimes you're going to have sector as well, when some things are sector-specific.
+
+So here I didn't include that.
+
+And so let's start from the standard part, capital, labor, material.
+
+It's a Cobb-Douglas production function.
+
+So we can imagine what that is.
+
+One thing that we are assuming, though, is that capital is chosen by the owner, or at least with the approval of the owner.
+
+So if a new manager comes, they cannot just build a new plant or buy a completely new production line, because that would require typically a lot of funding.
+
+And the manager would not be the one who puts up the money.
+
+So at least you need to have the approval of the owner.
+
+You can also decide it by the owner.
+
+And then the first three things are what you would lump together as total factor of productivity.
+
+And omega is still our residual productivity, so our measure of ignorance.
+
+So after we controlled everything we could, there's still going to be an error term.
+
+And so that's going to be our omega.
+
+And we're going to treat it much like an error term, which has econometric implications.
+
+But we'll get to that in a second.
+
+But we have two other components of TFP.
+
+One is firm-specific.
+
+So we think of it as organizational capital or brand value.
+
+I mean, imagine what would be a good private-- I mean, private companies can have brand values as well.
+
+So if they replace their manager, a lot of things that the firm is valuable for is already in place.
+
+So the new manager is not going-- maybe they're going to redesign the logo.
+
+Sometimes managers like to do that.
+
+But the brand is there.
+
+The customer capital is there.
+
+Maybe some of the processes are already in place.
+
+So we think of this as a fixed effect.
+
+So it's time invariant for a firm.
+
+In all honesty, I think a better model would be where maybe the manager can slowly change these things.
+
+So I can redesign one logo at a time or reshuffle the team structure within the organization.
+
+And this organizational capital can be built up by the manager, but probably not immediately after arrival.
+
+But we abstracted away from the dynamic considerations.
+
+And then Z is manager-specific.
+
+And we're just going to capture that's the manager skill.
+
+Good managers contribute a higher TFP to the company.
+
+And that's a standard, like a Lucas 1978 type assumption.
+
+Some people are better in running companies than others.
+
+And so given that what the-- so this is more like a-- so in some sense, this is more like a plant manager in a way.
+
+And I guess we're implicitly saying that in private companies, CEOs are somewhat closer to plant managers or production managers than the grand CEOs of large corporations who are like superstars.
+
+For certainly, they can decide on labor and material usage, like operational decisions.
+
+Say, OK, yeah, you can-- whatever you decide to do.
+
+And so they're going to optimize over that.
+
+But they're going to take as given all the other factors.
+
+And we don't need to know the algebra details.
+
+But the important thing here is that after optimization, the revenue of the firm is going to depend on these owner-decided factor, the manager skills, the owner-decided stock of capital.
+
+And basically, we're going to have different metrics for the stock of capital and the market prices prevailing in the sector.
+
+So here I added some sector indices because prices might be different across sectors.
+
+And so what do I mean by the value of CEO is that some of this revenue gets retained by the owners and the managers as surplus or rent or quasi-rent, if you like.
+
+I mean, some you pay out to workers and to purchase the first input.
+
+But the residual is going to be a fraction of the revenue.
+
+So that's the benefit of Cobb-Douglas.
+
+It's going to be a constant fraction of the revenue.
+
+So then what the owner and the manager do together is going to determine the surplus of the company.
+
+And so then another question is how they divide that surplus.
+
+And that's the whole-- at least partly-- the question of corporate finance and corporate governance.
+
+I'm not really going into that.
+
+But I'm interested in how do managers contribute to this surplus.
+
+So obviously, if I have a better manager, they increase the TFP of the company.
+
+They're going to hire more workers.
+
+They're going to buy more inputs.
+
+And they're going to increase the-- this is like the earnings or operating surplus of the company.
+
+So actually, the one thing to note here from this framework actually is this 1 over chi exponent.
+
+Chi is less than 1.
+
+Chi is the surplus share.
+
+So 1 over-- our estimated chi is around 10%, 15%.
+
+So 1 over chi is a relatively big number.
+
+And that basically means that all of these firm and manager-decided inputs get leveraged, get magnified.
+
+And the idea is that if you're a 1% better manager-- so Zn goes up by 1%-- your surplus doesn't go up by 1% because you can actually grow bigger.
+
+You can hire more workers, buy more materials, and you can expand by more than 1%, 7%, 8%.
+
+And so that magnification is going to be part of our measurement.
+
+So we're just taking logs, and we're soaking up the prices in a industry time fixed effect.
+
+And this already looks like something that's very estimable, with two-way fixed effect or something.
+
+You might already have some concerns about what can go wrong if you try to estimate it.
+
+And yes, a number of things can go wrong.
+
+So let me come back, because I have a whole section devoted to that, and tell you more about the data on which we're trying to estimate this.
+
+So as I mentioned, we're looking at the Hungarian corporate registry.
+
+So we have very good data coverage.
+
+And I used to think that 30-plus years of data, we are so cool.
+
+I still think this is really cool data, even though it's not 140 years.
+
+And I think for these type of studies, having long time spans is useful.
+
+Now of course, some very, very basic economic history for Hungary is that we used to be a communist/socialist economy up until 1990.
+
+So the transition was very rapid.
+
+But in terms of normalizing the corporate courts and the corporate legal code, it really finished in 1992.
+
+So we're going to start our data in 1992.
+
+We have, as I mentioned, we have some data for the 1980s, and we're thinking about how to integrate that.
+
+But I think that would be a different-- there were managers, even back in the '80s, who were running big organizations.
+
+They probably had a little bit different roles than later.
+
+So we're going to ignore that for now.
+
+So one thing that we should, and I haven't done yet, is to maybe start in after the EU accession, which we could think that kind of solidified as kind of a market economy before that.
+
+Yes, there was very rapid liberalization, but still the 1990s was like the Wild West from 2004 onwards, and maybe up until 2010, 2015, because currently it's not really a liberal market economy anymore.
+
+So the sampling, the time spent could be different as well.
+
+So the data sources are-- the corporate registry, the firm registry, is actually very similar.
+
+I'll tell you a bit more about that.
+
+And we're merging it with the balance sheet and financial statement data.
+
+So here, the overlap, I don't have it as a percentage.
+
+That's why I was shouting 75.
+
+I think we have ours a little bit bigger than 75, but not much.
+
+And maybe I can venture a guess.
+
+And similarly, if you're, say, a solo entrepreneur or like a licensed practitioner that don't have to incorporate, that may not be in the firm registry, but they might file.
+
+So in either way, there are discrepancies.
+
+But when you think about incorporated businesses that are of any meaningful size, basically more than one person, they're going to be in both data sets.
+
+So just a bit about the data cleaning, because I think you can at least commiserate or appreciate and we can compare notes.
+
+Two questions we have to ask.
+
+This is much like in Switzerland.
+
+This is like a legal-- this is the lawyer's view of the economy, which is super helpful because there's lots of documents, but there are some issues when we are thinking as an economist.
+
+So the first question is, what is a firm?
+
+So we are in a better position because even though there are counties in Hungary, but they don't really have wide autonomy, the registry courts are in the county, but they actually use the same system.
+
+And they even use the same numbering system.
+
+So that's fine.
+
+You can change your legal-based identifier for various reasons, moving counties, for example, or incorporating in a different form.
+
+So we can track all of this if you're-- as long as you have one-to-one transitions.
+
+And these are quite frequent.
+
+Over 30 years, initially, you have a small partnership, and then you become a limited liability company, or then you move your headquarters.
+
+But this is not a problem.
+
+If there's mergers and acquisitions, then we treat those as separate firms.
+
+So for us, it's like one legal entity followed through, if you can follow through, through time.
+
+And we're also kind of very lucky that for the tax identifiers, they're relatively constant identifier.
+
+It was our data engineer who was working with this data who came up with that saying, which I think is very fitting, that in this data, everything and its opposite is true.
+
+So once you formulate the hypothesis that, for example, the tax identifier is a valid, unique identifier for a firm, then yes, 98% of the time it is.
+
+But say 2% of the time, they give out the same tax identifier because they forgot that it's already out there or something.
+
+But 98% is good enough.
+
+And I think this resolves quite well.
+
+The related question is who is a CEO?
+
+And there the issue is that we don't have numerical identifiers, at least not before 2013.
+
+We have after 2013.
+
+But we have the name always.
+
+Often we have the home address.
+
+In the early days, it's often just a name.
+
+From 1999 onwards, we have the mother's name, which is very good to make someone unique because you're matching one on more name components.
+
+And then from 2010 onwards, we have the birth date.
+
+And so once you have the birth date, you can exactly match people.
+
+So we do an entity resolution based on these things with different flavors in different years.
+
+But I think by now, it's a very good coverage of the entire data set.
+
+So the early '90s would be a little bit worse, and the 1980s would be much worse.
+
+But I think for the 30 years, it's a fairly decent coverage.
+
+Another issue, the time spans are not always closed or contiguous.
+
+So we have to go in and when, say, two CEOs replace one another, it's not always recorded that the first one leaves.
+
+And then we have to do that by ourselves.
+
+And the other is like, who is the CEO?
+
+So we have a very German corporate code.
+
+And so these managing directors or firm representatives are all recorded there.
+
+Sometimes these are, say, the attorney of the firm or the chief financial officer that are recorded.
+
+It could be-- so all kinds of entries show up in there.
+
+You're supposed to flag that who of these is the managing director, which is flagged about 80% of the time.
+
+So that's good.
+
+And then the rest, we basically impute based on past and present.
+
+So if you were reported as the managing director and you're still there and nobody is reported as the managing director, then we're going to flag you.
+
+Or if there are just three or fewer people left at the company and nobody knows who the managing director is, we're going to flag all of them.
+
+So these kind of imputations happen in the data.
+
+So for the analysis, we're going to exclude-- and I'll show you some descriptives about this.
+
+Sometimes firms have-- so dual, even among-- so when I say private-- and actually, this reminds me that we should exclude public firms, but there are very few.
+
+So you should think of-- there are like a couple hundred publicly listed companies in Hungary and several hundred thousand corporations.
+
+So for all intents and purposes, this population is all private.
+
+And even among private-- of course, among public companies, you have like boards and six directors and you have to figure out who is the boss.
+
+But even among private businesses, it's quite often the case that they have two CEOs, sometimes more.
+
+So we exclude those that have more.
+
+There are very few.
+
+We keep the two.
+
+And we exclude the firms that change CEOs too frequently.
+
+We have experimented with different cutoffs just to try to reduce the noise.
+
+We exclude the state-owned companies.
+
+We think that they would behave quite differently.
+
+And we exclude finance because we still don't know how to read finance balance sheets.
+
+And the kind of production function that I was writing down is probably not appropriate for banks and other similar institutions and for similar reasons in mining.
+
+And also in mining, there's very few companies.
+
+So let's not bother with that as a sector.
+
+Now we did the analysis for every firm.
+
+And it's going to be the same result, just a bit more noise than currently.
+
+So now we're limiting firms that at least sometime in their life reach five employees.
+
+So if you never grow big enough to have five people, then we leave you out of the sample.
+
+There's a lot, like three-quarter of the sample goes out here because there are a lot of firms that are not really firms.
+
+You just incorporate because that's an easy-- mind you, this is Hungary.
+
+This is not Switzerland.
+
+So you incorporate because that's an easier way to cheat on your taxes, for example.
+
+Or you incorporate because you didn't find a job and maybe you're looking for some self-employed opportunities.
+
+But these are not proper businesses necessarily.
+
+And they mostly add noise to the analysis.
+
+So we don't know much about-- That's a good point.
+
+So we should experiment with reasonable.
+
+There are some companies that are probably for data cleaning reasons that go crazy in here and have like 300 CEOs or 30.
+
+But I think we could experiment with different reasonable values, 10, 12, 2, and then see what happens.
+
+Some of those things will probably disappear in a fixed effect.
+
+Yeah, so one thing that we did see, and I don't have any table to back it up, is that the first, second, and third CEO, there's a difference.
+
+And from that point on, there's like no-- at least no average difference.
+
+Relative to the first CEO, the second CEO has-- the time period of the second CEO is associated with-- I'm trying to avoid causal language yet-- is associated with, I think, about 12% higher TFP.
+
+So that's a pretty big number.
+
+And then the third CEO is another, say, 10%.
+
+And from that point, fourth, fifth, there's no variation, which I think partly might be selection that if you never change your CEO, probably the CEO is kind of holding on to their seat.
+
+And that's not a good thing either.
+
+So we can look deeper into this, how you are doing in the CEO timeline.
+
+So we don't have much observables about the CEOs.
+
+We see their name, their address, and what else.
+
+So one thing we can say is that in our analysis sample, 95% of them have a Hungarian name that we have checked with an algorithm.
+
+So basically 5% are foreign.
+
+We have a paper that looks at foreign CEOs.
+
+Among the Hungarians, we want to do it for foreigners as well.
+
+But is Andrea a male name or a female name?
+
+That would be depending on whether you're Italian or not.
+
+Among Hungarians, we can see whether you're male.
+
+And so 73% is male. 69% of CEOs were there at the founding of the firm.
+
+So maybe we can do this first, second, third CEO without the founders and see what happens then.
+
+So the first few CEOs are associated with multiple businesses.
+
+And that's quite important because when we do our fixed effect analysis, we explain what that is, we're going to have to find a connected component in the network.
+
+And in that, we have 26,000 managers.
+
+We'll see what that means in just a little bit.
+
+So the overall sample, I just want to highlight two things here.
+
+One is that in total, we have about a million firms.
+
+But not all of them are in the sample.
+
+And here, the biggest exclusion is the size.
+
+So if we exclude the non-employee businesses, we drop the sample.
+
+And then the other thing is that there's a marked increase, especially in the '90s.
+
+Because as I mentioned, before the '90s, there was no private enterprise in Hungary.
+
+So that's when this started booming.
+
+And then maybe the third thing I want to highlight here is that there is this connected component of firms and CEOs.
+
+So that's a much smaller number than the entire analytical sample, but still a big chunk of people and firms.
+
+So we're going to treat this as a kind of a random subset of the sample.
+
+And actually, just looking at this table reminds me that we can actually check this.
+
+So we can do like balance tests and see whether this is a representative sample of the entire universe of firms.
+
+I mentioned that some firms have more than one CEO. 80% have one, but 80% of firm years have one CEO. 17% have two, 10% have more.
+
+And then a lot of firms are never changing their CEO.
+
+And then there's a nice kind of exponential or geometric distribution.
+
+Some firms have two CEOs, some firms have three.
+
+So how are we going to estimate this equation that I showed you?
+
+So we're going to work in a number of steps.
+
+So the first is to estimate this chi.
+
+Remember, that was a key parameter.
+
+And that's the share of surplus in revenue.
+
+And it's actually-- you do the derivation, but people have done this before us.
+
+It's actually totally legit to just measure that share in the data.
+
+So we don't need to run regressions or anything.
+
+So that chi is going to be, depending on the industry, between 10% and 20%.
+
+The second is that we're going to estimate the revenue function.
+
+And the goal of that is to recover the remaining coefficients, which in this case, it was only the alpha.
+
+That was the capital coefficient, but we're going to have more in the empirical specification.
+
+So we throw in kind of a lot of controls and fixed effects to hope that those coefficients are well identified.
+
+And it's actually-- it's very hard to-- so if you include controls, exclude controls, they don't move capital coefficient too much.
+
+And then when we actually think about managers, it's coming in three and four, step three and four.
+
+So step three is a fixed effect estimator.
+
+It's a two-way fixed effect estimator.
+
+And say, we are seeing a company run by a manager, and we want to attribute the success of this company to either the firm or the manager.
+
+So we're going to run firm and manager fixed effect.
+
+And if you know labor economics, in labor, it's very popular to run these type of estimations for workers and firms.
+
+And they have identified some challenges there.
+
+We'll touch on that a little bit.
+
+And then this is more like a check rather than an estimation.
+
+Of course, we're estimating, but I mentioned that we're ignoring the dynamics in the model.
+
+But we can actually check the event study, like what's happening at the firm before and after the arrival of a new CEO.
+
+And we can see, is it plausible that the new CEO is causing the changes?
+
+So basically, up to this, we assume that these manager fixed effects are causal.
+
+And I think with the event study, we cannot rule out everything, but at least we can check timing, timing issues.
+
+And I think it will be clearer once we see an example.
+
+Sorry, one more thing about the NAR.
+
+Just connect it.
+
+Let me think if I have some backup on this.
+
+So the idea is that-- Sorry, I'm not used to this.
+
+No, no, no.
+
+Sorry.
+
+So we have basically a network.
+
+So this is just some graph.
+
+It's network.
+
+Yeah, yeah.
+
+So it's like a graph language.
+
+It's a network of firms and managers.
+
+And actually, so to be correct, you can estimate these fixed effects on the entire sample, but you cannot compare them.
+
+You can have-- is there a marker?
+
+I don't think so.
+
+Oh, there it is.
+
+There it is.
+
+OK.
+
+So the squares are firms and dots are managers.
+
+So this firm has two managers, and then this manager shows up at another firm, which maybe has another manager.
+
+If I estimate these two firm fixed effects and three manager fixed effects, then I can compare them because whenever they work together, I can make this comparison.
+
+But we might have a completely different component of a network.
+
+For example, we can have these singletons where the founder is running their own firm and never interact with anybody else.
+
+So one company, one manager.
+
+Or we might have a different meaningful network, but separate it from the other.
+
+So then they will not be comparable.
+
+And the idea is just simply that when you're estimating fixed effect, you need to have a reference group against which you're comparing.
+
+And here, the reference group would be different.
+
+And we were thinking that maybe let's put in everybody and just assume that they have the same distribution of effects.
+
+So move them to the same mean so we can experiment with that as well.
+
+But actually, it's very typical in these type of bipartite networks, in real world networks.
+
+So we have about a million firms.
+
+Let's talk about the example.
+
+So 200,000 firms and roughly the same number of managers.
+
+And the largest component has about 10% or 10, 15% of the managers.
+
+And there's tons of very, very small scattered components.
+
+So the next largest is already very small, almost hardly worth bothering with.
+
+So that's typically people just run with the largest component and let's see what they can do.
+
+So I would say it's not really a concern for estimation, but for interpreting the estimates.
+
+So I mentioned that we just measure the revenue share as dividing by the surplus share, dividing surplus by revenue.
+
+So revenue function.
+
+So remember, we have low revenue on the left-hand side and then capital and managers here on the right-hand side.
+
+And the capital coefficient is not alpha, but alpha over chi.
+
+So you should not be surprised to see bigger numbers.
+
+And we put in fixed effects to get rid of anything that invariants at the firm or sector specific prices.
+
+And we assume that there is a residual TFP.
+
+And basically we assume that it's uncorrelated with either owner or manager choices.
+
+In addition to capital, we'll add other controls like age of the firm, does the firm have intangible assets on the balance sheet, is the firm foreign owned.
+
+So you can throw in all kinds of controls and it doesn't change anything.
+
+So I think one set of assumptions can be tested in the event study is the timing of the event.
+
+So we're assuming that there is this extra TFP.
+
+And we can have some sort of reverse causality story that this firm is booming, it's a startup and they just came up with this killer algorithm.
+
+And for their TFP has this growth potential.
+
+And in order, and they bring in a new CEO, but not because, so the TFP is not growing because of the new CEO, but the other way around, for example.
+
+So whenever we have timing issues, I think we can look at that in the event study.
+
+What we cannot really do is we can, at least that's basically an assumption in the model that's kind of untestable, the way we've written this down, is that there's no interaction between the firm and the manager in terms of their abilities and how they contribute to firm output.
+
+Not correct, because it's Cobb Douglas, so it's complementary, because everything in Cobb Douglas is complementary.
+
+So good firms would like to hire good managers because their marginal product is going to be higher.
+
+But once you take logs, it's separable.
+
+So there's more complementarity or less that we cannot.
+
+I think we could do it with a richer functional form, but then it would be harder to include fixed effects, so we didn't want to go there.
+
+What I want to emphasize, though, because I think in many applied work it gets confused, is that we don't need managers to be randomly allocated to firms or anything like that.
+
+Everything else, if you forget about Omega, everything else can be arbitrarily correlated.
+
+Good managers can go to good firms.
+
+Owners can give a lot of capital to good managers.
+
+I don't care.
+
+Any correlation is fine there.
+
+As long as this residual TFP has zero mean.
+
+So once we have that assumption, we can basically run...
+
+So we estimate our coefficients, we subtract those from revenue, and then we run this two-way fixed effect, manager and firm fixed effect.
+
+And let me try to get the intuition for what the manager fixed effect is capturing.
+
+That's not really how we run it, but I think it captures the intuition.
+
+So if you remove from the revenue, if you remove the firm average, you're basically removing the firm fixed effect, and you're checking if the firm changed their CEO, how did the revenue change, conditional on capital, price changes, and everything else that we've had fixed in the production function.
+
+And the delta R can be attributed to two things at the firm.
+
+The actual change in the CEO still, delta ZM, so if they are better, they should bring in more revenue.
+
+And this Omega, which I call residual productivity, and I said it's just noise, which is fine, but still it's noise.
+
+So our estimate is going to be noisy.
+
+And so that is potentially an issue.
+
+So let's go, I think we mentioned some of these challenges, but let's go through them one by one.
+
+I think one is that this residual TFP can be correlated to manager change, and so one story I pose is reverse causality.
+
+And again I want to emphasize that sometimes in labor people say that you need workers to randomly move across firms.
+
+It's only the error term that doesn't have to correlate, and we will see that there are meaningful correlations of CEO effects with other stuff.
+
+It's not random, it's just we assume that it's not correlated with this, because we've already taken out a lot of stuff, so this is residual TFP.
+
+So there are some very, very nice studies about kind of exogenously removing the CEO to get at a more causal estimate, which I think is a very clever solution, and there are some nice papers on that.
+
+It would still not address, it would address point number one, but not really address point number three, which is that there is small sample noise, and if you want to further limit the sample because you're only looking at CEO that die or get hospitalized, then you only have a smaller sample.
+
+So the second is, which we already discussed, is that you need to have a baseline group when you're interpreting fixed effect, and so you need to identify these components.
+
+You could report for every one of these separately, or just pick the largest one.
+
+So this is, I think, what I said with what's happening at the firm, and this is just kind of a pedagogical example.
+
+The firm is there for six years, and the first three years, CEO one is there, and the second three years, CEO two.
+
+And this is, of course, a toy example, but three years would be a typical CEO's past, so it's not super short.
+
+And if you want to estimate some sort of average effect, whatever your technique of estimating it is going to include a lot of noise, both for the first CEO and second CEO.
+
+And so we're going to, so our method is going to basically have a way of removing that noise from the estimate.
+
+So what do we do?
+
+So this is going to be a placebo control, and here's the intuition.
+
+So remember that the delta R is delta Z, the true effect, plus the noise, the delta TFP.
+
+So let's look at firms that don't change their CEO.
+
+So they should have no true effect, but they still have noise.
+
+So we're going to create these placebo firms to measure the quantity of noise, basically.
+
+And of course, here the big assumption is that in these firms, the noise has the same distribution as in the treated firms.
+
+I think some of it can be tested, but for now, we're just assuming it.
+
+So how do we create these placebo changes?
+
+So we pick firms that have long CEO tenure.
+
+So we're going to do event study in a minus four, plus three window, so we need at least seven years.
+
+And then within those firms, we're going to randomly change the CEO.
+
+Well, suppose you change your CEO in year four.
+
+But what is the distribution of this CEO changes?
+
+It's exactly the same hazard rate as in the data, as in the true data.
+
+And so I guess we could to make it richer, but it doesn't seem to make a lot of difference how exactly you specify the hazard of CEO change.
+
+The ballpark is that every five years, you change a CEO.
+
+That's roughly the hazard rate.
+
+It's a time varying hazard.
+
+So in the first year, you're actually a little bit more likely to change.
+
+And then this hazard goes down a bit.
+
+But so we estimate this hazard function, and we implement that exact hazard function on the non-changing data.
+
+And so we have a bunch of firms that we pretend to have changed the CEOs.
+
+So we're going to take those firms, and we're going to use them as control groups.
+
+And there's an additional trick here.
+
+So we're going to do diff in diff, very similar to Calaveri-Santana method.
+
+But there's an additional trick that we developed for another paper, is that here the control group has a timing as well.
+
+So whereas in Calaveri-Santana, you only know about the control group that, well, they don't get the treatment, or they have not yet gotten the treatment, maybe sometime in the future.
+
+Here the control group gets a treatment, they get a placebo treatment, but we know exactly when they get the treatment, in 1993 or 2004, whenever their placebo flag turned on.
+
+So we can exactly line up the control group with the treatment.
+
+I think it leads to more precision.
+
+So then we can look at the evolution of revenue or other outcomes.
+
+And the firm, we're going to remove the firm fixed effect by demeaning stuff as a function of event time.
+
+If you're going to change at year G, what's happening at G minus 1, G plus 1, and so forth.
+
+So how am I doing?
+
+So this is the estimated distribution of manager fixed effects.
+
+So what we have here is take that regression where you had two fixed effects, run reg HDFE on that, save the number, and plot it here.
+
+The point here is that there's a large dispersion corresponding to a pretty large difference in productivity, if you look at the inter-portal range.
+
+But we will see in the event study that a lot of this is noise.
+
+So even those fixed effects have the true Z and some noise in them.
+
+So this is our event study, the placebo-controlled event study, where we're looking at-- so we know that CEO is going to change in year 0.
+
+So year 0 is the first year of the CEO.
+
+And the blue line is the average TFP relative to year minus 3.
+
+And the red line is the variance of TFP relative to year minus 3.
+
+Let's talk about the blue line first, and then we'll see why we do the variance as well.
+
+So what we can see here is that there is actually a bit of a dip in the first two years before the CEO changes.
+
+So this is the kind of thing that you can test on the event study.
+
+Yes, maybe the timing is not exactly random, and things are not going great.
+
+Maybe that's when they go and opt for a CEO change.
+
+But it's not huge.
+
+So this is like 1%, less than 1% of a dip.
+
+So relative to year minus 3, the post-treatment means are not-- they're positive, but not significant.
+
+And actually, this is mostly coming from changing the first to the second CEO.
+
+So if you-- as I mentioned, the second CEO is typically better.
+
+So if you remove that variation, the mean would basically not vary.
+
+So why are we plotting the variance?
+
+And the idea here is that if you go back to the placebo idea, here's what the placebo is capturing.
+
+Your revenue change is just accumulated-- it's going to be the accumulated residual TFP.
+
+So as you go forward in time, noise is going to accumulate.
+
+Variance should go up.
+
+But this is in the placebo as well, so we can control for that.
+
+Whereas in the treatment-- where was the treatment?
+
+In the treatment, we have another effect.
+
+You get a new manager.
+
+You are accumulating noise, and you get a new manager.
+
+So we actually think that-- we don't know who the new manager is going to be.
+
+We know nothing about them.
+
+But they might be good, they might be bad.
+
+So we can be certain that they're going to add to the variance.
+
+So we actually expect the variance to be higher after the CEO change.
+
+And it is.
+
+There's some anticipation.
+
+I think part of-- there's trouble in the year minus 2 and minus 1.
+
+Part of it is showing up in the variance as well.
+
+But definitely after the CEO change, we have a higher variance than before, which means that times here after are different from times before.
+
+Just a small check for the method.
+
+So then what we do is we split the CEOs into two based on their estimated manager effect.
+
+So are you a good CEO or are you a bad CEO?
+
+Now this is very dangerous, and you'll see in the slide, because good or bad is now based on this estimate, which includes the noise.
+
+And the noise is also on the left-- at least some of the noise is also on the left-hand side.
+
+Because residual TFP gets into the estimator and is also on the left-hand side.
+
+So ignore the right-hand side for now.
+
+We should cover to review it later.
+
+But if you do the simple event study, like what's happening when a firm gets a better CEO versus a worse CEO, you could conclude that, yay, they are increasing their revenue or TFP here on the left-hand side, increasing their TFP if the CEO is good, and they are reducing their TFP if the CEO is bad.
+
+And yes, there are some anticipation effects, but it's pretty nice.
+
+So this is before doing the noise correction.
+
+If you do the noise correction with the placebo control, you'll find three things.
+
+One is that a lot of the effect was noise, so the effects are much smaller.
+
+The second is that-- but still, we have a-- these arrow bands are not very visible, but these are statistically significant effects afterwards.
+
+And they're still pretty sizable.
+
+And the third thing is that you completely got rid of the pre-trends.
+
+So all the pre-trend was noise.
+
+It's not just the firm is anticipating to get a new CEO.
+
+It's just that-- and I don't have a good intuition for why.
+
+I guess because when we say a good manager, the noise is going to say that, well, this is typically a growing firm, but not because of the manager, but growing firms are more likely to be classified as having a good CEO.
+
+Once you remove that, the pre-trend is gone.
+
+So then with the same method, we can measure the average effect.
+
+So if you look at what's the difference between good and bad CEO, 22% TFP difference.
+
+But a lot of it is also present in the placebo group.
+
+So about 5% is the actual causal difference.
+
+For some reason, I don't know why, but improving the CEO is more important than-- the red line is more positive than the blue line, negative.
+
+And then we did the same-- I'm going to show it on a graph instead of the table.
+
+So then we can use this event study, the same design with the placebo control, to check for the model assumptions in terms of timing.
+
+So for example, we assumed that the CEO has no control over some of these fixed assets like physical capital or intangible assets.
+
+And I think we have additional controls as well.
+
+If you include them, sometimes you find correlations like here.
+
+But I wouldn't necessarily call it causal.
+
+It may be causal.
+
+We don't really know.
+
+It's basically like a trend.
+
+So this is intangibles.
+
+So after the better CEO has arrived, intangibles tend to increase.
+
+So maybe the owner trusts them more, and together they decide to invest.
+
+Not quite sure what it is, but we have not really attributed it to the CEO change per se.
+
+And all of the, what we call, owner-decided inputs look like this.
+
+Sometimes it's flat, no correlation.
+
+Sometimes there is a correlation, but I would be careful to not call it causal, and you don't see any jump in the CEO change.
+
+Whereas all of the CEO-chosen inputs look like this.
+
+So if there's a good CEO, they're going to hire more people, they're going to buy more material, and they're going to produce more stuff.
+
+And that you see jumping right away and staying up there.
+
+This kind of level change that the model is predicting.
+
+So this is, of course, what we cannot really rule out is that when the owner has hired this new CEO, maybe they together sat down and it was the owner's idea of what to do with the firm.
+
+But if the timing is exactly the same as when the new CEO arrived, we are attributing it to the CEO.
+
+But that's almost like a philosophical identification problem that we cannot resolve.
+
+So let me, well, before concluding, just some related work and some future work we want to do.
+
+As I mentioned, I think it's nice that you can estimate this manager fixed effect if you have this universal data.
+
+Because in the large coverage, you can have a large connected component.
+
+So you can have this fixed effect estimator.
+
+But still a lot of it is noise.
+
+This is one way of dealing with the noise.
+
+Labor people have come up with others.
+
+Unfortunately, they are not really relevant for us.
+
+Because in labor applications, you have many workers for a firm.
+
+And here we typically have one CEO per firm.
+
+So basically most of their very nice methods we cannot apply.
+
+So one thing that we, now that we know that it's very noisy, what should we do instead?
+
+So instead of just using fixed effects, why don't you actually try to bring in some CEO observables and measure.
+
+So instead of just saying ZM is a fixed effect, why don't you model ZM as beta times X, some parametric function of observables.
+
+So with Amanda, we are working on looking at biographies of entrepreneurs and CEOs and see whether there's cooling, their work experience, their foreign experience, how it affects their productivity.
+
+And so that's fine because arguably these observables are less noisy than the fixed effects.
+
+I mentioned that we have another paper where we look at foreign CEOs.
+
+And actually we find that when there is a foreign acquisition, if you don't replace the CEO or you replace but keep the Hungarian CEO, almost nothing happens.
+
+So the good things that people often associate with foreign acquisitions come from replacing the manager with a foreign manager, at least in Hungary.
+
+And then with Christina, we are working on a more macro paper that's looking at the endogenous selection of entering into the CEO market and then like in which cohort you are entering and how selective was the competition in that cohort is an important part of the model and that is something we can observe.
+
+So we hope that we can still measure CEO quality precisely in this case.
+
+So yeah, I think that's it from me.
+
+Thank you very much for your questions and comments.
+
+[Applause] [End of Audio]
