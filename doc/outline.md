@@ -37,12 +37,12 @@
 
 ## 5. Results
 
-* **Para 1**: Raw dispersion of CEO fixed effects suggests \~22% differences.
-* **Para 2**: Event study evidence: timing consistent with CEO impact, but noisy.
-* **Para 3**: Placebo-adjusted estimates: only \~5% true causal effect.
-* **Para 4**: Outcome correlations: good CEOs increase sales, wages, materials; weaker on fixed assets, foreign ownership.
-* **Para 5**: Dynamics: immediate material spending vs gradual growth in intangibles.
-* **Para 6**: Robustness previews: founders vs non-founders, exclusion thresholds, period splits.
+* **Para 1**: Show and discuss estimates of surplus share (in appendix table). Comment that a 1% increase in TFP increases revenue by x percent.
+* **Para 2**: Discuss what controls are included in the revenue function estimation (table3.tex). Then show and discuss the results. mention some robustness, relegated to appendix.
+* **Para 3**: Describe raw dispersion of CEO fixed effects suggests \~22% differences.
+* **Para 4**: Event study: mean and variance of TFP changes around CEO transitions. Explain why we are lookin at variance then show figure. Explain dip before CEO change.
+* **Para 5**: Show CEO sample split by good and bad CEOs. Explain specifically how it is done, show raw and placebo event study. Discuss ATET estimates.
+* **Para 6**: Outcome correlations: good CEOs increase sales, wages, materials; weaker on fixed assets, foreign ownership. Explain how this validates our model assumptions and how the timing of changes supports causal interpretation. Dynamics: immediate labor, material spending, revenue vs no change in capital, gradual growth in intangibles and foreign ownership.
 
 ## 6. Conclusion
 
