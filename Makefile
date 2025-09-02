@@ -102,12 +102,8 @@ temp/revenue_models.ster: code/estimate/revenue_function.do temp/analysis-sample
 bloom_autonomy_analysis.log: code/estimate/bloom_autonomy_analysis.do input/bloom-et-al-2012/replication.dta
 	$(STATA) $<
 
-# Define event study outcome variables
-EVENT_STUDY_OUTCOMES := lnK has_intangible foreign_owned lnR lnWL lnM
-EVENT_STUDY_FIGURES := $(patsubst %,output/figure/event_study_%.pdf,$(EVENT_STUDY_OUTCOMES))
-
 # Event study outcomes analysis - heterogeneous treatment effects
-output/table/atet_owner.tex output/table/atet_manager.tex $(EVENT_STUDY_FIGURES): code/estimate/event_study_outcomes.do code/estimate/setup_event_study.do temp/surplus.dta temp/analysis-sample.dta temp/manager_value.dta temp/placebo.dta
+output/table/atet_owner.tex output/table/atet_manager.tex output/figure/event_study_owner_controlled.pdf output/figure/event_study_manager_controlled.pdf: code/estimate/event_study_outcomes.do code/estimate/setup_event_study.do temp/surplus.dta temp/analysis-sample.dta temp/manager_value.dta temp/placebo.dta
 	mkdir -p output/table output/figure
 	$(STATA) $<
 
@@ -159,7 +155,7 @@ output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2_p
 	cd output && $(LATEX) paper.tex && bibtex paper && $(LATEX) paper.tex && $(LATEX) paper.tex
 
 # Compile presentation slides
-output/slides60.pdf: output/slides60.md output/preamble-slides.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_connected.pdf output/figure/event_study.pdf output/figure/event_study_panel_c.pdf $(EVENT_STUDY_FIGURES)
+output/slides60.pdf: output/slides60.md output/preamble-slides.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_connected.pdf output/figure/event_study.pdf output/figure/event_study_panel_c.pdf output/figure/event_study_owner_controlled.pdf output/figure/event_study_manager_controlled.pdf
 	cd output && $(PANDOC) slides60.md -t beamer --slide-level 2 -H preamble-slides.tex -o slides60.pdf
 
 # =============================================================================
