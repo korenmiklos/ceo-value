@@ -3,7 +3,7 @@
        log:  /Users/koren/Tresorit/Mac/projects/ceo-value/output/event_study.tx
 > t
   log type:  text
- opened on:   3 Sep 2025, 09:32:06
+ opened on:   3 Sep 2025, 16:26:49
 
 . 
 . display "Event study results for better CEOs:"
@@ -105,5 +105,5 @@ Placebo-controlled ATET 2: .07379107
        log:  /Users/koren/Tresorit/Mac/projects/ceo-value/output/event_study.tx
 > t
   log type:  text
- closed on:   3 Sep 2025, 09:34:29
+ closed on:   3 Sep 2025, 16:29:24
 -------------------------------------------------------------------------------
