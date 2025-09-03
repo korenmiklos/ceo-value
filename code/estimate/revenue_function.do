@@ -12,10 +12,11 @@ do "code/create/network-sample.do"
 
 * Define rich controls for models 4-6
 local controls lnK foreign_owned has_intangible founder owner
-local rich_controls `controls' firm_age firm_age_sq
+local rich_controls `controls' firm_age firm_age_sq ceo_age ceo_age_sq ceo_tenure ceo_tenure_sq
 
 * Fixed effects specifications
 local FEs frame_id_numeric teaor08_2d##year
+local rich_FEs frame_id_numeric##ceo_spell teaor08_2d##year
 
 eststo clear
 
@@ -31,9 +32,9 @@ estimates save "temp/revenue_models.ster", append
 eststo model4: reghdfe lnM `controls', absorb(`FEs') vce(cluster frame_id_numeric)
 estimates save "temp/revenue_models.ster", append
 
-eststo model5: reghdfe lnR `rich_controls', absorb(`FEs') vce(cluster frame_id_numeric)
+eststo model5: reghdfe lnR `rich_controls', absorb(`rich_FEs') vce(cluster frame_id_numeric)
 estimates save "temp/revenue_models.ster", append
 
-eststo model6: reghdfe lnR `rich_controls' if (giant_component == 1) | (connected_components == 1), absorb(`FEs') vce(cluster frame_id_numeric)
+eststo model6: reghdfe lnR `rich_controls' if (giant_component == 1) | (connected_components == 1), absorb(`rich_FEs') vce(cluster frame_id_numeric)
 estimates save "temp/revenue_models.ster", append
 
