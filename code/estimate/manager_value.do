@@ -7,7 +7,7 @@ local connected_skill_min -2       // Minimum connected component skill bound
 local connected_skill_max 2        // Maximum connected component skill bound
 local largest_component_id 1       // ID of largest connected component
 local outcomes lnR lnEBITDA lnL
-local controls lnK foreign_owned has_intangible founder owner
+local controls lnK foreign_owned has_intangible
 
 use "temp/surplus.dta", clear
 
