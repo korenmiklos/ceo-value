@@ -3,8 +3,6 @@
 * =============================================================================
 local within_firm_skill_min -1     // Minimum within-firm manager skill bound
 local within_firm_skill_max 1      // Maximum within-firm manager skill bound  
-local connected_skill_min -2       // Minimum connected component skill bound
-local connected_skill_max 2        // Maximum connected component skill bound
 local outcomes lnR lnEBITDA lnL
 local controls lnK foreign_owned has_intangible
 
@@ -46,8 +44,6 @@ reghdfe lnStilde, absorb(firm_fixed_effect=frame_id_numeric manager_skill=person
 summarize manager_skill if giant_component == 1, detail
 replace manager_skill = manager_skill - r(mean)
 display "IQR of manager skill: " exp(r(p75) - r(p25))*100 - 100
-* FIXME: why are we doing this? does this affect estimation?
-replace manager_skill = . if !inrange(manager_skill, `connected_skill_min', `connected_skill_max')
 
 * Create histogram for connected component manager skill distribution
 histogram manager_skill, ///
