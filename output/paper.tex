@@ -173,11 +173,19 @@ We apply several restrictions to create a sample suitable for productivity analy
 
 Most importantly, we restrict attention to firms that at some point employ at least [[min employees]] workers. This filter removes [[percent dropped for size]] of observations but eliminates shell companies, tax optimization vehicles, and self-employment arrangements masquerading as corporations. The remaining firms represent genuine businesses with meaningful economic activity where management quality plausibly affects performance.
 
+[[Public firms are excluded from the analysis. there are very few publicly traded companies on the Budapest Stock Exchange have fundamentally different governance structures, compensation packages, and disclosure requirements than private firms. we exclude all joint stock companies (closed or open) and other obscure legal forms of corporations (like cooperative) where it is common to have 3 or more managing directors at the same time]]
+
+[[insert table 1 here]]
+
+[[because the 1990s decade was characterized by rapid liberalization and transition to the market economy and large inflow of FDI, we also redid our analysis starting in 2004, the year of EU accession. results were essentially unchanged]]
+
 \subsection{CEO and Firm Characteristics}
 
 The resulting sample contains distinctive patterns of CEO demographics and tenure. Among CEOs in our analysis sample, [[percent Hungarian names]]\% have Hungarian names (verified algorithmically), with only [[percent foreign names]]\% foreign. Gender identification among Hungarian-named CEOs reveals [[percent male]]\% male representation. Remarkably, [[percent founders]]\% of CEOs were present at their firm's founding, highlighting the prevalence of founder-managers in private businesses.
 
 CEO mobility creates networks essential for fixed effects identification. Approximately [[percent multiple firms]]\% of CEOs manage multiple firms during the sample period, generating connections between firms. The largest connected component of the bipartite firm-CEO network contains [[connected component size]] managers and a comparable number of firms—roughly [[percent in component]]\% of all managers but representing a substantial share of economic activity. This connected component enables comparison of CEO effects within a common reference frame, though raises questions about representativeness we address in robustness checks.
+
+[[Note: Connected component firms are significantly larger than the full sample, with [[connected revenue premium]] higher log revenue on average. as we argue below, this does not affect our results. ]]
 
 \subsection{CEO Turnover Patterns}
 
@@ -239,11 +247,15 @@ For broader comparisons across firms, we estimate a two-way fixed effects model:
 
 This system is only identified within connected components—groups of firms and managers linked through mobility. Two managers can be compared if they worked at the same firm or connect through a chain of shared employment relationships. Our largest connected component contains [[connected component size]] managers, enabling meaningful comparisons within this network. Following \citet{Abowd1999Econometrica}, we normalize one manager's effect to zero and estimate via within-transformation.
 
+[[connected components are not a representative subsample of the economy. they tend to be larger. this is not necessarily a problem however, because we did not restrict the correlation of manager effects with observables. in any case, we cannot use singletons and disjoint sets, because FE would not be interpretable]]
+
+
 \subsubsection{Three Identification Challenges}
 
 First, residual productivity trends may correlate with manager changes (reverse causality). Firms might replace CEOs when $\epsilon_{it}$ declines, creating spurious negative effects for incoming managers. We do not need random mobility—manager quality can correlate with firm quality—but we require that residual productivity shocks are orthogonal to CEO transitions.
 
 Second, firm and manager effects are only interpretable within their connected component. Effects measure relative differences from a baseline group, limiting cross-component comparisons.
+
 
 Third, and most critically, estimated fixed effects contain substantial small-sample noise. With short CEO tenures, the averaged residual productivity $\bar{\epsilon}_{im}$ often overwhelms true skill differences. Instrumental variable approaches that rely on exogenous CEO removal (death, hospitalization) address reverse causality but exacerbate the small-sample problem by further restricting the data.
 
@@ -259,6 +271,8 @@ By applying the same estimation procedure to "non-changes," we can measure and f
 \subsubsection{Constructing Placebo Transitions}
 
 We construct placebo CEO transitions in three steps. First, we estimate the time-varying hazard of actual CEO changes. Second, we identify firms with long CEO tenures (7+ years) where no actual change occurs. Third, we randomly assign placebo transitions to these stable firms using the estimated hazard function.
+
+[[Note: To cleanly identify managerial effects separate from ownership changes, our preferred event study specification focuses on founder-to-non-founder transitions. These transitions represent cases where operational control clearly shifts while ownership typically remains stable. the placebo sample is not restricted]]
 
 For instance, a firm with the same CEO from 1992-2000 might receive a placebo transition in 1996, artificially splitting the tenure into two pseudo-CEOs. The timing follows the empirical hazard, ensuring the mechanical noise properties—averaging residual productivity over varying tenure lengths—match between actual and placebo groups.
 
@@ -279,6 +293,7 @@ To examine heterogeneity in CEO quality, we split actual transitions based on th
 
 This classification is noisy—"good" CEOs are partly lucky (positive $\epsilon$ draws), "bad" CEOs partly unlucky (negative $\epsilon$ draws). But this is precisely the bias our placebo control corrects. When we randomly split stable tenures and classify the resulting pseudo-CEOs as good or bad based on their averaged $\epsilon_{it}$, we generate the same mechanical selection bias without any true quality difference.
 
+
 \subsubsection{The Placebo Correction in Practice}
 
 The placebo control reveals the extent of noise contamination in estimated manager effects. The decomposition shows that a substantial portion of apparent CEO effects are spurious, explaining why studies using manager fixed effects as explanatory variables often find weak or inconsistent results—they are measuring mostly noise. Our placebo method provides a practical solution for future research: always benchmark against placebo transitions to isolate true effects from mechanical bias.
@@ -291,7 +306,12 @@ Table \ref{tab:surplus_share} in the Appendix reports our estimates of the surpl
 
 Table \ref{tab:revenue_function} presents the revenue function estimates. We include controls for log capital, firm age, presence of intangible assets, and foreign ownership, along with firm-CEO and sector-year fixed effects. The capital coefficient is precisely estimated at [[capital coefficient]] (standard error [[capital SE]]), consistent with capital's limited but significant role in private businesses. The intangible asset dummy shows a positive coefficient of [[intangible coefficient]], while foreign ownership contributes [[foreign coefficient]] to log revenue. Firm age exhibits diminishing returns with a coefficient of [[age coefficient]] on log age. These controls explain [[R-squared]] of the variation in log revenue. Additional robustness checks varying the control set and sample restrictions, reported in the Appendix, yield similar estimates.
 
+[[founder managed firms have lower revenue conditional on owner inputs, hence, lower TFP. cite some literature consistent with this. in what follows, we will focus on founder to outside transitions, but results are robust if we exclude owner-managed firms, altogether. , which show even stronger true effects—approximately one-third of the raw correlation is real rather than one-quarter in the full sample. When excluding all founders and owner-managers entirely, the point estimates remain similar but confidence intervals widen due to the reduced sample of 834 firms. This confirms that our main finding—that most apparent CEO variation is noise—is not driven by founder-specific dynamics.]]
+
+
 \input{table/table3.tex}
+
+[[the fact the in the connected component, the estimates are nearly identical to the full sample, suggests (does not prove) that the econometric model is stable and we can use the connected component to learn about manager fixed effects. the revenue function coefficients are nearly identical when estimated on the connected component versus the full sample (Table 3, Model 6), suggesting that the production technology and manager effects operate similarly across both groups. While selection into the connected component is non-random, the economic relationships we estimate appear stable.]]
 
 \subsection{Distribution of Manager Fixed Effects}
 
@@ -368,6 +388,8 @@ The contrasting dynamics between materials and capital provide particularly comp
 
 These differential effects across outcomes—immediate for manager-controlled variables, gradual or absent for owner-controlled ones—support our model's division of decision rights and strengthen the causal interpretation of our estimates.
 
+[[this is consistent with evidence in Table A0, computed from data from Bloom et al 2012, where plant managers of family firms are constrained in their ability to invest, do innovation and engage in marketing, but they are not constrained in labor hiring. also consistent with broader corporate governance literature, e.g Thomas Zellweger]]
+
 \section{Conclusion}
 
 Our main finding is that three-quarters of the apparent CEO effect is spurious. The naive comparison of firms hiring good versus bad CEOs suggests a [[raw CEO gap]] percent performance difference. However, our placebo-controlled event study reveals that [[placebo gap]] percent of this gap arises from mechanical noise in fixed effects estimation. The true causal effect is only [[true CEO effect]] percent—a quarter of what raw correlations suggest.
@@ -378,7 +400,7 @@ These findings have profound implications for corporate governance and productiv
 
 Instead, future research should use observable manager characteristics. Education and work experience \citep{DePirro2025}, foreign name as a proxy for international exposure \citep{Koren2023expat}, and the selectiveness of entry cohorts \citep{koren2024managers} offer more reliable, albeit narrower, measures of specific dimensions of managerial quality. These observables, while capturing only partial aspects of CEO ability, avoid the mechanical noise that contaminates fixed effects estimates.
 
-Several open questions warrant further investigation. Our connected component covers only [[percent in component]] percent of managers, raising concerns about representativeness for the broader population of private firms. The high prevalence of founder-CEOs ([[percent founders]] percent) may mask heterogeneous effects between founders and professional managers. The transition economy period of the 1990s likely differs from the post-2004 EU membership era in terms of managerial practices and their impacts. Addressing these questions requires targeted sampling strategies and period-specific analyses that we leave for future work.
+[[we have already discussed limitations, end on a more positive note]]
 
 \bibliographystyle{apalike}
 \bibliography{references}
