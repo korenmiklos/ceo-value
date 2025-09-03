@@ -61,9 +61,11 @@ Methodologically, our paper builds on the two-way fixed effects literature in la
 
 \section{Conceptual Framework}
 
-We develop a framework to measure CEO value in privately held firms where owners retain control over strategic decisions while delegating operational choices to managers. This division of decision rights, common in private businesses, has important implications for identifying manager effects.
+We develop a framework to measure CEO value in privately held firms where owners retain control over strategic decisions while delegating operational choices to managers. This division of decision rights, common in private businesses, has important implications for identifying manager effects. The common goal of owners and managers is to maximize 
 
-\subsection{Production and Decision Rights}
+We only describe the problem of the manager, taking owner choices as given. 
+
+[[cite empirical literature about CEO and plant manager control and our own evidence reported in Table A0]]
 
 Firms produce output using a Cobb-Douglas production function with both fixed and variable inputs. The production function for firm $i$ with manager $m$ at time $t$ is:
 \begin{equation}\label{eq:production}
@@ -71,21 +73,19 @@ Q_{imt} = A_i Z_{m} \varepsilon_{it} K_{it}^\alpha L_{imt}^{\beta} M_{imt}^{\gam
 \end{equation}
 where $A_i$ represents time-invariant organizational capital (location, brand value, customer relationships), $Z_m$ captures manager skill, $\varepsilon_{it}$ is residual productivity, $K_{it}$ is physical capital, $L_{imt}$ is labor input, and $M_{imt}$ is intermediate input usage. 
 
-In standard production function estimation, these three components would be combined into a single measure: $\Omega_{it} = A_i Z_m \varepsilon_{it}$, commonly called total factor productivity (TFP). Our framework decomposes TFP into firm-specific advantages ($A_i$), manager-specific skill ($Z_m$), and residual productivity shocks ($\varepsilon_{it}$) to identify the distinct contribution of managers. 
+In standard production function estimation, the first three components would be combined into a single measure: $\Omega_{it} = A_i Z_m \varepsilon_{it}$ as \emph{total factor productivity} (TFP). Our framework decomposes TFP into firm-specific advantages ($A_i$), manager-specific skill ($Z_m$), and residual productivity shocks ($\varepsilon_{it}$) to identify the distinct contribution of managers. 
 
-The key institutional feature we model is the separation of decision rights. Owners control physical capital investment ($K_{it}$) and organizational assets ($A_i$), including location choices, brand development, and CEO hiring decisions. Managers control labor hiring ($L_{imt}$), input purchasing ($M_{imt}$), and day-to-day operations. This separation reflects the reality of private businesses where owners maintain direct involvement in strategic decisions while delegating operational management.
+The key institutional feature we model is the separation of decision rights. Owners make strategic decisions about physical capital investment ($K_{it}$) and organizational assets ($A_i$). Managers control labor hiring ($L_{imt}$), input purchasing ($M_{imt}$), which are operational decisions. This separation reflects the reality of private businesses where owners maintain direct involvement in strategic decisions while delegating operational management.
 
 With $\chi := 1 - \beta - \gamma$, the production function exhibits decreasing returns to scale in variable inputs ($\beta + \gamma < 1$), which pins down optimal firm size even under perfect competition. Fixed inputs $A_i$ and $Z_m$ create firm-specific and manager-specific advantages that generate economic rents.
 
-\subsection{Optimal Input Choices and Revenue}
-
-Managers maximize profit by choosing variable inputs optimally given the owner's fixed choices. Under sector-specific output price $P_{st}$, wage rate $W_{st}$, and material price $\varrho_{st}$, the first-order conditions yield closed-form solutions for optimal input demands. Substituting these back into the revenue function gives:
+Managers maximize profit by choosing variable inputs optimally given the owner's fixed choices. Under sector-specific output price $P_{st}$, wage rate $W_{st}$, and material price $\varrho_{st}$, the first-order conditions characterize optimal input demands. Substituting these back into the revenue function gives:
 \begin{equation}\label{eq:revenue}
 R_{imst} = (P_{st}A_i Z_m \varepsilon_{it})^{1/\chi}
 K_{it}^{\alpha/\chi}
 W_{st}^{-\beta/\chi}
 \varrho_{st}^{-\gamma/\chi}
-(1-\chi)^{(1-\chi)/\chi}
+(1-\chi)^{(1-\chi)/\chi}.
 \end{equation}
 
 Revenue increases in manager skill $Z_m$, organizational capital $A_i$, and physical capital $K_{it}$, while decreasing in input prices. The elasticity of revenue with respect to manager skill is $1/\chi > 1$, reflecting the leverage effect: better managers can scale up operations by hiring more variable inputs, amplifying their productivity advantage.
@@ -110,28 +110,6 @@ r_{im'st} - r_{imst} = \frac{1}{\chi}(z_{m'} - z_{m})
 \end{equation}
 
 Manager value equals the skill difference scaled by $1/\chi$. This scaling reflects the leverage effect: a 1\% increase in manager skill generates a $(1/\chi)\%$ increase in revenue.
-
-\subsection{Empirical Specification}
-
-To estimate manager effects from observational data, we substitute unobserved prices and organizational capital with fixed effects:
-\begin{equation}\label{eq:empirical}
-r_{imst} = \frac{\alpha}{\chi} k_{it} + \frac{1}{\chi}z_m + \lambda_i + \mu_{st} + \tilde{\epsilon}_{it}
-\end{equation}
-where $\lambda_i = a_i/\chi$ captures time-invariant firm characteristics, $\mu_{st}$ absorbs sector-time variation in prices, and $\tilde{\epsilon}_{it} = \epsilon_{it}/\chi$ is rescaled residual productivity.
-
-The key identifying assumption is that residual productivity $\tilde{\epsilon}_{it}$ is uncorrelated with manager assignment conditional on firm and sector-time fixed effects. This allows manager skills and physical capital to be arbitrarily correlated with firm quality and market conditions—better firms may hire better managers and invest more. We only require that the residual variation in productivity is orthogonal to manager assignment.
-
-\subsection{Challenges in Estimating Manager Effects}
-
-Three challenges complicate the estimation of manager effects from equation \eqref{eq:empirical}:
-
-First, residual productivity $\tilde{\epsilon}_{it}$ may correlate with manager changes if firms replace CEOs in response to productivity shocks. This reverse causality would bias estimates of manager effects.
-
-Second, manager fixed effects are only identified for the connected set of firms and managers linked through mobility. Effects are measured relative to a reference group within each connected component, limiting comparability across components.
-
-Third, and most importantly, estimated manager effects $\hat{z}_m$ include both true skill and averaged residual productivity: $\hat{z}_m = z_m + \bar{\epsilon}_{im}$ where $\bar{\epsilon}_{im}$ is the average $\tilde{\epsilon}_{it}$ during manager $m$'s tenure at firm $i$. When managers have short tenures, this noise component dominates the signal, making raw fixed effects unreliable measures of true skill.
-
-Our placebo-controlled approach addresses these challenges by explicitly measuring and removing the noise component from estimated manager effects.
 
 \section{Corporate Data from Hungary}
 
@@ -170,6 +148,15 @@ CEO tenure exhibits substantial variation across firms. While [[percent single C
 To validate our placebo methodology, we verify that synthetically generated CEO transitions match actual patterns. Taking firms with stable leadership (same CEO for [[min stable tenure]]+ years), we randomly assign placebo transitions using the empirical hazard function. The resulting spell length distribution closely mirrors actual CEO changes: [[percent one year spells]]\% last one year, [[percent two year spells]]\% two years, declining thereafter. This similarity confirms that our placebo transitions capture realistic turnover dynamics while maintaining the crucial property that no actual skill change occurs.
 
 \section{Estimation}
+To estimate manager effects from observational data, we substitute unobserved prices and organizational capital in \eqref{eq:log_revenue} with fixed effects:
+\begin{equation}\label{eq:empirical}
+r_{imst} = \frac{\alpha}{\chi} k_{it} + \frac{1}{\chi}z_m + \lambda_i + \mu_{st} + \tilde{\epsilon}_{it}
+\end{equation}
+where $\lambda_i = a_i/\chi$ captures time-invariant firm characteristics, $\mu_{st}$ absorbs sector-time variation in prices, and $\tilde{\epsilon}_{it} = \epsilon_{it}/\chi$ is rescaled residual productivity.
+
+The key identifying assumption is that residual productivity $\tilde{\epsilon}_{it}$ is uncorrelated with manager assignment conditional on firm and sector-time fixed effects. This allows manager skills and physical capital to be arbitrarily correlated with firm quality and market conditions—better firms may hire better managers and invest more. We only require that the residual variation in productivity is orthogonal to manager assignment.
+
+Three challenges complicate the estimation of manager effects from equation \eqref{eq:empirical}. First, residual productivity $\tilde{\epsilon}_{it}$ may correlate with manager changes if firms replace CEOs in response to productivity shocks. This reverse causality would bias estimates of manager effects. Second, manager fixed effects are only identified for the connected set of firms and managers linked through mobility. Effects are measured relative to a reference group within each connected component, limiting comparability across components. Third, estimated manager effects $\hat{z}_m$ include both true skill and averaged residual productivity: $\hat{z}_m = z_m + \bar{\epsilon}_{im}$ where $\bar{\epsilon}_{im}$ is the average $\tilde{\epsilon}_{it}$ during manager $m$'s tenure at firm $i$. When managers have short tenures, this noise component dominates the signal, making raw fixed effects unreliable measures of true skill. Our placebo-controlled approach addresses these challenges by explicitly measuring and removing the noise component from estimated manager effects.
 
 Our estimation proceeds in four steps: measuring the surplus share, estimating the revenue function, recovering manager fixed effects, and validating causality through event studies. Each step builds toward separating true CEO effects from the substantial noise that contaminates raw estimates.
 
