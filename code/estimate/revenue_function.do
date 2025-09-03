@@ -34,6 +34,6 @@ estimates save "temp/revenue_models.ster", append
 eststo model5: reghdfe lnR `rich_controls', absorb(`FEs') vce(cluster frame_id_numeric)
 estimates save "temp/revenue_models.ster", append
 
-eststo model6: reghdfe lnR `rich_controls' if component_id == 1, absorb(`FEs') vce(cluster frame_id_numeric)
+eststo model6: reghdfe lnR `rich_controls' if (giant_component == 1) | (connected_components == 1), absorb(`FEs') vce(cluster frame_id_numeric)
 estimates save "temp/revenue_models.ster", append
 
