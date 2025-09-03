@@ -38,27 +38,6 @@ generate within_firm_chi = within_firm / chi
 summarize within_firm_chi if ceo_spell > 1, detail
 display "IQR of within-firm variation in manager surplus: " exp(r(p75) - r(p25))*100 - 100
 
-frame create within_firm strL outcome strL control contribution
-foreach outcome of local outcomes {
-    display "Explaining within-firm variation in `outcome'..."
-    reghdfe within_firm_chi `outcome' if max_ceo_spell > 1, absorb(frame_id_numeric teaor08_2d##year) vce(cluster frame_id_numeric)
-    scalar `outcome'_manager = _b[`outcome'] * 100
-    frame post within_firm ("`outcome'") ("manager") (`outcome'_manager) 
-    scalar total_explained = `outcome'_manager
-    foreach var of local controls {
-        reghdfe B_`var' `outcome' if max_ceo_spell > 1, absorb(frame_id_numeric teaor08_2d##year) vce(cluster frame_id_numeric)
-        scalar `outcome'_`var' = _b[`outcome'] * 100
-        frame post within_firm ("`outcome'") ("`var'") (`outcome'_`var')
-        scalar total_explained = total_explained + `outcome'_`var'
-    }
-    scalar `outcome'_residual = 100 - total_explained
-    frame post within_firm ("`outcome'") ("residual") (`outcome'_residual)
-}
-drop within_firm_chi
-scalar list
-
-frame within_firm: save "temp/within_firm.dta", replace
-
 * now do cross section, but only on connected components
 keep if component_id == `largest_component_id'
 
@@ -81,36 +60,6 @@ generate manager_skill_chi = manager_skill / chi
 generate firm_fixed_effect_chi = firm_fixed_effect / chi
 summarize manager_skill_chi, detail
 display "IQR of manager surplus: " exp(r(p75) - r(p25))*100 - 100
-
-* Create regression table for manager skill effects
-local outcomes lnR lnEBITDA lnL
-local controls lnK foreign_owned has_intangible
-frame create cross_section strL outcome strL control contribution
-foreach outcome of local outcomes {
-    display "Explaining cross-sectional variation in `outcome'..."
-
-    reghdfe manager_skill_chi `outcome', absorb(teaor08_2d##year) vce(cluster frame_id_numeric)
-    scalar `outcome'_manager = _b[`outcome'] * 100
-    frame post cross_section ("`outcome'") ("manager") (`outcome'_manager) 
-    scalar total_explained = `outcome'_manager
-
-    reghdfe firm_fixed_effect_chi `outcome', absorb(teaor08_2d##year) vce(cluster frame_id_numeric)
-    scalar `outcome'_firm = _b[`outcome'] * 100
-    frame post cross_section ("`outcome'") ("firm") (`outcome'_firm) 
-
-    foreach var of local controls {
-        reghdfe B_`var' `outcome', absorb(teaor08_2d##year) vce(cluster frame_id_numeric)
-        scalar `outcome'_`var' = _b[`outcome'] * 100
-        frame post cross_section ("`outcome'") ("`var'") (`outcome'_`var')
-        scalar total_explained = total_explained + `outcome'_`var'
-    }
-    scalar `outcome'_residual = 100 - total_explained
-    frame post cross_section ("`outcome'") ("residual") (`outcome'_residual)
-}
-drop manager_skill_chi firm_fixed_effect_chi
-scalar list
-
-frame cross_section: save "temp/cross_section.dta", replace
 
 collapse (firstnm) firm_fixed_effect manager_skill chi, by(frame_id_numeric person_id)
 save "temp/manager_value.dta", replace
