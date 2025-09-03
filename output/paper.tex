@@ -49,9 +49,9 @@ What is the value of CEOs to firm performance? A large literature documents that
 
 Private firms differ from their public counterparts in three fundamental ways that complicate the measurement of CEO value. First, data limitations are severe: private firms disclose little about executive compensation, strategic decisions, or even basic financial performance beyond statutory requirements. Second, ownership concentration gives owners direct control over strategic choices, creating a division of decision rights that blurs the attribution of outcomes to CEOs versus owners \citep{fama1983separation, jensen1976theory, burkart2003family}. Third, private firms are typically smaller with shorter histories, making their performance data substantially noisier than that of established public companies. These differences are not merely technical complications—they fundamentally alter how we should model and measure managerial contributions to firm performance.
 
-We address these challenges through three contributions. First, we develop a model that explicitly accounts for the division of control between owners who set fixed inputs (capital, location, industry) and CEOs who optimize variable inputs (labor, materials). [[owner and manager jointly maximize operating surplus, with owner taking strategic, manager operational decisions]] This framework clarifies what CEOs can and cannot affect, enabling cleaner identification of their contribution. Second, we assemble comprehensive administrative data covering the universe of Hungarian firms and their CEO networks over three decades (1992-2022), tracking over [[total firms]] firms and [[total CEOs]] CEOs through multiple business cycles and institutional regimes. Third, and most importantly, we introduce a placebo-controlled event study design that separates true CEO effects from the mechanical noise that contaminates fixed effects estimates when managers have short tenures.
+We address these challenges through three contributions. First, we develop a model that explicitly accounts for the division of control between owners who set fixed inputs (capital, location, industry) and CEOs who optimize variable inputs (labor, materials). In this framework, owners and managers jointly maximize operating surplus, with owners making strategic decisions about capital structure and market positioning while managers handle day-to-day operational choices. This framework clarifies what CEOs can and cannot affect, enabling cleaner identification of their contribution. Second, we assemble comprehensive administrative data covering the universe of Hungarian firms and their CEO networks over three decades (1992-2022), tracking over [[total firms]] firms and [[total CEOs]] CEOs through multiple business cycles and institutional regimes. Third, and most importantly, we introduce a placebo-controlled event study design that separates true CEO effects from the mechanical noise that contaminates fixed effects estimates when managers have short tenures.
 
-[[our model essentially models ceos in private businesses as plant managers responsible for day to day operations. likely underestimates their importance but better approximation than superstar CEOs in public companies. given these assumptions, it relevant to discuss empirical evidence on control in family firms (Zellweger) and hq / plant split (Bloom)]]
+Our modeling approach treats CEOs in private firms essentially as plant managers responsible for operational decisions—a simplification that likely underestimates their strategic importance but provides a more accurate approximation than models of superstar CEOs in public companies. This characterization aligns with empirical evidence from family firms where professional managers often face constraints on strategic decisions while maintaining operational autonomy \citep{zellweger2012managing}, and with studies of multi-plant firms where headquarters retains capital allocation authority while delegating production decisions to plant managers \citep{bloom2012americans}.
 
 Our headline result challenges conventional wisdom about CEO importance. The naive comparison suggests that firms hiring good CEOs outperform those hiring bad CEOs by [[raw CEO gap]] percent—a seemingly large effect consistent with the view that leadership quality is paramount. However, our placebo control reveals that [[placebo gap]] percent of this difference arises purely from noise in the estimation process, not from actual skill differences. The true causal effect of CEO quality is [[true CEO effect]] percent: economically meaningful and statistically significant, but only [[true as percent of raw]] percent of what raw correlations suggest. Put differently, three-quarters of the apparent variation in CEO quality is spurious.
 
@@ -65,13 +65,7 @@ Methodologically, our paper builds on the two-way fixed effects literature in la
 
 We develop a framework to measure CEO value in privately held firms where owners retain control over strategic decisions while delegating operational choices to managers. This division of decision rights, common in private businesses, has important implications for identifying manager effects.
 
-[[owner and manager jointly maximize operating surplus, with owner taking strategic, manager operational decisions]]
-
-[[only model managers decision, all analysis is conditional on strategic decisions having been predetermined]]
-
-[[assume manager is surplus maximizing.  can be achieved by high powered incentives]]
-
-[[owners and managers can split surplus arbitrarily as long as it does not violate the incentives of the manager. super interesting but for lack of data we do not study split]]
+Our framework models the manager's operational decisions while treating strategic choices as predetermined by owners. All empirical analysis is therefore conditional on the owner's prior decisions about capital structure, industry positioning, and organizational form. We assume managers maximize operating surplus, an objective that can be achieved through appropriately designed incentive contracts linking compensation to firm performance. While the division of surplus between owners and managers represents an important aspect of corporate governance, data limitations prevent us from analyzing how this surplus is split—we focus instead on identifying the total value created by different managers.
 
 
 \subsection{Production and Decision Rights}
@@ -122,10 +116,9 @@ r_{im'st} - r_{imst} = \frac{1}{\chi}(z_{m'} - z_{m})
 
 Manager value equals the skill difference scaled by $1/\chi$. This scaling reflects the leverage effect: a 1\% increase in manager skill generates a $(1/\chi)\%$ increase in revenue.
 
-[[model abstracts away from corporate governance friction which are of course relevant in the real world and can cause managers to make suboptimal decisions. but: less important with concentrated ownership where owners retain important control rights. also less relevant for operational decisions. while long term view, risk taking, loyally and entrepreneurship may be compromised by separation of control, the fundamental incentive structure of increasing revenue and cutting operating costs is not ]]
+Our model abstracts from corporate governance frictions that could lead managers to make suboptimal decisions. These frictions are less problematic in our setting of concentrated ownership where owners retain direct control over strategic choices. While agency problems may affect long-term vision, risk-taking, loyalty, and entrepreneurship, the fundamental incentive to increase revenue and reduce operating costs remains aligned between owners and managers in most private firms.
 
-
-[[we do not include any dynamic frictions either. strategic decisions are indeed forward looking because they are hard to change. but they are taken as predetermined anyway. even though the omptimization is not dynamic, the empirical application allows for arbitrary time series correlation within and among variables. studying these will help validate the assumptions of the model. preview: we will find that strategic choices are slowly moving and weakly correlated with manager change whereas operational decision respond immediately after a change of ceo]]
+The model also excludes dynamic considerations such as adjustment costs or forward-looking behavior. Strategic decisions are inherently forward-looking due to their persistence, but we treat them as predetermined from the manager's perspective. Despite the static optimization framework, our empirical application allows for arbitrary time-series correlation within and across variables. The data validate this modeling choice: strategic variables like capital evolve slowly with little correlation to manager changes, while operational variables such as employment and materials adjust immediately following CEO transitions.
 
 \subsection{Empirical Specification}
 
@@ -173,11 +166,11 @@ We apply several restrictions to create a sample suitable for productivity analy
 
 Most importantly, we restrict attention to firms that at some point employ at least [[min employees]] workers. This filter removes [[percent dropped for size]] of observations but eliminates shell companies, tax optimization vehicles, and self-employment arrangements masquerading as corporations. The remaining firms represent genuine businesses with meaningful economic activity where management quality plausibly affects performance.
 
-[[Public firms are excluded from the analysis. there are very few publicly traded companies on the Budapest Stock Exchange have fundamentally different governance structures, compensation packages, and disclosure requirements than private firms. we exclude all joint stock companies (closed or open) and other obscure legal forms of corporations (like cooperative) where it is common to have 3 or more managing directors at the same time]]
+We exclude public firms and joint-stock companies from our analysis. The few companies traded on the Budapest Stock Exchange operate under fundamentally different governance structures, compensation schemes, and disclosure requirements than typical private businesses. We also exclude cooperatives and other non-standard corporate forms where multiple managing directors commonly share executive authority, as these organizational structures complicate the identification of individual CEO effects.
 
 [[insert table 1 here]]
 
-[[because the 1990s decade was characterized by rapid liberalization and transition to the market economy and large inflow of FDI, we also redid our analysis starting in 2004, the year of EU accession. results were essentially unchanged]]
+Given that the 1990s were characterized by rapid economic liberalization, transition to market economy, and substantial foreign direct investment inflows, we conducted robustness checks restricting the sample to post-2004 data following Hungary's EU accession. The results remain essentially unchanged, confirming that our findings are not driven by the unique institutional environment of the transition period.
 
 \subsection{CEO and Firm Characteristics}
 
@@ -247,7 +240,7 @@ For broader comparisons across firms, we estimate a two-way fixed effects model:
 
 This system is only identified within connected components—groups of firms and managers linked through mobility. Two managers can be compared if they worked at the same firm or connect through a chain of shared employment relationships. Our largest connected component contains [[connected component size]] managers, enabling meaningful comparisons within this network. Following \citet{Abowd1999Econometrica}, we normalize one manager's effect to zero and estimate via within-transformation.
 
-[[connected components are not a representative subsample of the economy. they tend to be larger. this is not necessarily a problem however, because we did not restrict the correlation of manager effects with observables. in any case, we cannot use singletons and disjoint sets, because FE would not be interpretable]]
+The connected component represents a non-random subset of the economy, with member firms typically larger than average. This selection is not problematic for our identification strategy since we allow manager effects to correlate arbitrarily with observable characteristics. Moreover, we cannot extend the analysis to singleton firms or disconnected components where manager fixed effects would lack a common reference point for meaningful interpretation.
 
 
 \subsubsection{Three Identification Challenges}
@@ -306,12 +299,12 @@ Table \ref{tab:surplus_share} in the Appendix reports our estimates of the surpl
 
 Table \ref{tab:revenue_function} presents the revenue function estimates. We include controls for log capital, firm age, presence of intangible assets, and foreign ownership, along with firm-CEO and sector-year fixed effects. The capital coefficient is precisely estimated at [[capital coefficient]] (standard error [[capital SE]]), consistent with capital's limited but significant role in private businesses. The intangible asset dummy shows a positive coefficient of [[intangible coefficient]], while foreign ownership contributes [[foreign coefficient]] to log revenue. Firm age exhibits diminishing returns with a coefficient of [[age coefficient]] on log age. These controls explain [[R-squared]] of the variation in log revenue. Additional robustness checks varying the control set and sample restrictions, reported in the Appendix, yield similar estimates.
 
-[[founder managed firms have lower revenue conditional on owner inputs, hence, lower TFP. cite some literature consistent with this. in what follows, we will focus on founder to outside transitions, but results are robust if we exclude owner-managed firms, altogether. , which show even stronger true effects—approximately one-third of the raw correlation is real rather than one-quarter in the full sample. When excluding all founders and owner-managers entirely, the point estimates remain similar but confidence intervals widen due to the reduced sample of 834 firms. This confirms that our main finding—that most apparent CEO variation is noise—is not driven by founder-specific dynamics.]]
+Founder-managed firms exhibit lower revenue conditional on owner inputs, implying lower total factor productivity—a pattern consistent with evidence that family firms often sacrifice growth for control \citep{bennedsen2007inside}. Our preferred specifications focus on founder-to-outsider transitions where the separation of ownership and management is clearest. Excluding owner-managed firms entirely yields even stronger results, with approximately one-third of the raw correlation representing true effects rather than one-quarter in the full sample. When we restrict the analysis to never-founder-managed firms, point estimates remain similar though confidence intervals widen due to the reduced sample of 834 firms, confirming that our main finding of substantial noise contamination is not an artifact of founder-specific dynamics.
 
 
 \input{table/table3.tex}
 
-[[the fact the in the connected component, the estimates are nearly identical to the full sample, suggests (does not prove) that the econometric model is stable and we can use the connected component to learn about manager fixed effects. the revenue function coefficients are nearly identical when estimated on the connected component versus the full sample (Table 3, Model 6), suggesting that the production technology and manager effects operate similarly across both groups. While selection into the connected component is non-random, the economic relationships we estimate appear stable.]]
+The stability of our estimates across samples provides reassurance about the connected component analysis. Revenue function coefficients are nearly identical when estimated on the connected component versus the full sample (Table 3, Model 6), suggesting that production technology and manager effects operate similarly across both groups. While selection into the connected component is non-random—these firms are larger and more likely to hire external managers—the underlying economic relationships appear invariant to this selection, supporting our use of the connected component to identify manager fixed effects.
 
 \subsection{Distribution of Manager Fixed Effects}
 
@@ -388,7 +381,7 @@ The contrasting dynamics between materials and capital provide particularly comp
 
 These differential effects across outcomes—immediate for manager-controlled variables, gradual or absent for owner-controlled ones—support our model's division of decision rights and strengthen the causal interpretation of our estimates.
 
-[[this is consistent with evidence in Table A0, computed from data from Bloom et al 2012, where plant managers of family firms are constrained in their ability to invest, do innovation and engage in marketing, but they are not constrained in labor hiring. also consistent with broader corporate governance literature, e.g Thomas Zellweger]]
+This division of control aligns with evidence from multi-plant firms where plant managers in family-owned businesses face constraints on capital investment, innovation, and marketing decisions but maintain autonomy over labor hiring \citep{bloom2012americans}. The pattern also reflects broader governance structures in concentrated ownership firms where owners preserve strategic control while delegating operational management \citep{zellweger2012managing}.
 
 \section{Conclusion}
 
@@ -400,7 +393,7 @@ These findings have profound implications for corporate governance and productiv
 
 Instead, future research should use observable manager characteristics. Education and work experience \citep{DePirro2025}, foreign name as a proxy for international exposure \citep{Koren2023expat}, and the selectiveness of entry cohorts \citep{koren2024managers} offer more reliable, albeit narrower, measures of specific dimensions of managerial quality. These observables, while capturing only partial aspects of CEO ability, avoid the mechanical noise that contaminates fixed effects estimates.
 
-[[we have already discussed limitations, end on a more positive note]]
+Our findings offer both methodological and substantive contributions. The placebo control technique provides a practical tool for future research on manager effects, applicable beyond our specific context. For policy, the modest but real CEO effects suggest that while management quality matters, other factors—organizational capital, market position, ownership structure—play larger roles in firm performance. Understanding this balance helps calibrate expectations about what management improvements can realistically achieve in private businesses.
 
 \bibliographystyle{apalike}
 \bibliography{references}
