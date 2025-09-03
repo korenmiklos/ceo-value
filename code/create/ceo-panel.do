@@ -23,7 +23,7 @@ tabulate birth_year imputed_age if pt, missing
 
 keep if inrange(year, `start_year', `end_year')
 
-local dims frame_id_numeric person_id year male birth_year manager_category owner
+local dims frame_id_numeric person_id year male birth_year manager_category owner cf
 keep `dims'
 order `dims'
 

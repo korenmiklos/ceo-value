@@ -3,7 +3,7 @@
        log:  /Users/koren/Tresorit/Mac/projects/ceo-value/output/event_study.tx
 > t
   log type:  text
- opened on:   3 Sep 2025, 01:26:43
+ opened on:   3 Sep 2025, 05:32:55
 
 . 
 . display "Event study results for better CEOs:"
@@ -18,12 +18,12 @@ Panel variable: fake_id (unbalanced)
  Time variable: year, 1992 to 2022, but with gaps
          Delta: 1 unit
 
-Event study relative to atet            Number of obs = 19,377
+Event study relative to atet            Number of obs = 15,426
 
 ------------------------------------------------------------------------------
     lnStilde |       ATET   Std. err.      z    P>|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
-        ATET |   .2005035   .0058975    34.00   0.000     .1889446    .2120625
+        ATET |    .197628   .0063365    31.19   0.000     .1852086    .2100474
 ------------------------------------------------------------------------------
 
 . scalar total_atet = _b[ATET]
@@ -37,12 +37,12 @@ Panel variable: fake_id (unbalanced)
  Time variable: year, 1992 to 2022, but with gaps
          Delta: 1 unit
 
-Event study relative to atet           Number of obs = 156,155
+Event study relative to atet           Number of obs = 151,796
 
 ------------------------------------------------------------------------------
     lnStilde |       ATET   Std. err.      z    P>|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
-        ATET |   .1506297   .0013303   113.23   0.000     .1480224    .1532371
+        ATET |   .1475345   .0013013   113.37   0.000      .144984    .1500851
 ------------------------------------------------------------------------------
 
 . scalar placebo_atet = _b[ATET]
@@ -56,12 +56,12 @@ Panel variable: fake_id (unbalanced)
  Time variable: year, 1992 to 2022, but with gaps
          Delta: 1 unit
 
-Event study relative to atet            Number of obs = 79,283
+Event study relative to atet            Number of obs = 76,749
 
 ------------------------------------------------------------------------------
     lnStilde |       ATET   Std. err.      z    P>|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
-        ATET |  -.0157171   .0039751    -3.95   0.000    -.0235081   -.0079261
+        ATET |  -.0174079   .0041301    -4.21   0.000    -.0255027   -.0093131
 ------------------------------------------------------------------------------
 
 . scalar worse_atet = _b[ATET]
@@ -75,12 +75,12 @@ Panel variable: fake_id (unbalanced)
  Time variable: year, 1992 to 2022, but with gaps
          Delta: 1 unit
 
-Event study relative to atet            Number of obs = 96,249
+Event study relative to atet            Number of obs = 90,473
 
 ------------------------------------------------------------------------------
     lnStilde |       ATET   Std. err.      z    P>|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
-        ATET |   .0355896   .0045596     7.81   0.000     .0266529    .0445263
+        ATET |     .03349   .0049899     6.71   0.000     .0237099      .04327
 ------------------------------------------------------------------------------
 
 . scalar better_atet = _b[ATET]
@@ -92,18 +92,18 @@ Event study relative to atet            Number of obs = 96,249
 
 . 
 . display "Total ATET: " total_atet
-Total ATET: .20050354
+Total ATET: .19762804
 
 . display "Placebo-controlled ATET 1: " proper_atet1
-Placebo-controlled ATET 1: .05130673
+Placebo-controlled ATET 1: .05089789
 
 . display "Placebo-controlled ATET 2: " proper_atet2
-Placebo-controlled ATET 2: .04987379
+Placebo-controlled ATET 2: .0500935
 
 . log close
       name:  <unnamed>
        log:  /Users/koren/Tresorit/Mac/projects/ceo-value/output/event_study.tx
 > t
   log type:  text
- closed on:   3 Sep 2025, 01:29:32
+ closed on:   3 Sep 2025, 05:35:35
 -------------------------------------------------------------------------------

@@ -7,6 +7,35 @@ local min_firm_age 1              // Minimum firm age (drops age 0)
 local excluded_sectors "2, 9"     // Sector codes to exclude (mining, finance)
 local min_employment 5           // Minimum employment for analysis
 
+/*
+    1 Vállalat
+    2 Szövetkezet
+    3 Közkereseti társaság
+    4 Gazdasági munkaközösség
+    5 Jogi személy felelősségvállalásával működő gazdasági munkaközösség
+    6 Betéti társaság
+    7 Egyesülés
+    8 Közös vállalat
+    9 Korlátolt felelősségű társaság
+    10 Részvénytársaság
+    11 Egyéni cég
+    12 Külföldiek magyarországi közvetlen kereskedelmi képviselete
+    13 Oktatói munkaközösség
+    14 Közhasznú társaság
+    15 Erdőbirtokossági társulat
+    16 Vízgazdálkodási társulat
+    17 Külföldi vállalkozás magyarországi fióktelepe
+    18 Végrehajtói iroda
+    19 Európai gazdasági egyesülés
+    20 Európai részvénytársaság
+    21 Közjegyzői iroda
+    22 Külföldi székhelyű európai gazdasági egyesülés magyarországi telephelye
+    23 Európai szövetkezet
+
+*/
+* exclude companies with dispersed ownership based of legal form
+drop if inlist(cf, 1, 2, 7, 8, 10, 15, 16, 19, 20, 23)
+
 * drop firm-years that do not have a CEO
 drop if ceo_spell == 0
 
