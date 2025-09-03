@@ -46,6 +46,7 @@ generate firm_age = year - foundyear
 generate ceo_age = year - birth_year
 generate byte second_ceo = (ceo_spell == 2)
 generate byte third_ceo = (ceo_spell >= 3)
+generate byte founder = (manager_category == 1)
 
 * quadratics
 foreach var in ceo_age firm_age ceo_tenure {
@@ -68,6 +69,8 @@ label variable ceo_tenure "CEO tenure (years)"
 label variable ceo_spell "CEO spell"
 label variable second_ceo "Second CEO"
 label variable third_ceo "Third or later CEO"
+label variable founder "Founding owner"
+label variable owner "Non-founding owner"
 * quadratics
 label variable ceo_age_sq "CEO age squared"
 label variable firm_age_sq "Firm age squared"

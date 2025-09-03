@@ -37,7 +37,7 @@ summarize within_firm_chi if ceo_spell > 1, detail
 display "IQR of within-firm variation in manager surplus: " exp(r(p75) - r(p25))*100 - 100
 
 local outcomes lnR lnEBITDA lnL
-local controls lnK foreign_owned has_intangible
+local controls lnK foreign_owned has_intangible founder owner
 frame create within_firm strL outcome strL control contribution
 foreach outcome of local outcomes {
     display "Explaining within-firm variation in `outcome'..."

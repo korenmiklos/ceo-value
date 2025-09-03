@@ -78,6 +78,10 @@ replace MS2 = MS2a if !placebo
 
 drop if missing(MS1, MS2)
 egen firm_tag = tag(fake_id)
+egen some_owner = max(founder | owner ), by(fake_id )
+
+tabulate ceo_spell some_owner
+drop if some_owner == 1
 
 generate byte good_ceo = (MS2 > MS1)
 
