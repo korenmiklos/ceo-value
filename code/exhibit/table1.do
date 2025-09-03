@@ -54,6 +54,8 @@ restore
 * Count CEOs in connected component
 preserve
     merge m:1 person_id using `connected_managers', keep(match) nogen
+    * only keep largest component
+    keep if component_id == 1
     egen ceo_year_tag = tag(person_id year)
     keep if ceo_year_tag
     collapse (count) n_ceos_connected = person_id, by(year)
@@ -64,6 +66,8 @@ restore
 * Count firms in connected component
 preserve
     merge m:1 person_id using `connected_managers', keep(match) nogen
+    * only keep largest component
+    keep if component_id == 1
     drop if missing(frame_id_numeric)
     egen firm_year_tag_conn = tag(frame_id_numeric year)
     keep if firm_year_tag_conn
@@ -119,6 +123,8 @@ local total_firms_total = r(N)
 
 * Count distinct in connected component
 import delimited "temp/large_component_managers.csv", clear
+* only keep largest component
+keep if component_id == 1
 count
 local total_ceos_connected = r(N)
 tempfile connected_temp

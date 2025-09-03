@@ -33,8 +33,8 @@ function write_edgelist_csv(path::String, sources::Vector{Int}, targets::Vector{
     end
 end
 
-function write_component_csv(path::String, person_ids::Vector{Int}, component_ids::Vector{Int})
-    df = DataFrame(person_id=person_ids, component_id=component_ids)
+function write_component_csv(path::String, person_ids::Vector{Int}, component_ids::Vector{Int}, sizes::Vector{Int})
+    df = DataFrame(person_id=person_ids, component_id=component_ids, component_size=sizes)
     CSV.write(path, df)
 end
 
@@ -57,7 +57,7 @@ function project_bipartite_graph(bipartite::BipartiteGraph)::ProjectedGraph
     return ProjectedGraph(P, target_idx)
 end
 
-function large_connected_components(graph::ProjectedGraph, min_size::Int=1000)::Tuple{Vector{Int}, Vector{Int}}
+function large_connected_components(graph::ProjectedGraph, min_size::Int=1000)::Tuple{Vector{Int}, Vector{Int}, Vector{Int}}
     G = SimpleGraph(graph.adjacency)
     components = connected_components(G)
     println("Number of components: ", length(components))
@@ -78,15 +78,18 @@ function large_connected_components(graph::ProjectedGraph, min_size::Int=1000)::
     idx_to_id = Dict(v => k for (k, v) in graph.node_idx)
     person_ids = Int[]
     component_ids = Int[]
+    sizes = Int[]
     
     for (comp_id, component) in enumerate(large_components)
+        size = length(component)
         for idx in component
             push!(person_ids, idx_to_id[idx])
             push!(component_ids, comp_id)
+            push!(sizes, size)
         end
     end
-    
-    return person_ids, component_ids
+
+    return person_ids, component_ids, sizes
 end
 
 # --- Synthetic Data Generator --- #
@@ -103,6 +106,7 @@ function generate_edgelist(n_left::Int, n_right::Int, edges_per_right::Int)::Bip
 end
 
 # --- Main Analysis --- #
+const COMPONENT_SIZE_CUTOFF = 30
 
 # Read firm-manager edgelist from Stata output
 bipartite = read_edgelist("temp/edgelist.csv", "frame_id_numeric", "person_id")
@@ -110,8 +114,8 @@ println("Read ", length(bipartite.sources), " edges")
 
 # Project to manager-manager network and find large connected components
 graph = project_bipartite_graph(bipartite)
-person_ids, component_ids = large_connected_components(graph, 1000)
-println("Total managers in components with 1000+ nodes: ", length(person_ids))
+person_ids, component_ids, component_sizes = large_connected_components(graph, COMPONENT_SIZE_CUTOFF)
+println("Total managers in components with $(COMPONENT_SIZE_CUTOFF)+ nodes: ", length(person_ids))
 
 # Write manager person_ids and component_ids to CSV
-write_component_csv("temp/large_component_managers.csv", person_ids, component_ids)
+write_component_csv("temp/large_component_managers.csv", person_ids, component_ids, component_sizes)

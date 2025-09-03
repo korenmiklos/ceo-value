@@ -136,11 +136,6 @@ output/table/table2_panelA.tex output/table/table2_panelB.tex: code/exhibit/tabl
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
-# Table 4: Manager skill by sector and ownership (two panels)
-output/table/table4_panelA.tex output/table/table4_panelB.tex: code/exhibit/table4.do temp/analysis-sample.dta temp/manager_value.dta
-	mkdir -p $(dir $@)
-	$(STATA) $<
-
 # Figure 1: Event study results (both main figure and panel C)
 output/figure/event_study.pdf output/figure/event_study_panel_c.pdf: code/exhibit/figure1.do temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_moments.dta
 	mkdir -p $(dir $@)
@@ -151,7 +146,7 @@ output/figure/event_study.pdf output/figure/event_study_panel_c.pdf: code/exhibi
 # =============================================================================
 
 # Compile final paper
-output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/table4_panelA.tex output/table/table4_panelB.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/event_study.pdf output/figure/event_study_panel_c.pdf output/references.bib
+output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/event_study.pdf output/figure/event_study_panel_c.pdf output/references.bib
 	cd output && $(LATEX) paper.tex && bibtex paper && $(LATEX) paper.tex && $(LATEX) paper.tex
 
 # Compile presentation slides
