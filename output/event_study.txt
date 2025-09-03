@@ -1,81 +1,86 @@
----------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  /Users/koren/Tresorit/Mac/projects/ceo-value/output/event_study.txt
+       log:  /Users/koren/Tresorit/Mac/projects/ceo-value/output/event_study.tx
+> t
   log type:  text
- opened on:   3 Sep 2025, 06:55:39
+ opened on:   3 Sep 2025, 08:10:58
 
 . 
 . display "Event study results for better CEOs:"
 Event study results for better CEOs:
 
 . * compare naive control to placebo controlled event study
-. xt2treatments lnStilde if placebo == 0, treatment(better_ceo) control(worse_ceo) pre(`=-1*${event_window_star
-> t}') post(${event_window_end}) baseline(atet) weighting(optimal)
+. xt2treatments lnStilde if placebo == 0, treatment(better_ceo) control(worse_c
+> eo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(atet)
+>  weighting(optimal)
 
 Panel variable: fake_id (unbalanced)
  Time variable: year, 1992 to 2022, but with gaps
          Delta: 1 unit
 
-Event study relative to atet             Number of obs = 7,665
+Event study relative to atet             Number of obs = 7,691
 
 ------------------------------------------------------------------------------
     lnStilde |       ATET   Std. err.      z    P>|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
-        ATET |   .2236577   .0099307    22.52   0.000     .2041939    .2431215
+        ATET |   .2213256   .0097657    22.66   0.000     .2021851    .2404661
 ------------------------------------------------------------------------------
 
 . scalar total_atet = _b[ATET]
 
 . 
-. xt2treatments lnStilde if placebo == 1, treatment(better_ceo) control(worse_ceo) pre(`=-1*${event_window_star
-> t}') post(${event_window_end}) baseline(atet) weighting(optimal)
+. xt2treatments lnStilde if placebo == 1, treatment(better_ceo) control(worse_c
+> eo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(atet)
+>  weighting(optimal)
 
 Panel variable: fake_id (unbalanced)
  Time variable: year, 1992 to 2022, but with gaps
          Delta: 1 unit
 
-Event study relative to atet           Number of obs = 151,452
+Event study relative to atet           Number of obs = 151,796
 
 ------------------------------------------------------------------------------
     lnStilde |       ATET   Std. err.      z    P>|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
-        ATET |   .1475215   .0013037   113.16   0.000     .1449664    .1500767
+        ATET |   .1475345   .0013013   113.37   0.000      .144984    .1500851
 ------------------------------------------------------------------------------
 
 . scalar placebo_atet = _b[ATET]
 
 . 
-. xt2treatments lnStilde if good_ceo == 0, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*${event_window_s
-> tart}') post(${event_window_end}) baseline(atet) weighting(optimal)
+. xt2treatments lnStilde if good_ceo == 0, treatment(actual_ceo) control(placeb
+> o_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(at
+> et) weighting(optimal)
 
 Panel variable: fake_id (unbalanced)
  Time variable: year, 1992 to 2022, but with gaps
          Delta: 1 unit
 
-Event study relative to atet            Number of obs = 72,397
+Event study relative to atet            Number of obs = 72,809
 
 ------------------------------------------------------------------------------
     lnStilde |       ATET   Std. err.      z    P>|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
-        ATET |  -.0347419   .0056385    -6.16   0.000    -.0457931   -.0236907
+        ATET |  -.0330695   .0059226    -5.58   0.000    -.0446776   -.0214614
 ------------------------------------------------------------------------------
 
 . scalar worse_atet = _b[ATET]
 
 . 
-. xt2treatments lnStilde if good_ceo == 1, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*${event_window_s
-> tart}') post(${event_window_end}) baseline(atet) weighting(optimal)
+. xt2treatments lnStilde if good_ceo == 1, treatment(actual_ceo) control(placeb
+> o_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(at
+> et) weighting(optimal)
 
 Panel variable: fake_id (unbalanced)
  Time variable: year, 1992 to 2022, but with gaps
          Delta: 1 unit
 
-Event study relative to atet            Number of obs = 86,720
+Event study relative to atet            Number of obs = 86,678
 
 ------------------------------------------------------------------------------
     lnStilde |       ATET   Std. err.      z    P>|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
-        ATET |   .0425733   .0078627     5.41   0.000     .0271626    .0579839
+        ATET |   .0442263   .0075239     5.88   0.000     .0294797    .0589728
 ------------------------------------------------------------------------------
 
 . scalar better_atet = _b[ATET]
@@ -87,17 +92,18 @@ Event study relative to atet            Number of obs = 86,720
 
 . 
 . display "Total ATET: " total_atet
-Total ATET: .22365769
+Total ATET: .22132561
 
 . display "Placebo-controlled ATET 1: " proper_atet1
-Placebo-controlled ATET 1: .07731516
+Placebo-controlled ATET 1: .07729576
 
 . display "Placebo-controlled ATET 2: " proper_atet2
-Placebo-controlled ATET 2: .07613617
+Placebo-controlled ATET 2: .07379107
 
 . log close
       name:  <unnamed>
-       log:  /Users/koren/Tresorit/Mac/projects/ceo-value/output/event_study.txt
+       log:  /Users/koren/Tresorit/Mac/projects/ceo-value/output/event_study.tx
+> t
   log type:  text
- closed on:   3 Sep 2025, 06:58:08
----------------------------------------------------------------------------------------------------------------
+ closed on:   3 Sep 2025, 08:13:22
+-------------------------------------------------------------------------------
