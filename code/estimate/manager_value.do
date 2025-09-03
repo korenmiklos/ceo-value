@@ -6,6 +6,8 @@ local within_firm_skill_max 1      // Maximum within-firm manager skill bound
 local connected_skill_min -2       // Minimum connected component skill bound
 local connected_skill_max 2        // Maximum connected component skill bound
 local largest_component_id 1       // ID of largest connected component
+local outcomes lnR lnEBITDA lnL
+local controls lnK foreign_owned has_intangible founder owner
 
 use "temp/surplus.dta", clear
 
@@ -36,8 +38,6 @@ generate within_firm_chi = within_firm / chi
 summarize within_firm_chi if ceo_spell > 1, detail
 display "IQR of within-firm variation in manager surplus: " exp(r(p75) - r(p25))*100 - 100
 
-local outcomes lnR lnEBITDA lnL
-local controls lnK foreign_owned has_intangible founder owner
 frame create within_firm strL outcome strL control contribution
 foreach outcome of local outcomes {
     display "Explaining within-firm variation in `outcome'..."
