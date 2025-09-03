@@ -83,7 +83,7 @@ tabulate ceo_spell some_owner
 tabulate ceo_spell founder1
 
 * keep founder to non-founder transitions only, except for placebo, where keep everyone
-keep if (founder1 == 1 & founder2 == 0) | (placebo == 1)
+keep if (founder1 == 0 & founder2 == 0) | (placebo == 1)
 tabulate ceo_spell
 
 generate byte good_ceo = (MS2 > MS1)
