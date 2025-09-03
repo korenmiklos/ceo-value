@@ -11,12 +11,13 @@ use "temp/event_study_panel_a.dta", clear
 graph twoway ///
     (rarea lower_actual upper_actual xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_actual xvar, lcolor(blue) mcolor(blue)) ///
     (rarea lower_placebo upper_placebo xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_placebo xvar, lcolor(red) mcolor(red)) ///
-    , graphregion(color(white)) xlabel(`event_window_start'(1)`event_window_end') legend(off) ///
+    , graphregion(color(white)) xlabel(`event_window_start'(1)`event_window_end') ///
     xline(-0.5) xscale(range (`event_window_start' `event_window_end')) ///
     xtitle("Time since CEO change (year)") yline(0) ///
     ytitle("Log TFP relative to year `baseline_year'") ///
     title("Panel A: Actual vs Placebo", size(medium)) ///
     ylabel(, angle(0)) ///
+    legend(order(2 "Actual" 4 "Placebo") rows(1) position(6)) ///
     saving("temp/event_study_panel_a.gph", replace)
 
 * =============================================================================
@@ -28,12 +29,13 @@ use "temp/event_study_panel_b.dta", clear
 graph twoway ///
     (rarea lower_worse upper_worse xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_worse xvar, lcolor(blue) mcolor(blue)) ///
     (rarea lower_better upper_better xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_better xvar, lcolor(red) mcolor(red)) ///
-    , graphregion(color(white)) xlabel(`event_window_start'(1)`event_window_end') legend(off) ///
+    , graphregion(color(white)) xlabel(`event_window_start'(1)`event_window_end') ///
     xline(-0.5) xscale(range (`event_window_start' `event_window_end')) ///
     xtitle("Time since CEO change (year)") yline(0) ///
     ytitle("Log TFP relative to year `baseline_year'") ///
-    title("Panel B: Placebo-Controlled Event Study", size(medium)) ///
+    title("Panel B: Worse vs Better CEO", size(medium)) ///
     ylabel(, angle(0)) ///
+    legend(order(2 "Worse CEO" 4 "Better CEO") rows(1) position(6)) ///
     saving("temp/event_study_panel_b.gph", replace)
 
 
@@ -42,12 +44,13 @@ use "temp/event_study_moments.dta", clear
 graph twoway ///
     (rarea lower_mean upper_mean xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_mean xvar, lcolor(blue) mcolor(blue)) ///
     (rarea lower_var upper_var xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_var xvar, lcolor(red) mcolor(red)) ///
-    , graphregion(color(white)) xlabel(`event_window_start'(1)`event_window_end') legend(order(2 "Mean" 4 "Variance")) ///
+    , graphregion(color(white)) xlabel(`event_window_start'(1)`event_window_end') ///
     xline(-0.5) xscale(range (`event_window_start' `event_window_end')) ///
     xtitle("Time since CEO change (year)") yline(0) ///
     ytitle("Moments of log TFP relative to year `baseline_year'") ///
-    title("Panel C: First and Second Moments of TFP Around CEO Change", size(medium)) ///
+    title("Panel C: Mean and Variance Moments of TFP Change", size(medium)) ///
     ylabel(, angle(0)) ///
+    legend(order(2 "Mean" 4 "Variance") rows(1) position(6)) ///
     saving("temp/event_study_panel_c.gph", replace)
 
 graph export "output/figure/event_study_panel_c.pdf", replace
