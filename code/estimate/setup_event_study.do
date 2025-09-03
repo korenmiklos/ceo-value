@@ -49,7 +49,6 @@ keep if ceo_spell <= max_ceo_spell
 keep if !missing(lnStilde)
 keep if inlist(ceo_spell, ${first_spell}, ${second_spell})
 
-
 egen change_year = min(cond(ceo_spell == ${second_spell}, year, .)), by(fake_id)
 generate event_time = year - change_year
 
@@ -77,8 +76,15 @@ replace MS2 = MS2a if !placebo
 drop if missing(MS1, MS2)
 egen firm_tag = tag(fake_id)
 egen some_owner = max(founder | owner ), by(fake_id )
+egen founder1 = max(cond(ceo_spell == ${first_spell}, founder, .)), by(fake_id)
+egen founder2 = max(cond(ceo_spell == ${second_spell}, founder, .)), by(fake_id)
 
 tabulate ceo_spell some_owner
+tabulate ceo_spell founder1
+
+* keep founder to non-founder transitions only, except for placebo, where keep everyone
+keep if (founder1 == 1 & founder2 == 0) | (placebo == 1)
+tabulate ceo_spell
 
 generate byte good_ceo = (MS2 > MS1)
 
