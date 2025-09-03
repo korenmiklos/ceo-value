@@ -49,7 +49,9 @@ What is the value of CEOs to firm performance? A large literature documents that
 
 Private firms differ from their public counterparts in three fundamental ways that complicate the measurement of CEO value. First, data limitations are severe: private firms disclose little about executive compensation, strategic decisions, or even basic financial performance beyond statutory requirements. Second, ownership concentration gives owners direct control over strategic choices, creating a division of decision rights that blurs the attribution of outcomes to CEOs versus owners \citep{fama1983separation, jensen1976theory, burkart2003family}. Third, private firms are typically smaller with shorter histories, making their performance data substantially noisier than that of established public companies. These differences are not merely technical complications—they fundamentally alter how we should model and measure managerial contributions to firm performance.
 
-We address these challenges through three contributions. First, we develop a model that explicitly accounts for the division of control between owners who set fixed inputs (capital, location, industry) and CEOs who optimize variable inputs (labor, materials). This framework clarifies what CEOs can and cannot affect, enabling cleaner identification of their contribution. Second, we assemble comprehensive administrative data covering the universe of Hungarian firms and their CEO networks over three decades (1992-2022), tracking over [[total firms]] firms and [[total CEOs]] CEOs through multiple business cycles and institutional regimes. Third, and most importantly, we introduce a placebo-controlled event study design that separates true CEO effects from the mechanical noise that contaminates fixed effects estimates when managers have short tenures.
+We address these challenges through three contributions. First, we develop a model that explicitly accounts for the division of control between owners who set fixed inputs (capital, location, industry) and CEOs who optimize variable inputs (labor, materials). [[owner and manager jointly maximize operating surplus, with owner taking strategic, manager operational decisions]] This framework clarifies what CEOs can and cannot affect, enabling cleaner identification of their contribution. Second, we assemble comprehensive administrative data covering the universe of Hungarian firms and their CEO networks over three decades (1992-2022), tracking over [[total firms]] firms and [[total CEOs]] CEOs through multiple business cycles and institutional regimes. Third, and most importantly, we introduce a placebo-controlled event study design that separates true CEO effects from the mechanical noise that contaminates fixed effects estimates when managers have short tenures.
+
+[[our model essentially models ceos in private businesses as plant managers responsible for day to day operations. likely underestimates their importance but better approximation than superstar CEOs in public companies. given these assumptions, it relevant to discuss empirical evidence on control in family firms (Zellweger) and hq / plant split (Bloom)]]
 
 Our headline result challenges conventional wisdom about CEO importance. The naive comparison suggests that firms hiring good CEOs outperform those hiring bad CEOs by [[raw CEO gap]] percent—a seemingly large effect consistent with the view that leadership quality is paramount. However, our placebo control reveals that [[placebo gap]] percent of this difference arises purely from noise in the estimation process, not from actual skill differences. The true causal effect of CEO quality is [[true CEO effect]] percent: economically meaningful and statistically significant, but only [[true as percent of raw]] percent of what raw correlations suggest. Put differently, three-quarters of the apparent variation in CEO quality is spurious.
 
@@ -62,6 +64,15 @@ Methodologically, our paper builds on the two-way fixed effects literature in la
 \section{Conceptual Framework}
 
 We develop a framework to measure CEO value in privately held firms where owners retain control over strategic decisions while delegating operational choices to managers. This division of decision rights, common in private businesses, has important implications for identifying manager effects.
+
+[[owner and manager jointly maximize operating surplus, with owner taking strategic, manager operational decisions]]
+
+[[only model managers decision, all analysis is conditional on strategic decisions having been predetermined]]
+
+[[assume manager is surplus maximizing.  can be achieved by high powered incentives]]
+
+[[owners and managers can split surplus arbitrarily as long as it does not violate the incentives of the manager. super interesting but for lack of data we do not study split]]
+
 
 \subsection{Production and Decision Rights}
 
@@ -110,6 +121,11 @@ r_{im'st} - r_{imst} = \frac{1}{\chi}(z_{m'} - z_{m})
 \end{equation}
 
 Manager value equals the skill difference scaled by $1/\chi$. This scaling reflects the leverage effect: a 1\% increase in manager skill generates a $(1/\chi)\%$ increase in revenue.
+
+[[model abstracts away from corporate governance friction which are of course relevant in the real world and can cause managers to make suboptimal decisions. but: less important with concentrated ownership where owners retain important control rights. also less relevant for operational decisions. while long term view, risk taking, loyally and entrepreneurship may be compromised by separation of control, the fundamental incentive structure of increasing revenue and cutting operating costs is not ]]
+
+
+[[we do not include any dynamic frictions either. strategic decisions are indeed forward looking because they are hard to change. but they are taken as predetermined anyway. even though the omptimization is not dynamic, the empirical application allows for arbitrary time series correlation within and among variables. studying these will help validate the assumptions of the model. preview: we will find that strategic choices are slowly moving and weakly correlated with manager change whereas operational decision respond immediately after a change of ceo]]
 
 \subsection{Empirical Specification}
 
