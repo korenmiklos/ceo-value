@@ -1,0 +1,74 @@
+output/paper.tex --- LaTeX
+300                                     300 
+301 The temporal distribution of transi 301 The temporal distribution of transi
+... tions shows that our sample spans t ... tions shows that our sample spans t
+... he full observation period from 199 ... he full observation period from 199
+... 2 to 2022, with CEO changes occurri ... 2 to 2022, with CEO changes occurri
+... ng throughout the Hungarian economi ... ng throughout the Hungarian economi
+... c transition and subsequent develop ... c transition and subsequent develop
+... ment. The event study sample includ ... ment. The event study sample includ
+... es firms across all major industrie ... es firms across all major industrie
+... s, ensuring broad representativenes ... s, ensuring broad representativenes
+... s of the results.                   ... s of the results.
+302                                     302 
+303 \paragraph{Pre-transition patterns  303 \paragraph{Pre-transition patterns 
+... and selection.} Figure \ref{fig:eve ... and selection.} Figure \ref{fig:eve
+... nt_study} presents the evolution of ... nt_study}, panel A shows that resid
+...  residual surplus around CEO transi ... ualized surplus starts to increase 
+... tions, comparing firms that hire be ... before an actual CEO transition to 
+... tter managers versus worse managers ... a more skilled CEO, similarly, it s
+... . The analysis window spans from 10 ... tarts to decrease before an actual 
+...  years before to 10 years after the ... CEO change to a less skilled CEO, r
+...  CEO change (event time 0), with th ... elative to a change in CEO which ha
+... e baseline set to event time -2 (tw ... s approximately the same skills as 
+... o years before the transition).     ... the previous CEO. Upon the entry of
+...                                     ...  the better CEO there is a sharp in
+...                                     ... crease in residual surplus, while t
+...                                     ... here is a sharp decrease in the sam
+...                                     ... e surplus when the worse CEO enters
+...                                     ... . In particular, relative to three 
+...                                     ... years prior to the actual CEO chang
+...                                     ... e, in year -1, residual surplus is 
+...                                     ... approximately 3.5\% higher, and rig
+...                                     ... ht after the entry of the new CEO, 
+...                                     ... residual surplus is 11\% higher whe
+...                                     ... n a firm transitions to a more skil
+...                                     ... led CEO. In contrast, before transi
+...                                     ... tioning to a worse CEO, residual su
+...                                     ... rplus is around 2\% lower in year -
+...                                     ... 1 compared to year -3. Upon the arr
+...                                     ... ival of the worse CEO, residual sur
+...                                     ... plus is 10\% below the reference ca
+...                                     ... tegory.
+304                                     304 
+305 The pre-transition period reveals i 305 Since manager skills are assumed to
+... mportant selection patterns. Firms  ...  be time invariant, the trend befor
+... that will hire better managers show ... e the CEO change cannot be attribut
+...  consistently lower surplus in the  ... ed to the previous CEO-s skills, in
+... years leading up to the transition, ... stead, it is attributed to firm-yea
+...  with the difference reaching 5.2 p ... r specific $\omega_{it}$ shocks. At
+... ercentage points below firms hiring ...  first glance, this might suggest t
+...  worse managers at event time -10.  ... hat there is selection into getting
+... This pattern reverses as the transi ...  a better CEO: firms are on a sligh
+... tion approaches, with firms hiring  ... t upward trend in terms of residual
+... better managers showing 11.4 percen ...  surplus before the new, better CEO
+... tage points higher surplus than tho ...  raises residual surplus sharply. A
+... se hiring worse managers at event t ...  similar story could be told about 
+... ime -1. These pre-existing differen ... the move to a worse CEO.
+... ces suggest that underperforming fi ... 
+... rms are more likely to seek higher- ... 
+... skilled replacement CEOs, consisten ... 
+... t with optimal management turnover  ... 
+... in response to poor performance.    ... 
+...                                     306 
+...                                     307 To check whether we are indeed faci
+...                                     ... ng a situatuon characterized by sel
+...                                     ... ection into treatment here or a sit
+...                                     ... uation in which measurement error i
+...                                     ... nflates measured residual surplus p
+...                                     ... rior to an actual CEO change, we im
+...                                     ... plement a placebo strategy.
+...                                     308 
+306                                     309 
+307 \begin{figure}[htbp]                310 \begin{figure}[htbp]
+

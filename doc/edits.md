@@ -76,4 +76,55 @@ Suggestion: Add a paragraph: "Our placebo-controlled approach offers a general s
 
 The paper doesn't discuss the broader implications of the work. 
 
-Suggestion: Add a final paragraph in the conclusion. 
+Suggestion: Add a final paragraph in the conclusion.
+
+## Additional Edits from Krisztina's Patches
+
+### 11. Change from Revenue to Surplus Notation Throughout
+
+From krisztina1.patch: The theoretical framework should consistently use surplus ($s_{imst}$) rather than revenue ($r_{imst}$) notation, as surplus better captures the value creation we're measuring.
+
+> Surplus is sometimes negative so, empirically, we always use revenue. I would stick to this notation. In the model, there is a constant share so I feel not much is lost and the flow is clearer. We may somewhere add that we ultimately care about the "value", which is driven by TFP. We already have language like
+
+```latex
+The surplus accruing to fixed factors—what owners and managers ultimately care about—equals revenue minus payments to variable inputs:
+...
+
+Manager value equals the skill difference scaled by $1/\chi$. This scaling reflects the leverage effect: a 1\% increase in manager skill generates a $(1/\chi)\%$ increase in revenue and, hence, surplus.
+```
+### 12. Make TFP Decomposition Explicit in Production Function
+
+From krisztina1.patch: The production function should explicitly show how traditional TFP is decomposed into components.
+
+> Great suggestion. I change the notation, $\Omega$ is TFP, residual TFP is the more noise-looking $\varepsilon$. 
+
+```latex
+Standard production function estimation combines the first three components into a single measure: $\Omega_{it} = A_i Z_m \varepsilon_{it}$, called total factor productivity (TFP). Our framework decomposes TFP into firm-specific advantages ($A_i$), manager-specific skill ($Z_m$), and residual productivity shocks ($\varepsilon_{it}$) to identify the manager's contribution.
+```
+
+### 13. Add Residualized Surplus Equation
+
+From krisztina1.patch: The empirical strategy needs clearer exposition of the residualized surplus concept.
+
+> My preferred interpretation is TFP. With the new notation, this is clearer. Once we multiply log revenue by $\chi$ and subtract contribution of fixed inputs, an estimate of $\omega$ remains.
+
+```latex
+After estimating the revenue function, we compute log total factor productivity by removing the contribution of capital from revenue:
+\begin{equation}
+\omega_{imst} = \hat{\chi} r_{imst} - \hat{\alpha} k_{it} - \hat{\mu}_{st} = z_m + a_i + \epsilon_{it}
+\end{equation}
+
+This measure of log TFP contains manager skill, firm effects, and residual productivity. In standard production function estimation, this entire term would be treated as a single TFP measure. Our decomposition separates the manager contribution from other sources of productivity.
+```
+### 14. Clarify Identification Assumption Mathematically
+
+From krisztina1.patch: The identifying assumption should be stated more precisely using conditional expectation notation.
+
+> Good idea but not quite sure how to do it with the fixed effects. $\lambda$ and $z$ are not variables, they are parameters.
+
+### 15. Improve Event Study Pre-trend Description
+
+From krisztina2.patch: The event study results section needs clearer description of pre-transition patterns and their interpretation.
+
+> Our new Figure 1 shows this better: https://github.com/korenmiklos/ceo-value/blob/main/output/figure/event_study.pdf. All of the pretrends come from noise. But yes, we should explain this better.
+
