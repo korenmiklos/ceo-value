@@ -335,31 +335,34 @@ After removing the contribution of capital and other controls from revenue, we e
 
 \subsection{The Placebo Test}
 
-To examine the dynamics of firm performance around CEO transitions, we implement an event study analysis. Figure \ref{fig:event_study_combined} presents both the mean and variance of log TFP in event time, where year 0 marks the first year of the new CEO.
+To examine the dynamics of firm performance around CEO transitions, we implement an event study analysis. Figure \ref{fig:event_study_main} presents our placebo-controlled approach across different samples, where year 0 marks the first year of the new CEO.
 
-We examine variance alongside mean effects for a specific reason. Under our framework, if CEO changes are real and consequential, they should increase the cross-sectional variance of outcomes—some firms get better CEOs, others get worse ones. In contrast, pure noise or firm-specific trends would not systematically alter variance at the transition point.
+[[Note: Replace Figure 1 with four-panel structure:
+Panel (a): Raw vs Placebo for all transitions - shows how placebo captures pre-trends and mechanical jumps
+Panel (b): True effect of good vs bad CEOs after placebo correction - main result
+Panel (c): Post-2004 robustness - excludes transition economy period
+Panel (d): Outsider-to-outsider transitions - cleanest identification without ownership changes]]
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.8\textwidth]{figure/event_study_panel_c.pdf}
-\caption{Mean and Variance of TFP Around CEO Transitions}
-\label{fig:event_study_combined}
+\includegraphics[width=\textwidth]{figure/event_study.pdf}
+\caption{Placebo-Controlled Event Studies of CEO Transitions}
+\label{fig:event_study_main}
 \end{figure}
 
-The results reveal two key patterns. First, average TFP dips slightly in the two years before CEO change, declining by [[pre-transition dip]] percent relative to year -3. This suggests firms experiencing performance difficulties replace their CEOs, though the magnitude is modest. Second, the variance of TFP jumps sharply at the transition point, increasing by [[variance jump]] percent and remaining elevated thereafter. This variance increase is what we expect if CEO changes introduce real heterogeneity in managerial quality.
+[[Note: Describe Panel (a) showing raw actual transitions exhibit large apparent effects that are largely matched by placebo transitions with no real CEO change, demonstrating the mechanical noise problem]]
+
+[[Note: Describe Panel (b) showing the true causal effect after placebo correction - good minus bad CEOs generate modest but significant productivity differences]]
+
+[[Note: Describe Panels (c) and (d) confirming robustness across different time periods and transition types]]
+
+[[Note: Add reference to appendix: "Appendix Figure A1 presents complementary evidence using the variance of outcomes, which increases sharply at CEO transitions—consistent with real heterogeneity in CEO quality—but remains flat for placebo transitions."]]
 
 \subsection{True CEO Effects}
 
 To quantify the causal effect of CEO quality, we split CEO transitions based on the incoming manager's estimated fixed effect. CEOs with above-median fixed effects are classified as "good," those below as "bad." This classification uses noisy estimates that combine true skill with averaged residual productivity shocks.
 
-Figure \ref{fig:event_study_split} presents the event study results for these two groups, comparing actual transitions to placebo transitions. The left panel shows firms hiring "good" CEOs, the right panel those hiring "bad" CEOs.
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth]{figure/event_study.pdf}
-\caption{Event Study by CEO Quality: Actual vs Placebo Transitions}
-\label{fig:event_study_split}
-\end{figure}
+[[Note: Main results now integrated into Figure 1 Panel (b). This section should focus on interpreting the magnitude of true effects and their economic significance.]]
 
 Without the placebo control, we would conclude that good CEOs improve TFP by [[raw good CEO effect]] percent while bad CEOs reduce it by [[raw bad CEO effect]] percent, yielding a total gap of [[raw CEO gap]] percent. However, the placebo transitions—where no actual skill change occurs—generate effects of [[placebo good effect]] and [[placebo bad effect]] percent respectively, a gap of [[placebo gap]] percent driven purely by mechanical selection on noise.
 
@@ -427,6 +430,16 @@ Our findings offer both methodological and substantive contributions. The placeb
 [[insert surplus share table here]]
 
 [[insert additional revenue function specifications here]]
+
+\subsection{Variance-Based Evidence for CEO Heterogeneity}
+
+[[Note: Move variance event study here as Figure A1]]
+
+Figure \ref{fig:variance_event_study} presents complementary evidence using the variance of log TFP around CEO transitions. Under our framework, if CEO changes introduce real heterogeneity in managerial quality, the cross-sectional variance of outcomes should increase at the transition point—some firms get better CEOs, others get worse ones. In contrast, pure noise or firm-specific trends would not systematically alter variance.
+
+[[Note: Insert figure showing variance jumps for actual transitions but remains flat for placebo transitions]]
+
+[[Note: Describe how variance increases by X% at actual CEO transitions and remains elevated, while placebo transitions show no change in variance, providing model-free evidence that CEO transitions introduce real heterogeneity]]
 
 \section{Robustness Checks}
 
