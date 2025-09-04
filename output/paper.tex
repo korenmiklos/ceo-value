@@ -226,7 +226,7 @@ where $r_{imst} = \log R_{imst}$ is log revenue, $k_{it} = \log K_{it}$ is log c
 
 In practice, we allow firm productivity to vary across CEOs by including firm-CEO fixed effects $\lambda_{im}$ rather than separate firm and manager effects. This captures the joint contribution of organizational capital and manager skill for each firm-manager pair. We include controls for firm age, intangible asset presence, and foreign ownership, though these minimally affect the capital coefficient.
 
-The key assumptions are: (1) all firms within a sector face the same prices, (2) residual productivity $\tilde{\epsilon}_{it}$ is uncorrelated with owner and manager choices, and (3) owner and manager choices can be arbitrarily correlated with each other. Assumption (2) is critical—we do not require random manager assignment, only that residual productivity after controlling for observables is orthogonal to CEO changes.
+The key assumptions are: (1) all firms within a sector face the same prices, (2) residual productivity $\tilde{\epsilon}_{it}$ is uncorrelated with owner and manager choices conditional on the fixed effects, and (3) owner and manager choices can be arbitrarily correlated with each other. Assumption (2) is critical—we do not require random manager assignment, only that residual productivity after controlling for observables is orthogonal to CEO changes. [[Note: A formal conditional expectation statement would require treating fixed effects as variables rather than parameters, which complicates notation without adding clarity.]]
 
 We estimate using OLS with high-dimensional fixed effects via \texttt{reghdfe} \citep{reghdfe}. The coefficient on log capital is $\hat{\alpha}/\hat{\chi}$, which we multiply by $\hat{\chi}$ to recover $\hat{\alpha}$.
 
@@ -350,11 +350,11 @@ Panel (d): Outsider-to-outsider transitions - cleanest identification without ow
 \label{fig:event_study_main}
 \end{figure}
 
-[[Note: Describe Panel (a) showing raw actual transitions exhibit large apparent effects that are largely matched by placebo transitions with no real CEO change, demonstrating the mechanical noise problem]]
+[[Note: Describe Panel (a) showing raw actual transitions exhibit large apparent effects that are largely matched by placebo transitions with no real CEO change, demonstrating the mechanical noise problem. Pre-trends visible in both actual and placebo transitions show these are not causal but arise from selection on averaged residual productivity.]]
 
-[[Note: Describe Panel (b) showing the true causal effect after placebo correction - good minus bad CEOs generate modest but significant productivity differences]]
+[[Note: Describe Panel (b) showing the true causal effect after placebo correction - good minus bad CEOs generate modest but significant productivity differences. The placebo correction removes both the pre-trends and the mechanical jump at transition.]]
 
-[[Note: Describe Panels (c) and (d) confirming robustness across different time periods and transition types]]
+[[Note: Describe Panels (c) and (d) confirming robustness across different time periods and transition types. Post-2004 excludes transition economy volatility. Outsider-to-outsider transitions provide cleanest identification as ownership structure remains stable.]]
 
 [[Note: Add reference to appendix: "Appendix Figure A1 presents complementary evidence using the variance of outcomes, which increases sharply at CEO transitions—consistent with real heterogeneity in CEO quality—but remains flat for placebo transitions."]]
 
