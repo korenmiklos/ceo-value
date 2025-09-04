@@ -1,0 +1,79 @@
+## Major Structural Issues
+
+### 1. The Placebo Method Needs Earlier and Clearer Introduction
+
+The paper buries its key innovation—the placebo-controlled approach—until Section 4.4. This is too late. Readers need to understand upfront that this is the paper's core methodological contribution.
+
+Suggestion: Add a subsection in the Introduction (around page 3) briefly
+explaining the placebo approach with a simple example. Something like: "To illustrate our approach, consider a firm with the same CEO from 2000-2010. We randomly assign a fake transition in 2005, creating two pseudo-CEOs. If estimated 'effects' for these pseudo-CEOs diverge substantially, this reveals the noise problem inherent in fixed effects estimation."
+
+### 2. The Noise Problem Needs Quantification Earlier
+
+The introduction mentions that three-quarters of effects are spurious but doesn't explain why this happens mechanically until Section 2.4.
+
+Suggestion: Add a paragraph in Section 2.4 with the mathematical intuition: "When CEO $m$ manages firm $i$ for $T_{im}$ years, the estimated effect is $\hat{z}m = z_m + \frac{1}{T_{im}}\sum_t \epsilon_{it}$. With median tenure of 5 years and i.i.d. shocks, the noise-to-signal ratio is proportional to $1/\sqrt{T_{im}}$, making noise dominate for typical tenures."
+
+### 3. Missing Literature Connection: Limited Mobility Bias
+
+The paper doesn't sufficiently connect to the Andrews et al. (2008) limited mobility bias literature and Bonhomme et al. (2023) bias corrections.
+
+Suggestion: Add a subsection 1.1 "Related Literature on Bias in Fixed Effects" that explicitly positions the placebo method as an alternative to existing bias-correction approaches when those methods fail due to extremely short panels.
+
+### 4. The Division of Control Framework Needs Better Motivation
+
+Section 2.1 introduces owner vs. manager control without explaining why this matters for identification.
+
+Suggestion: Start Section 2 with: "Our model highlights a key institutional feature of private firms: the separation of strategic decisions (owner-controlled) from operational decisions (manager-controlled). This division allows us to validate our causal estimates by testing whether CEOs affect only variables under their control."
+
+Also add a reference to Gandhi et al. (2020) who make a similar point: freely adjustable inputs are "bad controls", because they are determined by TFP, in our case manager skills.
+
+### 5. Results Section Organization
+
+The results jump between tables, figures, and different outcomes without a clear narrative flow.
+
+Suggestion: Reorganize Section 5 as:
+
+• 5.1 Production Function Estimates (establish basic parameters)
+• 5.2 Raw Manager Effects and Their Distribution (show the problem)
+• 5.3 The Placebo Test (reveal the noise)
+• 5.4 True CEO Effects (main result)
+• 5.5 Validation: Differential Effects on Manager vs Owner Variables (confirm causality)
+
+### 6. Missing: Why Hungary?
+
+The paper doesn't adequately explain why Hungarian data is ideal beyond completeness.
+
+Suggestion: Add to Section 3: "Hungary provides three unique advantages: (1) mandatory registration of all directors, including CEOs, (2) no selection into coverage; all incorporated firms must report, and (3) a transition economy where CEO quality variation is likely larger than in mature markets, providing maximal statistical power."
+
+### 7. Weak Connection Between Theory and Empirics
+
+The model predicts $1/\chi$ amplification but this isn't well-connected to the empirical estimates.
+
+Suggestion: Discuss the revenue, wagebill and material cost outcomes in light of the TFP increase (5.5 percent) and the estimated $\chi$ which causes magnification. Briefly mention again that we don't want to control for something that is caused by the CEO (Gandhi et al. 2020).
+
+### 8. Missing Robustness Section
+
+The paper mentions robustness checks but doesn't systematically present them.
+
+Suggestion: Add an Appendix "Robustness" covering:
+
+- Different outcome variables (log revenue, log wage bill, log materials)
+- Sectoral differences in revenue function parameters
+- Raw and placebo-controlled estimates in different subsamples: 
+    1. after 2004
+    2. including all firms with 2+ employees
+    3. excluding founders and owners from event study
+    4. only using giant components
+    5. including all components incl very small ones
+
+### 9. The Conclusion Undersells the Methodological Contribution
+
+The conclusion emphasizes the substantive finding but should equally highlight the method.
+
+Suggestion: Add a paragraph: "Our placebo-controlled approach offers a general solution for short-panel settings where traditional methods fail. This extends beyond CEOs to teachers, doctors, judges, or any setting where individual effects are estimated from limited observations. The method requires only the ability to construct credible placebo treatments."
+
+### 10. Missing: Big-Picture Implications
+
+The paper doesn't discuss the broader implications of the work. 
+
+Suggestion: Add a final paragraph in the conclusion. 
