@@ -11,6 +11,7 @@
 \usepackage{hyperref}
 \usepackage[margin=2.5cm]{geometry}
 \usepackage{setspace}
+\usepackage{comment}
 \onehalfspacing
 
 \newcommand{\Var}{\text{Var}}
@@ -19,7 +20,7 @@
 % Define \sym command for significance stars from esttab
 \newcommand{\sym}[1]{{#1}}
 
-\title{Estimating the Value of CEOs in Privately Held Businesses\thanks{Project no. 144193 has been implemented with the support provided by the Ministry of Culture and Innovation of Hungary from the National Research, Development and Innovation Fund, financed under the KKP\_22 funding scheme. This project was funded by the European Research Council (ERC Advanced Grant agreement number 101097789). The views expressed in this research are those of the authors and do not necessarily reflect the official view of the European Union or the European Research Council. \emph{Author contributions:} Conceptualization and study design: Koren, Orbán and Telegdy. Data curation, integration and quality assurance: Szilágyi and Vereckei. Statistical analysis: Koren and Telegdy. Writing the original draft: Koren. Review and editing: Koren, Orbán, Szilágyi, Telegdy and Vereckei.}}
+\title{Estimating the Value of CEOs in Privately Held Businesses \\ OR \\ The Value of CEOs: Estimations from the Universe of Businesses \\ OR \\ Estimating the Value of CEOs in Family Firms\thanks{Project no. 144193 has been implemented with the support provided by the Ministry of Culture and Innovation of Hungary from the National Research, Development and Innovation Fund, financed under the KKP\_22 funding scheme. This project was funded by the European Research Council (ERC Advanced Grant agreement number 101097789). The views expressed in this research are those of the authors and do not necessarily reflect the official view of the European Union or the European Research Council. \emph{Author contributions:} Conceptualization and study design: Koren, Orbán and Telegdy. Data curation, integration and quality assurance: Szilágyi and Vereckei. Statistical analysis: Koren and Telegdy. Writing the original draft: Koren. Review and editing: Koren, Orbán, Szilágyi, Telegdy and Vereckei.}}
 
 \author{Miklós Koren\thanks{Central European University, HUN-REN Centre for Economic and Regional Studies, CEPR and CESifo. E-mail: korenm@ceu.edu} \\
         Krisztina Orbán\thanks{Monash University.} \\
@@ -43,13 +44,30 @@ We estimate CEO value in private firms using Hungarian administrative data cover
 
 \newpage
 
+%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
+%%%%%%%%%%%%%%%%%%%%%%
 
-What is the value of CEOs to firm performance? Good management can improve firm productivity, as evidenced by consulting interventions that improve practices \citep{bloom2013does}, training programs that build capabilities \citep{}, or leadership changes that reshape organizations \citep{Bertrand2003-io,bennedsen2020ceos,metcalfe2023managers}. Quantifying the contribution of an individual CEO, however, is complicated by the fact that modern businesses rely on a wide variety of inputs to produce, including tangible and intangible capital (plants, production lines, technical and organizational know-how, brand value), labor, intermediate inputs, and raw materials.
+\begin{comment}
+
+Possible outline for the introduction
+
+   - why are CEOs important? 
+   - why is it hard to measure their effects? - because there are many inputs, and some are under the influence of the CEOs, others are not. 
+   - literature so far dealt mostly with large, public companies. Or they study some event (like CEO hospitalizaton). Or they look at managerial practices. Or they look at some CEO attribute (age, tenure, education, gender, foreignnnes)
+   - contribution: 
+        - provide a general framework which can measure CEO contribution to firm performance (in absence of an event or some ceo characteristic). For this, we...
+        - ...do a model which distinguishes ceo and owner decisions. (Needs a discussion why is it so.)
+        - ... use data wich follows the universe of firms and CEOs in an economy
+        - use a method which can distinguish between good and bad CEOs and estimate their effect. for this we use the AKM method to disentangle the firm and the CEO effect. In addition, we clear the ceo effect from noise
+\end{comment}
+
+
+To what extent do CEOs contribute to firm performance? Good management can improve firm productivity, as suggested by interventions which improve management practices \citep{bloom2013does}, training programs that build capabilities \citep{mckenzie2021small}, or leadership changes that reshape organizations \citep{Bertrand2003-io,bennedsen2020ceos,metcalfe2023managers}. Quantifying the contribution of an individual CEO, however, is complicated by the fact that modern businesses rely on a wide variety of inputs to produce, including tangible and intangible capital (plants, production lines, technical and organizational know-how, brand value), labor, intermediate inputs, and raw materials. Among these, only one is managerial capital and its effect are difficult to isolate from those of other inputs.
 
 Starting from \citet{Bertrand2003-io}, most event studies around CEO changes attribute all changes in observable business policies to the change in leadership. Indeed, in public companies with dispersed ownership, CEOs, together with a board of directors, have a wide sway of power in running the business. [TODO: Cite actual changes based on this evidence. investment, innovation etc.] In private firms, however, ownership concentration gives owners direct control over strategic choices, creating a division of decision rights that blurs attribution of outcomes to CEOs versus owners \citep{fama1983separation, jensen1976theory, burkart2003family}. For example, owners may have primary decision rights on large investment projects \citep{}, branding \citep{}, and acquisitions \citep{}.
 
-Accurately measuring CEO contribution in private businesses is important for studying the manager market and executive pay practices. [TODO: expand, maybe cite Tervio, M. (2008). The Difference That CEOs Make: An Assignment Model Approach. The American economic review, 98(3), 642–668. and Gabaix, X., & Landier, A. (2008). Why has CEO Pay Increased So Much? The quarterly journal of economics, 123(1), 49–100. who compare CEO pay to CEO value in public firms]
+Accurately measuring CEO contribution in private businesses is important for studying the manager market and executive pay practices. [TODO: expand, maybe cite Tervio, M. (2008). The Difference That CEOs Make: An Assignment Model Approach. The American economic review, 98(3), 642–668. and Gabaix, X., \& Landier, A. (2008). Why has CEO Pay Increased So Much? The quarterly journal of economics, 123(1), 49–100. who compare CEO pay to CEO value in public firms]
 
 We make three contributions in this paper. First, we develop a model that accounts for the division of control between owners who set fixed inputs (such as tangible and intangible capital) and CEOs who optimize variable inputs (labor, materials). This framework clarifies what CEOs can and cannot affect, enabling cleaner identification of their contribution. Second, we assemble comprehensive administrative data covering the universe of Hungarian firms and their CEO networks over three decades (1992-2022), tracking over [[total firms]] firms and [[total CEOs]] CEOs. Third, we introduce a placebo-controlled event study design that separates true CEO effects from the mechanical noise that contaminates fixed effects estimates when managers have short tenures.
 
@@ -65,7 +83,9 @@ Our work connects to the broader literature on management practices and firm pro
 
 Methodologically, our paper builds on the two-way fixed effects literature in labor economics that decomposes wages into worker and firm components \citep{Abowd1999Econometrica, Card2018JoLE}. These studies face similar challenges from limited mobility creating small-sample bias \citep{andrews2008high} and have developed bias-correction methods \citep{Bonhomme2023-dx, gaure2014correlation}. We adapt this framework to the CEO-firm setting but add placebo controls to separate signal from noise. This approach is valuable when studying managers who, unlike workers, have few observations per individual, making traditional bias-correction methods less effective.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{A Model of Production with Owner- and Manager-Controlled Inputs}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Our model highlights a key institutional feature of private firms: the separation of strategic decisions (owner-controlled) from operational decisions (manager-controlled). This division of decision rights, common in private businesses, affects how we identify manager effects: we should not control for variable inputs to estimate manager productivity, because they are the result, not the cause of productivity.\footnote{A similar point was made by \citet{Gandhi2020-nu}, who emphasize that freely adjustable inputs are ``bad controls'' because they are determined by productivity.} 
 
@@ -112,7 +132,9 @@ Our model abstracts from corporate governance frictions that could lead managers
 
 The model excludes dynamic considerations such as adjustment costs or forward-looking behavior. Strategic decisions are forward-looking due to their persistence, but we treat them as predetermined from the manager's perspective. Even though the optimization framework is static, our empirical application allows for arbitrary time-series correlation within and across variables. The data validate this choice: strategic variables like capital evolve slowly with little correlation to manager changes, while operational variables adjust immediately following CEO transitions.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Corporate Data from Hungary}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Hungary provides an ideal setting for studying CEO effects in private firms. The country offers complete administrative data coverage for all incorporated businesses with mandatory CEO registration, spanning 30 years from the transition economy of the 1990s through EU accession in 2004 to the present. This coverage enables us to track CEO careers across firms and construct the mobility networks necessary for identification.
 
@@ -150,7 +172,9 @@ To validate our placebo methodology, we verify that synthetically generated CEO 
 
 \input{table/table2.tex}
 
+%%%%%%%%%%%%%%%%%%%%
 \section{Estimation}
+%%%%%%%%%%%%%%%%%%%%
 
 Our estimation proceeds in four steps: measuring the surplus share, estimating the revenue function, recovering manager fixed effects, and validating causality through event studies. Each step builds toward separating true CEO effects from the noise that contaminates raw estimates.
 
@@ -214,8 +238,9 @@ The coefficients $\gamma_{t-g}$ capture the evolution of log TFP in event time, 
 Because both groups receive a ``treatment'' (actual or placebo), standard difference-in-differences cannot be used. We adapt the \citet{Callaway2021JoLE} estimator for two treatment types using the \texttt{xt2treatments} package \citep{Koren2024xt2treatments}. The key innovation is precisely aligning transitions in event time—both actual and placebo changes occur at $t=0$, enabling a clean comparison of dynamics of treated and control firms.
 
 
-
+%%%%%%%%%%%%%%%%%
 \section{Results}
+%%%%%%%%%%%%%%%%%
 
 \subsection{Production Function Estimates}
 
