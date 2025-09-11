@@ -57,6 +57,7 @@ Our modeling approach treats CEOs in private firms as plant managers responsible
 
 [TODO: two sentences about data]
 
+[[Krisztina: I think this next paragraph is in the wrong place in the pdf]]
 To illustrate our approach, consider a firm with the same CEO from 2000-2010. We randomly assign a fake transition in 2005, creating two pseudo-CEOs. If estimated 'effects' for these pseudo-CEOs diverge substantially, this reveals the noise problem inherent in fixed effects estimation. By comparing actual CEO transitions to these placebo transitions, we can separate true skill differences from mechanical noise that contaminates short-panel estimates.
 
 Our headline result challenges conventional wisdom about CEO importance. The naive comparison suggests firms hiring good CEOs outperform those hiring bad CEOs by [[raw CEO gap]] percent—a large effect consistent with the view that leadership quality is paramount. However, our placebo control reveals [[placebo gap]] percent of this difference arises from noise in the estimation process, not from skill differences. The true causal effect of CEO quality is [[true CEO effect]] percent: economically meaningful but only [[true as percent of raw]] percent of what raw correlations suggest. Three-quarters of the apparent variation in CEO quality is spurious.
@@ -67,7 +68,7 @@ Methodologically, our paper builds on the two-way fixed effects literature in la
 
 \section{A Model of Production with Owner- and Manager-Controlled Inputs}
 
-Our model highlights a key institutional feature of private firms: the separation of strategic decisions (owner-controlled) from operational decisions (manager-controlled). This division of decision rights, common in private businesses, affects how we identify manager effects: we should not control for variable inputs to estimate manager productivity, because they are the result, not the cause of productivity.\footnote{A similar point was made by \citet{Gandhi2020-nu}, who emphasize that freely adjustable inputs are ``bad controls'' because they are determined by productivity.} 
+Our model highlights a key institutional feature of private firms: the separation of strategic decisions (owner-controlled) from operational decisions (manager-controlled).\footnote{Both theoretical results (\citep{fama1983separation, jensen1976theory}, \citet{burkart2003family}) and empirical evidence (\citep{wang2019decentralization, buffington2017mops} \citet{bloom2012organization}) confirm that in privately held firms, and firms with more concentrated ownership structure, managerial discretion on strategic decisions is more limited.} This division of decision rights, common in private businesses, affects how we identify manager effects: we can not control for variable inputs when estimating manager productivity, because variable input levels are an outcome of manager decisions, and hence they are correlated with productivity.\footnote{A similar point was made by \citet{Gandhi2020-nu}, who emphasize that freely adjustable inputs are ``bad controls'' because they are determined by productivity.} 
 
 Firms produce output using a Cobb-Douglas production function with both fixed and variable inputs. The production function for firm $i$ with manager $m$ at time $t$ is:
 \begin{equation}\label{eq:production}
@@ -91,7 +92,7 @@ W_{st}^{-\beta/\chi}
 \end{equation}
 Revenue increases in manager skill $Z_m$, organizational capital $A_i$, and physical capital $K_{it}$, while decreasing in input prices. The elasticity of revenue with respect to manager skill is $1/\chi > 1$, with $\chi := 1 - \beta - \gamma$, the share of surplus in revenue. 
 
-The surplus accruing to fixed factors, which owners and managers jointly maximize, equals revenue minus payments to variable inputs:
+The surplus accruing to fixed factors (factors other than labor and materials), which owners and managers jointly maximize, equals revenue minus payments to variable inputs:
 \begin{equation}\label{eq:surplus}
 S_{imst} = R_{imst} - W_{st}L_{imt} - \varrho_{st}M_{imt} = \chi R_{imst}
 \end{equation}
@@ -102,7 +103,7 @@ r_{imst} = C+\frac{\alpha}{\chi} k_{it} + \frac{1}{\chi} z_{m} + \frac{1}{\chi} 
 \end{equation}
 where lowercase letters denote logarithms (e.g., $\epsilon_{it} = \log \varepsilon_{it}$) and $C$ is a constant.
 
-The value of replacing manager $m$ with manager $m'$ at the same firm is:
+The value of replacing manager $m$ with manager $m'$ at the same firm is the extent to which surplus changes as the manager changes:
 \begin{equation}\label{eq:manager_value}
 r_{im'st} - r_{imst} = \frac{1}{\chi}(z_{m'} - z_{m})
 \end{equation}
@@ -112,11 +113,14 @@ Our model abstracts from corporate governance frictions that could lead managers
 
 The model excludes dynamic considerations such as adjustment costs or forward-looking behavior. Strategic decisions are forward-looking due to their persistence, but we treat them as predetermined from the manager's perspective. Even though the optimization framework is static, our empirical application allows for arbitrary time-series correlation within and across variables. The data validate this choice: strategic variables like capital evolve slowly with little correlation to manager changes, while operational variables adjust immediately following CEO transitions.
 
+[[Krisztina notes: 1) I feel a little bit of tension between the part where we say the surplus accruing to fixed factors is jointly maximized by owners and managers, and that we treat them as predetermined from the manager's perspective."the surplus accruing to fixed factors is jointly maximized by owners and managers" sounds like the owner and manager sit down and decide on strategic variables and we don't model how they decide this. Maybe this is fine.
+2) We assume the manager optimally decides on the operational variables, L and M. Whatever they do is conditional on the owner (or the owner and manager jointly (see prev. comment)) deciding on fixed inputs: K and the identity of the manager. What keeps coming to my mind is that we only treat $Z_m$ as the managers value, but whether they actually really optimally choose L and M conditional on other predetermined factors is also part of their effect. I don't think we want to allow bad managers to choose suboptimally, that's not the point of this paper, but it does feel like we should at least acknowledge that we have thought about this, but we do not deal w this possibility right now. (This is beyond corp. gov. fricitons, it is about the manager not getting it right.)]]
+
 \section{Corporate Data from Hungary}
 
 Hungary provides an ideal setting for studying CEO effects in private firms. The country offers complete administrative data coverage for all incorporated businesses with mandatory CEO registration, spanning 30 years from the transition economy of the 1990s through EU accession in 2004 to the present. This coverage enables us to track CEO careers across firms and construct the mobility networks necessary for identification.
 
-Hungary provides three unique advantages: (1) mandatory registration of all directors, including CEOs, (2) no selection into coverage; all incorporated firms must report, and (3) a transition economy where CEO quality variation is likely larger than in mature markets, providing maximal statistical power. The rapid economic transformation created substantial heterogeneity in managerial practices and quality, ideal for identifying CEO effects.
+Hungary provides three unique advantages: (1) mandatory registration of all directors, including CEOs, (2) no selection into coverage; all incorporated firms must report, and (3) a transition economy where CEO quality variation is likely larger than in mature markets, providing maximal statistical power. The large scale economic transformation over the decades following 1990 created substantial heterogeneity in managerial practices and quality, ideal for identifying CEO effects.
 
 Our analysis combines two administrative datasets. The firm registry, maintained by Hungarian corporate courts, contains records on all company representatives—individuals authorized to act on behalf of firms. These records include CEOs and other executives with signatory rights, tracked through a temporal database where each entry reflects representation status over specific time intervals. Updates occur when positions change, personal identifiers are modified, or reporting standards evolve. The registry provides names, addresses, dates of birth (from 2010), and mother's names (from 1999), though numerical identifiers exist only from 2013 onward.
 
@@ -124,13 +128,13 @@ The balance sheet dataset contains annual financial reports for all Hungarian fi
 
 Constructing a panel of CEOs requires resolving two questions: what constitutes a firm and who qualifies as a CEO. For firms, we track legal entities through time using tax identifiers, which remain stable despite occasional reuse ([[tax ID reuse percent]]\% of cases). Mergers and acquisitions create new entities in our framework—we follow individual legal entities rather than economic conglomerates.
 
-Identifying individual CEOs poses greater challenges. Before 2013, no numerical identifiers existed, requiring entity resolution based on names, addresses, mother's names, and birthdates. We link records across these dimensions to create unique person identifiers, enabling tracking across firms and over time. Matching quality improves after 1999 (mother's names) and 2010 (birthdates), though the 1990s data achieves reasonable coverage through name and address matching.
+Identifying individual CEOs poses greater challenges. Before 2013, no numerical identifiers existed, requiring entity resolution based on names, addresses, mother's names, and birthdates. We link records across these dimensions to create unique person identifiers, enabling tracking across firms and over time. Matching quality improves after 1999 (when reporting of mother's names commences) and 2010 (when reporting of birthdates starts), though the 1990s data achieves reasonable coverage through name and address matching. [[Krisztina: Maybe we should cite a number here whcih gives the reader an idea on what \% of all entities we are very certain we can accurately track.]]
 
 CEO identification within firms requires heuristics since job titles are inconsistently recorded. When explicit "managing director" titles exist ([[managing director percent]]\% of cases), we use them directly. For remaining cases, we assume all representatives are CEOs if three or fewer exist at the firm. When more than three representatives are present, we assign CEO status based on continuity with previously identified CEOs. Time spans between appointments are often unclosed or non-contiguous, requiring imputation based on sequential information, assuming representatives remain active if their tenure includes June 21 of each year.
 
-We apply several restrictions to create a sample suitable for productivity analysis. First, we exclude mining and finance sectors due to specialized accounting frameworks and regulatory environments. Second, we drop firms ever having more than [[max simultaneous CEOs]] simultaneous CEOs (removing [[dropped for multiple CEOs]] observations) to avoid complex governance structures that complicate identification. Third, we exclude firms with more than [[max CEO changes]] CEO changes over the sample period ([[dropped for excess changes]] observations) to reduce noise from misclassified transitions. Fourth, we remove all state-owned enterprises, as their objectives and constraints differ from private businesses.
+We apply several restrictions to create a sample suitable for productivity analysis. First, we exclude mining and finance sectors due to specialized accounting frameworks and regulatory environments. Second, we drop firms ever having more than [[max simultaneous CEOs]] simultaneous CEOs (removing [[dropped for multiple CEOs]] observations) to avoid complex governance structures that complicate identification. Third, we exclude firms with more than [[max CEO changes]] CEO changes over the sample period ([[dropped for excess changes]] observations) to reduce noise from misclassified transitions. Fourth, we remove all state-owned enterprises, as their objectives and constraints differ from private businesses. [[Orban, 2021]]
 
-Most importantly, we restrict attention to firms that employ at least [[min employees]] workers at some point. This filter removes [[percent dropped for size]] of observations but eliminates shell companies, tax optimization vehicles, and self-employment arrangements masquerading as corporations. The remaining firms represent genuine businesses with meaningful economic activity where management quality affects performance.
+Most importantly, we restrict attention to firms that employ at least [[min employees]] workers at some point in the firm's lifecycle. This filter removes [[percent dropped for size]] of observations but eliminates shell companies, tax optimization vehicles, and self-employment arrangements masquerading as corporations. The remaining firms represent genuine businesses with meaningful economic activity where management quality affects performance.
 
 We exclude public firms and joint-stock companies from our analysis. The few companies traded on the Budapest Stock Exchange operate under different governance structures, compensation schemes, and disclosure requirements than private businesses. We also exclude cooperatives and other non-standard corporate forms where multiple managing directors share executive authority, as these organizational structures complicate identification of individual CEO effects.
 
@@ -146,7 +150,10 @@ CEO mobility creates networks essential for fixed effects identification. [[perc
 
 CEO tenure varies across firms. While [[percent single CEO firms]]\% of firms retain the same CEO throughout their observed lifetime, the remaining firms experience leadership transitions that enable identification. Among firm-years with CEO information, [[percent single CEO firm-years]]\% have single CEOs, [[percent two CEO firm-years]]\% have two, and [[percent multiple CEO firm-years]]\% have more (before our sample restrictions). CEO spell lengths follow an exponential distribution with a [[annual hazard rate]]\% annual hazard rate, implying typical tenures of [[typical tenure range]] years.
 
+[[Krisztina: I think this part should go to the estimation part when we describe what placebo is. Here people do not yet know what the placebo treatment is.]]
 To validate our placebo methodology, we verify that synthetically generated CEO transitions match actual patterns. Taking firms with stable leadership (same CEO for [[min stable tenure]]+ years), we randomly assign placebo transitions using the empirical hazard function. The resulting spell length distribution mirrors actual CEO changes: [[percent one year spells]]\% last one year, [[percent two year spells]]\% two years, declining thereafter. This similarity confirms our placebo transitions capture realistic turnover dynamics while maintaining the property that no skill change occurs.
+
+[[Krisztina: One comment we may get is that the placebo change captures the improving skill of the manager over time...$Z_mt$. Again this is something we do not assume is possible based on the  model. But after removing the placebo effect it is very clear that there is a slope difference in estimated productivity post the true CEO change which is not present in the fake ones, so we are still good. Still we might get this comments possibly.]
 
 \input{table/table2.tex}
 
