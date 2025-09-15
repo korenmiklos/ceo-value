@@ -10,6 +10,12 @@ LATEX := pdflatex
 PANDOC := pandoc
 UTILS := $(wildcard code/util/*.do)
 
+# Commit hashes for reproducible file extraction
+# Update these when you need specific versions of files from other branches
+COMMIT_MAIN := HEAD  # Update with specific hash when needed, e.g., abc123f
+COMMIT_PLACEBO := placebo  # Update with specific hash when needed
+COMMIT_EXPERIMENT := experiment/preferred  # Update with specific hash when needed
+
 # Define costly intermediate files to preserve
 PRECIOUS_FILES := temp/balance.dta temp/ceo-panel.dta temp/unfiltered.dta \
                   temp/analysis-sample.dta temp/placebo.dta temp/edgelist.csv \
@@ -142,7 +148,7 @@ output/table/table4_panelA.tex output/table/table4_panelB.tex: code/exhibit/tabl
 	$(STATA) $<
 
 # Figure 1: Event study results (both main figure and panel C)
-output/figure/event_study.pdf output/figure/event_study_panel_c.pdf: code/exhibit/figure1.do temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_moments.dta
+output/figure/event_study.pdf: code/exhibit/figure1.do temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_panel_c.gph
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
@@ -151,7 +157,7 @@ output/figure/event_study.pdf output/figure/event_study_panel_c.pdf: code/exhibi
 # =============================================================================
 
 # Compile final paper
-output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/table4_panelA.tex output/table/table4_panelB.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/event_study.pdf output/figure/event_study_panel_c.pdf output/references.bib
+output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/table4_panelA.tex output/table/table4_panelB.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/event_study.pdf  output/references.bib
 	cd output && $(LATEX) paper.tex && bibtex paper && $(LATEX) paper.tex && $(LATEX) paper.tex
 
 # Compile presentation slides
@@ -179,3 +185,20 @@ output/test/test_paths.csv: code/test/test_network.jl temp/edgelist.csv temp/lar
 # Install Stata packages
 install.log: code/util/install.do
 	$(STATA) $<
+
+# =============================================================================
+# Extract files from other branches/commits
+# =============================================================================
+
+# Pattern rule to extract any file from any commit
+# Usage: make branches/main/code/exhibit/table1.do
+#        make branches/abc123f/output/paper.tex
+branches/%:
+	@mkdir -p $(dir $@)
+	@commit=$$(echo $* | cut -d/ -f1); \
+	filepath=$$(echo $* | cut -d/ -f2-); \
+	git show $$commit:$$filepath > $@ 2>/dev/null || (echo "Error: Could not extract $$filepath from $$commit" && rm -f $@ && exit 1)
+	@echo "Extracted: $@"
+
+temp/event_study_panel_c.gph:  branches/1b375e4f6f099795942847f93be0d5ee68efee67/output/event_study_panel_c.gph
+	@cp $< $@

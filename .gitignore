@@ -23,5 +23,8 @@ output/*.vrb
 output/extract/
 output/test/
 
-* MacOS system files
+# MacOS system files
 .DS_Store
+
+# Extracted files from other branches
+branches/

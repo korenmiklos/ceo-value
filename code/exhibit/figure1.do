@@ -39,27 +39,12 @@ graph twoway ///
     saving("temp/event_study_panel_b.gph", replace)
 
 
-use "temp/event_study_moments.dta", clear
-
-graph twoway ///
-    (rarea lower_mean upper_mean xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_mean xvar, lcolor(blue) mcolor(blue)) ///
-    (rarea lower_var upper_var xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_var xvar, lcolor(red) mcolor(red)) ///
-    , graphregion(color(white)) xlabel(`event_window_start'(1)`event_window_end') ///
-    xline(-0.5) xscale(range (`event_window_start' `event_window_end')) ///
-    xtitle("Time since CEO change (year)") yline(0) ///
-    ytitle("Moments of log TFP relative to year `baseline_year'") ///
-    title("Panel C: Mean and Variance Moments of TFP Change", size(medium)) ///
-    ylabel(, angle(0)) ///
-    legend(order(2 "Mean" 4 "Variance") rows(1) position(6)) ///
-    saving("temp/event_study_panel_c.gph", replace)
-
-graph export "output/figure/event_study_panel_c.pdf", replace
 
 * =============================================================================
 * COMBINE PANELS WITH COMMON Y-SCALE AND BOTTOM LEGEND
 * =============================================================================
 
-graph combine "temp/event_study_panel_a.gph" "temp/event_study_panel_b.gph", ///
+graph combine "temp/event_study_panel_a.gph" "temp/event_study_panel_b.gph" "temp/event_study_panel_c.gph", ///
     cols(2) ycommon graphregion(color(white)) imargin(small)
 
 graph export "output/figure/event_study.pdf", replace
