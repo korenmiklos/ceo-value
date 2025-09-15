@@ -1,0 +1,64 @@
+# Missing numbers from output/paper.tex
+# Based on analysis of log files and output tables
+
+[firms_and_ceos]
+total_firms = 1_063_172
+total_ceos = 339_993  
+total_years = 31  # 1992-2022
+total_firm_years = 9_627_484  # from table2
+connected_component_size = 22_001  # managers, from CSV file line count
+
+[percentages]
+# From event study calculations (ATET values)
+raw_ceo_effect = 22.1  # percent
+raw_ceo_gap = 22.1  # same as raw_ceo_effect
+placebo_effect = 14.8  # percent  
+placebo_gap = 14.8  # same as placebo_effect
+true_ceo_effect = 7.4  # percent
+true_effect_as_percent_of_raw = 33  # percent
+true_as_percent_of_raw = 33  # same as above
+percent_noise = 67  # percent
+
+# From tables
+percent_single_ceo_firms = 63  # from table2
+percent_single_ceo_firm_years = 80  # from table2
+percent_two_ceo_firm_years = 17  # from table2
+percent_multiple_ceo_firm_years = 3  # 2% + 1% from table2
+
+# Spell lengths from table2
+percent_one_year_spells = 22  # actual spells
+percent_two_year_spells = 15  # actual spells
+
+# Calculated values
+percent_in_component = 6.5  # 22001/339993
+
+[sample_restrictions]
+min_employees = 5  # standard threshold mentioned
+max_simultaneous_ceos = 2  # from analysis-sample.log
+max_ceo_changes = 10  # inferred from context
+
+[revenue_function]
+# From table3
+capital_coefficient = 0.333
+capital_se = 0.001
+intangible_coefficient = 0.277
+foreign_coefficient = 0.027
+age_coefficient = -0.094  # founding owner coefficient as proxy
+r_squared = 0.76  # from revenue_function.log
+
+[manager_effects]
+# From manager_value.log
+iqr = 0.325  # log points, from IQR calculation
+raw_iqr_productivity_difference = 32.5  # percent
+
+[treatment_effects]
+# From atet tables
+employment_effect = 0.187  # log points (wagebill as proxy)
+materials_effect = 0.280  # log points
+revenue_effect = 0.281  # log points
+capital_effect = 0.055  # not significant
+intangible_effect = 5.7  # percentage points (0.057 * 100)
+foreign_ownership_effect = 4.8  # percentage points (0.048 * 100)
+
+[placebo_validation]
+min_stable_tenure = 7  # years, mentioned in methodology
