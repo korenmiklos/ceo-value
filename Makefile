@@ -90,7 +90,7 @@ temp/manager_value.dta output/figure/manager_skill_within.pdf output/figure/mana
 	$(STATA) $<
 
 # Run placebo-controlled event study
-temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_moments.dta output/event_study.txt: code/estimate/event_study.do code/estimate/setup_event_study.do temp/surplus.dta temp/analysis-sample.dta temp/manager_value.dta temp/placebo.dta
+output/event_study_panel_b.dta: code/estimate/event_study.do code/estimate/setup_event_study.do temp/surplus.dta temp/analysis-sample.dta temp/manager_value.dta temp/placebo.dta
 	mkdir -p temp output
 	$(STATA) $<
 
