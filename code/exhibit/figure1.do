@@ -38,13 +38,26 @@ graph twoway ///
     legend(order(2 "Worse CEO" 4 "Better CEO") rows(1) position(6)) ///
     saving("temp/event_study_panel_b.gph", replace)
 
+use "temp/event_study_panel_d.dta", clear
+
+graph twoway ///
+    (rarea lower_worse upper_worse xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_worse xvar, lcolor(blue) mcolor(blue)) ///
+    (rarea lower_better upper_better xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_better xvar, lcolor(red) mcolor(red)) ///
+    , graphregion(color(white)) xlabel(`event_window_start'(1)`event_window_end') ///
+    xline(-0.5) xscale(range (`event_window_start' `event_window_end')) ///
+    xtitle("Time since CEO change (year)") yline(0) ///
+    ytitle("Log TFP relative to year `baseline_year'") ///
+    title("Panel D: Excluding Founders", size(medium)) ///
+    ylabel(, angle(0)) ///
+    legend(order(2 "Worse CEO" 4 "Better CEO") rows(1) position(6)) ///
+    saving("temp/event_study_panel_d.gph", replace)
 
 
 * =============================================================================
 * COMBINE PANELS WITH COMMON Y-SCALE AND BOTTOM LEGEND
 * =============================================================================
 
-graph combine "temp/event_study_panel_a.gph" "temp/event_study_panel_b.gph" "temp/event_study_panel_c.gph", ///
+graph combine "temp/event_study_panel_a.gph" "temp/event_study_panel_b.gph" "temp/event_study_panel_c.gph" "temp/event_study_panel_d.gph", ///
     cols(2) ycommon graphregion(color(white)) imargin(small)
 
 graph export "output/figure/event_study.pdf", replace
