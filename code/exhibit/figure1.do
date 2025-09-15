@@ -38,6 +38,20 @@ graph twoway ///
     legend(order(2 "Worse CEO" 4 "Better CEO") rows(1) position(6)) ///
     saving("temp/event_study_panel_b.gph", replace)
 
+use "temp/event_study_panel_c.dta", clear
+
+graph twoway ///
+    (rarea lower_worse upper_worse xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_worse xvar, lcolor(blue) mcolor(blue)) ///
+    (rarea lower_better upper_better xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_better xvar, lcolor(red) mcolor(red)) ///
+    , graphregion(color(white)) xlabel(`event_window_start'(1)`event_window_end') ///
+    xline(-0.5) xscale(range (`event_window_start' `event_window_end')) ///
+    xtitle("Time since CEO change (year)") yline(0) ///
+    ytitle("Log TFP relative to year `baseline_year'") ///
+    title("Panel C: Sample Period: 2004-200", size(medium)) ///
+    ylabel(, angle(0)) ///
+    legend(order(2 "Worse CEO" 4 "Better CEO") rows(1) position(6)) ///
+    saving("temp/event_study_panel_c.gph", replace)
+
 use "temp/event_study_panel_d.dta", clear
 
 graph twoway ///

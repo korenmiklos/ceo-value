@@ -148,7 +148,7 @@ output/table/table4_panelA.tex output/table/table4_panelB.tex: code/exhibit/tabl
 	$(STATA) $<
 
 # Figure 1: Event study results (both main figure and panel C)
-output/figure/event_study.pdf: code/exhibit/figure1.do temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_panel_c.gph temp/event_study_panel_d.dta
+output/figure/event_study.pdf: code/exhibit/figure1.do temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_panel_c.dta temp/event_study_panel_d.dta
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
@@ -200,7 +200,7 @@ branches/%:
 	git show $$commit:$$filepath > $@ 2>/dev/null || (echo "Error: Could not extract $$filepath from $$commit" && rm -f $@ && exit 1)
 	@echo "Extracted: $@"
 
-temp/event_study_panel_c.gph:  branches/1b375e4f6f099795942847f93be0d5ee68efee67/output/event_study_panel_c.gph
+temp/event_study_panel_c.dta:  branches/1b375e4f6f099795942847f93be0d5ee68efee67/output/event_study_panel_b.dta
 	@cp $< $@
 
 temp/event_study_panel_d.dta:  branches/6ca0e95a270eda23824347489ceb1f3964f75695/output/event_study_panel_b.dta
