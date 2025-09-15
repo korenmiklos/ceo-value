@@ -47,3 +47,8 @@ output/paper.tex
 proceed by section. follow the outline closely and ensure that each section is well-developed and clearly articulated. 
 
 first write section 3, conceptual framework,
+
+---
+Should we include the variance event study? I quite like it because it captures the essence of the placebo test: noise vs actual change, without knowing any information about CEOs. But it is a bit hard to explain and does not fit well the current flow of the argument. 
+
+We could instead use Figure 1 to report placebo-controlled event studies in alternative samples. Panel (a) raw vs placebo (useful pedagogically, shows how pretrend is captured by placebo), Panel (b) true effect of better vs worse managers, Panel (c) 2004+ years only, Panel (d) outsider-outsider transitions only but maybe incluing smaller fimrs to increase sample size.

@@ -1,0 +1,358 @@
+output/paper.tex --- 1/9 --- LaTeX
+59 
+60 \textbf{First}, we develop a placebo-controlled event study methodology that separates true CEO effects from spurious correlations. By constructing placebo CEO transitions---randomly assigned fake changes that exclude actual transition periods---we isolate mechanical biases from genuine impacts. The naive comparison shows firms hiring better CEOs outperform those hiring worse CEOs by 25.3 percent. Remarkably, placebo transitions generate a 19.7 percent effect despite no actual management change. The true causal impact is thus 5.5 percent: the difference between actual and placebo effects.
+61 
+62 \textbf{Second}, we ground this empirical strategy in a model-based framework that clarifies what we can and cannot measure. Building on \citet{Lucas1978-rp} and decreasing returns models of \citet{AtkesonKehoe2005JPE, McGrattan2012RED}, we explicitly separate owner-controlled inputs (capital,initial organizational structure) from manager-controlled inputs (labor, materials). This distinction is crucial: CEOs receive credit for many factors outside their control. Our framework identifies the marginal contribution of CEO skills to firm surplus while holding fixed the inputs chosen by owners.
+63 
+64 \textbf{Third}, we implement this approach using extraordinary data: the universe of Hungarian firms over three decades (1992-2022). We track 1,063,172 firms and 1,030,470 unique CEOs, identifying a connected network of 189,108 managers who lead multiple firms. This scale dwarfs previous studies---\citet{fee2013managers} examine 500 firms, \citet{fenizia2022managers} study 433 public administrations, even \citet{metcalfe2023managers} cover 66,000 stores. Our data enables precise estimation of manager effects through 51,736 firms with exactly one CEO change, providing statistical power to separate signal from noise that smaller samples cannot achieve.
+65 
+
+output/paper.tex --- 2/9 --- LaTeX
+73 
+74 The production function for firm $i$ with manager $m$ at time $t$ is:
+75 \begin{equation}\label{eq:production}
+76 Q_{imt} = \underbrace{\Omega_{it}A_i Z_{m}}_{TFP_{it}}  K_{it}^\alpha L_{imt}^{\beta} M_{imt}^{\gamma}
+77 \end{equation}
+78 where $\Omega_{it}$ is residual total factor productivity, $A_i$ represents time-invariant organizational capital and immaterial assets (location, brand value), $Z_m$ captures manager skill, $K_{it}$ is physical capital, $L_{imt}$ is labor input, $M_{imt}$ is intermediate input usage. The parameters $\alpha$, $\beta$ and $\gamma$ represent the elasticities with respect to physical capital, labor and material inputs, respectively. We denote $\chi := 1 - \beta - \gamma$. Conditional on productivity, initial organizational capital and manager skill, the production function exhibits decreasing returns to scale, $\alpha + \beta + \gamma < 1$. In a traditional production function with only capital, labor and material as inputs, $\Omega$, $A$ and $Z$ would all be lumped together as \emph{total factor productivity}.
+79 
+80 We assume managers optimize variable inputs $L_{imt}$ and $M_{imt}$ while taking fixed inputs $A_{i}$ and $Z_m$ and physical capital $K_{it}$ as given. In private businesses, owners typically have direct control over fixed inputs, including large-scale investments in organizational and physical capital \citep{Navaretti2010EFIGE}. Managers, on the other hand, are responsible for day-to-day operations and variable input choices.
+81 
+
+output/paper.tex --- 3/9 --- LaTeX
+ 98 s_{imst} = C+\frac\alpha\chi k_{it}  98 s_{imst} = C+\frac\alpha\chi k_{it}
+ ..  + \frac1\chi {z}_{m} + \frac1\chi   ..  + \frac1\chi {z}_{m} + \frac1\chi 
+ .. p_{st} + \frac1\chi{\omega}_{it}+\f  .. p_{st} + \frac1\chi{\omega}_{it}+\f
+ .. rac1\chi a_i                         .. rac1\chi a_i 
+ 99 - \frac\beta\chi w_{st} - \frac\gam  99 - \frac\beta\chi w_{st} - \frac\gam
+ .. ma\chi \rho_{st},                    .. ma\chi \rho_{st},
+100 \end{equation}                      100 \end{equation}
+101 where $C$ is a constant only depend 101 where $C$ is a constant only depend
+... ing on fixed parameters, $k_{it} =  ... ing on fixed parameters, $s_{imst} 
+... \ln K_{it}$, ${z}_{m} = \ln Z_m$ ,  ... = \ln S_{imst}$, $k_{it} = \ln K_{i
+... $ p_{st} = \ln P_{st}$, ${\omega}_{ ... t}$, ${z}_{m} = \ln Z_m$ , $ p_{st}
+... it} = \ln\Omega_{it}$, $a_i = \ln A ...  = \ln P_{st}$, ${\omega}_{it} = \l
+... _i$, and $w_{st} = \ln W_{st}$, $\r ... n\Omega_{it}$, $a_i = \ln A_i$, and
+... ho_{st} = \ln \varrho_{st}$.        ...  $w_{st} = \ln W_{st}$, $\rho_{st} 
+...                                     ... = \ln \varrho_{st}$. 
+102                                     102 
+103 Equation \eqref{eq:log_surplus} sho 103 Equation \eqref{eq:log_surplus} sho
+... ws how surplus depends on manager s ... ws how surplus depends on manager s
+... kills, holding fixed the inputs cho ... kills, holding fixed the inputs cho
+... sen by the owner and the input and  ... sen by the owner and the input and 
+... output prices prevailing in the sec ... output prices prevailing in the sec
+... tor. Taking two managers $m$ and $m ... tor. Taking two managers $m$ and $m
+... '$ with skills ${z}_m$ and ${z}_{m' ... '$ with skills ${z}_m$ and ${z}_{m'
+... }$ at the same firm, the change in  ... }$ at the same firm, the change in 
+... surplus attributable to the new man ... surplus attributable to the new man
+... ager is:                            ... ager is:
+104 \begin{equation}\label{eq:manager_c 104 \begin{equation}\label{eq:manager_c
+... hange}                              ... hange}
+105 s_{im'st} - s_{imst} = \frac1\chi({ 105 s_{im'st} - s_{imst} = \frac1\chi({
+... z}_{m'} - {z}_{m}).                 ... z}_{m'} - {z}_{m}).
+106 \end{equation}                      106 \end{equation}
+107 The \emph{value} of the new manager 107 The \emph{value} of the new manager
+...  to the owners of the firm is the c ...  to the owners of the firm is the c
+... hange in surplus. This value is pro ... hange in surplus. This value is pro
+... portional to the difference in mana ... portional to the difference in mana
+... ger skills, scaled by the inverse o ... ger skills, scaled by $\chi$, the i
+... f the elasticity of revenue with re ... nverse of the elasticity of revenue
+... spect to fixed inputs $\chi$. In wh ...  with respect to fixed inputs. In w
+... at follows, we aim to measure this  ... hat follows, we aim to measure this
+... value by estimating the change in s ...  value by estimating the change in 
+... urplus following a manager change.  ... surplus following a manager change.
+108                                     108 
+109 \paragraph{Estimable equation.} In  109 \paragraph{Estimable equation.} In 
+... absence of observing organization c ... absence of observing organization c
+... apital and input prices, we can sub ... apital and input prices, we can sub
+... stitute these out with fixed effect ... stitute these out with fixed effect
+... s, leading to the following estimab ... s, leading to the following estimab
+... le equation:                        ... le equation:
+110 \begin{equation}\label{eq:estimatio 110 \begin{equation}\label{eq:estimatio
+... n}                                  ... n}
+111 s_{imst} = \frac\alpha\chi k_{it}   111 s_{imst} = \frac\alpha\chi k_{it}  
+... + \frac1\chi\tilde{z}_m + \lambda_i ... + \frac1\chi z_m + \lambda_i + \mu_
+...  + \mu_{st} + \tilde \omega_{it}    ... {st} + \tilde \omega_{it}
+112 \end{equation}                      112 \end{equation}
+113 where $\lambda_i = a_i/\chi$ is a f 113 where $\lambda_i = a_i/\chi$ is a f
+... irm fixed effect capturing time-inv ... irm fixed effect capturing time-inv
+... ariant organizational capital, $\mu ... ariant organizational capital, $\mu
+... _{st} = C + p_{st}/\chi - \beta w_{ ... _{st} = C + p_{st}/\chi - \beta w_{
+... st}/\chi - \gamma\rho_{st}/\chi$ is ... st}/\chi - \gamma\rho_{st}/\chi$ is
+...  an industry-time fixed effect capt ...  an industry-time fixed effect capt
+... uring sector-specific prices and wa ... uring sector-specific prices and wa
+... ges, and $\tilde\omega_{it} = \omeg ... ges, and $\tilde\omega_{it} = \omeg
+... a_{it}/\chi$ is a rescaled time-var ... a_{it}/\chi$ is a rescaled time-var
+... ying firm productivity shock.       ... ying firm productivity shock. 
+114                                     114 
+115 Assuming that residual productivity 115 Assuming that residual productivity
+...  $\tilde\omega_{it}$ is uncorrelate ...  satisfies $E[\tilde\omega_{it} | k
+... d with manager skills and physical  ... _{it}, z_m, \lambda_i, \mu_{st}]=0$
+... capital, we can estimate the model  ... , we can estimate the model using o
+... using ordinary least squares with f ... rdinary least squares with fixed ef
+... ixed effects (OLSFE). Note that we  ... fects (OLSFE). Note that we do \emp
+... do \emph{not} assume that manager s ... h{not} assume that manager skills a
+... kills are uncorrelated with physica ... re uncorrelated with physical capit
+... l capital, organizational capital o ... al, organizational capital or secto
+... r sectoral prices. It may well be t ... ral prices. It may well be, for exa
+... he case that better firms with good ... mple, the case that better firms wi
+...  price conditions hire better manag ... th good price conditions hire bette
+... ers and invest more.                ... r managers and invest more. 
+116                                     116 
+...                                     117 We can then rewrite (\ref{eq:estima
+...                                     ... tion}) to express \textit{residuali
+...                                     ... zed surplus} $\tilde{s}_{imst}$.
+...                                     118 \begin{equation}\label{eq:rewrite}
+...                                     119  \tilde{s}_{imst} = z_m + \omega_{i
+...                                     ... t}= \chi s_{imst} -  \alpha k_{it} 
+...                                     ...  - \chi \lambda_i -\chi \mu_{st}
+...                                     120 \end{equation}
+117 Given our estimated parameters and  121 Given our estimated parameters and 
+... fixed effects, we can recover manag ... fixed effects, we can recover manag
+... er skills as:                       ... er skills as:
+118 \begin{equation}\label{eq:estimated 122 \begin{equation}\label{eq:estimated
+... }                                   ... }
+119 \hat z_m :=                         123 \hat z_m :=
+120 \frac1{N_m}\sum_{i,s,t}(            124 \frac1{N_m}\sum_{i,s,t}(
+121         \hat\chi s_{imst} -  \hat\a 125         \hat\chi s_{imst} -  \hat\a
+... lpha k_{it}  -\hat\chi \lambda_i -\ ... lpha k_{it}  -\hat\chi \lambda_i -\
+... hat\chi \mu_{st}                    ... hat\chi \mu_{st}
+122 ).                                  126 ). 
+123 \end{equation}                      127 \end{equation}
+124 We remove the contribution of physi 128 Because $\omega_{it}$ is assumed to
+... cal capital, firm and industry-year ...  be mean zero independent of $m$, w
+...  fixed effects from log surplus to  ... e can estimate $\hat z_m$ as the av
+... obtain a \emph{residualized surplus ... erage of $\tilde s_{imst}$ across a
+... } $\tilde s_{imst}$. Because $\omeg ... ll observations for manager $m$. Th
+... a_{it}$ is assumed to be mean zero  ... is gives us a consistent estimate o
+... independent of $m$, we can estimate ... f manager skill when $N_m$ is large
+...  $\hat z_m$ as the average of $\til ... , but includes average residual pro
+... de s_{imst}$ across all observation ... ductivity $\hat\omega_{it}$.\footno
+... s for manager $m$. This gives us a  ... te{This is equivalent to including 
+... consistent estimate of manager skil ... a manager fixed effect in the regre
+... l when $N_m$ is large, but includes ... ssion, similar in spirit to \citet{
+...  average residual productivity $\ha ... Abowd1999Econometrica} and \citet{C
+... t\omega_{it}$.\footnote{This is equ ... ard2018JoLE}. This notation emphasi
+... ivalent to including a manager fixe ... zes that manager effects estimated 
+... d effect in the regression, similar ... from fewer observations are noisier
+...  in spirit to \citet{Abowd1999Econo ... .}
+... metrica} and \citet{Card2018JoLE}.  ... 
+... This notation emphasizes that manag ... 
+... er effects estimated from fewer obs ... 
+... ervations are noisier.}             ... 
+125                                     129 
+126 Because this estimate of manager ef 130 Because this estimate of manager ef
+... fects is noisy when $N_m$ is small, ... fects is noisy when $N_m$ is small,
+...  we implement a placebo strategy to ...  we implement a placebo strategy to
+...  estimate the true effects of manag ...  estimate the true effects of manag
+... ers, as described in ??.            ... ers, as described in ??.
+127                                     131 
+
+output/paper.tex --- 4/9 --- LaTeX
+180 We are interested in recovering $z_ 184 We are interested in recovering $z_
+... m$, the (log) skill of manager $m$. ... m$, the (log) skill of manager $m$.
+...  This requires estimating the produ ...  This requires estimating the produ
+... ction function parameters in equati ... ction function parameters in equati
+... on \eqref{eq:estimation}, then comp ... on \eqref{eq:estimation}, then comp
+... uting the manager fixed effects usi ... uting the manager fixed effects usi
+... ng equation \eqref{eq:estimated}.   ... ng equation \eqref{eq:estimated}.
+181                                     185 
+182 \paragraph{Production function.}    186 \paragraph{Production function.}
+183 Equation \eqref{eq:estimation} cont 187 Equation \eqref{eq:estimation} cont
+... rols for time-invariant firm charac ... rols for time-invariant firm charac
+... teristics (organizational capital,  ... teristics (organizational capital, 
+... location, brand value) through firm ... location, brand value) through firm
+...  fixed effects and sector-specific  ...  fixed effects and sector-specific 
+... price and wage variation through in ... price and wage variation through in
+... dustry-time fixed effects. The key  ... dustry-time fixed effects. The key 
+... identifying assumption is that resi ... identifying assumption is that resi
+... dual productivity shocks $\tilde{\o ... dual productivity shocks $\tilde{\o
+... mega}_{it}$ are uncorrelated with m ... mega}_{it}$ follow $E[\tilde\omega_
+... anager skills and physical capital  ... {it} | k_{it}, z_m, \lambda_i, \mu_
+... conditional on these fixed effects. ... {st}]=0$.
+184                                     188 
+185 We let the production function \eqr 189 We let the production function \eqr
+... ef{eq:production} and, correspondin ... ef{eq:production} and, correspondin
+... gly, surplus function \eqref{eq:est ... gly, surplus function \eqref{eq:est
+... imation} vary across sectors. In ad ... imation} vary across sectors. In ad
+... dition to fixed effects, the parame ... dition to fixed effects, the parame
+... ters to estimate are the elasticity ... ters to estimate are the elasticity
+...  of output with respect to capital  ...  of output with respect to capital 
+... $\alpha$ and the share of surplus i ... $\alpha$ and the share of surplus i
+... n revenue $\chi$.                   ... n revenue $\chi$. 
+186                                     190 
+
+output/paper.tex --- 5/9 --- LaTeX
+190                                     194 
+191 To control for CEO effects when est 195 To control for CEO effects when est
+... imating the production function, we ... imating the production function, we
+...  allow for firm-CEO fixed effects i ...  allow for firm-CEO fixed effects i
+... n \eqref{eq:estimation}. That is, i ... n \eqref{eq:estimation}. That is, i
+... nstead of $z_m$ as in the model, we ... nstead of $z_m$ as in the model, we
+...  allow for $z_{im}$. This allows fo ...  allow for $z_{im}$. This allows fo
+... r the firm to have different TFP un ... r the firm to have different TFP un
+... der different leadership, but is no ... der different leadership, but is no
+... t yet used as a measure of CEO skil ... t yet used as a measure of CEO skil
+... l.                                  ... l. 
+192                                     196 
+193 There are cases when the firm has t 197 There are cases when the firm has t
+... wo CEOs. (More than two have been e ... wo CEOs. (More than two have been e
+... xcluded from the sample.) In such c ... xcluded from the sample.) In such c
+... ases, we repeat the observation, on ... ases, we repeat the observation, on
+... ce for each CEO, and proceed as det ... ce for each CEO, and proceed as det
+... ailed above. This is to let these y ... ailed above. This is to let these y
+... ears inform the estimation of the s ... ears inform the estimation of the s
+... kill of each of its CEO, as explain ... kill of each of its CEOs, as explai
+... ed below.                           ... ned below.
+194                                     198 
+195 Once we have all the parameters, we 199 Once we have all the parameters, we
+...  can compute the residual surplus a ...  can compute the residual surplus a
+... s defined in \eqref{eq:estimated}.  ... s defined in \eqref{eq:estimated}. 
+... Because the residual surplus remove ... Because the residual surplus remove
+... s firm and industry-year fixed effe ... s firm and industry-year fixed effe
+... cts, it will always have mean zero  ... cts, it will always have mean zero 
+... within each firm and within each in ... within each firm and within each in
+... dustry-year cell. To identify an in ... dustry-year cell. To identify an in
+... terpretable manager effect, we proc ... terpretable manager effect, we proc
+... eed as follows.                     ... eed in the following three ways.
+196                                     200 
+197 \paragraph{Within-firm CEO changes. 201 \paragraph{Within-firm CEO changes.
+... }                                   ... }
+198 First we study the impact of within 202 First we study the impact of within
+    -firm CEO changes on firm surplus.      -firm CEO changes on firm surplus. 
+    If there are $n$ CEOs in a firm, we     If there are $n$ CEOs in a firm, we
+     can estimate $n-1$ CEO fixed effec      can estimate $n-1$ CEO fixed effec
+    ts. We normalize the log skill of t     ts. We normalize the log skill of t
+    he first CEO of the firm to zero. T     he first CEO of the firm to zero. T
+    he remaining $n-1$ CEO fixed effect     he remaining $n-1$ CEO fixed effect
+    s are then interpreted as the diffe     s are then interpreted as the diffe
+    rence in skills relative to the fir     rence in skills relative to the fir
+    st CEO. Naturally, this calculation     st CEO. Naturally, this calculation
+     only makes sense for $n>1$, i.e. f      only makes sense for $n>1$, i.e. f
+    or firms that have at least two CEO     or firms that have at least two CEO
+    s in the sample.                        s in the sample.
+
+output/paper.tex --- 6/9 --- LaTeX
+203 207 \paragraph{Event study.}
+204 208 Finally, to check the dynamic effects around CEO changes, we conduct an event study analysis. This involves estimating the impact of CEO transitions on firm performance over time, allowing us to observe any pre-trends and post-trends associated with the change in leadership. 
+205 209 
+206 210 We compare the evolution of TFP between three groups of firms which all experience a CEO change: the first group experiences a decline in  measured CEO skill due to the change in managers, the second one experiences roughly no change in CEO quality due to the transition, while the third group experiences an improvement in measured CEO quality. Because we do not use any CEO observables, we compare firms hiring better CEOs against those hiring worse CEOs, as defined by their estimated fixed effects. This approach, however, suffers from potential bias because the estimated fixed effects include an average of residual TFP. Even if residual TFP is uncorrelated with CEO replacement, as we assumed, differentiating ``better'' and ``worse'' CEOs based on this noisy measure will overestimate the effect of CEO skill.
+207 211 
+208 212 To mitigate this bias, we create a control group of firms in the same industry that did not change their CEOs during the treatment period. For these control firms, we create ``placebo'' CEO changes by randomly splitting their lifetime into CEO spells. The placebo treatment captures the bias, because it only measures the average residual TFP before and after the random splits, when CEO skill has not actually changed.  The placebo spells are constructed ensuring that the distribution of CEO tenures remains consistent with the original data.
+209 213 
+
+output/paper.tex --- 7/9 --- LaTeX
+249                                     253 
+250 The relative manager skills are est 254 The relative manager skills are est
+... imated as the average of the residu ... imated as the average of the residu
+... alized surplus $\tilde s_{imst}$ ac ... alized surplus $\tilde s_{imst}$ ac
+... ross all observations for that mana ... ross all observations for that mana
+... ger, as described in equation \eqre ... ger, as described in equation \eqre
+... f{eq:estimated}.                    ... f{eq:estimated}. 
+251                                     255 
+252 The distribution of relative manage 256 The distribution of relative manage
+... r skills in the sample with at leas ... r skills in the sample with at leas
+... t two managers is centered a bit hi ... t two managers in the lifetime of t
+... gher than zero, with a mean of 0.16 ... he firm is centered a bit higher th
+... . This means that, on average, seco ... an zero, with a mean of 0.16. This 
+... nd and subsequent managers are 16 p ... means that, on average, second and 
+... ercent more skilled than the first  ... subsequent managers are 16 percent 
+... manager of the firm. This is expect ... more skilled than the first manager
+... ed if under-performing managers are ...  of the firm. This is expected if u
+...  more likely to be replaced, leadin ... nder-performing managers are more l
+... g to a positive selection bias in t ... ikely to be replaced, leading to a 
+... he sample of second and subsequent  ... positive selection bias in the samp
+... managers.                           ... le of second and subsequent manager
+...                                     ... s. 
+253                                     257 
+254 There is, however, substantial vari 258 There is, however, substantial vari
+... ation around this mean, with some m ... ation around this mean, with some m
+... anagers being significantly more sk ... anagers being significantly more sk
+... illed than the first manager and ot ... illed than the first manager and ot
+... hers being less skilled. The interq ... hers being less skilled. The interq
+... uartile range of relative skills co ... uartile range of relative skills co
+... rresponds to a 9.6 percent differen ... rresponds to a 9.6 percent differen
+... ce in firm productivity. Because hi ... ce in firm productivity. Because hi
+... gher productivity can be leveraged  ... gher productivity can be leveraged 
+... by buying more variable inputs, thi ... by buying more variable inputs, thi
+... s would lead to a larger increase i ... s would lead to a larger increase i
+... n revenue and surplus. The counterf ... n revenue and surplus. The counterf
+... actual manager change mentioned abo ... actual manager change mentioned abo
+... ve would increase revenue and surpl ... ve would increase revenue and surpl
+... us by 113.7 percent.                ... us by 113.7 percent.
+255                                     259 
+256                                     260 
+257 \paragraph{Largest connected compon 261 \paragraph{Largest connected compon
+... ent.}                               ... ent.}
+258 Managers that lead mutiple firms (e 262 Managers that lead mutiple firms (e
+... ven at different times) help identi ... ven at different times) help identi
+... fy the skills of other managers. To ... fy the skills of other managers. To
+...  consider a specific example, suppo ...  consider a specific example, suppo
+... se manager B replaces manager A at  ... se manager B replaces manager A at 
+... firm 1 with a measured skill increa ... firm 1 with a measured skill increa
+... se of 0.2, and manager B is replace ... se of 0.2, and manager B is replace
+... d by manager C at firm 2 with a mea ... d by manager C at firm 2 with a mea
+... sured skill drop of 0.05. We can th ... sured skill drop of 0.05. We can th
+... en infer the relative skill of mana ... en infer the relative skill of mana
+... ger C compared to manager A as $+0. ... ger C compared to manager A as $+0.
+... 15$. This process can be repeated f ... 15$. This process can be repeated f
+... or all managers that are connected  ... or all managers that are connected 
+... through a chain of replacements, le ... through a chain of replacements, le
+... ading to a large connected componen ... ading to a large connected componen
+... t of managers.                      ... t of managers.
+259                                     263 
+260 Using standard graph analysis, we f 264 Using standard graph analysis, we f
+... ind the largest connected component ... ind the largest connected component
+...  of managers in our sample, which c ...  of managers in our sample, which c
+... ontains 189,108 managers. These man ... ontains 189,108 managers. These man
+... agers account for 201,627 firm obse ... agers manage 201,627 firms.\footnot
+... rvations.\footnote{The second large ... e{The second largest connected comp
+... st connected component contains onl ... onent contains only a small fractio
+... y a small fraction of managers, so  ... n of managers, so the largest conne
+... the largest connected component is  ... cted component is overwhelmingly do
+... overwhelmingly dominant, as is ofte ... minant, as is often the case in rea
+... n the case in real-world networks.} ... l-world networks.} For these manage
+...  For these managers, their skills c ... rs, their skills can be estimated b
+... an be estimated by two-way firm and ... y two-way firm and manager fixed ef
+...  manager fixed effects \citep{Abowd ... fects \citep{Abowd1999Econometrica,
+... 1999Econometrica,reghdfe}. We norma ... reghdfe}. We normalize log manager 
+... lize log manager skills to zero, so ... skills to zero, so the estimated sk
+...  the estimated skills can be interp ... ills can be interpreted as deviatio
+... reted as deviation from the average ... n from the average manager in the l
+...  manager in the largest connected c ... argest connected component. 
+... omponent.                           ... 
+261                                     265 
+262 The distribution of relative manage 266 The distribution of relative manage
+... r skills in the largest connected c ... r skills in the largest connected c
+... omponent is centered around zero by ... omponent is centered around zero by
+...  construction. The interquartile ra ...  construction. The interquartile ra
+... nge of relative skills corresponds  ... nge of relative skills corresponds 
+... to a 24.6 percent difference in fir ... to a 24.6 percent difference in fir
+... m productivity. Because higher prod ... m productivity. Because higher prod
+... uctivity can be leveraged by buying ... uctivity can be leveraged by buying
+...  more variable inputs, this would l ...  more variable inputs, this would l
+... ead to a 429.5 percent increase in  ... ead to a 429.5 percent increase in 
+... revenue and surplus. This larger va ... revenue and surplus. This larger va
+... riation compared to within-firm est ... riation compared to within-firm est
+... imates suggests that good managers  ... imates suggests that good managers 
+... tend to be replaced by other good m ... tend to be replaced by other good m
+... anagers within the firm.            ... anagers within the firm. 
+263                                     267 
+
+output/paper.tex --- 8/9 --- LaTeX
+329 333 
+330 334 This paper develops and implements a comprehensive framework for measuring CEO value in privately held businesses using administrative data. Our approach addresses a fundamental challenge in development economics: how to assess the importance of managerial talent when traditional measures based on stock market valuations or executive compensation are unavailable.
+331 335 
+332 336 Our theoretical framework, building on the decreasing returns to scale models of \citet{AtkesonKehoe2005JPE} and \citet{McGrattan2012RED}, shows how manager skills can be identified through their impact on firm surplus while controlling for initial organizational capital and sectoral conditions. The empirical implementation combines three complementary identification strategies---within-firm variation, manager mobility networks, and quasi-experimental event studies---to provide robust evidence on CEO value.
+333 337 
+334 338 Applied to comprehensive Hungarian administrative data covering 1992-2022, our analysis reveals substantial heterogeneity in CEO skills with large economic consequences. Within firms, replacing a 25th percentile manager with a 75th percentile manager increases productivity by 9.6 percent. Across the connected component of mobile managers, the same replacement increases productivity by 24.6 percent, suggesting considerable skill heterogeneity in the broader managerial labor market.
+335 339 
+
+output/paper.tex --- 9/9 --- LaTeX
+339 343 
+340 344 Our methodology offers practical advantages for future research. The framework uses standard administrative records available in most countries, making it broadly applicable without the resource-intensive data collection required for diary studies or management surveys. This accessibility enables researchers to replicate our approach across different institutional settings and time periods.
+341 345 
+342 346 Our model-based approach provides theoretical clarity by By explicitly separating owner-controlled inputs (capital, initial organizational structure) from manager-controlled inputs (labor, materials), we identify what portion of firm performance can genuinely be attributed to CEO skill. This theoretical foundation explains why raw correlations overstate CEO importance: managers often receive credit for advantages stemming from initial organizational capital or favorable market conditions that are outside their control. The finding that 73 percent of apparent effects are spurious validates the importance of this theoretical separation and suggests policies targeting managerial quality will have more modest impacts than the raw correlations imply.
+343 347 
+344 348 Several limitations suggest directions for future research. Our measure of CEO skill captures the portion of managerial ability that translates into firm surplus, but may not fully capture other aspects of leadership such as strategic vision or organizational development that matter over longer horizons. Additionally, while our event study design provides causal evidence around CEO transitions, the endogenous nature of most CEO appointments means our estimates may not fully capture the equilibrium effects of randomly improving manager-firm matching.
+345 349 
+
