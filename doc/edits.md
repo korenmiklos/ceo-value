@@ -128,3 +128,27 @@ From krisztina2.patch: The event study results section needs clearer description
 
 > Our new Figure 1 shows this better: https://github.com/korenmiklos/ceo-value/blob/main/output/figure/event_study.pdf. All of the pretrends come from noise. But yes, we should explain this better.
 
+
+---
+
+## Suggested Edits to Address Identification Concerns
+
+### 1. Section 4 (Estimation), around lines 204-207 - Clarify the identification assumption
+
+Current text (lines 204-207):
+
+> The key assumptions behind this estimating equation are: (1) all firms within a sector face the same prices, and (2) residual productivity $\tilde{\epsilon}_{it}$ is uncorrelated with owner and manager choices conditional on the fixed effects.
+
+Suggested revision:
+
+> The key assumptions behind this estimating equation are: (1) all firms within a sector face the same prices, and (2) for each manager, residual productivity $\tilde{\epsilon}_{it}$ has zero mean when averaged across all their firms and time periods: $E[\bar{\epsilon}m] = 0$ where $\bar{\epsilon}m = \frac{1}{N_m}\sum{i,t \in m} \tilde{\epsilon}{it}$ and the sum runs over all firm-year observations under manager $m$.
+> 
+> Crucially, we do not require random manager mobility or that residual productivity has zero mean at the point of CEO transition. Manager assignment can be endogenous: good managers may systematically move to firms experiencing positive shocks or be hired when firms anticipate improvements. We only require that these shocks average to zero over a manager's entire career. This is a weaker assumption than random assignment but still substantive: it rules out managers who systematically arrive at permanently improving (or declining) firms.
+
+
+### 2. After line 217 - Add discussion of event study validation
+
+Add new paragraph:
+
+> The event study provides a diagnostic test for this identification assumption. Pre-trends in productivity before CEO transitions would suggest (though not prove) that the zero-mean assumption is violated. If productivity systematically rises before good CEOs arrive, we worry that the positive trend continues post-transition, violating $E[\bar{\epsilon}_m] = 0$. Conversely, the absence of pre-trends makes it harder to construct plausible endogeneity stories. While we cannot rule out contemporaneous shocks that coincide exactly with CEO changes (e.g., owners simultaneously firing the CEO and adopting new technology), such precise timing is less plausible than gradual changes that would manifest as pre-trends. Our event studies show no significant pre-trends, supporting but not proving our identification assumption.
+
