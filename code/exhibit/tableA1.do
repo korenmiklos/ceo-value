@@ -4,12 +4,7 @@ clear all
 * Load analysis sample with balance data for comprehensive industry coverage
 * =============================================================================
 
-use "temp/balance.dta", clear
-merge 1:m frame_id_numeric year using "temp/ceo-panel.dta", keep(master match) nogen
-
-* Apply industry classification
-do "code/util/industry.do"
-do "code/util/variables.do"
+use "temp/unfiltered.dta", clear
 
 * Create exclusion indicator based on filter criteria
 generate byte excluded = inlist(sector, 2, 9)  // Mining and finance excluded
