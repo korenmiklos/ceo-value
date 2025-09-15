@@ -15,8 +15,7 @@ PRECIOUS_FILES := temp/balance.dta temp/ceo-panel.dta temp/unfiltered.dta \
                   temp/analysis-sample.dta temp/placebo.dta temp/edgelist.csv \
                   temp/large_component_managers.csv temp/surplus.dta \
                   temp/manager_value.dta temp/revenue_models.ster \
-                  temp/event_study_panel_a.dta temp/event_study_panel_b.dta \
-                  temp/event_study_moments.dta
+                  output/event_study_panel_b.dta
 
 # Mark these files as PRECIOUS so make won't delete them
 .PRECIOUS: $(PRECIOUS_FILES)
@@ -37,7 +36,7 @@ install: install.log
 data: temp/unfiltered.dta temp/analysis-sample.dta temp/placebo.dta temp/large_component_managers.csv
 
 # Statistical analysis pipeline  
-analysis: temp/surplus.dta temp/manager_value.dta temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_moments.dta temp/revenue_models.ster bloom_autonomy_analysis.log output/table/atet_owner.tex output/table/atet_manager.tex
+analysis: temp/surplus.dta temp/manager_value.dta output/event_study_panel_b.dta temp/revenue_models.ster bloom_autonomy_analysis.log output/table/atet_owner.tex output/table/atet_manager.tex
 
 # Final reporting pipeline
 report: output/paper.pdf output/slides60.pdf
@@ -90,7 +89,7 @@ temp/manager_value.dta output/figure/manager_skill_within.pdf output/figure/mana
 	$(STATA) $<
 
 # Run placebo-controlled event study
-temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_moments.dta output/event_study.txt: code/estimate/event_study.do code/estimate/setup_event_study.do temp/surplus.dta temp/analysis-sample.dta temp/manager_value.dta temp/placebo.dta
+output/event_study_panel_b.dta: code/estimate/event_study.do code/estimate/setup_event_study.do temp/surplus.dta temp/analysis-sample.dta temp/manager_value.dta temp/placebo.dta
 	mkdir -p temp output
 	$(STATA) $<
 
@@ -141,9 +140,9 @@ output/table/table4_panelA.tex output/table/table4_panelB.tex: code/exhibit/tabl
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
-# Figure 1: Event study results (both main figure and panel C)
-output/figure/event_study.pdf output/figure/event_study_panel_c.pdf: code/exhibit/figure1.do temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_moments.dta
-	mkdir -p $(dir $@)
+# Figure 1: Panel C - Sample Period 2004-2022 (placebo-controlled event study)
+output/event_study_panel_c.gph: code/exhibit/figure1.do output/event_study_panel_b.dta
+	mkdir -p output
 	$(STATA) $<
 
 # =============================================================================
@@ -151,11 +150,11 @@ output/figure/event_study.pdf output/figure/event_study_panel_c.pdf: code/exhibi
 # =============================================================================
 
 # Compile final paper
-output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/table4_panelA.tex output/table/table4_panelB.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/event_study.pdf output/figure/event_study_panel_c.pdf output/references.bib
+output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/table4_panelA.tex output/table/table4_panelB.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/event_study_panel_c.gph output/references.bib
 	cd output && $(LATEX) paper.tex && bibtex paper && $(LATEX) paper.tex && $(LATEX) paper.tex
 
 # Compile presentation slides
-output/slides60.pdf: output/slides60.md output/preamble-slides.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_connected.pdf output/figure/event_study.pdf output/figure/event_study_panel_c.pdf output/figure/event_study_owner_controlled.pdf output/figure/event_study_manager_controlled.pdf
+output/slides60.pdf: output/slides60.md output/preamble-slides.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_connected.pdf output/event_study_panel_c.gph output/figure/event_study_owner_controlled.pdf output/figure/event_study_manager_controlled.pdf
 	cd output && $(PANDOC) slides60.md -t beamer --slide-level 2 -H preamble-slides.tex -o slides60.pdf
 
 # =============================================================================
