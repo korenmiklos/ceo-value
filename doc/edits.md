@@ -152,3 +152,41 @@ Add new paragraph:
 
 > The event study provides a diagnostic test for this identification assumption. Pre-trends in productivity before CEO transitions would suggest (though not prove) that the zero-mean assumption is violated. If productivity systematically rises before good CEOs arrive, we worry that the positive trend continues post-transition, violating $E[\bar{\epsilon}_m] = 0$. Conversely, the absence of pre-trends makes it harder to construct plausible endogeneity stories. While we cannot rule out contemporaneous shocks that coincide exactly with CEO changes (e.g., owners simultaneously firing the CEO and adopting new technology), such precise timing is less plausible than gradual changes that would manifest as pre-trends. Our event studies show no significant pre-trends, supporting but not proving our identification assumption.
 
+
+---
+
+## Notes and Placeholders to Address
+
+### Krisztina's Comments to Address
+
+
+### Additional Notes Throughout Paper
+
+Lines 286-305: Figure description notes need to be converted to actual figure descriptions once figures are finalized.
+
+Lines 307-309, 319-321: Notes about figure integration and interpretation need to be resolved.
+
+Lines 377, 383-397: Appendix placeholders need actual content.
+
+Lines 400-427: Robustness check placeholders need actual numbers from analysis.
+
+
+### References to Complete
+
+Line 68: Add citations for actual changes in investment, innovation from CEO event studies.
+
+Line 70: Complete citations for Tervio (2008) and Gabaix & Landier (2008).
+
+Line 76: Add two sentences about the Hungarian data.
+
+Line 155: Add proper citation for Orban (2021).
+
+### Table References
+
+Line 161: Ensure table is properly referenced as `\ref{tab:sample}`
+
+Line 182: Clean up reference to `\ref{tab:industry_stats}`
+
+### General TODOs in Comments
+
+Lines 51-63: These TODOs in comments should be removed or addressed before publication.

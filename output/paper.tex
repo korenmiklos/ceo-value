@@ -132,10 +132,6 @@ Our model abstracts from corporate governance frictions that could lead managers
 
 The model excludes dynamic considerations such as adjustment costs or forward-looking behavior. Strategic decisions are forward-looking due to their persistence, but we treat them as predetermined from the manager's perspective. Even though the optimization framework is static, our empirical application allows for arbitrary time-series correlation within and across variables. The data validate this choice: strategic variables like capital evolve slowly with little correlation to manager changes, while operational variables adjust immediately following CEO transitions.
 
-[[Krisztina notes: 1) I feel a little bit of tension between the part where we say the surplus accruing to fixed factors is jointly maximized by owners and managers, and that we treat them as predetermined from the manager's perspective."the surplus accruing to fixed factors is jointly maximized by owners and managers" sounds like the owner and manager sit down and decide on strategic variables and we don't model how they decide this. Maybe this is fine.
-
-2) We assume the manager optimally decides on the operational variables, L and M. Whatever they do is conditional on the owner (or the owner and manager jointly (see prev. comment)) deciding on fixed inputs: K and the identity of the manager. What keeps coming to my mind is that we only treat $Z_m$ as the managers value, but whether they actually really optimally choose L and M conditional on other predetermined factors is also part of their effect. I don't think we want to allow bad managers to choose suboptimally, that's not the point of this paper, but it does feel like we should at least acknowledge that we have thought about this, but we do not deal w this possibility right now. (This is beyond corp. gov. fricitons, it is about the manager not getting it right.)]]
-
 \section{Corporate Data from Hungary}
 
 Hungary provides an ideal setting for studying CEO effects in private firms. The country offers complete administrative data coverage for all incorporated businesses with mandatory CEO registration, spanning 30 years from the transition economy of the 1990s through EU accession in 2004 to the present. This coverage enables us to track CEO careers across firms and construct the mobility networks necessary for identification.
@@ -148,11 +144,11 @@ The balance sheet dataset contains annual financial reports for all Hungarian fi
 
 Constructing a panel of CEOs requires resolving two questions: what constitutes a firm and who qualifies as a CEO. For firms, we track legal entities through time using tax identifiers, which remain stable despite occasional reuse ([[tax ID reuse percent]]\% of cases). Mergers and acquisitions create new entities in our framework—we follow individual legal entities rather than economic conglomerates.
 
-Identifying individual CEOs poses greater challenges. Before 2013, no numerical identifiers existed, requiring entity resolution based on names, addresses, mother's names, and birthdates. We link records across these dimensions to create unique person identifiers, enabling tracking across firms and over time. Matching quality improves after 1999 (when reporting of mother's names commences) and 2010 (when reporting of birthdates starts), though the 1990s data achieves reasonable coverage through name and address matching. [[Krisztina: Maybe we should cite a number here whcih gives the reader an idea on what \% of all entities we are very certain we can accurately track.]]
+Identifying individual CEOs poses greater challenges. Before 2013, no numerical identifiers existed, requiring entity resolution based on names, addresses, mother's names, and birthdates. We link records across these dimensions to create unique person identifiers, enabling tracking across firms and over time. Matching quality improves after 1999 (when reporting of mother's names commences) and 2010 (when reporting of birthdates starts), though the 1990s data achieves reasonable coverage through name and address matching. 
 
 CEO identification within firms requires heuristics since job titles are inconsistently recorded. When explicit "managing director" titles exist ([[managing director percent]]\% of cases), we use them directly. For remaining cases, we assume all representatives are CEOs if three or fewer exist at the firm. When more than three representatives are present, we assign CEO status based on continuity with previously identified CEOs. Time spans between appointments are often unclosed or non-contiguous, requiring imputation based on sequential information, assuming representatives remain active if their tenure includes June 21 of each year.
 
-We apply several restrictions to create a sample suitable for productivity analysis. First, we exclude mining and finance sectors due to specialized accounting frameworks and regulatory environments. Second, we drop firms ever having more than [[max simultaneous CEOs]] simultaneous CEOs (removing [[dropped for multiple CEOs]] observations) to avoid complex governance structures that complicate identification. Third, we exclude firms with more than [[max CEO changes]] CEO changes over the sample period ([[dropped for excess changes]] observations) to reduce noise from misclassified transitions. Fourth, we remove all state-owned enterprises, as their objectives and constraints differ from private businesses. [[Orban, 2021]]
+We apply several restrictions to create a sample suitable for productivity analysis. First, we exclude mining and finance sectors due to specialized accounting frameworks and regulatory environments. Second, we drop firms ever having more than [[max simultaneous CEOs]] simultaneous CEOs (removing [[dropped for multiple CEOs]] observations) to avoid complex governance structures that complicate identification. Third, we exclude firms with more than [[max CEO changes]] CEO changes over the sample period ([[dropped for excess changes]] observations) to reduce noise from misclassified transitions. Fourth, we remove all state-owned enterprises, as their objectives and constraints differ from private businesses. [[cite Orbán, K. (2019). The Inception of Capitalism through the Lens of Firms. https://knowledge.uchicago.edu/record/1904?v=pdf]]
 
 Most importantly, we restrict attention to firms that employ at least [[min employees]] workers at some point in the firm's lifecycle. This filter removes [[percent dropped for size]] of observations but eliminates shell companies, tax optimization vehicles, and self-employment arrangements masquerading as corporations. The remaining firms represent genuine businesses with meaningful economic activity where management quality affects performance.
 
@@ -160,7 +156,9 @@ We exclude public firms and joint-stock companies from our analysis. The few com
 
 \input{table/table1.tex}
 
-[[Krisztina: For \ref{tab:sample} I hadn't realized how small the largest conn. component is relative to the full sample. You mentioned the second largest conn. component is much smaller than the largest conn. comp, right?]
+[[QUESTION: Are we reporting largest component or all components above size N?]]
+
+[[TODO: Explain size of connected components]
 
 Given the 1990s' rapid economic liberalization, transition to market economy, and foreign direct investment inflows, we conducted robustness checks restricting the sample to post-2004 data following Hungary's EU accession. The results remain unchanged, confirming our findings are not driven by the transition period's institutional environment.
 
@@ -172,10 +170,6 @@ CEO mobility creates networks essential for fixed effects identification. [[perc
 
 CEO tenure varies across firms. While [[percent single CEO firms]]\% of firms retain the same CEO throughout their observed lifetime, the remaining firms experience leadership transitions that enable identification. Among firm-years with CEO information, [[percent single CEO firm-years]]\% have single CEOs, [[percent two CEO firm-years]]\% have two, and [[percent multiple CEO firm-years]]\% have more (before our sample restrictions). CEO spell lengths follow an exponential distribution with a [[annual hazard rate]]\% annual hazard rate, implying typical tenures of [[typical tenure range]] years.
 
-[[Krisztina: I think this part should go to the estimation part when we describe what placebo is. Here people do not yet know what the placebo treatment is.]]
-To validate our placebo methodology, we verify that synthetically generated CEO transitions match actual patterns. Taking firms with stable leadership (same CEO for [[min stable tenure]]+ years), we randomly assign placebo transitions using the empirical hazard function. The resulting spell length distribution mirrors actual CEO changes: [[percent one year spells]]\% last one year, [[percent two year spells]]\% two years, declining thereafter. This similarity confirms our placebo transitions capture realistic turnover dynamics while maintaining the property that no skill change occurs.
-
-[[Krisztina: One comment we may get is that the placebo change captures the improving skill of the manager over time...$Z_{mt}$. Again this is something we do not assume is possible based on the  model. But after removing the placebo effect it is very clear that there is a slope difference in estimated productivity post the true CEO change which is not present in the fake ones, so we are still good. Still we might get this comments possibly.]
 
 \input{table/table2.tex}
 
@@ -183,7 +177,7 @@ To validate our placebo methodology, we verify that synthetically generated CEO 
 
 \section{Estimation}
 
-Our estimation proceeds in four steps: measuring the surplus share (the share of revenue accruing to fixed factors) [[Krisztina: I think we need to remind the reader what surplus is for us]], estimating the revenue function, recovering manager fixed effects, and validating causality through event studies. Each step builds toward separating true CEO effects from the noise that contaminates raw estimates.
+Our estimation proceeds in four steps: measuring the surplus share (the share of revenue accruing to fixed factors), estimating the revenue function, recovering manager fixed effects, and validating causality through event studies. Each step builds toward separating true CEO effects from the noise that contaminates raw estimates.
 
 \paragraph{Step 1: Measuring the Surplus Share.} The parameter $\chi$---the share of surplus in revenue---determines how manager skill translates into firm performance. Under Cobb-Douglas technology, this share equals one minus the combined revenue shares of labor and materials. Following \citet{Gandhi2020-nu}, we measure $\chi$ from the data as:
 \begin{equation}
@@ -195,11 +189,7 @@ where the summation runs over firms in sector $s$. This approach yields sector-s
 \begin{equation}
 r_{imst} = \frac{\alpha}{\chi} k_{it} + \frac{1}{\chi}z_m + \lambda_i + \mu_{st} + \tilde{\epsilon}_{it}
 \end{equation}
-where $r_{imst} = \log R_{imst}$ is log revenue, $k_{it} = \log K_{it}$ is log capital, $\lambda_i$ captures firm fixed effects, $\mu_{st}$ are sector-year fixed effects, and $\tilde{\epsilon}_{it} = \epsilon_{it}/\chi$ is rescaled residual productivity.
-
-In practice, we allow firm productivity to vary across CEOs by including firm-CEO fixed effects $\lambda_{im}$ rather than separate firm and manager effects. This captures the joint contribution of organizational capital and manager skill for each firm-manager pair. We include controls for firm age, intangible asset presence, and foreign ownership, though these minimally affect the capital coefficient.
-
-[[Krisztina: Is it not a problem that when we get to the measurement part, we measure the manager effect differently than what we say in the modelling part? I think this might be a relevant distinction between whether the manager's skill is measured as just average non time varying residual productivity beyond firm FE vs average non time varying residual productivity beyond beyond firm-manager effects.I think either way is fine, but i think we need to be more clear in the modelling section on what we will end up measuring? What do you think? ]]
+where $r_{imst} = \log R_{imst}$ is log revenue, $k_{it} = \log K_{it}$ is log capital, $\lambda_i$ captures firm fixed effects, $\mu_{st}$ are sector-year fixed effects, and $\tilde{\epsilon}_{it} = \epsilon_{it}/\chi$ is rescaled residual productivity. We include controls for firm age, intangible asset presence, and foreign ownership, though these minimally affect the capital coefficient.
 
 The key assumptions behind this estimating equation are: (1) all firms within a sector face the same prices, and (2) for each manager, residual productivity $\tilde{\epsilon}_{it}$ has zero mean when averaged across all their firms and time periods: $E[\bar{\epsilon}_m] = 0$ where $\bar{\epsilon}_m = \frac{1}{N_m}\sum_{i,t \in m} \tilde{\epsilon}_{it}$ and the sum runs over all firm-year observations under manager $m$.
 
@@ -241,6 +231,8 @@ By applying the same estimation procedure to ``non-changes,'' we can measure and
 We construct placebo CEO transitions in three steps. First, we estimate the time-varying hazard of actual CEO changes. Second, we identify firms with long CEO tenures (7+ years) where no actual change occurs. Third, we randomly assign placebo transitions to these stable firms using the estimated hazard function.
 
 For instance, a firm with the same CEO from 1992-2000 might receive a placebo transition in 1996, artificially splitting the tenure into two pseudo-CEOs. The timing follows the empirical hazard, ensuring the mechanical noise properties—averaging residual productivity over varying tenure lengths—match between actual and placebo groups.
+
+To validate our placebo methodology, we verify that synthetically generated CEO transitions match actual patterns. Taking firms with stable leadership (same CEO for [[min stable tenure]]+ years), we randomly assign placebo transitions using the empirical hazard function. The resulting spell length distribution mirrors actual CEO changes: [[percent one year spells]]\% last one year, [[percent two year spells]]\% two years, declining thereafter. This similarity confirms our placebo transitions capture realistic turnover dynamics while maintaining the property that no skill change occurs.
 
 We implement the event study around CEO transitions at time $g$, comparing actual changes (treatment) to placebo changes (control):
 \begin{equation}
