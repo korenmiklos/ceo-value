@@ -35,12 +35,12 @@
 \maketitle
 
 \begin{abstract}
-We estimate CEO value in private firms using Hungarian administrative data covering over one million firms and CEOs from 1992-2022. Our model separates owner-controlled inputs (capital, location) from CEO-controlled inputs (labor, materials). We introduce a placebo-controlled event study comparing actual CEO transitions to randomly assigned fake transitions in stable firms. Raw estimates suggest 22.1 percent performance differences between good and bad CEOs, but 14.8 percent is mechanical noise. The true causal effect is 7.4 percent—only 33 percent of the raw correlation. Three-quarters of apparent CEO variation is spurious, explaining weak results in studies using manager fixed effects as explanatory variables.
+How much do CEOs matter for firm performance? We estimate the causal effect of CEO quality on productivity using comprehensive administrative data covering the universe of Hungarian firms and CEOs from 1992--2022. We develop a production function framework that separates owner-controlled strategic decisions from CEO-controlled operational decisions. To address the severe measurement error in CEO fixed effects arising from short tenures, we introduce a placebo-controlled event study design: we compare actual CEO transitions to randomly assigned fake transitions in firms with stable leadership. While raw estimates suggest 22 percent performance differences between good and bad CEOs, our placebo control reveals that about two thirds of this apparent variation is mechanical noise. The true causal effect is 7--8 percent; economically meaningful but only one-third of the raw correlation. The placebo control methodology provides a general solution for estimating individual effects in short-panel settings where traditional bias-correction methods fail.
 \end{abstract}
 
 \textbf{Keywords:} CEO value, private firms, productivity
 
-\textbf{JEL Classification:} [To be added]
+\textbf{JEL Classification:} D24, G34
 
 \newpage
 
@@ -125,7 +125,7 @@ Our analysis combines two administrative datasets. The firm registry, maintained
 
 The balance sheet dataset contains annual financial reports for all Hungarian firms required to file statements. This includes sales revenue, export revenue, employment counts, tangible and intangible assets, raw material and intermediate input costs, personnel expenses, and indicators for state and foreign ownership. The two datasets cover 1,063,172 firms over 31 years, yielding 9,627,484 firm-year observations before sample restrictions.
 
-Identifying individual CEOs poses some challenges. Before 2013, no numerical identifiers existed, requiring entity resolution based on names, addresses, mother's names, and birthdates. We link records across these dimensions to create unique person identifiers, enabling tracking across firms and over time. Matching quality improves after 1999 (when mother's names reporting commences) and 2010 (when birthdates reporting starts), though the 1990s data achieves reasonable coverage through name and address matching. 
+Identifying individual CEOs poses some challenges. Before 2013, no numerical identifiers existed, requiring entity resolution based on names, addresses, mother's names, and birthdates. We link records across these dimensions to create unique person identifiers, enabling tracking across firms and over time. Matching quality improves after 1999 (when mother's names reporting begins) and 2010 (when birthdates reporting starts), though the 1990s data achieves reasonable coverage through name and address matching. 
 
 CEO identification within firms requires heuristics since job titles are inconsistently recorded. When explicit ``managing director'' titles exist, we use them directly. For remaining cases, we assume all representatives are CEOs if three or fewer exist at the firm. When more than three representatives are present, we assign CEO status based on continuity with previously identified CEOs. Time spans between appointments are often unclosed or non-contiguous, requiring imputation based on sequential information, assuming representatives remain active if their tenure includes June 21 of each year.
 
@@ -229,7 +229,7 @@ The stability of our estimates across samples validates the connected component 
 
 \subsection{The Placebo Test}
 
-Figure \ref{fig:event_study_main} presents a four-panel analysis. Panel (a) compares TFP of firms receiving a better CEO (improving $Z_m$) to those receiving a worse CEO (declining $Z_m$). The two lines correspond to actually treated firms and placebo-treated firms, allowing us to isolate true CEO effects from mechanical noise. There are substantial pretrends in the raw data, but these are mirrored in the placebo group, indicating they arise from noise rather than true skill differences.
+Figure \ref{fig:event_study_main} presents a four-panel analysis. Panel (a) compares TFP of firms receiving a better CEO (improving $Z_m$) to those receiving a worse CEO (declining $Z_m$). The two lines correspond to actually treated firms and placebo-treated firms, allowing us to isolate true CEO effects from mechanical noise. There are substantial pre-trends in the raw data, but these are mirrored in the placebo group, indicating they arise from noise rather than true skill differences.
 
 \begin{figure}[htbp]
 \centering
@@ -238,7 +238,7 @@ Figure \ref{fig:event_study_main} presents a four-panel analysis. Panel (a) comp
 \label{fig:event_study_main}
 \end{figure}
 
-Using the placebo-treated firms as control (Panel b), we can isolate the true CEO effect. The difference between the two lines in Panel (b) shows that better CEOs increase TFP by 4.4 percent, whereas worse CEOs decrease it by 3.3 percent, yielding a difference of 7.7 percent. This is about a third of the raw estimate. The absence of pretrends suggest that TFP changes are driven by CEO changes rather than the other way around.
+Using the placebo-treated firms as control (Panel b), we can isolate the true CEO effect. The difference between the two lines in Panel (b) shows that better CEOs increase TFP by 4.4 percent, whereas worse CEOs decrease it by 3.3 percent, yielding a difference of 7.7 percent. This is about a third of the raw estimate. The absence of pre-trends suggests that TFP changes are driven by CEO changes rather than the other way around.
 
 Panel (c) confirms robustness in the post-2004 period, excluding the first decade of transition. If anything, the CEO effects are slightly larger in this more stable institutional environment. Panel (d) shows the effects of outsider-to-outsider transitions, excluding founder-managed firms. This setting provides the cleanest identification of CEO effects separate from ownership changes, albeit in a smaller sample, and, hence, larger standard errors.
 
@@ -270,19 +270,10 @@ In contrast, owner-controlled variables show different patterns. Fixed assets ex
 
 \section{Conclusion}
 
-Our main finding: three-quarters of apparent CEO effect is spurious. The naive comparison of firms hiring good versus bad CEOs suggests a 22.1 percent performance difference. Our placebo-controlled event study reveals 14.8 percent of this gap arises from mechanical noise in fixed effects estimation. The true causal effect is 7.4 percent—a quarter of what raw correlations suggest.
+This paper provides causal estimate of CEO value in private firms that accounts for the mechanical noise contaminating manager fixed effects. Using comprehensive administrative data from Hungary covering over one million firms and 340,000 CEOs, we develop a novel placebo-controlled event study design that separates true managerial impact from spurious variation. Our central finding is that two-thirds of the raw difference between the TFP under good and bad CEOs arises from noise; the remaining one-third reflects true skill differences. 
 
-CEOs matter modestly, with their primary impact through scaling variable inputs. Better managers expand operations by immediately increasing employment and material purchases, generating higher revenues within the constraints of owner-controlled capital. The 7.4 percent productivity advantage translates into 28.1 percent higher revenues through this scaling mechanism. The immediate response of manager-controlled variables contrasted with unchanged capital stocks validates our model's division of decision rights.
+An alternative way to deal with the noise problem is to use observable manager characteristics as measures of skill. Observable characteristics such as education and work experience \citep{DePirro2025}, foreign name as a proxy for international exposure \citep{Koren2023expat}, and the selectiveness of entry cohorts \citep{koren2024managers} offer more reliable, though narrower, measures of specific dimensions of managerial quality. These observables capture only partial aspects of CEO ability but avoid the mechanical noise that contaminates fixed effects estimates.
 
-These findings have implications for corporate governance and productivity research. The widespread practice of using manager fixed effects as explanatory variables is flawed—with 67 percent noise contamination, such estimates suffer from severe attenuation bias. This explains the weak and inconsistent relationships found in studies relating manager "quality" to firm policies or outcomes. Researchers should not trust raw CEO fixed effects as measures of managerial ability.
-
-Future research should use observable manager characteristics. Education and work experience \citep{DePirro2025}, foreign name as a proxy for international exposure \citep{Koren2023expat}, and selectiveness of entry cohorts \citep{koren2024managers} offer more reliable, though narrower, measures of specific dimensions of managerial quality. These observables capture only partial aspects of CEO ability but avoid the mechanical noise that contaminates fixed effects estimates.
-
-Our placebo-controlled approach offers a general solution for short-panel settings where traditional methods fail. This extends beyond CEOs to teachers, doctors, judges, or any setting where individual effects are estimated from limited observations. The method requires only the ability to construct credible placebo treatments—randomly splitting stable spells in our case—making it widely applicable. Rather than attempting complex analytical corrections that become unreliable with few observations, the placebo approach directly measures and removes the noise component.
-
-Our findings offer both methodological and substantive contributions. The placebo control technique provides a practical tool for future research on manager effects, applicable beyond our specific context. For policy, the modest but real CEO effects suggest that while management quality matters, other factors—organizational capital, market position, ownership structure—play larger roles in firm performance. Understanding this balance helps calibrate expectations about what management improvements can realistically achieve in private businesses.
-
-Our findings reconcile conflicting evidence about management importance in the literature. While management consulting interventions show large effects, studies using manager fixed effects find inconsistent results. Our decomposition reveals why: most apparent manager variation is noise, not signal. This has broader implications for understanding productivity differences across firms. Management quality matters, but less than commonly believed. Other factors—organizational capital, market position, institutional environment—likely play larger roles in explaining firm performance differences. For economic development policy, this suggests that improving institutional frameworks and reducing market frictions may be more important than focusing solely on management training programs.
 
 \bibliographystyle{apalike}
 \bibliography{references}
@@ -294,7 +285,7 @@ Our findings reconcile conflicting evidence about management importance in the l
 \setcounter{figure}{0}
 \setcounter{table}{0}
 
-\subsection{Production Manager Autonomy on Family Firms}
+\subsection{Production Manager Autonomy in Family Firms}
 
 \input{table/tableA0}
 
