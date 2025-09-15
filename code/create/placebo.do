@@ -6,7 +6,6 @@ local placebo_seed 8211           // Random seed for placebo generation
 local first_placebo_spell 1       // First placebo spell number for analysis
 local second_placebo_spell 2      // Second placebo spell number for analysis
 local max_ceo_spells 6            // Maximum CEO spell threshold
-local longest_spell 31            // Maximum length of CEO spell for analysis
 local pre 3                     // Pre-period for analysis
 local post 3                    // Post-period for analysis
 
@@ -53,6 +52,10 @@ bysort frame_id_numeric (year): generate byte running_index = 1 if _n == 1
 generate p_change = .
 generate byte pcb = .
 generate byte pointer = 1 if running_index == 1
+
+summarize T_actual 
+local longest_spell = r(max)
+display "Longest actual spell: " `longest_spell'
 
 local p_`longest_spell' = 1
 forvalues t = 1/`longest_spell' {
