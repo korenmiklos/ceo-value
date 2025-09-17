@@ -7,9 +7,6 @@ local estab_options star(* 0.10 ** 0.05 *** 0.01) b(3) se style(tex) replace nol
 
 * limit sample to firms that never miss an outcome
 foreach Y in `owner_controlled' `manager_controlled' {
-    * take out firm-age effects
-    reghdfe `Y' firm_age firm_age_sq, absorb(teaor08_2d##year) residuals(`Y'_w)
-
     egen sometimes_missing = max(missing(`Y'_w)), by(fake_id)
     drop if sometimes_missing
     drop sometimes_missing 
