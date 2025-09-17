@@ -47,6 +47,18 @@ egen max_ceo_spell = max(ceo_spell), by(fake_id)
 * limit sample to clean changes between first and second CEO 
 keep if ceo_spell <= max_ceo_spell
 keep if !missing(lnStilde)
+
+* flag firms that start with founder CEO
+egen byte founder1 = max(cond(ceo_spell == 1, founder, 0)), by(frame_id_numeric )
+tabulate ceo_spell founder1 if placebo == 0, missing
+* drop these spells, but only from actual firms, not placebo
+drop if founder1 == 1 & ceo_spell == 1 & placebo == 0
+tabulate ceo_spell founder1 if placebo == 0, missing
+* keep the remaining spells
+replace ceo_spell = ceo_spell - 1 if founder1 == 1 & placebo == 0
+tabulate ceo_spell founder1 if placebo == 0, missing
+drop founder1
+
 keep if inlist(ceo_spell, ${first_spell}, ${second_spell})
 
 egen change_year = min(cond(ceo_spell == ${second_spell}, year, .)), by(fake_id)
@@ -83,7 +95,7 @@ tabulate ceo_spell some_owner
 tabulate ceo_spell founder1
 
 * keep founder to non-founder transitions only, except for placebo, where keep everyone
-keep if (founder1 == 1 & founder2 == 0) | (placebo == 1)
+keep if (founder1 == 0 & founder2 == 0) | (placebo == 1)
 tabulate ceo_spell
 
 generate byte good_ceo = (MS2 > MS1)
