@@ -11,7 +11,7 @@ use "temp/analysis-sample.dta", clear
 do "code/create/network-sample.do"
 
 * Define rich controls for models 4-6
-local controls lnK foreign_owned has_intangible founder owner
+local controls lnK has_intangible foreign_owned state_owned founder owner
 local rich_controls `controls' firm_age firm_age_sq ceo_age ceo_age_sq ceo_tenure ceo_tenure_sq
 
 * Fixed effects specifications
