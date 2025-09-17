@@ -9,18 +9,16 @@ global baseline_year -1            // Baseline year for event study
 global min_obs_threshold 1         // Minimum observations before/after
 global min_T 1                     // Minimum observations to estimate fixed effects
 global random_seed 2181            // Random seed for reproducibility
-global sample 100                   // Sample selection for analysis
+global sample 25                   // Sample selection for analysis
 global max_n_ceo 1                // Maximum number of CEOs per firm for analysis
 
 use "temp/surplus.dta", clear
 merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match) nogen
 merge m:1 frame_id_numeric person_id using "temp/manager_value.dta", keep(master match) nogen
 
-generate FA = firm_age
-replace FA = 20 if FA > 20
 foreach Y in lnK has_intangible lnWL lnM {
     * take out firm-age effects
-    reghdfe `Y', absorb(FA frame_id_numeric teaor08_2d##year) residuals(`Y'_w)
+    reghdfe `Y', absorb(firm_age frame_id_numeric teaor08_2d##year) residuals(`Y'_w)
 }
 
 * keep single-ceo firms
@@ -54,18 +52,6 @@ egen max_ceo_spell = max(ceo_spell), by(fake_id)
 * limit sample to clean changes between first and second CEO 
 keep if ceo_spell <= max_ceo_spell
 keep if !missing(lnStilde)
-
-* flag firms that start with founder CEO
-egen byte founder1 = max(cond(ceo_spell == 1, founder, 0)), by(frame_id_numeric )
-tabulate ceo_spell founder1 if placebo == 0, missing
-* drop these spells, but only from actual firms, not placebo
-drop if founder1 == 1 & ceo_spell == 1 & placebo == 0
-tabulate ceo_spell founder1 if placebo == 0, missing
-* keep the remaining spells
-replace ceo_spell = ceo_spell - 1 if founder1 == 1 & placebo == 0
-tabulate ceo_spell founder1 if placebo == 0, missing
-drop founder1
-
 keep if inlist(ceo_spell, ${first_spell}, ${second_spell})
 
 egen change_year = min(cond(ceo_spell == ${second_spell}, year, .)), by(fake_id)
@@ -102,7 +88,7 @@ tabulate ceo_spell some_owner
 tabulate ceo_spell founder1
 
 * keep founder to non-founder transitions only, except for placebo, where keep everyone
-keep if (founder1 == 0 & founder2 == 0) | (placebo == 1)
+keep if (founder1 == 1 & founder2 == 0) | (placebo == 1)
 tabulate ceo_spell
 
 generate byte good_ceo = (MS2 > MS1)
