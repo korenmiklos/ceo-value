@@ -25,35 +25,22 @@ graph twoway ///
 * CREATE PANEL B: PLACEBO-CONTROLLED EVENT STUDY
 * =============================================================================
 
-use "temp/event_study_panel_b.dta", clear
+local title_a "Panel A: Actual vs Placebo"
+local title_b "Panel B: Better vs Worse CEO"
+local title_c "Panel C: Sample Period: 2004-2022"
+local title_d "Panel D: Excluding Founders"
 
-graph twoway ///
-    (rarea lower_worse upper_worse xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_worse xvar, lcolor(blue) mcolor(blue)) ///
-    (rarea lower_better upper_better xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_better xvar, lcolor(red) mcolor(red)) ///
-    ,  title("Panel B: Worse vs Better CEO", size(medium)) ///
-    legend(order(2 "Worse" 4 "Better") rows(1) position(6)) ///
-    `format' ///
-    saving("temp/event_study_panel_b.gph", replace)
+foreach panel in b c d {
+    use "temp/event_study_panel_`panel'.dta", clear
 
-use "temp/event_study_panel_c.dta", clear
-
-graph twoway ///
-    (rarea lower_worse upper_worse xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_worse xvar, lcolor(blue) mcolor(blue)) ///
-    (rarea lower_better upper_better xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_better xvar, lcolor(red) mcolor(red)) ///
-    ,  title("Panel C: Sample Period: 2004-2022", size(medium)) ///
-    legend(order(2 "Worse" 4 "Better") rows(1) position(6)) ///
-    `format' ///
-    saving("temp/event_study_panel_c.gph", replace)
-
-use "temp/event_study_panel_d.dta", clear
-
-graph twoway ///
-    (rarea lower_worse upper_worse xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_worse xvar, lcolor(blue) mcolor(blue)) ///
-    (rarea lower_better upper_better xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_better xvar, lcolor(red) mcolor(red)) ///
-    ,  title("Panel D: Excluding Founders", size(medium)) ///
-    legend(order(2 "Worse" 4 "Better") rows(1) position(6)) ///
-    `format' ///
-    saving("temp/event_study_panel_d.gph", replace)
+    graph twoway ///
+        (rarea lower_worse upper_worse xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_worse xvar, lcolor(blue) mcolor(blue)) ///
+        (rarea lower_better upper_better xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_better xvar, lcolor(red) mcolor(red)) ///
+        ,  title("`title_`panel''", size(medium)) ///
+        legend(order(4 "Better" 2 "Worse") rows(1) position(6)) ///
+        `format' ///
+        saving("temp/event_study_panel_`panel'.gph", replace)
+}
 
 
 * =============================================================================
