@@ -1,6 +1,6 @@
 local event_window_start -4      // Event study window start
 local event_window_end 3         // Event study window end
-local baseline_year -3            // Baseline year for event study
+local baseline_year -1            // Baseline year for event study
 local format graphregion(color(white)) xlabel(`event_window_start'(1)`event_window_end') ///
     xline(-0.5) xscale(range (`event_window_start' `event_window_end')) ///
     xtitle("Time since CEO change (year)") yline(0) ///
@@ -11,12 +11,12 @@ local format graphregion(color(white)) xlabel(`event_window_start'(1)`event_wind
 * CREATE PANEL A: RAW EVENT STUDY
 * =============================================================================
 
-local lnK Capital
-local lnWL Wagebill
-local lnM Materials
-local has_intangible Intangible
+local lnK Panel A: Capital
+local has_intangible Panel B: Intangible
+local lnWL Panel C: Wagebill
+local lnM Panel D: Materials
 
-local outcomes lnK lnWL lnM has_intangible
+local outcomes lnK has_intangible lnWL lnM
 local combined
 
 foreach Y in `outcomes' {
@@ -25,7 +25,7 @@ foreach Y in `outcomes' {
     graph twoway ///
         (rarea lower_worse upper_worse xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_worse xvar, lcolor(blue) mcolor(blue)) ///
         (rarea lower_better upper_better xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_better xvar, lcolor(red) mcolor(red)) ///
-        ,  title("Panel A: ``Y''", size(medium)) ///
+        ,  title("``Y''", size(medium)) ///
         legend(order(4 "Better" 2 "Worse") rows(1) position(6)) ///
         `format' ///
         saving("temp/event_study_`Y'.gph", replace)

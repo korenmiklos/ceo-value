@@ -22,7 +22,9 @@ PRECIOUS_FILES := temp/balance.dta temp/ceo-panel.dta temp/unfiltered.dta \
                   temp/large_component_managers.csv temp/surplus.dta \
                   temp/manager_value.dta temp/revenue_models.ster \
                   temp/event_study_panel_a.dta temp/event_study_panel_b.dta \
-                  temp/event_study_moments.dta
+                  temp/event_study_moments.dta temp/event_study_lnK.dta \
+                  temp/event_study_lnWL.dta temp/event_study_lnM.dta \
+                  temp/event_study_has_intangible.dta
 
 # Mark these files as PRECIOUS so make won't delete them
 .PRECIOUS: $(PRECIOUS_FILES)
@@ -46,7 +48,7 @@ data: temp/unfiltered.dta temp/analysis-sample.dta temp/placebo.dta temp/large_c
 analysis: temp/surplus.dta temp/manager_value.dta temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_moments.dta temp/revenue_models.ster bloom_autonomy_analysis.log output/table/atet_owner.tex output/table/atet_manager.tex
 
 # Final reporting pipeline
-report: output/paper.pdf output/slides60.pdf
+report: output/paper.pdf output/slides60.pdf output/figure/event_study_outcomes.pdf
 
 extract: output/extract/manager_changes_2015.dta output/extract/connected_managers.dta
 
@@ -109,7 +111,7 @@ bloom_autonomy_analysis.log: code/estimate/bloom_autonomy_analysis.do input/bloo
 	$(STATA) $<
 
 # Event study outcomes analysis - heterogeneous treatment effects
-output/table/atet_owner.tex output/table/atet_manager.tex output/figure/event_study_owner_controlled.pdf output/figure/event_study_manager_controlled.pdf: code/estimate/event_study_outcomes.do code/estimate/setup_event_study.do temp/surplus.dta temp/analysis-sample.dta temp/manager_value.dta temp/placebo.dta
+output/table/atet_owner.tex output/table/atet_manager.tex output/figure/event_study_owner_controlled.pdf output/figure/event_study_manager_controlled.pdf temp/event_study_lnK.dta temp/event_study_lnWL.dta temp/event_study_lnM.dta temp/event_study_has_intangible.dta: code/estimate/event_study_outcomes.do code/estimate/setup_event_study.do temp/surplus.dta temp/analysis-sample.dta temp/manager_value.dta temp/placebo.dta
 	mkdir -p output/table output/figure
 	$(STATA) $<
 
@@ -144,6 +146,11 @@ output/table/table2_panelA.tex output/table/table2_panelB.tex: code/exhibit/tabl
 
 # Figure 1: Event study results (both main figure and panel C)
 output/figure/event_study.pdf: code/exhibit/figure1.do temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_panel_c.dta temp/event_study_panel_d.dta
+	mkdir -p $(dir $@)
+	$(STATA) $<
+
+# Figure 2: Event study outcomes (Capital, Wagebill, Materials, Intangible)
+output/figure/event_study_outcomes.pdf: code/exhibit/figure2.do temp/event_study_lnK.dta temp/event_study_lnWL.dta temp/event_study_lnM.dta temp/event_study_has_intangible.dta
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
