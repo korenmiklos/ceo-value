@@ -1,5 +1,7 @@
 clear all
 
+local connected (giant_component == 1) | (connected_components == 1)
+
 * Load analysis sample
 use "temp/analysis-sample.dta", clear
 
@@ -47,6 +49,7 @@ restore
 * Load connected component managers
 preserve
     import delimited "temp/large_component_managers.csv", clear
+    keep if `connected'
     tempfile connected_managers
     save `connected_managers'
 restore
@@ -118,15 +121,13 @@ count if firm_tag
 local total_firms_total = r(N)
 
 * Count distinct in connected component
-import delimited "temp/large_component_managers.csv", clear
+use `connected_managers'
 count
 local total_ceos_connected = r(N)
-tempfile connected_temp
-save `connected_temp'
 
 * Count distinct firms in connected component
 use "temp/analysis-sample.dta", clear
-merge m:1 person_id using `connected_temp', keep(match) nogen
+merge m:1 person_id using `connected_managers', keep(match) nogen
 egen firm_tag = tag(frame_id_numeric)
 count if firm_tag
 local total_firms_connected = r(N)

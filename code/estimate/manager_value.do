@@ -3,9 +3,6 @@
 * =============================================================================
 local within_firm_skill_min -1     // Minimum within-firm manager skill bound
 local within_firm_skill_max 1      // Maximum within-firm manager skill bound  
-local connected_skill_min -2       // Minimum connected component skill bound
-local connected_skill_max 2        // Maximum connected component skill bound
-local largest_component_id 1       // ID of largest connected component
 local outcomes lnR lnEBITDA lnL
 local controls lnK foreign_owned has_intangible
 
@@ -39,14 +36,14 @@ summarize within_firm_chi if ceo_spell > 1, detail
 display "IQR of within-firm variation in manager surplus: " exp(r(p75) - r(p25))*100 - 100
 
 * now do cross section, but only on connected components
-keep if component_id == `largest_component_id'
+keep if (giant_component == 1) | (connected_components == 1)
 
 reghdfe lnStilde, absorb(firm_fixed_effect=frame_id_numeric manager_skill=person_id) keepsingletons
 
-summarize manager_skill, detail
+* but across components we cannot make a comparison!
+summarize manager_skill if giant_component == 1, detail
 replace manager_skill = manager_skill - r(mean)
 display "IQR of manager skill: " exp(r(p75) - r(p25))*100 - 100
-replace manager_skill = . if !inrange(manager_skill, `connected_skill_min', `connected_skill_max')
 
 * Create histogram for connected component manager skill distribution
 histogram manager_skill, ///
@@ -61,5 +58,5 @@ generate firm_fixed_effect_chi = firm_fixed_effect / chi
 summarize manager_skill_chi, detail
 display "IQR of manager surplus: " exp(r(p75) - r(p25))*100 - 100
 
-collapse (firstnm) firm_fixed_effect manager_skill chi, by(frame_id_numeric person_id)
+collapse (firstnm) firm_fixed_effect manager_skill chi component_id component_size, by(frame_id_numeric person_id)
 save "temp/manager_value.dta", replace
