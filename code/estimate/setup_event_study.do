@@ -16,9 +16,11 @@ use "temp/surplus.dta", clear
 merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match) nogen
 merge m:1 frame_id_numeric person_id using "temp/manager_value.dta", keep(master match) nogen
 
+generate FA = firm_age
+replace FA = 20 if FA > 20
 foreach Y in lnK has_intangible lnWL lnM {
     * take out firm-age effects
-    reghdfe `Y' firm_age firm_age_sq, absorb(frame_id_numeric teaor08_2d##year) residuals(`Y'_w)
+    reghdfe `Y', absorb(FA frame_id_numeric teaor08_2d##year) residuals(`Y'_w)
 }
 
 * keep single-ceo firms
