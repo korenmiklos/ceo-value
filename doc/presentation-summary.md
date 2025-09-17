@@ -338,3 +338,33 @@ Our data engineer once said: in this dataset, *everything and its opposite is tr
 * Transcript: *“I think some of it can be tested, but for now, we’re just assuming it.”* (re placebo noise distribution)
 * You said you should test the comparability of placebo vs actual turnover firms, not just assume it.
 
+# 2025-09-15 Monash
+## 1
+Many of the questions were about the impacts of assuming K chosen by "not the manager". People were wondering that longer tenure CEO-s probably have a larger say in "fixed decisions" than shorter tenure CEO-s and there is quite a bit of heterogeneity in tenure of our CEO-s. 
+In general they wondered if the fact that we treat K vs M, L asymmetrically matters. I mentioned we want to be consistent with theoretical and empir. results in the lit. that manager autonomy is limited. Showing that indeed K is smoothly moving vs variable inputs move discontinuously at the event time was helpful.
+But still people wondered what if we model if by assuming an adjustment cost for K instead of assuming who chooses what etc
+
+One way to explain this better would be (and clearly all this is in the paper but not in one flow, and maybe this would be helpful, curious as to what you think) to explain what this assumption truly matters for us, and it is to recover an unbiased estimate of K. And then explain even though this model of the world (owner chooses K) is what seems most consistent w the real world,  and the ass. owned chooses K is helpful to identify the K coefficient, even if we do not assume that "owner chooses K", we can estimate K in an unbiased way. Show this with the combination of a) using the firm-manager fixed effect in the reg where K coeff. is estimated (more on this in next par.) and b) showing that no discontinuity in K at t or t+1 (while yes in L, M).
+
+We do say clearly we need to assume that labor and material are chosen by the manager and we need to model this, we cannot just regress outcome on manager fixed effect and Labor and materials since Labor and materials are correlated with the manager fixed effect, since chosen by manager, and so we would get biased estimates. Now what about getting an unbiased capital coefficient estimate? Well our theory and empirical evidence both say that managers have more limited autonomy in terms of choosing capital or influencing capital and so this is what we assume. Where this matters for us is at the estimation step: we assume capital is taken as given by the manager and so we are basically regressing outcome on capital and manager fixed effect and the estimates are unbiased because K predetermined. To validate this assumption we show the graph where capital is moving smoothly which Is consistent with the manager not having a direct impact on capital while having a direct impact on labor and materials on the variables we do assume that they directly choose. People could even argue that there is a time to build for capital so of course we do not see a change in capital when the new manager gets hired. BUT we don't even see the impact with the one year  lag which is what we would see if the manager indeed chose capital on their own.
+
+One mechanism that someone in the audience said which I think is helpful and I think points out that even if we assume owner chooses K, investment might be correlated with manager skill, is that Investments into capital are determined by return to capital -- a good manager raises the return to capital. Investments need funds, and the capital market will give funds to high Return to Capital investments so the manager does not directly choose capital but the manager effect will be correlated with the capital value, so better manager --> more capital conditional on everything else. From the perspective of identification this means that manager effect and capital value is correlated. However Miklos used firm-manager fixed in the estimation of the capital coefficient so one could argue that conditional on a firm-manager fixed effect (this picks up how good the manager is for this firm) nothing in the error term is any longer correlated with K so our capital coefficient is unbiased, and so even if we don't take a stance on whether it's the manager that decides, or the owner that decides, or the capital market decides the K value, for the purposes that this matters most for us, estimating beta in an unbiased way, we are good. What do you think?
+
+## 2
+The motivation for separating owner controlled inputs and manager controlled input is that in smaller firms there is evidence that the managers autonomy is limited. The alternative is the compustat listed firms, where we think of managers as having more autonomy. However think of the board of a company which exerts control over the manager- is the board similarly not a limiting factor to manager autonomy in larger firms compared to how the owner is a limiting factor in manager autonomy for smaller firms?
+So not sure we need to make the distinction based on limited control over fixed inputs between large and smaller firms?
+
+## 3
+The fact that some of our transitions are from owner-managers to outside managers and some are from outside managers to outside managers came up several times. I cited Miklos' robustness test that the results are quite similar just larger errors because smaller sample size. It seems this might need to go in the paper, especially because one of the tables lists the share of founder-managers, and it's clear it's high.
+
+## 4
+There were many questions about what the results correlate with: size ( have see this before and the pecking order would be really good to show, because intuitive), industry, whether over time in the time series the avg manager effect improves (I don't think we've done this, would be cool). In an earlier email you were proposing showing reuslts 2004+ only, outsider-outisder transitions only, etc
+
+Also, since managers/owners care about profit, should check if manager effect correlates with profitability of the firm
+
+## 5
+smaller comments, easy to implement, but not necessary
+a) use sector-region-time fixed effects
+b) over 30 years alpha (K coeff.) presumably varies within sector, allow for it
+c) hazards of CEO change prob. varies across sectors or size of firms, allow for it
+
