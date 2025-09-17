@@ -9,7 +9,7 @@ global baseline_year -3            // Baseline year for event study
 global min_obs_threshold 1         // Minimum observations before/after
 global min_T 1                     // Minimum observations to estimate fixed effects
 global random_seed 2181            // Random seed for reproducibility
-global sample 100                   // Sample selection for analysis
+global sample 25                   // Sample selection for analysis
 global max_n_ceo 1                // Maximum number of CEOs per firm for analysis
 
 use "temp/surplus.dta", clear

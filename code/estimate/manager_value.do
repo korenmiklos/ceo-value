@@ -36,7 +36,6 @@ summarize within_firm_chi if ceo_spell > 1, detail
 display "IQR of within-firm variation in manager surplus: " exp(r(p75) - r(p25))*100 - 100
 
 * now do cross section, but only on connected components
-keep if (giant_component == 1) | (connected_components == 1)
 
 reghdfe lnStilde, absorb(firm_fixed_effect=frame_id_numeric manager_skill=person_id) keepsingletons
 
