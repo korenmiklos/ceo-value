@@ -33,9 +33,6 @@ local min_employment 5           // Minimum employment for analysis
     23 Európai szövetkezet
 
 */
-* exclude companies with dispersed ownership based of legal form
-drop if inlist(cf, 1, 2, 7, 8, 10, 15, 16, 19, 20, 23)
-
 * drop firm-years that do not have a CEO
 drop if ceo_spell == 0
 
@@ -53,9 +50,6 @@ drop if firm_age < `min_firm_age'
 * drop mining and finance sectors
 tabulate sector if firm_tag
 drop if inlist(sector, `excluded_sectors')
-
-egen ever_state_owned = max(state_owned), by(frame_id_numeric)
-drop if ever_state_owned == 1
 
 * drop firms with too few employees
 summarize max_employment if firm_tag, detail
