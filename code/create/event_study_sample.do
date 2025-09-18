@@ -44,30 +44,43 @@ tabulate ceo_spell
 drop if missing(L.ceo_spell) & missing(F.ceo_spell)
 tabulate ceo_spell
 
-* include the first founder - non-founder transition
-egen first_non_founder = min(cond(founder == 0, ceo_spell, .)), by(frame_id_numeric)
-tabulate first_non_founder, missing
-keep if first_non_founder >= 2 & !missing(first_non_founder)
-keep if inrange(ceo_spell, first_non_founder-1, first_non_founder)
-tabulate first_non_founder, missing
+* intermediate spells have to be doubled so that before and after are both saved
 egen first_spell = min(ceo_spell), by(frame_id_numeric)
+egen last_spell = max(ceo_spell), by(frame_id_numeric)
+generate duplicate = cond(ceo_spell > first_spell & ceo_spell < last_spell, 2, 1)
+expand duplicate
 
-replace ceo_spell = ceo_spell - first_spell + 1
-tabulate ceo_spell, missing
-drop first_non_founder first_spell
+bysort frame_id_numeric ceo_spell: generate index = _n
+sort frame_id_numeric ceo_spell index
+generate byte new_spell = ceo_spell[_n-1] == ceo_spell & frame_id_numeric[_n-1] == frame_id_numeric  
+bysort frame_id_numeric (ceo_spell index): generate byte spell_id = sum(new_spell)
 
+drop first_spell last_spell duplicate index new_spell
+bysort frame_id_numeric spell_id (ceo_spell): generate index = _n
 
-reshape wide MS T founder owner change_year window_end, i(frame_id_numeric) j(ceo_spell)
+reshape wide MS T founder owner change_year window_end ceo_spell, i(frame_id_numeric spell_id) j(index)
 rename change_year2 change_year
 
 generate window_start = max(change_year1, change_year + $event_window_start)
 generate window_end = min(window_end2, change_year + $event_window_end)
 * need to sort on skill
 drop if missing(MS1, MS2)
-collapse (min) window_start (max) window_end (firstnm) cohort change_year, by(frame_id_numeric)
+drop if ceo_spell1 != ceo_spell2 - 1
+rename ceo_spell1 ceo_spell
+drop ceo_spell2
+
+*********************
+* LIMIT SAMPLE HERE *
+*********************
+
+* include all founder to non-founder transitions
+* this is more than before when we only had the first such transition per firm
+keep if founder1 == 1 & founder2 == 0
+
+collapse (min) window_start ceo_spell (max) window_end (firstnm) cohort change_year, by(frame_id_numeric spell_id)
 
 * frame_id_numeric will stop being unique once we add placebo
-egen fake_id = group(frame_id_numeric)
+egen fake_id = group(frame_id_numeric ceo_spell)
 summarize fake_id
 scalar N_TREATED = r(max)
 generate byte placebo = 0
