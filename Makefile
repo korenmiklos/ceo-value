@@ -159,16 +159,21 @@ output/figure/event_study_outcomes.pdf: code/exhibit/figure2.do temp/event_study
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
+# Figure A1: Additional event study figure
+output/figure/figureA1.pdf: code/exhibit/figureA1.do temp/event_study_panel_a.dta temp/event_study_panel_b.dta
+	mkdir -p $(dir $@)
+	$(STATA) $<
+
 # =============================================================================
 # LaTeX compilation
 # =============================================================================
 
 # Compile final paper
-output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/event_study.pdf output/references.bib
+output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/event_study.pdf output/figure/event_study_outcomes.pdf output/references.bib
 	cd output && $(LATEX) paper.tex && bibtex paper && $(LATEX) paper.tex && $(LATEX) paper.tex
 
 # Compile presentation slides
-output/slides60.pdf: output/slides60.md output/preamble-slides.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_connected.pdf output/figure/event_study.pdf 
+output/slides60.pdf: output/slides60.md output/preamble-slides.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_connected.pdf output/figure/event_study.pdf output/figure/event_study_outcomes.pdf
 	cd output && $(PANDOC) slides60.md -t beamer --slide-level 2 -H preamble-slides.tex -o slides60.pdf
 
 # =============================================================================
@@ -184,6 +189,15 @@ output/extract/manager_changes_2015.dta output/extract/connected_managers.dta: c
 output/test/test_paths.csv: code/test/test_network.jl temp/edgelist.csv temp/large_component_managers.csv
 	mkdir -p $(dir $@)
 	$(JULIA) $< 1000 10
+
+# Balance estimation (alternative analysis)
+balance.log: code/estimate/balance.do temp/analysis-sample.dta code/create/network-sample.do
+	$(STATA) $<
+
+# Test placebo analysis
+output/test/placebo_test.log: code/test/placebo.do output/test/placebo.dta
+	mkdir -p $(dir $@)
+	$(STATA) $<
 
 # =============================================================================
 # Utilities
