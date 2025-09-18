@@ -35,20 +35,14 @@ egen min_cohort = min(cohort), by(frame_id_numeric)
 replace cohort = min_cohort if cohort != min_cohort
 drop min_cohort
 
-egen change_year = min(cond(ceo_spell == ${second_spell}, year, .)), by(frame_id_numeric)
-generate event_time = year - change_year
-tabulate event_time, missing
-local in_window inrange(event_time, ${event_window_start}, ${event_window_end}) 
-
-keep if `in_window'
-
 * refactor to collapse
 collapse (mean) MS = manager_skill (count) T = lnStilde (max) founder owner (min) change_year = year (max) window_end = year (firstnm) cohort, by(frame_id_numeric ceo_spell)
 
 reshape wide MS T founder owner change_year window_end, i(frame_id_numeric) j(ceo_spell)
 rename change_year2 change_year
-rename window_end2 window_end
-rename change_year1 window_start
+
+generate window_start = max(change_year1, change_year + $event_window_start)
+generate window_end = min(window_end2, change_year + $event_window_end)
 
 * need to sort on skill
 drop if missing(MS1, MS2)

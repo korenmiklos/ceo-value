@@ -3,7 +3,7 @@
        log:  /Users/koren/Tresorit/Mac/projects/ceo-value/output/event_study.tx
 > t
   log type:  text
- opened on:  18 Sep 2025, 14:38:09
+ opened on:  18 Sep 2025, 15:09:56
 
 . 
 . display "Event study results for better CEOs:"
@@ -18,12 +18,12 @@ Panel variable: fake_id (unbalanced)
  Time variable: year, 1992 to 2022, but with gaps
          Delta: 1 unit
 
-Event study relative to atet             Number of obs = 9,685
+Event study relative to atet             Number of obs = 9,272
 
 ------------------------------------------------------------------------------
     lnStilde |       ATET   Std. err.      z    P>|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
-        ATET |    .178992   .0067227    26.63   0.000     .1658158    .1921681
+        ATET |   .1841435   .0069831    26.37   0.000     .1704569    .1978302
 ------------------------------------------------------------------------------
 
 . scalar total_atet = _b[ATET]
@@ -37,12 +37,12 @@ Panel variable: fake_id (unbalanced)
  Time variable: year, 1992 to 2022, but with gaps
          Delta: 1 unit
 
-Event study relative to atet            Number of obs = 92,653
+Event study relative to atet            Number of obs = 90,212
 
 ------------------------------------------------------------------------------
     lnStilde |       ATET   Std. err.      z    P>|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
-        ATET |   .1409226    .001548    91.04   0.000     .1378886    .1439566
+        ATET |   .1367334   .0015077    90.69   0.000     .1337783    .1396885
 ------------------------------------------------------------------------------
 
 . scalar placebo_atet = _b[ATET]
@@ -56,12 +56,12 @@ Panel variable: fake_id (unbalanced)
  Time variable: year, 1992 to 2022, but with gaps
          Delta: 1 unit
 
-Event study relative to atet            Number of obs = 44,978
+Event study relative to atet            Number of obs = 44,136
 
 ------------------------------------------------------------------------------
     lnStilde |       ATET   Std. err.      z    P>|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
-        ATET |  -.0067566   .0047016    -1.44   0.151    -.0159715    .0024583
+        ATET |  -.0107168   .0047818    -2.24   0.025    -.0200889   -.0013447
 ------------------------------------------------------------------------------
 
 . scalar worse_atet = _b[ATET]
@@ -75,12 +75,12 @@ Panel variable: fake_id (unbalanced)
  Time variable: year, 1992 to 2022, but with gaps
          Delta: 1 unit
 
-Event study relative to atet            Number of obs = 57,360
+Event study relative to atet            Number of obs = 55,348
 
 ------------------------------------------------------------------------------
     lnStilde |       ATET   Std. err.      z    P>|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
-        ATET |   .0307745   .0047663     6.46   0.000     .0214328    .0401162
+        ATET |   .0365742   .0049869     7.33   0.000        .0268    .0463483
 ------------------------------------------------------------------------------
 
 . scalar better_atet = _b[ATET]
@@ -92,18 +92,18 @@ Event study relative to atet            Number of obs = 57,360
 
 . 
 . display "Total ATET: " total_atet
-Total ATET: .17899198
+Total ATET: .18414355
 
 . display "Placebo-controlled ATET 1: " proper_atet1
-Placebo-controlled ATET 1: .03753106
+Placebo-controlled ATET 1: .04729097
 
 . display "Placebo-controlled ATET 2: " proper_atet2
-Placebo-controlled ATET 2: .03806941
+Placebo-controlled ATET 2: .04741011
 
 . log close
       name:  <unnamed>
        log:  /Users/koren/Tresorit/Mac/projects/ceo-value/output/event_study.tx
 > t
   log type:  text
- closed on:  18 Sep 2025, 14:41:11
+ closed on:  18 Sep 2025, 15:13:20
 -------------------------------------------------------------------------------
