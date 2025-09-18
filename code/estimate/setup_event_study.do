@@ -16,11 +16,6 @@ use "temp/surplus.dta", clear
 merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match) nogen
 merge m:1 frame_id_numeric person_id using "temp/manager_value.dta", keep(master match) nogen
 
-foreach Y in lnK has_intangible lnWL lnM {
-    * take out firm-age effects
-    reghdfe `Y', absorb(firm_age frame_id_numeric teaor08_2d##year) residuals(`Y'_w)
-}
-
 * keep single-ceo firms
 egen max_n_ceo = max(n_ceo), by(frame_id_numeric)
 tabulate n_ceo max_n_ceo, missing
@@ -34,86 +29,52 @@ egen ever_in_sample = max(in_sample), by(frame_id_numeric)
 keep if ever_in_sample == 1
 drop ever_in_sample in_sample firm_tag
 
-* merge on placebo spells
-merge m:1 frame_id_numeric year using "temp/placebo.dta", keep(master match) nogen
-generate byte expand_N = cond(!missing(placebo_spell), 2, 1)
-expand expand_N, generate(placebo)
-
-tabulate placebo, missing
-
-*********************************
-* prepare actual and placebo ids
-replace ceo_spell = placebo_spell if placebo
-egen long fake_id = group(frame_id_numeric placebo)
-*********************************
-drop max_ceo_spell expand_N placebo_spell
-egen max_ceo_spell = max(ceo_spell), by(fake_id)
-
 * limit sample to clean changes between first and second CEO 
 keep if ceo_spell <= max_ceo_spell
 keep if !missing(lnStilde)
 keep if inlist(ceo_spell, ${first_spell}, ${second_spell})
 
-egen change_year = min(cond(ceo_spell == ${second_spell}, year, .)), by(fake_id)
+egen MS1a = mean(cond(ceo_spell == ${first_spell}, manager_skill, .)), by(frame_id_numeric)
+egen MS2a = mean(cond(ceo_spell == ${second_spell}, manager_skill, .)), by(frame_id_numeric)
+drop if missing(MS1a, MS2a)
+
+egen some_owner = max(founder | owner ), by(frame_id_numeric )
+egen founder1 = max(cond(ceo_spell == ${first_spell}, founder, .)), by(frame_id_numeric)
+egen founder2 = max(cond(ceo_spell == ${second_spell}, founder, .)), by(frame_id_numeric)
+
+* keep founder to non-founder transitions only, except for placebo, where keep everyone
+keep if (founder1 == 1 & founder2 == 0) 
+
+egen change_year = min(cond(ceo_spell == ${second_spell}, year, .)), by(frame_id_numeric)
 generate event_time = year - change_year
+local in_window inrange(event_time, ${event_window_start}, ${event_window_end}) 
 
-tabulate ceo_spell placebo, missing
-tabulate change_year placebo, missing
-tabulate event_time placebo, missing
-drop change_year
-
-egen T1 = total((ceo_spell == ${first_spell}) & !missing(lnStilde)), by(fake_id)
-egen T2 = total((ceo_spell == ${second_spell}) & !missing(lnStilde)), by(fake_id)
+egen T1 = total((ceo_spell == ${first_spell} & `in_window') & !missing(lnStilde)), by(frame_id_numeric)
+egen T2 = total((ceo_spell == ${second_spell} & `in_window') & !missing(lnStilde)), by(frame_id_numeric)
 
 drop if T1 < ${min_T} | T2 < ${min_T}
+keep if `in_window'
+
 * demean TFP to make it comparable with manager value, which has zero mean by construction
 summarize lnStilde
 replace lnStilde = lnStilde - r(mean)
 
-egen MS1a = mean(cond(ceo_spell == ${first_spell}, manager_skill, .)), by(fake_id)
-egen MS1 = mean(cond(ceo_spell == ${first_spell}, lnStilde, .)), by(fake_id)
-egen MS2a = mean(cond(ceo_spell == ${second_spell}, manager_skill, .)), by(fake_id)
-egen MS2 = mean(cond(ceo_spell == ${second_spell}, lnStilde, .)), by(fake_id)
-
-replace MS1 = MS1a if !placebo
-replace MS2 = MS2a if !placebo
-
-drop if missing(MS1, MS2)
-egen firm_tag = tag(fake_id)
-egen some_owner = max(founder | owner ), by(fake_id )
-egen founder1 = max(cond(ceo_spell == ${first_spell}, founder, .)), by(fake_id)
-egen founder2 = max(cond(ceo_spell == ${second_spell}, founder, .)), by(fake_id)
+egen firm_tag = tag(frame_id_numeric)
 
 tabulate ceo_spell some_owner
 tabulate ceo_spell founder1
 
-* keep founder to non-founder transitions only, except for placebo, where keep everyone
-keep if (founder1 == 1 & founder2 == 0) | (placebo == 1)
 tabulate ceo_spell
 
-generate byte good_ceo = (MS2 > MS1)
+generate cohort = foundyear
+tabulate cohort, missing
+replace cohort = 1989 if cohort < 1989
+tabulate cohort, missing
 
-* small change firms can be used as control
-tabulate good_ceo if firm_tag, missing
-tabulate event_time good_ceo, missing
+collapse (min) window_start = year (max) window_end = year (firstnm) cohort, by(frame_id_numeric)
+compress
+save "temp/treated_firms.dta", replace
 
-generate byte actual_ceo = event_time >= 0 & placebo == 0
-generate byte placebo_ceo = event_time >= 0 & placebo == 1
-generate byte better_ceo = event_time >= 0 & good_ceo == 1
-generate byte worse_ceo = event_time >= 0 & good_ceo == 0
-
-egen n_before = sum(event_time < 0), by(fake_id)
-egen n_after = sum(event_time >= 0), by(fake_id)
-
-* prepare for event study estimation
-keep if inrange(event_time, ${event_window_start}, ${event_window_end}) & n_before >= ${min_obs_threshold} & n_after >= ${min_obs_threshold}
-
-display "Worsening CEOs"
-tabulate event_time placebo if good_ceo == 0, missing
-table event_time placebo if good_ceo == 0, stat(mean lnStilde)
-
-display "Improving CEOs"
-tabulate event_time placebo if good_ceo == 1, missing
-table event_time placebo if good_ceo == 1, stat(mean lnStilde)
-
-xtset fake_id year
+collapse (count) n_treated = frame_id_numeric, by(cohort window_start window_end)
+compress
+save "temp/treatment_groups.dta", replace
