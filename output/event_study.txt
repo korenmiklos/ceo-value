@@ -1,9 +1,8 @@
 -------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  /Users/koren/Tresorit/Mac/projects/ceo-value/output/event_study.tx
-> t
+       log:  /home/koren/projects/ceo-value/output/event_study.txt
   log type:  text
- opened on:  18 Sep 2025, 10:21:54
+ opened on:  18 Sep 2025, 11:19:23
 
 . 
 . display "Event study results for better CEOs:"
@@ -18,12 +17,12 @@ Panel variable: fake_id (unbalanced)
  Time variable: year, 1992 to 2022, but with gaps
          Delta: 1 unit
 
-Event study relative to atet             Number of obs = 9,272
+Event study relative to atet            Number of obs = 95,874
 
 ------------------------------------------------------------------------------
     lnStilde |       ATET   Std. err.      z    P>|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
-        ATET |   .1819922   .0070042    25.98   0.000     .1682642    .1957201
+        ATET |   .1833237   .0022759    80.55   0.000     .1788629    .1877844
 ------------------------------------------------------------------------------
 
 . scalar total_atet = _b[ATET]
@@ -37,12 +36,12 @@ Panel variable: fake_id (unbalanced)
  Time variable: year, 1992 to 2022, but with gaps
          Delta: 1 unit
 
-Event study relative to atet            Number of obs = 92,911
+Event study relative to atet           Number of obs = 928,788
 
 ------------------------------------------------------------------------------
     lnStilde |       ATET   Std. err.      z    P>|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
-        ATET |   .1344596   .0014829    90.68   0.000     .1315533     .137366
+        ATET |    .133806   .0004671   286.45   0.000     .1328905    .1347216
 ------------------------------------------------------------------------------
 
 . scalar placebo_atet = _b[ATET]
@@ -56,12 +55,12 @@ Panel variable: fake_id (unbalanced)
  Time variable: year, 1992 to 2022, but with gaps
          Delta: 1 unit
 
-Event study relative to atet            Number of obs = 48,411
+Event study relative to atet           Number of obs = 487,806
 
 ------------------------------------------------------------------------------
     lnStilde |       ATET   Std. err.      z    P>|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
-        ATET |  -.0146457   .0047179    -3.10   0.002    -.0238926   -.0053988
+        ATET |  -.0164211   .0015551   -10.56   0.000    -.0194691    -.013373
 ------------------------------------------------------------------------------
 
 . scalar worse_atet = _b[ATET]
@@ -75,12 +74,12 @@ Panel variable: fake_id (unbalanced)
  Time variable: year, 1992 to 2022, but with gaps
          Delta: 1 unit
 
-Event study relative to atet            Number of obs = 53,772
+Event study relative to atet           Number of obs = 536,856
 
 ------------------------------------------------------------------------------
     lnStilde |       ATET   Std. err.      z    P>|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
-        ATET |   .0329058   .0050786     6.48   0.000     .0229519    .0428596
+        ATET |   .0342645   .0017117    20.02   0.000     .0309096    .0376193
 ------------------------------------------------------------------------------
 
 . scalar better_atet = _b[ATET]
@@ -92,18 +91,17 @@ Event study relative to atet            Number of obs = 53,772
 
 . 
 . display "Total ATET: " total_atet
-Total ATET: .18199215
+Total ATET: .18332367
 
 . display "Placebo-controlled ATET 1: " proper_atet1
-Placebo-controlled ATET 1: .04755147
+Placebo-controlled ATET 1: .05068556
 
 . display "Placebo-controlled ATET 2: " proper_atet2
-Placebo-controlled ATET 2: .04753253
+Placebo-controlled ATET 2: .04951765
 
 . log close
       name:  <unnamed>
-       log:  /Users/koren/Tresorit/Mac/projects/ceo-value/output/event_study.tx
-> t
+       log:  /home/koren/projects/ceo-value/output/event_study.txt
   log type:  text
- closed on:  18 Sep 2025, 10:24:19
+ closed on:  18 Sep 2025, 11:28:46
 -------------------------------------------------------------------------------
