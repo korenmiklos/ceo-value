@@ -1,6 +1,25 @@
+* =============================================================================
+* EVENT STUDY PARAMETERS
+* =============================================================================
+global first_spell 1                // First spell for event study
+global second_spell 2               // Second spell for event study
+global event_window_start -4      // Event study window start
+global event_window_end 3         // Event study window end
+global baseline_year -1            // Baseline year for event study
+global random_seed 2181            // Random seed for reproducibility
+global sample 25                   // Sample selection for analysis
+
 use "temp/surplus.dta", clear
 merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match) nogen
 merge m:1 frame_id_numeric person_id using "temp/manager_value.dta", keep(master match) nogen
+
+* sample for performance when testing
+set seed ${random_seed}
+egen firm_tag = tag(frame_id_numeric)
+generate byte in_sample = uniform() < ${sample}/100 if firm_tag
+egen ever_in_sample = max(in_sample), by(frame_id_numeric)
+keep if ever_in_sample == 1
+drop ever_in_sample in_sample firm_tag
 
 * the same firm may appear multipe times as control, repeat those observations
 joinby frame_id_numeric using "temp/placebo.dta"
@@ -33,11 +52,17 @@ egen fake_manager_skill = mean(lnStilde), by(fake_id ceo_spell)
 replace manager_skill = fake_manager_skill if placebo == 1
 drop fake_manager_skill
 
+keep if !missing(lnStilde)
+egen T1 = total(cond(ceo_spell == `s1', !missing(lnStilde), .)), by(fake_id)
+egen T2 = total(cond(ceo_spell == `s2', !missing(lnStilde), .)), by(fake_id)
+keep if T1 > 0 & T2 > 0
+drop T1 T2
+
+* now create helper variables for event study
 egen MS1 = mean(cond(ceo_spell == `s1', manager_skill, .)), by(fake_id)
 egen MS2 = mean(cond(ceo_spell == `s2', manager_skill, .)), by(fake_id)
 generate byte good_ceo = (MS2 > MS1)
 
-* now create helper variables for event study
 egen byte firm_tag = tag(fake_id)
 generate event_time = year - change_year
 

@@ -2,7 +2,7 @@ clear all
 tempfile cohortsfile
 save `cohortsfile', replace emptyok
 
-local TARGET_N_CONTROL 50
+local TARGET_N_CONTROL 100
 local SEED 1391
 
 use "temp/surplus.dta", clear
