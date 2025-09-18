@@ -5,7 +5,7 @@ global first_spell 1                // First spell for event study
 global second_spell 2               // Second spell for event study
 global event_window_start -4      // Event study window start
 global event_window_end 3         // Event study window end
-global baseline_year -1            // Baseline year for event study
+global baseline_year -3            // Baseline year for event study
 global random_seed 2181            // Random seed for reproducibility
 global sample 10                   // Sample selection for analysis
 

@@ -3,16 +3,13 @@
 * =============================================================================
 local min_surplus_share 0          // Minimum surplus share bound
 local max_surplus_share 1          // Maximum surplus share bound
-local controls lnK has_intangible FA_2 FA_3 FA_4 FA_5 FA_6 FA_7 FA_8 FA_9 FA_10 FA_11 FA_12 FA_13 FA_14 FA_15 FA_16 FA_17 FA_18 FA_19 FA_20
+local controls lnK has_intangible
 local FEs frame_id_numeric##ceo_spell sector_time=teaor08_2d##year
 
 use "temp/analysis-sample.dta", clear
 
 egen spell_begin = min(year), by(frame_id_numeric ceo_spell)
 egen first_ever_year = min(year), by(frame_id_numeric)
-forvalues t = 2/20 {
-    generate byte FA_`t' = firm_age == `t'
-}
 
 * build linear prediction of the outcome variable
 local predicted 0
