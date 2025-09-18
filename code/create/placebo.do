@@ -36,8 +36,14 @@ foreach cohort of local cohorts {
 
         * sample control firms, we have way too many
         egen n_control = total(1), by(cohort window_start window_end)
+        summarize n_treated, meanonly
+        scalar MEAN = r(mean)
+        scalar MULTIPLE = `TARGET_N_CONTROL' / MEAN
+        display "Mean number of treated firms: " MEAN
+        display "Sampling multiple: " MULTIPLE
         summarize n_control, detail
-        generate p = cond(n_control > `TARGET_N_CONTROL', `TARGET_N_CONTROL' / n_control, 1)
+        generate p = MULTIPLE * n_treated / n_control
+        summarize p, detail
         keep if uniform() < p
 
         drop n_control p
@@ -58,7 +64,7 @@ foreach cohort of local cohorts {
         generate change_year = window_start + t0
         drop t0
 
-        list in 1/5
+        list frame_id_numeric ceo_spell change_year n_treated n_control weight in 1/5
         append using `cohortsfile'
         save `cohortsfile', replace emptyok
     restore
@@ -79,6 +85,9 @@ replace fake_id = fake_id + N_TREATED
 drop N_TREATED
 
 generate byte placebo = 1
+
+* because weight has already been used in samplign, sampling weight should not vary too much
+summarize weight, detail
 
 * add actuallly treated firms
 append using "temp/treated_firms.dta"
