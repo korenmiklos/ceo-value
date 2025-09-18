@@ -5,6 +5,13 @@ save `cohortsfile', replace emptyok
 local TARGET_N_CONTROL 100
 local SEED 1391
 
+* save mean treatment group size to compute proper weights across groups
+use "temp/treatment_groups.dta", clear
+summarize n_treated, meanonly
+scalar MEAN = r(mean)
+scalar MULTIPLE = `TARGET_N_CONTROL' / MEAN
+scalar list
+
 use "temp/surplus.dta", clear
 merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match) nogen keepusing(foundyear)
 
@@ -36,11 +43,6 @@ foreach cohort of local cohorts {
 
         * sample control firms, we have way too many
         egen n_control = total(1), by(cohort window_start window_end)
-        summarize n_treated, meanonly
-        scalar MEAN = r(mean)
-        scalar MULTIPLE = `TARGET_N_CONTROL' / MEAN
-        display "Mean number of treated firms: " MEAN
-        display "Sampling multiple: " MULTIPLE
         summarize n_control, detail
         generate p = MULTIPLE * n_treated / n_control
         summarize p, detail
