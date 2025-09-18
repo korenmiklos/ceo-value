@@ -72,6 +72,10 @@ replace cohort = 1989 if cohort < 1989
 tabulate cohort, missing
 
 collapse (min) window_start = year (max) window_end = year (firstnm) cohort change_year, by(frame_id_numeric)
+* frame_id_numeric will stop being unique once we add placebo
+egen fake_id = group(frame_id_numeric)
+summarize fake_id
+scalar N_TREATED = r(max)
 compress
 save "temp/treated_firms.dta", replace
 
@@ -83,4 +87,6 @@ reshape wide n_treated, i(cohort window_start window_end) j(t0)
 mvencode n_treated*, mv(0)
 egen byte n_treated = rowtotal(n_treated?)
 compress
+
+generate N_TREATED = N_TREATED
 save "temp/treatment_groups.dta", replace

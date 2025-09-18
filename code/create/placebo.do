@@ -32,7 +32,7 @@ foreach cohort of local cohorts {
         * only keep controls that have weakly larger spell windows than the event window
         keep if window_start1 <= window_start & window_end1 >= window_end
         count
-        keep frame_id_numeric ceo_spell cohort window_start window_end n_treated*
+        keep frame_id_numeric ceo_spell cohort window_start window_end n_treated* N_TREATED
 
         * sample control firms, we have way too many
         egen n_control = total(1), by(cohort window_start window_end)
@@ -69,6 +69,13 @@ egen tg_tag = tag(cohort window_start window_end)
 summarize n_treated if tg_tag, detail
 summarize n_control if tg_tag, detail
 
-keep frame_id_numeric ceo_spell cohort window_start window_end change_year weight
+keep frame_id_numeric ceo_spell cohort window_start window_end change_year weight N_TREATED
+* the same frame_id_numeric may appear multiple times
+egen fake_id = group(frame_id_numeric ceo_spell window_start window_end change_year)
+* make sure no overlap with fake_ids of treated firms
+summarize fake_id
+assert r(min) == 1
+replace fake_id = fake_id + N_TREATED
+drop N_TREATED
 
 save "temp/placebo.dta", replace
