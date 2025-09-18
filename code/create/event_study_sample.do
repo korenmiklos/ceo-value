@@ -18,40 +18,10 @@ egen max_n_ceo = max(n_ceo), by(frame_id_numeric)
 tabulate n_ceo max_n_ceo, missing
 keep if max_n_ceo <= ${max_n_ceo}
 
-* limit sample to clean changes between first and second CEO 
+* limit sample to clean changes  
 keep if ceo_spell <= max_ceo_spell
 keep if !missing(lnStilde)
 keep if inlist(ceo_spell, ${first_spell}, ${second_spell})
-
-egen MS1a = mean(cond(ceo_spell == ${first_spell}, manager_skill, .)), by(frame_id_numeric)
-egen MS2a = mean(cond(ceo_spell == ${second_spell}, manager_skill, .)), by(frame_id_numeric)
-drop if missing(MS1a, MS2a)
-
-egen some_owner = max(founder | owner ), by(frame_id_numeric )
-egen founder1 = max(cond(ceo_spell == ${first_spell}, founder, .)), by(frame_id_numeric)
-egen founder2 = max(cond(ceo_spell == ${second_spell}, founder, .)), by(frame_id_numeric)
-
-* keep founder to non-founder transitions only, except for placebo, where keep everyone
-keep if (founder1 == 1 & founder2 == 0) 
-
-egen change_year = min(cond(ceo_spell == ${second_spell}, year, .)), by(frame_id_numeric)
-generate event_time = year - change_year
-local in_window inrange(event_time, ${event_window_start}, ${event_window_end}) 
-
-egen T1 = total((ceo_spell == ${first_spell} & `in_window') & !missing(lnStilde)), by(frame_id_numeric)
-egen T2 = total((ceo_spell == ${second_spell} & `in_window') & !missing(lnStilde)), by(frame_id_numeric)
-
-drop if T1 < ${min_T} | T2 < ${min_T}
-keep if `in_window'
-
-* demean TFP to make it comparable with manager value, which has zero mean by construction
-summarize lnStilde
-replace lnStilde = lnStilde - r(mean)
-
-egen firm_tag = tag(frame_id_numeric)
-
-tabulate ceo_spell some_owner
-tabulate ceo_spell founder1
 
 tabulate ceo_spell
 
@@ -60,7 +30,35 @@ tabulate cohort, missing
 replace cohort = 1989 if cohort < 1989
 tabulate cohort, missing
 
-collapse (min) window_start = year (max) window_end = year (firstnm) cohort change_year, by(frame_id_numeric)
+* for some reason, there is 1 duplicate in cohort
+egen min_cohort = min(cohort), by(frame_id_numeric)
+replace cohort = min_cohort if cohort != min_cohort
+drop min_cohort
+
+egen change_year = min(cond(ceo_spell == ${second_spell}, year, .)), by(frame_id_numeric)
+generate event_time = year - change_year
+tabulate event_time, missing
+local in_window inrange(event_time, ${event_window_start}, ${event_window_end}) 
+
+keep if `in_window'
+
+* refactor to collapse
+collapse (mean) MS = manager_skill (count) T = lnStilde (max) founder owner (min) change_year = year (max) window_end = year (firstnm) cohort, by(frame_id_numeric ceo_spell)
+
+reshape wide MS T founder owner change_year window_end, i(frame_id_numeric) j(ceo_spell)
+rename change_year2 change_year
+rename window_end2 window_end
+rename change_year1 window_start
+
+* need to sort on skill
+drop if missing(MS1, MS2)
+
+* keep founder to non-founder transitions only, except for placebo, where keep everyone
+keep if (founder1 == 1 & founder2 == 0) 
+drop if T1 < ${min_T} | T2 < ${min_T}
+
+collapse (min) window_start (max) window_end (firstnm) cohort change_year, by(frame_id_numeric)
+
 * frame_id_numeric will stop being unique once we add placebo
 egen fake_id = group(frame_id_numeric)
 summarize fake_id
