@@ -1,8 +1,6 @@
 * =============================================================================
 * EVENT STUDY PARAMETERS
 * =============================================================================
-global first_spell 1                // First spell for event study
-global second_spell 2               // Second spell for event study
 global event_window_start -4      // Event study window start
 global event_window_end 3         // Event study window end
 global baseline_year -3            // Baseline year for event study
@@ -28,7 +26,7 @@ joinby frame_id_numeric using "temp/placebo.dta"
 keep if inrange(year, window_start, window_end)
 * for 2-ceo firms, only keep 1 of them, these are only placebo anyway
 tabulate n_ceo
-bysort fake_id year: generate keep = _n == 1
+bysort fake_id year (person_id): generate keep = _n == 1
 tabulate n_ceo keep
 keep if keep == 1
 drop keep
@@ -37,6 +35,10 @@ drop keep
 * check balance
 tabulate year placebo [iw=weight]
 tabulate change_year placebo [iw=weight]
+
+* reindex CEO spells, 1 is found, 2 is non-founder
+egen first_spell = min(ceo_spell), by(fake_id)
+replace ceo_spell = ceo_spell - first_spell + 1
 
 * create fake CEO spells for placebo group
 tabulate ceo_spell placebo
