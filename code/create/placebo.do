@@ -98,15 +98,15 @@ append using "temp/treated_firms.dta"
 tabulate placebo
 tabulate placebo [iw = weight]
 
-tabulate change_year placebo [iw = weight]
+tabulate change_year placebo 
 
 generate T1 = change_year - window_start
 generate T2 = window_end - change_year + 1
 
-tabulate T1 placebo [iw = weight]
-tabulate T2 placebo [iw = weight]
+tabulate T1 placebo
+tabulate T2 placebo
 
-local vars fake_id placebo frame_id_numeric window_start change_year window_end weight
+local vars fake_id placebo frame_id_numeric window_start change_year ceo_spell window_end weight
 keep `vars'
 order `vars'
 compress

@@ -33,8 +33,8 @@ drop keep
 * bad naming, sorry!
 
 * check balance
-tabulate year placebo [iw=weight]
-tabulate change_year placebo [iw=weight]
+tabulate year placebo
+tabulate change_year placebo
 
 * reindex CEO spells, 1 is found, 2 is non-founder
 egen first_spell = min(ceo_spell), by(fake_id)
@@ -42,9 +42,12 @@ replace ceo_spell = ceo_spell - first_spell + 1
 
 * create fake CEO spells for placebo group
 tabulate ceo_spell placebo
+* should be 1 and 2 only
 summarize ceo_spell if placebo == 0
 local s1 = r(min)
 local s2 = r(max)
+assert `s1' == 1
+assert `s2' == 2
 replace ceo_spell = `s1' if placebo == 1 & year < change_year
 replace ceo_spell = `s2' if placebo == 1 & year >= change_year
 tabulate ceo_spell placebo
