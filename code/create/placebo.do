@@ -78,4 +78,26 @@ assert r(min) == 1
 replace fake_id = fake_id + N_TREATED
 drop N_TREATED
 
+generate byte placebo = 1
+
+* add actuallly treated firms
+append using "temp/treated_firms.dta"
+
+* check balance
+tabulate placebo
+tabulate placebo [iw = weight]
+
+tabulate change_year placebo [iw = weight]
+
+generate T1 = change_year - window_start
+generate T2 = window_end - change_year + 1
+
+tabulate T1 placebo [iw = weight]
+tabulate T2 placebo [iw = weight]
+
+local vars fake_id placebo frame_id_numeric window_start change_year window_end weight
+keep `vars'
+order `vars'
+compress
+
 save "temp/placebo.dta", replace

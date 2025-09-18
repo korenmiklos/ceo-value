@@ -76,6 +76,8 @@ collapse (min) window_start = year (max) window_end = year (firstnm) cohort chan
 egen fake_id = group(frame_id_numeric)
 summarize fake_id
 scalar N_TREATED = r(max)
+generate byte placebo = 0
+generate float weight = 1
 compress
 save "temp/treated_firms.dta", replace
 
