@@ -168,7 +168,7 @@ output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2_p
 	cd output && $(LATEX) paper.tex && bibtex paper && $(LATEX) paper.tex && $(LATEX) paper.tex
 
 # Compile presentation slides
-output/slides60.pdf: output/slides60.md output/preamble-slides.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_connected.pdf output/figure/event_study.pdf output/figure/event_study_panel_c.pdf output/figure/event_study_owner_controlled.pdf output/figure/event_study_manager_controlled.pdf
+output/slides60.pdf: output/slides60.md output/preamble-slides.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_connected.pdf output/figure/event_study.pdf 
 	cd output && $(PANDOC) slides60.md -t beamer --slide-level 2 -H preamble-slides.tex -o slides60.pdf
 
 # =============================================================================
