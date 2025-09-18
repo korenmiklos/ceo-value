@@ -71,10 +71,16 @@ tabulate cohort, missing
 replace cohort = 1989 if cohort < 1989
 tabulate cohort, missing
 
-collapse (min) window_start = year (max) window_end = year (firstnm) cohort, by(frame_id_numeric)
+collapse (min) window_start = year (max) window_end = year (firstnm) cohort change_year, by(frame_id_numeric)
 compress
 save "temp/treated_firms.dta", replace
 
-collapse (count) n_treated = frame_id_numeric, by(cohort window_start window_end)
+generate t0 = change_year - window_start
+
+collapse (count) n_treated = frame_id_numeric, by(cohort window_start window_end t0)
+* we will create random CEO changes with the same t0 distribution
+reshape wide n_treated, i(cohort window_start window_end) j(t0)
+mvencode n_treated*, mv(0)
+egen byte n_treated = rowtotal(n_treated?)
 compress
 save "temp/treatment_groups.dta", replace
