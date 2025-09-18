@@ -73,10 +73,6 @@ drop ceo_spell2
 * LIMIT SAMPLE HERE *
 *********************
 
-* include all founder to non-founder transitions
-* this is more than before when we only had the first such transition per firm
-keep if founder1 == 1 & founder2 == 0
-
 collapse (min) window_start ceo_spell (max) window_end (firstnm) cohort change_year, by(frame_id_numeric spell_id)
 
 * frame_id_numeric will stop being unique once we add placebo
