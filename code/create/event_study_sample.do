@@ -8,8 +8,6 @@ global event_window_end 3         // Event study window end
 global baseline_year -1            // Baseline year for event study
 global min_obs_threshold 1         // Minimum observations before/after
 global min_T 1                     // Minimum observations to estimate fixed effects
-global random_seed 2181            // Random seed for reproducibility
-global sample 25                   // Sample selection for analysis
 global max_n_ceo 1                // Maximum number of CEOs per firm for analysis
 
 use "temp/surplus.dta", clear
@@ -20,14 +18,6 @@ merge m:1 frame_id_numeric person_id using "temp/manager_value.dta", keep(master
 egen max_n_ceo = max(n_ceo), by(frame_id_numeric)
 tabulate n_ceo max_n_ceo, missing
 keep if max_n_ceo <= ${max_n_ceo}
-
-* sample for performance when testing
-set seed ${random_seed}
-egen firm_tag = tag(frame_id_numeric)
-generate byte in_sample = uniform() < ${sample}/100 if firm_tag
-egen ever_in_sample = max(in_sample), by(frame_id_numeric)
-keep if ever_in_sample == 1
-drop ever_in_sample in_sample firm_tag
 
 * limit sample to clean changes between first and second CEO 
 keep if ceo_spell <= max_ceo_spell
