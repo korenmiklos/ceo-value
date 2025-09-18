@@ -1,8 +1,6 @@
 * =============================================================================
 * EVENT STUDY PARAMETERS
 * =============================================================================
-global first_spell 1                // First spell for event study
-global second_spell 2               // Second spell for event study
 global event_window_start -4      // Event study window start
 global event_window_end 3         // Event study window end
 global min_obs_threshold 1         // Minimum observations before/after
@@ -21,7 +19,6 @@ keep if max_n_ceo <= ${max_n_ceo}
 * limit sample to clean changes  
 keep if ceo_spell <= max_ceo_spell
 keep if !missing(lnStilde)
-keep if inlist(ceo_spell, ${first_spell}, ${second_spell})
 
 tabulate ceo_spell
 
@@ -38,19 +35,35 @@ drop min_cohort
 * refactor to collapse
 collapse (mean) MS = manager_skill (count) T = lnStilde (max) founder owner (min) change_year = year (max) window_end = year (firstnm) cohort, by(frame_id_numeric ceo_spell)
 
+drop if missing(MS)
+drop if T < ${min_T}
+
+xtset frame_id_numeric ceo_spell
+* drop if spells are not consecutive. this also excludes single-spell firms
+tabulate ceo_spell
+drop if missing(L.ceo_spell) & missing(F.ceo_spell)
+tabulate ceo_spell
+
+* include the first founder - non-founder transition
+egen first_non_founder = min(cond(founder == 0, ceo_spell, .)), by(frame_id_numeric)
+tabulate first_non_founder, missing
+keep if first_non_founder >= 2 & !missing(first_non_founder)
+keep if inrange(ceo_spell, first_non_founder-1, first_non_founder)
+tabulate first_non_founder, missing
+egen first_spell = min(ceo_spell), by(frame_id_numeric)
+
+replace ceo_spell = ceo_spell - first_spell + 1
+tabulate ceo_spell, missing
+drop first_non_founder first_spell
+
+
 reshape wide MS T founder owner change_year window_end, i(frame_id_numeric) j(ceo_spell)
 rename change_year2 change_year
 
 generate window_start = max(change_year1, change_year + $event_window_start)
 generate window_end = min(window_end2, change_year + $event_window_end)
-
 * need to sort on skill
 drop if missing(MS1, MS2)
-
-* keep founder to non-founder transitions only, except for placebo, where keep everyone
-keep if (founder1 == 1 & founder2 == 0) 
-drop if T1 < ${min_T} | T2 < ${min_T}
-
 collapse (min) window_start (max) window_end (firstnm) cohort change_year, by(frame_id_numeric)
 
 * frame_id_numeric will stop being unique once we add placebo
