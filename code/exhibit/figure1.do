@@ -1,6 +1,6 @@
 local event_window_start -4      // Event study window start
 local event_window_end 3         // Event study window end
-local baseline_year -1            // Baseline year for event study
+local baseline_year -3            // Baseline year for event study
 local format graphregion(color(white)) xlabel(`event_window_start'(1)`event_window_end') ///
     xline(-0.5) xscale(range (`event_window_start' `event_window_end')) ///
     xtitle("Time since CEO change (year)") yline(0) ///

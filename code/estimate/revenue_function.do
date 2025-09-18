@@ -16,7 +16,7 @@ local rich_controls `controls' ceo_age ceo_age_sq ceo_tenure ceo_tenure_sq
 
 * Fixed effects specifications
 local FEs frame_id_numeric firm_age teaor08_2d##year
-local rich_FEs frame_id_numeric##ceo_spell teaor08_2d##year
+local rich_FEs frame_id_numeric##ceo_spell firm_age teaor08_2d##year
 
 eststo clear
 
