@@ -12,15 +12,17 @@ forvalues model = 1/6 {
     eststo model`model'
 }
 
+local vars lnK has_intangible founder owner foreign_owned state_owned
+
 * Generate LaTeX table using esttab 
 esttab model1 model2 model3 model4 model5 model6 using "output/table/table3.tex", ///
     replace booktabs label star(* 0.10 ** 0.05 *** 0.01) b(3) se(3) ///
     mtitle("Revenue" "EBITDA" "Wagebill" "Materials" "Revenue" "Revenue") ///
     title("Surplus Function Estimation Results") ///
-    keep(lnK foreign_owned has_intangible founder owner) ///
-    order(lnK has_intangible foreign_owned founder owner) ///
-    addnote("All models include firm-CEO-spell fixed effects and industry-year fixed effects. Outcome variables are" ///
-            "log-transformed. Models (5) and (6) include quadratic controls for firm age and CEO tenure." ///
-            "Model (6) restricts to largest connected component.")
+    keep(`vars') ///
+    order(`vars') ///
+    addnote("All models include firm fixed effects, industry-year fixed effects, and a step function for firm age." ///
+            "Outcome variables are log-transformed. Models (5) and (6) include quadratic controls for CEO age and tenure." ///
+            "Model (6) restricts to largest connected component of CEO-firm network.")
 
 display "Table 3 generated: output/table/table3.tex"
