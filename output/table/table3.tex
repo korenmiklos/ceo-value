@@ -6,27 +6,30 @@
                     &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}\\
                     &\multicolumn{1}{c}{Revenue}&\multicolumn{1}{c}{EBITDA}&\multicolumn{1}{c}{Wagebill}&\multicolumn{1}{c}{Materials}&\multicolumn{1}{c}{Revenue}&\multicolumn{1}{c}{Revenue}\\
 \midrule
-Fixed assets (log)  &       0.336\sym{***}&       0.340\sym{***}&       0.304\sym{***}&       0.386\sym{***}&       0.294\sym{***}&       0.298\sym{***}\\
+Fixed assets (log)  &       0.323\sym{***}&       0.325\sym{***}&       0.287\sym{***}&       0.375\sym{***}&       0.290\sym{***}&       0.295\sym{***}\\
                     &     (0.001)         &     (0.001)         &     (0.001)         &     (0.002)         &     (0.001)         &     (0.004)         \\
 \addlinespace
-Has intangible assets&       0.280\sym{***}&       0.173\sym{***}&       0.281\sym{***}&       0.327\sym{***}&       0.209\sym{***}&       0.259\sym{***}\\
+Has intangible assets&       0.268\sym{***}&       0.163\sym{***}&       0.267\sym{***}&       0.317\sym{***}&       0.205\sym{***}&       0.255\sym{***}\\
                     &     (0.003)         &     (0.003)         &     (0.003)         &     (0.004)         &     (0.003)         &     (0.010)         \\
 \addlinespace
-Foreign owned       &       0.023\sym{*}  &       0.019         &       0.061\sym{***}&       0.008         &       0.025\sym{**} &       0.035         \\
-                    &     (0.012)         &     (0.012)         &     (0.013)         &     (0.015)         &     (0.011)         &     (0.025)         \\
-\addlinespace
-Founding owner      &      -0.097\sym{***}&      -0.064\sym{***}&      -0.039\sym{***}&      -0.115\sym{***}&      -0.016\sym{***}&      -0.021\sym{**} \\
+Founding owner      &      -0.079\sym{***}&      -0.051\sym{***}&      -0.017\sym{***}&      -0.099\sym{***}&      -0.010\sym{***}&      -0.015\sym{*}  \\
                     &     (0.005)         &     (0.005)         &     (0.005)         &     (0.006)         &     (0.003)         &     (0.008)         \\
 \addlinespace
-Non-founding owner  &      -0.008         &      -0.008         &      -0.012\sym{*}  &      -0.013         &      -0.011\sym{***}&      -0.018\sym{*}  \\
-                    &     (0.007)         &     (0.006)         &     (0.007)         &     (0.009)         &     (0.004)         &     (0.010)         \\
+Non-founding owner  &      -0.001         &      -0.000         &      -0.003         &      -0.006         &      -0.011\sym{***}&      -0.017\sym{*}  \\
+                    &     (0.007)         &     (0.006)         &     (0.007)         &     (0.009)         &     (0.004)         &     (0.009)         \\
+\addlinespace
+Foreign owned       &       0.025\sym{**} &       0.018         &       0.064\sym{***}&       0.010         &       0.022\sym{*}  &       0.033         \\
+                    &     (0.012)         &     (0.012)         &     (0.012)         &     (0.015)         &     (0.011)         &     (0.025)         \\
+\addlinespace
+State owned         &       0.148\sym{***}&       0.047\sym{*}  &       0.448\sym{***}&       0.146\sym{***}&       0.062\sym{**} &       0.050         \\
+                    &     (0.029)         &     (0.028)         &     (0.029)         &     (0.032)         &     (0.026)         &     (0.059)         \\
 \midrule
 Observations        &     3004184         &     2326192         &     2949024         &     3059662         &     2967233         &      374084         \\
 \bottomrule
 \multicolumn{7}{l}{\footnotesize Standard errors in parentheses}\\
-\multicolumn{7}{l}{\footnotesize All models include firm-CEO-spell fixed effects and industry-year fixed effects. Outcome variables are}\\
-\multicolumn{7}{l}{\footnotesize log-transformed. Models (5) and (6) include quadratic controls for firm age and CEO tenure.}\\
-\multicolumn{7}{l}{\footnotesize Model (6) restricts to largest connected component.}\\
+\multicolumn{7}{l}{\footnotesize All models include firm fixed effects, industry-year fixed effects, and a step function for firm age.}\\
+\multicolumn{7}{l}{\footnotesize Outcome variables are log-transformed. Models (5) and (6) include quadratic controls for CEO age and tenure.}\\
+\multicolumn{7}{l}{\footnotesize Model (6) restricts to largest connected component of CEO-firm network.}\\
 \multicolumn{7}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<0.05\), \sym{***} \(p<0.01\)}\\
 \end{tabular}
 \end{table}
