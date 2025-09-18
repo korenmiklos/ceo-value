@@ -47,6 +47,7 @@ generate ceo_age = year - birth_year
 generate byte second_ceo = (ceo_spell == 2)
 generate byte third_ceo = (ceo_spell >= 3)
 generate byte founder = (manager_category == 1)
+replace firm_age = 20 if firm_age > 20 & !missing(firm_age)
 
 * quadratics
 foreach var in ceo_age firm_age ceo_tenure {

@@ -3,7 +3,7 @@
 * =============================================================================
 local min_surplus_share 0          // Minimum surplus share bound
 local max_surplus_share 1          // Maximum surplus share bound
-local controls lnK has_intangible firm_age firm_age_sq 
+local controls lnK has_intangible
 local FEs frame_id_numeric##ceo_spell sector_time=teaor08_2d##year
 
 use "temp/analysis-sample.dta", clear
@@ -38,7 +38,7 @@ foreach sector of local sectors {
     drop sector_time
 }
 
-keep frame_id_numeric year teaor08_2d sector ceo_spell person_id lnR lnEBITDA lnL lnStilde chi `controls' B_*
+keep frame_id_numeric year teaor08_2d sector ceo_spell person_id lnR lnEBITDA lnL lnStilde chi `controls' B_lnK B_has_intangible 
 
 table sector, stat(mean chi)
 
