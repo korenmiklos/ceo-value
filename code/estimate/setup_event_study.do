@@ -5,7 +5,7 @@ global event_window_start -4      // Event study window start
 global event_window_end 3         // Event study window end
 global baseline_year -3            // Baseline year for event study
 global random_seed 2181            // Random seed for reproducibility
-global sample 10                   // Sample selection for analysis
+global sample 100                   // Sample selection for analysis
 
 use "temp/surplus.dta", clear
 merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match) nogen
