@@ -1,6 +1,6 @@
 do "code/estimate/setup_event_study.do"
 
-xt2treatments lnStilde, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(${baseline_year}) weighting(optimal)
+xt2treatments lnStilde, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(${baseline_year}) weighting(optimal) cluster(${cluster})
 e2frame, generate(ceo_mean)
 
 * now that we have mean effects, we can compute variance effects
@@ -10,19 +10,19 @@ frget coef, from(ceo_mean)
 egen lnS_at_baseline = mean(cond(event_time == ${baseline_year}, lnStilde, .)), by(fake_id)
 generate lnStilde_var = (lnStilde - lnS_at_baseline - coef)^2
 
-xt2treatments lnStilde_var, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(${baseline_year}) weighting(optimal)
+xt2treatments lnStilde_var, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(${baseline_year}) weighting(optimal) cluster(${cluster})
 e2frame, generate(ceo_var)
 
-xt2treatments lnStilde if placebo == 0, treatment(better_ceo) control(worse_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(${baseline_year}) weighting(optimal)
+xt2treatments lnStilde if placebo == 0, treatment(better_ceo) control(worse_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(${baseline_year}) weighting(optimal) cluster(${cluster})
 e2frame, generate(actual_ceo)
 
-xt2treatments lnStilde if placebo == 1, treatment(better_ceo) control(worse_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(${baseline_year}) weighting(optimal)
+xt2treatments lnStilde if placebo == 1, treatment(better_ceo) control(worse_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(${baseline_year}) weighting(optimal) cluster(${cluster})
 e2frame, generate(placebo_ceo)
 
-xt2treatments lnStilde if good_ceo == 0, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(${baseline_year}) weighting(optimal)
+xt2treatments lnStilde if good_ceo == 0, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(${baseline_year}) weighting(optimal) cluster(${cluster})
 e2frame, generate(worse_ceo2)
 
-xt2treatments lnStilde if good_ceo == 1, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(${baseline_year}) weighting(optimal)
+xt2treatments lnStilde if good_ceo == 1, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(${baseline_year}) weighting(optimal) cluster(${cluster})
 e2frame, generate(better_ceo2)
 
 * now link the two frames, better_ceo and worse_ceo and create the event study figure with two lines
@@ -56,16 +56,16 @@ log using "output/event_study.txt", replace text
 
 display "Event study results for better CEOs:"
 * compare naive control to placebo controlled event study
-xt2treatments lnStilde if placebo == 0, treatment(better_ceo) control(worse_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(atet) weighting(optimal)
+xt2treatments lnStilde if placebo == 0, treatment(better_ceo) control(worse_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(atet) weighting(optimal) cluster(${cluster})
 scalar total_atet = _b[ATET]
 
-xt2treatments lnStilde if placebo == 1, treatment(better_ceo) control(worse_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(atet) weighting(optimal)
+xt2treatments lnStilde if placebo == 1, treatment(better_ceo) control(worse_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(atet) weighting(optimal) cluster(${cluster})
 scalar placebo_atet = _b[ATET]
 
-xt2treatments lnStilde if good_ceo == 0, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(atet) weighting(optimal)
+xt2treatments lnStilde if good_ceo == 0, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(atet) weighting(optimal) cluster(${cluster})
 scalar worse_atet = _b[ATET]
 
-xt2treatments lnStilde if good_ceo == 1, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(atet) weighting(optimal)
+xt2treatments lnStilde if good_ceo == 1, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(atet) weighting(optimal) cluster(${cluster})
 scalar better_atet = _b[ATET]
 
 scalar proper_atet1 = better_atet - worse_atet
