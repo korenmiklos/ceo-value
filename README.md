@@ -71,7 +71,7 @@ The firm registry data include information on firm registration, ownership struc
 ### Software Requirements
 
 - Stata (code was last run with version 18.0)
-  - Required packages: reghdfe (version 6.12.3 08aug2023), estout (version 3.31 26apr2022), xt2treatments (version 0.8.4 21may2024), e2frame (version 0.1.0 21may2024)
+  - Required packages: reghdfe (version 6.12.3 08aug2023), estout (version 3.31 26apr2022), xt2treatments (version 0.9.0 19sep2025), e2frame (version 0.1.0 21may2024)
   - The program `code/util/install.do` will install all dependencies and should be run once: `stata -b do code/util/install.do`
 - Julia (code was last run with version 1.10.4)
   - Required packages: CSV, DataFrames, Graphs, SparseArrays (specified in Project.toml)
