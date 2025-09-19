@@ -5,7 +5,7 @@ local format graphregion(color(white)) xlabel(`event_window_start'(1)`event_wind
     xline(-0.5) xscale(range (`event_window_start' `event_window_end')) ///
     xtitle("Time since CEO change (year)") yline(0) ///
     ytitle("Moments of log TFP change since year `baseline_year'") ///
-    ylabel(, angle(0) format(%9.2f)) ///
+    ylabel(, angle(0) format(%9.3f)) ///
     aspectratio(1) xsize(5) ysize(5) 
 * =============================================================================
 * CREATE PANEL A: RAW EVENT STUDY
