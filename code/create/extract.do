@@ -28,12 +28,10 @@ keep if n_ceo == 1
 * sales in million HUF
 replace sales = sales/1e3
 generate size = sales
-summarize manager_skill if founder & size <= 10, detail
+summarize manager_skill if founder & size <= 50, detail
 scalar low_skill = r(mean)
 replace manager_skill = manager_skill - low_skill
-recode size min/10 = 10 10/50 = 50 50/100 = 50 100/200 = 100 200/500 = 200 500/1000 = 500 1000/max = 1000
-
-drop if size == 10
+recode size min/50 = 0 50/100 = 50 100/200 = 100 200/500 = 200 500/1000 = 500 1000/max = 1000
 
 generate EBITDA_share = EBITDA / sales / 1e3
 summarize EBITDA_share, detail
@@ -45,6 +43,21 @@ table size founder, stat(mean EBITDA_share)
 table size founder, stat(mean sales)
 
 collapse (count) n = manager_skill (mean) manager_skill EBITDA_share sales, by(size founder)
+generate EBITDA = EBITDA_share * sales
+generate manager_value = manager_skill * EBITDA_share * sales
+foreach X in manager_skill EBITDA_share {
+	replace `X' = round(`X'*1000)/1000
+}
+foreach X in sales manager_value EBITDA {
+	replace `X' = round(`X'*10)/10
+}
+* suppose small founder have value z = EBITDA
+summarize EBITDA if founder & size == 0
+replace manager_value = manager_value + r(mean)
+
+reshape wide n manager_skill EBITDA_share EBITDA sales manager_value, i(size) j(founder)
+order size n1 n0 EBITDA1 EBITDA0 manager_value1 manager_value0
+
 export delimited "output/extract/value_bins.csv", replace
 
 clear all
