@@ -72,6 +72,8 @@ drop ceo_spell2
 *********************
 * LIMIT SAMPLE HERE *
 *********************
+* only founder to non-founder transitions
+keep if founder1 == 1 & founder2 == 0
 
 collapse (min) window_start ceo_spell (max) window_end (firstnm) cohort change_year, by(frame_id_numeric spell_id)
 
