@@ -6,6 +6,14 @@ global event_window_end 3         // Event study window end
 global baseline_year -3            // Baseline year for event study
 global random_seed 2181            // Random seed for reproducibility
 global sample 10                   // Sample selection for analysis
+global cluster frame_id_numeric     // Clustering variable
+
+* report package versions
+which xt2treatments
+* clustering requites xt2treatments 0.9 or higher
+which estout
+which reghdfe
+which e2frame
 
 use "temp/surplus.dta", clear
 merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match) nogen
