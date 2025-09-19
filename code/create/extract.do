@@ -3,6 +3,51 @@
 
 * Standard setup
 clear all
+
+use "temp/manager_value.dta", clear
+keep if !missing(component_id) & (component_id > 0)
+
+* fixed effects are identified only up to a constant by connected component
+* normalize mean to zero
+* NOTE: this is only done for large-enough components, currently >= 30
+egen MS_mean = mean(manager_skill), by(component_id)
+
+* we are also shrinking towards component mean beceause of estimated noise (empirical Bayes)
+* use 0.25 from 62784d39de446d311568db51fedc3326e3db7212
+replace manager_skill = 0.25 * (manager_skill - MS_mean) if !missing(MS_mean)
+drop MS_mean
+
+* babyboom measures manager skills not in TFP, but as a fixed input
+replace manager_skill = manager_skill / chi
+summarize manager_skill, detail
+
+generate year = 2015
+merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match)
+keep if n_ceo == 1
+
+* sales in million HUF
+replace sales = sales/1e3
+generate size = sales
+summarize manager_skill if founder & size <= 10, detail
+scalar low_skill = r(mean)
+replace manager_skill = manager_skill - low_skill
+recode size min/10 = 10 10/50 = 50 50/100 = 50 100/200 = 100 200/500 = 200 500/1000 = 500 1000/max = 1000
+
+drop if size == 10
+
+generate EBITDA_share = EBITDA / sales / 1e3
+summarize EBITDA_share, detail
+replace EBITDA_share = 0 if EBITDA_share < 0
+
+tabulate size founder
+table size founder, stat(mean manager_skill)
+table size founder, stat(mean EBITDA_share)
+table size founder, stat(mean sales)
+
+collapse (count) n = manager_skill (mean) manager_skill EBITDA_share sales, by(size founder)
+export delimited "output/extract/value_bins.csv", replace
+
+clear all
 use "temp/surplus.dta", clear
 
 * Identify managers who started in 2015
