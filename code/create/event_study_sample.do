@@ -72,8 +72,6 @@ drop ceo_spell2
 *********************
 * LIMIT SAMPLE HERE *
 *********************
-* keep only non-founder changes
-keep if founder1 == 0 & founder2 == 0
 
 collapse (min) window_start ceo_spell (max) window_end (firstnm) cohort change_year, by(frame_id_numeric spell_id)
 
