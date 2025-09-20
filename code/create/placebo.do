@@ -4,6 +4,7 @@ save `cohortsfile', replace emptyok
 
 local TARGET_N_CONTROL 50
 local SEED 1391
+local exact_match_on cohort sector
 
 * save mean treatment group size to compute proper weights across groups
 use "temp/treatment_groups.dta", clear
@@ -19,7 +20,7 @@ generate cohort = foundyear
 tabulate cohort, missing
 replace cohort = 1989 if cohort < 1989
 tabulate cohort, missing
-collapse (min) window_start1 = year (max) window_end1 = year (min) $exact_match_on, by(frame_id_numeric ceo_spell)
+collapse (min) window_start1 = year (max) window_end1 = year (min) `exact_match_on', by(frame_id_numeric ceo_spell)
 
 * we need at least T = 2 to have a before and after period
 drop if window_end1 == window_start1
@@ -34,22 +35,22 @@ foreach cohort of local cohorts {
     preserve
         keep if cohort == `cohort'
         count`'
-        joinby $exact_match_on using "temp/treatment_groups.dta"
+        joinby `exact_match_on' using "temp/treatment_groups.dta"
         count
         * only keep controls that have weakly larger spell windows than the event window
         keep if window_start1 <= window_start & window_end1 >= window_end
         count
-        keep frame_id_numeric ceo_spell $exact_match_on window_start window_end n_treated* N_TREATED
+        keep frame_id_numeric ceo_spell `exact_match_on' window_start window_end n_treated* N_TREATED
 
         * sample control firms, we have way too many
-        egen n_control = total(1), by($exact_match_on window_start window_end)
+        egen n_control = total(1), by(`exact_match_on' window_start window_end)
         summarize n_control, detail
         generate p = MULTIPLE * n_treated / n_control
         summarize p, detail
         keep if uniform() < p
 
         drop n_control p
-        egen n_control = total(1), by($exact_match_on window_start window_end)
+        egen n_control = total(1), by(`exact_match_on' window_start window_end)
         generate weight = n_treated / n_control
 
         * now create placebo times for CEO arrival
@@ -73,11 +74,11 @@ foreach cohort of local cohorts {
 }
 
 use `cohortsfile', clear
-egen tg_tag = tag($exact_match_on window_start window_end)
+egen tg_tag = tag(`exact_match_on' window_start window_end)
 summarize n_treated if tg_tag, detail
 summarize n_control if tg_tag, detail
 
-keep frame_id_numeric ceo_spell $exact_match_on window_start window_end change_year weight N_TREATED
+keep frame_id_numeric ceo_spell `exact_match_on' window_start window_end change_year weight N_TREATED
 * the same frame_id_numeric may appear multiple times
 egen fake_id = group(frame_id_numeric ceo_spell window_start window_end change_year)
 * make sure no overlap with fake_ids of treated firms
