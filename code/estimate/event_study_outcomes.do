@@ -10,6 +10,10 @@ foreach Y in `owner_controlled' `manager_controlled' {
     egen sometimes_missing = max(missing(`Y')), by(fake_id)
     drop if sometimes_missing
     drop sometimes_missing 
+    * remove industry-year mean
+    egen industry_year_mean = mean(`Y'), by(teaor08_2d year)
+    replace `Y' = `Y' - industry_year_mean
+    drop industry_year_mean
 }
 
 eststo clear
