@@ -34,7 +34,7 @@ PRECIOUS_FILES := temp/balance.dta temp/ceo-panel.dta temp/unfiltered.dta \
 # Main targets
 # =============================================================================
 
-.PHONY: all install data analysis report
+.PHONY: all install data analysis report event_study
 
 # Complete workflow: data → analysis → report
 all: report
@@ -52,6 +52,9 @@ analysis: temp/surplus.dta temp/manager_value.dta temp/event_study_panel_a.dta t
 report: output/paper.pdf output/slides60.pdf output/figure/event_study_outcomes.pdf
 
 extract: output/extract/manager_changes_2015.dta output/extract/connected_managers.dta
+
+# Event study figures pipeline
+event_study: output/figure/event_study.pdf output/figure/event_study_outcomes.pdf output/figure/event_study_moments.pdf
 
 # =============================================================================
 # Data wrangling
@@ -159,8 +162,8 @@ output/figure/event_study_outcomes.pdf: code/exhibit/figure2.do temp/event_study
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
-# Figure A1: Additional event study figure
-output/figure/figureA1.pdf: code/exhibit/figureA1.do temp/event_study_panel_a.dta temp/event_study_panel_b.dta
+# Figure A1: Event study moments (mean and variance)
+output/figure/event_study_moments.pdf: code/exhibit/figureA1.do temp/event_study_moments.dta
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
