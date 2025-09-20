@@ -4,7 +4,7 @@ local baseline_year -3            // Baseline year for event study
 local format graphregion(color(white)) xlabel(`event_window_start'(1)`event_window_end') ///
     xline(-0.5) xscale(range (`event_window_start' `event_window_end')) ///
     xtitle("Time since CEO change (year)") yline(0) ///
-    ytitle("Log TFP relative to year `baseline_year'") ///
+    ytitle("Log change since year `baseline_year'") ///
     ylabel(, angle(0) format(%9.2f)) ///
     aspectratio(1) xsize(5) ysize(5) 
 * =============================================================================
