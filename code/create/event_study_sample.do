@@ -74,7 +74,7 @@ drop ceo_spell2
 * LIMIT SAMPLE HERE *
 *********************
 
-keep if founder1 == 1 & founder2 == 0
+keep if founder1 == 0 & founder2 == 0
 
 collapse (min) window_start ceo_spell (max) window_end (firstnm) $exact_match_on change_year, by(frame_id_numeric spell_id)
 
