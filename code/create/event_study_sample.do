@@ -6,6 +6,7 @@ global event_window_end 3         // Event study window end
 global min_obs_threshold 1         // Minimum observations before/after
 global min_T 1                     // Minimum observations to estimate fixed effects
 global max_n_ceo 1                // Maximum number of CEOs per firm for analysis
+global exact_match_on cohort sector // Variables to exactly match on for placebo
 
 use "temp/surplus.dta", clear
 merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match) nogen
@@ -33,7 +34,7 @@ replace cohort = min_cohort if cohort != min_cohort
 drop min_cohort
 
 * refactor to collapse
-collapse (mean) MS = manager_skill (count) T = lnStilde (max) founder owner (min) change_year = year (max) window_end = year (firstnm) cohort, by(frame_id_numeric ceo_spell)
+collapse (mean) MS = manager_skill (count) T = lnStilde (max) founder owner (min) change_year = year (max) window_end = year (firstnm) $exact_match_on, by(frame_id_numeric ceo_spell)
 
 drop if missing(MS)
 drop if T < ${min_T}
@@ -72,10 +73,8 @@ drop ceo_spell2
 *********************
 * LIMIT SAMPLE HERE *
 *********************
-* keep only non-founder changes
-keep if founder1 == 0 & founder2 == 0
 
-collapse (min) window_start ceo_spell (max) window_end (firstnm) cohort change_year, by(frame_id_numeric spell_id)
+collapse (min) window_start ceo_spell (max) window_end (firstnm) $exact_match_on change_year, by(frame_id_numeric spell_id)
 
 * frame_id_numeric will stop being unique once we add placebo
 egen fake_id = group(frame_id_numeric ceo_spell)
@@ -88,9 +87,9 @@ save "temp/treated_firms.dta", replace
 
 generate t0 = change_year - window_start
 
-collapse (count) n_treated = frame_id_numeric, by(cohort window_start window_end t0)
+collapse (count) n_treated = frame_id_numeric, by($exact_match_on window_start window_end t0)
 * we will create random CEO changes with the same t0 distribution
-reshape wide n_treated, i(cohort window_start window_end) j(t0)
+reshape wide n_treated, i($exact_match_on window_start window_end) j(t0)
 mvencode n_treated*, mv(0)
 egen byte n_treated = rowtotal(n_treated?)
 compress
