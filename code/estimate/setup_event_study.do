@@ -1,3 +1,6 @@
+args sample
+confirm file "temp/placebo_`sample'.dta"
+
 * =============================================================================
 * EVENT STUDY PARAMETERS
 * =============================================================================
@@ -28,7 +31,7 @@ keep if ever_in_sample == 1
 drop ever_in_sample in_sample firm_tag
 
 * the same firm may appear multipe times as control, repeat those observations
-joinby frame_id_numeric using "temp/placebo.dta"
+joinby frame_id_numeric using "temp/placebo_`sample'.dta"
 
 * limit to event window
 keep if inrange(year, window_start, window_end)
@@ -61,13 +64,13 @@ replace ceo_spell = `s2' if placebo == 1 & year >= change_year
 tabulate ceo_spell placebo
 
 * CEO skill is also fake, computed from actual TFP
-egen fake_manager_skill = mean(lnStilde), by(fake_id ceo_spell)
+egen fake_manager_skill = mean(TFP), by(fake_id ceo_spell)
 replace manager_skill = fake_manager_skill if placebo == 1
 drop fake_manager_skill
 
-keep if !missing(lnStilde)
-egen T1 = total(cond(ceo_spell == `s1', !missing(lnStilde), .)), by(fake_id)
-egen T2 = total(cond(ceo_spell == `s2', !missing(lnStilde), .)), by(fake_id)
+keep if !missing(TFP)
+egen T1 = total(cond(ceo_spell == `s1', !missing(TFP), .)), by(fake_id)
+egen T2 = total(cond(ceo_spell == `s2', !missing(TFP), .)), by(fake_id)
 keep if T1 > 0 & T2 > 0
 drop T1 T2
 
