@@ -10,6 +10,8 @@ LATEX := pdflatex
 PANDOC := pandoc
 UTILS := $(wildcard code/util/*.do)
 
+SAMPLES := full fnd2fnd fnd2non non2fnd non2non post2004
+
 # Commit hashes for reproducible file extraction
 # Update these when you need specific versions of files from other branches
 COMMIT_MAIN := HEAD  # Update with specific hash when needed, e.g., abc123f
@@ -49,7 +51,7 @@ report: output/paper.pdf output/slides60.pdf output/figure/event_study_outcomes.
 extract: output/extract/manager_changes_2015.dta output/extract/connected_managers.dta
 
 # Event study figures pipeline
-event_study: output/figure/event_study.pdf output/figure/event_study_outcomes.pdf output/figure/event_study_moments.pdf
+event_study: $(foreach sample,$(SAMPLES),output/event_study/$(sample)_TFP.csv)
 
 # =============================================================================
 # Data wrangling
@@ -97,9 +99,9 @@ temp/manager_value.dta output/figure/manager_skill_within.pdf output/figure/mana
 	$(STATA) $<
 
 # Run placebo-controlled event study
-temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_moments.dta output/event_study.txt: code/estimate/event_study.do code/estimate/setup_event_study.do temp/surplus.dta temp/analysis-sample.dta temp/manager_value.dta temp/placebo.dta
-	mkdir -p temp output
-	$(STATA) $<
+output/event_study/%_TFP.csv: code/estimate/event_study.do code/estimate/setup_event_study.do temp/surplus.dta temp/analysis-sample.dta temp/manager_value.dta temp/placebo_%.dta
+	mkdir -p $(dir $@)
+	$(STATA) $< $* TFP
 
 # Revenue function estimation results - saves all model estimates
 temp/revenue_models.ster: code/estimate/revenue_function.do temp/analysis-sample.dta temp/large_component_managers.csv code/create/network-sample.do
@@ -138,25 +140,6 @@ output/table/table3.tex: code/exhibit/table3.do temp/revenue_models.ster temp/an
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
-# Table 2: CEO patterns and spell length analysis (two panels) - moved from Table 6
-output/table/table2_panelA.tex output/table/table2_panelB.tex: code/exhibit/table2.do temp/unfiltered.dta temp/placebo.dta
-	mkdir -p $(dir $@)
-	$(STATA) $<
-
-# Figure 1: Event study results (both main figure and panel C)
-output/figure/event_study.pdf: code/exhibit/figure1.do temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_panel_c.dta temp/event_study_panel_d.dta
-	mkdir -p $(dir $@)
-	$(STATA) $<
-
-# Figure 2: Event study outcomes (Capital, Wagebill, Materials, Intangible)
-output/figure/event_study_outcomes.pdf: code/exhibit/figure2.do temp/event_study_lnK.dta temp/event_study_lnWL.dta temp/event_study_lnM.dta temp/event_study_has_intangible.dta
-	mkdir -p $(dir $@)
-	$(STATA) $<
-
-# Figure A1: Event study moments (mean and variance)
-output/figure/event_study_moments.pdf: code/exhibit/figureA1.do temp/event_study_moments.dta
-	mkdir -p $(dir $@)
-	$(STATA) $<
 
 # =============================================================================
 # LaTeX compilation
