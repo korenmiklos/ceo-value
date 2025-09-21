@@ -19,7 +19,7 @@ keep if max_n_ceo <= ${max_n_ceo}
 
 * limit sample to clean changes  
 keep if ceo_spell <= max_ceo_spell
-keep if !missing(lnStilde)
+keep if !missing(TFP)
 
 tabulate ceo_spell
 
@@ -34,7 +34,7 @@ replace cohort = min_cohort if cohort != min_cohort
 drop min_cohort
 
 * refactor to collapse
-collapse (mean) MS = manager_skill (count) T = lnStilde (max) founder owner (min) change_year = year (max) window_end = year (firstnm) $exact_match_on, by(frame_id_numeric ceo_spell)
+collapse (mean) MS = manager_skill (count) T = TFP (max) founder owner (min) change_year = year (max) window_end = year (firstnm) $exact_match_on, by(frame_id_numeric ceo_spell)
 
 drop if missing(MS)
 drop if T < ${min_T}

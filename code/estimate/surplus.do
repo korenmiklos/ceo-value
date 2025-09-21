@@ -39,6 +39,7 @@ foreach sector of local sectors {
 }
 
 keep frame_id_numeric year teaor08_2d sector ceo_spell person_id lnR lnEBITDA lnL lnStilde chi `controls' B_lnK B_has_intangible 
+rename lnStilde TFP
 
 table sector, stat(mean chi)
 

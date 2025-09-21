@@ -13,7 +13,7 @@ do "code/create/network-sample.do"
 
 egen max_ceo_spell = max(ceo_spell), by(frame_id_numeric)
 
-egen within_firm = mean(lnStilde), by(frame_id_numeric person_id)
+egen within_firm = mean(TFP), by(frame_id_numeric person_id)
 egen first_ceo = mean(cond(ceo_spell == 1, within_firm, .)), by(frame_id_numeric)
 replace within_firm = within_firm - first_ceo
 drop first_ceo
@@ -37,7 +37,7 @@ display "IQR of within-firm variation in manager surplus: " exp(r(p75) - r(p25))
 
 * now do cross section, but only on connected components
 
-reghdfe lnStilde, absorb(firm_fixed_effect=frame_id_numeric manager_skill=person_id) keepsingletons
+reghdfe TFP, absorb(firm_fixed_effect=frame_id_numeric manager_skill=person_id) keepsingletons
 
 * but across components we cannot make a comparison!
 summarize manager_skill if giant_component == 1, detail

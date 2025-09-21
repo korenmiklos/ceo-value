@@ -89,10 +89,10 @@ keep if max_n_managers == 1
 drop max_n_managers
 
 * now ready to compute statistics
-collapse (mean) lnStilde (firstnm) person_id chi (count) T_spell = lnStilde, by(frame_id_numeric before)
+collapse (mean) TFP (firstnm) person_id chi (count) T_spell = TFP, by(frame_id_numeric before)
 generate str when = cond(before, "_before", "_after")
 drop before
-reshape wide lnStilde person_id T_spell, i(frame_id_numeric) j(when) string
+reshape wide TFP person_id T_spell, i(frame_id_numeric) j(when) string
 * verify that managers are different
 count if person_id_before == person_id_after
 drop if person_id_before == person_id_after
@@ -100,8 +100,8 @@ drop if person_id_before == person_id_after
 * only keep firms with same two managers in 2013-2017 period
 drop if T_spell_before < 2 | T_spell_after < 3
 
-keep if !missing(lnStilde_before, lnStilde_after)
-generate surplus_change = (lnStilde_after - lnStilde_before) / chi
+keep if !missing(TFP_before, TFP_after)
+generate surplus_change = (TFP_after - TFP_before) / chi
 keep frame_id_numeric surplus_change chi
 
 * convert this to forints
