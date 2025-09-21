@@ -1,6 +1,18 @@
 args sample
 confirm existence `sample'
 
+******************************
+* ACCEPTED VALUES FOR sample *
+******************************
+local full         1
+local fnd2fnd      founder1 == 1 & founder2 == 1 
+local fnd2non      founder1 == 1 & founder2 == 0
+local non2fnd      founder1 == 0 & founder2 == 1
+local non2non      founder1 == 0 & founder2 == 0
+local post2004     window_start >= 2004
+
+assert inlist("`sample'", "full", "fnd2fnd", "fnd2non", "non2fnd", "non2non", "post2004")
+
 clear all
 tempfile cohortsfile
 save `cohortsfile', replace emptyok
@@ -79,8 +91,8 @@ drop ceo_spell2
 *********************
 * LIMIT SAMPLE HERE *
 *********************
-
-keep if founder1 == 1 & founder2 == 1
+display "Keeping `sample' sample: ``sample''"
+keep if ``sample''
 
 collapse (min) window_start ceo_spell (max) window_end (firstnm) $exact_match_on change_year, by(frame_id_numeric spell_id)
 
