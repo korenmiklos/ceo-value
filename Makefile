@@ -11,6 +11,7 @@ PANDOC := pandoc
 UTILS := $(wildcard code/util/*.do)
 
 SAMPLES := full fnd2fnd fnd2non non2fnd non2non post2004
+OUTCOMES := TFP lnK lnWL lnM has_intangible
 
 # Commit hashes for reproducible file extraction
 # Update these when you need specific versions of files from other branches
@@ -51,7 +52,7 @@ report: output/paper.pdf output/slides60.pdf output/figure/event_study_outcomes.
 extract: output/extract/manager_changes_2015.dta output/extract/connected_managers.dta
 
 # Event study figures pipeline
-event_study: $(foreach sample,$(SAMPLES),output/event_study/$(sample)_TFP.csv)
+event_study: $(foreach sample,$(SAMPLES),$(foreach outcome,$(OUTCOMES),output/event_study/$(sample)_$(outcome).csv))
 
 # =============================================================================
 # Data wrangling
@@ -98,10 +99,15 @@ temp/manager_value.dta output/figure/manager_skill_within.pdf output/figure/mana
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
-# Run placebo-controlled event study
-output/event_study/%_TFP.csv: code/estimate/event_study.do code/estimate/setup_event_study.do temp/surplus.dta temp/analysis-sample.dta temp/manager_value.dta temp/placebo_%.dta
-	mkdir -p $(dir $@)
-	$(STATA) $< $* TFP
+# Function to generate the rule for each outcome
+define OUTCOME_RULE
+output/event_study/%_$(1).csv: code/estimate/event_study.do code/estimate/setup_event_study.do temp/surplus.dta temp/analysis-sample.dta temp/manager_value.dta temp/placebo_%.dta
+	mkdir -p $$(dir $$@)
+	$$(STATA) $$< $$* $(1)
+endef
+
+# Generate rules for each outcome
+$(foreach outcome,$(OUTCOMES),$(eval $(call OUTCOME_RULE,$(outcome))))
 
 # Revenue function estimation results - saves all model estimates
 temp/revenue_models.ster: code/estimate/revenue_function.do temp/analysis-sample.dta temp/large_component_managers.csv code/create/network-sample.do
@@ -111,10 +117,6 @@ temp/revenue_models.ster: code/estimate/revenue_function.do temp/analysis-sample
 bloom_autonomy_analysis.log: code/estimate/bloom_autonomy_analysis.do input/bloom-et-al-2012/replication.dta
 	$(STATA) $<
 
-# Event study outcomes analysis - heterogeneous treatment effects
-output/table/atet_owner.tex output/table/atet_manager.tex output/figure/event_study_owner_controlled.pdf output/figure/event_study_manager_controlled.pdf temp/event_study_lnK.dta temp/event_study_lnWL.dta temp/event_study_lnM.dta temp/event_study_has_intangible.dta: code/estimate/event_study_outcomes.do code/estimate/setup_event_study.do temp/surplus.dta temp/analysis-sample.dta temp/manager_value.dta temp/placebo.dta
-	mkdir -p output/table output/figure
-	$(STATA) $<
 
 # =============================================================================
 # Exhibits (tables and figures)
