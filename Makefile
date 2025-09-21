@@ -160,6 +160,11 @@ output/figure/figure2.pdf: code/exhibit/figure2.do output/event_study/fnd2non_TF
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
+# Figure 3: Event study outcomes (Capital, Intangibles, Materials, Wagebill)
+output/figure/figure3.pdf: code/exhibit/figure3.do output/event_study/full_lnK.csv output/event_study/full_has_intangible.csv output/event_study/full_lnM.csv output/event_study/full_lnWL.csv code/exhibit/event_study.do
+	mkdir -p $(dir $@)
+	$(STATA) $<
+
 # =============================================================================
 # Optional extracts and tests
 # =============================================================================
