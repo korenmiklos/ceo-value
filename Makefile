@@ -20,12 +20,7 @@ COMMIT_EXPERIMENT := experiment/preferred  # Update with specific hash when need
 PRECIOUS_FILES := temp/balance.dta temp/ceo-panel.dta temp/unfiltered.dta \
                   temp/analysis-sample.dta temp/placebo.dta temp/edgelist.csv \
                   temp/large_component_managers.csv temp/surplus.dta \
-                  temp/manager_value.dta temp/revenue_models.ster \
-                  temp/event_study_panel_a.dta temp/event_study_panel_b.dta \
-                  temp/event_study_moments.dta temp/event_study_lnK.dta \
-                  temp/event_study_lnWL.dta temp/event_study_lnM.dta \
-                  temp/event_study_has_intangible.dta \
-                  temp/treated_firms.dta temp/treatment_groups.dta
+                  temp/manager_value.dta temp/revenue_models.ster 
 
 # Mark these files as PRECIOUS so make won't delete them
 .PRECIOUS: $(PRECIOUS_FILES)
@@ -72,13 +67,9 @@ temp/ceo-panel.dta: code/create/ceo-panel.do input/ceo-panel/ceo-panel.dta
 temp/analysis-sample.dta: code/create/analysis-sample.do temp/unfiltered.dta code/util/filter.do
 	$(STATA) $<
 
-# Create event study sample and treatment groups
-temp/treated_firms.dta temp/treatment_groups.dta: code/create/event_study_sample.do temp/surplus.dta temp/analysis-sample.dta temp/manager_value.dta
-	$(STATA) $<
-
 # Generate placebo CEO transitions
-temp/placebo.dta: code/create/placebo.do temp/analysis-sample.dta temp/treated_firms.dta temp/treatment_groups.dta
-	$(STATA) $<
+temp/placebo_%.dta: code/create/event_study_sample.do temp/surplus.dta temp/analysis-sample.dta temp/manager_value.dta 
+	$(STATA) $< $*
 
 # Extract firm-manager edgelist
 temp/edgelist.csv: code/create/edgelist.do temp/analysis-sample.dta
