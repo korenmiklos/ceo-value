@@ -10,6 +10,9 @@ LATEX := pdflatex
 PANDOC := pandoc
 UTILS := $(wildcard code/util/*.do)
 
+SAMPLES := full fnd2fnd fnd2non non2fnd non2non post2004
+OUTCOMES := TFP lnK lnWL lnM has_intangible
+
 # Commit hashes for reproducible file extraction
 # Update these when you need specific versions of files from other branches
 COMMIT_MAIN := HEAD  # Update with specific hash when needed, e.g., abc123f
@@ -20,12 +23,7 @@ COMMIT_EXPERIMENT := experiment/preferred  # Update with specific hash when need
 PRECIOUS_FILES := temp/balance.dta temp/ceo-panel.dta temp/unfiltered.dta \
                   temp/analysis-sample.dta temp/placebo.dta temp/edgelist.csv \
                   temp/large_component_managers.csv temp/surplus.dta \
-                  temp/manager_value.dta temp/revenue_models.ster \
-                  temp/event_study_panel_a.dta temp/event_study_panel_b.dta \
-                  temp/event_study_moments.dta temp/event_study_lnK.dta \
-                  temp/event_study_lnWL.dta temp/event_study_lnM.dta \
-                  temp/event_study_has_intangible.dta \
-                  temp/treated_firms.dta temp/treatment_groups.dta
+                  temp/manager_value.dta temp/revenue_models.ster 
 
 # Mark these files as PRECIOUS so make won't delete them
 .PRECIOUS: $(PRECIOUS_FILES)
@@ -54,7 +52,7 @@ report: output/paper.pdf output/slides60.pdf output/figure/event_study_outcomes.
 extract: output/extract/manager_changes_2015.dta output/extract/connected_managers.dta
 
 # Event study figures pipeline
-event_study: output/figure/event_study.pdf output/figure/event_study_outcomes.pdf output/figure/event_study_moments.pdf
+event_study: $(foreach sample,$(SAMPLES),$(foreach outcome,$(OUTCOMES),output/event_study/$(sample)_$(outcome).csv))
 
 # =============================================================================
 # Data wrangling
@@ -72,13 +70,9 @@ temp/ceo-panel.dta: code/create/ceo-panel.do input/ceo-panel/ceo-panel.dta
 temp/analysis-sample.dta: code/create/analysis-sample.do temp/unfiltered.dta code/util/filter.do
 	$(STATA) $<
 
-# Create event study sample and treatment groups
-temp/treated_firms.dta temp/treatment_groups.dta: code/create/event_study_sample.do temp/surplus.dta temp/analysis-sample.dta temp/manager_value.dta
-	$(STATA) $<
-
 # Generate placebo CEO transitions
-temp/placebo.dta: code/create/placebo.do temp/analysis-sample.dta temp/treated_firms.dta temp/treatment_groups.dta
-	$(STATA) $<
+temp/placebo_%.dta: code/create/event_study_sample.do temp/surplus.dta temp/analysis-sample.dta temp/manager_value.dta 
+	$(STATA) $< $*
 
 # Extract firm-manager edgelist
 temp/edgelist.csv: code/create/edgelist.do temp/analysis-sample.dta
@@ -105,10 +99,15 @@ temp/manager_value.dta output/figure/manager_skill_within.pdf output/figure/mana
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
-# Run placebo-controlled event study
-temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_moments.dta output/event_study.txt: code/estimate/event_study.do code/estimate/setup_event_study.do temp/surplus.dta temp/analysis-sample.dta temp/manager_value.dta temp/placebo.dta
-	mkdir -p temp output
-	$(STATA) $<
+# Function to generate the rule for each outcome
+define OUTCOME_RULE
+output/event_study/%_$(1).csv: code/estimate/event_study.do code/estimate/setup_event_study.do temp/surplus.dta temp/analysis-sample.dta temp/manager_value.dta temp/placebo_%.dta
+	mkdir -p $$(dir $$@)
+	$$(STATA) $$< $$* $(1)
+endef
+
+# Generate rules for each outcome
+$(foreach outcome,$(OUTCOMES),$(eval $(call OUTCOME_RULE,$(outcome))))
 
 # Revenue function estimation results - saves all model estimates
 temp/revenue_models.ster: code/estimate/revenue_function.do temp/analysis-sample.dta temp/large_component_managers.csv code/create/network-sample.do
@@ -118,10 +117,6 @@ temp/revenue_models.ster: code/estimate/revenue_function.do temp/analysis-sample
 bloom_autonomy_analysis.log: code/estimate/bloom_autonomy_analysis.do input/bloom-et-al-2012/replication.dta
 	$(STATA) $<
 
-# Event study outcomes analysis - heterogeneous treatment effects
-output/table/atet_owner.tex output/table/atet_manager.tex output/figure/event_study_owner_controlled.pdf output/figure/event_study_manager_controlled.pdf temp/event_study_lnK.dta temp/event_study_lnWL.dta temp/event_study_lnM.dta temp/event_study_has_intangible.dta: code/estimate/event_study_outcomes.do code/estimate/setup_event_study.do temp/surplus.dta temp/analysis-sample.dta temp/manager_value.dta temp/placebo.dta
-	mkdir -p output/table output/figure
-	$(STATA) $<
 
 # =============================================================================
 # Exhibits (tables and figures)
@@ -147,25 +142,6 @@ output/table/table3.tex: code/exhibit/table3.do temp/revenue_models.ster temp/an
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
-# Table 2: CEO patterns and spell length analysis (two panels) - moved from Table 6
-output/table/table2_panelA.tex output/table/table2_panelB.tex: code/exhibit/table2.do temp/unfiltered.dta temp/placebo.dta
-	mkdir -p $(dir $@)
-	$(STATA) $<
-
-# Figure 1: Event study results (both main figure and panel C)
-output/figure/event_study.pdf: code/exhibit/figure1.do temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_panel_c.dta temp/event_study_panel_d.dta
-	mkdir -p $(dir $@)
-	$(STATA) $<
-
-# Figure 2: Event study outcomes (Capital, Wagebill, Materials, Intangible)
-output/figure/event_study_outcomes.pdf: code/exhibit/figure2.do temp/event_study_lnK.dta temp/event_study_lnWL.dta temp/event_study_lnM.dta temp/event_study_has_intangible.dta
-	mkdir -p $(dir $@)
-	$(STATA) $<
-
-# Figure A1: Event study moments (mean and variance)
-output/figure/event_study_moments.pdf: code/exhibit/figureA1.do temp/event_study_moments.dta
-	mkdir -p $(dir $@)
-	$(STATA) $<
 
 # =============================================================================
 # LaTeX compilation
