@@ -33,7 +33,7 @@ drop ever_in_sample in_sample firm_tag
 * the same firm may appear multipe times as control, repeat those observations
 joinby frame_id_numeric using "temp/placebo_`sample'.dta"
 
-* limit to event window
+* limit to relevant CEO spells
 keep if inrange(year, window_start, window_end)
 * for 2-ceo firms, only keep 1 of them, these are only placebo anyway
 tabulate n_ceo
@@ -67,6 +67,9 @@ tabulate ceo_spell placebo
 egen fake_manager_skill = mean(TFP), by(fake_id ceo_spell)
 replace manager_skill = fake_manager_skill if placebo == 1
 drop fake_manager_skill
+
+* limit event window here, not sooner so that placebo is constructed correctly
+keep if inrange(year, change_year + ${event_window_start}, change_year + ${event_window_end})
 
 keep if !missing(TFP)
 egen T1 = total(cond(ceo_spell == `s1', !missing(TFP), .)), by(fake_id)
