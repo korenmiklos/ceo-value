@@ -80,8 +80,8 @@ bysort frame_id_numeric spell_id (ceo_spell): generate index = _n
 reshape wide MS T founder owner change_year window_end ceo_spell, i(frame_id_numeric spell_id) j(index)
 rename change_year2 change_year
 
-generate window_start = max(change_year1, change_year + $event_window_start)
-generate window_end = min(window_end2, change_year + $event_window_end)
+generate window_start = change_year1
+generate window_end = window_end2
 * need to sort on skill
 drop if missing(MS1, MS2)
 drop if ceo_spell1 != ceo_spell2 - 1

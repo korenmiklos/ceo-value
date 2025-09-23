@@ -155,6 +155,16 @@ output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2_p
 output/slides60.pdf: output/slides60.md output/preamble-slides.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_connected.pdf output/figure/event_study.pdf output/figure/event_study_outcomes.pdf
 	cd output && $(PANDOC) slides60.md -t beamer --slide-level 2 -H preamble-slides.tex -o slides60.pdf
 
+# Figure 2: Event study by CEO transition type (4 panels)  
+output/figure/figure2.pdf: code/exhibit/figure2.do output/event_study/fnd2non_TFP.csv output/event_study/non2non_TFP.csv output/event_study/full_TFP.csv output/event_study/post2004_TFP.csv code/exhibit/event_study.do
+	mkdir -p $(dir $@)
+	$(STATA) $<
+
+# Figure 3: Event study outcomes (Capital, Intangibles, Materials, Wagebill)
+output/figure/figure3.pdf: code/exhibit/figure3.do output/event_study/full_lnK.csv output/event_study/full_has_intangible.csv output/event_study/full_lnM.csv output/event_study/full_lnWL.csv code/exhibit/event_study.do
+	mkdir -p $(dir $@)
+	$(STATA) $<
+
 # =============================================================================
 # Optional extracts and tests
 # =============================================================================
