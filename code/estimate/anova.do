@@ -2,11 +2,19 @@ args sample outcome
 confirm file "temp/placebo_`sample'.dta"
 confirm existence `outcome'
 
-global figure_window_start -9      // Figure window start
-global figure_window_end 9         // Figure window end
+global figure_window_start -5      // Figure window start
+global figure_window_end 5         // Figure window end
 global event_window_start = -($figure_window_end - $figure_window_start + 1)
 global event_window_end = $figure_window_end
 global baseline_year = $figure_window_start
+local graph_options ///
+    yscale(range(0 .)) ///
+    ylabel(#5) ///
+    ytitle("Variance of TFP growth") ///
+    legend(order(1 "Total" 2 "Without CEO change") rows(1) position(6)) ///
+    aspectratio(1) xsize(5) ysize(5) ///
+    lcolor(blue red)
+
 
 do "code/estimate/setup_anova.do" `sample'
 confirm numeric variable `outcome'
@@ -80,17 +88,12 @@ egen var_dY0 = mean(cond(placebo == 0, var_dY1 - ATET2b, .)), by(firm_age)
 generate sd_dY0 = sqrt(var_dY0)
 
 egen fat = tag(firm_age)
-line var_dY1 var_dY0 var_dY00 firm_age if fat & inrange(firm_age, 2, `=$figure_window_end-$figure_window_start+1'), sort ///
-    title("Variance of TFP by Firm Age") ///
+line var_dY1 var_dY0 firm_age if fat & inrange(firm_age, 2, `=$figure_window_end-$figure_window_start+2'), sort ///
+    title("Panel A: Variance of TFP by Firm Age") ///
     xtitle("Firm Age (years)") ///
-    xlabel(2(2)`=$figure_window_end-$figure_window_start+1') ///
-    yscale(range(0 .)) ///
-    ytitle("Variance of TFP (log points squared)") ///
-    legend(order(1 "Total" 2 "Without CEO change" 3 "Placebo") rows(1) position(6)) ///
-    aspectratio(1) xsize(5) ysize(5) ///
-    lcolor(blue red black)
-
-graph export "output/figure/variance_by_firm_age_`sample'_`outcome'.pdf", replace
+    xlabel(2(2)`=$figure_window_end-$figure_window_start+2') ///
+    `graph_options' ///
+    name(panelA, replace)
 
 drop sd_* var_*
 egen sd_dY1 = sd(cond(placebo == 0, dY, .)), by(event_time firm_age)
@@ -104,42 +107,15 @@ egen Evar_dY0 = mean(var_dY0), by(event_time)
 egen Evar_dY00 = mean(var_dY00), by(event_time)
 
 egen ett = tag(event_time)
-line Evar_dY1 Evar_dY0 Evar_dY00 event_time if ett & inrange(event_time, $figure_window_start, $figure_window_end), sort ///
-    title("Variance of TFP by Event Time") ///
-    xtitle("Event Time (years)") ///
-    xlabel($figure_window_start(1)$figure_window_end) ///
-    xline(-0.5) xscale(range ($figure_window_start $figure_window_end)) ///
-    ytitle("Variance of TFP (log points squared)") ///
-    yscale(range(0 .)) ///
-    legend(order(1 "Total" 2 "Without CEO change" 3 "Placebo") rows(1) position(6)) ///
-    aspectratio(1) xsize(5) ysize(5) ///
-    lcolor(blue red black)
-
-graph export "output/figure/variance_by_event_time_`sample'_`outcome'.pdf", replace
-
-drop Evar*
-* remove firm age effect - variance naturally increases with firm age
-egen A1 = mean(cond(placebo == 0, var_dY1, .)), by(firm_age)
-egen A0 = mean(cond(placebo == 0, var_dY0, .)), by(firm_age)
-* compute mean variance by event time
-egen Evar_dY1 = mean(var_dY1 - A1), by(event_time)
-egen Evar_dY0 = mean(var_dY0 - A0), by(event_time)
-* normalize to baseline year
-summarize Evar_dY1 if event_time == ${baseline_year}
-local m1 = r(mean)
-summarize Evar_dY0 if event_time == ${baseline_year}
-local m0 = r(mean)
-replace Evar_dY1 = Evar_dY1 - `m1'
-replace Evar_dY0 = Evar_dY0 - `m0'
-
 line Evar_dY1 Evar_dY0 event_time if ett & inrange(event_time, $figure_window_start, $figure_window_end), sort ///
-    title("Variance of TFP by Event Time") ///
-    xtitle("Event Time (years)") ///
+    title("Panel B: Variance of TFP by Event Time") ///
+    xtitle("Time Since CEO change (years)") ///
     xlabel($figure_window_start(1)$figure_window_end) ///
-    xline(-0.5) xscale(range ($figure_window_start $figure_window_end)) ///
-    ytitle("Variance of TFP (log points squared)") ///
-    legend(order(1 "Total" 2 "Without CEO change") rows(1) position(6)) ///
-    aspectratio(1) xsize(5) ysize(5) ///
-    lcolor(blue red)
+    xline(-0.5) ///
+    `graph_options' ///
+    name(panelB, replace)
 
-graph export "output/figure/variance_wo_age_`sample'_`outcome'.pdf", replace
+graph combine panelA panelB, ///
+    cols(2) ycommon graphregion(color(white)) imargin(small) xsize(5) ysize(2.5)
+
+graph export "output/figure/anova.pdf", replace
