@@ -112,13 +112,14 @@ collapse (count) n_treated = frame_id_numeric, by($exact_match_on window_start w
 * we will create random CEO changes with the same t0 distribution
 reshape wide n_treated, i($exact_match_on window_start window_end) j(t0)
 mvencode n_treated*, mv(0)
-egen byte n_treated = rowtotal(n_treated?)
+* bugfix: t0 may be two digits
+egen byte N_treated = rowtotal(n_treated*)
 compress
 
 tempfile treated_groups
 save "`treated_groups'", replace
 
-summarize n_treated, meanonly
+summarize N_treated, meanonly
 scalar MEAN = r(mean)
 scalar MULTIPLE = `TARGET_N_CONTROL' / MEAN
 scalar list
@@ -144,32 +145,35 @@ foreach cohort of local cohorts {
     display "Processing cohort `cohort'"
     preserve
         keep if cohort == `cohort'
-        count`'
+        count
         joinby $exact_match_on using "`treated_groups'"
         count
         * only keep controls that have weakly larger spell windows than the event window
         keep if window_start1 <= window_start & window_end1 >= window_end
         count
-        keep frame_id_numeric ceo_spell $exact_match_on window_start window_end n_treated* 
+        keep frame_id_numeric ceo_spell $exact_match_on window_start window_end N_treated n_treated* 
 
         * sample control firms, we have way too many
         egen n_control = total(1), by($exact_match_on window_start window_end)
         summarize n_control, detail
-        generate p = MULTIPLE * n_treated / n_control
+        generate p = MULTIPLE * N_treated / n_control
         summarize p, detail
         keep if uniform() < p
 
         drop n_control p
         egen n_control = total(1), by($exact_match_on window_start window_end)
-        generate weight = n_treated / n_control
+        generate weight = N_treated / n_control
 
         * now create placebo times for CEO arrival
         generate byte t0 = .
-        unab treatmens : n_treated?  
+        * bugfix: treatment time may be two digits
+        unab treatmens : n_treated*  
         local T : word count `treatmens'
+        generate p = .
         forvalues t = 1/`T' {
-            replace t0 = `t' if missing(t0) & uniform() < n_treated`t' / n_treated
-            replace n_treated = n_treated - n_treated`t'
+            replace p = cond(missing(t0), n_treated`t' / N_treated, 0)
+            replace t0 = `t' if missing(t0) & uniform() <= p
+            replace N_treated = N_treated - n_treated`t'
         }
         tabulate t0, missing
         assert !missing(t0)
@@ -177,7 +181,7 @@ foreach cohort of local cohorts {
         generate change_year = window_start + t0
         drop t0
 
-        list frame_id_numeric ceo_spell change_year n_treated n_control weight in 1/5
+        list frame_id_numeric ceo_spell change_year N_treated n_control weight in 1/5
         append using `cohortsfile'
         save `cohortsfile', replace emptyok
     restore
@@ -185,7 +189,7 @@ foreach cohort of local cohorts {
 
 use `cohortsfile', clear
 egen tg_tag = tag($exact_match_on window_start window_end)
-summarize n_treated if tg_tag, detail
+summarize N_treated if tg_tag, detail
 summarize n_control if tg_tag, detail
 
 keep frame_id_numeric ceo_spell $exact_match_on window_start window_end change_year weight 
