@@ -2,8 +2,8 @@ args sample outcome
 confirm file "temp/placebo_`sample'.dta"
 confirm existence `outcome'
 
-global figure_window_start -6      // Figure window start
-global figure_window_end 6         // Figure window end
+global figure_window_start -9      // Figure window start
+global figure_window_end 9         // Figure window end
 global event_window_start = -($figure_window_end - $figure_window_start + 1)
 global event_window_end = $figure_window_end
 global baseline_year = $figure_window_start
