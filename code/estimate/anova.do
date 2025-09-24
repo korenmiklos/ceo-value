@@ -2,9 +2,11 @@ args sample outcome
 confirm file "temp/placebo_`sample'.dta"
 confirm existence `outcome'
 
-global event_window_start -7      // Event study window start
-global event_window_end 6         // Event study window end
-global baseline_year -6            // Baseline year for event study
+global figure_window_start -6      // Figure window start
+global figure_window_end 6         // Figure window end
+global event_window_start = -($figure_window_end - $figure_window_start + 1)
+global event_window_end = $figure_window_end
+global baseline_year = -$figure_window_start
 
 do "code/estimate/setup_anova.do" `sample'
 confirm numeric variable `outcome'
@@ -62,10 +64,10 @@ egen var_dY0 = mean(var_dY1 - ATET2b) if !placebo, by(firm_age)
 generate sd_dY0 = sqrt(var_dY0)
 
 egen fat = tag(firm_age)
-line var_dY1 var_dY0 firm_age if fat & inrange(firm_age, 2, `=$event_window_end-$event_window_start+1'), sort ///
+line var_dY1 var_dY0 firm_age if fat & inrange(firm_age, 2, `=$figure_window_end-$figure_window_start+1'), sort ///
     title("Variance of TFP by Firm Age") ///
     xtitle("Firm Age (years)") ///
-    xlabel(2(2)`=$event_window_end-$event_window_start+1') ///
+    xlabel(2(2)`=$figure_window_end-$figure_window_start+1') ///
     yscale(range(0 .)) ///
     ytitle("Variance of TFP (log points squared)") ///
     legend(order(1 "Total" 2 "Without CEO change") rows(1) position(6)) ///
@@ -83,11 +85,11 @@ egen Evar_dY1 = mean(var_dY1), by(event_time)
 egen Evar_dY0 = mean(var_dY0), by(event_time)
 
 egen ett = tag(event_time)
-line Evar_dY1 Evar_dY0 event_time if ett & inrange(event_time, $event_window_start+1, $event_window_end), sort ///
+line Evar_dY1 Evar_dY0 event_time if ett & inrange(event_time, $figure_window_start, $figure_window_end), sort ///
     title("Variance of TFP by Event Time") ///
     xtitle("Event Time (years)") ///
-    xlabel(`=$event_window_start+1'(1)$event_window_end) ///
-    xline(-0.5) xscale(range (`=$event_window_start+1' $event_window_end)) ///
+    xlabel($figure_window_start(1)$figure_window_end) ///
+    xline(-0.5) xscale(range ($figure_window_start $figure_window_end)) ///
     ytitle("Variance of TFP (log points squared)") ///
     yscale(range(0 .)) ///
     legend(order(1 "Total" 2 "Without CEO change") rows(1) position(6)) ///
@@ -111,11 +113,11 @@ local m0 = r(mean)
 replace Evar_dY1 = Evar_dY1 - `m1'
 replace Evar_dY0 = Evar_dY0 - `m0'
 
-line Evar_dY1 Evar_dY0 event_time if ett & inrange(event_time, $event_window_start+1, $event_window_end), sort ///
+line Evar_dY1 Evar_dY0 event_time if ett & inrange(event_time, $figure_window_start, $figure_window_end), sort ///
     title("Variance of TFP by Event Time") ///
     xtitle("Event Time (years)") ///
-    xlabel(`=$event_window_start+1'(1)$event_window_end) ///
-    xline(-0.5) xscale(range (`=$event_window_start+1' $event_window_end)) ///
+    xlabel($figure_window_start(1)$figure_window_end) ///
+    xline(-0.5) xscale(range ($figure_window_start $figure_window_end)) ///
     ytitle("Variance of TFP (log points squared)") ///
     legend(order(1 "Total" 2 "Without CEO change") rows(1) position(6)) ///
     aspectratio(1) xsize(5) ysize(5) ///
