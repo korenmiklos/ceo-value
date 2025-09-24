@@ -6,7 +6,7 @@ global figure_window_start -6      // Figure window start
 global figure_window_end 6         // Figure window end
 global event_window_start = -($figure_window_end - $figure_window_start + 1)
 global event_window_end = $figure_window_end
-global baseline_year = -$figure_window_start
+global baseline_year = $figure_window_start
 
 do "code/estimate/setup_anova.do" `sample'
 confirm numeric variable `outcome'
