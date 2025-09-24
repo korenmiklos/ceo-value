@@ -47,8 +47,10 @@ forvalues t = `=100+$event_window_start'/`=100+$event_window_end' {
 reghdfe dY2 Ed* if event_window , a(event_time firm_age) cluster(frame_id_numeric ) resid nocons 
 predict ATET2a, xb*/
 
-egen control_variance = mean(cond(placebo == 1, dY2, .)), by(event_time firm_age)
-egen treated_variance = mean(cond(placebo == 0, dY2, .)), by(event_time firm_age)
+egen control_variance = sd(cond(placebo == 1, dY, .)), by(event_time firm_age)
+egen treated_variance = sd(cond(placebo == 0, dY, .)), by(event_time firm_age)
+replace control_variance = control_variance^2
+replace treated_variance = treated_variance^2
 generate ATET2b = cond(placebo == 0, treated_variance - control_variance, 0)
 
 * firms may differ in variance of growth rates, which shows up as a pretrend for Var(dY)
