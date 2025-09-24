@@ -2,9 +2,9 @@ args sample outcome
 confirm file "temp/placebo_`sample'.dta"
 confirm existence `outcome'
 
-global event_window_start -10      // Event study window start
-global event_window_end 9         // Event study window end
-global baseline_year -9            // Baseline year for event study
+global event_window_start -7      // Event study window start
+global event_window_end 6         // Event study window end
+global baseline_year -6            // Baseline year for event study
 
 do "code/estimate/setup_anova.do" `sample'
 confirm numeric variable `outcome'
@@ -62,7 +62,7 @@ egen var_dY0 = mean(var_dY1 - ATET2b) if !placebo, by(firm_age)
 generate sd_dY0 = sqrt(var_dY0)
 
 egen fat = tag(firm_age)
-line var_dY1 var_dY0 firm_age if fat & firm_age>=2, sort ///
+line var_dY1 var_dY0 firm_age if fat & inrange(firm_age, 2, `=$event_window_end-$event_window_start+1'), sort ///
     title("Variance of TFP by Firm Age") ///
     xtitle("Firm Age (years)") ///
     xlabel(2(2)`=$event_window_end-$event_window_start+1') ///
