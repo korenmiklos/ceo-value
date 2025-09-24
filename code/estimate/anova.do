@@ -51,6 +51,11 @@ egen control_variance = mean(cond(placebo == 1, dY2, .)), by(event_time firm_age
 egen treated_variance = mean(cond(placebo == 0, dY2, .)), by(event_time firm_age)
 generate ATET2b = cond(placebo == 0, treated_variance - control_variance, 0)
 
+* firms may differ in variance of growth rates, which shows up as a pretrend for Var(dY)
+* because dY is cumulated over firm age
+egen age_pretrend = mean(cond(placebo == 0 & event_time < 0, ATET2b, .)), by(firm_age)
+replace ATET2b = ATET2b - age_pretrend
+
 *correlate ATET2a ATET2b if event_window & !placebo
 
 table event_time placebo if event_window, statistic(mean dY2)
