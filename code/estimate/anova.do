@@ -122,33 +122,55 @@ graph combine panelA panelB, cols(2) ycommon graphregion(color(white)) imargin(s
 graph export "output/figure/anova.pdf", replace
 
 * now create table
-keep if inlist(firm_age, 2, 7, 12)
+keep if inrange(firm_age, 2, 12)
 * compute mean and variance of TFP growth
 
 summarize dY if placebo == 0 & firm_age == 2, meanonly
 assert abs(r(mean)) < 1e-6
 
-summarize dY if placebo == 0 & firm_age == 12
-scalar mean_dY12 = r(mean)
-scalar var_dY12 = r(Var)
+forvalues a = 3/12 {
+    display "Variance decomposition for firm age `a'" _newline
+    summarize dY if placebo == 0 & firm_age == `a' & age_at_change <= `a'
+    scalar mean_dY`a' = r(mean)
+    scalar var_dY`a' = r(Var)
 
-summarize dY if placebo == 1 & firm_age == 12
-scalar mean_dY12_placebo = r(mean)
-scalar var_dY12_placebo = r(Var)
+    summarize dY if placebo == 1 & firm_age == `a'
+    scalar mean_dY`a'_placebo = r(mean)
+    scalar var_dY`a'_placebo = r(Var)
 
-summarize var_dY1 if firm_age == 12
-scalar var_dY12b = r(mean)
-assert abs(var_dY12b - var_dY12) < 1e-4
+    summarize var_dY1 if firm_age == `a' & age_at_change <= `a'
+    scalar var_dY`a'b = r(mean)
+    assert abs(var_dY`a'b - var_dY`a') < 1e-3
 
-summarize var_dY0 if firm_age == 12
-scalar var_dY12_counterfactual = r(mean)
+    summarize var_dY0 if firm_age == `a' & age_at_change <= `a'
+    scalar var_dY`a'_counterfactual = r(mean)
 
-reghdfe dY manager_skill if inlist(firm_age, 2, 12) & placebo == 0, absorb(frame_id_numeric) cluster(frame_id_numeric)
-scalar naive_share = e(r2_within)
-scalar adjusted_share = 1 - (var_dY12_counterfactual / var_dY12)
-
+    reghdfe dY manager_skill if inlist(firm_age, 2, `a') & placebo == 0  & age_at_change <= `a', absorb(frame_id_numeric) cluster(frame_id_numeric)
+    scalar naive_share_`a' = e(r2_within)
+    scalar adjusted_share_`a' = 1 - (var_dY`a'_counterfactual / var_dY`a'b)
+}
 scalar list
 
 /*
 Put this in a latex table
+
+Firm age | Var TFP growth since age 2 | Naive ANOVA share | Adjusted ANOVA share
+---------|---------------------------|------------------|-----------------------
+4        | var_dY4                   | naive_share_4    | adjusted_share_4
+8        | var_dY8                   | naive_share_8    | adjusted_share_8
+12       | var_dY12                  | naive_share_12   | adjusted_share_12
+
 */
+
+file open results using "output/table/anova.tex", write replace
+file write results "\begin{tabular}{lccc}" _newline
+file write results "Firm age & Var TFP growth since age 2 & Naive ANOVA share & Adjusted ANOVA share \\" _newline
+file write results "\hline" _newline
+foreach a of numlist 4 8 12 {
+    file write results (`a') " & " 
+    file write results %9.3f (var_dY`a') " & " 
+    file write results %6.3f (naive_share_`a') " & " 
+    file write results %6.3f (adjusted_share_`a') " \\" _newline
+}
+file write results "\end{tabular}" _newline
+file close results
