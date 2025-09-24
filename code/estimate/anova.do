@@ -1,4 +1,6 @@
-args sample outcome
+local sample fnd2non12
+local outcome TFP
+
 confirm file "temp/placebo_`sample'.dta"
 confirm existence `outcome'
 
@@ -26,6 +28,8 @@ drop sometimes_missing
 drop if firm_age < 2
 egen Y_at_2 = mean(cond(firm_age == 2, `outcome', .)), by(fake_id)
 generate dY = `outcome' - Y_at_2
+
+generate age_at_change = change_year - foundyear 
 
 local lbl : variable label `outcome'
 label variable dY "Change in `lbl' relative to t-1"
@@ -71,6 +75,8 @@ replace age_pretrend = 0 if firm_age == 2
 table firm_age, statistic(mean age_pretrend)
 
 generate ATET2b = cond(placebo == 0, treated_variance - control_variance - age_pretrend, 0)
+* treated firms should change CEO in the event window
+keep if age_at_change <= $figure_window_end - $figure_window_start + 2 | placebo == 1
 
 *correlate ATET2a ATET2b if event_window & !placebo
 
@@ -81,8 +87,6 @@ generate ATET2b = cond(placebo == 0, treated_variance - control_variance - age_p
 * FIXME: report standard errors
 table firm_age if !placebo, statistic(variance dY) statistic(mean ATET2b)
 egen sd_dY1 = sd(cond(placebo == 0, dY, .)), by(firm_age)
-egen sd_dY00 = sd(cond(placebo == 1, dY, .)), by(firm_age)
-generate var_dY00 = sd_dY00^2
 generate var_dY1 = sd_dY1^2
 egen var_dY0 = mean(cond(placebo == 0, var_dY1 - ATET2b, .)), by(firm_age)
 generate sd_dY0 = sqrt(var_dY0)
@@ -98,13 +102,11 @@ line var_dY1 var_dY0 firm_age if fat & inrange(firm_age, 2, `=$figure_window_end
 drop sd_* var_*
 egen sd_dY1 = sd(cond(placebo == 0, dY, .)), by(event_time firm_age)
 generate var_dY1 = sd_dY1^2
-egen sd_dY00 = sd(cond(placebo == 1, dY, .)), by(event_time firm_age)
-generate var_dY00 = sd_dY00^2
+replace var_dY1 = 0 if firm_age == 2
 egen var_dY0 = mean(cond(placebo == 0, var_dY1 - ATET2b, .)), by(event_time firm_age)
 * compute mean variance by event time
 egen Evar_dY1 = mean(var_dY1), by(event_time)
 egen Evar_dY0 = mean(var_dY0), by(event_time)
-egen Evar_dY00 = mean(var_dY00), by(event_time)
 
 egen ett = tag(event_time)
 line Evar_dY1 Evar_dY0 event_time if ett & inrange(event_time, $figure_window_start, $figure_window_end), sort ///
@@ -115,7 +117,38 @@ line Evar_dY1 Evar_dY0 event_time if ett & inrange(event_time, $figure_window_st
     `graph_options' ///
     name(panelB, replace)
 
-graph combine panelA panelB, ///
-    cols(2) ycommon graphregion(color(white)) imargin(small) xsize(5) ysize(2.5)
+graph combine panelA panelB, cols(2) ycommon graphregion(color(white)) imargin(small) xsize(5) ysize(2.5)
 
 graph export "output/figure/anova.pdf", replace
+
+* now create table
+keep if inlist(firm_age, 2, 7, 12)
+* compute mean and variance of TFP growth
+
+summarize dY if placebo == 0 & firm_age == 2, meanonly
+assert abs(r(mean)) < 1e-6
+
+summarize dY if placebo == 0 & firm_age == 12
+scalar mean_dY12 = r(mean)
+scalar var_dY12 = r(Var)
+
+summarize dY if placebo == 1 & firm_age == 12
+scalar mean_dY12_placebo = r(mean)
+scalar var_dY12_placebo = r(Var)
+
+summarize var_dY1 if firm_age == 12
+scalar var_dY12b = r(mean)
+assert abs(var_dY12b - var_dY12) < 1e-4
+
+summarize var_dY0 if firm_age == 12
+scalar var_dY12_counterfactual = r(mean)
+
+reghdfe dY manager_skill if inlist(firm_age, 2, 12) & placebo == 0, absorb(frame_id_numeric) cluster(frame_id_numeric)
+scalar naive_share = e(r2_within)
+scalar adjusted_share = 1 - (var_dY12_counterfactual / var_dY12)
+
+scalar list
+
+/*
+Put this in a latex table
+*/
