@@ -51,16 +51,22 @@ egen control_variance = sd(cond(placebo == 1, dY, .)), by(event_time firm_age)
 egen treated_variance = sd(cond(placebo == 0, dY, .)), by(event_time firm_age)
 replace control_variance = control_variance^2
 replace treated_variance = treated_variance^2
-generate ATET2b = cond(placebo == 0, treated_variance - control_variance, 0)
 
 * firms may differ in variance of growth rates, which shows up as a pretrend for Var(dY)
 * because dY is cumulated over firm age
-egen age_pretrend = mean(cond(placebo == 0 & event_time < 0, ATET2b, .)), by(firm_age)
-replace ATET2b = ATET2b - age_pretrend
+* multiplicative pretrend in variance by firm age
+egen v0a = mean(cond(event_time < 0, control_variance, .)), by(firm_age)
+egen v1a = mean(cond(event_time < 0, treated_variance, .)), by(firm_age)
+generate var_ratio = v1a/v0a
+replace var_ratio = 1 if firm_age == 2
+
+table firm_age, statistic(mean var_ratio)
+
+generate ATET2b = cond(placebo == 0, treated_variance - var_ratio * control_variance, 0)
 
 *correlate ATET2a ATET2b if event_window & !placebo
 
-table event_time placebo if event_window, statistic(mean dY2)
+*table event_time placebo if event_window, statistic(mean dY2)
 *table event_time if event_window & !placebo, statistic(mean ATET2a ATET2b)
 
 * very similar estimates, we use simple means now
