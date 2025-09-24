@@ -10,12 +10,12 @@ global event_window_start = -($figure_window_end - $figure_window_start + 1)
 global event_window_end = $figure_window_end
 global baseline_year = $figure_window_start
 local graph_options ///
+    lcolor(blue red) mcolor(blue red)), /// 
     yscale(range(0 .)) ///
     ylabel(#5) ///
     ytitle("Variance of TFP growth") ///
     legend(order(1 "Total" 2 "Without CEO change") rows(1) position(6)) ///
     aspectratio(1) xsize(5) ysize(5) ///
-    lcolor(blue red)
 
 
 do "code/estimate/setup_anova.do" `sample'
@@ -92,11 +92,11 @@ egen var_dY0 = mean(cond(placebo == 0, var_dY1 - ATET2b, .)), by(firm_age)
 generate sd_dY0 = sqrt(var_dY0)
 
 egen fat = tag(firm_age)
-line var_dY1 var_dY0 firm_age if fat & inrange(firm_age, 2, `=$figure_window_end-$figure_window_start+2'), sort ///
+graph twoway (connected var_dY1 var_dY0 firm_age if fat & inrange(firm_age, 2, `=$figure_window_end-$figure_window_start+2'), sort ///
+    `graph_options' ///
     title("Panel A: Variance of TFP by Firm Age") ///
     xtitle("Firm Age (years)") ///
     xlabel(2(2)`=$figure_window_end-$figure_window_start+2') ///
-    `graph_options' ///
     name(panelA, replace)
 
 drop sd_* var_*
@@ -109,12 +109,12 @@ egen Evar_dY1 = mean(var_dY1), by(event_time)
 egen Evar_dY0 = mean(var_dY0), by(event_time)
 
 egen ett = tag(event_time)
-line Evar_dY1 Evar_dY0 event_time if ett & inrange(event_time, $figure_window_start, $figure_window_end), sort ///
+graph twoway (connected Evar_dY1 Evar_dY0 event_time if ett & inrange(event_time, $figure_window_start, $figure_window_end), sort ///
+    `graph_options' ///
     title("Panel B: Variance of TFP by Event Time") ///
     xtitle("Time Since CEO change (years)") ///
     xlabel($figure_window_start(1)$figure_window_end) ///
     xline(-0.5) ///
-    `graph_options' ///
     name(panelB, replace)
 
 graph combine panelA panelB, cols(2) ycommon graphregion(color(white)) imargin(small) xsize(5) ysize(2.5)
