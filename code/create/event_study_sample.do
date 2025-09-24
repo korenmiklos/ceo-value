@@ -7,11 +7,12 @@ confirm existence `sample'
 local full         1
 local fnd2fnd      founder1 == 1 & founder2 == 1 
 local fnd2non      founder1 == 1 & founder2 == 0
+local fnd2non12    founder1 == 1 & founder2 == 0 & ceo_spell1 == 1 & ceo_spell2 == 2
 local non2fnd      founder1 == 0 & founder2 == 1
 local non2non      founder1 == 0 & founder2 == 0
 local post2004     window_start >= 2004
 
-assert inlist("`sample'", "full", "fnd2fnd", "fnd2non", "non2fnd", "non2non", "post2004")
+assert inlist("`sample'", "full", "fnd2fnd", "fnd2non", "non2fnd", "non2non", "post2004", "fnd2non12")
 
 clear all
 tempfile cohortsfile
@@ -19,8 +20,6 @@ save `cohortsfile', replace emptyok
 
 local TARGET_N_CONTROL 50
 local SEED 1391
-global event_window_start -4      // Event study window start
-global event_window_end 3         // Event study window end
 global min_obs_threshold 1         // Minimum observations before/after
 global min_T 1                     // Minimum observations to estimate fixed effects
 global max_n_ceo 1                // Maximum number of CEOs per firm for analysis
@@ -85,14 +84,14 @@ generate window_end = window_end2
 * need to sort on skill
 drop if missing(MS1, MS2)
 drop if ceo_spell1 != ceo_spell2 - 1
-rename ceo_spell1 ceo_spell
-drop ceo_spell2
 
 *********************
 * LIMIT SAMPLE HERE *
 *********************
 display "Keeping `sample' sample: ``sample''"
 keep if ``sample''
+
+rename ceo_spell1 ceo_spell
 
 collapse (min) window_start ceo_spell (max) window_end (firstnm) $exact_match_on change_year, by(frame_id_numeric spell_id)
 
