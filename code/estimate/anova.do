@@ -4,7 +4,7 @@ confirm existence `outcome'
 
 global event_window_start -10      // Event study window start
 global event_window_end 9         // Event study window end
-global baseline_year -2            // Baseline year for event study
+global baseline_year -3            // Baseline year for event study
 
 do "code/estimate/setup_anova.do" `sample'
 confirm numeric variable `outcome'
@@ -74,13 +74,15 @@ line var_dY1 var_dY0 firm_age if fat & firm_age>=2, sort ///
 graph export "output/figure/variance_by_firm_age_`sample'_`outcome'.pdf", replace
 
 drop sd_* var_*
-egen sd_dY1 = sd(dY) if !placebo, by(event_time)
+egen sd_dY1 = sd(dY) if !placebo, by(event_time firm_age)
 generate var_dY1 = sd_dY1^2
-egen var_dY0 = mean(var_dY1 - ATET2b) if !placebo, by(event_time)
-generate sd_dY0 = sqrt(var_dY0)
+egen var_dY0 = mean(var_dY1 - ATET2b) if !placebo, by(event_time firm_age)
+* compute mean variance by event time
+egen Evar_dY1 = mean(var_dY1), by(event_time)
+egen Evar_dY0 = mean(var_dY0), by(event_time)
 
 egen ett = tag(event_time)
-line var_dY1 var_dY0 event_time if ett & event_window, sort ///
+line Evar_dY1 Evar_dY0 event_time if ett & event_window, sort ///
     title("Variance of TFP by Event Time") ///
     xtitle("Event Time (years)") ///
     xlabel($event_window_start(1)$event_window_end) ///
@@ -91,3 +93,29 @@ line var_dY1 var_dY0 event_time if ett & event_window, sort ///
     lcolor(blue red)
 
 graph export "output/figure/variance_by_event_time_`sample'_`outcome'.pdf", replace
+
+drop Evar*
+* remove firm age effect - variance naturally increases with firm age
+egen A1 = mean(var_dY1) if !placebo, by(firm_age)
+egen A0 = mean(var_dY0) if !placebo, by(firm_age)
+* compute mean variance by event time
+egen Evar_dY1 = mean(var_dY1 - A1), by(event_time)
+egen Evar_dY0 = mean(var_dY0 - A0), by(event_time)
+* normalize to baseline year
+summarize Evar_dY1 if event_time == ${baseline_year}
+local m1 = r(mean)
+summarize Evar_dY0 if event_time == ${baseline_year}
+local m0 = r(mean)
+replace Evar_dY1 = Evar_dY1 - `m1'
+replace Evar_dY0 = Evar_dY0 - `m0'
+
+line Evar_dY1 Evar_dY0 event_time if ett & event_window, sort ///
+    title("Variance of TFP by Event Time") ///
+    xtitle("Event Time (years)") ///
+    xlabel($event_window_start(1)$event_window_end) ///
+    xline(-0.5) xscale(range ($event_window_start $event_window_end)) ///
+    ytitle("Variance of TFP (log points squared)") ///
+    legend(order(1 "Total" 2 "Without CEO change")) ///
+    lcolor(blue red)
+
+graph export "output/figure/variance_wo_age_`sample'_`outcome'.pdf", replace
