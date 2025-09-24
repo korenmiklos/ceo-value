@@ -4,7 +4,7 @@ confirm existence `outcome'
 
 global event_window_start -10      // Event study window start
 global event_window_end 9         // Event study window end
-global baseline_year -3            // Baseline year for event study
+global baseline_year -9            // Baseline year for event study
 
 do "code/estimate/setup_anova.do" `sample'
 confirm numeric variable `outcome'
@@ -68,7 +68,8 @@ line var_dY1 var_dY0 firm_age if fat & firm_age>=2, sort ///
     xlabel(2(2)`=$event_window_end-$event_window_start+1') ///
     yscale(range(0 .)) ///
     ytitle("Variance of TFP (log points squared)") ///
-    legend(order(1 "Total" 2 "Without CEO change")) ///
+    legend(order(1 "Total" 2 "Without CEO change") rows(1) position(6)) ///
+    aspectratio(1) xsize(5) ysize(5) ///
     lcolor(blue red)
 
 graph export "output/figure/variance_by_firm_age_`sample'_`outcome'.pdf", replace
@@ -82,14 +83,15 @@ egen Evar_dY1 = mean(var_dY1), by(event_time)
 egen Evar_dY0 = mean(var_dY0), by(event_time)
 
 egen ett = tag(event_time)
-line Evar_dY1 Evar_dY0 event_time if ett & event_window, sort ///
+line Evar_dY1 Evar_dY0 event_time if ett & inrange(event_time, $event_window_start+1, $event_window_end), sort ///
     title("Variance of TFP by Event Time") ///
     xtitle("Event Time (years)") ///
-    xlabel($event_window_start(1)$event_window_end) ///
-    xline(-0.5) xscale(range ($event_window_start $event_window_end)) ///
+    xlabel(`=$event_window_start+1'(1)$event_window_end) ///
+    xline(-0.5) xscale(range (`=$event_window_start+1' $event_window_end)) ///
     ytitle("Variance of TFP (log points squared)") ///
     yscale(range(0 .)) ///
-    legend(order(1 "Total" 2 "Without CEO change")) ///
+    legend(order(1 "Total" 2 "Without CEO change") rows(1) position(6)) ///
+    aspectratio(1) xsize(5) ysize(5) ///
     lcolor(blue red)
 
 graph export "output/figure/variance_by_event_time_`sample'_`outcome'.pdf", replace
@@ -109,13 +111,14 @@ local m0 = r(mean)
 replace Evar_dY1 = Evar_dY1 - `m1'
 replace Evar_dY0 = Evar_dY0 - `m0'
 
-line Evar_dY1 Evar_dY0 event_time if ett & event_window, sort ///
+line Evar_dY1 Evar_dY0 event_time if ett & inrange(event_time, $event_window_start+1, $event_window_end), sort ///
     title("Variance of TFP by Event Time") ///
     xtitle("Event Time (years)") ///
-    xlabel($event_window_start(1)$event_window_end) ///
-    xline(-0.5) xscale(range ($event_window_start $event_window_end)) ///
+    xlabel(`=$event_window_start+1'(1)$event_window_end) ///
+    xline(-0.5) xscale(range (`=$event_window_start+1' $event_window_end)) ///
     ytitle("Variance of TFP (log points squared)") ///
-    legend(order(1 "Total" 2 "Without CEO change")) ///
+    legend(order(1 "Total" 2 "Without CEO change") rows(1) position(6)) ///
+    aspectratio(1) xsize(5) ysize(5) ///
     lcolor(blue red)
 
 graph export "output/figure/variance_wo_age_`sample'_`outcome'.pdf", replace
