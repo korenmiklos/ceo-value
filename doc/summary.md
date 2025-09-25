@@ -213,76 +213,42 @@ The discussion revealed sophisticated understanding of both the methodological c
 
 ---
 
-# Summary of Research Discussion: CEO Value Project (September 22, 2025)
+## Variance Decomposition Analysis
 
-## What We Learned
+### Empirical Implementation
 
-### Bias Decomposition and Measurement Error
-The team gained deeper understanding of how measurement error propagates through fixed effects estimation:
-- When managers have short tenures (3-4 years typical), the estimated fixed effect contains substantial noise (epsilon)
-- Classification into "better" or "worse" managers based on noisy estimates creates mechanical correlation
-- Without correction, firms that draw positive epsilon shocks get classified as having "good" managers
-- The placebo method successfully isolates this noise component from true managerial effects
+The ANOVA analysis uses a placebo-controlled approach similar to the mean effect analysis:
 
-### Quantitative Results
-Key empirical findings were clarified:
-- Raw effect in event study: approximately 22.5% 
-- Placebo-controlled effect: approximately 5.5%
-- Implication: 75% of apparent CEO effects are spurious noise
-- Within-firm manager standard deviation is roughly 1/4 of the cross-sectional standard deviation after bias correction
+**Sample Construction**: The analysis focuses on firms transitioning between founder and non-founder CEOs, tracking TFP growth relative to firm age 2 as the baseline. This normalizes for initial conditions while allowing variance to evolve naturally with firm age.
 
-### Network Structure and Sorting
-Discovered patterns in manager mobility:
-- Managers tend to move between similar quality firms (positive assortativity)
-- This holds even with noisy fixed effect estimates
-- The 45-degree line pattern in manager transitions suggests sorting persists despite measurement challenges
-- Can examine firm connections through shared managers without relying on fixed effects
+**Placebo Control**: Placebo transitions are assigned to non-switching firms, matching the empirical distribution of CEO spell lengths. This creates a control group experiencing identical data generating processes except for actual managerial changes.
 
-## What We Agreed On
+**Variance Estimation Process**:
+1. Calculate TFP growth since age 2 for all firms
+2. Estimate mean effects (ATET) for actual versus placebo transitions
+3. Compute squared deviations after removing mean effects to isolate variance changes
+4. Adjust for age-specific pre-trends in variance between treatment and control groups
+5. Decompose total variance into counterfactual and treatment-induced components
 
-### Main Pitch and Framing
-**Core message**: "How much of firm growth is explained by CEO quality?"
-- Focus on universe of firms (60,000 CEO transitions over 30 years)
-- Emphasize that most apparent CEO effects are spurious
-- Lead with placebo-controlled methodology as key innovation
-- Present variance decomposition as main quantitative result
+### Key Methodological Innovations
 
-### Paper Organization
-**Table structure**:
-1. Table 1: Descriptive statistics of CEO transitions (counts, spell lengths, founder vs non-founder)
-2. Table 2: Treatment effects (naive vs placebo-controlled, including variance)
-3. Figures: Event study plots showing placebo control removes pre-trends
+**Second-Order Treatment Effects**: The analysis estimates not just first-order effects on levels but second-order effects on squared outcomes. The additional variance from treatment equals the second-order average treatment effect minus the squared first-order effect.
 
-**Sample definitions**:
-- Main sample: Firms that ever reach 5+ employees
-- Event study sample: Single CEO transitions only
-- Placebo sample: All firms, with random transition timing matching empirical distribution
+**Age-Specific Adjustments**: Since variance naturally grows with firm age due to accumulated shocks, the analysis controls for age-specific variance patterns. Pre-treatment differences in variance growth rates between eventually-treated and control firms are netted out to isolate treatment-induced variance changes.
 
-### Methodological Decisions
-- Use TFP as primary outcome
-- Separate founder-to-non-founder from non-founder-to-non-founder transitions
-- Include matching on firm age and sector for placebo construction
+**Parallel Trends in Second Moments**: The identification requires parallel trends not just in levels but also in variances. The analysis tests whether, absent treatment, the variance evolution would be similar between treatment and control groups. Finding similar pre-trends in both actual and placebo samples validates this assumption.
 
-## What Still Needs to Be Done
+### Empirical Findings
 
-### Empirical Tasks
-1. **Finalize ATT estimates**: Run proper difference-in-differences with consistent control groups
-2. **Complete variance decomposition**: Calculate contribution of CEO to firm growth variance (expected ~8% after correction)
-3. **Generate missing exhibits**:
-   - Placebo illustration figure
-   - Input response figures (labor, materials, capital)
-   - Founder vs non-founder transition tables
-4. **Balance table** for placebo firms
+The variance decomposition reveals several key patterns:
 
-### Presentation and Writing
-1. **Title development**: Include "universe of firms" to emphasize scope
-2. **Introduction rewrite**: Lead with quantitative puzzle about CEO contribution to growth
-3. **Methods section**: Clear explanation of placebo construction and matching
-4. **Results interpretation**: Explain why 75% noise finding is economically important
+**Variance by Firm Age**: Total variance of TFP growth increases substantially with firm age, from zero at age 2 (by construction) to approximately 0.035 by age 12. The counterfactual variance (without CEO changes) follows a similar but consistently lower trajectory, reaching about 0.022 at age 12.
 
-### Data Processing
-1. Update Table 1 with transition counts and patterns
-2. Implement consistent better/worse classification across samples  
-3. Verify placebo timing excludes actual transition windows
-4. Generate balance tables for appendix
+**Treatment-Induced Variance**: CEO transitions add meaningful variance beyond natural accumulation. At age 4, the total variance is 0.024 while counterfactual variance is about 0.013. By age 12, total variance reaches 0.035 compared to counterfactual variance of 0.022, indicating persistent additional variance from managerial heterogeneity.
 
+**Event-Time Dynamics**: Panel B shows a dramatic structural break at CEO transition timing (year 0). Pre-transition variance evolves smoothly from about 0.010 at year -5 to 0.015 at year -1. At transition, total variance jumps sharply to 0.030 and remains elevated through year +5 (around 0.032), while counterfactual variance grows gradually to only 0.020, confirming heterogeneous managerial impacts.
+
+**Comparison with Naive ANOVA**: Traditional ANOVA approaches substantially overstate managerial contributions. The naive within-firm R-squared suggests managers explain 54-62% of variance (0.544 at age 4, rising to 0.620-0.625 at ages 8-12). After placebo adjustment, the true contribution drops to 39-46% (0.464 at age 4, declining to 0.391-0.397 at ages 8-12). The adjusted share decreases with firm age, suggesting early-stage CEO impacts are relatively more important.
+
+
+---
