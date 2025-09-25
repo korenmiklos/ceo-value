@@ -47,42 +47,23 @@ generate ATET1 = cond(placebo == 0, treated_mean - control_mean, 0)
 
 generate dY2 = (dY - ATET1)^2
 
-/*xt2treatments dY, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(${baseline_year}) weighting(equal) cluster(${cluster})
-
-xt2treatments dY, treatment(actual_ceo) control(placebo_ceo) pre(`=-1*${event_window_start}') post(${event_window_end}) baseline(${baseline_year}) weighting(optimal) cluster(${cluster})
-e2frame, generate(ceo_mean)
-
-forvalues t = `=100+$event_window_start'/`=100+$event_window_end' {
-    generate byte E0_`t' = event_time == `t' - 100
-    generate byte Ed_`t' = (placebo == 0) & (event_time == `t' - 100)
-}
-* no firm fixed effects, we assume that, without treatment, variance of control would be the same as variance of treated
-reghdfe dY2 Ed* if event_window , a(event_time firm_age) cluster(frame_id_numeric ) resid nocons 
-predict ATET2a, xb*/
-
-egen control_variance = sd(cond(placebo == 1, dY, .)), by(event_time firm_age)
-egen treated_variance = sd(cond(placebo == 0, dY, .)), by(event_time firm_age)
-replace control_variance = control_variance^2
-replace treated_variance = treated_variance^2
-
 * firms may differ in variance of growth rates, which shows up as a pretrend for Var(dY)
 * because dY is cumulated over firm age
 * multiplicative pretrend in variance by firm age
-egen v0a = mean(control_variance), by(firm_age)
-egen v1a = mean(cond(event_time < 0, treated_variance, .)), by(firm_age)
-generate age_pretrend = v1a - v0a
-replace age_pretrend = 0 if firm_age == 2
+* estimate pretrends with PPML
+ppmlhdfe dY2 placebo ib3.firm_age if (event_time <=0 | placebo == 1) & (firm_age > 2), cluster(frame_id_numeric)
+predict V, mu
+replace V = 0 if firm_age == 2
 
-table firm_age, statistic(mean age_pretrend)
+* expand V to every firm in the cell
+egen age_pretrend = mean(V), by(firm_age placebo)
+table firm_age placebo, statistic(mean age_pretrend)
 
-generate ATET2b = cond(placebo == 0, treated_variance - control_variance - age_pretrend, 0)
+egen control_variance = mean(cond(placebo == 1, dY2 - age_pretrend, .)), by(event_time firm_age)
+egen treated_variance = mean(cond(placebo == 0, dY2 - age_pretrend, .)), by(event_time firm_age)
+generate ATET2b = cond(placebo == 0, treated_variance - control_variance, 0)
 * treated firms should change CEO in the event window
 keep if age_at_change <= $figure_window_end - $figure_window_start + 2 | placebo == 1
-
-*correlate ATET2a ATET2b if event_window & !placebo
-
-*table event_time placebo if event_window, statistic(mean dY2)
-*table event_time if event_window & !placebo, statistic(mean ATET2a ATET2b)
 
 * very similar estimates, we use simple means now
 * FIXME: report standard errors
