@@ -55,12 +55,26 @@ generate dY2 = (dY - ATET1)^2
 *********** ppmlhdfe dY2 placebo ib3.firm_age if (event_time <=0 | placebo == 1) & (firm_age > 2), cluster(frame_id_numeric)
 
 * use firm FE for pretrend estimation
-ppmlhdfe dY2 ib3.firm_age if (event_time <=0 | placebo == 1) & (firm_age > 2), absorb(firm_FE=fake_id) cluster(frame_id_numeric)
+local pretrend_sample (event_time <=0 | placebo == 1) & (firm_age > 2)
+ppmlhdfe dY2 ib3.firm_age if `pretrend_sample', absorb(firm_FE=fake_id) cluster(frame_id_numeric)
 * expand firm FE to after treatment period
 egen firm_effect = mean(firm_FE), by(fake_id)
 predict xb, xb
 egen age_effect = mean(xb), by(firm_age)
-generate age_pretrend = exp(age_effect + firm_effect)
+
+* shrink the firm FE to avoid extreme predictions
+summarize firm_effect
+scalar sigma2_alpha = r(Var)
+generate ln_dY2 = ln(dY2)
+regress ln_dY2 firm_effect age_effect if `pretrend_sample', robust
+scalar sigma2_u = e(rmse)^2
+
+egen Ti = total(`pretrend_sample'), by(fake_id)
+generate shrink = sigma2_alpha / (sigma2_alpha + sigma2_u / Ti)
+replace shrink = 0 if Ti == 0
+summarize shrink, detail
+
+generate age_pretrend = exp(age_effect + shrink * firm_effect)
 replace age_pretrend = 0 if firm_age == 2
 
 table firm_age placebo, statistic(mean age_pretrend)
