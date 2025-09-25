@@ -87,9 +87,9 @@ keep if age_at_change <= $figure_window_end - $figure_window_start + 2 | placebo
 * very similar estimates, we use simple means now
 * FIXME: report standard errors
 table firm_age if !placebo, statistic(variance dY) statistic(mean ATET2b)
-egen sd_dY1 = sd(cond(placebo == 0, dY, .)), by(firm_age)
+egen sd_dY1 = sd(cond(placebo == 0 & event_time >= 0, dY, .)), by(firm_age)
 generate var_dY1 = sd_dY1^2
-egen var_dY0 = mean(cond(placebo == 0, var_dY1 - ATET2b, .)), by(firm_age)
+egen var_dY0 = mean(cond(placebo == 0 & event_time >= 0, var_dY1 - ATET2b, .)), by(firm_age)
 generate sd_dY0 = sqrt(var_dY0)
 
 egen fat = tag(firm_age)
