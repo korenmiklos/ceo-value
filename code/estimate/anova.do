@@ -51,12 +51,18 @@ generate dY2 = (dY - ATET1)^2
 * because dY is cumulated over firm age
 * multiplicative pretrend in variance by firm age
 * estimate pretrends with PPML
-ppmlhdfe dY2 placebo ib3.firm_age if (event_time <=0 | placebo == 1) & (firm_age > 2), cluster(frame_id_numeric)
-predict V, mu
-replace V = 0 if firm_age == 2
 
-* expand V to every firm in the cell
-egen age_pretrend = mean(V), by(firm_age placebo)
+*********** ppmlhdfe dY2 placebo ib3.firm_age if (event_time <=0 | placebo == 1) & (firm_age > 2), cluster(frame_id_numeric)
+
+* use firm FE for pretrend estimation
+ppmlhdfe dY2 ib3.firm_age if (event_time <=0 | placebo == 1) & (firm_age > 2), absorb(firm_FE=frame_id_numeric) cluster(frame_id_numeric)
+* expand firm FE to after treatment period
+egen firm_effect = mean(firm_FE), by(frame_id_numeric)
+predict xb, xb
+egen age_effect = mean(xb), by(firm_age)
+generate age_pretrend = exp(age_effect + firm_effect)
+replace age_pretrend = 0 if firm_age == 2
+
 table firm_age placebo, statistic(mean age_pretrend)
 
 egen control_variance = mean(cond(placebo == 1, dY2 - age_pretrend, .)), by(event_time firm_age)
