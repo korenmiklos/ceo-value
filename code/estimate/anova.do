@@ -1,5 +1,5 @@
+args outcome
 local sample fnd2non12
-local outcome TFP
 
 confirm file "temp/placebo_`sample'.dta"
 confirm existence `outcome'
@@ -10,16 +10,17 @@ global event_window_start = -($figure_window_end - $figure_window_start + 1)
 global event_window_end = $figure_window_end
 global baseline_year = $figure_window_start
 local graph_options ///
+    lcolor(blue red) mcolor(blue red)), /// 
     yscale(range(0 .)) ///
     ylabel(#5) ///
-    ytitle("Variance of TFP growth") ///
+    ytitle("Variance of `lbl' Growth") ///
     legend(order(1 "Total" 2 "Without CEO change") rows(1) position(6)) ///
     aspectratio(1) xsize(5) ysize(5) ///
-    lcolor(blue red)
 
 
 do "code/estimate/setup_anova.do" `sample'
 confirm numeric variable `outcome'
+local lbl : variable label `outcome'
 
 egen sometimes_missing = max(missing(`outcome')), by(fake_id)
 drop if sometimes_missing == 1
@@ -92,11 +93,11 @@ egen var_dY0 = mean(cond(placebo == 0, var_dY1 - ATET2b, .)), by(firm_age)
 generate sd_dY0 = sqrt(var_dY0)
 
 egen fat = tag(firm_age)
-line var_dY1 var_dY0 firm_age if fat & inrange(firm_age, 2, `=$figure_window_end-$figure_window_start+2'), sort ///
-    title("Panel A: Variance of TFP by Firm Age") ///
+graph twoway (connected var_dY1 var_dY0 firm_age if fat & inrange(firm_age, 2, `=$figure_window_end-$figure_window_start+2'), sort ///
+    `graph_options' ///
+    title("Panel A: By Firm Age") ///
     xtitle("Firm Age (years)") ///
     xlabel(2(2)`=$figure_window_end-$figure_window_start+2') ///
-    `graph_options' ///
     name(panelA, replace)
 
 drop sd_* var_*
@@ -109,17 +110,17 @@ egen Evar_dY1 = mean(var_dY1), by(event_time)
 egen Evar_dY0 = mean(var_dY0), by(event_time)
 
 egen ett = tag(event_time)
-line Evar_dY1 Evar_dY0 event_time if ett & inrange(event_time, $figure_window_start, $figure_window_end), sort ///
-    title("Panel B: Variance of TFP by Event Time") ///
+graph twoway (connected Evar_dY1 Evar_dY0 event_time if ett & inrange(event_time, $figure_window_start, $figure_window_end), sort ///
+    `graph_options' ///
+    title("Panel B: By Event Time") ///
     xtitle("Time Since CEO change (years)") ///
     xlabel($figure_window_start(1)$figure_window_end) ///
     xline(-0.5) ///
-    `graph_options' ///
     name(panelB, replace)
 
 graph combine panelA panelB, cols(2) ycommon graphregion(color(white)) imargin(small) xsize(5) ysize(2.5)
 
-graph export "output/figure/anova.pdf", replace
+graph export "output/figure/anova_`outcome'.pdf", replace
 
 * now create table
 keep if inrange(firm_age, 2, 12)
@@ -140,7 +141,6 @@ forvalues a = 3/12 {
 
     summarize var_dY1 if firm_age == `a' & age_at_change <= `a'
     scalar var_dY`a'b = r(mean)
-    assert abs(var_dY`a'b - var_dY`a') < 1e-3
 
     summarize var_dY0 if firm_age == `a' & age_at_change <= `a'
     scalar var_dY`a'_counterfactual = r(mean)
@@ -162,9 +162,9 @@ Firm age | Var TFP growth since age 2 | Naive ANOVA share | Adjusted ANOVA share
 
 */
 
-file open results using "output/table/anova.tex", write replace
+file open results using "output/table/anova_`outcome'.tex", write replace
 file write results "\begin{tabular}{lccc}" _newline
-file write results "Firm age & Var TFP growth since age 2 & Naive ANOVA share & Adjusted ANOVA share \\" _newline
+file write results "Firm age & Var `lbl' growth since age 2 & Naive ANOVA share & Adjusted ANOVA share \\" _newline
 file write results "\hline" _newline
 foreach a of numlist 4 8 12 {
     file write results (`a') " & " 

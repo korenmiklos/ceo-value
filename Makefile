@@ -10,7 +10,7 @@ LATEX := pdflatex
 PANDOC := pandoc
 UTILS := $(wildcard code/util/*.do)
 
-SAMPLES := full fnd2fnd fnd2non non2fnd non2non post2004
+SAMPLES := full fnd2non non2non post2004
 OUTCOMES := TFP lnK lnWL lnM has_intangible
 
 # Commit hashes for reproducible file extraction
@@ -23,7 +23,7 @@ COMMIT_EXPERIMENT := experiment/preferred  # Update with specific hash when need
 PRECIOUS_FILES := temp/balance.dta temp/ceo-panel.dta temp/unfiltered.dta \
                   temp/analysis-sample.dta temp/placebo.dta temp/edgelist.csv \
                   temp/large_component_managers.csv temp/surplus.dta \
-                  temp/manager_value.dta temp/revenue_models.ster 
+                  temp/manager_value.dta temp/revenue_models.ster $(foreach sample,$(SAMPLES),temp/placebo_$(sample).dta)
 
 # Mark these files as PRECIOUS so make won't delete them
 .PRECIOUS: $(PRECIOUS_FILES)
