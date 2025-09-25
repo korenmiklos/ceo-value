@@ -87,10 +87,13 @@ keep if age_at_change <= $figure_window_end - $figure_window_start + 2 | placebo
 * very similar estimates, we use simple means now
 * FIXME: report standard errors
 table firm_age if !placebo, statistic(variance dY) statistic(mean ATET2b)
-egen sd_dY1 = sd(cond(placebo == 0, dY, .)), by(firm_age)
+egen sd_dY1 = sd(cond(placebo == 0, dY, .)), by(event_time firm_age)
 generate var_dY1 = sd_dY1^2
-egen var_dY0 = mean(cond(placebo == 0, var_dY1 - ATET2b, .)), by(firm_age)
-generate sd_dY0 = sqrt(var_dY0)
+replace var_dY1 = 0 if firm_age == 2
+egen var_dY0 = mean(cond(placebo == 0, var_dY1 - ATET2b, .)), by(event_time firm_age)
+* compute mean variance by firm age, conditional on firm having changed CEO
+egen Evar_dY1 = mean(cond(event_time >= 0, var_dY1, .)), by(firm_age)
+egen Evar_dY0 = mean(cond(event_time >= 0, var_dY0, .)), by(firm_age)
 
 egen fat = tag(firm_age)
 graph twoway (connected var_dY1 var_dY0 firm_age if fat & inrange(firm_age, 2, `=$figure_window_end-$figure_window_start+2'), sort ///
@@ -100,11 +103,7 @@ graph twoway (connected var_dY1 var_dY0 firm_age if fat & inrange(firm_age, 2, `
     xlabel(2(2)`=$figure_window_end-$figure_window_start+2') ///
     name(panelA, replace)
 
-drop sd_* var_*
-egen sd_dY1 = sd(cond(placebo == 0, dY, .)), by(event_time firm_age)
-generate var_dY1 = sd_dY1^2
-replace var_dY1 = 0 if firm_age == 2
-egen var_dY0 = mean(cond(placebo == 0, var_dY1 - ATET2b, .)), by(event_time firm_age)
+drop Evar*
 * compute mean variance by event time
 egen Evar_dY1 = mean(var_dY1), by(event_time)
 egen Evar_dY0 = mean(var_dY0), by(event_time)
