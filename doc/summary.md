@@ -355,3 +355,147 @@ The variance decomposition reveals several key patterns:
 
 
 ---
+
+# Email Thread Discussion: Referee Comments and Monte Carlo Validation (September 26, 2025)
+
+## Empirical Research Design
+
+### Monte Carlo Simulation Framework
+**What we learned**: Monte Carlo validation is crucial for establishing credibility of the placebo-controlled method, especially with econometrician referees. The simulation would show a horizontal dashed line representing the known true effect, with panels comparing:
+- TWFE event study without placebo control (showing biased results)
+- Placebo-controlled event study (recovering true effect)
+
+**What we agreed on**: 
+- Monte Carlo simulation should be implemented before submission
+
+**Miklos proposes**:
+- Figure 1 structure: 4 panels showing TWFE vs placebo-controlled design in both real data and Monte Carlo
+- Panel A: TWFE event study (three lines: average, better, worse managers)
+- Panel B: Placebo-controlled design  
+- Panel C: TWFE in Monte Carlo (dashed line shows known true effect)
+- Panel D: Placebo-controlled event study in Monte Carlo
+
+**What still needs to be done**: Implementation of Monte Carlo simulation showing the placebo method correctly recovers true managerial effects under known data generating process.
+
+Suggested parameters for Monte Carlo:
+- Number of CEO changes: 60,000
+- Hazard of CEO exit: 0.2/year
+- Manager effects drawn from N(0,0.1) - consistent with 0.01 additional variance per transition
+- Epsilon random walk, with Delta epsilon drawn from N(0,0.05) - consistent with 10-year growth rate having variance 0.025
+
+The exact same placebo creator and estimator code should run on the Monte Carlo data to demonstrate the method's validity.
+
+### Production Function Estimation Issues
+**What we learned**: Stephane raised fundamental concerns about production function estimation methodology:
+
+1. **Capital Coefficient Recovery**: Strict exogeneity for capital does not hold (positive productivity shocks drive investment, violating orthogonality). Large literature exists against OLS estimation of production functions.
+
+2. **Alternative Methods**: Two potential solutions discussed:
+   - Cost-share method to recover capital coefficient
+   - Blundell-Bond (2001) GMM approach for dynamic panels
+
+3. **Gandhi et al. Implementation**: Question raised whether Gandhi et al. methodology is correctly invoked, since their framework doesn't include manager fixed effects.
+
+**What we agreed on**:
+- Try GMM-type estimator for alpha coefficient or acknowledge we may overestimate capital's role
+- Gandhi is fine, as it relies on FOC of model with respect to labor and material, not capital
+- Cost-share method is hard because we don't know the true returns to capital in private firms
+
+**What still needs to be done**: 
+- Implement alternative capital coefficient estimation (GMM or cost-share method)
+   - proposed: estimate in first differences with capital as instrument
+
+### Strict Exogeneity and Manager Effects Recovery
+**What we learned**: Complex debate about strict exogeneity assumptions:
+
+**Krisztina's concern**: Even with correct capital coefficient, strict exogeneity is needed to recover manager effects. Without it, we recover not just managerial skill (zm) but a combination of skill and systematic correlation with error terms. If workers get negative wage shocks and subsequently move, their fixed effects will be downward biased.
+
+**Miklos's counter**: With correct alpha, strict exogeneity is no longer needed for manager effect identification. The fixed effects approach can handle systematic correlation patterns.
+
+**What we agreed on**: This remains an open methodological question requiring careful theoretical treatment.
+
+**What still needs to be done**: Resolve the theoretical conditions under which manager fixed effects can be consistently estimated without full strict exogeneity.
+
+### Hazard Function Modeling
+**What we learned**: The empirical hazard function used for CEO transition timing implicitly assumes mobility patterns not explicitly modeled in the theoretical framework. This creates inconsistency between theoretical model and empirical hazard implementation.
+
+**What we agreed on**: 
+- We don't model manager changes endogenously, so have limited theoretical guidance on hazard specification
+- We use exact same distribution of job spells in treatment and control groups
+- Acknowledge this as limitation and future work opportunity
+
+## Identification and Causal Inference
+
+### Placebo Method Validation Concerns
+**What we learned**: Stephane was not convinced by the placebo approach due to "convolution problem" - difficulty separating signal from noise. Key concerns:
+
+1. **Nonlinear Bias**: We correct assuming noise is additive, but bias may be nonlinear, especially around transitions
+2. **Systematic vs Random Noise**: Method may not fully separate systematic correlation from pure measurement error
+
+**What we agreed on**: Monte Carlo simulation is essential to demonstrate the placebo method works and provides consistent estimates under known data generating processes.
+
+**What still needs to be done**: 
+- Implement Monte Carlo showing placebo method recovers true effects
+
+### Alternative Bias Correction Methods
+**What we learned**: Referee suggests implementing existing bias correction methods to validate our variance decomposition approach. Comparison with established methods would strengthen credibility.
+
+**What we agreed on**: We should clarify why this methods cannot be implemented in our setting (single manager per firm, limited mobility).
+
+## Academic Context and Referee Expectations
+
+### Expected Referee Composition
+**What we learned**: Paper will likely receive:
+- One manager literature referee (focused on substantive contributions)
+- One applied econometrician referee (focused on methodological rigor)
+
+**What we agreed on**: Need to satisfy both audiences with:
+- Substantive contributions to understanding CEO effects
+- Methodologically rigorous approach to identification challenges
+
+### Publication Strategy
+**What we learned**: This is not positioned as an Econometrica paper - applied econometrics standards should focus on practical importance rather than pure methodological innovation.
+
+**What we agreed on**: 
+- Applied work typically corrects for additive bias - our approach fits this tradition
+- 90% of applied work uses similar bias correction principles
+- Monte Carlo validation addresses econometrician concerns without overengineering
+
+## Exhibits and Presentation
+
+### ATET Table Specification
+**What we need to clarify**: Exact specifications for Average Treatment Effect on Treated (ATET) table:
+- Control group definition
+- Which numbers to report  
+- Statistical significance testing approach
+
+**Proposed structure**: Four columns (Simple OLS TWFE, TWFE with placebo, Monte Carlo TWFE, Monte Carlo placebo-controlled), three rows (treatment types: average, better or worse CEO).
+
+### Figure 1 Layout
+**Miklos suggests**: Four-panel figure structure:
+- Panel A: TWFE event study (average, better, worse manager lines)
+- Panel B: Placebo-controlled design OR placebo firms comparison
+- Panel C: TWFE in Monte Carlo (horizontal dashed line for true effect)
+- Panel D: Placebo-controlled event study in Monte Carlo (dashed line for true effect)
+
+**What still needs to be done**: 
+- Finalize whether Panel B shows placebo-controlled results or placebo firm comparison
+- Determine exact line specifications and statistical testing approach
+- Create publication-ready figure with consistent formatting
+
+## Project Management
+
+### Timeline and Priorities
+**What we agreed on**: 
+- Monte Carlo implementation is high priority for referee credibility
+- Alternative production function estimation methods needed as robustness
+- Focus on methodological validation before refining presentation
+
+**What still needs to be done**:
+- Implement Monte Carlo simulation (3-4 hours estimated)
+- Test alternative capital coefficient estimation methods
+
+### Research Positioning
+**What we agreed on**: Position paper as methodological contribution to applied CEO effects literature rather than pure econometric theory paper. Focus on practical importance of bias correction while maintaining methodological rigor.
+
+---
