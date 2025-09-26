@@ -213,6 +213,109 @@ The discussion revealed sophisticated understanding of both the methodological c
 
 ---
 
+# Research Progress Discussion (September 25, 2025)
+
+## Event Study Pattern Analysis
+
+### Pre-trends Across Different Transition Types
+The team examined event study results across multiple transition types and consistently found pre-trends in firm performance before CEO changes. This pattern appears in:
+- **Founder-to-non-founder transitions**: Pre-trends of approximately 11-13%
+- **Non-founder-to-non-founder transitions**: Similar patterns observed
+- **Material/input outcomes**: Consistent pre-trending across different outcome variables
+
+**Key insight**: The presence of pre-trends in both actual and placebo transitions validates the identification strategy by showing that the same bias mechanisms operate in both cases. This is not evidence against random mobility but rather confirms that timing-related selection bias is captured and corrected by the placebo design.
+
+### Robustness Across Outcome Variables
+Event study patterns show remarkable consistency across different outcome measures:
+- **TFP (Total Factor Productivity)**: Shows clear CEO transition effects
+- **Material inputs**: Similar response patterns to CEO changes
+- **Wage bill**: Consistent with productivity-driven input adjustments
+- **Revenue**: Aligns with theoretical predictions about scale effects
+
+This consistency supports the theoretical framework where better managers increase productivity, leading firms to optimally scale up all inputs proportionally.
+
+## Variance Decomposition Methodology
+
+### Theoretical Foundation
+The team developed a sophisticated approach to measure how much CEO transitions contribute to firm performance variance over time. The key innovation is extending the placebo control method to second moments (variance) rather than just first moments (means).
+
+**Core formula**: The variance of cumulative TFP growth from firm age 2 to age A equals:
+- Base variance accumulation: σ²ₑ × η(A) [where η(A) captures age-specific variance growth]
+- Plus CEO transition effects: K × σ²ᵧ [where K = number of CEO transitions, σ²ᵧ = variance contribution per transition]
+
+### Methodological Innovation
+**Age-specific controls**: Unlike naive ANOVA approaches, this method controls for the natural tendency of firm performance variance to increase with age due to accumulated shocks. The placebo design ensures that treatment and control groups have identical variance evolution absent true CEO effects.
+
+**Event-time validation**: The method shows a clear structural break in variance at the time of CEO transition (year 0), with variance jumping from ~0.015 at year -1 to ~0.030 at year 0, while counterfactual variance grows smoothly.
+
+### Empirical Findings
+**Naive ANOVA overstatement**: Traditional within-firm R-squared analysis suggests managers explain 54-62% of performance variance. After placebo adjustment, this drops to 39-46%, with the corrected share declining as firms age (since early CEO impacts are relatively more important).
+
+**Quantitative contribution**: At firm age 10, CEO transitions explain approximately 27% of total TFP variance - a substantial but not overwhelming contribution that is much smaller than naive estimates suggest.
+
+## Back-of-the-Envelope Calculations
+
+### Multiple CEO Transitions
+The team discussed how to extend the analysis beyond the clean single-transition event study to firms with multiple CEO changes. The proposed approach:
+- Estimate per-transition variance contribution (φ) from single-transition sample
+- Apply multiplicatively: Total CEO contribution = K × φ, where K = number of transitions
+- Use age profiles η(A) estimated from control firms to capture baseline variance growth
+
+**Methodological note**: This requires assuming that CEO transition effects are approximately constant across transitions and additive in variance space - simplifications that enable quantification but may miss heterogeneous effects of second vs. third transitions.
+
+### Practical Implementation
+The back-of-the-envelope calculation allows translating the event study estimates (which focus on single, clean transitions) to statements about the broader population of firms with varying numbers of CEO changes over their lifecycle.
+
+## Technical Methodological Details
+
+### Placebo Matching Process
+The placebo construction maintains exact matching on:
+- **Birth cohort**: Control firms born in same year as treatment firms  
+- **Event window length**: Identical observation periods (-2 to +3 years, etc.)
+- **Sample composition**: 9:1 ratio of control to treatment observations for statistical precision
+- **Exclusion criteria**: Placebo firms cannot have actual CEO changes during their placebo window
+
+### Sample Construction and Balance
+**Unbalanced panel handling**: The analysis accommodates firms with different observation lengths rather than requiring balanced panels, which would exclude many smaller firms with shorter lifespans. The placebo design ensures that any bias from unbalanced observation is identical between treatment and control groups.
+
+**Multiple event windows**: Firms with multiple CEO transitions appear multiple times in the sample with separate firm fixed effects for each event window, allowing identification of distinct transition effects while properly clustering standard errors by firm.
+
+### Standard Error Considerations
+**Network dependence**: The team acknowledges but does not fully resolve the challenge that standard errors should account for dependence along manager mobility chains in the two-way fixed effects network. This remains an area for methodological development.
+
+## Paper Organization and Exhibit Planning
+
+### Target Exhibit Structure
+**5 exhibits maximum**, each fitting on one page:
+1. **Table 1**: Descriptive statistics of CEO transitions (timing, frequency, spell lengths) 
+2. **Figure 1**: Placebo-controlled event study showing bias correction (4 panels)
+3. **Figure 2**: Event study results across different transition types and samples (4 panels)  
+4. **Figure 3**: Variance decomposition showing age profiles and CEO contributions (2+ panels)
+5. **Remaining exhibit**: Additional robustness or methodological validation
+
+### Writing Strategy
+**Target length**: 6,000 words requiring careful prioritization
+**Key messages**: 
+- Comprehensive coverage beyond typical large-firm studies
+- Methodological innovation through placebo-controlled design  
+- Quantitative finding that true CEO effects are much smaller than commonly believed (75% of apparent effects are spurious)
+
+**Presentation philosophy**: Write comprehensively first, then edit down rather than trying to write concisely from the start. This ensures important technical details are not lost in the editing process.
+
+## Project Management and Timeline
+
+### Task Allocation
+**Immediate priorities**:
+- **Model section**: Continue refining theoretical exposition and connection to empirical specification
+- **Methodology section**: Document placebo construction and variance decomposition procedures  
+- **Results organization**: Finalize which specific estimates to highlight as main findings
+- **Figure preparation**: Convert analysis code outputs into publication-ready exhibits
+
+### Coordination Approach
+**Daily check-ins** during intensive writing period, with clear division of labor to avoid editing conflicts. The team emphasized finishing the analytical work completely before focusing on presentation refinements.
+
+---
+
 ## Variance Decomposition Analysis
 
 ### Empirical Implementation
