@@ -97,5 +97,37 @@ esttab col1 col2 col3 col4 col5 using "output/table/cohort_selection.tex", ///
     prehead("\begin{table}[htbp]\centering" "\caption{Manager Selection and Cohort Entry Effects}\label{tab:cohort_selection}" "\begin{threeparttable}" "\begin{tabular}{lccccc}" "\toprule") ///
     posthead("\midrule") ///
     prefoot("\midrule" "\textbf{Fixed Effects:}" "Industry \$\times\$ Year & Yes & Yes & Yes & Yes & Yes \\" "Birth Cohort \$\times\$ Gender & Yes & Yes & Yes & Yes & Yes \\" "Firm & No & No & No & No & Yes \\" "\midrule" "\textbf{Selection Parameter:}" "\$\theta\$ & " %5.2f (`theta_col1') "*** & " %5.2f (`theta_col2') "*** & " %5.2f (`theta_col3') "*** & " %5.2f (`theta_col4') "*** & " %5.2f (`theta_col5') "*** \\" " & (" %4.2f (`theta_se_col1') ") & (" %4.2f (`theta_se_col2') ") & (" %4.2f (`theta_se_col3') ") & (" %4.2f (`theta_se_col4') ") & (" %4.2f (`theta_se_col5') ") \\") ///
-    postfoot("\bottomrule" "\end{tabular}" "\begin{tablenotes}" "\footnotesize" "\item \textbf{Notes:} This table reports results from regressions of log firm revenue on cohort entry characteristics for Hungarian CEOs, 1986-2022. The key variable of interest is Log Entry Rate (\$\ln n\$), which measures the log number of managers entering in each cohort, normalized by demographic factors. Skill groups are defined by birth cohort (5-year bins) interacted with gender, capturing systematic differences in baseline skills and demographics across manager cohorts. Column (1) shows the baseline specification with industry-year and skill group fixed effects. Column (2) excludes founding owners from CEOs. Column (3) restricts to post-transition entrants (first year \$\geq\$ 1992). Column (4) uses only post-EU accession data (2004 onwards). Column (5) adds firm fixed effects. The selection parameter \$\theta\$ is computed as \$\theta = -1/\beta_{\ln n}\$ using the delta method for standard errors. Sample restricted to Hungarian managers aged 18-75 with non-missing revenue data and at most 4 simultaneous positions. Standard errors clustered by first entry year in parentheses." "\item \textbf{Significance levels:} * p \$<\$ 0.10, ** p \$<\$ 0.05, *** p \$<\$ 0.01." "\item \textbf{Data source:} Hungarian Manager Database (CEU MicroData) merged with firm financial statements, 1986-2022." "\end{tablenotes}" "\end{threeparttable}" "\end{table}")
+    postfoot("\bottomrule" "\end{tabular}" "\begin{tablenotes}" "\footnotesize" "\item \textbf{Notes:} This table reports results from regressions of log firm revenue on cohort entry characteristics for Hungarian CEOs, 1992-2022. The key variable of interest is Log Entry Rate (\$\ln n\$), which measures the log number of managers entering in each cohort, normalized by demographic factors. Skill groups are defined by birth cohort (5-year bins) interacted with gender, capturing systematic differences in baseline skills and demographics across manager cohorts. Column (1) shows the baseline specification with industry-year and skill group fixed effects. Column (2) excludes founding owners from CEOs. Column (3) restricts to post-transition entrants (first year \$\geq\$ 1992). Column (4) uses only post-EU accession data (2004 onwards). Column (5) adds firm fixed effects. The selection parameter \$\theta\$ is computed as \$\theta = -1/\beta_{\ln n}\$ using the delta method for standard errors. Sample restricted to Hungarian managers aged 18-75 with non-missing revenue data and at most 4 simultaneous positions. Standard errors clustered by first entry year in parentheses." "\item \textbf{Significance levels:} * p \$<\$ 0.10, ** p \$<\$ 0.05, *** p \$<\$ 0.01." "\item \textbf{Data source:} Hungarian Manager Database (CEU MicroData) merged with firm financial statements, 1986-2022." "\end{tablenotes}" "\end{threeparttable}" "\end{table}")
 
+* now do the founder discount regressions
+
+estimates clear
+reghdfe lnR founder if `sample', a(`FEs') cluster(person_id)
+estimates store col1
+
+reghdfe lnR `controls' if `sample', a(`FEs' skill_group) cluster(person_id)
+estimates store col2
+
+reghdfe lnR `controls' if `sample', a(`FEs' person_id) cluster(person_id)
+estimates store col3
+
+* create a similar latex table
+esttab col1 col2 col3 using "output/table/founder_discount.tex", ///
+    replace booktabs fragment ///
+    b(3) se(3) ///
+    star(* 0.10 ** 0.05 *** 0.01) ///
+    keep(founder ceo_age ceo_age_sq firm_age firm_age_sq _cons) ///
+    order(founder ceo_age ceo_age_sq firm_age firm_age_sq _cons) ///
+    coeflabels(founder "Founder CEO" ///
+               ceo_age "CEO Age" ///
+               ceo_age_sq "CEO Age Squared" ///
+               firm_age "Firm Age" ///
+               firm_age_sq "Firm Age Squared" ///
+               _cons "Constant") ///
+    mtitles("No Controls" "With Controls" "CEO FE") /// 
+    mgroups("Dependent Variable: Log Revenue", pattern(1 0 0) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span})) ///
+    stats(N r2_a, fmt(%12.0fc 3) labels("Observations" "Adjusted R-squared")) ///
+    prehead("\begin{table}[htbp]\centering" "\caption{Founder CEO Discount}\label{tab:founder_discount}" "\begin{threeparttable}" "\begin{tabular}{lccc}" "\toprule") ///
+    posthead("\midrule") ///
+    prefoot("\midrule" "\textbf{Fixed Effects:}" "Industry \$\times\$ Year & Yes & Yes & Yes \\" "Birth Cohort \$\times\$ Gender & No & Yes & No \\" "CEO & No & No & Yes \\" "\midrule") ///
+    postfoot("\bottomrule" "\end{tabular}" "\begin{tablenotes}" "\footnotesize" "\item \textbf{Notes:} This table reports results from regressions of log firm revenue on a founder CEO indicator for Hungarian CEOs, 1992-2022. Column (1) shows the baseline specification with industry-year fixed effects. Column (2) adds controls for CEO age and firm age as well as skill group fixed effects defined by birth cohort (5-year bins) interacted with gender, capturing systematic differences in baseline skills and demographics across manager cohorts. Column (3) adds CEO fixed effects, so the founder coefficient is identified off CEOs who switch between founder and non-founder roles. The sample is restricted to Hungarian managers aged 18-75 with non-missing revenue data and at most 4 simultaneous positions. Standard errors clustered by manager in parentheses." "\item \textbf{Significance levels:} * p \$<\$ 0.10, ** p \$<\$ 0.05, *** p \$<\$ 0.01." "\item \textbf{Data source:} Hungarian Manager Database (CEU MicroData) merged with firm financial statements, 1992-2022." "\end{tablenotes}" "\end{threeparttable}" "\end{table}")

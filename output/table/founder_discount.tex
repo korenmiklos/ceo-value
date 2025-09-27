@@ -1,0 +1,44 @@
+\begin{table}[htbp]\centering
+\caption{Founder CEO Discount}\label{tab:founder\_discount}
+\begin{threeparttable}
+\begin{tabular}{lccc}
+\toprule
+            &\multicolumn{3}{c}{Dependent Variable: Log Revenue}              \\\cmidrule(lr){2-4}
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}\\
+            &\multicolumn{1}{c}{No Controls}&\multicolumn{1}{c}{With Controls}&\multicolumn{1}{c}{CEO FE}\\
+\midrule
+Founder CEO &      -0.460\sym{***}&      -0.430\sym{***}&      -0.577\sym{***}\\
+            &     (0.005)         &     (0.005)         &     (0.008)         \\
+\addlinespace
+CEO Age     &                     &       0.112\sym{***}&       0.176\sym{***}\\
+            &                     &     (0.002)         &     (0.003)         \\
+\addlinespace
+CEO Age Squared&                     &      -0.001\sym{***}&      -0.002\sym{***}\\
+            &                     &     (0.000)         &     (0.000)         \\
+\addlinespace
+Firm Age    &                     &       0.082\sym{***}&       0.047\sym{***}\\
+            &                     &     (0.001)         &     (0.001)         \\
+\addlinespace
+Firm Age Squared&                     &      -0.003\sym{***}&      -0.002\sym{***}\\
+            &                     &     (0.000)         &     (0.000)         \\
+\addlinespace
+Constant    &       9.749\sym{***}&       6.861\sym{***}&       5.066\sym{***}\\
+            &     (0.005)         &     (0.072)         &     (0.110)         \\
+\midrule
+\textbf{Fixed Effects:}
+Industry $\times$ Year & Yes & Yes & Yes \\
+Birth Cohort $\times$ Gender & No & Yes & No \\
+CEO & No & No & Yes \\
+\midrule
+Observations&   7,087,436         &   7,087,435         &   6,967,913         \\
+Adjusted R-squared&       0.146         &       0.170         &       0.713         \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+\footnotesize
+\item \textbf{Notes:} This table reports results from regressions of log firm revenue on a founder CEO indicator for Hungarian CEOs, 1992-2022. Column (1) shows the baseline specification with industry-year fixed effects. Column (2) adds controls for CEO age and firm age as well as skill group fixed effects defined by birth cohort (5-year bins) interacted with gender, capturing systematic differences in baseline skills and demographics across manager cohorts. Column (3) adds CEO fixed effects, so the founder coefficient is identified off CEOs who switch between founder and non-founder roles. The sample is restricted to Hungarian managers aged 18-75 with non-missing revenue data and at most 4 simultaneous positions. Standard errors clustered by manager in parentheses.
+\item \textbf{Significance levels:} * p $<$ 0.10, ** p $<$ 0.05, *** p $<$ 0.01.
+\item \textbf{Data source:} Hungarian Manager Database (CEU MicroData) merged with firm financial statements, 1992-2022.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
