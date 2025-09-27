@@ -1,0 +1,82 @@
+\begin{table}[htbp]\centering
+\caption{Manager Selection and Cohort Entry Effects}\label{tab:cohort\_selection}
+\begin{threeparttable}
+\begin{tabular}{lccccc}
+\toprule
+            &\multicolumn{5}{c}{Dependent Variable: Log Revenue}                                                          \\\cmidrule(lr){2-6}
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}\\
+            &\multicolumn{1}{c}{Baseline}&\multicolumn{1}{c}{No Founders}&\multicolumn{1}{c}{Post-1992}&\multicolumn{1}{c}{Post-2004}&\multicolumn{1}{c}{Firm FE}\\
+\midrule
+($\ln n$)   &                     &                     &                     &                     &                     \\
+\addlinespace
+Number of CEO Entrants, log&      -0.139\sym{***}&      -0.108\sym{***}&      -0.091\sym{***}&      -0.055\sym{***}&      -0.041\sym{***}\\
+            &     (0.019)         &     (0.019)         &     (0.015)         &     (0.017)         &     (0.003)         \\
+\addlinespace
+CEO Age     &       0.127\sym{***}&       0.162\sym{***}&       0.112\sym{***}&       0.124\sym{***}&       0.087\sym{***}\\
+            &     (0.012)         &     (0.010)         &     (0.010)         &     (0.010)         &     (0.003)         \\
+\addlinespace
+CEO Age Squared&      -0.001\sym{***}&      -0.002\sym{***}&      -0.001\sym{***}&      -0.001\sym{***}&      -0.001\sym{***}\\
+            &     (0.000)         &     (0.000)         &     (0.000)         &     (0.000)         &     (0.000)         \\
+\addlinespace
+Founder CEO &      -0.417\sym{***}&       0.000         &      -0.412\sym{***}&      -0.362\sym{***}&      -0.130\sym{***}\\
+            &     (0.037)         &         (.)         &     (0.036)         &     (0.034)         &     (0.008)         \\
+\addlinespace
+Firm Age    &       0.082\sym{***}&       0.028\sym{***}&       0.076\sym{***}&       0.055\sym{***}&       0.077\sym{***}\\
+            &     (0.005)         &     (0.006)         &     (0.003)         &     (0.006)         &     (0.004)         \\
+\addlinespace
+Firm Age Squared&      -0.003\sym{***}&      -0.001\sym{**} &      -0.003\sym{***}&      -0.002\sym{***}&      -0.003\sym{***}\\
+            &     (0.000)         &     (0.000)         &     (0.000)         &     (0.000)         &     (0.000)         \\
+\addlinespace
+Constant    &       7.690\sym{***}&       7.013\sym{***}&       7.679\sym{***}&       7.320\sym{***}&       7.686\sym{***}\\
+            &     (0.452)         &     (0.419)         &     (0.481)         &     (0.441)         &     (0.100)         \\
+\midrule
+\textbf{Fixed Effects:}
+Industry $\times$ Year & Yes & Yes & Yes & Yes & Yes \\
+Birth Cohort $\times$ Gender & Yes & Yes & Yes & Yes & Yes \\
+Firm & No & No & No & No & Yes \\
+\midrule
+\textbf{Selection Parameter:}
+$\theta$ & 
+%5.2f
+(7.208330976621778)
+*** & 
+%5.2f
+(9.22514967429867)
+*** & 
+%5.2f
+(10.97618158615216)
+*** & 
+%5.2f
+(18.21768477507155)
+*** & 
+%5.2f
+(24.18837998182559)
+*** \\
+ & (
+%4.2f
+(.9996845465960277)
+) & (
+%4.2f
+(1.629844136327863)
+) & (
+%4.2f
+(1.764934894648425)
+) & (
+%4.2f
+(5.600362464174567)
+) & (
+%4.2f
+(1.953389175124021)
+) \\
+Observations&   7,139,771         &   1,674,959         &   6,756,480         &   5,065,112         &   7,056,632         \\
+Adjusted R-squared&       0.173         &       0.154         &       0.175         &       0.150         &       0.751         \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+\footnotesize
+\item \textbf{Notes:} This table reports results from regressions of log firm revenue on cohort entry characteristics for Hungarian CEOs, 1986-2022. The key variable of interest is Log Entry Rate ($\ln n$), which measures the log number of managers entering in each cohort, normalized by demographic factors. Skill groups are defined by birth cohort (5-year bins) interacted with gender, capturing systematic differences in baseline skills and demographics across manager cohorts. Column (1) shows the baseline specification with industry-year and skill group fixed effects. Column (2) excludes founding owners from CEOs. Column (3) restricts to post-transition entrants (first year $\geq$ 1992). Column (4) uses only post-EU accession data (2004 onwards). Column (5) adds firm fixed effects. The selection parameter $\theta$ is computed as $\theta = -1/\beta\_{\ln n}$ using the delta method for standard errors. Sample restricted to Hungarian managers aged 18-75 with non-missing revenue data and at most 4 simultaneous positions. Standard errors clustered by first entry year in parentheses.
+\item \textbf{Significance levels:} * p $<$ 0.10, ** p $<$ 0.05, *** p $<$ 0.01.
+\item \textbf{Data source:} Hungarian Manager Database (CEU MicroData) merged with firm financial statements, 1986-2022.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
