@@ -33,7 +33,7 @@ generate ln_n = ln(n)
 
 local controls male ceo_age ceo_age_sq founder firm_age firm_age_sq
 local FEs teaor08_2d##year
-local sample inrange(ceo_age, 18, 75)
+local sample inrange(ceo_age, 18, 75) & year >= 1992
 
 * firm size goes down. entry goes up
 reghdfe lnR ib1985.cohort `controls' if `sample', a(`FEs') cluster(first_year )
