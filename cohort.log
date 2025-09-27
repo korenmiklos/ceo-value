@@ -1,0 +1,638 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      18.0
+___/   /   /___/   /   /___/       MP—Parallel Edition
+
+ Statistics and Data Science       Copyright 1985-2023 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-STATA-PC        https://www.stata.com
+                                   979-696-4600        stata@stata.com
+
+Stata license: Single-user 2-core  perpetual
+Serial number: 501806323834
+  Licensed to: Miklos Koren
+               CEU MicroData
+
+Notes:
+      1. Stata is running in batch mode.
+      2. Unicode is supported; see help unicode_advice.
+      3. More than 2 billion observations are allowed; see help obs_advice.
+      4. Maximum number of variables is set to 5,000 but can be increased;
+          see help set_maxvar.
+
+. do code/estimate/cohort.do 
+
+. use "temp/unfiltered.dta", clear
+
+. merge m:1 frame_id_numeric person_id using "temp/manager_value.dta", keep(mat
+> ch) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                        10,224,519  
+    -----------------------------------------
+
+. 
+. * for babyboom, we measure manager skills in revenue units, not as TFP
+. replace manager_skill = manager_skill / chi
+(8,688,171 real changes made)
+
+. * only deal with hungarian CEOs
+. generate byte hungarian_name = !missing(male)
+
+. keep if hungarian_name
+(705,932 observations deleted)
+
+. 
+. keep if !missing(sales)
+(0 observations deleted)
+
+. egen N_jobs = total(1), by(person_id year)
+
+. tabulate N_jobs
+
+     N_jobs |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |  7,208,807       75.73       75.73
+          2 |  1,544,036       16.22       91.96
+          3 |    435,186        4.57       96.53
+          4 |    150,216        1.58       98.11
+          5 |     67,815        0.71       98.82
+          6 |     36,606        0.38       99.20
+          7 |     21,693        0.23       99.43
+          8 |     13,168        0.14       99.57
+          9 |      9,333        0.10       99.67
+         10 |      6,340        0.07       99.73
+         11 |      4,807        0.05       99.78
+         12 |      3,228        0.03       99.82
+         13 |      2,431        0.03       99.84
+         14 |      2,016        0.02       99.86
+         15 |      1,755        0.02       99.88
+         16 |      1,392        0.01       99.90
+         17 |        952        0.01       99.91
+         18 |        792        0.01       99.92
+         19 |        513        0.01       99.92
+         20 |        780        0.01       99.93
+         21 |        483        0.01       99.93
+         22 |        286        0.00       99.94
+         23 |        230        0.00       99.94
+         24 |        240        0.00       99.94
+         25 |        250        0.00       99.95
+         26 |        208        0.00       99.95
+         27 |        243        0.00       99.95
+         28 |        168        0.00       99.95
+         29 |        261        0.00       99.95
+         30 |        120        0.00       99.96
+         31 |         93        0.00       99.96
+         32 |        128        0.00       99.96
+         33 |         66        0.00       99.96
+         34 |         68        0.00       99.96
+         35 |        245        0.00       99.96
+         36 |        108        0.00       99.96
+         37 |         74        0.00       99.96
+         38 |        266        0.00       99.97
+         39 |        117        0.00       99.97
+         41 |         82        0.00       99.97
+         42 |        126        0.00       99.97
+         43 |         43        0.00       99.97
+         44 |         44        0.00       99.97
+         46 |        138        0.00       99.97
+         47 |         47        0.00       99.97
+         48 |         48        0.00       99.97
+         50 |        150        0.00       99.97
+         52 |         52        0.00       99.98
+         53 |         53        0.00       99.98
+         54 |         54        0.00       99.98
+         55 |        220        0.00       99.98
+         56 |         56        0.00       99.98
+         57 |         57        0.00       99.98
+         62 |         62        0.00       99.98
+         64 |         64        0.00       99.98
+         67 |         67        0.00       99.98
+         68 |         68        0.00       99.98
+         73 |        219        0.00       99.99
+         75 |         75        0.00       99.99
+         77 |         77        0.00       99.99
+         78 |         78        0.00       99.99
+         80 |         80        0.00       99.99
+         81 |        162        0.00       99.99
+         85 |         85        0.00       99.99
+         90 |         90        0.00       99.99
+         92 |         92        0.00       99.99
+         94 |         94        0.00       99.99
+        101 |        101        0.00       99.99
+        102 |        102        0.00      100.00
+        118 |        118        0.00      100.00
+        124 |        124        0.00      100.00
+        139 |        139        0.00      100.00
+------------+-----------------------------------
+      Total |  9,518,587      100.00
+
+. drop if N_jobs > 4
+(180,342 observations deleted)
+
+. * keep largest firm only if multiple jobs
+. bysort person_id year (sales): keep if _n == _N
+(1,174,804 observations deleted)
+
+. tabulate N_jobs
+
+     N_jobs |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |  7,208,807       88.31       88.31
+          2 |    772,018        9.46       97.76
+          3 |    145,062        1.78       99.54
+          4 |     37,554        0.46      100.00
+------------+-----------------------------------
+      Total |  8,163,441      100.00
+
+. drop N_jobs
+
+. 
+. egen first_year = min(year), by(person_id)
+
+. tabulate first_year founder
+
+           |    Founding owner
+first_year |         0          1 |     Total
+-----------+----------------------+----------
+      1986 |    18,057      5,752 |    23,809 
+      1987 |     2,574      1,806 |     4,380 
+      1988 |     2,574      2,832 |     5,406 
+      1989 |    11,974     25,057 |    37,031 
+      1990 |    35,523     96,031 |   131,554 
+      1991 |    46,390    169,789 |   216,179 
+      1992 |    99,660    593,735 |   693,395 
+      1993 |    67,701    353,734 |   421,435 
+      1994 |    64,071    350,025 |   414,096 
+      1995 |    59,467    289,962 |   349,429 
+      1996 |    64,901    337,935 |   402,836 
+      1997 |    74,737    353,419 |   428,156 
+      1998 |    74,644    337,743 |   412,387 
+      1999 |    65,407    238,648 |   304,055 
+      2000 |    88,819    288,509 |   377,328 
+      2001 |    71,062    285,666 |   356,728 
+      2002 |    65,655    248,307 |   313,962 
+      2003 |    63,732    210,901 |   274,633 
+      2004 |    70,988    221,462 |   292,450 
+      2005 |    64,277    169,884 |   234,161 
+      2006 |    63,159    167,558 |   230,717 
+      2007 |    64,184    151,335 |   215,519 
+      2008 |    76,438    187,559 |   263,997 
+      2009 |    64,686    167,199 |   231,885 
+      2010 |    59,767    157,140 |   216,907 
+      2011 |    56,602    142,567 |   199,169 
+      2012 |    70,254    141,583 |   211,837 
+      2013 |    99,824    124,493 |   224,317 
+      2014 |    52,694     81,253 |   133,947 
+      2015 |    46,378     52,701 |    99,079 
+      2016 |    45,788     51,514 |    97,302 
+      2017 |    40,473     45,186 |    85,659 
+      2018 |    32,695     39,608 |    72,303 
+      2019 |    26,174     33,506 |    59,680 
+      2020 |    34,307     27,557 |    61,864 
+      2021 |    16,218     27,766 |    43,984 
+      2022 |     9,637     12,228 |    21,865 
+-----------+----------------------+----------
+     Total | 1,971,491  6,191,950 | 8,163,441 
+
+. 
+. generate cohort = int(first_year/5)*5
+
+. tabulate cohort founder
+
+           |    Founding owner
+    cohort |         0          1 |     Total
+-----------+----------------------+----------
+      1985 |    35,179     35,447 |    70,626 
+      1990 |   313,345  1,563,314 | 1,876,659 
+      1995 |   339,156  1,557,707 | 1,896,863 
+      2000 |   360,256  1,254,845 | 1,615,101 
+      2005 |   332,744    843,535 | 1,176,279 
+      2010 |   339,141    647,036 |   986,177 
+      2015 |   191,508    222,515 |   414,023 
+      2020 |    60,162     67,551 |   127,713 
+-----------+----------------------+----------
+     Total | 1,971,491  6,191,950 | 8,163,441 
+
+. 
+. generate birth_cohort = int(birth_year/5)*5
+
+. 
+. egen skill_group = group(birth_cohort male)
+
+. egen tag = tag(person_id first_year skill_group)
+
+. egen n = total(tag), by(first_year skill_group)
+
+. * 1986 is the first measured year, captures the entire 1980s
+. replace n = n / 7 if first_year == 1986
+(23,809 real changes made)
+
+. generate ln_n = ln(n)
+
+. 
+. local controls male ceo_age ceo_age_sq founder firm_age firm_age_sq
+
+. local FEs teaor08_2d##year
+
+. local sample inrange(ceo_age, 18, 75)
+
+. 
+. * firm size goes down. entry goes up
+. reghdfe lnR ib1985.cohort `controls' if `sample', a(`FEs') cluster(first_year
+>  )
+(dropped 112 singleton observations)
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =  7,139,772
+Absorbing 1 HDFE group                            F(  13,     36) =    1031.08
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.1790
+                                                  Adj R-squared   =     0.1786
+                                                  Within R-sq.    =     0.0475
+Number of clusters (first_year) =         37      Root MSE        =     1.8849
+
+                            (Std. err. adjusted for 37 clusters in first_year)
+------------------------------------------------------------------------------
+             |               Robust
+         lnR | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      cohort |
+       1990  |  -.7490118   .1153363    -6.49   0.000    -.9829245    -.515099
+       1995  |   -1.05727   .0829043   -12.75   0.000    -1.225408   -.8891329
+       2000  |  -1.309064   .0861864   -15.19   0.000    -1.483858    -1.13427
+       2005  |  -1.405485   .0951202   -14.78   0.000    -1.598397   -1.212572
+       2010  |  -1.594198   .1034126   -15.42   0.000    -1.803928   -1.384467
+       2015  |  -1.556693   .1048933   -14.84   0.000    -1.769427    -1.34396
+       2020  |  -1.780324   .1360856   -13.08   0.000    -2.056319    -1.50433
+             |
+        male |   .3928443   .0188016    20.89   0.000     .3547128    .4309758
+     ceo_age |   .0782519   .0040307    19.41   0.000     .0700772    .0864265
+  ceo_age_sq |  -.0009275   .0000416   -22.31   0.000    -.0010118   -.0008431
+     founder |   -.540994   .0270881   -19.97   0.000    -.5959312   -.4860568
+    firm_age |   .0649389   .0063397    10.24   0.000     .0520813    .0777965
+ firm_age_sq |  -.0028861   .0001878   -15.37   0.000     -.003267   -.0025052
+       _cons |   8.965085   .1632883    54.90   0.000     8.633921    9.296249
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   teaor08_2d#year |      2848           0        2848     |
+-----------------------------------------------------------+
+
+. reghdfe ln_n ib1985.cohort `controls' if `sample', a(`FEs') cluster(first_yea
+> r )
+(dropped 108 singleton observations)
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =  8,072,742
+Absorbing 1 HDFE group                            F(  13,     36) =     151.44
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.3805
+                                                  Adj R-squared   =     0.3803
+                                                  Within R-sq.    =     0.3162
+Number of clusters (first_year) =         37      Root MSE        =     0.8589
+
+                            (Std. err. adjusted for 37 clusters in first_year)
+------------------------------------------------------------------------------
+             |               Robust
+        ln_n | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      cohort |
+       1990  |   3.109263   .7161198     4.34   0.000     1.656905    4.561621
+       1995  |   2.901619   .6902598     4.20   0.000     1.501707     4.30153
+       2000  |   2.900423   .6919946     4.19   0.000     1.496993    4.303853
+       2005  |    2.75301   .6938139     3.97   0.000      1.34589     4.16013
+       2010  |   2.761836   .6962909     3.97   0.000     1.349693     4.17398
+       2015  |   2.211429   .6964524     3.18   0.003     .7989575    3.623899
+       2020  |   2.347513   .6975489     3.37   0.002     .9328179    3.762208
+             |
+        male |   .4433015   .0366985    12.08   0.000     .3688736    .5177295
+     ceo_age |   .2433394   .0110839    21.95   0.000     .2208602    .2658187
+  ceo_age_sq |  -.0027814    .000112   -24.83   0.000    -.0030086   -.0025543
+     founder |   .0714492   .0176797     4.04   0.000     .0355931    .1073054
+    firm_age |  -.0380791   .0042086    -9.05   0.000    -.0466146   -.0295437
+ firm_age_sq |   .0023251    .000234     9.94   0.000     .0018505    .0027998
+       _cons |  -.3757952   .7805623    -0.48   0.633    -1.958849    1.207259
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   teaor08_2d#year |      2861           0        2861     |
+-----------------------------------------------------------+
+
+. 
+. * ln_n captures degree of entry in cohort, its coefficient is -1/theta
+. reghdfe lnR ln_n `controls' if `sample', a(`FEs') cluster(first_year )
+(dropped 112 singleton observations)
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =  7,139,772
+Absorbing 1 HDFE group                            F(   7,     36) =     601.48
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.1732
+                                                  Adj R-squared   =     0.1729
+                                                  Within R-sq.    =     0.0408
+Number of clusters (first_year) =         37      Root MSE        =     1.8915
+
+                            (Std. err. adjusted for 37 clusters in first_year)
+------------------------------------------------------------------------------
+             |               Robust
+         lnR | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        ln_n |  -.1393143    .020072    -6.94   0.000    -.1800222   -.0986063
+        male |   .5241952   .0280045    18.72   0.000     .4673995    .5809909
+     ceo_age |   .1212082   .0054039    22.43   0.000     .1102487    .1321678
+  ceo_age_sq |  -.0013423   .0000577   -23.27   0.000    -.0014593   -.0012253
+     founder |  -.4170816   .0356161   -11.71   0.000    -.4893144   -.3448488
+    firm_age |   .0842031    .005543    15.19   0.000     .0729614    .0954449
+ firm_age_sq |  -.0026947    .000219   -12.31   0.000    -.0031388   -.0022506
+       _cons |   7.466591   .0989569    75.45   0.000     7.265897    7.667285
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   teaor08_2d#year |      2848           0        2848     |
+-----------------------------------------------------------+
+
+. * if skill groups have difference baseline skills or different sizes (demogra
+> phics), this can be taken out by fixed effects
+. reghdfe lnR ln_n `controls' if `sample', a(`FEs' skill_group) cluster(first_y
+> ear )
+(dropped 113 singleton observations)
+(MWFE estimator converged in 7 iterations)
+note: male is probably collinear with the fixed effects (all partialled-out val
+> ues are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =  7,139,771
+Absorbing 2 HDFE groups                           F(   6,     36) =     206.26
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.1738
+                                                  Adj R-squared   =     0.1735
+                                                  Within R-sq.    =     0.0303
+Number of clusters (first_year) =         37      Root MSE        =     1.8908
+
+                            (Std. err. adjusted for 37 clusters in first_year)
+------------------------------------------------------------------------------
+             |               Robust
+         lnR | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        ln_n |  -.1387385   .0192388    -7.21   0.000    -.1777566   -.0997203
+        male |          0  (omitted)
+     ceo_age |   .1267046   .0115201    11.00   0.000     .1033407    .1500685
+  ceo_age_sq |  -.0013974   .0000805   -17.35   0.000    -.0015607   -.0012341
+     founder |  -.4170637   .0365727   -11.40   0.000    -.4912366   -.3428908
+    firm_age |   .0816727   .0051449    15.87   0.000     .0712383    .0921071
+ firm_age_sq |  -.0025742   .0002058   -12.51   0.000    -.0029916   -.0021568
+       _cons |   7.689884   .4515126    17.03   0.000     6.774174    8.605594
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   teaor08_2d#year |      2848           0        2848     |
+       skill_group |        35           1          34     |
+-----------------------------------------------------------+
+
+. * only use stable, post-EU years
+. reghdfe lnR ln_n `controls' if `sample' & year >= 2004, a(`FEs' skill_group) 
+> cluster(first_year )
+(dropped 60 singleton observations)
+(MWFE estimator converged in 6 iterations)
+note: male is probably collinear with the fixed effects (all partialled-out val
+> ues are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =  5,065,112
+Absorbing 2 HDFE groups                           F(   6,     36) =     403.44
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.1499
+                                                  Adj R-squared   =     0.1496
+                                                  Within R-sq.    =     0.0199
+Number of clusters (first_year) =         37      Root MSE        =     1.9199
+
+                            (Std. err. adjusted for 37 clusters in first_year)
+------------------------------------------------------------------------------
+             |               Robust
+         lnR | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        ln_n |  -.0549037   .0168745    -3.25   0.002    -.0891268   -.0206805
+        male |          0  (omitted)
+     ceo_age |   .1243171   .0095548    13.01   0.000      .104939    .1436952
+  ceo_age_sq |  -.0013728   .0000553   -24.81   0.000     -.001485   -.0012606
+     founder |  -.3617449   .0344483   -10.50   0.000    -.4316092   -.2918805
+    firm_age |   .0554615   .0055369    10.02   0.000     .0442321    .0666909
+ firm_age_sq |  -.0015712   .0002438    -6.44   0.000    -.0020657   -.0010767
+       _cons |   7.320001   .4410879    16.60   0.000     6.425434    8.214569
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   teaor08_2d#year |      1528           0        1528     |
+       skill_group |        32           1          31     |
+-----------------------------------------------------------+
+
+. * exclude pre-transition entry - this starting in 1992 are already post-trans
+> ition
+. reghdfe lnR ln_n `controls' if `sample' & first_year >= 1992, a(`FEs' skill_g
+> roup) cluster(first_year )
+(dropped 101 singleton observations)
+(MWFE estimator converged in 7 iterations)
+note: male is probably collinear with the fixed effects (all partialled-out val
+> ues are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =  6,756,480
+Absorbing 2 HDFE groups                           F(   6,     30) =     408.44
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.1752
+                                                  Adj R-squared   =     0.1749
+                                                  Within R-sq.    =     0.0241
+Number of clusters (first_year) =         31      Root MSE        =     1.8820
+
+                            (Std. err. adjusted for 31 clusters in first_year)
+------------------------------------------------------------------------------
+             |               Robust
+         lnR | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        ln_n |  -.0911193   .0146477    -6.22   0.000     -.121034   -.0612046
+        male |          0  (omitted)
+     ceo_age |   .1115057   .0100226    11.13   0.000     .0910368    .1319746
+  ceo_age_sq |  -.0012421   .0000424   -29.31   0.000    -.0013287   -.0011556
+     founder |  -.4123159   .0359169   -11.48   0.000    -.4856679   -.3389638
+    firm_age |   .0757241   .0030834    24.56   0.000     .0694269    .0820212
+ firm_age_sq |  -.0025257   .0001745   -14.48   0.000    -.0028821   -.0021694
+       _cons |   7.678797   .4807505    15.97   0.000     6.696973     8.66062
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   teaor08_2d#year |      2471           0        2471     |
+       skill_group |        35           1          34     |
+-----------------------------------------------------------+
+
+. * exclude founders
+. reghdfe lnR ln_n `controls' if `sample' & !founder, a(`FEs' skill_group) clus
+> ter(first_year )
+(dropped 118 singleton observations)
+(MWFE estimator converged in 7 iterations)
+note: male is probably collinear with the fixed effects (all partialled-out val
+> ues are close to zero; tol = 1.0e-09)
+note: founder omitted because of collinearity
+
+HDFE Linear regression                            Number of obs   =  1,674,961
+Absorbing 2 HDFE groups                           F(   5,     36) =     217.42
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.1558
+                                                  Adj R-squared   =     0.1544
+                                                  Within R-sq.    =     0.0139
+Number of clusters (first_year) =         37      Root MSE        =     2.0723
+
+                            (Std. err. adjusted for 37 clusters in first_year)
+------------------------------------------------------------------------------
+             |               Robust
+         lnR | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        ln_n |  -.1083929   .0191521    -5.66   0.000    -.1472352   -.0695506
+        male |          0  (omitted)
+     ceo_age |   .1617156   .0104235    15.51   0.000     .1405758    .1828554
+  ceo_age_sq |  -.0017645   .0000593   -29.74   0.000    -.0018848   -.0016442
+     founder |          0  (omitted)
+    firm_age |   .0283791   .0060249     4.71   0.000     .0161601    .0405981
+ firm_age_sq |   -.000596   .0002316    -2.57   0.014    -.0010658   -.0001262
+       _cons |   7.012237   .4185172    16.75   0.000     6.163445    7.861029
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   teaor08_2d#year |      2766           0        2766     |
+       skill_group |        35           1          34     |
+-----------------------------------------------------------+
+
+. 
+. * add firm fixed effects - results are about half
+. reghdfe lnR ln_n `controls' if `sample', a(`FEs' frame_id_numeric) cluster(fi
+> rst_year )
+(dropped 83253 singleton observations)
+(MWFE estimator converged in 18 iterations)
+
+HDFE Linear regression                            Number of obs   =  7,056,631
+Absorbing 2 HDFE groups                           F(   7,     36) =    2119.41
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.7749
+                                                  Adj R-squared   =     0.7508
+                                                  Within R-sq.    =     0.0241
+Number of clusters (first_year) =         37      Root MSE        =     1.0352
+
+                            (Std. err. adjusted for 37 clusters in first_year)
+------------------------------------------------------------------------------
+             |               Robust
+         lnR | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        ln_n |  -.0581748   .0032788   -17.74   0.000    -.0648244   -.0515252
+        male |   .1618425    .004658    34.74   0.000     .1523955    .1712894
+     ceo_age |   .0806824   .0025675    31.42   0.000     .0754752    .0858895
+  ceo_age_sq |  -.0008978   .0000273   -32.89   0.000    -.0009531   -.0008424
+     founder |  -.1335104   .0075077   -17.78   0.000    -.1487366   -.1182841
+    firm_age |   .0799133   .0047228    16.92   0.000     .0703351    .0894915
+ firm_age_sq |  -.0030177   .0001253   -24.08   0.000    -.0032719   -.0027635
+       _cons |   7.810529   .0398358   196.07   0.000     7.729738    7.891319
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   teaor08_2d#year |      2845           0        2845     |
+  frame_id_numeric |    677426          84      677342     |
+-----------------------------------------------------------+
+
+. reghdfe lnR ln_n `controls' if `sample', a(`FEs' skill_group frame_id_numeric
+> ) cluster(first_year )
+(dropped 83254 singleton observations)
+(MWFE estimator converged in 21 iterations)
+note: male is probably collinear with the fixed effects (all partialled-out val
+> ues are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =  7,056,630
+Absorbing 3 HDFE groups                           F(   6,     36) =    2649.68
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.7750
+                                                  Adj R-squared   =     0.7510
+                                                  Within R-sq.    =     0.0233
+Number of clusters (first_year) =         37      Root MSE        =     1.0349
+
+                            (Std. err. adjusted for 37 clusters in first_year)
+------------------------------------------------------------------------------
+             |               Robust
+         lnR | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        ln_n |  -.0413719   .0033322   -12.42   0.000    -.0481299   -.0346139
+        male |          0  (omitted)
+     ceo_age |   .0869748   .0026795    32.46   0.000     .0815406     .092409
+  ceo_age_sq |   -.000974   .0000161   -60.40   0.000    -.0010068   -.0009413
+     founder |  -.1303393   .0076327   -17.08   0.000    -.1458192   -.1148593
+    firm_age |   .0765687   .0043452    17.62   0.000     .0677561    .0853812
+ firm_age_sq |  -.0029403   .0001147   -25.64   0.000     -.003173   -.0027077
+       _cons |   7.685886   .0994632    77.27   0.000     7.484166    7.887607
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   teaor08_2d#year |      2845           0        2845     |
+       skill_group |        35           1          34     |
+  frame_id_numeric |    677426          84      677342    ?|
+-----------------------------------------------------------+
+? = number of redundant parameters may be higher
+
+. 
+. * study founder discount for exact same person
+. reghdfe lnR founder if `sample', a(`FEs' person_id) cluster(person_id)
+(dropped 118831 singleton observations)
+(MWFE estimator converged in 36 iterations)
+
+HDFE Linear regression                            Number of obs   =  7,021,053
+Absorbing 2 HDFE groups                           F(   1, 772545) =    5834.72
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.7351
+                                                  Adj R-squared   =     0.7022
+                                                  Within R-sq.    =     0.0095
+Number of clusters (person_id) =    772,546       Root MSE        =     1.1295
+
+                        (Std. err. adjusted for 772,546 clusters in person_id)
+------------------------------------------------------------------------------
+             |               Robust
+         lnR | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     founder |  -.6317524   .0082706   -76.39   0.000    -.6479625   -.6155423
+       _cons |   9.901602   .0063539  1558.36   0.000     9.889149    9.914056
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   teaor08_2d#year |      2845           1        2844     |
+         person_id |    772546      772546           0    *|
+-----------------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. 
+end of do-file
