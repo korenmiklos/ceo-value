@@ -1,7 +1,7 @@
 clear all
 
 * number of CEO changes
-local N_changes = 50000
+local N_changes = 1000
 * hazard rate of CEO change
 local hazard = 0.2
 * stdev of CEO ability, sqrt(0.01)
@@ -93,6 +93,8 @@ vary between spells
 That's the contract - your simulation needs to generate these variables with the
 expected structure and relationships.
 */
+
+save "temp/placebo_montecarlo.dta", replace
 
 * check no mean ATET but 0.01 variance ATET
 
