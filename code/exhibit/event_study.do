@@ -1,8 +1,12 @@
-args panel title ytitle
+args panel title ytitle true_effect
 
 local event_window_start -4      // Event study window start
 local event_window_end 3         // Event study window end
 local baseline_year -3            // Baseline year for event study
+
+if !("`true_effect'" == "") {
+    local yline yline(`true_effect', lpattern(dash) lcolor(black)) yline(-`true_effect', lpattern(dash) lcolor(black))
+}
 
 graph twoway ///
     (rarea lower_mean upper_mean xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_mean xvar, lcolor(black) mcolor(black)) ///
@@ -14,6 +18,6 @@ graph twoway ///
     xline(-0.5) xscale(range (`event_window_start' `event_window_end')) ///
     xtitle("Time since CEO change (year)") yline(0) ///
     ytitle("`ytitle'") ///
-    ylabel(, angle(0) format(%9.2f)) ///
+    `yline' ylabel(, angle(0) format(%9.2f)) ///
     aspectratio(1) xsize(5) ysize(5) ///
     name(panel`panel', replace)

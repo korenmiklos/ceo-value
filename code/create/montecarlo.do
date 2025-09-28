@@ -6,6 +6,8 @@ local N_changes = 1000
 local hazard = 0.2
 * stdev of CEO ability, sqrt(0.01)
 local sigma_z = 0.1
+local half_normal = 0.797885
+local true_effect = `half_normal' * `sigma_z'
 * stdev of TFP growth, sqrt(0.025/10)
 local sigma_epsilon = 0.05
 local rho = 0.7
@@ -105,6 +107,7 @@ That's the contract - your simulation needs to generate these variables with the
 expected structure and relationships.
 */
 
+generate true_effect = `true_effect'
 save "temp/placebo_montecarlo.dta", replace
 
 * check no mean ATET but 0.01 variance ATET

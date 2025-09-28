@@ -23,6 +23,9 @@ foreach X in coef lower upper {
     frame ceo_better: rename `X' `X'_better
     frame ceo_worse: rename `X' `X'_worse
 }
+if ("`sample'" == "montecarlo") {
+    frame ceo_mean: generate true_effect = true_effect
+}
 frame ceo_mean: frlink 1:1 xvar, frame(ceo_better)
 frame ceo_mean: frlink 1:1 xvar, frame(ceo_worse)
 frame ceo_mean: frget coef_worse lower_worse upper_worse, from(ceo_worse)
