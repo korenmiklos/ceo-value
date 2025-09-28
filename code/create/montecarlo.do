@@ -52,16 +52,17 @@ egen z = mean(cond(year == change_year & placebo == 0, dz, .)), by(fake_id)
 
 replace TFP = TFP + z if placebo == 0 & year >= change_year
 
-* demeaan TFP by year
-egen mean_TFP = mean(TFP), by(year)
-replace TFP = TFP - mean_TFP
+* demean TFP by fakeid and year
+reghdfe TFP, absorb(fake_id year) resid
+predict residuals, residuals
+replace TFP = residuals
 
 * measured manager skill will include noise
 egen manager_skill = mean(TFP), by(fake_id ceo_spell)
 * demean manager skill
 summarize manager_skill if placebo == 0, meanonly
-replace manager_skill = manager_skill - r(mean) if placebo == 0
-replace manager_skill = . if placebo == 1
+replace manager_skill = manager_skill - r(mean)
+*replace manager_skill = . if placebo == 1
 
 * verify I have all the variables I need
 local vars frame_id_numeric year TFP ceo_spell manager_skill change_year placebo fake_id
