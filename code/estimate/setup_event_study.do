@@ -11,6 +11,7 @@ global baseline_year -1            // Baseline year for event study
 global random_seed 2181            // Random seed for reproducibility
 global sample 100                   // Sample selection for analysis
 global cluster frame_id_numeric     // Clustering variable
+global T_min 4
 
 * report package versions
 which xt2treatments
@@ -82,7 +83,7 @@ keep if inrange(year, change_year + ${event_window_start}, change_year + ${event
 keep if !missing(TFP)
 egen T1 = total(cond(ceo_spell == `s1', !missing(TFP), .)), by(fake_id)
 egen T2 = total(cond(ceo_spell == `s2', !missing(TFP), .)), by(fake_id)
-keep if T1 > 3 & T2 > 3
+keep if T1 >= ${T_min} & T2 >= ${T_min}
 drop T1 T2
 
 * now create helper variables for event study
