@@ -1,4 +1,5 @@
 args sample
+
 confirm file "temp/placebo_`sample'.dta"
 
 * =============================================================================
@@ -18,31 +19,35 @@ which estout
 which reghdfe
 which e2frame
 
-use "temp/surplus.dta", clear
-merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match) nogen
-merge m:1 frame_id_numeric person_id using "temp/manager_value.dta", keep(master match) nogen
+if !("`sample'" == "montecarlo") {
+    use "temp/surplus.dta", clear
+    merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match) nogen
+    merge m:1 frame_id_numeric person_id using "temp/manager_value.dta", keep(master match) nogen
 
-* sample for performance when testing
-set seed ${random_seed}
-egen firm_tag = tag(frame_id_numeric)
-generate byte in_sample = uniform() < ${sample}/100 if firm_tag
-egen ever_in_sample = max(in_sample), by(frame_id_numeric)
-keep if ever_in_sample == 1
-drop ever_in_sample in_sample firm_tag
+    * sample for performance when testing
+    set seed ${random_seed}
+    egen firm_tag = tag(frame_id_numeric)
+    generate byte in_sample = uniform() < ${sample}/100 if firm_tag
+    egen ever_in_sample = max(in_sample), by(frame_id_numeric)
+    keep if ever_in_sample == 1
+    drop ever_in_sample in_sample firm_tag
 
-* the same firm may appear multipe times as control, repeat those observations
-joinby frame_id_numeric using "temp/placebo_`sample'.dta"
+    * the same firm may appear multipe times as control, repeat those observations
+    joinby frame_id_numeric using "temp/placebo_`sample'.dta"
 
-* limit to relevant CEO spells
-keep if inrange(year, window_start, window_end)
-* for 2-ceo firms, only keep 1 of them, these are only placebo anyway
-tabulate n_ceo
-bysort fake_id year (person_id): generate keep = _n == 1
-tabulate n_ceo keep
-keep if keep == 1
-drop keep
-* bad naming, sorry!
-
+    * limit to relevant CEO spells
+    keep if inrange(year, window_start, window_end)
+    * for 2-ceo firms, only keep 1 of them, these are only placebo anyway
+    tabulate n_ceo
+    bysort fake_id year (person_id): generate keep = _n == 1
+    tabulate n_ceo keep
+    keep if keep == 1
+    drop keep
+    * bad naming, sorry!
+}
+else {
+    use "temp/placebo_montecarlo.dta", clear
+}
 * check balance
 tabulate year placebo
 tabulate change_year placebo
