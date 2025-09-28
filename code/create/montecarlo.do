@@ -1,7 +1,7 @@
 clear all
 
 * number of CEO changes
-local N_changes = 1000
+local N_changes = 10000
 * hazard rate of CEO change
 local hazard = 0.2
 * stdev of CEO ability, sqrt(0.01)
@@ -50,9 +50,10 @@ summarize dz
 * only one dz per treated firm
 egen z = mean(cond(year == change_year & placebo == 0, dz, .)), by(fake_id)
 
-* create variables for contract
-generate manager_skill = cond(ceo_spell == 1, 0, z) if placebo == 0
-replace TFP = TFP + manager_skill if placebo == 0
+replace TFP = TFP + z if placebo == 0 & year >= change_year
+* measured manager skill will include noise
+egen manager_skill = mean(TFP), by(fake_id ceo_spell)
+replace manager_skill = . if placebo == 1
 
 * verify I have all the variables I need
 local vars frame_id_numeric year TFP ceo_spell manager_skill change_year placebo fake_id
