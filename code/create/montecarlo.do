@@ -1,7 +1,7 @@
 clear all
 
 * number of CEO changes
-local N_changes = 10000
+local N_changes = 1000
 * hazard rate of CEO change
 local hazard = 0.2
 * stdev of CEO ability, sqrt(0.01)
@@ -11,7 +11,7 @@ local sigma_epsilon = 0.05
 * control to treated N
 local control_treated_ratio = 9
 * longest spell to consider
-local T_max = 15
+local T_max = 20
 
 set seed 2191
 set obs `N_changes'
@@ -51,8 +51,16 @@ summarize dz
 egen z = mean(cond(year == change_year & placebo == 0, dz, .)), by(fake_id)
 
 replace TFP = TFP + z if placebo == 0 & year >= change_year
+
+* demeaan TFP by year
+egen mean_TFP = mean(TFP), by(year)
+replace TFP = TFP - mean_TFP
+
 * measured manager skill will include noise
 egen manager_skill = mean(TFP), by(fake_id ceo_spell)
+* demean manager skill
+summarize manager_skill if placebo == 0, meanonly
+replace manager_skill = manager_skill - r(mean) if placebo == 0
 replace manager_skill = . if placebo == 1
 
 * verify I have all the variables I need
