@@ -7,7 +7,7 @@ confirm file "temp/placebo_`sample'.dta"
 * =============================================================================
 global event_window_start -4      // Event study window start
 global event_window_end 3         // Event study window end
-global baseline_year -3            // Baseline year for event study
+global baseline_year -1            // Baseline year for event study
 global random_seed 2181            // Random seed for reproducibility
 global sample 100                   // Sample selection for analysis
 global cluster frame_id_numeric     // Clustering variable
@@ -47,6 +47,9 @@ if !("`sample'" == "montecarlo") {
 }
 else {
     use "temp/placebo_montecarlo.dta", clear
+    summarize true_effect, meanonly
+    scalar true_effect = r(mean)
+    display "True effect in monte carlo: `true_effect'"
 }
 * check balance
 tabulate year placebo
