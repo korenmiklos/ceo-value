@@ -499,3 +499,57 @@ The exact same placebo creator and estimator code should run on the Monte Carlo 
 **What we agreed on**: Position paper as methodological contribution to applied CEO effects literature rather than pure econometric theory paper. Focus on practical importance of bias correction while maintaining methodological rigor.
 
 ---
+
+# Monte Carlo Simulation and Bias Correction Methodology (September 28, 2025)
+
+## Monte Carlo Implementation and Validation
+
+### Core Innovation: Covariance-Based Bias Correction
+Today's work advanced a sophisticated understanding of how CEO transition effects manifest in both covariance and variance dimensions. The key insight is that true managerial effects appear primarily in variance:
+
+**Mathematical Foundation**: The variance of TFP changes can be decomposed as:
+```
+Var(ωᵢₜ) = σ²ᵢₜ + λ²
+```
+where λ² represents the object of interest (true CEO effect variance), while σ²ᵢₜ captures base firm performance volatility.
+
+**Bias Correction Formula**: The true average treatment effect on the treated (ATET) can be recovered using:
+```
+ATET_corrected = √[(β⁺)² - (γ⁺)²]
+```
+where β⁺ is the treatment effect (conditioning on positive estimated manager skill changes) and γ⁺ is the placebo effect under identical conditioning.
+
+### Monte Carlo Simulation Development
+**Implementation**: Created comprehensive Monte Carlo framework (`code/create/montecarlo.do`) that:
+- Simulates 60,000 CEO transitions with realistic hazard rates (0.2/year)
+- Generates manager effects from N(0,0.1) distribution consistent with observed variance
+- Models persistent error terms with moderate autocorrelation
+- Applies exact same placebo construction and estimation procedures to simulated data
+
+**Validation Results**: Multiple iterations confirmed that:
+1. **iid case**: Placebo method closely recovers true effects when errors are independent and small. For larger errors, the nonlinearity of the square root function introduces slight underestimation.
+2. **Persistence robustness**: Method remains valid with moderate autocorrelation in firm performance shocks
+3. **Balanced window requirement**: Equal spell lengths between treatment and control groups eliminate overcorrection
+4. **Covariance decomposition**: Proper handling of correlation between estimated manager effects and outcome variables
+
+### Technical Breakthroughs
+
+**Overcorrection Problem Resolution**: Earlier versions showed the placebo method was overcorrecting (yielding negative estimates). The solution involved:
+- Proper covariance decomposition accounting for persistence in error terms  
+- Recognition that bias correction must account for the joint distribution of manager estimates and firm outcomes
+
+**Covariance Decomposition Method**: Extended the bias correction from first moments (means) to second moments (covariances). This is doable because covariance is a linear operator, allowing separation of true effects from noise-induced correlations, which can be estimated from placebo transitions and subtracted accordingly.
+
+### Methodological Validation
+
+**Event Study Consistency**: The Monte Carlo demonstrates that:
+- Placebo-controlled design correctly isolates true managerial impacts
+- Method works across different persistence assumptions and sample constructions
+
+**Referee Credibility**: Implementation addresses econometrician concerns by:
+- Providing known ground truth against which to validate the method
+- Demonstrating robustness to different data generating processes
+- Showing the placebo approach recovers true effects under controlled conditions
+
+
+---

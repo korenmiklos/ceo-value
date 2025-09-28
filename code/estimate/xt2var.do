@@ -80,18 +80,20 @@ frame dCov {
     frlink 1:1 xvar, frame(Cov1)
     frget coef_Cov1 lower_Cov1 upper_Cov1, from(Cov1)
     generate coef_dbeta = coef_dCov / (`Var1' - `Var0')
-    replace coef_dbeta = 0 if xvar == -1
     generate lower_dbeta = lower_dCov / (`Var1' - `Var0')
-    replace lower_dbeta = 0 if xvar == -1
     generate upper_dbeta = upper_dCov / (`Var1' - `Var0')
-    replace upper_dbeta = 0 if xvar == -1
 
     generate coef_beta1 = coef_Cov1 / `Var1'
-    replace coef_beta1 = 0 if xvar == -1
     generate lower_beta1 = lower_Cov1 / `Var1'
-    replace lower_beta1 = 0 if xvar == -1
     generate upper_beta1 = upper_Cov1 / `Var1'
-    replace upper_beta1 = 0 if xvar == -1
+
+    generate coef_beta0 = (coef_Cov1 - coef_dCov) / `Var0'
+    generate lower_beta0 = (lower_Cov1 - upper_dCov) / `Var0'
+    generate upper_beta0 = (upper_Cov1 - lower_dCov) / `Var0'
+
+    foreach X of varlist coef_* lower_* upper_*  {
+        replace `X' = 0 if xvar == -1
+    }
 
     list xvar coef_dbeta lower_dbeta upper_dbeta 
 }
