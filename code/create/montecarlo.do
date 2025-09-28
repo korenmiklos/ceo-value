@@ -1,7 +1,7 @@
 clear all
 
 * number of CEO changes
-local N_changes = 1000
+local N_changes = 10000
 * hazard rate of CEO change
 local hazard = 0.2
 * stdev of CEO ability, sqrt(0.01)
@@ -9,8 +9,8 @@ local sigma_z = 0.1
 local half_normal = 0.797885
 local true_effect = `half_normal' * `sigma_z'
 * stdev of TFP growth, sqrt(0.025/10)
-local sigma_epsilon = 0.075
-local rho = 0.7
+local sigma_epsilon = 0.05
+local rho = 0.97
 * control to treated N
 local control_treated_ratio = 9
 * longest spell to consider

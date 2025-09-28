@@ -1,19 +1,14 @@
-args panel title ytitle true_effect
+args panel title ytitle
 
 local event_window_start -4      // Event study window start
 local event_window_end 3         // Event study window end
 local baseline_year -3            // Baseline year for event study
 
-if !("`true_effect'" == "") {
-    local yline yline(`true_effect', lpattern(dash) lcolor(black)) yline(-`true_effect', lpattern(dash) lcolor(black))
-}
-
 graph twoway ///
-    (rarea lower_mean upper_mean xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_mean xvar, lcolor(black) mcolor(black)) ///
-    (rarea lower_worse upper_worse xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_worse xvar, lcolor(blue) mcolor(blue)) ///
-    (rarea lower_better upper_better xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_better xvar, lcolor(red) mcolor(red)) ///
+    (rarea lower_beta1 upper_beta1 xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_beta1 xvar, lcolor(black) mcolor(black)) ///
+    (rarea lower_dbeta upper_dbeta xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_dbeta xvar, lcolor(blue) mcolor(blue)) ///
     ,  title("Panel `panel': `title'", size(medium)) ///
-    legend(order(6 "Better" 2 "Mean" 4 "Worse") rows(1) position(6)) ///
+    legend(order(2 "OLS" 4 "Placebo-controlled") rows(1) position(6)) ///
     graphregion(color(white)) xlabel(`event_window_start'(1)`event_window_end') ///
     xline(-0.5) xscale(range (`event_window_start' `event_window_end')) ///
     xtitle("Time since CEO change (year)") yline(0) ///
