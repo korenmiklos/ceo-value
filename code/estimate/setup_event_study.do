@@ -82,7 +82,7 @@ keep if inrange(year, change_year + ${event_window_start}, change_year + ${event
 keep if !missing(TFP)
 egen T1 = total(cond(ceo_spell == `s1', !missing(TFP), .)), by(fake_id)
 egen T2 = total(cond(ceo_spell == `s2', !missing(TFP), .)), by(fake_id)
-keep if T1 > 0 & T2 > 0
+keep if T1 > 3 & T2 > 3
 drop T1 T2
 
 * now create helper variables for event study
