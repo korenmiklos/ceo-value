@@ -91,6 +91,14 @@ frame dCov {
     generate lower_beta0 = (lower_Cov1 - upper_dCov) / `Var0'
     generate upper_beta0 = (upper_Cov1 - lower_dCov) / `Var0'
 
+    generate coef_beta1alt = coef_Cov1 / (`Var1' - `Var0')
+    generate lower_beta1alt = lower_Cov1 / (`Var1' - `Var0')
+    generate upper_beta1alt = upper_Cov1 / (`Var1' - `Var0')
+
+    generate coef_beta0alt = (coef_Cov1 - coef_dCov) / (`Var1' - `Var0')
+    generate lower_beta0alt = (lower_Cov1 - upper_dCov) / (`Var1' - `Var0')
+    generate upper_beta0alt = (upper_Cov1 - lower_dCov) / (`Var1' - `Var0')
+
     foreach X of varlist coef_* lower_* upper_*  {
         replace `X' = 0 if xvar == -1
     }
