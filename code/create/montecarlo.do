@@ -8,6 +8,7 @@ local hazard = 0.2
 local sigma_z = 0.1
 * stdev of TFP growth, sqrt(0.025/10)
 local sigma_epsilon = 0.05
+local rho = 0.0
 * control to treated N
 local control_treated_ratio = 9
 * longest spell to consider
@@ -41,9 +42,9 @@ generate change_year = T1 + 1
 
 tabulate T1 placebo, row
 
-
 generate dTFP = rnormal(0, `sigma_epsilon')
-bysort fake_id (year): generate TFP = sum(dTFP)
+bysort fake_id (year): generate TFP = 0 if _n == 1
+bysort fake_id (year): replace TFP = `rho' * TFP[_n-1] + dTFP if _n > 1
 
 generate dz = rnormal(0, `sigma_z')
 summarize dz
