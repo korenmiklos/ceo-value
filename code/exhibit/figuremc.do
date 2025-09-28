@@ -5,12 +5,10 @@ local titleA "Monte Carlo Simulation"
 foreach panel in A  {
     local sample  `sample`panel''
     local title  `title`panel''
-    local ytitle "Log TFP relative to year -1"
+    local ytitle "Coefficient of TFP on new CEO skill"
 
     import delimited "output/event_study/`sample'_TFP.csv", clear
-    summarize true_effect, meanonly
-    local true_effect = r(mean)
-    do "code/exhibit/event_study.do" `panel' "`title'" "`ytitle'" `true_effect'
+    do "code/exhibit/event_study.do" `panel' "`title'" "`ytitle'"
 }
 
 graph combine panelA, ///
