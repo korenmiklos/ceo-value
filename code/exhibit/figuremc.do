@@ -14,6 +14,6 @@ foreach panel in A  {
 }
 
 graph combine panelA, ///
-    cols(2) ycommon graphregion(color(white)) imargin(small) xsize(5) ysize(5) yline()
+    cols(2) ycommon graphregion(color(white)) imargin(small) xsize(5) ysize(5)
 
 graph export "output/figure/figuremc.pdf", replace
