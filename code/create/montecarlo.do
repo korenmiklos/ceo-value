@@ -10,7 +10,7 @@ local half_normal = 0.797885
 local true_effect = `half_normal' * `sigma_z'
 * stdev of TFP growth, sqrt(0.025/10)
 local sigma_epsilon = 0.075
-local rho = 0.0
+local rho = 0.7
 * control to treated N
 local control_treated_ratio = 9
 * longest spell to consider
@@ -60,7 +60,6 @@ egen manager_skill = mean(TFP), by(fake_id ceo_spell)
 * demean manager skill
 summarize manager_skill if placebo == 0, meanonly
 replace manager_skill = manager_skill - r(mean)
-replace manager_skill = . if placebo == 1
 
 * verify I have all the variables I need
 local vars frame_id_numeric year TFP ceo_spell manager_skill change_year placebo fake_id
