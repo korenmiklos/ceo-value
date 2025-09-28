@@ -8,7 +8,7 @@ local hazard = 0.2
 local sigma_z = 0.1
 * stdev of TFP growth, sqrt(0.025/10)
 local sigma_epsilon = 0.05
-local rho = 0.0
+local rho = 0.4
 * control to treated N
 local control_treated_ratio = 9
 * longest spell to consider
