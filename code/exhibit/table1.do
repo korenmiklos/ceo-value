@@ -67,28 +67,6 @@ preserve
     save `panel_b_col1'
 restore
 
-* Placebo spell length analysis - merge placebo data with main data
-merge m:1 frame_id_numeric year using "temp/placebo.dta", keep(match) nogen
-preserve
-    keep if !missing(placebo_spell)
-    egen max_placebo_spell = max(placebo_spell), by(frame_id_numeric)
-    * drop last spell, because it ends in firm death, not CEO change
-    keep if placebo_spell < max_ceo_spell
-
-    egen spell_tag = tag(frame_id_numeric placebo_spell)
-    egen spell_year_tag = tag(frame_id_numeric placebo_spell year)
-    egen T_spell = total(spell_year_tag), by(frame_id_numeric placebo_spell)
-    keep if spell_tag
-
-    recode T_spell 4/max = 4
-
-    tempfile panel_b_col2
-    collapse (count) n_spells = frame_id_numeric, by(T_spell)
-    generate total_spells = sum(n_spells)
-    generate pct = round(n_spells / total_spells[_N] * 100)
-    save `panel_b_col2'
-restore
-
 * =============================================================================
 * CREATE LATEX TABLES - SEPARATE PANELS
 * =============================================================================
@@ -157,8 +135,6 @@ file write panelB "\midrule" _n
 * Panel B data - write rows by combining the two datasets
 use `panel_b_col1', clear
 local N1 = _N
-use `panel_b_col2', clear  
-local N2 = _N
 
 forvalues i = 1/`=max(`N1',`N2')' {
     local row_label = cond(`i' <= 3, "`i'", "4+")
@@ -178,8 +154,6 @@ forvalues i = 1/`=max(`N1',`N2')' {
 * Panel B totals  
 use `panel_b_col1', clear
 local total_actual = total_spells[_N]
-use `panel_b_col2', clear
-local total_placebo = total_spells[_N]
 file write panelB "Total & " %12.0fc (`total_actual') " \\" _n
 
 file write panelB "\bottomrule" _n
