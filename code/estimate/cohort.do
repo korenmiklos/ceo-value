@@ -23,17 +23,56 @@ tabulate first_year founder
 generate cohort = int(first_year/5)*5
 tabulate cohort founder
 * export a nice latex table for the paper
-estpost tabulate cohort founder, matcell(freq) matrow(row) matcol(col)
-matrix list r(freq)
-esttab matrix(r(freq)) using "output/table/cohort_founders.tex", ///
-    replace booktabs fragment ///
-    b(0) se(0) ///
-    label ///
-    collabels("Non-Founder" "Founder" "Total") ///
-    rowlabels("1985" "1990" "1995" "2000" "2005" "2010" "2015" "Total") ///
-    prehead("\begin{table}[htbp]\centering" "\caption{Manager Cohort Entry and Founder Status}\label{tab:cohort_founders}" "\begin{threeparttable}" "\begin{tabular}{lccc}" "\toprule") ///
-    posthead("\midrule") ///
-    postfoot("\bottomrule" "\end{tabular}" "\begin{tablenotes}" "\footnotesize" "\item \textbf{Notes:} This table reports the number of managers entering each cohort by founder status. Cohorts are defined by the first year a manager appears in the data, grouped in 5-year bins. Founders are defined as CEOs who are also founders of the firm they manage. The sample is restricted to Hungarian managers with non-missing revenue data and at most 4 simultaneous positions. Data source: Hungarian Manager Database (CEU MicroData) merged with firm financial statements, 1986-2022." "\end{tablenotes}" "\end{threeparttable}" "\end{table}")
+preserve
+collapse (count) count = person_id, by(cohort founder)
+reshape wide count, i(cohort) j(founder)
+egen total = rowtotal(count0 count1)
+replace count0 = . if missing(count0)
+replace count1 = . if missing(count1)
+
+* Create LaTeX table manually
+file open fh using "output/table/cohort_founders.tex", write replace
+file write fh "\begin{table}[htbp]\centering" _n
+file write fh "\caption{Manager Cohort Entry and Founder Status}\label{tab:cohort_founders}" _n
+file write fh "\begin{threeparttable}" _n
+file write fh "\begin{tabular}{lccc}" _n
+file write fh "\toprule" _n
+file write fh "Cohort & Non-Founder & Founder & Total \\" _n
+file write fh "\midrule" _n
+
+foreach c of numlist 1985 1990 1995 2000 2005 2010 2015 2020 {
+    quietly summarize count0 if cohort == `c'
+    local nonfound = r(mean)
+    quietly summarize count1 if cohort == `c'  
+    local found = r(mean)
+    quietly summarize total if cohort == `c'
+    local tot = r(mean)
+    if !missing(`nonfound') & !missing(`found') {
+        file write fh "`c' & " %12.0fc (`nonfound') " & " %12.0fc (`found') " & " %12.0fc (`tot') " \\" _n
+    }
+}
+
+* Add total row
+quietly summarize count0
+local nonfound_tot = r(sum)
+quietly summarize count1
+local found_tot = r(sum)
+quietly summarize total
+local grand_tot = r(sum)
+file write fh "\midrule" _n
+file write fh "Total & " %12.0fc (`nonfound_tot') " & " %12.0fc (`found_tot') " & " %12.0fc (`grand_tot') " \\" _n
+
+file write fh "\bottomrule" _n
+file write fh "\end{tabular}" _n
+file write fh "\begin{tablenotes}" _n
+file write fh "\footnotesize" _n
+file write fh "\item \textbf{Notes:} This table reports the number of managers entering each cohort by founder status. Cohorts are defined by the first year a manager appears in the data, grouped in 5-year bins. Founders are defined as CEOs who are also founders of the firm they manage. The sample is restricted to Hungarian managers with non-missing revenue data and at most 4 simultaneous positions. Data source: Hungarian Manager Database (CEU MicroData) merged with firm financial statements, 1986-2022." _n
+file write fh "\end{tablenotes}" _n
+file write fh "\end{threeparttable}" _n
+file write fh "\end{table}" _n
+file close fh
+
+restore
 
 generate birth_cohort = int(birth_year/5)*5
 
