@@ -18,7 +18,7 @@ clear all
 tempfile cohortsfile
 save `cohortsfile', replace emptyok
 
-local TARGET_N_CONTROL 50
+local TARGET_N_CONTROL 10
 local SEED 1391
 global min_obs_threshold 1         // Minimum observations before/after
 global min_T 1                     // Minimum observations to estimate fixed effects
