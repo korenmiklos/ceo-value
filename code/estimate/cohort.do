@@ -19,8 +19,21 @@ drop N_jobs
 egen first_year = min(year), by(person_id)
 tabulate first_year founder
 
+* to calibrate alpha, we need to count founders
 generate cohort = int(first_year/5)*5
 tabulate cohort founder
+* export a nice latex table for the paper
+estpost tabulate cohort founder, matcell(freq) matrow(row) matcol(col)
+matrix list r(freq)
+esttab matrix(r(freq)) using "output/table/cohort_founders.tex", ///
+    replace booktabs fragment ///
+    b(0) se(0) ///
+    label ///
+    collabels("Non-Founder" "Founder" "Total") ///
+    rowlabels("1985" "1990" "1995" "2000" "2005" "2010" "2015" "Total") ///
+    prehead("\begin{table}[htbp]\centering" "\caption{Manager Cohort Entry and Founder Status}\label{tab:cohort_founders}" "\begin{threeparttable}" "\begin{tabular}{lccc}" "\toprule") ///
+    posthead("\midrule") ///
+    postfoot("\bottomrule" "\end{tabular}" "\begin{tablenotes}" "\footnotesize" "\item \textbf{Notes:} This table reports the number of managers entering each cohort by founder status. Cohorts are defined by the first year a manager appears in the data, grouped in 5-year bins. Founders are defined as CEOs who are also founders of the firm they manage. The sample is restricted to Hungarian managers with non-missing revenue data and at most 4 simultaneous positions. Data source: Hungarian Manager Database (CEU MicroData) merged with firm financial statements, 1986-2022." "\end{tablenotes}" "\end{threeparttable}" "\end{table}")
 
 generate birth_cohort = int(birth_year/5)*5
 
@@ -34,6 +47,48 @@ generate ln_n = ln(n)
 local controls male ceo_age ceo_age_sq founder firm_age firm_age_sq
 local FEs teaor08_2d##year
 local sample inrange(ceo_age, 18, 75) & year >= 1992
+
+* to calibrate phi, report EBTA/sales ratios by founder status
+generate double ebitda_sales = EBITDA / sales
+replace ebitda_sales = . if ebitda_sales < 0 | ebitda_sales > 1
+summarize ebitda_sales if `sample' & founder, detail
+display "Mean EBITDA/Sales, Founders: " %6.4f r(mean)
+display "Median EBITDA/Sales, Founders: " %6.4f r(p50)
+summarize ebitda_sales [aw=sales] if `sample' & founder
+display "Weighted Mean EBITDA/Sales, Founders: " %6.4f r(mean)
+summarize ebitda_sales if `sample' & !founder, detail
+display "Mean EBITDA/Sales, Non-Founders: " %6.4f r(mean)
+display "Median EBITDA/Sales, Non-Founders: " %6.4f r(p50)
+summarize ebitda_sales [aw=sales] if `sample' & !founder
+display "Weighted Mean EBITDA/Sales, Non-Founders: " %6.4f r(mean)
+
+generate ln_EBITDA_share = ln(ebitda_sales)
+
+reghdfe ln_EBITDA_share `controls' if `sample', a(`FEs') cluster(frame_id_numeric)
+* the founder needs to pay txes minimum wage, add this back to the observed surplus
+merge m:1 year using "temp/minimum_wage.dta", keep(master match) nogen
+
+generate payroll_tax = 27 if inrange(year, 2012, 2016)
+replace payroll_tax = 22 if inrange(year, 2017, 2017)
+replace payroll_tax = 19.5 if inrange(year, 2018, 2018)
+* change was midyear from 19.5 to 17.5, use average
+replace payroll_tax = 18.5 if inrange(year, 2019, 2019)
+* similar in 2020 from 17.5 to 15.5
+replace payroll_tax = 16.5 if inrange(year, 2020, 2020)
+replace payroll_tax = 15.5 if inrange(year, 2021, 2021)
+replace payroll_tax = 13 if inrange(year, 2022, 2022)
+
+generate double founder_min_wage = guaranteed_minimum_wage * (payroll_tax/100) * 12 / 1000
+replace EBITDA = EBITDA + founder_min_wage if founder
+generate double adjusted_ebitda_sales = EBITDA / sales
+replace adjusted_ebitda_sales = . if adjusted_ebitda_sales < 0 | adjusted_ebitda_sales > 1
+replace ln_EBITDA_share = ln(adjusted_ebitda_sales) if founder 
+
+summarize adjusted_ebitda_sales if `sample' & founder & !missing(adjusted_ebitda_sales), detail
+display "Mean Adjusted EBITDA/Sales, Founders: " %6.4f r(mean)
+summarize ebitda_sales if `sample' & !founder & !missing(adjusted_ebitda_sales), detail
+display "Mean EBITDA/Sales, Non-Founders: " %6.4f r(mean)
+reghdfe ln_EBITDA_share `controls' if `sample' & !missing(adjusted_ebitda_sales), a(`FEs') cluster(frame_id_numeric)
 
 * firm size goes down. entry goes up
 reghdfe lnR ib1985.cohort `controls' if `sample', a(`FEs') cluster(first_year )
