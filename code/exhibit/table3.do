@@ -12,7 +12,14 @@ forvalues model = 1/6 {
     eststo model`model'
 }
 
-local vars lnK has_intangible founder owner foreign_owned state_owned
+local vars D_lnK D_has_intangible D_founder D_owner D_foreign_owned D_state_owned
+
+label variable D_lnK "Tangible Assets (log)"
+label variable D_has_intangible "Intangible Assets (dummy)"
+label variable D_founder "CEO is founder (dummy)"
+label variable D_owner "CEO is non-founding owner (dummy)"
+label variable D_foreign_owned "Foreign-owned firm (dummy)"
+label variable D_state_owned "State-owned firm (dummy)"
 
 * Generate LaTeX table using esttab 
 esttab model1 model2 model3 model4 model5 model6 using "output/table/table3.tex", ///
