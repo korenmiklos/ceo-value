@@ -45,7 +45,7 @@ install: install.log
 data: temp/unfiltered.dta temp/analysis-sample.dta temp/placebo.dta temp/large_component_managers.csv
 
 # Statistical analysis pipeline  
-analysis: temp/surplus.dta temp/manager_value.dta temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_moments.dta temp/revenue_models.ster bloom_autonomy_analysis.log output/table/atet_owner.tex output/table/atet_manager.tex output/table/anova_TFP.tex output/table/anova_lnR.tex output/estimate/atet_full.csv output/estimate/atet_fnd2non.csv output/estimate/atet_non2non.csv
+analysis: temp/surplus.dta temp/manager_value.dta temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_moments.dta temp/revenue_models.ster bloom_autonomy_analysis.log output/table/atet_owner.tex output/table/atet_manager.tex output/table/table2.tex output/table/anova_TFP.tex output/table/anova_lnR.tex output/estimate/atet_full.csv output/estimate/atet_fnd2non.csv output/estimate/atet_non2non.csv
 
 # Final reporting pipeline
 report: output/paper.pdf output/slides60.pdf output/figure/figure1.pdf output/figure/figure2.pdf
@@ -160,6 +160,11 @@ output/table/tableA1.tex: code/exhibit/tableA1.do temp/unfiltered.dta temp/analy
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
+# Table 2: ATET estimates comparison across samples  
+output/table/table2.tex: code/exhibit/table2.do output/estimate/atet_full.csv output/estimate/atet_fnd2non.csv output/estimate/atet_non2non.csv
+	mkdir -p $(dir $@)
+	$(STATA) $<
+
 # Table 3: Revenue function estimation results
 output/table/table3.tex: code/exhibit/table3.do temp/revenue_models.ster temp/analysis-sample.dta temp/large_component_managers.csv code/create/network-sample.do
 	mkdir -p $(dir $@)
@@ -171,11 +176,11 @@ output/table/table3.tex: code/exhibit/table3.do temp/revenue_models.ster temp/an
 # =============================================================================
 
 # Compile final paper
-output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/figure1.pdf output/figure/figure2.pdf output/references.bib
+output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2.tex output/table/table3.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/figure1.pdf output/figure/figure2.pdf output/references.bib
 	cd output && $(LATEX) paper.tex && bibtex paper && $(LATEX) paper.tex && $(LATEX) paper.tex
 
 # Compile presentation slides
-output/slides60.pdf: output/slides60.md output/preamble-slides.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_connected.pdf output/figure/figure1.pdf output/figure/figure2.pdf
+output/slides60.pdf: output/slides60.md output/preamble-slides.tex output/table/table1.tex output/table/table2.tex output/table/table3.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_connected.pdf output/figure/figure1.pdf output/figure/figure2.pdf
 	cd output && $(PANDOC) slides60.md -t beamer --slide-level 2 -H preamble-slides.tex -o slides60.pdf
 
 # Figure 1: Event study by CEO transition type (4 panels)  
