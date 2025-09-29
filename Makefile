@@ -44,7 +44,7 @@ install: install.log
 data: temp/unfiltered.dta temp/analysis-sample.dta temp/placebo.dta temp/large_component_managers.csv
 
 # Statistical analysis pipeline  
-analysis: temp/surplus.dta temp/manager_value.dta temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_moments.dta temp/revenue_models.ster bloom_autonomy_analysis.log output/table/atet_owner.tex output/table/atet_manager.tex
+analysis: temp/surplus.dta temp/manager_value.dta temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_moments.dta temp/revenue_models.ster bloom_autonomy_analysis.log output/table/atet_owner.tex output/table/atet_manager.tex output/table/anova_TFP.tex output/table/anova_lnR.tex
 
 # Final reporting pipeline
 report: output/paper.pdf output/slides60.pdf output/figure/figure1.pdf output/figure/figure2.pdf
@@ -116,6 +116,15 @@ temp/revenue_models.ster: code/estimate/revenue_function.do temp/analysis-sample
 # Bloom et al. (2012) autonomy analysis - supporting evidence
 bloom_autonomy_analysis.log: code/estimate/bloom_autonomy_analysis.do input/bloom-et-al-2012/replication.dta
 	$(STATA) $<
+
+# ANOVA variance decomposition analysis
+output/table/anova_TFP.tex output/figure/anova_TFP_event_time.gph output/figure/anova_TFP_firm_age.gph: code/estimate/anova.do code/estimate/setup_anova.do temp/placebo_fnd2non12.dta
+	mkdir -p $(dir $@)
+	$(STATA) $< TFP
+
+output/table/anova_lnR.tex output/figure/anova_lnR_event_time.gph output/figure/anova_lnR_firm_age.gph: code/estimate/anova.do code/estimate/setup_anova.do temp/placebo_fnd2non12.dta
+	mkdir -p $(dir $@)
+	$(STATA) $< lnR
 
 
 # =============================================================================
