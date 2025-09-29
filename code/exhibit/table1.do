@@ -94,7 +94,7 @@ restore
 * =============================================================================
 
 * Write Panel A LaTeX table
-file open panelA using "output/table/table2_panelA.tex", write replace text
+file open panelA using "output/table/table1_panelA.tex", write replace text
 
 file write panelA "\begin{tabular}{lcc}" _n
 file write panelA "\toprule" _n
@@ -146,12 +146,12 @@ file write panelA "\end{tabular}" _n
 file close panelA
 
 * Write Panel B LaTeX table
-file open panelB using "output/table/table2_panelB.tex", write replace text
+file open panelB using "output/table/table1_panelB.tex", write replace text
 
-file write panelB "\begin{tabular}{lcc}" _n
+file write panelB "\begin{tabular}{lc}" _n
 file write panelB "\toprule" _n
-file write panelB "Length & Actual & Placebo \\" _n
-file write panelB "(Years) & Spells & Spells \\" _n
+file write panelB "Length & CEO \\" _n
+file write panelB "(Years) & Spells \\" _n
 file write panelB "\midrule" _n
 
 * Panel B data - write rows by combining the two datasets
@@ -169,16 +169,9 @@ forvalues i = 1/`=max(`N1',`N2')' {
     if `i' <= `N1' {
         local actual_pct = pct[`i']
     }
-    
-    * Get placebo data  
-    use `panel_b_col2', clear
-    local placebo_pct ""
-    if `i' <= `N2' {
-        local placebo_pct = pct[`i']
-    }
-    
-    if "`actual_pct'" != "" | "`placebo_pct'" != "" {
-        file write panelB "`row_label' & `actual_pct'\% & `placebo_pct'\% \\" _n
+
+    if "`actual_pct'" != "" {
+        file write panelB "`row_label' & `actual_pct'\%  \\" _n
     }
 }
 
@@ -187,11 +180,11 @@ use `panel_b_col1', clear
 local total_actual = total_spells[_N]
 use `panel_b_col2', clear
 local total_placebo = total_spells[_N]
-file write panelB "Total & " %12.0fc (`total_actual') " & " %12.0fc (`total_placebo') " \\" _n
+file write panelB "Total & " %12.0fc (`total_actual') " \\" _n
 
 file write panelB "\bottomrule" _n
 file write panelB "\end{tabular}" _n
 
 file close panelB
 
-display "Exhibit 2 panels created: output/table/table2_panelA.tex and output/table/table2_panelB.tex"
+display "Exhibit 2 panels created: output/table/table1_panelA.tex and output/table/table1_panelB.tex"
