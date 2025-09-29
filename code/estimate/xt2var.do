@@ -87,6 +87,10 @@ frame dCov {
     generate lower_dbeta = lower_dCov / (`Var1' - `Var0')
     generate upper_dbeta = upper_dCov / (`Var1' - `Var0')
 
+    generate coef_dbetaalt = coef_dCov / `Var1'
+    generate lower_dbetaalt = lower_dCov / `Var1'
+    generate upper_dbetaalt = upper_dCov / `Var1'
+
     generate coef_beta1 = coef_Cov1 / `Var1'
     generate lower_beta1 = lower_Cov1 / `Var1'
     generate upper_beta1 = upper_Cov1 / `Var1'
