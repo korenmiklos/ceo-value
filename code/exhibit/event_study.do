@@ -2,7 +2,7 @@ args panel title ytitle
 
 local event_window_start -4      // Event study window start
 local event_window_end 3         // Event study window end
-local baseline_year -3            // Baseline year for event study
+local baseline_year -2            // Baseline year for event study
 
 graph twoway ///
     (rarea lower_mean upper_mean xvar, fcolor(gray%5) lcolor(gray%10)) (connected coef_mean xvar, lcolor(black) mcolor(black)) ///

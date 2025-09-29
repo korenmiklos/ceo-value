@@ -76,10 +76,10 @@ generate sd_dY0 = sqrt(var_dY0)
 egen fat = tag(firm_age)
 graph twoway (connected var_dY1 var_dY0 firm_age if fat & inrange(firm_age, 2, `=$figure_window_end-$figure_window_start+2'), sort ///
     `graph_options' ///
-    title("Panel A: By Firm Age") ///
+    title("Panel B: By Firm Age") ///
     xtitle("Firm Age (years)") ///
     xlabel(2(2)`=$figure_window_end-$figure_window_start+2') ///
-    name(panelA, replace)
+    saving("output/figure/anova_`outcome'_firm_age.gph", replace)
 
 drop sd_* var_*
 egen sd_dY1 = sd(cond(placebo == 0, dY, .)), by(event_time firm_age)
@@ -93,12 +93,14 @@ egen Evar_dY0 = mean(var_dY0), by(event_time)
 egen ett = tag(event_time)
 graph twoway (connected Evar_dY1 Evar_dY0 event_time if ett & inrange(event_time, $figure_window_start, $figure_window_end), sort ///
     `graph_options' ///
-    title("Panel B: By Event Time") ///
+    title("Panel A: By Event Time") ///
     xtitle("Time Since CEO change (years)") ///
     xlabel($figure_window_start(1)$figure_window_end) ///
     xline(-0.5) ///
-    name(panelB, replace)
+    saving("output/figure/anova_`outcome'_event_time.gph", replace)
 
+graph use "output/figure/anova_`outcome'_event_time.gph", name(panelA, replace)
+graph use "output/figure/anova_`outcome'_firm_age.gph", name(panelB, replace)
 graph combine panelA panelB, cols(2) ycommon graphregion(color(white)) imargin(small) xsize(5) ysize(2.5)
 
 graph export "output/figure/anova_`outcome'.pdf", replace
