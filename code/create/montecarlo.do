@@ -9,7 +9,9 @@ local sigma_z = 0.1
 local half_normal = 0.797885
 local true_effect = `half_normal' * `sigma_z'
 * stdev of TFP growth, sqrt(0.025/10)
-local sigma_epsilon = 0.05
+local sigma_epsilon0 = 0.05
+* add some excess variance to treated firms
+local sigma_epsilon1 = 0.06
 local rho = 0.97
 * control to treated N
 local control_treated_ratio = 9
@@ -44,7 +46,7 @@ generate change_year = T1 + 1
 
 tabulate T1 placebo, row
 
-generate dTFP = rnormal(0, `sigma_epsilon')
+generate dTFP = rnormal(0, cond(placebo == 0, `sigma_epsilon0', `sigma_epsilon1'))
 bysort fake_id (year): generate TFP = 0 if _n == 1
 bysort fake_id (year): replace TFP = `rho' * TFP[_n-1] + dTFP if _n > 1
 
