@@ -213,6 +213,109 @@ The discussion revealed sophisticated understanding of both the methodological c
 
 ---
 
+# Research Progress Discussion (September 25, 2025)
+
+## Event Study Pattern Analysis
+
+### Pre-trends Across Different Transition Types
+The team examined event study results across multiple transition types and consistently found pre-trends in firm performance before CEO changes. This pattern appears in:
+- **Founder-to-non-founder transitions**: Pre-trends of approximately 11-13%
+- **Non-founder-to-non-founder transitions**: Similar patterns observed
+- **Material/input outcomes**: Consistent pre-trending across different outcome variables
+
+**Key insight**: The presence of pre-trends in both actual and placebo transitions validates the identification strategy by showing that the same bias mechanisms operate in both cases. This is not evidence against random mobility but rather confirms that timing-related selection bias is captured and corrected by the placebo design.
+
+### Robustness Across Outcome Variables
+Event study patterns show remarkable consistency across different outcome measures:
+- **TFP (Total Factor Productivity)**: Shows clear CEO transition effects
+- **Material inputs**: Similar response patterns to CEO changes
+- **Wage bill**: Consistent with productivity-driven input adjustments
+- **Revenue**: Aligns with theoretical predictions about scale effects
+
+This consistency supports the theoretical framework where better managers increase productivity, leading firms to optimally scale up all inputs proportionally.
+
+## Variance Decomposition Methodology
+
+### Theoretical Foundation
+The team developed a sophisticated approach to measure how much CEO transitions contribute to firm performance variance over time. The key innovation is extending the placebo control method to second moments (variance) rather than just first moments (means).
+
+**Core formula**: The variance of cumulative TFP growth from firm age 2 to age A equals:
+- Base variance accumulation: σ²ₑ × η(A) [where η(A) captures age-specific variance growth]
+- Plus CEO transition effects: K × σ²ᵧ [where K = number of CEO transitions, σ²ᵧ = variance contribution per transition]
+
+### Methodological Innovation
+**Age-specific controls**: Unlike naive ANOVA approaches, this method controls for the natural tendency of firm performance variance to increase with age due to accumulated shocks. The placebo design ensures that treatment and control groups have identical variance evolution absent true CEO effects.
+
+**Event-time validation**: The method shows a clear structural break in variance at the time of CEO transition (year 0), with variance jumping from ~0.015 at year -1 to ~0.030 at year 0, while counterfactual variance grows smoothly.
+
+### Empirical Findings
+**Naive ANOVA overstatement**: Traditional within-firm R-squared analysis suggests managers explain 54-62% of performance variance. After placebo adjustment, this drops to 39-46%, with the corrected share declining as firms age (since early CEO impacts are relatively more important).
+
+**Quantitative contribution**: At firm age 10, CEO transitions explain approximately 27% of total TFP variance - a substantial but not overwhelming contribution that is much smaller than naive estimates suggest.
+
+## Back-of-the-Envelope Calculations
+
+### Multiple CEO Transitions
+The team discussed how to extend the analysis beyond the clean single-transition event study to firms with multiple CEO changes. The proposed approach:
+- Estimate per-transition variance contribution (φ) from single-transition sample
+- Apply multiplicatively: Total CEO contribution = K × φ, where K = number of transitions
+- Use age profiles η(A) estimated from control firms to capture baseline variance growth
+
+**Methodological note**: This requires assuming that CEO transition effects are approximately constant across transitions and additive in variance space - simplifications that enable quantification but may miss heterogeneous effects of second vs. third transitions.
+
+### Practical Implementation
+The back-of-the-envelope calculation allows translating the event study estimates (which focus on single, clean transitions) to statements about the broader population of firms with varying numbers of CEO changes over their lifecycle.
+
+## Technical Methodological Details
+
+### Placebo Matching Process
+The placebo construction maintains exact matching on:
+- **Birth cohort**: Control firms born in same year as treatment firms  
+- **Event window length**: Identical observation periods (-2 to +3 years, etc.)
+- **Sample composition**: 9:1 ratio of control to treatment observations for statistical precision
+- **Exclusion criteria**: Placebo firms cannot have actual CEO changes during their placebo window
+
+### Sample Construction and Balance
+**Unbalanced panel handling**: The analysis accommodates firms with different observation lengths rather than requiring balanced panels, which would exclude many smaller firms with shorter lifespans. The placebo design ensures that any bias from unbalanced observation is identical between treatment and control groups.
+
+**Multiple event windows**: Firms with multiple CEO transitions appear multiple times in the sample with separate firm fixed effects for each event window, allowing identification of distinct transition effects while properly clustering standard errors by firm.
+
+### Standard Error Considerations
+**Network dependence**: The team acknowledges but does not fully resolve the challenge that standard errors should account for dependence along manager mobility chains in the two-way fixed effects network. This remains an area for methodological development.
+
+## Paper Organization and Exhibit Planning
+
+### Target Exhibit Structure
+**5 exhibits maximum**, each fitting on one page:
+1. **Table 1**: Descriptive statistics of CEO transitions (timing, frequency, spell lengths) 
+2. **Figure 1**: Placebo-controlled event study showing bias correction (4 panels)
+3. **Figure 2**: Event study results across different transition types and samples (4 panels)  
+4. **Figure 3**: Variance decomposition showing age profiles and CEO contributions (2+ panels)
+5. **Remaining exhibit**: Additional robustness or methodological validation
+
+### Writing Strategy
+**Target length**: 6,000 words requiring careful prioritization
+**Key messages**: 
+- Comprehensive coverage beyond typical large-firm studies
+- Methodological innovation through placebo-controlled design  
+- Quantitative finding that true CEO effects are much smaller than commonly believed (75% of apparent effects are spurious)
+
+**Presentation philosophy**: Write comprehensively first, then edit down rather than trying to write concisely from the start. This ensures important technical details are not lost in the editing process.
+
+## Project Management and Timeline
+
+### Task Allocation
+**Immediate priorities**:
+- **Model section**: Continue refining theoretical exposition and connection to empirical specification
+- **Methodology section**: Document placebo construction and variance decomposition procedures  
+- **Results organization**: Finalize which specific estimates to highlight as main findings
+- **Figure preparation**: Convert analysis code outputs into publication-ready exhibits
+
+### Coordination Approach
+**Daily check-ins** during intensive writing period, with clear division of labor to avoid editing conflicts. The team emphasized finishing the analytical work completely before focusing on presentation refinements.
+
+---
+
 ## Variance Decomposition Analysis
 
 ### Empirical Implementation
@@ -250,5 +353,149 @@ The variance decomposition reveals several key patterns:
 
 **Comparison with Naive ANOVA**: Traditional ANOVA approaches substantially overstate managerial contributions. The naive within-firm R-squared suggests managers explain 54-62% of variance (0.544 at age 4, rising to 0.620-0.625 at ages 8-12). After placebo adjustment, the true contribution drops to 39-46% (0.464 at age 4, declining to 0.391-0.397 at ages 8-12). The adjusted share decreases with firm age, suggesting early-stage CEO impacts are relatively more important.
 
+
+---
+
+# Email Thread Discussion: Referee Comments and Monte Carlo Validation (September 26, 2025)
+
+## Empirical Research Design
+
+### Monte Carlo Simulation Framework
+**What we learned**: Monte Carlo validation is crucial for establishing credibility of the placebo-controlled method, especially with econometrician referees. The simulation would show a horizontal dashed line representing the known true effect, with panels comparing:
+- TWFE event study without placebo control (showing biased results)
+- Placebo-controlled event study (recovering true effect)
+
+**What we agreed on**: 
+- Monte Carlo simulation should be implemented before submission
+
+**Miklos proposes**:
+- Figure 1 structure: 4 panels showing TWFE vs placebo-controlled design in both real data and Monte Carlo
+- Panel A: TWFE event study (three lines: average, better, worse managers)
+- Panel B: Placebo-controlled design  
+- Panel C: TWFE in Monte Carlo (dashed line shows known true effect)
+- Panel D: Placebo-controlled event study in Monte Carlo
+
+**What still needs to be done**: Implementation of Monte Carlo simulation showing the placebo method correctly recovers true managerial effects under known data generating process.
+
+Suggested parameters for Monte Carlo:
+- Number of CEO changes: 60,000
+- Hazard of CEO exit: 0.2/year
+- Manager effects drawn from N(0,0.1) - consistent with 0.01 additional variance per transition
+- Epsilon random walk, with Delta epsilon drawn from N(0,0.05) - consistent with 10-year growth rate having variance 0.025
+
+The exact same placebo creator and estimator code should run on the Monte Carlo data to demonstrate the method's validity.
+
+### Production Function Estimation Issues
+**What we learned**: Stephane raised fundamental concerns about production function estimation methodology:
+
+1. **Capital Coefficient Recovery**: Strict exogeneity for capital does not hold (positive productivity shocks drive investment, violating orthogonality). Large literature exists against OLS estimation of production functions.
+
+2. **Alternative Methods**: Two potential solutions discussed:
+   - Cost-share method to recover capital coefficient
+   - Blundell-Bond (2001) GMM approach for dynamic panels
+
+3. **Gandhi et al. Implementation**: Question raised whether Gandhi et al. methodology is correctly invoked, since their framework doesn't include manager fixed effects.
+
+**What we agreed on**:
+- Try GMM-type estimator for alpha coefficient or acknowledge we may overestimate capital's role
+- Gandhi is fine, as it relies on FOC of model with respect to labor and material, not capital
+- Cost-share method is hard because we don't know the true returns to capital in private firms
+
+**What still needs to be done**: 
+- Implement alternative capital coefficient estimation (GMM or cost-share method)
+   - proposed: estimate in first differences with capital as instrument
+
+### Strict Exogeneity and Manager Effects Recovery
+**What we learned**: Complex debate about strict exogeneity assumptions:
+
+**Krisztina's concern**: Even with correct capital coefficient, strict exogeneity is needed to recover manager effects. Without it, we recover not just managerial skill (zm) but a combination of skill and systematic correlation with error terms. If workers get negative wage shocks and subsequently move, their fixed effects will be downward biased.
+
+**Miklos's counter**: With correct alpha, strict exogeneity is no longer needed for manager effect identification. The fixed effects approach can handle systematic correlation patterns.
+
+**What we agreed on**: This remains an open methodological question requiring careful theoretical treatment.
+
+**What still needs to be done**: Resolve the theoretical conditions under which manager fixed effects can be consistently estimated without full strict exogeneity.
+
+### Hazard Function Modeling
+**What we learned**: The empirical hazard function used for CEO transition timing implicitly assumes mobility patterns not explicitly modeled in the theoretical framework. This creates inconsistency between theoretical model and empirical hazard implementation.
+
+**What we agreed on**: 
+- We don't model manager changes endogenously, so have limited theoretical guidance on hazard specification
+- We use exact same distribution of job spells in treatment and control groups
+- Acknowledge this as limitation and future work opportunity
+
+## Identification and Causal Inference
+
+### Placebo Method Validation Concerns
+**What we learned**: Stephane was not convinced by the placebo approach due to "convolution problem" - difficulty separating signal from noise. Key concerns:
+
+1. **Nonlinear Bias**: We correct assuming noise is additive, but bias may be nonlinear, especially around transitions
+2. **Systematic vs Random Noise**: Method may not fully separate systematic correlation from pure measurement error
+
+**What we agreed on**: Monte Carlo simulation is essential to demonstrate the placebo method works and provides consistent estimates under known data generating processes.
+
+**What still needs to be done**: 
+- Implement Monte Carlo showing placebo method recovers true effects
+
+### Alternative Bias Correction Methods
+**What we learned**: Referee suggests implementing existing bias correction methods to validate our variance decomposition approach. Comparison with established methods would strengthen credibility.
+
+**What we agreed on**: We should clarify why this methods cannot be implemented in our setting (single manager per firm, limited mobility).
+
+## Academic Context and Referee Expectations
+
+### Expected Referee Composition
+**What we learned**: Paper will likely receive:
+- One manager literature referee (focused on substantive contributions)
+- One applied econometrician referee (focused on methodological rigor)
+
+**What we agreed on**: Need to satisfy both audiences with:
+- Substantive contributions to understanding CEO effects
+- Methodologically rigorous approach to identification challenges
+
+### Publication Strategy
+**What we learned**: This is not positioned as an Econometrica paper - applied econometrics standards should focus on practical importance rather than pure methodological innovation.
+
+**What we agreed on**: 
+- Applied work typically corrects for additive bias - our approach fits this tradition
+- 90% of applied work uses similar bias correction principles
+- Monte Carlo validation addresses econometrician concerns without overengineering
+
+## Exhibits and Presentation
+
+### ATET Table Specification
+**What we need to clarify**: Exact specifications for Average Treatment Effect on Treated (ATET) table:
+- Control group definition
+- Which numbers to report  
+- Statistical significance testing approach
+
+**Proposed structure**: Four columns (Simple OLS TWFE, TWFE with placebo, Monte Carlo TWFE, Monte Carlo placebo-controlled), three rows (treatment types: average, better or worse CEO).
+
+### Figure 1 Layout
+**Miklos suggests**: Four-panel figure structure:
+- Panel A: TWFE event study (average, better, worse manager lines)
+- Panel B: Placebo-controlled design OR placebo firms comparison
+- Panel C: TWFE in Monte Carlo (horizontal dashed line for true effect)
+- Panel D: Placebo-controlled event study in Monte Carlo (dashed line for true effect)
+
+**What still needs to be done**: 
+- Finalize whether Panel B shows placebo-controlled results or placebo firm comparison
+- Determine exact line specifications and statistical testing approach
+- Create publication-ready figure with consistent formatting
+
+## Project Management
+
+### Timeline and Priorities
+**What we agreed on**: 
+- Monte Carlo implementation is high priority for referee credibility
+- Alternative production function estimation methods needed as robustness
+- Focus on methodological validation before refining presentation
+
+**What still needs to be done**:
+- Implement Monte Carlo simulation (3-4 hours estimated)
+- Test alternative capital coefficient estimation methods
+
+### Research Positioning
+**What we agreed on**: Position paper as methodological contribution to applied CEO effects literature rather than pure econometric theory paper. Focus on practical importance of bias correction while maintaining methodological rigor.
 
 ---
