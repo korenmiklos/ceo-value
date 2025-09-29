@@ -32,4 +32,4 @@ esttab model1 model2 model3 model4 model5 model6 using "output/table/table3.tex"
             "Outcome variables are log-transformed. Models (5) and (6) include quadratic controls for CEO age and tenure." ///
             "Model (6) restricts to largest connected component of CEO-firm network.")
 
-display "Table 3 generated: output/table/table3.tex"
+display "Table 3 generated: output/table/tableA2.tex"

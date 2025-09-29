@@ -1,220 +1,190 @@
-clear all
+local max_spell_analysis = 2
+local max_n_ceo 1
 
-local connected (giant_component == 1) | (connected_components == 1)
-
-* Load analysis sample
-use "temp/analysis-sample.dta", clear
+use "temp/unfiltered.dta", clear
 
 * =============================================================================
-* Create year-level statistics
+* PANEL A: CEO PATTERNS ANALYSIS  
 * =============================================================================
 
-* Tag unique firms per year
-egen firm_year_tag = tag(frame_id_numeric year)
-
-* Count total firms per year (after filtering)
+* Column 1: CEOs per firm-year analysis
 preserve
-    keep if firm_year_tag
-    collapse (count) n_firms_filtered = frame_id_numeric, by(year)
-    tempfile filtered_firms
-    save `filtered_firms'
-restore
-
-* Count distinct CEOs per year
-preserve
-    egen ceo_year_tag = tag(person_id year)
-    keep if ceo_year_tag
-    collapse (count) n_ceos = person_id, by(year)
-    tempfile ceo_counts
-    save `ceo_counts'
-restore
-
-* =============================================================================
-* Load raw balance sheet data for total firm counts
-* =============================================================================
-
-preserve
-    use "temp/balance.dta", clear
     egen firm_year_tag = tag(frame_id_numeric year)
     keep if firm_year_tag
-    collapse (count) n_firms_total = frame_id_numeric, by(year)
-    tempfile total_firms
-    save `total_firms'
+
+    * n_ceo already exists, don't recompute it
+    drop if missing(n_ceo)
+    recode n_ceo 4/max = 4
+
+    * Generate statistics
+    tempfile panel_a_col1
+    collapse (count) n_obs = frame_id_numeric, by(n_ceo)
+    generate total_obs = sum(n_obs)
+    generate pct = round(n_obs / total_obs[_N] * 100)
+    save `panel_a_col1'
 restore
 
-* =============================================================================
-* Process largest connected component
-* =============================================================================
-
-* Load connected component managers
+* Column 2: CEO spells per firm analysis  
 preserve
-    import delimited "temp/large_component_managers.csv", clear
-    keep if `connected'
-    tempfile connected_managers
-    save `connected_managers'
-restore
+    egen firm_tag = tag(frame_id_numeric)
+    keep if firm_tag
 
-* Count CEOs in connected component
-preserve
-    merge m:1 person_id using `connected_managers', keep(match) nogen
-    egen ceo_year_tag = tag(person_id year)
-    keep if ceo_year_tag
-    collapse (count) n_ceos_connected = person_id, by(year)
-    tempfile connected_ceos
-    save `connected_ceos'
-restore
+    * max_ceo_spell already exists, don't recompute it
+    recode max_ceo_spell (4/max = 4)
 
-* Count firms in connected component
-preserve
-    merge m:1 person_id using `connected_managers', keep(match) nogen
-    drop if missing(frame_id_numeric)
-    egen firm_year_tag_conn = tag(frame_id_numeric year)
-    keep if firm_year_tag_conn
-    collapse (count) n_firms_connected = frame_id_numeric, by(year)
-    tempfile connected_firms
-    save `connected_firms'
+    * Generate statistics
+    tempfile panel_a_col2
+    collapse (count) n_firms = frame_id_numeric, by(max_ceo_spell)
+    generate total_firms = sum(n_firms)
+    generate pct = round(n_firms / total_firms[_N] * 100)
+    save `panel_a_col2'
 restore
 
 * =============================================================================
-* Combine all statistics
+* PANEL B: SPELL LENGTH ANALYSIS
 * =============================================================================
-
-use `total_firms', clear
-merge 1:1 year using `filtered_firms', nogen
-merge 1:1 year using `ceo_counts', nogen
-merge 1:1 year using `connected_ceos', nogen
-merge 1:1 year using `connected_firms', nogen
-
-* Fill missing values with zeros
-foreach var in n_firms_total n_firms_filtered n_ceos n_ceos_connected n_firms_connected {
-    replace `var' = 0 if missing(`var')
-}
-
-* Keep years 1992-2022
-keep if inrange(year, 1992, 2022)
-sort year
-
-* =============================================================================
-* Create LaTeX table using estout
-* =============================================================================
-
-* Since table is long (31 years), we'll show every 5 years plus first, last, and totals
-generate byte show_row = mod(year, 5) == 0 | year == 1992 | year == 2022
-
-* Calculate totals for distinct counts (not sums of observations)  
-tempfile main_data
-save `main_data'
-
-* Count distinct firms and CEOs across all years
 use "temp/analysis-sample.dta", clear
-egen firm_tag = tag(frame_id_numeric)
-egen ceo_tag = tag(person_id)
-count if firm_tag
-local total_firms_filtered = r(N)
-count if ceo_tag
-local total_ceos = r(N)
+preserve
+    keep if max_ceo_spell >= `max_spell_analysis'
+    * do not use last spell, because it ends in firm death, not CEO change
+    keep if ceo_spell < max_ceo_spell
+    * drop firms with more than one CEO per year
+    egen max_n_ceo = max(n_ceo), by(frame_id_numeric)
+    tabulate n_ceo max_n_ceo, missing
+    keep if max_n_ceo <= `max_n_ceo'
 
-* Count distinct in balance data
-use "temp/balance.dta", clear
-egen firm_tag = tag(frame_id_numeric)
-count if firm_tag
-local total_firms_total = r(N)
+    egen spell_tag = tag(frame_id_numeric ceo_spell)
+    egen spell_year_tag = tag(frame_id_numeric ceo_spell year)
+    egen T_spell = total(spell_year_tag), by(frame_id_numeric ceo_spell)
+    keep if spell_tag 
 
-* Count distinct in connected component
-use `connected_managers'
-count
-local total_ceos_connected = r(N)
+    recode T_spell (4/max = 4)
 
-* Count distinct firms in connected component
-use "temp/analysis-sample.dta", clear
-merge m:1 person_id using `connected_managers', keep(match) nogen
-egen firm_tag = tag(frame_id_numeric)
-count if firm_tag
-local total_firms_connected = r(N)
+    tempfile panel_b_col1
+    collapse (count) n_spells = frame_id_numeric, by(T_spell)
+    generate total_spells = sum(n_spells)
+    generate pct = round(n_spells / total_spells[_N] * 100)
+    save `panel_b_col1'
+restore
 
-* Create totals row
-clear
-set obs 1
-generate year = 9999
-generate n_firms_total = `total_firms_total'
-generate n_firms_filtered = `total_firms_filtered'
-generate n_ceos = `total_ceos'
-generate n_firms_connected = `total_firms_connected'
-generate n_ceos_connected = `total_ceos_connected'
+* Placebo spell length analysis - merge placebo data with main data
+merge m:1 frame_id_numeric year using "temp/placebo.dta", keep(match) nogen
+preserve
+    keep if !missing(placebo_spell)
+    egen max_placebo_spell = max(placebo_spell), by(frame_id_numeric)
+    * drop last spell, because it ends in firm death, not CEO change
+    keep if placebo_spell < max_ceo_spell
 
-tempfile totals
-save `totals'
+    egen spell_tag = tag(frame_id_numeric placebo_spell)
+    egen spell_year_tag = tag(frame_id_numeric placebo_spell year)
+    egen T_spell = total(spell_year_tag), by(frame_id_numeric placebo_spell)
+    keep if spell_tag
 
-* Restore main data and append totals
-use `main_data', clear
+    recode T_spell 4/max = 4
 
-append using `totals'
+    tempfile panel_b_col2
+    collapse (count) n_spells = frame_id_numeric, by(T_spell)
+    generate total_spells = sum(n_spells)
+    generate pct = round(n_spells / total_spells[_N] * 100)
+    save `panel_b_col2'
+restore
 
-* Create year label for display
-generate str year_label = string(year) if year != 9999
-replace year_label = "Total" if year == 9999
+* =============================================================================
+* CREATE LATEX TABLES - SEPARATE PANELS
+* =============================================================================
 
-* Keep only rows to display
-keep if show_row | year == 9999
-sort year
+* Write Panel A LaTeX table
+file open panelA using "output/table/table1_panelA.tex", write replace text
 
-* Prepare data for estout - need equal-width columns
-local outfile "output/table/table1.tex"
+file write panelA "\begin{tabular}{lcc}" _n
+file write panelA "\toprule" _n
+file write panelA "CEOs & Firm-Year & Firm \\" _n
+file write panelA "\midrule" _n
 
-* Create table using manual file writing with estout-style formatting
-file open table using "`outfile'", write replace
-file write table "\begin{table}[htbp]" _n
-file write table "\centering" _n
-file write table "\caption{Sample Over Time}" _n
-file write table "\label{tab:sample}" _n
-file write table "\begin{tabular}{*{6}{c}}" _n  // Equal width centered columns
-file write table "\toprule" _n
-file write table "Year & \shortstack{Total\\firms} & \shortstack{Sample\\firms} & CEOs & \multicolumn{2}{c}{Connected component} \\" _n
-file write table "\cmidrule(lr){5-6}" _n
-file write table " & & & & Firms & CEOs \\" _n
-file write table "\midrule" _n
+* Panel A data
+use `panel_a_col1', clear
+local N1 = _N
+use `panel_a_col2', clear
+local N2 = _N
 
-* Write data rows (selected years only)
-forvalues i = 1/`=_N' {
-    if year[`i'] == 9999 {
-        file write table "\midrule" _n
+forvalues i = 1/`=max(`N1',`N2')' {
+    local row_label = cond(`i' <= 3, "`i'", "4+")
+    
+    * Get column 1 data
+    use `panel_a_col1', clear
+    local col1_pct ""
+    local col1_obs ""
+    if `i' <= `N1' {
+        local col1_pct = pct[`i']
+        local col1_obs = n_obs[`i']
     }
     
-    file write table (year_label[`i']) " & "
-    file write table %12.0fc (n_firms_total[`i']) " & "
-    file write table %12.0fc (n_firms_filtered[`i']) " & "
-    file write table %12.0fc (n_ceos[`i']) " & "
-    file write table %12.0fc (n_firms_connected[`i']) " & "
-    file write table %12.0fc (n_ceos_connected[`i']) " \\" _n
+    * Get column 2 data  
+    use `panel_a_col2', clear
+    local col2_pct ""
+    local col2_obs ""
+    if `i' <= `N2' {
+        local col2_pct = pct[`i']
+        local col2_obs = n_firms[`i']
+    }
+    
+    if "`col1_pct'" != "" | "`col2_pct'" != "" {
+        file write panelA "`row_label' & `col1_pct'\% & `col2_pct'\% \\" _n
+    }
 }
 
-* Write table footer with notes
-file write table "\bottomrule" _n
-file write table "\end{tabular}" _n
-file write table "\begin{minipage}{12cm}" _n  // Match table width (6 columns × 2cm)
-file write table "\footnotesize" _n
-file write table "\textit{Notes:} This table presents the evolution of the sample from 1992 to 2022. "
-file write table "Column (1) shows the total number of distinct firms with balance sheet data. "
-file write table "Column (2) shows the number of distinct firms after applying data quality filters. "
-file write table "Column (3) shows the number of distinct CEOs. "
-file write table "Columns (4) and (5) show the subset of distinct firms and CEOs that belong to the largest connected component "
-file write table "of the manager network, where managers are connected if they have worked at the same firm. "
-file write table "The table shows every fifth year plus the first year (1992), last year (2022), and totals of distinct counts. "
-file write table "\end{minipage}" _n
-file write table "\end{table}" _n
-file close table
+* Panel A totals
+use `panel_a_col1', clear
+local total_firm_years = total_obs[_N]
+use `panel_a_col2', clear  
+local total_firms = total_firms[_N]
 
-display "Table 1 written to `outfile'"
+file write panelA "Total & " %12.0fc (`total_firm_years') " & " %12.0fc (`total_firms') " \\" _n
+file write panelA "\bottomrule" _n
+file write panelA "\end{tabular}" _n
 
-* =============================================================================
-* Summary statistics for log file
-* =============================================================================
+file close panelA
 
-display _n "Summary of years included in table:"
-list year_label n_firms_total n_firms_filtered n_ceos n_ceos_connected n_firms_connected, sep(0) noobs
+* Write Panel B LaTeX table
+file open panelB using "output/table/table1_panelB.tex", write replace text
 
-display _n "Share of connected component:"
-generate share_ceos_connected = n_ceos_connected / n_ceos * 100
-generate share_firms_connected = n_firms_connected / n_firms_filtered * 100
-format share_* %5.1f
-summarize share_ceos_connected share_firms_connected if year != 9999, detail
+file write panelB "\begin{tabular}{lc}" _n
+file write panelB "\toprule" _n
+file write panelB "Length & CEO \\" _n
+file write panelB "(Years) & Spells \\" _n
+file write panelB "\midrule" _n
+
+* Panel B data - write rows by combining the two datasets
+use `panel_b_col1', clear
+local N1 = _N
+use `panel_b_col2', clear  
+local N2 = _N
+
+forvalues i = 1/`=max(`N1',`N2')' {
+    local row_label = cond(`i' <= 3, "`i'", "4+")
+    
+    * Get actual data
+    use `panel_b_col1', clear
+    local actual_pct ""
+    if `i' <= `N1' {
+        local actual_pct = pct[`i']
+    }
+
+    if "`actual_pct'" != "" {
+        file write panelB "`row_label' & `actual_pct'\%  \\" _n
+    }
+}
+
+* Panel B totals  
+use `panel_b_col1', clear
+local total_actual = total_spells[_N]
+use `panel_b_col2', clear
+local total_placebo = total_spells[_N]
+file write panelB "Total & " %12.0fc (`total_actual') " \\" _n
+
+file write panelB "\bottomrule" _n
+file write panelB "\end{tabular}" _n
+
+file close panelB
+
+display "Exhibit 2 panels created: output/table/table1_panelA.tex and output/table/table1_panelB.tex"

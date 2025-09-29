@@ -1,25 +1,9 @@
-local sample full
+local panelA "output/figure/anova_TFP_event_time.gph"
+local panelB "output/figure/anova_TFP_firm_age.gph"
+local panelC "output/figure/anova_lnR_event_time.gph"
+local panelD "output/figure/anova_lnR_firm_age.gph"
 
-local outcomeA lnK
-local outcomeB has_intangible
-local outcomeC lnM
-local outcomeD lnWL
-
-local titleA "Capital (log)"
-local titleB "Intangibles (dummy)"
-local titleC "Materials (log)"
-local titleD "Wagebill (log)"
-
-foreach panel in A B C D  {
-    local title  `title`panel''
-    local outcome  `outcome`panel''
-    local ytitle "`title' relative to year -3"
-
-    import delimited "output/event_study/`sample'_`outcome'.csv", clear
-    do "code/exhibit/event_study.do" `panel' "`title'" "`ytitle'" 
-}
-
-graph combine panelA panelB panelC panelD, ///
+graph combine `panelA' `panelB' `panelC' `panelD', ///
     cols(2) ycommon graphregion(color(white)) imargin(small) xsize(5) ysize(5)
 
 graph export "output/figure/figure3.pdf", replace

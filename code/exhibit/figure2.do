@@ -1,19 +1,21 @@
-local sampleA fnd2non
-local sampleB non2non
-local sampleC full
-local sampleD post2004
+local sample full
 
-local titleA "Founder to Non-founder"
-local titleB "Non-founder to Non-founder"
-local titleC "All CEO changes"
-local titleD "Sample: 2004-2022"
+local outcomeA lnK
+local outcomeB has_intangible
+local outcomeC lnM
+local outcomeD lnWL
+
+local titleA "Capital (log)"
+local titleB "Intangibles (dummy)"
+local titleC "Materials (log)"
+local titleD "Wagebill (log)"
 
 foreach panel in A B C D  {
-    local sample  `sample`panel''
     local title  `title`panel''
-    local ytitle "Log TFP relative to year -3"
+    local outcome  `outcome`panel''
+    local ytitle "Change relative to year -2"
 
-    import delimited "output/event_study/`sample'_TFP.csv", clear
+    import delimited "output/event_study/`sample'_`outcome'.csv", clear
     do "code/exhibit/event_study.do" `panel' "`title'" "`ytitle'" 
 }
 
