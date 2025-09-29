@@ -58,7 +58,6 @@ foreach sector of local sectors {
     foreach var of local controls {
         quietly replace B_`var' = _b[D_`var'] * `var' if sector == `sector'
     }
-    drop sector_time
 }
 
 keep frame_id_numeric year teaor08_2d sector ceo_spell person_id lnR lnEBITDA lnL lnStilde chi `controls' B_lnK B_has_intangible 
