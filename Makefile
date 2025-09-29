@@ -45,7 +45,7 @@ install: install.log
 data: temp/unfiltered.dta temp/analysis-sample.dta temp/placebo.dta temp/large_component_managers.csv
 
 # Statistical analysis pipeline  
-analysis: temp/surplus.dta temp/manager_value.dta temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_moments.dta temp/revenue_models.ster bloom_autonomy_analysis.log output/table/atet_owner.tex output/table/atet_manager.tex output/table/anova_TFP.tex output/table/anova_lnR.tex
+analysis: temp/surplus.dta temp/manager_value.dta temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_moments.dta temp/revenue_models.ster bloom_autonomy_analysis.log output/table/atet_owner.tex output/table/atet_manager.tex output/table/anova_TFP.tex output/table/anova_lnR.tex output/estimate/atet_full.csv output/estimate/atet_fnd2non.csv output/estimate/atet_non2non.csv
 
 # Final reporting pipeline
 report: output/paper.pdf output/slides60.pdf output/figure/figure1.pdf output/figure/figure2.pdf
@@ -126,6 +126,19 @@ output/table/anova_TFP.tex output/figure/anova_TFP_event_time.gph output/figure/
 output/table/anova_lnR.tex output/figure/anova_lnR_event_time.gph output/figure/anova_lnR_firm_age.gph: code/estimate/anova.do code/estimate/setup_anova.do temp/placebo_fnd2non12.dta
 	mkdir -p $(dir $@)
 	$(STATA) $< lnR
+
+# ATET estimation - Average Treatment Effect on the Treated
+output/estimate/atet_full.csv: code/estimate/atet.do code/estimate/setup_event_study.do temp/placebo_full.dta
+	mkdir -p $(dir $@)
+	$(STATA) $< full
+
+output/estimate/atet_fnd2non.csv: code/estimate/atet.do code/estimate/setup_event_study.do temp/placebo_fnd2non.dta
+	mkdir -p $(dir $@)
+	$(STATA) $< fnd2non
+
+output/estimate/atet_non2non.csv: code/estimate/atet.do code/estimate/setup_event_study.do temp/placebo_non2non.dta
+	mkdir -p $(dir $@)
+	$(STATA) $< non2non
 
 
 # =============================================================================
