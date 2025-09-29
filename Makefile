@@ -47,7 +47,7 @@ data: temp/unfiltered.dta temp/analysis-sample.dta temp/placebo.dta temp/large_c
 analysis: temp/surplus.dta temp/manager_value.dta temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_moments.dta temp/revenue_models.ster bloom_autonomy_analysis.log output/table/atet_owner.tex output/table/atet_manager.tex
 
 # Final reporting pipeline
-report: output/paper.pdf output/slides60.pdf output/figure/figure1.pdf output/figure/figure3.pdf
+report: output/paper.pdf output/slides60.pdf output/figure/figure1.pdf output/figure/figure2.pdf
 
 extract: output/extract/manager_changes_2015.dta output/extract/connected_managers.dta
 
@@ -148,11 +148,11 @@ output/table/table3.tex: code/exhibit/table3.do temp/revenue_models.ster temp/an
 # =============================================================================
 
 # Compile final paper
-output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/figure1.pdf output/figure/figure3.pdf output/references.bib
+output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/figure1.pdf output/figure/figure2.pdf output/references.bib
 	cd output && $(LATEX) paper.tex && bibtex paper && $(LATEX) paper.tex && $(LATEX) paper.tex
 
 # Compile presentation slides
-output/slides60.pdf: output/slides60.md output/preamble-slides.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_connected.pdf output/figure/figure1.pdf output/figure/figure3.pdf
+output/slides60.pdf: output/slides60.md output/preamble-slides.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_connected.pdf output/figure/figure1.pdf output/figure/figure2.pdf
 	cd output && $(PANDOC) slides60.md -t beamer --slide-level 2 -H preamble-slides.tex -o slides60.pdf
 
 # Figure 1: Event study by CEO transition type (4 panels)  
@@ -160,8 +160,8 @@ output/figure/figure1.pdf: code/exhibit/figure1.do output/event_study/fnd2non_TF
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
-# Figure 3: Event study outcomes (Capital, Intangibles, Materials, Wagebill)
-output/figure/figure3.pdf: code/exhibit/figure3.do output/event_study/full_lnK.csv output/event_study/full_has_intangible.csv output/event_study/full_lnM.csv output/event_study/full_lnWL.csv code/exhibit/event_study.do
+# Figure 2: Event study outcomes (Capital, Intangibles, Materials, Wagebill)
+output/figure/figure2.pdf: code/exhibit/figure2.do output/event_study/full_lnK.csv output/event_study/full_has_intangible.csv output/event_study/full_lnM.csv output/event_study/full_lnWL.csv code/exhibit/event_study.do
 	mkdir -p $(dir $@)
 	$(STATA) $<
 

@@ -13,7 +13,7 @@ local titleD "Wagebill (log)"
 foreach panel in A B C D  {
     local title  `title`panel''
     local outcome  `outcome`panel''
-    local ytitle "`title' relative to year -3"
+    local ytitle "Change relative to year -2"
 
     import delimited "output/event_study/`sample'_`outcome'.csv", clear
     do "code/exhibit/event_study.do" `panel' "`title'" "`ytitle'" 
@@ -22,4 +22,4 @@ foreach panel in A B C D  {
 graph combine panelA panelB panelC panelD, ///
     cols(2) ycommon graphregion(color(white)) imargin(small) xsize(5) ysize(5)
 
-graph export "output/figure/figure3.pdf", replace
+graph export "output/figure/figure2.pdf", replace
