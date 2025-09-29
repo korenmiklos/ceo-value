@@ -27,12 +27,11 @@ generate `e' = `t' - `g' - 1
 egen `E' = mean(`dY'), by(`g' `t' `treated_group')
 generate `dY2' = (`dY' - `E')^2
 
-/*
+
 * compute event-time-specific variance correction
 ppmlhdfe `dY2' `treated_group' if `e' < 0, absorb(`e')
 local excess_variance = exp(_b[`treated_group']) - 1
 display "Excess variance for treated group: `excess_variance' x"
-*/
 summarize `X', detail
 
 * compute covariances with driver variable
@@ -41,9 +40,8 @@ generate `dYdX' = (`dY' - `E') * (`X' - `EX')
 generate `dX2' = (`X' - `EX')^2
 egen `Cov' = mean(cond(!`treated_group', (`dY' - `E') * (`X' - `EX'), .)), by(`g' `t')
 egen `Var' = mean(cond(!`treated_group', (`X' - `EX')^2, .)), by(`g' `t')
-/*replace `dYdX' = `dYdX' - `Cov' * `excess_variance' if `treated_group'
-replace `dX2' = `dX2' - `Var' * `excess_variance' if `treated_group'
-*/
+replace `dYdX' = `dYdX' - `Cov' * `excess_variance' if `treated_group'
+
 tempvar Cov0 Cov1 beta
 summarize `dX2' if `treated_group' == 0, meanonly
 local Var0 = r(mean)
