@@ -176,7 +176,7 @@ figure/figure3.pdf: src/exhibit/figure3.do data/full_lnK.csv data/full_has_intan
 # =============================================================================
 
 # Compile final paper
-paper.pdf: paper.tex table/table1_panelAB.tex table/table2_panelA.tex table/table2_panelB.tex table/table3.tex table/tableA0.tex table/tableA1.tex table/tableA3.tex table/tableA4.tex figure/manager_skill_within.pdf figure/manager_skill_connected.pdf figure/figure1.pdf figure/figure2.pdf figure/figure3.pdf
+paper.pdf: paper.tex ../../lib/references.bib table/table1_panelAB.tex table/table2_panelA.tex table/table2_panelB.tex table/table3.tex table/tableA0.tex table/tableA1.tex table/tableA3.tex table/tableA4.tex figure/manager_skill_within.pdf figure/manager_skill_connected.pdf figure/figure1.pdf figure/figure2.pdf figure/figure3.pdf
 	$(LATEX) paper.tex && bibtex paper && $(LATEX) paper.tex && $(LATEX) paper.tex
 
 # =============================================================================
