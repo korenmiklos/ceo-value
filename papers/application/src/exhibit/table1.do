@@ -159,7 +159,7 @@ keep if show_row | year == 9999
 sort year
 
 * Prepare data for estout - need equal-width columns
-local outfile "output/table/table1.tex"
+local outfile "papers/application/table/table1_panelAB.tex"
 
 * Create table using manual file writing with estout-style formatting
 file open table using "`outfile'", write replace

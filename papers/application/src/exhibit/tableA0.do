@@ -68,7 +68,7 @@ foreach outcome of local outcomes {
 
 * Generate LaTeX table using esttab
 esttab ppml_investment ols_investment ppml_marketing ppml_product ppml_hiring ///
-    using "output/table/tableA0.tex", ///
+    using "papers/application/table/tableA0.tex", ///
     replace booktabs label star(* 0.10 ** 0.05 *** 0.01) b(3) se(3) ///
     mtitle("Investment" "Investment" "Marketing" "Product" "Hiring" ///
            "\small (PPML)" "\small (Log OLS)" "\small (PPML)" "\small (PPML)" "\small (PPML)") ///
@@ -85,13 +85,13 @@ esttab ppml_investment ols_investment ppml_marketing ppml_product ppml_hiring //
             "All specifications include country and 2-digit SIC industry fixed effects.")
 
 * Clean up LaTeX output to remove underscores in labels
-filefilter "output/table/tableA0.tex" "output/table/tableA0_clean.tex", ///
+filefilter "papers/application/table/tableA0.tex" "papers/application/table/tableA0_clean.tex", ///
     from("country_fe") to("Country FE") replace
-filefilter "output/table/tableA0_clean.tex" "output/table/tableA0.tex", ///
+filefilter "papers/application/table/tableA0_clean.tex" "papers/application/table/tableA0.tex", ///
     from("industry_fe") to("Industry FE") replace
-erase "output/table/tableA0_clean.tex"
+erase "papers/application/table/tableA0_clean.tex"
 
-display "Table A0 generated: output/table/tableA0.tex"
+display "Table A0 generated: papers/application/table/tableA0.tex"
 
 * =============================================================================
 * Summary statistics for table notes

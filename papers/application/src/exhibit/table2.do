@@ -94,7 +94,7 @@ restore
 * =============================================================================
 
 * Write Panel A LaTeX table
-file open panelA using "output/table/table2_panelA.tex", write replace text
+file open panelA using "papers/application/table/table2_panelA.tex", write replace text
 
 file write panelA "\begin{tabular}{lcc}" _n
 file write panelA "\toprule" _n
@@ -146,7 +146,7 @@ file write panelA "\end{tabular}" _n
 file close panelA
 
 * Write Panel B LaTeX table
-file open panelB using "output/table/table2_panelB.tex", write replace text
+file open panelB using "papers/application/table/table2_panelB.tex", write replace text
 
 file write panelB "\begin{tabular}{lcc}" _n
 file write panelB "\toprule" _n

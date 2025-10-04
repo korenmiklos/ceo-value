@@ -14,10 +14,10 @@ foreach panel in A B C D  {
     local ytitle "Log TFP relative to year -3"
 
     import delimited "output/event_study/`sample'_TFP.csv", clear
-    do "code/exhibit/event_study.do" `panel' "`title'" "`ytitle'" 
+    do "papers/application/src/exhibit/event_study.do" `panel' "`title'" "`ytitle'" 
 }
 
 graph combine panelA panelB panelC panelD, ///
     cols(2) ycommon graphregion(color(white)) imargin(small) xsize(5) ysize(5)
 
-graph export "output/figure/figure2.pdf", replace
+graph export "papers/application/figure/figure2.pdf", replace

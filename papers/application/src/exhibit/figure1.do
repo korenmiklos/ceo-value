@@ -50,6 +50,6 @@ foreach panel in b c d {
 graph combine "temp/event_study_panel_a.gph" "temp/event_study_panel_b.gph" "temp/event_study_panel_c.gph" "temp/event_study_panel_d.gph", ///
     cols(2) ycommon graphregion(color(white)) imargin(small) xsize(5) ysize(5) 
 
-graph export "output/figure/event_study.pdf", replace
+graph export "papers/application/figure/figure1.pdf", replace
 
-display "Event study figure created: output/figure/event_study.pdf"
+display "Event study figure created: papers/application/figure/figure1.pdf"
