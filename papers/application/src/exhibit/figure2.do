@@ -13,8 +13,8 @@ foreach panel in A B C D  {
     local title  `title`panel''
     local ytitle "Log TFP relative to year -3"
 
-    import delimited "output/event_study/`sample'_TFP.csv", clear
-    do "papers/application/src/exhibit/event_study.do" `panel' "`title'" "`ytitle'" 
+    import delimited "papers/application/data/`sample'_TFP.csv", clear
+    do "papers/application/src/exhibit/event_study.do" `panel' "`title'" "`ytitle'"
 }
 
 graph combine panelA panelB panelC panelD, ///

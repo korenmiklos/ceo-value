@@ -15,8 +15,8 @@ foreach panel in A B C D  {
     local outcome  `outcome`panel''
     local ytitle "`title' relative to year -3"
 
-    import delimited "output/event_study/`sample'_`outcome'.csv", clear
-    do "papers/application/src/exhibit/event_study.do" `panel' "`title'" "`ytitle'" 
+    import delimited "papers/application/data/`sample'_`outcome'.csv", clear
+    do "papers/application/src/exhibit/event_study.do" `panel' "`title'" "`ytitle'"
 }
 
 graph combine panelA panelB panelC panelD, ///

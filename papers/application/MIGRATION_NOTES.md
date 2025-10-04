@@ -88,3 +88,30 @@ cd papers/application && make -n paper.pdf
 ```
 
 All paths resolved correctly with proper execution from root directory.
+
+## Update: Event Study Data Files
+
+### Changes Made (2024-10-04)
+
+Event study CSV files have been moved from the shared `output/event_study/` directory to the paper-specific `papers/application/data/` directory.
+
+#### Files Moved
+- All event study CSV files: `{sample}_{outcome}.csv` where:
+  - Samples: `full`, `fnd2non`, `non2non`, `post2004`, `fnd2fnd`, `non2fnd`, `montecarlo`
+  - Outcomes: `TFP`, `lnK`, `lnWL`, `lnM`, `has_intangible`
+
+#### Code Changes
+
+**Makefile Updates:**
+- Event study rule output path: `../../output/event_study/` → `data/`
+- Figure dependencies updated to reference `data/*.csv`
+
+**Library Script Updates:**
+- `lib/estimate/event_study.do`: Auto-detects paper context and writes to `papers/application/data/` when run from application paper
+
+**Exhibit Script Updates:**
+- `src/exhibit/figure2.do`: Import from `papers/application/data/`
+- `src/exhibit/figure3.do`: Import from `papers/application/data/`
+- `src/exhibit/figuremc.do`: Import from `papers/application/data/`
+
+This change isolates paper-specific intermediate data files, making the monorepo structure cleaner and enabling multiple papers to have their own event study data without conflicts.

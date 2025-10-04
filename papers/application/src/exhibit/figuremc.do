@@ -7,7 +7,7 @@ foreach panel in A  {
     local title  `title`panel''
     local ytitle "Coefficient of TFP on new CEO skill"
 
-    import delimited "output/event_study/`sample'_TFP.csv", clear
+    import delimited "papers/application/data/`sample'_TFP.csv", clear
     do "papers/application/src/exhibit/event_study.do" `panel' "`title'" "`ytitle'"
 }
 

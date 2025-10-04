@@ -52,7 +52,7 @@ report: paper.pdf figure/figure1.pdf figure/figure2.pdf figure/figure3.pdf
 extract: ../../output/extract/manager_changes_2015.dta ../../output/extract/connected_managers.dta
 
 # Event study figures pipeline
-event_study: $(foreach sample,$(SAMPLES),$(foreach outcome,$(OUTCOMES),../../output/event_study/$(sample)_$(outcome).csv))
+event_study: $(foreach sample,$(SAMPLES),$(foreach outcome,$(OUTCOMES),data/$(sample)_$(outcome).csv))
 
 # =============================================================================
 # Data wrangling
@@ -101,8 +101,8 @@ event_study: $(foreach sample,$(SAMPLES),$(foreach outcome,$(OUTCOMES),../../out
 
 # Function to generate the rule for each outcome
 define OUTCOME_RULE
-../../output/event_study/%_$(1).csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../temp/surplus.dta ../../temp/analysis-sample.dta ../../temp/manager_value.dta ../../temp/placebo_%.dta
-	mkdir -p $$(dir $$@)
+data/%_$(1).csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../temp/surplus.dta ../../temp/analysis-sample.dta ../../temp/manager_value.dta ../../temp/placebo_%.dta
+	mkdir -p data
 	cd ../.. && $$(STATA) lib/estimate/event_study.do $$* $(1)
 endef
 
@@ -157,17 +157,17 @@ table/atet_owner.tex table/atet_manager.tex: ../../lib/estimate/anova.do ../../t
 # =============================================================================
 
 # Figure 1: Main event study figure
-figure/figure1.pdf: src/exhibit/figure1.do ../../output/event_study/fnd2non_TFP.csv ../../output/event_study/non2non_TFP.csv ../../output/event_study/full_TFP.csv ../../output/event_study/post2004_TFP.csv
+figure/figure1.pdf: src/exhibit/figure1.do data/fnd2non_TFP.csv data/non2non_TFP.csv data/full_TFP.csv data/post2004_TFP.csv
 	mkdir -p figure
 	cd ../.. && $(STATA) papers/application/src/exhibit/figure1.do
 
 # Figure 2: Event study by CEO transition type (4 panels)  
-figure/figure2.pdf: src/exhibit/figure2.do ../../output/event_study/fnd2non_TFP.csv ../../output/event_study/non2non_TFP.csv ../../output/event_study/full_TFP.csv ../../output/event_study/post2004_TFP.csv
+figure/figure2.pdf: src/exhibit/figure2.do data/fnd2non_TFP.csv data/non2non_TFP.csv data/full_TFP.csv data/post2004_TFP.csv
 	mkdir -p figure
 	cd ../.. && $(STATA) papers/application/src/exhibit/figure2.do
 
 # Figure 3: Event study outcomes (Capital, Intangibles, Materials, Wagebill)
-figure/figure3.pdf: src/exhibit/figure3.do ../../output/event_study/full_lnK.csv ../../output/event_study/full_has_intangible.csv ../../output/event_study/full_lnM.csv ../../output/event_study/full_lnWL.csv
+figure/figure3.pdf: src/exhibit/figure3.do data/full_lnK.csv data/full_has_intangible.csv data/full_lnM.csv data/full_lnWL.csv
 	mkdir -p figure
 	cd ../.. && $(STATA) papers/application/src/exhibit/figure3.do
 
