@@ -1,31 +1,33 @@
+*! Monte Carlo simulation for placebo-controlled event study
+*! Expects locals: rho, sigma_epsilon0, sigma_epsilon1, hazard, T_max
+
 clear all
 
 * number of CEO changes
 local N_changes = 10000
-* hazard rate of CEO change
-local hazard = 0.2
 * stdev of CEO ability, sqrt(0.01)
 local sigma_z = 0.1
 local half_normal = 0.797885
 local true_effect = `half_normal' * `sigma_z'
-* stdev of TFP growth, sqrt(0.025/10)
-local sigma_epsilon0 = 0.05
-* add some excess variance to treated firms
-local sigma_epsilon1 = 0.06
-local rho = 0.97
 * control to treated N
 local control_treated_ratio = 9
-* longest spell to consider
-local T_max = 20
+
+
 
 set seed 2191
 set obs `N_changes'
 generate frame_id_numeric = _n
 
-generate T1 = invexponential(1/`hazard', uniform())
-generate T2 = invexponential(1/`hazard', uniform())
-replace T1 = ceil(T1)
-replace T2 = ceil(T2)
+if `hazard' == 0 {
+	generate T1 = `T_max'
+	generate T2 = `T_max'
+}
+else {
+	generate T1 = invexponential(1/`hazard', uniform())
+	generate T2 = invexponential(1/`hazard', uniform())
+	replace T1 = ceil(T1)
+	replace T2 = ceil(T2)
+}
 
 keep if T1 <= `T_max' & T2 <= `T_max'
 tabulate T1
@@ -104,11 +106,3 @@ expected structure and relationships.
 */
 
 generate true_effect = `true_effect'
-save "temp/placebo_montecarlo.dta", replace
-
-* check no mean ATET but 0.01 variance ATET
-
-generate TFP2 = TFP^2
-generate byte treatment = placebo == 0 & year >= change_year
-reghdfe TFP treatment, absorb(fake_id year) vce(cluster frame_id_numeric)
-reghdfe TFP2 treatment, absorb(fake_id year) vce(cluster frame_id_numeric)
