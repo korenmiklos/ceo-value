@@ -8,10 +8,10 @@ foreach panel in A  {
     local ytitle "Coefficient of TFP on new CEO skill"
 
     import delimited "output/event_study/`sample'_TFP.csv", clear
-    do "code/exhibit/event_study.do" `panel' "`title'" "`ytitle'"
+    do "papers/application/src/exhibit/event_study.do" `panel' "`title'" "`ytitle'"
 }
 
 graph combine panelA, ///
     cols(2) ycommon graphregion(color(white)) imargin(small) xsize(5) ysize(5)
 
-graph export "output/figure/figuremc.pdf", replace
+graph export "papers/application/figure/figuremc.pdf", replace

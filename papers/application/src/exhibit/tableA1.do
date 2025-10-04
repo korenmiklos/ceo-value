@@ -106,7 +106,7 @@ sort excluded sector
 * Create LaTeX table using programmatic generation
 * =============================================================================
 
-local outfile "output/table/tableA1.tex"
+local outfile "papers/application/table/tableA1.tex"
 
 * Create table header
 file open table using "`outfile'", write replace
