@@ -1,0 +1,36 @@
+\begin{table}[]
+    \centering
+    \caption{Average Effect of CEO Change}
+    \vspace{.2cm}
+    \label{tab:placeholder}
+\begin{tabular}{lccccc}
+\toprule
+ & \multicolumn{3}{c}{All Changes} & \multicolumn{2}{c}{Full Sample} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-6}
+ & Full & Founder$\to$ & Outsider$\to$ & Better CEOs & Worse CEOs \\
+ & (1) & (2) & (3) & (4) & (5) \\
+\midrule
+TWFE (OLS on actual) & 0.005*** & 0.012*** & 0.002 & 0.060*** & -0.049*** \\
+  & (0.001) & (0.001) & (0.001) & (0.001) & (0.001) \\
+TWFE (OLS on placebo) & 0.001*** & 0.001*** & 0.001*** & 0.026*** & -0.025*** \\
+  & (0.000) & (0.000) & (0.000) & (0.000) & (0.000) \\
+ATET (debiased) & 0.003*** & 0.009*** & 0.001 & 0.027*** & -0.018*** \\
+  & (0.001) & (0.001) & (0.001) & (0.001) & (0.001) \\ \hline
+Observations & 3,361,459 & 1,567,503 & 2,603,434 & 1,648,507 & 1,712,952 \\
+\bottomrule
+\end{tabular}
+   \begin{minipage}{16cm}
+   \vspace{.2cm}
+\footnotesize
+\textbf{Notes:} This table compares Average Treatment Effects on the Treated (ATET) estimates 
+across different samples and CEO types. TWFE refers to Two-Way Fixed Effects regressions 
+with firm and year fixed effects. The naive estimator uses actual CEO transitions, 
+while the placebo estimator uses randomly assigned fake transitions. The debiased 
+ATET estimator uses the \texttt{xt2treatments} command with optimal weighting and 
+placebo controls. Better/worse CEOs are classified based on estimated manager fixed effects. 
+Standard errors are clustered by firm. Significance levels: *** p$<$0.01, ** p$<$0.05, * p$<$0.10.
+   \end{minipage}
+\end{table}
+
+
+
