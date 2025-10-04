@@ -1,6 +1,6 @@
-args sample
+args sample montecarlo
 
-confirm file "temp/placebo_`sample'.dta"
+confirm file "data/placebo_`sample'.dta"
 
 * =============================================================================
 * EVENT STUDY PARAMETERS
@@ -20,10 +20,10 @@ which estout
 which reghdfe
 which e2frame
 
-if !("`sample'" == "montecarlo") {
-    use "temp/surplus.dta", clear
-    merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match) nogen
-    merge m:1 frame_id_numeric person_id using "temp/manager_value.dta", keep(master match) nogen
+if ("`montecarlo'" == "") {
+    use "../../temp/surplus.dta", clear
+    merge 1:1 frame_id_numeric person_id year using "../../temp/analysis-sample.dta", keep(match) nogen
+    merge m:1 frame_id_numeric person_id using "../../temp/manager_value.dta", keep(master match) nogen
 
     * sample for performance when testing
     set seed ${random_seed}
@@ -34,7 +34,7 @@ if !("`sample'" == "montecarlo") {
     drop ever_in_sample in_sample firm_tag
 
     * the same firm may appear multipe times as control, repeat those observations
-    joinby frame_id_numeric using "temp/placebo_`sample'.dta"
+    joinby frame_id_numeric using "data/placebo_`sample'.dta"
 
     * limit to relevant CEO spells
     keep if inrange(year, window_start, window_end)
@@ -47,7 +47,7 @@ if !("`sample'" == "montecarlo") {
     * bad naming, sorry!
 }
 else {
-    use "temp/placebo_montecarlo.dta", clear
+    use "data/placebo_`sample'.dta", clear
     summarize true_effect, meanonly
     scalar true_effect = r(mean)
     display "True effect in monte carlo: `true_effect'"

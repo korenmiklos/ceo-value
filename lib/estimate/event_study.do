@@ -1,9 +1,9 @@
-args sample outcome
+args sample outcome montecarlo
 
-confirm file "temp/placebo_`sample'.dta"
+confirm file "data/placebo_`sample'.dta"
 confirm existence `outcome'
 
-do "lib/estimate/setup_event_study.do" `sample'
+do "../../lib/estimate/setup_event_study.do" `sample' `montecarlo'
 confirm numeric variable `outcome'
 
 egen sometimes_missing = max(missing(`outcome')), by(fake_id)
@@ -14,18 +14,6 @@ drop sometimes_missing
 generate byte treatment = event_time >= 0
 generate byte treated_group = !placebo
 generate manager_diff = MS2 - MS1
-do "lib/estimate/xt2var.do" `outcome' treatment treated_group manager_diff $cluster
+do "../../lib/estimate/xt2var.do" `outcome' treatment treated_group manager_diff $cluster
 
-* Check if PAPER_OUTPUT_DIR is set, otherwise use default
-if "`c(pwd)'" != "" {
-    local output_dir "papers/application/data"
-    capture confirm file "papers/application/Makefile"
-    if _rc != 0 {
-        local output_dir "output/event_study"
-    }
-}
-else {
-    local output_dir "output/event_study"
-}
-
-frame dCov: export delimited "`output_dir'/`sample'_`outcome'.csv", replace
+frame dCov: export delimited "data/`sample'_`outcome'.csv", replace

@@ -103,7 +103,9 @@ event_study: $(foreach sample,$(SAMPLES),$(foreach outcome,$(OUTCOMES),data/$(sa
 define OUTCOME_RULE
 data/%_$(1).csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../temp/surplus.dta ../../temp/analysis-sample.dta ../../temp/manager_value.dta ../../temp/placebo_%.dta
 	mkdir -p data
-	cd ../.. && $$(STATA) lib/estimate/event_study.do $$* $(1)
+	ln -sf ../../temp/placebo_$$*.dta data/placebo_$$*.dta
+	cd ../.. && $$(STATA) "papers/application/lib/estimate/event_study.do $$* $(1)"
+	rm -f data/placebo_$$*.dta
 endef
 
 # Generate rules for each outcome

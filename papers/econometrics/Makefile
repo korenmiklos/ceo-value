@@ -14,11 +14,11 @@ data/placebo_%.dta: src/montecarlo/%.do src/montecarlo/params.do src/montecarlo/
 # Generate event study data for monte carlo scenarios
 data/%_TFP.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do data/placebo_%.dta
 	mkdir -p data
-	cd ../.. && stata -b do "lib/estimate/event_study.do $* TFP"
+	stata -b do "../../lib/estimate/event_study.do" $* TFP montecarlo
 
 figure/figuremc.pdf: src/figuremc.do data/baseline_TFP.csv
 	mkdir -p figure
-	cd ../.. && stata -b do "papers/econometrics/src/figuremc.do"
+	stata -b do "src/figuremc.do"
 
 paper.pdf: paper.tex ../application/table/table1_panelAB.tex ../application/table/table2.tex ../application/table/tableA1.tex ../application/table/tableA3.tex ../application/table/tableA4.tex ../application/figure/figure1.pdf ../application/figure/figure2.pdf ../application/figure/figure3.pdf figure/figuremc.pdf ../../lib/references.bib
 	pdflatex paper.tex
