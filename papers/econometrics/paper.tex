@@ -175,42 +175,26 @@ Concretely for the example, $\hat z_i$ is a weighted combination of the two spel
 Note that $\mathbf P$ is idempotent ($\mathbf P^2=\mathbf P$) and symmetric ($\mathbf P'=\mathbf P$). This means that computing the within-spell mean twice is the same as doing it once.
 
 
-
-
+\paragraph{Naive OLS using estimated effects.} Define the estimated effect for the contrast by
 \[
-  \mathbf y_i = \mathbf z_i + \mathbf e_i,\qquad \hat{\mathbf z}_i = \mathbf P\,\mathbf y_i=\mathbf z_i + \mathbf P\,\mathbf e_i,\qquad \hat z_i = \mathbf w'\hat{\mathbf z}_i.
+  \hat z_i = \mathbf w'\hat{\mathbf z}_i = \mathbf w'\mathbf P\,\mathbf y_i = z_i + \eta_i,\qquad \eta_i:=\mathbf w'\mathbf P\,\mathbf e_i.
 \]
+Also define the contrasted outcome
+\[
+  y_i = \mathbf w'\mathbf y_i = z_i + \varepsilon_i,\qquad \varepsilon_i:=\mathbf w'\mathbf e_i.
+\]
+Consider the (conceptual) population regression of $y_i$ on $z_i$, $y_i=\beta z_i+u_i$ with $u_i=\varepsilon_i$ and $\mathbb E[z_i u_i]=0$. In practice we do not observe $z_i$ and instead regress $y_i$ on $\hat z_i$. The OLS slope is
+\[
+  \tilde\beta \,=\, \frac{\Cov(y_i,\hat z_i)}{\Var(\hat z_i)} \,=\, \frac{\beta\Var(z_i)+\Cov(\varepsilon_i,\eta_i)}{\Var(z_i)+\Var(\eta_i)}.
+\]
+ 
+\textit{Covariance term.} $\Cov(\varepsilon_i,\eta_i)$ is typically positive because both $\varepsilon_i$ and $\eta_i$ are formed from the same underlying shocks averaged over overlapping windows (short spells and persistent shocks make this more pronounced). This inflates the numerator relative to $\beta\Var(z_i)$.
 
+\textit{Variance term (classical measurement error).} $\Var(\eta_i)>0$ inflates the denominator relative to $\Var(z_i)$, the standard attenuation channel.
 
+Together, the slope $\tilde\beta$ can be biased up or down depending on the balance between the inflated covariance (numerator) and the inflated variance (denominator). With i.i.d. shocks and long, balanced spells, $\Cov(\varepsilon_i,\eta_i)\approx 0$ and $\Var(\eta_i)$ is small, so the attenuation channel dominates but vanishes as sample size grows.
 
-- \textit{Idempotence of $\mathbf P_g$.} $\mathbf P_g^2=\mathbf P_g$, i.e., projecting to spell means twice is the same as doing it once. This holds because $\mathbf P_g$ is the orthogonal projector onto the subspace of vectors that are constant within each spell (by construction $\mathbf P_g=\mathbf D_g\,\mathbf T_g^{-1}\,\mathbf D_g'$ with $\mathbf T_g$ the spell-length diagonal).
-- \textit{Shock covariance.} Let $\mathbb E[\mathbf e_i\mathbf e_i']=\boldsymbol\Sigma$ (design-specific covariance allowed, but we suppress the $g$ index here).
-- \textit{Signal scale for the contrast.} Let $\mathbb E\big[(\mathbf w'\mathbf z_i)^2\big]=\lambda^2$.
- Using these noisy estimates as regressors or to construct event-study contrasts mechanically biases means, covariances, variances, and regression slopes. The magnitude of the bias depends only on the empirical spell design and the autocovariance of shocks, not on the true CEO effect. We summarize the logic and our identification using placebos.
-
- Within a design group $g$ (e.g., by spell-length pattern), let $\mathbf D_g$ map time rows to spells and $\mathbf T_g$ be diagonal with spell lengths. The within-spell mean operator is $\mathbf P_g=\mathbf D_g\mathbf T_g^{-1}\mathbf D_g'$, so
-\begin{equation}
-\hat{\mathbf z}_i = \mathbf P_g\,\mathbf y_i = \mathbf z_i + \mathbf P_g\,\mathbf e_i,\qquad \hat z_i = \mathbf w'\hat{\mathbf z}_i = z_i + \eta_i,\;\; \eta_i=\mathbf w'\mathbf P_g\mathbf e_i.
-\end{equation}
-
-
-
-
-\paragraph{Bias decomposition.} Consider the population regression $y_i=\beta z_i+u_i$ with $u_i=\varepsilon_i$ and $\mathbb E[z_i u_i]=0$. Two design-driven components summarize the gap between moments in $(y_i,\hat z_i)$ and those in $(y_i,z_i)$:
-\begin{align}
-A_g &:= \Cov(\varepsilon_i,\eta_i) = \mathbf w'\boldsymbol\Sigma_g\,\mathbf P_g\,\mathbf w,\\
-B_g &:= \Var(\eta_i) = \mathbf w'\mathbf P_g\,\boldsymbol\Sigma_g\,\mathbf P_g\,\mathbf w.
-\end{align}
-They imply
-\begin{align}
-\Cov(y,\hat z) &= \beta\Var(z) + A_g,\\
-\Var(\hat z) &= \Var(z) + B_g,
-\end{align}
-so the naive slope is
-\begin{equation}
-\tilde\beta_g = \frac{\beta\Var(z)+A_g}{\Var(z)+B_g} = \beta + \frac{A_g-\beta B_g}{\Var(z)+B_g}.
-\end{equation}
-Special cases clarify intuition. With i.i.d. shocks and balanced panels, $A_g=B_g$ and $\tilde\beta_g=\beta$ even though $\Var(\hat z)$ inflates by $B_g$. With persistent shocks and/or unbalanced spells (short tenures), $A_g\neq B_g$, generating spurious pre-trends and slope bias.
+\paragraph{Small-sample nature.} Both components are small-sample phenomena driven by short $T_1$ and $T_2$. As $T_1,T_2\to\infty$, spell means average out shocks so $\Var(\eta_i)\to 0$ and $\Cov(\varepsilon_i,\eta_i)\to 0$, implying $\tilde\beta\to\beta$.
 
 \paragraph{Placebo identification.} We construct placebo spells among firms that do not change CEOs but replicate the observed spell-length patterns and event windows of treated firms while excluding any windows around actual transitions. For placebo spells, $\Var(z)=0$, so
 \begin{equation}
@@ -223,57 +207,6 @@ These identify the bias components nonparametrically. Debiased treated moments a
 \hat\beta^{\text{db}}_g &= \frac{\widehat{\Cov}^{\,\text{tr}}(y,\hat z)-\hat A_g}{\widehat{\Var}^{\,\text{tr}}(\hat z)-\hat B_g},
 \end{align}
 pooled across groups with weights if needed. Inference follows from a delta method for ratios or a firm-level bootstrap that resamples within design groups, preserving spell design.
-
-%%%%%%%%%%%%%%%%%%%%
-\section{Econometric Problem: Noise in Estimated CEO Effects and Placebo Debiasing}
-%%%%%%%%%%%%%%%%%%%%
-
-We begin without matrix notation. Let firm $i$ at calendar year $t$ have outcome
-\begin{equation}
-  y_{it} = z_{it} + e_{it},\qquad \mathbb E[e_{it}]=0,
-\end{equation}
-where $z_{it}$ collects the CEO effect at time $t$ and $e_{it}$ is a shock. Our event-time analysis centers on contrasts relative to a baseline year.
-
-% local Example environment (no extra packages required)
-\newenvironment{Example}{\par\noindent\textbf{Example.}\ }{\par}
-
-\begin{Example}
-Event window $t\in\{-2,-1,0,+1,+2,+3\}$ with baseline $t=-1$. Pre-spell length $T_1=2$ (years $-2,-1$ under CEO A). Post-spell length $T_2=3$ (years $+1,+2,+3$ under CEO B). We exclude the transition year $t=0$ from the contrast and from spell means. The contrast of interest is
-\[
-  (\text{+3}) - (\text{-1})\;=\; y_{i,+3} - y_{i,-1}.
-\]
-This isolates the change three years after the transition relative to the baseline year before the change.
-\end{Example}
-
-We now switch to matrix notation to compactly represent the same setup and to define the operators we use below.
-
-\paragraph{Matrix setup and mapping to the example.} Stack outcomes as $\mathbf y_i=[y_{i,-2},\,y_{i,-1},\,y_{i,0},\,y_{i,+1},\,y_{i,+2},\,y_{i,+3}]'$. Define the piecewise-constant CEO path $\mathbf z_i$ so that $z_{i,-2}=z_{i,-1}$ (CEO A), $z_{i,+1}=z_{i,+2}=z_{i,+3}$ (CEO B); $z_{i,0}$ is unused in what follows. The linear contrast for the example is implemented by the weight vector
-\[
-  \mathbf w = [\,0,\,-1,\,0,\,0,\,0,\,+1\,]'.
-\]
-Let $g$ index a design group defined by spell-length patterns. For the example’s two-spell design (excluding $t=0$ from spells), the design matrix $\mathbf D_g$ maps rows (event-time positions) to spells as
-\[
-  \mathbf D_g = \begin{bmatrix}
-    1 & 0\\
-    1 & 0\\
-    0 & 0\\
-    0 & 1\\
-    0 & 1\\
-    0 & 1
-  \end{bmatrix},\qquad
-  \mathbf T_g = \operatorname{diag}(T_1,T_2)=\operatorname{diag}(2,3),\qquad
-  \mathbf P_g = \mathbf D_g\,\mathbf T_g^{-1}\,\mathbf D_g'.
-\]
-Here $\mathbf P_g$ replaces each spell’s rows by their within-spell mean and leaves the transition row ($t=0$) as zero. In this notation,
-\[
-  \mathbf y_i = \mathbf z_i + \mathbf e_i,\qquad \hat{\mathbf z}_i = \mathbf P_g\,\mathbf y_i=\mathbf z_i + \mathbf P_g\,\mathbf e_i,\qquad \hat z_i = \mathbf w'\hat{\mathbf z}_i.
-\]
-Concretely for the example, $\hat z_i$ is a weighted combination of the two spell means that implements $y_{i,+3}-y_{i,-1}$.
-
-\paragraph{Assumptions before turning to bias.}
-- \textit{Idempotence of $\mathbf P_g$.} $\mathbf P_g^2=\mathbf P_g$, i.e., projecting to spell means twice is the same as doing it once. This holds because $\mathbf P_g$ is the orthogonal projector onto the subspace of vectors that are constant within each spell (by construction $\mathbf P_g=\mathbf D_g\,\mathbf T_g^{-1}\,\mathbf D_g'$ with $\mathbf T_g$ the spell-length diagonal).
-- \textit{Shock covariance.} Let $\mathbb E[\mathbf e_i\mathbf e_i']=\boldsymbol\Sigma$ (design-specific covariance allowed, but we suppress the $g$ index here).
-- \textit{Signal scale for the contrast.} Let $\mathbb E\big[(\mathbf w'\mathbf z_i)^2\big]=\lambda^2$.
 
 %%%%%%%%%%%%%%%%%%%%
 \section{Estimation}\label{sec:est}
