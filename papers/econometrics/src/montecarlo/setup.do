@@ -1,6 +1,18 @@
 *! Monte Carlo simulation for placebo-controlled event study
 *! Expects locals: rho, sigma_epsilon0, sigma_epsilon1, hazard, T_max
 
+confirm existence "`rho'"
+confirm existence "`sigma_epsilon0'"
+confirm existence "`sigma_epsilon1'"
+confirm existence "`hazard'"
+confirm existence "`T_max'"
+
+assert `rho' >= 0 & `rho' < 1
+assert `sigma_epsilon0' > 0
+assert `sigma_epsilon1' > 0
+assert `hazard' >= 0
+assert `T_max' > 0
+
 clear all
 
 * number of CEO changes
