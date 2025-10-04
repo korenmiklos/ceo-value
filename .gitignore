@@ -28,3 +28,6 @@ output/test/
 
 # Extracted files from other branches
 branches/
+
+# Large generated econometrics data
+papers/econometrics/data/*.dta
