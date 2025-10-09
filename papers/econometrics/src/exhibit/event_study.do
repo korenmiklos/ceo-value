@@ -6,10 +6,9 @@ local baseline_year -1            // Baseline year for event study
 
 graph twoway ///
     (rarea lower_beta1 upper_beta1 t, fcolor(gray%5) lcolor(gray%10)) (connected coef_beta1 t, lcolor(red) mcolor(red)) ///
-    (rarea lower_beta0 upper_beta0 t, fcolor(gray%5) lcolor(gray%10)) (connected coef_beta0 t, lcolor(blue) mcolor(blue)) ///
-    (rarea lower_dbeta upper_dbeta t, fcolor(gray%5) lcolor(gray%10)) (connected coef_dbeta t, lcolor(black) mcolor(black)) ///
+    (rarea lower_dbeta upper_dbeta t, fcolor(gray%5) lcolor(gray%10)) (connected coef_dbeta t, lcolor(blue) mcolor(blue)) ///
     ,  title("Panel `panel': `title'", size(medium)) ///
-    legend(order(2 "Treated" 4 "Control" 6 "Debiased") rows(1) position(6)) ///
+    legend(order(2 "Naive" 4 "Debiased") rows(1) position(6)) ///
     graphregion(color(white)) xlabel(`event_window_start'(1)`event_window_end') ///
     xline(-0.5) xscale(range (`event_window_start' `event_window_end')) ///
     xtitle("Time since CEO change (year)") yline(0) ///
