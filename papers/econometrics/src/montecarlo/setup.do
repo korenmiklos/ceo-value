@@ -16,7 +16,7 @@ assert `T_max' > 0
 clear all
 
 * number of CEO changes
-local N_changes = 10000
+local N_changes = 1000
 * stdev of CEO ability, sqrt(0.01)
 local sigma_z = 0.1
 local half_normal = 0.797885
