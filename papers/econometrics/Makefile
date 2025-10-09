@@ -16,7 +16,7 @@ data/%_TFP.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event
 	mkdir -p data
 	stata -b do "../../lib/estimate/event_study.do" $* TFP montecarlo
 
-figure/figuremc.pdf: src/figuremc.do data/baseline_TFP.csv
+figure/figuremc.pdf: src/figuremc.do src/exhibit/event_study.do $(EVENT_STUDIES)
 	mkdir -p figure
 	stata -b do "src/figuremc.do"
 
