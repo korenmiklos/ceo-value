@@ -48,9 +48,6 @@ if ("`montecarlo'" == "") {
 }
 else {
     use "data/placebo_`sample'.dta", clear
-    summarize true_effect, meanonly
-    scalar true_effect = r(mean)
-    display "True effect in monte carlo: `true_effect'"
 }
 * check balance
 tabulate year placebo

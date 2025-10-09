@@ -6,25 +6,20 @@ confirm existence "`sigma_epsilon0'"
 confirm existence "`sigma_epsilon1'"
 confirm existence "`hazard'"
 confirm existence "`T_max'"
+confirm existence "`N_changes'"
+confirm existence "`sigma_z'"
+confirm existence "`control_treated_ratio'"
 
 assert `rho' >= 0 & `rho' < 1
 assert `sigma_epsilon0' > 0
 assert `sigma_epsilon1' > 0
 assert `hazard' >= 0
 assert `T_max' > 0
+assert `N_changes' > 0 & `N_changes' == floor(`N_changes')
+assert `sigma_z' > 0
+assert `control_treated_ratio' >= 0 
 
 clear all
-
-* number of CEO changes
-local N_changes = 10000
-* stdev of CEO ability, sqrt(0.01)
-local sigma_z = 0.1
-local half_normal = 0.797885
-local true_effect = `half_normal' * `sigma_z'
-* control to treated N
-local control_treated_ratio = 9
-
-
 
 set seed 2191
 set obs `N_changes'
@@ -117,4 +112,3 @@ That's the contract - your simulation needs to generate these variables with the
 expected structure and relationships.
 */
 
-generate true_effect = `true_effect'
