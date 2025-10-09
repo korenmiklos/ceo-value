@@ -21,7 +21,7 @@
 % Define \sym command for significance stars from esttab
 \newcommand{\sym}[1]{{#1}}
 
-\title{CEOs and Firm Performance: Estimation from the Universe of Firms\thanks{Project no. 144193 has been implemented with the support provided by the Ministry of Culture and Innovation of Hungary from the National Research, Development and Innovation Fund, financed under the KKP\_22 funding scheme. This project was funded by the European Research Council (ERC Advanced Grant agreement number 101097789). Telegdy received support from the Hungarian Scientific Research Fund – OTKA, contract number 143346. The views expressed in this research are those of the authors and do not necessarily reflect the official view of the European Union or the European Research Council. \emph{Author contributions:} Conceptualization and study design: Koren, Orbán and Telegdy. Statistical analysis: Koren, Orbán and Telegdy. Writing the original draft: Koren. Review and editing: Koren, Orbán and Telegdy.}}
+\title{Debiasing Second Moments of Estimated CEO Effects: A Placebo-Controlled Event-Study Approach\thanks{Project no. 144193 has been implemented with the support provided by the Ministry of Culture and Innovation of Hungary from the National Research, Development and Innovation Fund, financed under the KKP\_22 funding scheme. This project was funded by the European Research Council (ERC Advanced Grant agreement number 101097789). Telegdy received support from the Hungarian Scientific Research Fund – OTKA, contract number 143346. The views expressed in this research are those of the authors and do not necessarily reflect the official view of the European Union or the European Research Council. \emph{Author contributions:} Conceptualization and study design: Koren, Orbán and Telegdy. Statistical analysis: Koren, Orbán and Telegdy. Writing the original draft: Koren. Review and editing: Koren, Orbán and Telegdy.}}
 
 \author{Miklós Koren\thanks{Central European University, ELTE Centre for Economic and Regional Studies, CEPR and CESifo. E-mail: korenm@ceu.edu} \\
         Krisztina Orbán\thanks{Monash University.} \\
@@ -35,7 +35,7 @@
 \thispagestyle{empty}
 
 \begin{abstract}
-How much do CEOs matter for firm performance? We estimate the causal effect of CEO quality on productivity using comprehensive administrative data covering the universe of Hungarian firms and CEOs from 1992--2022. To address the severe measurement error in CEO fixed effects arising from short tenures, we introduce a placebo-controlled event study design: we compare actual CEO transitions to randomly assigned fake transitions in firms with stable leadership. The results reveal that a CEO better than the incumbent increases firm performance by 3\% while a worse CEO decreases it by 2\%. CEO changes contribute to the variance growth of productivity by 30\% in the first 10 years of the firm's existence. The placebo-controlled methodology provides a general solution for estimating individual effects in short-panel settings.
+Understanding the link between estimated manager effects and firm outcomes is central to research on CEOs and firm performance. While fixed-effect estimators of mean CEO effects are unbiased under random mobility, most applied analyses use second moments of these estimates—variances, covariances, correlations, and event-study dynamics—that are systematically biased by small-sample noise. We develop a placebo-controlled event-study design that identifies and removes these biases without modeling the full error process. The method constructs placebo transitions that replicate the spell-length design of actual transitions while excluding periods around real changes. Moments computed on placebo spells recover the bias components that inflate variances and covariances; subtracting them yields debiased moments and regression slopes. A Monte Carlo study with six scenarios—baseline, long panel, persistent errors, unbalanced panels, excess variance, and all complications—illustrates when the correction matters most. We outline an application to the universe of Hungarian firms (1992--2022) that examines pre-trends and dynamic effects after CEO arrival, a common use case in the literature.
 \end{abstract}
 
 \textbf{Keywords:} CEO value, private firms, productivity
@@ -49,11 +49,10 @@ How much do CEOs matter for firm performance? We estimate the causal effect of C
 \section{Introduction}
 %%%%%%%%%%%%%%%%%%%%%%
 
-%Why are CEOs important?
-To what extent do CEOs contribute to firm performance? Good management can improve firm productivity, as suggested by studies analyzing leadership changes \citep{Bertrand2003-io,bennedsen2020ceos,metcalfe2023managers}, by intervention studies improving management practices \citep{bloom2013does} and training programs for managers \citep{mckenzie2021small, bianchigiorcellitraining}.
+CEO effects are prevalent in empirical corporate and labor research. Under random mobility (strict exogeneity), first moments of estimated fixed effects are unbiased—an insight reinforced by designs that exploit exogenous mobility such as CEO death or illness \citep[e.g.,][]{bennedsen2020ceos}. But most applied work is concerned with second moments: variances (how large is CEO heterogeneity?), covariances with other variables (what do fixed effects capture?), and dynamic covariances used in event studies (are there pre-trends and post-arrival dynamics?). These second moments are known to be biased in short panels, as emphasized by the worker–firm fixed-effects literature \citep{andrews2008high,gaure2014correlation,Bonhomme2023-dx}.
 
 %what we do
-In this paper, we analyze the impact of CEOs on firm productivity. We make two contributions to the literature. First, we assemble a dataset based on two administrative databases covering the universe of Hungarian firms and their CEO networks over three decades (1992-2022). Second, we employ a regression design which uses firm and CEO fixed effects (in the spirit of \cite{abowd1999high}) to uncover the contribution of CEOs to firm productivity; this approach has been used since the beginning of this strand of literature \citep{Bertrand2003-io}. We improve on this estimation framework by introducing a placebo-controlled event study design that separates true CEO effects from the mechanical noise that contaminates firm and manager fixed effects estimates in the presence of limited mobility bias and short managerial spells. We also perform a decomposition of the variance to quantify the impact of CEOs on firm productivity. Most applied work is concerned with second moments; our contribution is to show that these are biased in finite samples and to provide a simple placebo-controlled correction that applied researchers can implement without modeling the full covariance structure of shocks.
+We develop a placebo-controlled design to debias second moments of estimated CEO effects without modeling the full variance–covariance of errors. The approach constructs placebo transitions that replicate the spell-length design of actual transitions while excluding windows around real changes. Computing the same statistic with the same weights in the treated and placebo samples, and subtracting the placebo moment, yields debiased variances, covariances, and event-study profiles. Our assumptions are transparent: (i) strict exogeneity (random mobility) for unbiased first moments; (ii) the autocovariance of shocks is the same up to a scalar across treated and placebo groups; and (iii) design matrices and group weights match by construction. We illustrate performance in six Monte Carlo scenarios (baseline, long panel, persistent errors, unbalanced panels, excess variance, and all complications), and we outline a typical application—dynamic effects of CEO arrival on TFP in Hungarian firms—where researchers care about pre-trends and post-arrival dynamics.
 
 %Why is our approach unique - data
 Papers use three approaches when analyzing the effect of CEOs. One group studied the effects of a distinct, measurable variable, such as managerial practices used in the firm \citep{bloom2012organization} or a CEO attribute (age, gender, tenure, education or country of origin \citep{anderson2018pathways, henderson2006quickly, Koren2023expat}). These studies are useful to show the effects of the studied variables, but they arguably capture little of the whole effect of CEOs over the firms they manage. Another group uses an external event to assess the effect of CEO turnover (e.g., \citet{bennedsen2020ceos}). While this approach brought about credible causal estimates, the heavy data needs render this approach impossible to use in most situations. 
@@ -68,6 +67,8 @@ While the estimation of CEO effects is unbiased under standard identification as
 Most applied work is concerned with second moments of estimated fixed effects. We highlight three use cases. First, variance decompositions that ask how much CEO fixed effects contribute to dispersion; these are upward biased because the estimator packs in small-sample noise from short spells (limited mobility). Second, covariances with other variables used to interpret what the fixed effects capture; for example, whether firms led by better CEOs export more. If the outcome covaries with the estimation error in the fixed effect (e.g., unobserved productivity that also predicts exporting), the covariance with the estimated effect is biased; correlations are ratios of second moments and are therefore highly non-linear and biased unless their components are debiased first. Third, dynamic covariances used in event studies to assess pre-trends and post-transition dynamics. Without correction, persistent shocks and short spells may generate spurious pre-trends even when the causal pre-trend is zero.
 
 Our solution is placebo-controlled. We create placebo job spells in firms with no actual CEO change by splitting long no-change windows into the same pre/post spell lengths as the treated sample and aligning them in event time. Matching on covariates such as firm age is good practice because volatility is age dependent. Computing the same second moment with the same weights in treated and placebo samples, and subtracting the placebo quantity yields a debiased estimate. The key intuition is that covariance is bilinear and variance is additive under strict exogeneity. We also allow the shock variance to differ by a scalar between treated and placebo groups and estimate this scalar at the design-group level.
+
+Assumptions and intuition. We make three assumptions to support identification and simple implementation: (i) strict exogeneity (random mobility) so that first moments are unbiased; (ii) the error autocovariance matrix (Sigma) is the same across treated and placebo groups up to a scalar; and (iii) the design matrices and any group weights are the same by construction because the placebo sample replicates the treated spell-length distribution and event-time alignment. Because covariance is bilinear, the bias term in any covariance with the estimated effect can be “precomputed” in the placebo sample; we subtract it from the treated covariance. Because variance is additive under strict exogeneity, the variance of the estimated effect splits into the variance of the true effect plus the variance of the small-sample error; the latter is measured in the placebo and subtracted. For non-linear transformations such as correlations and regression coefficients (beta), we first debias all underlying covariances and variances and only then form the ratio. [[comment: add a brief reference to pre-trend testing guidance, e.g., Roth, and clarify baseline normalization in event time]]
 
 The main idea of this correction is the creation of pseudo CEO transitions in the data\footnote{This step in the spirit of \cite{jarosiewicz2023revisiting}, who compare the replicated results of  \cite{Bertrand2003-io} with placebo regressions.} We take firms with CEO transitions, record their event window. The event window is the period encompassing the years under the CEO prior to the CEO change and the period under the new CEO post the change. We match these firms to firms born in the same year, belonging to the same sector, that however do not experience a CEO transition during the years of the event window. Then, we assign to the control firms a placebo CEO transition happening in the same year as the treated firm experiences the true CEO transition.\footnote{In addition to addressing the limited mobility bias, our approach has the advantage of creating a control group that is more similar to the treated firms than the universe of firms}. On the matched sample we implement two-way fixed effects regressions.\footnote{The estimation is similar to the two way fixed effects regression developed by \cite{Callaway2021JoLE}, but we exploit the fact that the control group also has a time of pseudo CEO change. We compare firms with a true CEO change with firms with a fake CEO change along the same event-time years.} If estimated `effects' for these pseudo-CEOs diverge substantially, this reveals the noise problem in fixed effects estimation. By comparing actual CEO transitions to these placebo transitions, we can correct the fixed effects estimates for noise, isolating the true CEO contribution.
 
@@ -358,7 +359,7 @@ We exclude public firms and joint-stock companies from our analysis. The few com
 
 Firms with multiple CEO changes are handled by splitting their history into adjacent transition pairs. After collapsing firm-CEO spells, intermediate spells are duplicated so that a firm with spells 1/2/3 contributes two transitions, 1$\to$2 and 2$\to$3. Each transition defines a pseudo-firm, indexed by a constructed identifier that groups the true firm with the relevant spell window. Fixed effects are estimated separately for these pseudo-firms, so outcomes around different transitions are allowed to have distinct firm intercepts. These pseudo-firms are not treated as independent statistical units. We retain the original firm identifier and cluster standard errors by the true firm. 
 
-\input{table/table1_panelAB}
+
 
 \begin{comment}
 Jó lenne a mintára csinálni, és nem a populációra
@@ -375,7 +376,7 @@ Table \ref{tab:CEO_desc} shows the proportion of firms (and firm-years) by the n
 \section{Results}
 %%%%%%%%%%%%%%%%% 
 
-\input{table/table2} 
+
 %elég 3 tizedesjegy, nem vagyok mink atom fizikusok
 %a nobs nem jó, mert három különböző kell a három sorba
 
@@ -383,23 +384,13 @@ Table \ref{tab:CEO_desc} shows the proportion of firms (and firm-years) by the n
 
 As most of our firms are family-owned, we look into an interesting CEO transition: when founders relinquish control. For comparison, we also run a separate regression on other CEO changes. When founders are the departing CEO, the estimated effect is 1\%. For the other CEO changes we do not find any change in TFP. This is also a test of our method: when similar CEOs replace each other, the effect is zero, at least on average. On the contrary, when we measure the TFP change between two distinctly different CEOs, we do find an economically and statistically significant effect.\footnote{The reason for a positive effect of founder replacement may be the timing of the change. Founders usually give up their central role in the firm when they find they no longer have enough energy to run the firm.} 
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth]{figure/figure1.pdf}
-\caption{Placebo-Controlled Event Studies of CEO Transitions}
-\label{fig:event_study_main}
-\end{figure}
+
 
 Finally, we analyze perhaps the most interesting question: how the productivity reacts to the arrival of a better or worse CEO than the incumbent? For this, we split the sample into two types of CEO transitions: when the incoming CEO has a higher or lower quality (as measured by the associated fixed effect) than the incumbent CEO. We also split the placebo sample into firms which experience an increase/decline of their TFP around the pseudo CEO change. The estimated coefficients are presented in the last two columns of Table \ref{tab:placeholder} and demonstrate the importance of CEOs and also show how the placebo correction works. Better CEOs than the incumbent increase TFP by 6\% while worse CEOs decrease it by 5\%. This large effect, however, is upward biased, as the placebo regressions demonstrate. The pseudo CEO change also produces a sizable effect of $\pm$2.5\%. Thus, the corrected effect is much smaller: better CEOs increase TFP by 2.7\% while worse CEOs decrease it by 1.8\%. Thus, the difference between a good and a bad CEO is 4.5\%. 
 
 Figure \ref{fig:event_study_main} visualizes the evolution of TFP around the CEO change for four samples: all changes, when the incumbent is the founder of the firm, all other incumbents, and for the period of mature market economy (2004 -- 2022).\footnote{The latter sample is used to make our results more comparable to mature market economies. In the 1990s the economy was changing rapidly as it underwent rapid economic liberalization, transition to market economy, foreign direct investment inflows and large scale privatization. We conduct this robustness check by restricting the sample to post-2004 data following Hungary's EU accession.} On each figure we present the event time regression estimates for the whole sample (black line) and for better and worse CEO replacements (blue and red lines). The estimations leave little pre-trend and we find large swings in TFP. If the incoming CEO is better than the incumbent, TFP increases by 3 -- 4\% while worse CEOs decrease it by about 2\%. New CEOs have an effect immediately on the firm and this proves to be quite stable, as the estimated coefficients do not change much.  
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth]{figure/figure2.pdf}
-\caption{Placebo-Controlled Event Studies of CEO Transitions. Effects on Firm Inputs}
-\label{fig:event_study_input}
-\end{figure}
+
 
 \paragraph{Differential Effects on Inputs.} Figure \ref{fig:event_study_input} presents event studies examining how CEO transitions affect different firm inputs.
 
@@ -412,16 +403,7 @@ In contrast, strategic variables show different patterns. Fixed assets exhibit a
 Our estimate of the contribution of CEO change to the total variance of TFP is the difference between the two estimates, and we quantify it in Appendix Table \ref{tab:var_share}. The table presents the total variance, the unadjusted contribution of CEO change and the adjusted contribution. We analyze only one CEO change, and the contribution depends on the length of the period measured (the longer the period, the more the variance increases for reasons unrelated to CEO change). In the first 10 years of existence, the uncorrelated share of CEO change in the variance is 62\%. Our correction decreases this number to 29\%.
 
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth]{figure/figure3.pdf}
-\label{fig:variance_decomp}
-\begin{minipage}{15cm}
-\caption{Decomposition of the Variance}
-\vspace{.2cm}
-\footnotesize Notes: Dependent variable: TFP (panels A and B), Log Revenue (panels C and D). Panels A and C present the variance growth relative to the year after firm foundation for firms with a CEO transition (blue line) and with a pseudo transition (red line). Panels B and D show the evolution of the variance in treated and pseudo-treated firms by firm age. 
-\end{minipage}
-\end{figure}
+
 
 %%%%%%%%%%%%%%%%%%%%
 \section{Conclusion}
@@ -445,15 +427,15 @@ An alternative way to deal with the noise problem is to use observable manager c
 \setcounter{figure}{0}
 \setcounter{table}{0}
 
-\input{table/tableA1}
 
-\input{table/tableA3}
+
+
 %Benne maradhat a populáció, de kellene a minta is. Esetleg kidobhatjuk a firms oszlopot, és készítsük el a táblát a populációra és a mi mintánkra (Population: firm-year CEO, Sample: firm-year CEO, Surplus Share)
 
 
 %\input{table/tableA2}
 
-\input{table/tableA4}
+
 
 \end{document}
 
@@ -477,7 +459,7 @@ An alternative way to deal with the noise problem is to use observable manager c
 
 \subsection{Industry Breakdown}
 
-%\input{table/tableA1}
+%
 
 %\input{table/revenue_sectors.tex}
 
@@ -506,12 +488,7 @@ Notes: Panel A shows the distribution of within-firm manager skill variation for
 
 \subsection{Variance-Based Evidence for CEO Heterogeneity}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.8\textwidth]{figure/event_study_panel_c.pdf}
-\caption{TFP Moments Around CEO Transitions}
-\label{fig:intangibles}
-\end{figure}
+
 
 Figure \ref{fig:variance_event_study} presents complementary evidence using the variance of log TFP around CEO transitions. Under our framework, if CEO changes introduce real heterogeneity in managerial quality, the cross-sectional variance of outcomes should increase at the transition point—some firms get better CEOs, others get worse ones. In contrast, pure noise or firm-specific trends would not systematically alter variance.
 
