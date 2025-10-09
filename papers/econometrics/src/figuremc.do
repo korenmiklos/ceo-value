@@ -15,7 +15,6 @@ local titleF "All Complications"
 foreach panel in A B C D E F {
     local sample  `sample`panel''
     local title  `title`panel''
-    local ytitle "Coefficient of TFP on new CEO skill"
 
     import delimited "data/`sample'_TFP.csv", clear
 
