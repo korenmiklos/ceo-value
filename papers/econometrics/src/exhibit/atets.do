@@ -6,98 +6,55 @@ clear all
 local scenarios "baseline longpanel persistent unbalanced excessvariance all"
 local scenario_labels `" "Baseline" "Long Panel" "Persistent Errors" "Unbalanced Panel" "Excess Variance" "All Complications" "'
 
-* Initialize matrices to store results for three rows
-matrix ols = J(1, 6, .)
-matrix ols_lower = J(1, 6, .)
-matrix ols_upper = J(1, 6, .)
+* which results to extract for the table
+local row1 sqrt(Var1[1])
+local row2 sqrt(dVar[1])
+local row3 coef_beta1[7]
+local row4 coef_dbeta[7]
+local row5 coef_beta1[3]
+local row6 coef_dbeta[3]
 
-matrix placebo = J(1, 6, .)
-matrix placebo_lower = J(1, 6, .)
-matrix placebo_upper = J(1, 6, .)
+local label1 "$\sigma(\Delta \hat z)$"
+local label2 "$\sigma(\Delta \hat z)$ (debiased)"
+local label3 "\addlinespace$\hat \beta_2$ (OLS)"
+local label4 "$\hat \beta_2$ (debiased)"
+local label5 "\addlinespace$\hat \beta_{-2}$ (OLS)"
+local label6 "$\hat \beta_{-2}$ (debiased)"
 
-matrix debiased = J(1, 6, .)
-matrix debiased_lower = J(1, 6, .)
-matrix debiased_upper = J(1, 6, .)
+matrix stats = J(6, 6, .)
 
 * Loop through scenarios and extract ATET
 local col = 1
 foreach scenario of local scenarios {
     
     * Import CSV file
-    import delimited "data/`scenario'_TFP.csv", clear varnames(1)
-    
-    * Extract ATET row (t==99)
-    keep if xvar == "ATET"
-    list
-    
-    * Store OLS (treated group beta1)
-    matrix ols[1, `col'] = coef_beta1[1]
-    matrix ols_lower[1, `col'] = lower_beta1[1]
-    matrix ols_upper[1, `col'] = upper_beta1[1]
-    
-    * Store Placebo (control group beta0)
-    matrix placebo[1, `col'] = coef_beta0[1]
-    matrix placebo_lower[1, `col'] = lower_beta0[1]
-    matrix placebo_upper[1, `col'] = upper_beta0[1]
-    
-    * Store Debiased (dbeta)
-    matrix debiased[1, `col'] = coef_dbeta[1]
-    matrix debiased_lower[1, `col'] = lower_dbeta[1]
-    matrix debiased_upper[1, `col'] = upper_dbeta[1]
+    import delimited "data/`scenario'_TFP.csv", clear varnames(1) case(preserve)
+
+    forvalues row = 1/6 {
+        matrix stats[`row', `col'] = `row`row''
+    }  
     
     local ++col
 }
 
-matrix list ols
-matrix list placebo
-matrix list debiased
+matrix list stats
 
 * Open LaTeX file for writing
 file open texfile using "table/atets.tex", write replace
 
-* Function to write a row with significance stars
-foreach row in "ols" "placebo" "debiased" {
-    
+* Function to write a row 
+forvalues row = 1/6 {    
     * Set row label
-    if "`row'" == "ols" {
-        file write texfile "OLS & "
-    }
-    else if "`row'" == "placebo" {
-        file write texfile "\\ Placebo & "
-    }
-    else {
-        file write texfile "\\ Debiased & "
-    }
-    
+    file write texfile "\\ `label`row'' & "
     forvalues i = 1/6 {
-        
-        local coef = `row'[1, `i']
-        local lower = `row'_lower[1, `i']
-        local upper = `row'_upper[1, `i']
-        local se = (`upper' - `lower') / (2 * invnormal(0.975))
-        * test relative to 1.0
-        local p_value = 2 * (1 - normal(abs((`coef' - 1.0)/`se')))
-        
-        * Determine significance level (test if CI excludes 1.0)
-        local stars ""
-        if (`p_value' < 0.10) {
-            local stars "`stars'*"
-        }
-        if (`p_value' < 0.05) {
-            local stars "`stars'*"
-        }
-        if (`p_value' < 0.01) {
-            local stars "`stars'*"
-        }
-
+        local coef = stats[`row', `i']
         local coef_str = string(`coef', "%5.3f")
-
         * Write to file
         if `i' < 6 {
-            file write texfile "$`coef_str'^{`stars'}$ & "
+            file write texfile "$`coef_str'$ & "
         }
         else {
-            file write texfile "$`coef_str'^{`stars'}$"
+            file write texfile "$`coef_str'$"
         }
     }
 }
