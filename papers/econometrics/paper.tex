@@ -320,13 +320,38 @@ We use a simple Monte Carlo to show why second moments are biased and how the pl
 Our starting point is a window with two spells per firm. Placebo firms never actually change CEOs; we split long no-change stretches into the same pre/post spell lengths as in the treated sample and align them in event time. We compute the same statistics in both samples with the same weights and then subtract the placebo quantity. Because covariance is bilinear and variance is additive under strict exogeneity, the subtraction removes the bias term without modeling the full autocovariance structure. If treated firms are more volatile, we estimate a groupwise scalar and multiply the placebo term before subtraction.
 
 The scenarios and figure panels follow the code in src/montecarlo and src/figuremc.do:
+
+\begin{table}[t]
+\centering
+\caption{Monte Carlo parameters by scenario}
+\label{tab:mc_params}
+\begin{threeparttable}
+\begin{tabular}{l*{6}{c}}
+\toprule
+ & Baseline & Long Panel & Persistent Errors & Unbalanced Panel & Excess Variance & All Complications \\
+\midrule
+ Common parameters & \multicolumn{6}{c}{$N_{\text{changes}}=10{,}000$; Control:treated = 9:1; $\sigma_z=0.10$} \\
+\addlinespace
+ $\rho$ & 0.00 & 0.00 & 0.90 & 0.90 & 0.00 & 0.90 \\
+ $\sigma_{\epsilon0}$ & 0.05 & 0.05 & 0.05 & 0.05 & 0.05 & 0.05 \\
+ $\sigma_{\epsilon1}$ & 0.05 & 0.05 & 0.05 & 0.05 & 0.075 & 0.075 \\
+ Hazard & 0.00 & 0.00 & 0.00 & 0.20 & 0.00 & 0.20 \\
+ $T_{\max}$ & 5 & 20 & 5 & 5 & 5 & 5 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]\footnotesize
+Notes: Baseline parameters from src/montecarlo/params.do; scenario overrides from src/montecarlo/*.do. $\sigma_{\epsilon0}$ is the innovation s.d. for placebo; $\sigma_{\epsilon1}$ for treated. Hazard governs spell lengths (discretized exponential) when positive. $T_{\max}$ truncates spell lengths.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
 - Baseline (params.do): rho = 0 (i.i.d. shocks), sigma_epsilon0 = 0.05, sigma_epsilon1 = 0.05, hazard = 0 (balanced spells), T_max = 5.
 - Long Panel (longpanel.do): T_max = 20.
 - Persistent Errors (persistent.do): rho = 0.9.
 - Unbalanced Panel (unbalanced.do): rho = 0.9 and hazard = 0.2 (spell lengths from a discretized exponential, truncated at T_max).
 - Excess Variance (excessvariance.do): sigma_epsilon1 = 0.075 in the treated group (placebo remains at 0.05).
 - All Complications (all.do): rho = 0.9, hazard = 0.2, sigma_epsilon1 = 0.075.
-
+}
 The figure script imports the scenario-specific CSVs, clips confidence bands for three plotted series (beta0, beta1, dbeta) to [-0.75, 1.75] for legibility, draws per-panel graphs, and combines them into a 2x3 layout.
 
 \begin{figure}[htbp]
