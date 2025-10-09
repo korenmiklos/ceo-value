@@ -17,6 +17,8 @@ foreach panel in A B C D E F {
     local title  `title`panel''
 
     import delimited "data/`sample'_TFP.csv", clear
+    * drop ATET estimates
+    drop if xvar == "ATET"
 
     * clip error bands for better visualization
     foreach var in beta0 beta1 dbeta {

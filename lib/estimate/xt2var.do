@@ -82,6 +82,18 @@ e2frame, generate(Cov1)
 reghdfe `dYdX' T_X_et_m_`pre'-T_X_et_m_2 T_X_et_p_0-T_X_et_p_`post', absorb(`e') vce(cluster `cluster') nocons
 e2frame, generate(dCov)
 
+* save ATET estimates
+generate byte TXT = `treated_group' & `treatment'
+reghdfe `dYdX' TXT if `treated_group' == 1, vce(cluster `cluster') nocons
+local ATET1 = _b[TXT]
+local lower1 = _b[TXT] - invttail(e(df_r), 0.025)*_se[TXT]
+local upper1 = _b[TXT] + invttail(e(df_r), 0.025)*_se[TXT]
+
+reghdfe `dYdX' TXT, absorb(`e') vce(cluster `cluster') nocons
+local dATET = _b[TXT]
+local dlower = _b[TXT] - invttail(e(df_r), 0.025)*_se[TXT]
+local dupper = _b[TXT] + invttail(e(df_r), 0.025)*_se[TXT]
+
 foreach df in dCov Cov1 {
     frame `df': rename coef coef_`df'
     frame `df': rename lower lower_`df'
@@ -98,9 +110,22 @@ frame dCov {
     count
     set obs `=r(N)+1'
     replace t = -1 in -1
+    replace xvar = "T_X_et_m_1" in -1
     foreach v of varlist coef_* lower_* upper_* {
         replace `v' = 0 in -1
     }
+
+    * save ATET row as t = 99
+    set obs `=r(N)+2'
+    replace t = 99 in -1
+    replace xvar = "ATET" in -1
+
+    replace coef_dCov = `dATET' in -1
+    replace lower_dCov = `dlower' in -1
+    replace upper_dCov = `dupper' in -1
+    replace coef_Cov1 = `ATET1' in -1
+    replace lower_Cov1 = `lower1' in -1
+    replace upper_Cov1 = `upper1' in -1
 
     sort t
 

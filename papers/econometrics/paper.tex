@@ -329,8 +329,10 @@ The scenarios and figure panels follow the code in src/montecarlo and src/figure
 \begin{threeparttable}
 \begin{tabular}{l*{6}{>{\centering\arraybackslash}p{1.8cm}}}
 \toprule
- & \textbf{Baseline} & \textbf{Long Panel} & \textbf{Persistent Errors} & \textbf{Unbalanced Panel} & \textbf{Excess Variance} & \textbf{All Complications} \\
+\textbf{Scenario} & \textbf{Baseline} & \textbf{Long Panel} & \textbf{Persistent Errors} & \textbf{Unbalanced Panel} & \textbf{Excess Variance} & \textbf{All Complications} \\
 \midrule
+\textbf{Parameters} & & & & & & \\
+\addlinespace
 $N_{\text{treated}}$ & \multicolumn{6}{c}{10,000} \\
 $N_{\text{control}}$ & \multicolumn{6}{c}{90,000} \\
 $\sigma(\Delta z)$ & \multicolumn{6}{c}{0.10} \\
@@ -341,6 +343,10 @@ $\sigma(\epsilon_{\text{control}})$ & \multicolumn{6}{c}{0.05} \\
  $\sigma(\epsilon_{\text{treated}})$ & 0.05 & 0.05 & 0.05 & 0.05 & 0.075 & 0.075 \\
  CEO change & --- & --- & --- & 0.20 & --- & 0.20 \\
  hazard & & & & & & \\
+\midrule
+\textbf{Estimates} & & & & & & \\
+\addlinespace
+\input{table/atets.tex}\\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}[flushleft]\footnotesize
