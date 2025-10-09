@@ -89,15 +89,34 @@ Methodologically, our paper builds on the two-way fixed effects literature in la
 %%%%%%%%%%%%%%%%%%%%
 
 Let firm $i$ in year $t$ have outcome
-\begin{equation}
-  y_{it} = z_{it} + e_{it},\qquad \mathbb E[e_{it}|z_{is}]=0,
+\begin{equation}\label{eq:model1}
+  y_{it} = z_{m(i,t)} + e_{it},\qquad \mathbb E[e_{it}|z_{is}]=0,
 \end{equation}
-where $z_{it}$ collects the CEO effect at time $t$ and $e_{it}$ is a shock. We assume that $z_{it}$ is piecewise constant, changing only when the CEO changes and that $e_{it}$ is mean independent of the CEO path for all $s$ (``strict exogeneity'').
+where $z_{m(i,t)}$ collects the CEO effect at time $t$ and $e_{it}$ is a shock. We assume that $z_{m(i,t)}$ is piecewise constant, changing only when the CEO changes and that $e_{it}$ is mean independent of the CEO path for all $s$ (``strict exogeneity'' or ``random mobility'').
 
 Such fixed effect models are often estimated in applied work. For example, \citet{Bertrand2003-io} ETC ETC
 
+Under the strict exogeneity assumption, the ordinary least squares (OLS) estimator of $z_m$ is unbiased. Equation \eqref{eq:model1} can be rewritten as a dummy-variable regression 
+$$
+y_{it} = \sum_{n} z_n D_{m(i,t)=n}  + e_{it},
+$$
+and the first-order condition for the OLS estimator $\hat z_n$ is
+$$
+0 = \sum_{i,t:m(i,t)=n} (y_{it} - \hat z_n),
+$$
+or 
+$$
+\hat z_n = \frac{1}{T_n} \sum_{i,t:m(i,t)=n} y_{it} = z_n + \frac{1}{T_n} \sum_{i,t:m(i,t)=n} e_{it},
+$$
+where $T_n$ is the number of observations with CEO $n$. The estimator is unbiased because $\mathbb E[\hat z_n|z_n] = z_n$. The estimator, however, is only consistent as $T_n\to\infty$, that is, as the number of observations per CEO grows large. In practice, many CEOs have short tenures (REFs), so $\hat z_n$ contains substantial noise. 
 
-% local Example environment (no extra packages required)
+Econometric applications often require the second moments of $\hat z_n$, for example, to estimate the variance of CEO effects or to run regressions of an outcome $y_{it}$ on $\hat z_n$. The former could inform us about the importance of CEO heterogeneity (REFs), while the latter could inform us about the effect of CEO quality on firm performance and firm policies (REFs). 
+
+The small-sample error, however, contaminates \emph{all second moments} of $\hat z_n$. The variance of $\hat z_n$ is inflated relative to the variance of true CEO effects $z_n$ (REFs), and the covariance of $\hat z_n$ with other variables that are affected by $e_{it}$ is also contaminated. A well-known example of this in the labor literature is ``limited mobility bias'' \citep{andrews2008high}, which states that in a two-way fixed effects model of worker and firm effects, the variance of both effects is biased upwards, and their correlation is biased downwards.
+
+Existing methods of bias correction for the variance of fixed effects (REFs) rely on ???
+
+
 \newenvironment{example}{\par\noindent\textbf{Example.}\ }{\par}
 
 Consider the following example to fix ideas. Our method will be more general, but this example captures the key elements.
@@ -120,10 +139,11 @@ $$
 \paragraph{Model setup.} We are now ready to present the general setup in matrix notation. Let firm $i$ be observed for $T$ periods with outcome path $\mathbf y_i\in\mathbb R^T$ that decomposes into a (piecewise-constant) manager-effect path $\mathbf z_i$ and shocks $\mathbf e_i$:
 \begin{equation}
 \mathbf y_i = \mathbf z_i + \mathbf e_i,
+\qquad \mathbb E[\mathbf z_i\mathbf z_i']=??,
 \qquad \mathbb E[\mathbf z_i\mathbf e_i']=0,
 \qquad \mathbb E[\mathbf e_i\mathbf e_i']=\Sigma.
 \end{equation}
-The first assumption about the error terms is the standard strict exogeneity assumption, often stated as ``random mobility''. Every period's shock is mean independent of the entire CEO path. The second assumption allows for arbitrary autocorrelation in shocks over time (e.g., persistent shocks).
+The first assumption about the error terms is the standard strict exogeneity assumption, often stated as ``random mobility.'' Every period's shock is mean independent of the entire CEO path. The second assumption allows for arbitrary autocorrelation in shocks over time (e.g., persistent shocks).
 
 For any linear contrast with weights $\mathbf w\in\mathbb R^T$, define $y_i=\mathbf w'\mathbf y_i$, $z_i=\mathbf w'\mathbf z_i$, and $\varepsilon_i=\mathbf w'\mathbf e_i$, resulting in
 \begin{equation}
