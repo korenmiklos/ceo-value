@@ -44,9 +44,6 @@ egen `Var' = mean(cond(!`treated_group', `dX2', .)), by(`e')
 replace `dYdX' = `dYdX' - `Cov' * `excess_variance' if `treated_group'
 replace `dX2' = `dX2' - `Var' * `excess_variance' if `treated_group'
 
-table `e' `treated_group', stat(mean `dYdX')
-table `e' `treated_group', stat(mean `dX2')
-
 tempvar Cov0 Cov1 beta
 summarize `dX2' if `treated_group' == 0, meanonly
 local Var0 = r(mean)
@@ -57,23 +54,33 @@ egen `Cov1' = mean(cond(`treated_group', `dYdX', .)), by(`e')
 
 generate `beta' = (`Cov1' - `Cov0') / (`Var1' - `Var0')
 
-table `e', stat(mean `Cov0' `Cov1')
-table `e', stat(mean `beta')
-
 generate `t1' = `treatment' & `treated_group'
 generate `t0' = `treatment' & !`treated_group'
 
 foreach df in dCov Cov1 {
     capture frames drop `df'
 }
-xt2treatments `dYdX', treatment(`t1') control(`t0') pre(`pre') post(`post') baseline(-1) weighting(optimal) cluster(`cluster')
-e2frame, generate(dCov)
 
-* estimate without placebo adjustment, because we need to recover levels
-replace `dYdX' = 0 if !`treated_group'
+forvalues et = `pre'(-1)2 {
+    generate byte et_m_`et' = `e' == -`et'
+}
+forvalues et = 0(1)`post' {
+    generate byte et_p_`et' = `e' == `et'
+}
+forvalues et = `pre'(-1)2 {
+    generate byte T_X_et_m_`et' = (`e' == -`et') & (`treated_group' == 1)
+}
+forvalues et = 0(1)`post' {
+    generate byte T_X_et_p_`et' = (`e' == `et') & (`treated_group' == 1)
+}
 
-xt2treatments `dYdX', treatment(`t1') control(`t0') pre(`pre') post(`post') baseline(-1) weighting(optimal) cluster(`cluster')
+* first compute covariance in treated group only - this is biased
+reghdfe `dYdX' T_X_et_m_`pre'-T_X_et_m_2 T_X_et_p_0-T_X_et_p_`post' if `treated_group' == 1, vce(cluster `cluster') nocons
 e2frame, generate(Cov1)
+
+* difference to placebo group - this is unbiased
+reghdfe `dYdX' T_X_et_m_`pre'-T_X_et_m_2 T_X_et_p_0-T_X_et_p_`post', absorb(`e') vce(cluster `cluster') nocons
+e2frame, generate(dCov)
 
 foreach df in dCov Cov1 {
     frame `df': rename coef coef_`df'
@@ -83,13 +90,23 @@ foreach df in dCov Cov1 {
 frame dCov {
     frlink 1:1 xvar, frame(Cov1)
     frget coef_Cov1 lower_Cov1 upper_Cov1, from(Cov1)
+
+    generate t = -`pre' + i - 1
+    * there is an event-time missing, introduce the gap
+    replace t = t + 1 if t >= -1
+
+    count
+    set obs `=r(N)+1'
+    replace t = -1 in -1
+    foreach v of varlist coef_* lower_* upper_* {
+        replace `v' = 0 in -1
+    }
+
+    sort t
+
     generate coef_dbeta = coef_dCov / (`Var1' - `Var0')
     generate lower_dbeta = lower_dCov / (`Var1' - `Var0')
     generate upper_dbeta = upper_dCov / (`Var1' - `Var0')
-
-    generate coef_dbetaalt = coef_dCov / `Var1'
-    generate lower_dbetaalt = lower_dCov / `Var1'
-    generate upper_dbetaalt = upper_dCov / `Var1'
 
     generate coef_beta1 = coef_Cov1 / `Var1'
     generate lower_beta1 = lower_Cov1 / `Var1'
@@ -99,17 +116,8 @@ frame dCov {
     generate lower_beta0 = (lower_Cov1 - upper_dCov) / `Var0'
     generate upper_beta0 = (upper_Cov1 - lower_dCov) / `Var0'
 
-    generate coef_beta1alt = coef_Cov1 / (`Var1' - `Var0')
-    generate lower_beta1alt = lower_Cov1 / (`Var1' - `Var0')
-    generate upper_beta1alt = upper_Cov1 / (`Var1' - `Var0')
-
-    generate coef_beta0alt = (coef_Cov1 - coef_dCov) / (`Var1' - `Var0')
-    generate lower_beta0alt = (lower_Cov1 - upper_dCov) / (`Var1' - `Var0')
-    generate upper_beta0alt = (upper_Cov1 - lower_dCov) / (`Var1' - `Var0')
-
-    foreach X of varlist coef_* lower_* upper_*  {
-        replace `X' = 0 if xvar == -1
-    }
-
-    list xvar coef_dbeta lower_dbeta upper_dbeta 
+    list t coef_dbeta lower_dbeta upper_dbeta 
+    order t i xvar coef_dbeta lower_dbeta upper_dbeta ///
+        coef_beta1 lower_beta1 upper_beta1 ///
+        coef_beta0 lower_beta0 upper_beta0
 }

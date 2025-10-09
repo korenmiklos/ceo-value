@@ -1,12 +1,12 @@
 .PHONY: all montecarlo paper clean
 
 SCENARIOS = baseline longpanel persistent unbalanced excessvariance all
-PLACEBO_DATA = $(addprefix data/placebo_,$(addsuffix .dta,$(SCENARIOS)))
+EVENT_STUDIES = $(addprefix data/,$(addsuffix _TFP.csv,$(SCENARIOS)))
 OUTCOMES := TFP
 
 all: paper
 
-montecarlo: $(PLACEBO_DATA)
+montecarlo: $(EVENT_STUDIES)
 
 data/placebo_%.dta: src/montecarlo/%.do src/montecarlo/params.do src/montecarlo/setup.do
 	stata -b do src/montecarlo/run.do $*
