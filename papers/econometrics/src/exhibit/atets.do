@@ -28,6 +28,7 @@ foreach scenario of local scenarios {
     
     * Extract ATET row (t==99)
     keep if xvar == "ATET"
+    list
     
     * Store OLS (treated group beta1)
     matrix ols[1, `col'] = coef_beta1[1]
@@ -46,6 +47,10 @@ foreach scenario of local scenarios {
     
     local ++col
 }
+
+matrix list ols
+matrix list placebo
+matrix list debiased
 
 * Open LaTeX file for writing
 file open texfile using "table/atets.tex", write replace
@@ -70,7 +75,8 @@ foreach row in "ols" "placebo" "debiased" {
         local lower = `row'_lower[1, `i']
         local upper = `row'_upper[1, `i']
         local se = (`upper' - `lower') / (2 * invnormal(0.975))
-        local p_value = 2 * (1 - normal(abs(`coef'/`se')))
+        * test relative to 1.0
+        local p_value = 2 * (1 - normal(abs((`coef' - 1.0)/`se')))
         
         * Determine significance level (test if CI excludes 1.0)
         local stars ""
@@ -83,11 +89,9 @@ foreach row in "ols" "placebo" "debiased" {
         if (`p_value' < 0.01) {
             local stars "`stars'*"
         }
-        
-        * Format coefficient (convert to percentage, 2 decimal places)
-        local coef_pct = (`coef' - 1) * 100
-        local coef_str = string(`coef_pct', "%4.3f")
-        
+
+        local coef_str = string(`coef', "%5.3f")
+
         * Write to file
         if `i' < 6 {
             file write texfile "$`coef_str'^{`stars'}$ & "
