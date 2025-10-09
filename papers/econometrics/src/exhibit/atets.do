@@ -81,8 +81,3 @@ forvalues row = 1/6 {
 
 file close texfile
 
-* Display results for verification
-display "ATET estimates written to table/atets.tex"
-matrix list ols
-matrix list placebo
-matrix list debiased

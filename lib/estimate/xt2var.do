@@ -39,8 +39,8 @@ summarize `X', detail
 egen `EX' = mean(`X'), by(`g' `t' `treated_group')
 generate `dYdX' = (`dY' - `E') * (`X' - `EX')
 generate `dX2' = (`X' - `EX')^2
-egen `Cov' = mean(cond(!`treated_group', `dYdX', .)), by(`e')
-egen `Var' = mean(cond(!`treated_group', `dX2', .)), by(`e')
+egen `Cov' = mean(cond(!`treated_group', `dYdX', .)), by(`g' `t')
+egen `Var' = mean(cond(!`treated_group', `dX2', .)), by(`g' `t')
 replace `dYdX' = `dYdX' - `Cov' * `excess_variance' if `treated_group'
 replace `dX2' = `dX2' - `Var' * `excess_variance' if `treated_group'
 
