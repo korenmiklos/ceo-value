@@ -320,6 +320,8 @@ We use a simple Monte Carlo to show why second moments are biased and how the pl
 
 Our starting point is a window with two spells per firm. Placebo firms never actually change CEOs; we split long no-change stretches into the same pre/post spell lengths as in the treated sample and align them in event time. We compute the same statistics in both samples with the same weights and then subtract the placebo quantity. Because covariance is bilinear and variance is additive under strict exogeneity, the subtraction removes the bias term without modeling the full autocovariance structure. If treated firms are more volatile, we estimate a groupwise scalar and multiply the placebo term before subtraction.
 
+Before turning to specific parameter choices, we motivate the six scenarios from econometric first principles. Bias in second moments depends on two pillars: (i) the shock process (the autocovariance matrix \(\Sigma\)) and (ii) the spell design encoded by the event-time design matrix. Persistent shocks (AR(1) with \(\rho>0\)) can create spurious pre-trends and distort dynamic slopes because estimated effects embed noise that is serially correlated. Short or uneven (unbalanced) spells amplify small-sample noise because within-spell means are computed over few observations; this inflates \(\Var(\hat z)\) and, with persistence, also inflates the covariance component. Our scenarios therefore vary only along these two theoretically salient dimensions (persistence and spell length/design), plus a simple scale shift (excess variance in treated groups). We intentionally keep the rest of the setup simple so that each complication can be read as a clean stress test of the placebo debiasing.
+
 The scenarios and figure panels follow the code in src/montecarlo and src/figuremc.do:
 
 \begin{table}[t]
@@ -381,8 +383,40 @@ Panels D–F illustrate that the problems intensify with unbalanced spells and e
 
 We expect to see exactly zero before and exactly one after the arrival of the CEO in TFP units when the true effect is normalized so that a one-unit increase in the fixed effect raises TFP by one. Other outcomes may have different scales, but the logic is the same. With persistence, short spells, or excess variance in treated firms, the naive profiles will typically display pre-trends and inflated post effects; subtracting the placebo series removes these artifacts.
 
-\section{Corporate Data from Hungary}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Application: CEO Arrivals and Revenue in Hungarian Firms}
+
+We apply the placebo-controlled debiasing to the universe of Hungarian firms, focusing on CEO arrivals and firm revenue outcomes. The Hungarian data provide an ideal setting because we observe the full population of businesses over three decades, not only large corporations. This scope yields many CEO mobilities across firms, allowing us to study the arrival of new CEOs and the associated within-firm dynamics. We document the data construction, sample restrictions, and additional statistics in our companion paper [[note: add citation to companion paper]]. Here we summarize the minimal features needed for this methodological application and outline the design we will estimate.
+
+We consider all CEO changes between 1992 and 2022 (31 years). We restrict to firms that have ever reached at least 5 employees in their lifetime, to exclude non-employer businesses that rarely change CEOs and would inflate the sample numerically without adding identifying transitions. After this restriction, there are about 60,000 CEO changes [[note: update exact count]]. Many transitions are from the first to the second CEO and from founders to non-founders; these categories are similar but not identical because founders can return later and some firms begin with outsider CEOs. We will include a table with summary statistics for these quantities [[note: add exhibit reference]].
+
+Identification relies on random mobility (strict exogeneity): past and future shocks to outcomes are orthogonal to CEO mobility timing. Because applied work commonly examines pre-trends to assess plausibility, we present event-study profiles grounded in this assumption.
+
+We use firm revenue as the outcome variable for clarity of exposition. We remove industry–year means so that the outcome is measured as a deviation from the sectoral environment.
+
+\subsection*{Estimating CEO Spell Effects}
+For each transition from CEO A to CEO B, let the firm have two consecutive spells covering the entire tenures of A and B (not just the event window). We estimate a spell-level CEO effect as the within-spell mean of demeaned revenue. Concretely, let \(r_{it}\) denote firm revenue and let \(\tilde r_{it}=r_{it}-\bar r_{st}\) be revenue demeaned by industry–year \((s,t)\) cells. Let \(\mathbb 1\{\text{spell}=s\}\) indicate the A or B spell. The spell effect is
+\begin{equation}
+\hat z_{is} = \frac{1}{T_{is}}\sum_{t\in s} \tilde r_{it},\qquad s\in\{A,B\}.
+\end{equation}
+Define the change in the CEO effect for transition \(i\) by
+\begin{equation}
+\Delta \hat z_i = \hat z_{iB} - \hat z_{iA}.
+\end{equation}
+This statistic is the core object in variance decompositions; by theory and by Monte Carlo, its variance is upward biased in short panels and under persistence, which motivates our placebo debiasing.
+
+[[note: if a firm has more than two consecutive spells, we treat adjacent spell pairs as separate transitions; multiple transitions per firm are allowed but clustered at the firm level.]]
+
+\subsection*{Event-Study Specification}
+We then study revenue dynamics around CEO arrivals in event time. For each transition with event date \(g\), define dummies for event-time leads/lags relative to \(g\) over the window \([-4,+3]\). We estimate
+\begin{equation}
+\tilde r_{it} = \alpha_i + \sum_{\ell\in\{-4,-3,-2,0,1,2,3\}} \beta_{\ell}\,\mathbb 1\{t-g=\ell\} + \varepsilon_{it},
+\end{equation}
+with the baseline period normalized to zero at \(t=-1\). The coefficients \(\beta_{\ell}\) trace out the revenue response before and after CEO arrival. Under random mobility, we expect no pre-trends: \(\beta_{-4},\beta_{-3},\beta_{-2}\approx 0\). Post-arrival dynamics are a question for the data: effects may be immediate or build gradually during the new CEO’s tenure. We will report both naive and placebo-corrected profiles; the latter subtract the corresponding placebo moments computed on matched non-changers with replicated spell designs.
+
+\subsection*{Placebo Construction and Debiasing}
+Placebo transitions assign a fake CEO change at the same calendar year as an actual transition to control firms that remain under the same CEO and have long no-change runs covering the event window. We split these control runs into the same pre/post spell lengths as the treated transition and align them in event time. Because the design matrices and weights are the same by construction, and because we assume the error autocovariance (\(\Sigma\)) is the same up to a scalar between treated and placebo groups, the covariance and variance bias components can be “precomputed” in the placebo sample and subtracted from the treated estimates. This delivers debiased variance of \(\Delta \hat z\) and debiased event-study coefficients \(\beta_{\ell}\).
+
+[[note: add the companion paper citation for full data construction and additional outcomes (e.g., investment, materials, labor).]]
 
 Hungary provides an ideal setting for studying CEO effects in the universe of private firms. The country offers complete administrative data coverage for all incorporated businesses, spanning 30 years from the transition economy of the 1990s through EU accession in 2004 to the present. CEO registration is mandatory for every registered firm. The coverage enables us to track CEO careers across firms and construct mobility networks necessary for identification.
 
