@@ -44,15 +44,10 @@ egen `Var' = mean(cond(!`treated_group', `dX2', .)), by(`e')
 replace `dYdX' = `dYdX' - `Cov' * `excess_variance' if `treated_group'
 replace `dX2' = `dX2' - `Var' * `excess_variance' if `treated_group'
 
-tempvar Cov0 Cov1 beta
 summarize `dX2' if `treated_group' == 0, meanonly
 local Var0 = r(mean)
 summarize `dX2' if `treated_group' == 1, meanonly
 local Var1 = r(mean)
-egen `Cov0' = mean(cond(!`treated_group', `dYdX', .)), by(`e')
-egen `Cov1' = mean(cond(`treated_group', `dYdX', .)), by(`e')
-
-generate `beta' = (`Cov1' - `Cov0') / (`Var1' - `Var0')
 
 generate `t1' = `treatment' & `treated_group'
 generate `t0' = `treatment' & !`treated_group'
