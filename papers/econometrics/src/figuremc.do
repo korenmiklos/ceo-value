@@ -20,8 +20,8 @@ foreach panel in A B C D E F {
 
     * clip error bands for better visualization
     foreach var in beta0 beta1 dbeta {
-        replace lower_`var' = max(lower_`var', -0.5)
-        replace upper_`var' = min(upper_`var', 1.5)
+        replace lower_`var' = max(lower_`var', -0.75)
+        replace upper_`var' = min(upper_`var', 1.75)
     }
 
     do "src/exhibit/event_study.do" `panel' "`title'" "`ytitle'"

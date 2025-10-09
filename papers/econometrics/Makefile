@@ -12,7 +12,7 @@ data/placebo_%.dta: src/montecarlo/%.do src/montecarlo/params.do src/montecarlo/
 	stata -b do src/montecarlo/run.do $*
 
 # Generate event study data for monte carlo scenarios
-data/%_TFP.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do data/placebo_%.dta
+data/%_TFP.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_%.dta
 	mkdir -p data
 	stata -b do "../../lib/estimate/event_study.do" $* TFP montecarlo
 

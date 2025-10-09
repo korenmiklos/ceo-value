@@ -112,9 +112,10 @@ frame dCov {
     generate lower_beta1 = lower_Cov1 / `Var1'
     generate upper_beta1 = upper_Cov1 / `Var1'
 
+    * FIXME: we need proper standard errors here
     generate coef_beta0 = (coef_Cov1 - coef_dCov) / `Var0'
-    generate lower_beta0 = (lower_Cov1 - upper_dCov) / `Var0'
-    generate upper_beta0 = (upper_Cov1 - lower_dCov) / `Var0'
+    generate lower_beta0 = (lower_Cov1 - lower_dCov) / `Var0'
+    generate upper_beta0 = (upper_Cov1 - upper_dCov) / `Var0'
 
     list t coef_dbeta lower_dbeta upper_dbeta 
     order t i xvar coef_dbeta lower_dbeta upper_dbeta ///
