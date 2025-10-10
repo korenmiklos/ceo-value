@@ -71,7 +71,8 @@ tabulate ceo_spell placebo
 
 * CEO skill is also fake, computed from actual TFP
 egen fake_manager_skill = mean(TFP), by(fake_id ceo_spell)
-replace manager_skill = fake_manager_skill if placebo == 1
+* always use fake manager skill, we are doing dynamic estimates here
+replace manager_skill = fake_manager_skill
 drop fake_manager_skill
 
 * limit event window here, not sooner so that placebo is constructed correctly
