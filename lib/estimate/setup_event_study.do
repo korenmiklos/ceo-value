@@ -1,4 +1,4 @@
-args sample montecarlo
+args sample outcome montecarlo
 
 confirm file "data/placebo_`sample'.dta"
 
@@ -24,6 +24,7 @@ if ("`montecarlo'" == "") {
     use "../../temp/surplus.dta", clear
     merge 1:1 frame_id_numeric person_id year using "../../temp/analysis-sample.dta", keep(match) nogen
     merge m:1 frame_id_numeric person_id using "../../temp/manager_value.dta", keep(master match) nogen
+    confirm numeric variable `outcome'
 
     * sample for performance when testing
     set seed ${random_seed}
@@ -69,8 +70,8 @@ replace ceo_spell = `s1' if placebo == 1 & year < change_year
 replace ceo_spell = `s2' if placebo == 1 & year >= change_year
 tabulate ceo_spell placebo
 
-* CEO skill is also fake, computed from actual TFP
-egen fake_manager_skill = mean(TFP), by(fake_id ceo_spell)
+* CEO skill is also fake, computed from actual outcome
+egen fake_manager_skill = mean(`outcome'), by(fake_id ceo_spell)
 * always use fake manager skill, we are doing dynamic estimates here
 replace manager_skill = fake_manager_skill
 drop fake_manager_skill
@@ -78,9 +79,9 @@ drop fake_manager_skill
 * limit event window here, not sooner so that placebo is constructed correctly
 keep if inrange(year, change_year + ${event_window_start}, change_year + ${event_window_end})
 
-keep if !missing(TFP)
-egen T1 = total(cond(ceo_spell == `s1', !missing(TFP), .)), by(fake_id)
-egen T2 = total(cond(ceo_spell == `s2', !missing(TFP), .)), by(fake_id)
+keep if !missing(`outcome')
+egen T1 = total(cond(ceo_spell == `s1', !missing(`outcome'), .)), by(fake_id)
+egen T2 = total(cond(ceo_spell == `s2', !missing(`outcome'), .)), by(fake_id)
 keep if T1 >= ${T_min} & T2 >= ${T_min}
 drop T1 T2
 

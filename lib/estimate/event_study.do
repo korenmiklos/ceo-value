@@ -3,7 +3,7 @@ args sample outcome montecarlo
 confirm file "data/placebo_`sample'.dta"
 confirm existence `outcome'
 
-do "../../lib/estimate/setup_event_study.do" `sample' `montecarlo'
+do "../../lib/estimate/setup_event_study.do" `sample' `outcome' `montecarlo'
 confirm numeric variable `outcome'
 
 egen sometimes_missing = max(missing(`outcome')), by(fake_id)
