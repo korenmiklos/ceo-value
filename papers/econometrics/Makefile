@@ -11,10 +11,20 @@ montecarlo: $(EVENT_STUDIES)
 data/placebo_%.dta: src/montecarlo/%.do src/montecarlo/params.do src/montecarlo/setup.do
 	stata -b do src/montecarlo/run.do $*
 
+# copy relevant files for application
+data/placebo_full.dta: ../../temp/placebo_full.dta
+	mkdir -p $(dir $@)
+	cp $< $@
+
 # Generate event study data for monte carlo scenarios
 data/%_TFP.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_%.dta
 	mkdir -p data
 	stata -b do "../../lib/estimate/event_study.do" $* TFP montecarlo
+
+# same with real data
+data/%_lnR.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_%.dta
+	mkdir -p data
+	stata -b do "../../lib/estimate/event_study.do" $* lnR
 
 table/atets.tex: src/exhibit/atets.do $(EVENT_STUDIES)
 	mkdir -p table
