@@ -22,7 +22,7 @@
 % Define \sym command for significance stars from esttab
 \newcommand{\sym}[1]{{#1}}
 
-\title{Debiasing Second Moments of Estimated CEO Effects: A Placebo-Controlled Event-Study Approach\thanks{Project no. 144193 has been implemented with the support provided by the Ministry of Culture and Innovation of Hungary from the National Research, Development and Innovation Fund, financed under the KKP\_22 funding scheme. This project was funded by the European Research Council (ERC Advanced Grant agreement number 101097789). Telegdy received support from the Hungarian Scientific Research Fund – OTKA, contract number 143346. The views expressed in this research are those of the authors and do not necessarily reflect the official view of the European Union or the European Research Council. \emph{Author contributions:} Conceptualization and study design: Koren, Orbán and Telegdy. Statistical analysis: Koren, Orbán and Telegdy. Writing the original draft: Koren. Review and editing: Koren, Orbán and Telegdy.}}
+\title{Debiasing Second Moments of Estimated CEO Effects: A Placebo-Controlled Approach\thanks{Project no. 144193 has been implemented with the support provided by the Ministry of Culture and Innovation of Hungary from the National Research, Development and Innovation Fund, financed under the KKP\_22 funding scheme. This project was funded by the European Research Council (ERC Advanced Grant agreement number 101097789). Telegdy received support from the Hungarian Scientific Research Fund – OTKA, contract number 143346. The views expressed in this research are those of the authors and do not necessarily reflect the official view of the European Union or the European Research Council.}}
 
 \author{Miklós Koren\thanks{Central European University, ELTE Centre for Economic and Regional Studies, CEPR and CESifo. E-mail: korenm@ceu.edu} \\
         Krisztina Orbán\thanks{Monash University.} \\
@@ -50,7 +50,12 @@ Understanding the link between estimated manager effects and firm outcomes is ce
 \section{Introduction}
 %%%%%%%%%%%%%%%%%%%%%%
 
-CEO effects are prevalent in empirical corporate and labor research. Under random mobility (strict exogeneity), first moments of estimated fixed effects are unbiased—an insight reinforced by designs that exploit exogenous mobility such as CEO death or illness \citep[e.g.,][]{bennedsen2020ceos}. But most applied work is concerned with second moments: variances (how large is CEO heterogeneity?), covariances with other variables (what do fixed effects capture?), and dynamic covariances used in event studies (are there pre-trends and post-arrival dynamics?). These second moments are known to be biased in short panels, as emphasized by the worker–firm fixed-effects literature \citep{andrews2008high,gaure2014correlation,Bonhomme2023-dx}.
+The impact of individual CEOs on business practices and performance is a widely studied question in economics,  corporate finance, and management. In absence of rich observables that can influence CEO behavior and value to the firm, studies often include CEO fixed effects to capture variations in latent CEO skills.
+
+[[cite Bertrand Schoar, more econ papers, also Strategic Management journals]]
+
+
+Empirical corporate finance and labor research. Under random mobility (strict exogeneity), first moments of estimated fixed effects are unbiased—an insight reinforced by designs that exploit exogenous mobility such as CEO death or illness \citep[e.g.,][]{bennedsen2020ceos}. But most applied work is concerned with second moments: variances (how large is CEO heterogeneity?), covariances with other variables (what do fixed effects capture?), and dynamic covariances used in event studies (are there pre-trends and post-arrival dynamics?). These second moments are known to be biased in short panels, as emphasized by the worker–firm fixed-effects literature \citep{andrews2008high,gaure2014correlation,Bonhomme2023-dx}.
 
 %what we do
 We develop a placebo-controlled design to debias second moments of estimated CEO effects without modeling the full variance–covariance of errors. The approach constructs placebo transitions that replicate the spell-length design of actual transitions while excluding windows around real changes. Computing the same statistic with the same weights in the treated and placebo samples, and subtracting the placebo moment, yields debiased variances, covariances, and event-study profiles. Our assumptions are transparent: (i) strict exogeneity (random mobility) for unbiased first moments; (ii) the autocovariance of shocks is the same up to a scalar across treated and placebo groups; and (iii) design matrices and group weights match by construction. We illustrate performance in six Monte Carlo scenarios (baseline, long panel, persistent errors, unbalanced panels, excess variance, and all complications), and we outline a typical application—dynamic effects of CEO arrival on revenue in Hungarian firms—where researchers care about pre-trends and post-arrival dynamics.
@@ -282,7 +287,7 @@ Formally, we implement the event study around CEO transitions at time $g$, compa
 \begin{equation}
 \omega_{imt} = a_i + \gamma_{t-g} + \epsilon_{it}
 \end{equation}
-The coefficients $\gamma_{t-g}$ capture the evolution of log TFP in event time for actual CEO transitions relative to placebo CEO transitions, where $t-g \in [-4, 3]$ and we normalize $\gamma_{-2} = 0$. [[comment: confirm exact baseline normalization in the estimator scripts; some versions use $t=-1$ as baseline.]]
+The coefficients $\gamma_{t-g}$ capture the evolution of log TFP in event time for actual CEO transitions relative to placebo CEO transitions, where $t-g \in [-4, 3]$ and we normalize $\gamma_{-1} = 0$.
 
 
 \paragraph{Variance Decomposition.} To quantify the contribution of CEO transitions to long-term performance differences, we carry out a variance decomposition. The limited mobility bias will affect the firm component of the variance of $\omega_{it}$ \citep{kline2024firm}, and we correct our estimate with the placebo procedure discussed above. In addition to this problem, we face another difficulty: due to cumulative shocks, the variance of productivity mechanically increases as the firm ages. Our method of estimating an unbiased variance is the following.
