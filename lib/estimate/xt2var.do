@@ -46,10 +46,15 @@ replace `dYdX' = `dYdX' - `CovXY' * `excess_variance' if `treated_group'
 replace `dX2' = `dX2' - `VarX' * `excess_variance' if `treated_group'
 replace `dY2' = `dY2' - `VarY' * `excess_variance' if `treated_group'
 
-summarize `dX2' if `treated_group' == 0, meanonly
-local Var0 = r(mean)
-summarize `dX2' if `treated_group' == 1, meanonly
-local Var1 = r(mean)
+
+* compute difference in a regression to get standard errors
+regress `dX2' `treated_group', vce(cluster `cluster')
+local Var0 = _b[_cons]
+local dVar = _b[`treated_group']
+local Var1 = `Var0' + `dVar'
+local se_dVar = _se[`treated_group']
+local se_Var0 = _se[_cons]
+local se_Var1 = sqrt(`se_Var0'^2 + `se_dVar'^2)
 
 generate `t1' = `treatment' & `treated_group'
 generate `t0' = `treatment' & !`treated_group'
@@ -143,6 +148,7 @@ frame dCov {
         replace coef_`df' = `coef_`df'' in -1
         replace lower_`df' = `lower_`df'' in -1
         replace upper_`df' = `upper_`df'' in -1
+        generate se_`df' = (upper_`df' - lower_`df') / invnormal(0.975)
     }
 
     generate Var0 = `Var0'
@@ -152,17 +158,30 @@ frame dCov {
     sort t
 
     generate coef_dbeta = coef_dCov / dVar
-    generate lower_dbeta = lower_dCov / dVar
-    generate upper_dbeta = upper_dCov / dVar
-
     generate coef_beta1 = coef_Cov1 / Var1
-    generate lower_beta1 = lower_Cov1 / Var1
-    generate upper_beta1 = upper_Cov1 / Var1
-
-    * FIXME: we need proper standard errors here
     generate coef_beta0 = (coef_Cov1 - coef_dCov) / Var0
-    generate lower_beta0 = (lower_Cov1 - lower_dCov) / Var0
-    generate upper_beta0 = (upper_Cov1 - upper_dCov) / Var0
+
+    * use the delta method to get standard errors for beta
+    * Var(beta) = Var(Cov)/E(X)^2 [1 + beta^2 * Var(X)/Var(Y)]
+    * so se(beta) = se(Cov)/E(X) sqrt[1 + beta^2 * Var(X)/Var(Y)]
+
+    scalar Var_ratio = `se_dVar' / se_dCov
+    scalar correction = 1 + Var_ratio * coef_dbeta^2
+    display "Variance correction factor for se(beta): " correction
+    generate se_dbeta = se_dCov / dVar * sqrt(correction)
+
+    scalar Var_ratio = `se_Var1' / se_Cov1
+    scalar correction = 1 + Var_ratio * coef_beta1^2
+    generate se_beta1 = se_Cov1 / Var1 * sqrt(correction)
+
+    scalar Var_ratio = `se_Var0' / sqrt(se_Cov1^2 + se_dCov^2)
+    scalar correction = 1 + Var_ratio * coef_beta0^2
+    generate se_beta0 = sqrt(se_Cov1^2 + se_dCov^2) / Var0 * sqrt(correction)
+
+    foreach v in dbeta beta1 beta0 {
+        generate lower_`v' = coef_`v' - se_`v' * invnormal(0.975)
+        generate upper_`v' = coef_`v' + se_`v' * invnormal(0.975)
+    }
 
     generate Rsq1 = (coef_Cov1)^2 / (coef_VarY1 * Var1)
     generate Rsq0 = (coef_Cov1 - coef_dCov)^2 / (coef_VarY1 * Var0)

@@ -16,15 +16,15 @@ data/placebo_full.dta: ../../temp/placebo_full.dta
 	mkdir -p $(dir $@)
 	cp $< $@
 
+# same with real data
+data/full_%.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_full.dta
+	mkdir -p data
+	stata -b do "../../lib/estimate/event_study.do" full $*
+
 # Generate event study data for monte carlo scenarios
 data/%_TFP.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_%.dta
 	mkdir -p data
 	stata -b do "../../lib/estimate/event_study.do" $* TFP montecarlo
-
-# same with real data
-data/%_lnR.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_%.dta
-	mkdir -p data
-	stata -b do "../../lib/estimate/event_study.do" $* lnR
 
 table/atets.tex: src/exhibit/atets.do $(EVENT_STUDIES)
 	mkdir -p table
