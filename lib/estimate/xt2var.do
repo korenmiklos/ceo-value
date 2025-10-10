@@ -10,7 +10,7 @@ local post 3
 assert inlist(`treatment', 0, 1)
 assert inlist(`treated_group', 0, 1)
 
-tempvar g e Yg dY E dY2 Xg dX EX dYdX dX2 t0 t1 Cov Var
+tempvar g e Yg dY E dY2 Xg dX EX dYdX dX2 t0 t1 CovXY VarX VarY
 
 xtset
 local i = r(panelvar)
@@ -30,7 +30,7 @@ generate `dY2' = (`dY' - `E')^2
 
 * compute event-time-specific variance correction
 * treated group may have difference variance of epsilon
-ppmlhdfe `dY2' `treated_group' if `e' < 0, absorb(`e')
+ppmlhdfe `dY2' `treated_group' if `e' < 0, absorb(`g' `t')
 local excess_variance = exp(_b[`treated_group']) - 1
 display "Excess variance for treated group: `excess_variance' x"
 summarize `X', detail
@@ -39,10 +39,12 @@ summarize `X', detail
 egen `EX' = mean(`X'), by(`g' `t' `treated_group')
 generate `dYdX' = (`dY' - `E') * (`X' - `EX')
 generate `dX2' = (`X' - `EX')^2
-egen `Cov' = mean(cond(!`treated_group', `dYdX', .)), by(`g' `t')
-egen `Var' = mean(cond(!`treated_group', `dX2', .)), by(`g' `t')
-replace `dYdX' = `dYdX' - `Cov' * `excess_variance' if `treated_group'
-replace `dX2' = `dX2' - `Var' * `excess_variance' if `treated_group'
+egen `CovXY' = mean(cond(!`treated_group', `dYdX', .)), by(`g' `t')
+egen `VarX' = mean(cond(!`treated_group', `dX2', .)), by(`g' `t')
+egen `VarY' = mean(cond(!`treated_group', `dY2', .)), by(`g' `t')
+replace `dYdX' = `dYdX' - `CovXY' * `excess_variance' if `treated_group'
+replace `dX2' = `dX2' - `VarX' * `excess_variance' if `treated_group'
+replace `dY2' = `dY2' - `VarY' * `excess_variance' if `treated_group'
 
 summarize `dX2' if `treated_group' == 0, meanonly
 local Var0 = r(mean)
@@ -77,26 +79,48 @@ e2frame, generate(Cov1)
 reghdfe `dYdX' T_X_et_m_`pre'-T_X_et_m_2 T_X_et_p_0-T_X_et_p_`post', absorb(`e') vce(cluster `cluster') nocons
 e2frame, generate(dCov)
 
+**** Do the same for variance
+
+* first compute variance in treated group only - this is biased
+reghdfe `dY2' T_X_et_m_`pre'-T_X_et_m_2 T_X_et_p_0-T_X_et_p_`post' if `treated_group' == 1, vce(cluster `cluster') nocons
+e2frame, generate(VarY1)
+
+* difference to placebo group - this is unbiased
+reghdfe `dY2' T_X_et_m_`pre'-T_X_et_m_2 T_X_et_p_0-T_X_et_p_`post', absorb(`e') vce(cluster `cluster') nocons
+e2frame, generate(dVarY)
+
 * save ATET estimates
 generate byte TXT = `treated_group' & `treatment'
-reghdfe `dYdX' TXT if `treated_group' == 1, vce(cluster `cluster') nocons
-local ATET1 = _b[TXT]
-local lower1 = _b[TXT] - invttail(e(df_r), 0.025)*_se[TXT]
-local upper1 = _b[TXT] + invttail(e(df_r), 0.025)*_se[TXT]
+reghdfe `dYdX' TXT if `treated_group' == 1 & inrange(`e', -1, `post'), vce(cluster `cluster') 
+local coef_Cov1 = _b[TXT]
+local lower_Cov1 = _b[TXT] - invttail(e(df_r), 0.025)*_se[TXT]
+local upper_Cov1 = _b[TXT] + invttail(e(df_r), 0.025)*_se[TXT]
 
-reghdfe `dYdX' TXT, absorb(`e') vce(cluster `cluster') nocons
-local dATET = _b[TXT]
-local dlower = _b[TXT] - invttail(e(df_r), 0.025)*_se[TXT]
-local dupper = _b[TXT] + invttail(e(df_r), 0.025)*_se[TXT]
+reghdfe `dYdX' TXT if inrange(`e', -1, `post'), absorb(`e') vce(cluster `cluster') 
+local coef_dCov = _b[TXT]
+local lower_dCov = _b[TXT] - invttail(e(df_r), 0.025)*_se[TXT]
+local upper_dCov = _b[TXT] + invttail(e(df_r), 0.025)*_se[TXT]
 
-foreach df in dCov Cov1 {
+reghdfe `dY2' TXT if `treated_group' == 1 & inrange(`e', -1, `post'), vce(cluster `cluster') 
+local coef_VarY1 = _b[TXT]
+local lower_VarY1 = _b[TXT] - invttail(e(df_r), 0.025)*_se[TXT]
+local upper_VarY1 = _b[TXT] + invttail(e(df_r), 0.025)*_se[TXT]
+
+reghdfe `dY2' TXT if inrange(`e', -1, `post'), absorb(`e') vce(cluster `cluster') 
+local coef_dVarY = _b[TXT]
+local lower_dVarY = _b[TXT] - invttail(e(df_r), 0.025)*_se[TXT]
+local upper_dVarY = _b[TXT] + invttail(e(df_r), 0.025)*_se[TXT]
+
+foreach df in dCov Cov1 dVarY VarY1 {
     frame `df': rename coef coef_`df'
     frame `df': rename lower lower_`df'
     frame `df': rename upper upper_`df'
 }
 frame dCov {
-    frlink 1:1 xvar, frame(Cov1)
-    frget coef_Cov1 lower_Cov1 upper_Cov1, from(Cov1)
+    foreach df in Cov1 dVarY VarY1 {
+        frlink 1:1 xvar, frame(`df')
+        frget coef_`df' lower_`df' upper_`df', from(`df')
+    }
 
     generate t = -`pre' + i - 1
     * there is an event-time missing, introduce the gap
@@ -115,12 +139,11 @@ frame dCov {
     replace t = 99 in -1
     replace xvar = "ATET" in -1
 
-    replace coef_dCov = `dATET' in -1
-    replace lower_dCov = `dlower' in -1
-    replace upper_dCov = `dupper' in -1
-    replace coef_Cov1 = `ATET1' in -1
-    replace lower_Cov1 = `lower1' in -1
-    replace upper_Cov1 = `upper1' in -1
+    foreach df in dCov Cov1 dVarY VarY1 {
+        replace coef_`df' = `coef_`df'' in -1
+        replace lower_`df' = `lower_`df'' in -1
+        replace upper_`df' = `upper_`df'' in -1
+    }
 
     generate Var0 = `Var0'
     generate Var1 = `Var1'
@@ -140,6 +163,10 @@ frame dCov {
     generate coef_beta0 = (coef_Cov1 - coef_dCov) / Var0
     generate lower_beta0 = (lower_Cov1 - lower_dCov) / Var0
     generate upper_beta0 = (upper_Cov1 - upper_dCov) / Var0
+
+    generate Rsq1 = (coef_Cov1)^2 / (coef_VarY1 * Var1)
+    generate Rsq0 = (coef_Cov1 - coef_dCov)^2 / (coef_VarY1 * Var0)
+    generate dRsq = (coef_dCov)^2 / (coef_VarY1 * dVar)
 
     list t coef_dbeta lower_dbeta upper_dbeta 
     order t i xvar coef_dbeta lower_dbeta upper_dbeta ///
