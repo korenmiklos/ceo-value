@@ -11,7 +11,7 @@ assert inlist(`treatment', 0, 1)
 assert inlist(`treated_group', 0, 1)
 
 tempvar group T1 T0
-tempvar g e Yg dY E dY2 Xg dX EX dYdX dX2 t0 t1 CovXY VarX VarY
+tempvar g e Yg dY E dY2 Xg dX EX dYdX dX2 t0 t1 CovXY VarX VarY Z EZ YZ
 
 xtset
 local i = r(panelvar)
@@ -22,6 +22,7 @@ if "`cluster'" == "" {
 
 egen `g' = max(cond(`treatment' == 0, `t', .)), by(`i')
 egen `Yg' = mean(cond(`t' == `g', `outcome', .)), by(`i')
+egen `Z' = mean(cond(`t' <= `g', `outcome', .)), by(`i')
 generate `dY' = `outcome' - `Yg'
 generate `e' = `t' - `g' - 1
 
@@ -32,48 +33,48 @@ egen `group' = group(`T1' `T0')
 table `group', stat(min `T0' `T1')
 
 * compute covariances with driver variable
-egen `E' = mean(`dY'), by(`g' `t' `treated_group' `group')
-egen `EX' = mean(`X'), by(`g' `t' `treated_group' `group')
+egen `E' = mean(`dY'), by(`g' `t' `treated_group')
+egen `EX' = mean(`X'), by(`g' `t' `treated_group')
+egen `EZ' = mean(`Z'), by(`g' `treated_group')
 generate `dY2' = (`dY' - `E')^2
 generate `dYdX' = (`dY' - `E') * (`X' - `EX')
 generate `dX2' = (`X' - `EX')^2
+generate `YZ' = (`outcome') * (`Z' - `EZ')
 
-* compute event-time-specific variance correction
 * treated group may have difference variance of epsilon
-ppmlhdfe `dY2' `treated_group' if `e' < 0, absorb(`group' `g' `t')
-local eVarY = exp(_b[`treated_group']) - 1
+summarize `YZ' if `treated_group' & `e' < 0
+local mean_YZ1 = r(mean)
+display "Mean YZ in pre-treatment treated group: `mean_YZ1'"
+summarize `YZ' if !`treated_group' & `e' < 0
+local mean_YZ0 = r(mean)
+display "Mean YZ in pre-treatment control group: `mean_YZ0'"
+local eVarY = `mean_YZ1' / `mean_YZ0'
 
-egen `CovXY' = mean(cond(!`treated_group', `dYdX', .)), by(`g' `t' `group')
-egen `VarX' = mean(cond(!`treated_group', `dX2', .)), by(`g' `t' `group')
-egen `VarY' = mean(cond(!`treated_group', `dY2', .)), by(`g' `t' `group')
+table `e' `treated_group', stat(mean `dY2' `dYdX' `dX2') nototals
 
-replace `dY2' = `dY2' - `VarY' * `eVarY' if `treated_group'
+replace `dY2' = `eVarY' * `dY2' if !`treated_group'
 * FIXME: this only works if Y and X have the same unit
-replace `dYdX' = `dYdX' - `CovXY' * `eVarY' if `treated_group'
-replace `dX2' = `dX2' - `VarX' * `eVarY' if `treated_group'
+replace `dYdX' = `eVarY' * `dYdX' if !`treated_group'
+replace `dX2' = `eVarY' * `dX2' if !`treated_group'
 
+table `e' `treated_group', stat(mean `dY2' `dYdX' `dX2') nototals
 forvalues et = `pre'(-1)2 {
-    generate byte et_m_`et' = `e' == -`et'
+    generate byte et_m_`et' = (`e' == -`et') & (`treated_group' == 1)
 }
 forvalues et = 0(1)`post' {
-    generate byte et_p_`et' = `e' == `et'
-}
-forvalues et = `pre'(-1)2 {
-    generate byte T_X_et_m_`et' = (`e' == -`et') & (`treated_group' == 1)
-}
-forvalues et = 0(1)`post' {
-    generate byte T_X_et_p_`et' = (`e' == `et') & (`treated_group' == 1)
+    generate byte et_p_`et' = (`e' == `et') & (`treated_group' == 1)
 }
 
 * compute difference in a regression to get standard errors
-*reghdfe `dX2' VarX_et_*, absorb(`e') vce(cluster `cluster')
-reghdfe `dX2' `treated_group', absorb(`e') vce(cluster `cluster')
+reghdfe `dX2' if !`treated_group', vce(cluster `cluster')
 local Var0 = _b[_cons]
-local dVar = _b[`treated_group']
-local Var1 = `Var0' + `dVar'
-local se_dVar = _se[`treated_group']
 local se_Var0 = _se[_cons]
-local se_Var1 = sqrt(`se_Var0'^2 + `se_dVar'^2)
+reghdfe `dX2' if `treated_group', vce(cluster `cluster')
+local Var1 = _b[_cons]
+local se_Var1 = _se[_cons]
+reghdfe `dX2' `treated_group', vce(cluster `cluster')
+local dVar = _b[`treated_group']
+local se_dVar  = _se[`treated_group']
 
 generate `t1' = `treatment' & `treated_group'
 generate `t0' = `treatment' & !`treated_group'
@@ -83,41 +84,40 @@ foreach df in dCov Cov1 {
 }
 
 * first compute covariance in treated group only - this is biased
-reghdfe `dYdX' T_X_et_m_`pre'-T_X_et_m_2 T_X_et_p_0-T_X_et_p_`post' if `treated_group' == 1, vce(cluster `cluster') nocons
+reghdfe `dYdX' et_m_`pre'-et_m_2 et_p_0-et_p_`post' if `treated_group' == 1, absorb(`group') vce(cluster `cluster') nocons
 e2frame, generate(Cov1)
 
 * difference to placebo group - this is unbiased
-reghdfe `dYdX' T_X_et_m_`pre'-T_X_et_m_2 T_X_et_p_0-T_X_et_p_`post', absorb(`e') vce(cluster `cluster') nocons
+reghdfe `dYdX' et_m_`pre'-et_m_2 et_p_0-et_p_`post', absorb(`group' `e') vce(cluster `cluster') nocons
 e2frame, generate(dCov)
-
 **** Do the same for variance
 
 * first compute variance in treated group only - this is biased
-reghdfe `dY2' T_X_et_m_`pre'-T_X_et_m_2 T_X_et_p_0-T_X_et_p_`post' if `treated_group' == 1, vce(cluster `cluster') nocons
+reghdfe `dY2' et_m_`pre'-et_m_2 et_p_0-et_p_`post' if `treated_group' == 1, absorb(`group') vce(cluster `cluster') nocons
 e2frame, generate(VarY1)
 
 * difference to placebo group - this is unbiased
-reghdfe `dY2' T_X_et_m_`pre'-T_X_et_m_2 T_X_et_p_0-T_X_et_p_`post', absorb(`e') vce(cluster `cluster') nocons
+reghdfe `dY2' et_m_`pre'-et_m_2 et_p_0-et_p_`post', absorb(`group' `e') vce(cluster `cluster') nocons
 e2frame, generate(dVarY)
 
 * save ATET estimates
 generate byte TXT = `treated_group' & `treatment'
-reghdfe `dYdX' TXT if `treated_group' == 1 & inrange(`e', -1, `post'), vce(cluster `cluster') 
+reghdfe `dYdX' TXT if `treated_group' == 1 & inrange(`e', -1, `post'), absorb(`group') vce(cluster `cluster') 
 local coef_Cov1 = _b[TXT]
 local lower_Cov1 = _b[TXT] - invttail(e(df_r), 0.025)*_se[TXT]
 local upper_Cov1 = _b[TXT] + invttail(e(df_r), 0.025)*_se[TXT]
 
-reghdfe `dYdX' TXT if inrange(`e', -1, `post'), absorb(`e') vce(cluster `cluster') 
+reghdfe `dYdX' TXT if inrange(`e', -1, `post'), absorb(`group' `e') vce(cluster `cluster') 
 local coef_dCov = _b[TXT]
 local lower_dCov = _b[TXT] - invttail(e(df_r), 0.025)*_se[TXT]
 local upper_dCov = _b[TXT] + invttail(e(df_r), 0.025)*_se[TXT]
 
-reghdfe `dY2' TXT if `treated_group' == 1 & inrange(`e', -1, `post'), vce(cluster `cluster') 
+reghdfe `dY2' TXT if `treated_group' == 1 & inrange(`e', -1, `post'), absorb(`group') vce(cluster `cluster') 
 local coef_VarY1 = _b[TXT]
 local lower_VarY1 = _b[TXT] - invttail(e(df_r), 0.025)*_se[TXT]
 local upper_VarY1 = _b[TXT] + invttail(e(df_r), 0.025)*_se[TXT]
 
-reghdfe `dY2' TXT if inrange(`e', -1, `post'), absorb(`e') vce(cluster `cluster') 
+reghdfe `dY2' TXT if inrange(`e', -1, `post'), absorb(`group' `e') vce(cluster `cluster') 
 local coef_dVarY = _b[TXT]
 local lower_dVarY = _b[TXT] - invttail(e(df_r), 0.025)*_se[TXT]
 local upper_dVarY = _b[TXT] + invttail(e(df_r), 0.025)*_se[TXT]
@@ -156,6 +156,8 @@ frame dCov {
         replace upper_`df' = `upper_`df'' in -1
         generate se_`df' = (upper_`df' - lower_`df') / invnormal(0.975)
     }
+
+    generate coef_Cov0 = coef_Cov1 - coef_dCov
 
     generate Var0 = `Var0'
     generate Var1 = `Var1'
