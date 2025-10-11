@@ -25,8 +25,8 @@ stata -b do code/create/ceo-panel.do
 # Create analysis sample
 stata -b do code/create/analysis-sample.do
 
-# Generate placebo CEO transitions
-stata -b do code/create/placebo.do
+# Generate event study samples with placebo CEO transitions
+stata -b do code/create/event_study_sample.do <sample>
 
 # Extract firm-manager edgelist
 stata -b do code/create/edgelist.do
@@ -36,9 +36,8 @@ julia --project=. code/create/connected_component.jl
 
 # Generate exhibit tables
 stata -b do code/exhibit/table1.do
-stata -b do code/exhibit/table2.do
 stata -b do code/exhibit/table3.do
-stata -b do code/exhibit/table4.do
+stata -b do code/exhibit/tableA0.do
 stata -b do code/exhibit/tableA1.do
 
 # Run econometric analysis
@@ -49,8 +48,9 @@ stata -b do code/estimate/manager_value.do
 # Run placebo-controlled event study (estimation)
 stata -b do code/estimate/event_study.do
 
-# Create event study figure
-stata -b do code/exhibit/figure1.do
+# Create event study figures
+stata -b do code/exhibit/figure2.do
+stata -b do code/exhibit/figure3.do
 
 # Compile LaTeX document
 cd output && pdflatex paper.tex && bibtex paper && pdflatex paper.tex && pdflatex paper.tex
@@ -63,7 +63,6 @@ stata -b do code/create/balance.do
 stata -b do code/create/ceo-panel.do
 stata -b do code/create/unfiltered.do
 stata -b do code/create/analysis-sample.do
-stata -b do code/create/placebo.do
 stata -b do code/create/edgelist.do
 
 # Run network analysis with Julia
@@ -79,11 +78,11 @@ stata -b do code/estimate/event_study.do
 
 # Generate exhibits/tables
 stata -b do code/exhibit/table1.do
-stata -b do code/exhibit/table2.do
 stata -b do code/exhibit/table3.do
-stata -b do code/exhibit/table4.do
+stata -b do code/exhibit/tableA0.do
 stata -b do code/exhibit/tableA1.do
-stata -b do code/exhibit/figure1.do
+stata -b do code/exhibit/figure2.do
+stata -b do code/exhibit/figure3.do
 
 # Create data extracts (optional)
 stata -b do code/create/extract.do
@@ -105,7 +104,8 @@ cd output && pdflatex paper.tex && bibtex paper && pdflatex paper.tex && pdflate
    - `ceo-panel.do`: Processes CEO registry, constructs firm-person-year structure
    - `unfiltered.do`: Merges datasets, applies industry classifications, creates variables
    - `analysis-sample.do`: Applies sample restrictions to create final analytical dataset
-   - `placebo.do`: Generates placebo CEO transitions with same probability as actual changes but excluding actual transition periods
+   - `event_study_sample.do`: Generates placebo CEO transitions and creates event study samples for different specifications (full, fnd2non, non2non, post2004)
+   - `network-sample.do`: Helper script for restricting samples to the connected component
    - `edgelist.do`: Extracts firm-manager edgelist (frame_id_numeric, person_id) to CSV
 
 3. **Utilities** (`code/util/`): Helper scripts called by main processing
@@ -113,32 +113,41 @@ cd output && pdflatex paper.tex && bibtex paper && pdflatex paper.tex && pdflate
    - `variables.do`: Derived variables (logs, tenure, age, firm characteristics)
    - `filter.do`: Final sample restrictions
 
-4. **Exhibits** (`code/exhibit/`): Table generation for paper  
+4. **Exhibits** (`code/exhibit/`): Table and figure generation for paper  
    - `table1.do`: Creates Table 1 - Sample Distribution Over Time with temporal distribution by year
-   - `table2.do`: Creates Table 2 - CEO Patterns and Spell Length Analysis (two panels)
    - `table3.do`: Creates Table 3 - Revenue Function Estimation Results
-   - `table4.do`: Creates Table 4 - Variance Decomposition of Firm Performance (reads pre-computed components from manager_value.do)
+   - `tableA0.do`: Creates Table A0 - Bloom et al. (2012) autonomy analysis (appendix)
    - `tableA1.do`: Creates Table A1 - Industry-Level Summary Statistics using TEAOR08 classification (appendix)
+   - `figure2.do`: Creates Figure 2 - Event study by CEO transition type (four panels)
+   - `figure3.do`: Creates Figure 3 - Event study outcomes (Capital, Intangibles, Materials, Wagebill)
+   - `event_study.do`: Helper script for event study figure generation
 
 5. **Analysis** (`code/estimate/`): Econometric estimation
    - `surplus.do`: Estimates revenue function and residualizes surplus for skill identification
    - `revenue_function.do`: Estimates revenue function models and saves results for table creation  
-   - `event_study.do`: Implements placebo-controlled event study design comparing actual vs placebo CEO transitions
-   - `manager_value.do`: Estimates manager fixed effects, generates distribution plots, and computes variance decomposition components (saved to temp/within_firm.dta and temp/cross_section.dta)
+   - `manager_value.do`: Estimates manager fixed effects, generates distribution plots (saved to temp/manager_value.dta)
+   - `event_study.do`: Implements placebo-controlled event study design comparing actual vs placebo CEO transitions for multiple outcomes and samples
+   - `setup_event_study.do`: Helper script that sets up event study specifications and definitions
+   - `anova.do`: Implements ANOVA decomposition of treatment effects
+   - `setup_anova.do`: Helper script for ANOVA analysis setup
+   - `bloom_autonomy_analysis.do`: Analyzes autonomy patterns using Bloom et al. (2012) data
 
 6. **Exhibits** (`code/exhibit/`): Table and figure generation
    - `table1.do`: Descriptive statistics over time
-   - `table2.do`: CEO patterns and spell length analysis (two panels)
    - `table3.do`: Revenue function estimation results
-   - `table4.do`: Variance decomposition table (uses pre-computed components from manager_value.do)
+   - `tableA0.do`: Bloom et al. (2012) autonomy analysis (appendix)
    - `tableA1.do`: Industry-level summary statistics (appendix)
-   - `figure1.do`: Event study two-panel figure creation
+   - `figure2.do`: Event study by CEO transition type (four panels)
+   - `figure3.do`: Event study outcomes (four panels)
+   - `event_study.do`: Helper script for event study figure generation
 
 7. **Output** (`temp/`, `output/`): Intermediate data and final results
-   - `temp/`: Processed Stata datasets, edgelist CSV, connected component results, event study frames, variance decomposition components
-   - `output/table/`: LaTeX tables for paper (including table4a.tex for variance decomposition)
+   - `temp/`: Processed Stata datasets, edgelist CSV, connected component results, event study samples, manager value estimates
+   - `output/table/`: LaTeX tables for paper
    - `output/figure/`: Publication-ready figures  
+   - `output/event_study/`: Event study coefficients for all samples and outcomes (CSV format)
    - `output/paper.pdf`: Final compiled document
+   - `output/slides60.pdf`: Presentation slides
 
 ### Network Analysis Component
 `code/create/connected_component.jl` implements graph algorithms for CEO network analysis:
@@ -224,8 +233,9 @@ Beyond the CEU MicroData Stata Style Guide, this project follows additional conv
 
 ### Creating Exhibits and Tables
 - Exhibit code lives in `code/exhibit/` directory
-- Exhibits are named `table1.do`, `table2.do`, `table3.do`, `tableA1.do`, etc.
-- Output files are named `output/table/table1.tex`, `table2_panelA.tex`, `table2_panelB.tex`, `table3.tex`, `table4a.tex`, `tableA1.tex`, etc.
+- Exhibits are named `table1.do`, `table3.do`, `tableA0.do`, `tableA1.do`, `figure2.do`, `figure3.do`, etc.
+- Output files are named `output/table/table1.tex`, `table3.tex`, `tableA0.tex`, `tableA1.tex`, etc.
+- Figures are saved to `output/figure/` directory as PDF files
 - Use programmatic LaTeX generation with `file write` commands for custom tables
 - Use `esttab` for regression tables with `booktabs` option for clean formatting
 - Include comprehensive table notes using `\begin{tablenotes}[flushleft]` and `\footnotesize`
