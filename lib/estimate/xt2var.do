@@ -195,6 +195,10 @@ frame dCov {
     generate Rsq0 = (coef_Cov1 - coef_dCov)^2 / (coef_VarY1 * Var0)
     generate dRsq = (coef_dCov)^2 / (coef_VarY1 * dVar)
 
+    foreach X in Rsq0 Rsq1 dRsq {
+        replace `X' = 0 if t == -1
+    }
+
     list t coef_dbeta lower_dbeta upper_dbeta 
     order t i xvar coef_dbeta lower_dbeta upper_dbeta ///
         coef_beta1 lower_beta1 upper_beta1 ///

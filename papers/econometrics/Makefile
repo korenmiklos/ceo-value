@@ -34,7 +34,11 @@ figure/figuremc.pdf: src/figuremc.do src/exhibit/event_study.do $(EVENT_STUDIES)
 	mkdir -p figure
 	stata -b do "src/figuremc.do"
 
-paper.pdf: paper.tex table/atets.tex ../application/table/table1_panelAB.tex ../application/table/table2.tex ../application/table/tableA1.tex ../application/table/tableA3.tex ../application/table/tableA4.tex ../application/figure/figure1.pdf ../application/figure/figure2.pdf ../application/figure/figure3.pdf figure/figuremc.pdf ../../lib/references.bib
+figure/application.pdf: src/application.do src/exhibit/event_study.do data/full_lnR.csv
+	mkdir -p figure
+	stata -b do "src/application.do"
+
+paper.pdf: paper.tex table/atets.tex figure/application.pdf ../application/table/table1_panelAB.tex ../application/table/table2.tex ../application/table/tableA1.tex ../application/table/tableA3.tex ../application/table/tableA4.tex ../application/figure/figure1.pdf ../application/figure/figure2.pdf ../application/figure/figure3.pdf figure/figuremc.pdf ../../lib/references.bib
 	pdflatex paper.tex
 	bibtex paper
 	pdflatex paper.tex
@@ -45,5 +49,5 @@ paper: paper.pdf
 clean:
 	rm -f data/placebo_*.dta data/*_TFP.csv
 	rm -f table/atets.tex
-	rm -f figure/figuremc.pdf
+	rm -f figure/figuremc.pdf figure/application.pdf
 	rm -f paper.pdf paper.aux paper.log paper.out paper.bbl paper.blg

@@ -26,7 +26,7 @@ foreach panel in A B C D E F {
         replace upper_`var' = min(upper_`var', 1.75)
     }
 
-    do "src/exhibit/event_study.do" `panel' "`title'" "`ytitle'"
+    do "src/exhibit/event_study.do" `panel' "`title'" "`ytitle'" beta
 }
 
 graph combine panelA panelB panelC panelD panelE panelF, ///
