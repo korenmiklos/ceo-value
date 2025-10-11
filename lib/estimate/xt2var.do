@@ -31,7 +31,8 @@ generate `dY2' = (`dY' - `E')^2
 * compute event-time-specific variance correction
 * treated group may have difference variance of epsilon
 ppmlhdfe `dY2' `treated_group' if `e' < 0, absorb(`g' `t')
-local excess_variance = exp(_b[`treated_group']) - 1
+*local excess_variance = exp(_b[`treated_group']) - 1
+local excess_variance = 0
 display "Excess variance for treated group: `excess_variance' x"
 summarize `X', detail
 
