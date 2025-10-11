@@ -55,7 +55,7 @@ generate change_year = T1 + 1
 
 tabulate T1 placebo, row
 
-generate dTFP = rnormal(0, cond(placebo == 0, `sigma_epsilon0', `sigma_epsilon1'))
+generate dTFP = rnormal(0, cond(placebo == 1, `sigma_epsilon0', `sigma_epsilon1'))
 bysort fake_id (year): generate TFP = 0 if _n == 1
 bysort fake_id (year): replace TFP = `rho' * TFP[_n-1] + dTFP if _n > 1
 

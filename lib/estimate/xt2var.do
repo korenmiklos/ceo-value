@@ -38,14 +38,19 @@ generate `dY2' = (`dY' - `E')^2
 generate `dYdX' = (`dY' - `E') * (`X' - `EX')
 generate `dX2' = (`X' - `EX')^2
 
+* compute event-time-specific variance correction
+* treated group may have difference variance of epsilon
+ppmlhdfe `dY2' `treated_group' if `e' < 0, absorb(`group' `g' `t')
+local eVarY = exp(_b[`treated_group']) - 1
+
 egen `CovXY' = mean(cond(!`treated_group', `dYdX', .)), by(`g' `t' `group')
 egen `VarX' = mean(cond(!`treated_group', `dX2', .)), by(`g' `t' `group')
 egen `VarY' = mean(cond(!`treated_group', `dY2', .)), by(`g' `t' `group')
-/*
-replace `dYdX' = `dYdX' - `CovXY' * `excess_variance' if `treated_group'
-replace `dX2' = `dX2' - `VarX' * `excess_variance' if `treated_group'
-replace `dY2' = `dY2' - `VarY' * `excess_variance' if `treated_group'
-*/
+
+replace `dY2' = `dY2' - `VarY' * `eVarY' if `treated_group'
+* FIXME: this only works if Y and X have the same unit
+replace `dYdX' = `dYdX' - `CovXY' * `eVarY' if `treated_group'
+replace `dX2' = `dX2' - `VarX' * `eVarY' if `treated_group'
 
 forvalues et = `pre'(-1)2 {
     generate byte et_m_`et' = `e' == -`et'
@@ -59,18 +64,7 @@ forvalues et = `pre'(-1)2 {
 forvalues et = 0(1)`post' {
     generate byte T_X_et_p_`et' = (`e' == `et') & (`treated_group' == 1)
 }
-forvalues et = `pre'(-1)2 {
-    generate VarX_et_m_`et' = (`e' == -`et') * `VarX' * (`treated_group' == 1)
-    generate VarY_et_m_`et' = (`e' == -`et') * `VarY' * (`treated_group' == 1)
-    generate CovXY_et_m_`et' = (`e' == -`et') * `CovXY' * (`treated_group' == 1)
-}
-forvalues et = 0(1)`post' {
-    generate VarX_et_p_`et' = (`e' == `et') * `VarX' * (`treated_group' == 1)
-    generate VarY_et_p_`et' = (`e' == `et') * `VarY' * (`treated_group' == 1)
-    generate CovXY_et_p_`et' = (`e' == `et') * `CovXY' * (`treated_group' == 1)
-}
 
-* FIXME: VarX should also be corrected for excess variance
 * compute difference in a regression to get standard errors
 *reghdfe `dX2' VarX_et_*, absorb(`e') vce(cluster `cluster')
 reghdfe `dX2' `treated_group', absorb(`e') vce(cluster `cluster')
@@ -93,7 +87,7 @@ reghdfe `dYdX' T_X_et_m_`pre'-T_X_et_m_2 T_X_et_p_0-T_X_et_p_`post' if `treated_
 e2frame, generate(Cov1)
 
 * difference to placebo group - this is unbiased
-reghdfe `dYdX' T_X_et_m_`pre'-T_X_et_m_2 T_X_et_p_0-T_X_et_p_`post' i.`treated_group'##c.`CovXY', vce(cluster `cluster') nocons
+reghdfe `dYdX' T_X_et_m_`pre'-T_X_et_m_2 T_X_et_p_0-T_X_et_p_`post', absorb(`e') vce(cluster `cluster') nocons
 e2frame, generate(dCov)
 
 **** Do the same for variance
@@ -103,9 +97,8 @@ reghdfe `dY2' T_X_et_m_`pre'-T_X_et_m_2 T_X_et_p_0-T_X_et_p_`post' if `treated_g
 e2frame, generate(VarY1)
 
 * difference to placebo group - this is unbiased
-reghdfe `dY2' T_X_et_m_`pre'-T_X_et_m_2 T_X_et_p_0-T_X_et_p_`post' i.`treated_group'##c.`VarY', vce(cluster `cluster') nocons
+reghdfe `dY2' T_X_et_m_`pre'-T_X_et_m_2 T_X_et_p_0-T_X_et_p_`post', absorb(`e') vce(cluster `cluster') nocons
 e2frame, generate(dVarY)
-BRK
 
 * save ATET estimates
 generate byte TXT = `treated_group' & `treatment'
