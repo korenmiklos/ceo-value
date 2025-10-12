@@ -11,7 +11,7 @@ assert inlist(`treatment', 0, 1)
 assert inlist(`treated_group', 0, 1)
 
 tempvar group T1 T0
-tempvar g e Yg dY E dY2 Xg dX EX dYdX dX2 t0 t1 CovXY VarX VarY Z EZ YZ
+tempvar g e Yg dY E dY2 Xg dX EX dYdX dX2 t0 t1 CovYZ VarX VarY Z EZ YZ
 
 xtset
 local i = r(panelvar)
@@ -41,14 +41,10 @@ generate `dYdX' = (`dY' - `E') * (`X' - `EX')
 generate `dX2' = (`X' - `EX')^2
 generate `YZ' = (`outcome') * (`Z' - `EZ')
 
-* treated group may have difference variance of epsilon
-summarize `YZ' if `treated_group' & `e' < 0
-local mean_YZ1 = r(mean)
-display "Mean YZ in pre-treatment treated group: `mean_YZ1'"
-summarize `YZ' if !`treated_group' & `e' < 0
-local mean_YZ0 = r(mean)
-display "Mean YZ in pre-treatment control group: `mean_YZ0'"
-local eVarY = `mean_YZ1' / `mean_YZ0'
+* the least-square estimate of excess variance is a nocons OLS
+egen `CovYZ' = mean(cond(!`treated_group', `YZ', .)), by(`e' `group')
+regress `YZ' `CovYZ' if `treated_group' == 1 & `e' < 0, noconstant
+local eVarY = _b[`CovYZ']
 
 table `e' `treated_group', stat(mean `dY2' `dYdX' `dX2') nototals
 
