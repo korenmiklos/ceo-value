@@ -153,9 +153,11 @@ frame dCov {
         generate se_`df' = (upper_`df' - lower_`df') / invnormal(0.975)
     }
 
-    generate coef_Cov0 = coef_Cov1 - coef_dCov
+    generate coef_Cov0_excess = coef_Cov1 - coef_dCov
+    generate coef_Cov0 = coef_Cov0_excess / `eVarY'
 
-    generate Var0 = `Var0'
+    generate Var0_excess = `Var0'
+    generate Var0 = Var0_excess / `eVarY'
     generate Var1 = `Var1'
     generate dVar = Var1 - Var0
 
@@ -163,7 +165,8 @@ frame dCov {
 
     generate coef_dbeta = coef_dCov / dVar
     generate coef_beta1 = coef_Cov1 / Var1
-    generate coef_beta0 = (coef_Cov1 - coef_dCov) / Var0
+    generate coef_beta0_excess = coef_Cov0_excess / Var0_excess
+    generate coef_beta0 = coef_Cov0 / Var0
 
     * use the delta method to get standard errors for beta
     * Var(beta) = Var(Cov)/E(X)^2 [1 + beta^2 * Var(X)/Var(Y)]
@@ -188,10 +191,11 @@ frame dCov {
     }
 
     generate Rsq1 = (coef_Cov1)^2 / (coef_VarY1 * Var1)
-    generate Rsq0 = (coef_Cov1 - coef_dCov)^2 / (coef_VarY1 * Var0)
+    generate Rsq0_excess = (coef_Cov0_excess)^2 / (coef_VarY1 * Var0_excess)
+    generate Rsq0 = (coef_Cov0)^2 / (coef_VarY1 * Var0)
     generate dRsq = (coef_dCov)^2 / (coef_VarY1 * dVar)
 
-    foreach X in Rsq0 Rsq1 dRsq {
+    foreach X in Rsq0 Rsq1 dRsq Rsq0_excess {
         replace `X' = 0 if t == -1
     }
 
