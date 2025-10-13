@@ -17,7 +17,7 @@ assert inlist(`treatment', 0, 1)
 assert inlist(`treated_group', 0, 1)
 
 tempvar group T1 T0
-tempvar g e Yg dY E dY2 Xg dX EX dYdX dX2 t0 t1 CovYZ VarX VarY Z EZ YZ
+tempvar g e Yg dY E dY2 Xg dX EX dYdX dX2 t0 t1 VarX VarY Z EZ CovZZ ZZ
 
 xtset
 local i = r(panelvar)
@@ -45,28 +45,28 @@ egen `EZ' = mean(`Z'), by(`g' `treated_group')
 generate `dY2' = (`dY' - `E')^2
 generate `dYdX' = (`dY' - `E') * (`X' - `EX')
 generate `dX2' = (`X' - `EX')^2
-generate `YZ' = (`fixed_effects') * (`Z' - `EZ')
+generate `ZZ' = (`fixed_effects') * (`Z' - `EZ')
 
 * the least-square estimate of excess variance is a nocons OLS
-egen `CovYZ' = mean(cond(!`treated_group', `YZ', .)), by(`e' `group')
-regress `YZ' `CovYZ' if `treated_group' == 1 & `e' < 0, noconstant
-local eVarY = _b[`CovYZ']
-* do two more steps for convergence
-drop `CovYZ'
-egen `CovYZ' = mean(cond(!`treated_group', `YZ', `YZ' / `eVarY')), by(`e' `group')
-regress `YZ' `CovYZ' if `treated_group' == 1 & `e' < 0, noconstant
-local eVarY = _b[`CovYZ']
-drop `CovYZ'
-egen `CovYZ' = mean(cond(!`treated_group', `YZ', `YZ' / `eVarY')), by(`e' `group')
-regress `YZ' `CovYZ' if `treated_group' == 1 & `e' < 0, noconstant
-local eVarY = _b[`CovYZ']
+egen `CovZZ' = mean(cond(!`treated_group', `ZZ', .)), by(`e' `group')
+egen `VarY' = mean(cond(!`treated_group', `dY2', .)), by(`e' `group')
+forvalues k = 1/4 {
+    regress `ZZ' `CovZZ' if `treated_group' == 1 & `e' < 0, noconstant
+    local eVarZ = _b[`CovZZ']
+    regress `dY2' `VarY' if `treated_group' == 1 & `e' < 0, noconstant
+    local eVarY = _b[`VarY']
+    drop `CovZZ' `VarY'
+    egen `CovZZ' = mean(cond(!`treated_group', `ZZ', `ZZ' / `eVarZ')), by(`e' `group')
+    egen `VarY' = mean(cond(!`treated_group', `dY2', `dY2' / `eVarY')), by(`e' `group')
+}
+local eCovYZ = sqrt(`eVarZ' * `eVarY')
 
 table `e' `treated_group', stat(mean `dY2' `dYdX' `dX2') nototals
 
 replace `dY2' = `eVarY' * `dY2' if !`treated_group'
 * FIXME: this only works if Y and X have the same unit
-replace `dYdX' = `eVarY' * `dYdX' if !`treated_group'
-replace `dX2' = `eVarY' * `dX2' if !`treated_group'
+replace `dYdX' = `eCovYZ' * `dYdX' if !`treated_group'
+replace `dX2' = `eVarZ' * `dX2' if !`treated_group'
 
 table `e' `treated_group', stat(mean `dY2' `dYdX' `dX2') nototals
 forvalues et = `pre'(-1)2 {
@@ -169,18 +169,18 @@ frame dCov {
     }
 
     generate coef_Cov0_excess = coef_Cov1 - coef_dCov
-    generate coef_Cov0 = coef_Cov0_excess / `eVarY'
+    generate coef_Cov0 = coef_Cov0_excess / `eCovYZ'
     generate coef_VarY0_excess = coef_VarY1 - coef_dVarY
     generate coef_VarY0 = coef_VarY0_excess / `eVarY'
 
     generate Var0_excess = `Var0'
-    generate Var0 = Var0_excess / `eVarY'
+    generate Var0 = Var0_excess / `eVarZ'
     generate Var1 = `Var1'
     generate dVar = Var1 - Var0_excess
 
     * standard errors for differences
     generate se_Cov0_excess = sqrt(se_Cov1^2 + se_dCov^2)
-    generate se_Cov0 = se_Cov0_excess / `eVarY'
+    generate se_Cov0 = se_Cov0_excess / `eCovYZ'
     generate se_VarY0_excess = sqrt(se_VarY1^2 + se_dVarY^2)
     generate se_VarY0 = se_VarY0_excess / `eVarY'
 
