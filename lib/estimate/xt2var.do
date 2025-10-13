@@ -1,8 +1,14 @@
-args outcome treatment treated_group X cluster
+args outcome treatment treated_group X cluster fixed_effects
 confirm numeric variable `outcome'
 confirm numeric variable `treatment'
 confirm numeric variable `treated_group'
 confirm numeric variable `X'
+
+* you can compute fixed effects on variables other than the outcome variable
+if ("`fixed_effects'" == "") {
+    local fixed_effects `outcome'
+}
+confirm numeric variable `fixed_effects'
 
 local pre 4
 local post 3
@@ -22,7 +28,7 @@ if "`cluster'" == "" {
 
 egen `g' = max(cond(`treatment' == 0, `t', .)), by(`i')
 egen `Yg' = mean(cond(`t' == `g', `outcome', .)), by(`i')
-egen `Z' = mean(cond(`t' <= `g', `outcome', .)), by(`i')
+egen `Z' = mean(cond(`t' <= `g', `fixed_effects', .)), by(`i')
 generate `dY' = `outcome' - `Yg'
 generate `e' = `t' - `g' - 1
 
@@ -39,7 +45,7 @@ egen `EZ' = mean(`Z'), by(`g' `treated_group')
 generate `dY2' = (`dY' - `E')^2
 generate `dYdX' = (`dY' - `E') * (`X' - `EX')
 generate `dX2' = (`X' - `EX')^2
-generate `YZ' = (`outcome') * (`Z' - `EZ')
+generate `YZ' = (`fixed_effects') * (`Z' - `EZ')
 
 * the least-square estimate of excess variance is a nocons OLS
 egen `CovYZ' = mean(cond(!`treated_group', `YZ', .)), by(`e' `group')
