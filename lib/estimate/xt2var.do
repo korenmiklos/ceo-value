@@ -45,6 +45,15 @@ generate `YZ' = (`outcome') * (`Z' - `EZ')
 egen `CovYZ' = mean(cond(!`treated_group', `YZ', .)), by(`e' `group')
 regress `YZ' `CovYZ' if `treated_group' == 1 & `e' < 0, noconstant
 local eVarY = _b[`CovYZ']
+* do two more steps for convergence
+drop `CovYZ'
+egen `CovYZ' = mean(cond(!`treated_group', `YZ', `YZ' / `eVarY')), by(`e' `group')
+regress `YZ' `CovYZ' if `treated_group' == 1 & `e' < 0, noconstant
+local eVarY = _b[`CovYZ']
+drop `CovYZ'
+egen `CovYZ' = mean(cond(!`treated_group', `YZ', `YZ' / `eVarY')), by(`e' `group')
+regress `YZ' `CovYZ' if `treated_group' == 1 & `e' < 0, noconstant
+local eVarY = _b[`CovYZ']
 
 table `e' `treated_group', stat(mean `dY2' `dYdX' `dX2') nototals
 
@@ -159,7 +168,7 @@ frame dCov {
     generate Var0_excess = `Var0'
     generate Var0 = Var0_excess / `eVarY'
     generate Var1 = `Var1'
-    generate dVar = Var1 - Var0
+    generate dVar = Var1 - Var0_excess
 
     sort t
 
