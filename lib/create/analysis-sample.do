@@ -2,7 +2,7 @@ use "temp/unfiltered.dta", clear
 
 * Note: unfiltered.dta already contains merged balance sheet and CEO data
 * with industry classification and variables applied
-do "code/util/filter.do"
+do "lib/util/filter.do"
 
 compress
 

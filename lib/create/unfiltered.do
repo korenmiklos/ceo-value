@@ -10,8 +10,8 @@ use "temp/balance.dta", clear
 merge 1:m frame_id_numeric year using "temp/ceo-panel.dta", keep(master match) nogen
 
 * Apply industry classification
-do "code/util/industry.do"
-do "code/util/variables.do"
+do "lib/util/industry.do"
+do "lib/util/variables.do"
 
 * even in unfiltered data, firms that never report a CEO are dropped
 drop if max_ceo_spell == 0

@@ -18,7 +18,7 @@ local graph_options ///
     aspectratio(1) xsize(5) ysize(5) ///
 
 
-do "code/estimate/setup_anova.do" `sample'
+do "lib/estimate/setup_anova.do" `sample'
 confirm numeric variable `outcome'
 local lbl : variable label `outcome'
 

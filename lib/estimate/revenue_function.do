@@ -8,7 +8,7 @@ clear all
 use "temp/analysis-sample.dta", clear
 
 * Create connected component indicator
-do "code/create/network-sample.do"
+do "lib/create/network-sample.do"
 
 * Define rich controls for models 4-6
 local controls lnK has_intangible foreign_owned state_owned founder owner

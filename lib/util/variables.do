@@ -1,5 +1,7 @@
 generate EBITDA = sales - personnel_expenses - materials
 
+generate byte exporter = export > 0 & !missing(export)
+
 * log transformations
 generate lnR = ln(sales)
 generate lnEBITDA = ln(EBITDA)

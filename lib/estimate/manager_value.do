@@ -9,7 +9,7 @@ local controls lnK foreign_owned has_intangible
 use "temp/surplus.dta", clear
 
 * Create connected component indicator
-do "code/create/network-sample.do"
+do "lib/create/network-sample.do"
 
 egen max_ceo_spell = max(ceo_spell), by(frame_id_numeric)
 

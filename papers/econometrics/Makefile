@@ -19,7 +19,7 @@ data/placebo_full.dta: ../../temp/placebo_full.dta
 # same with real data
 data/full_%.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_full.dta
 	mkdir -p data
-	stata -b do "../../lib/estimate/event_study.do" full $*
+	stata -b do "../../lib/estimate/event_study.do" full $* no lnR
 
 # Generate event study data for monte carlo scenarios
 data/%_TFP.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_%.dta
