@@ -55,25 +55,25 @@ generate change_year = T1 + 1
 
 tabulate T1 placebo, row
 
-generate dTFP = rnormal(0, cond(placebo == 1, `sigma_epsilon0', `sigma_epsilon1'))
-bysort fake_id (year): generate TFP = 0 if _n == 1
-bysort fake_id (year): replace TFP = `rho' * TFP[_n-1] + dTFP if _n > 1
+generate dlnR = rnormal(0, cond(placebo == 1, `sigma_epsilon0', `sigma_epsilon1'))
+bysort fake_id (year): generate lnR = 0 if _n == 1
+bysort fake_id (year): replace lnR = `rho' * lnR[_n-1] + dlnR if _n > 1
 
 generate dz = rnormal(0, `sigma_z')
 summarize dz
 * only one dz per treated firm
 egen z = mean(cond(year == change_year & placebo == 0, dz, .)), by(fake_id)
 
-replace TFP = TFP + z if placebo == 0 & year >= change_year
+replace lnR = lnR + z if placebo == 0 & year >= change_year
 
 * measured manager skill will include noise
-egen manager_skill = mean(TFP), by(fake_id ceo_spell)
+egen manager_skill = mean(lnR), by(fake_id ceo_spell)
 * demean manager skill
 summarize manager_skill if placebo == 0, meanonly
 replace manager_skill = manager_skill - r(mean)
 
 * verify I have all the variables I need
-local vars frame_id_numeric year TFP ceo_spell manager_skill change_year placebo fake_id
+local vars frame_id_numeric year lnR ceo_spell manager_skill change_year placebo fake_id
 confirm numeric variable `vars'
 keep `vars'
 
@@ -84,7 +84,7 @@ Panel structure:
 
 • frame_id_numeric - Firm identifier
 • year - Time variable
-• TFP - Outcome variable (must be non-missing)
+• lnR - Outcome variable (must be non-missing)
 
 CEO tracking:
 
@@ -100,7 +100,7 @@ From placebo structure:
 ## Key Expectations
 
 1. Panel completeness: Firms must have observations in both CEO spells (ceo_spell
-1 and 2) with non-missing TFP
+1 and 2) with non-missing lnR
 2. CEO spell numbering: ceo_spell should be sequential integers starting from some
 value (script normalizes to 1,2)
 3. Time consistency: year values must align with window_start/window_end and

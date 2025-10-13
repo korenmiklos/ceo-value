@@ -1,8 +1,8 @@
 .PHONY: all montecarlo paper clean
 
 SCENARIOS = baseline longpanel persistent unbalanced excessvariance all
-EVENT_STUDIES = $(addprefix data/,$(addsuffix _TFP.csv,$(SCENARIOS)))
-OUTCOMES := TFP
+EVENT_STUDIES = $(addprefix data/,$(addsuffix _lnR.csv,$(SCENARIOS)))
+OUTCOMES := lnR
 
 all: paper
 
@@ -22,9 +22,9 @@ data/full_%.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_even
 	stata -b do "../../lib/estimate/event_study.do" full $* no lnR
 
 # Generate event study data for monte carlo scenarios
-data/%_TFP.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_%.dta
+data/%_lnR.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_%.dta
 	mkdir -p data
-	stata -b do "../../lib/estimate/event_study.do" $* TFP montecarlo
+	stata -b do "../../lib/estimate/event_study.do" $* lnR montecarlo lnR
 
 table/atets.tex: src/exhibit/atets.do $(EVENT_STUDIES)
 	mkdir -p table

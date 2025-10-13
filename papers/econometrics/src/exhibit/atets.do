@@ -39,7 +39,7 @@ local col = 1
 foreach scenario of local scenarios {
     
     * Import CSV file
-    import delimited "data/`scenario'_TFP.csv", clear varnames(1) case(preserve)
+    import delimited "data/`scenario'_lnR.csv", clear varnames(1) case(preserve)
 
     forvalues row = 1/8 {
         matrix stats[`row', `col'] = `row`row''

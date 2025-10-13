@@ -98,8 +98,6 @@ Let firm $i$ in year $t$ have outcome
 \end{equation}
 where $z_{m(i,t)}$ collects the CEO effect at time $t$ and $e_{it}$ is a shock. We assume that $z_{m(i,t)}$ is piecewise constant, changing only when the CEO changes and that $e_{it}$ is mean independent of the CEO path for all $s$ (``strict exogeneity'' or ``random mobility'').
 
-Such fixed effect models are often estimated in applied work. For example, \citet{Bertrand2003-io} ETC ETC
-
 Under the strict exogeneity assumption, the ordinary least squares (OLS) estimator of $z_m$ is unbiased. Equation \eqref{eq:model1} can be rewritten as a dummy-variable regression 
 $$
 y_{it} = \sum_{n} z_n D_{m(i,t)=n}  + e_{it},
@@ -140,21 +138,40 @@ $$
 y_{i,+3} - y_{i,-1} = \mathbf w' \mathbf y_i.
 $$
 
-\paragraph{Model setup.} We are now ready to present the general setup in matrix notation. Let firm $i$ be observed for $T$ periods with outcome path $\mathbf y_i\in\mathbb R^T$ that decomposes into a (piecewise-constant) manager-effect path $\mathbf z_i$ and shocks $\mathbf e_i$:
+\paragraph{Model setup.} We are now ready to present the general setup in matrix notation. Let firm $i$ be observed for $T$ periods with outcome path $\mathbf y_i\in\mathbb R^T$ that decomposes into a (piecewise-constant) manager-effect path $\mathbf z_i$ and shocks $\mathbf e_i$. Suppose manager 1 serves in the first $T_1$ periods and manager 2 in the last $T_2=T-T_1$ periods. (Other transition paths can be modeled similarly.) The model is
 \begin{equation}
-\mathbf y_i = \mathbf z_i + \mathbf e_i,
-\qquad \mathbb E[\mathbf z_i\mathbf z_i']=??,
-\qquad \mathbb E[\mathbf z_i\mathbf e_i']=0,
-\qquad \mathbb E[\mathbf e_i\mathbf e_i']=\Sigma.
+\mathbf y_i = \mathbf z_i + \mathbf e_i
 \end{equation}
-The first assumption about the error terms is the standard strict exogeneity assumption, often stated as ``random mobility.'' Every period's shock is mean independent of the entire CEO path. The second assumption allows for arbitrary autocorrelation in shocks over time (e.g., persistent shocks).
+with 
+\begin{equation}
+\mathbb E[\mathbf z_i\mathbf z_i']= \mathbf \Lambda_i=
+\begin{bmatrix}
+  \lambda_{i11}\otimes \mathbf{11}' & \lambda_{i12}\otimes \mathbf{11}'\\
+  \lambda_{i12}\otimes \mathbf{11}' & \lambda_{i22}\otimes \mathbf{11}'
+\end{bmatrix},
+\qquad \mathbb E[\mathbf z_i\mathbf e_i']=0,
+\qquad \mathbb E[\mathbf e_i\mathbf e_i']=\sigma_1\mathbf\Sigma
+\end{equation}
+for changing firms, and 
+\begin{equation}
+\mathbb E[\mathbf z_i\mathbf z_i']= \mathbf \Lambda_i=
+  \lambda_{i11}\otimes \mathbf{11}',
+\qquad \mathbb E[\mathbf z_i\mathbf e_i']=0,
+\qquad \mathbb E[\mathbf e_i\mathbf e_i']=\sigma_0\mathbf\Sigma
+\end{equation}
+for non-changing firms. The first equation is just notation for the variance and covariance of manager fixed effects at firm $i$. These are the objects of interest. The second equation states the standard strict exogeneity assumption, often called ``random mobility'' in such designs. Every period's shock is mean independent of the entire CEO path. The third assumption allows for arbitrary autocorrelation in shocks over time (e.g., persistent shocks), but assumes that this autocorrelation is the same for changing and non-changing firms, up to a scalar multiplier $\sigma_1/\sigma_0$. We call this assumption ``parallel second moments,'' in reference to the weaker parallel trends assumption in difference-in-differences designs.
 
 For any linear contrast with weights $\mathbf w\in\mathbb R^T$, define $y_i=\mathbf w'\mathbf y_i$, $z_i=\mathbf w'\mathbf z_i$, and $\varepsilon_i=\mathbf w'\mathbf e_i$, resulting in
 \begin{equation}
-y_i = z_i + \varepsilon_i,
-\qquad \mathbb E[z_i\varepsilon_i]=0,
-\qquad \mathbb E[z_i^2] = \lambda.
+y_i = z_i + \varepsilon_i.
 \end{equation}
+The assumptions imply
+\begin{equation}
+\mathbb E[z_i\varepsilon_i] = \mathbf w'\mathbb E[\mathbf z_i\mathbf e_i']\mathbf w = 0,
+\qquad \mathbb E[z_i^2] = \mathbf w'\mathbb E[\mathbf z_i\mathbf z_i']\mathbf w = \lambda_i.
+\end{equation}
+
+
 The last assumption defines the variance of the change in the CEO fixed effect $z_i = z_{i,+3} - z_{i,-1}$ and is typically the object of interest (REFs).
 
 \paragraph{Estimation.} Introduce a design matrix $\mathbf D$ to map rows to CEO spells as
@@ -335,12 +352,12 @@ The scenarios and figure panels follow the code in src/montecarlo and src/figure
 \addlinespace
 $N_{\text{treated}}$ & \multicolumn{6}{c}{50,000} \\
 $N_{\text{control}}$ & \multicolumn{6}{c}{50,000} \\
-$\sigma(\Delta z)$ & \multicolumn{6}{c}{0.10} \\
-$\sigma(\epsilon_{\text{control}})$ & \multicolumn{6}{c}{0.05} \\
+$\sigma(\Delta z)$ & \multicolumn{6}{c}{1.00} \\
+$\sigma(\epsilon_{\text{control}})$ & \multicolumn{6}{c}{0.71} \\
 \addlinespace
  $T_{\max}$ & 5 & 20 & 5 & 5 & 5 & 5 \\
  $\rho$ & 0.00 & 0.00 & 0.90 & 0.90 & 0.00 & 0.90 \\
- $\sigma(\epsilon_{\text{treated}})$ & 0.05 & 0.05 & 0.05 & 0.05 & 0.075 & 0.075 \\
+ $\sigma(\epsilon_{\text{treated}})$ & 0.71 & 0.71 & 0.71 & 0.71 & 1.00 & 1.00 \\
  CEO change & --- & --- & --- & 0.20 & --- & 0.20 \\
  hazard & & & & & & \\
 \midrule
