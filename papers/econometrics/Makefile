@@ -34,7 +34,7 @@ figure/figuremc.pdf: src/figuremc.do src/exhibit/event_study.do $(EVENT_STUDIES)
 	mkdir -p figure
 	stata -b do "src/figuremc.do"
 
-figure/application.pdf: src/application.do src/exhibit/event_study.do data/full_lnR.csv
+figure/application.pdf: src/application.do src/exhibit/event_study.do src/exhibit/event_study3.do data/full_lnR.csv
 	mkdir -p figure
 	stata -b do "src/application.do"
 

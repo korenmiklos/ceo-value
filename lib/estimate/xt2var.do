@@ -142,7 +142,10 @@ frame dCov {
     foreach df in Cov1 dVarY VarY1 {
         frlink 1:1 xvar, frame(`df')
         frget coef_`df' lower_`df' upper_`df', from(`df')
+        generate se_`df' = (upper_`df' - lower_`df') / invnormal(0.975)
     }
+    generate se_dCov = (upper_dCov - lower_dCov) / invnormal(0.975)
+    drop lower_* upper_*
 
     generate t = -`pre' + i - 1
     * there is an event-time missing, introduce the gap
@@ -152,7 +155,7 @@ frame dCov {
     set obs `=r(N)+1'
     replace t = -1 in -1
     replace xvar = "T_X_et_m_1" in -1
-    foreach v of varlist coef_* lower_* upper_* {
+    foreach v of varlist coef_* se_* {
         replace `v' = 0 in -1
     }
 
@@ -163,18 +166,23 @@ frame dCov {
 
     foreach df in dCov Cov1 dVarY VarY1 {
         replace coef_`df' = `coef_`df'' in -1
-        replace lower_`df' = `lower_`df'' in -1
-        replace upper_`df' = `upper_`df'' in -1
-        generate se_`df' = (upper_`df' - lower_`df') / invnormal(0.975)
     }
 
     generate coef_Cov0_excess = coef_Cov1 - coef_dCov
     generate coef_Cov0 = coef_Cov0_excess / `eVarY'
+    generate coef_VarY0_excess = coef_VarY1 - coef_dVarY
+    generate coef_VarY0 = coef_VarY0_excess / `eVarY'
 
     generate Var0_excess = `Var0'
     generate Var0 = Var0_excess / `eVarY'
     generate Var1 = `Var1'
     generate dVar = Var1 - Var0_excess
+
+    * standard errors for differences
+    generate se_Cov0_excess = sqrt(se_Cov1^2 + se_dCov^2)
+    generate se_Cov0 = se_Cov0_excess / `eVarY'
+    generate se_VarY0_excess = sqrt(se_VarY1^2 + se_dVarY^2)
+    generate se_VarY0 = se_VarY0_excess / `eVarY'
 
     sort t
 
@@ -200,7 +208,8 @@ frame dCov {
     scalar correction = 1 + Var_ratio * coef_beta0^2
     generate se_beta0 = sqrt(se_Cov1^2 + se_dCov^2) / Var0 * sqrt(correction)
 
-    foreach v in dbeta beta1 beta0 {
+    * now we can compute error bands
+    foreach v in dbeta beta1 beta0 dCov Cov1 Cov0 Cov0_excess dVarY VarY1 VarY0 VarY0_excess {
         generate lower_`v' = coef_`v' - se_`v' * invnormal(0.975)
         generate upper_`v' = coef_`v' + se_`v' * invnormal(0.975)
     }
