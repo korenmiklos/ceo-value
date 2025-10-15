@@ -4,7 +4,7 @@
 local start_year 1992             // Start year for data inclusion
 local end_year 2022               // End year for data inclusion
 
-use "input/ceo-panel/ceo-panel.dta", clear
+use "input/manager-db-ceo-panel/ceo-panel.dta", clear
 
 * birth year is better then entry
 replace first_year_as_ceo = birth_year + 18 if first_year_as_ceo < birth_year + 18 & !missing(birth_year)

@@ -21,6 +21,10 @@ data/full_%.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_even
 	mkdir -p data
 	stata -b do "../../lib/estimate/event_study.do" full $* no lnR
 
+data/full_exporter.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_full.dta
+	mkdir -p data
+	stata -b do "../../lib/estimate/event_study.do" full exporter no lnR
+
 # Generate event study data for monte carlo scenarios
 data/%_lnR.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_%.dta
 	mkdir -p data
@@ -34,7 +38,7 @@ figure/figuremc.pdf: src/figuremc.do src/exhibit/event_study.do $(EVENT_STUDIES)
 	mkdir -p figure
 	stata -b do "src/figuremc.do"
 
-figure/application.pdf: src/application.do src/exhibit/event_study.do src/exhibit/event_study3.do data/full_lnR.csv
+figure/application.pdf: src/application.do src/exhibit/age.do src/exhibit/event_study.do src/exhibit/event_study3.do data/full_lnR.csv data/full_exporter.csv ../../temp/surplus.dta ../../temp/analysis-sample.dta ../../temp/manager_value.dta
 	mkdir -p figure
 	stata -b do "src/application.do"
 

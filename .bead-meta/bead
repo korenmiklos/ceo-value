@@ -5,10 +5,10 @@
             "freeze_time": "20250829T101546412743+0200",
             "kind": "f45b97d11ff8b08bc718d4bd9adeff8b-67dd96f4-58a5-4a86-a321-2e6ed6330bee"
         },
-        "ceo-panel": {
-            "content_id": "4a789e2d4066c3b24cdc8233b49fca68f0609ed3ebe36caf66f2ac30e024faa5bedcf8cfc2fff346fd8118ae67f394ff264f93171aafbbd2e9f5459d6530a261",
-            "freeze_time": "20241125T153535400212+0100",
-            "kind": "8f68500668824a7b8b9486f034a6aded-e7db5a61-97b7-4d28-8e22-3ed70eade94b"
+        "manager-db-ceo-panel": {
+            "content_id": "79617cf3bbc7244edacf7c142641535ef6ada4bc0950df234cee6eef9aee2bdb890c220013e52603199e488b5d8c5ee57174cfc52b4a9c4e8f4009df2e86f802",
+            "freeze_time": "20251015T132830875065+0200",
+            "kind": "5a296bf69966b54d16ea5a4a69dde3fe-2aca6167-3021-4df5-9550-ea8d449038bb"
         },
         "merleg-LTS-2023": {
             "content_id": "80c0aac26a582bab8ddcffce75902c68d5902ceee6f1aed41a407095cf1657caeee89ad265bde77875deb6ff7fdeaf40123fa40ad21645c9b0303aee1784c748",
