@@ -1,5 +1,6 @@
-*! version 1.0.0  17oct2025
+*! version 1.2.0  17oct2025
 *! Create non-overlapping 3-year windows with firm-year-manager observations for variance-covariance decomposition
+*! NOTE: Uses filtered analysis sample to ensure economically meaningful firms
 
 use "temp/analysis-sample.dta", clear
 

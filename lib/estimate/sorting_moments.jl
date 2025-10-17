@@ -2,6 +2,7 @@ using CSV, DataFrames
 using SparseArrays, Statistics, LinearAlgebra
 using Logging
 using Roots
+using Graphs
 
 struct WindowData
     window_id::Int
@@ -82,7 +83,29 @@ function compute_bipartite_matrices(data::WindowData)
     return D_firm, D_manager, firm_idx, manager_idx
 end
 
-function compute_network_covariance(D::SparseMatrixCSC, y::Vector{Float64}, step::Int=2)
+function find_largest_component_entities(D::SparseMatrixCSC)::Vector{Int}
+    # D is n_obs × n_entities
+    # Project to entity-entity network: D' * D
+    P = D' * D
+    P_clean = P - spdiagm(0 => diag(P))
+    dropzeros!(P_clean)
+    
+    # Find connected components in entity space
+    G = SimpleGraph(P_clean)
+    components = connected_components(G)
+    
+    # Return largest component entity indices
+    largest_idx = argmax([length(c) for c in components])
+    return sort(components[largest_idx])
+end
+
+function compute_network_covariance(D::SparseMatrixCSC, y::Vector{Float64}, step::Int=2, valid_nodes::Union{Nothing,Vector{Int}}=nothing)
+    # Use only valid nodes if specified
+    if valid_nodes !== nothing
+        D = D[valid_nodes, :]
+        y = y[valid_nodes]
+    end
+    
     y_centered = y .- mean(y)
     
     P = D * D'
@@ -119,9 +142,30 @@ function compute_network_covariance(D::SparseMatrixCSC, y::Vector{Float64}, step
     return cov_sum / n_edges, n_edges
 end
 
+function find_nodes_with_both_neighbors(D::SparseMatrixCSC)::Vector{Int}
+    # Find nodes that have both 2-step AND 4-step neighbors
+    P = D * D'
+    P_clean = P - spdiagm(0 => diag(P))
+    dropzeros!(P_clean)
+    
+    # Nodes with 2-step neighbors
+    has_2step = vec(sum(P_clean, dims=2) .> 0)
+    
+    # Nodes with 4-step neighbors
+    P4 = P_clean^2
+    P4 = P4 - spdiagm(0 => diag(P4))
+    dropzeros!(P4)
+    has_4step = vec(sum(P4, dims=2) .> 0)
+    
+    # Return indices where both conditions hold
+    return findall(has_2step .& has_4step)
+end
+
 function compute_window_moments(data::WindowData)::MomentEstimates
-    V = var(data.log_revenue)
     D_firm, D_manager, _, _ = compute_bipartite_matrices(data)
+    
+    # Use all observations - network covariances will use available edges
+    V = var(data.log_revenue)
     
     C_ff2, n_ff2 = compute_network_covariance(D_firm, data.log_revenue, 2)
     C_mm2, n_mm2 = compute_network_covariance(D_manager, data.log_revenue, 2)
@@ -255,6 +299,8 @@ function main()
         
         moments = compute_window_moments(window)
         push!(moments_vec, moments)
+        
+        @info "Window $year_min-$year_max: n=$(moments.n_obs), V=$(round(moments.V, digits=2)), C_mm2=$(round(moments.C_mm2, digits=2)), C_ff2=$(round(moments.C_ff2, digits=2))"
         
         params = estimate_parameters_gmm(moments)
         push!(estimates_vec, params)

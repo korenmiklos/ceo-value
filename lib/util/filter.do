@@ -51,9 +51,8 @@ drop if firm_age < `min_firm_age'
 tabulate sector if firm_tag
 drop if inlist(sector, `excluded_sectors')
 
-* drop firms with too few employees
-summarize max_employment if firm_tag, detail
-drop if max_employment < `min_employment'
+* NOTE: Employment filter removed for network correlation analysis
+* The sorting method requires the full unfiltered sample
 
 * clean up
 drop max_n_ceo firm_tag
