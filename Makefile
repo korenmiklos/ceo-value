@@ -23,7 +23,8 @@ COMMIT_EXPERIMENT := experiment/preferred  # Update with specific hash when need
 PRECIOUS_FILES := temp/balance.dta temp/ceo-panel.dta temp/unfiltered.dta \
                   temp/analysis-sample.dta temp/placebo.dta temp/edgelist.csv \
                   temp/large_component_managers.csv temp/surplus.dta \
-                  temp/manager_value.dta temp/revenue_models.ster $(foreach sample,$(SAMPLES),temp/placebo_$(sample).dta)
+                  temp/manager_value.dta temp/revenue_models.ster temp/sorting_windows.csv \
+                  $(foreach sample,$(SAMPLES),temp/placebo_$(sample).dta)
 
 # Mark these files as PRECIOUS so make won't delete them
 .PRECIOUS: $(PRECIOUS_FILES)
@@ -41,10 +42,10 @@ all: report
 install: install.log
 
 # Data wrangling pipeline
-data: temp/unfiltered.dta temp/analysis-sample.dta temp/placebo.dta temp/large_component_managers.csv
+data: temp/unfiltered.dta temp/analysis-sample.dta temp/placebo.dta temp/large_component_managers.csv temp/sorting_windows.csv
 
 # Statistical analysis pipeline  
-analysis: temp/surplus.dta temp/manager_value.dta temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_moments.dta temp/revenue_models.ster bloom_autonomy_analysis.log output/table/atet_owner.tex output/table/atet_manager.tex
+analysis: temp/surplus.dta temp/manager_value.dta temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_moments.dta temp/revenue_models.ster bloom_autonomy_analysis.log output/table/atet_owner.tex output/table/atet_manager.tex output/sorting_estimates.csv
 
 # Final reporting pipeline
 report: output/paper.pdf output/slides60.pdf output/figure/event_study_outcomes.pdf
@@ -86,6 +87,10 @@ temp/large_component_managers.csv: lib/create/connected_component.jl temp/edgeli
 temp/unfiltered.dta: lib/create/unfiltered.do temp/balance.dta temp/ceo-panel.dta $(UTILS)
 	$(STATA) $<
 
+# Create sorting windows for variance-covariance decomposition
+temp/sorting_windows.csv: lib/create/sorting_windows.do temp/analysis-sample.dta
+	$(STATA) $<
+
 # =============================================================================
 # Statistical analysis
 # =============================================================================
@@ -116,6 +121,11 @@ temp/revenue_models.ster: lib/estimate/revenue_function.do temp/analysis-sample.
 # Bloom et al. (2012) autonomy analysis - supporting evidence
 bloom_autonomy_analysis.log: lib/estimate/bloom_autonomy_analysis.do input/bloom-et-al-2012/replication.dta
 	$(STATA) $<
+
+# Sorting moments and variance-covariance decomposition
+output/sorting_estimates.csv output/sorting_moments.csv: lib/estimate/sorting_moments.jl temp/sorting_windows.csv
+	mkdir -p $(dir $@)
+	$(JULIA) $<
 
 
 # =============================================================================

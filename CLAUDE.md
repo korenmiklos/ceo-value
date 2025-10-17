@@ -99,7 +99,7 @@ cd output && pdflatex paper.tex && bibtex paper && pdflatex paper.tex && pdflate
    - `input/merleg-LTS-2023/balance/balance_sheet_80_22.dta`: Balance sheet data
    - `input/ceo-panel/ceo-panel.dta`: CEO registry data
 
-2. **Processing** (`code/create/`): Stata scripts that clean and merge data
+2. **Processing** (`lib/create/`): Stata scripts that clean and merge data
    - `balance.do`: Processes balance sheets (1992-2022), creates standardized variables
    - `ceo-panel.do`: Processes CEO registry, constructs firm-person-year structure
    - `unfiltered.do`: Merges datasets, applies industry classifications, creates variables
@@ -107,13 +107,14 @@ cd output && pdflatex paper.tex && bibtex paper && pdflatex paper.tex && pdflate
    - `event_study_sample.do`: Generates placebo CEO transitions and creates event study samples for different specifications (full, fnd2non, non2non, post2004)
    - `network-sample.do`: Helper script for restricting samples to the connected component
    - `edgelist.do`: Extracts firm-manager edgelist (frame_id_numeric, person_id) to CSV
+   - `sorting_windows.do`: Creates non-overlapping 3-year windows for variance-covariance decomposition analysis
 
-3. **Utilities** (`code/util/`): Helper scripts called by main processing
+3. **Utilities** (`lib/util/`): Helper scripts called by main processing
    - `industry.do`: TEAOR08 industry sector classifications
    - `variables.do`: Derived variables (logs, tenure, age, firm characteristics)
    - `filter.do`: Final sample restrictions
 
-4. **Exhibits** (`code/exhibit/`): Table and figure generation for paper  
+4. **Exhibits** (`lib/exhibit/`): Table and figure generation for paper  
    - `table1.do`: Creates Table 1 - Sample Distribution Over Time with temporal distribution by year
    - `table3.do`: Creates Table 3 - Revenue Function Estimation Results
    - `tableA0.do`: Creates Table A0 - Bloom et al. (2012) autonomy analysis (appendix)
@@ -122,7 +123,7 @@ cd output && pdflatex paper.tex && bibtex paper && pdflatex paper.tex && pdflate
    - `figure3.do`: Creates Figure 3 - Event study outcomes (Capital, Intangibles, Materials, Wagebill)
    - `event_study.do`: Helper script for event study figure generation
 
-5. **Analysis** (`code/estimate/`): Econometric estimation
+5. **Analysis** (`lib/estimate/`): Econometric estimation
    - `surplus.do`: Estimates revenue function and residualizes surplus for skill identification
    - `revenue_function.do`: Estimates revenue function models and saves results for table creation  
    - `manager_value.do`: Estimates manager fixed effects, generates distribution plots (saved to temp/manager_value.dta)
@@ -131,31 +132,40 @@ cd output && pdflatex paper.tex && bibtex paper && pdflatex paper.tex && pdflate
    - `anova.do`: Implements ANOVA decomposition of treatment effects
    - `setup_anova.do`: Helper script for ANOVA analysis setup
    - `bloom_autonomy_analysis.do`: Analyzes autonomy patterns using Bloom et al. (2012) data
+   - `sorting_moments.jl`: Variance-covariance decomposition to estimate firm-manager sorting correlation
 
-6. **Exhibits** (`code/exhibit/`): Table and figure generation
-   - `table1.do`: Descriptive statistics over time
-   - `table3.do`: Revenue function estimation results
-   - `tableA0.do`: Bloom et al. (2012) autonomy analysis (appendix)
-   - `tableA1.do`: Industry-level summary statistics (appendix)
-   - `figure2.do`: Event study by CEO transition type (four panels)
-   - `figure3.do`: Event study outcomes (four panels)
-   - `event_study.do`: Helper script for event study figure generation
-
-7. **Output** (`temp/`, `output/`): Intermediate data and final results
-   - `temp/`: Processed Stata datasets, edgelist CSV, connected component results, event study samples, manager value estimates
+6. **Output** (`temp/`, `output/`): Intermediate data and final results
+   - `temp/`: Processed Stata datasets, edgelist CSV, connected component results, event study samples, manager value estimates, sorting windows
    - `output/table/`: LaTeX tables for paper
    - `output/figure/`: Publication-ready figures  
    - `output/event_study/`: Event study coefficients for all samples and outcomes (CSV format)
+   - `output/sorting_estimates.csv`: Estimated sorting parameters (ρ, σ_a, σ_z, σ_ε) by window
+   - `output/sorting_moments.csv`: Network covariance moments for all windows
    - `output/paper.pdf`: Final compiled document
    - `output/slides60.pdf`: Presentation slides
 
 ### Network Analysis Component
-`code/create/connected_component.jl` implements graph algorithms for CEO network analysis:
+`lib/create/connected_component.jl` implements graph algorithms for CEO network analysis:
 - Reads firm-manager edgelist from `temp/edgelist.csv`
 - Projects bipartite graph to manager-manager network via shared firms
 - Finds largest connected component of managers
 - Outputs manager person_ids in largest component to `temp/large_component_managers.csv`
 - Uses modular functions with configurable column names for flexibility
+
+### Variance-Covariance Decomposition for Sorting Analysis
+`lib/estimate/sorting_moments.jl` implements a method-of-moments estimator to quantify CEO-firm sorting:
+- Reads 3-year window data from `temp/sorting_windows.csv` (10 non-overlapping windows, 1992-2021)
+- Builds bipartite firm-manager networks and computes projections
+- Calculates 2-step covariances (manager-manager pairs sharing a firm, firm-firm pairs sharing a manager)
+- Calculates 4-step covariances (second-neighbor connections in projected networks)
+- Estimates four parameters via constructive GMM:
+  - **ρ**: Correlation between firm and manager types (sorting strength)
+  - **σ_a**: Standard deviation of firm fixed effects
+  - **σ_z**: Standard deviation of manager fixed effects
+  - **σ_ε**: Standard deviation of match-specific noise
+- Key finding: ρ ≈ 0.99 indicates extremely strong positive assortative matching throughout the period
+- Uses efficient sparse matrix operations to handle 3M+ observations
+- Outputs to `output/sorting_estimates.csv` and `output/sorting_moments.csv`
 
 ## Key Methodological Contributions
 
