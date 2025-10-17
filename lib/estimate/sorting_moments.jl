@@ -115,8 +115,15 @@ function compute_network_covariance(D::SparseMatrixCSC, y::Vector{Float64}, step
     if step == 2
         W = P_clean
     elseif step == 4
-        W = P_clean^2
-        W = W - spdiagm(0 => diag(W))
+        # Compute 4-step paths
+        W4 = P_clean^2
+        W4 = W4 - spdiagm(0 => diag(W4))
+        dropzeros!(W4)
+        
+        # Exclude pairs that have 2-step connections (keep only pure 4-step)
+        # Set W4[i,j] = 0 wherever P_clean[i,j] > 0
+        W = W4 - (P_clean .> 0)
+        W = max.(W, 0)  # Ensure non-negative (some entries might become negative)
         dropzeros!(W)
     else
         error("Only step=2 or step=4 supported")
@@ -167,11 +174,13 @@ function compute_window_moments(data::WindowData)::MomentEstimates
     # Use all observations - network covariances will use available edges
     V = var(data.log_revenue)
     
-    C_ff2, n_ff2 = compute_network_covariance(D_firm, data.log_revenue, 2)
-    C_mm2, n_mm2 = compute_network_covariance(D_manager, data.log_revenue, 2)
+    # Manager-manager covariance: obs sharing a FIRM (manager effects correlate)
+    C_mm2, n_mm2 = compute_network_covariance(D_firm, data.log_revenue, 2)
+    C_mm4, n_mm4 = compute_network_covariance(D_firm, data.log_revenue, 4)
     
-    C_ff4, n_ff4 = compute_network_covariance(D_firm, data.log_revenue, 4)
-    C_mm4, n_mm4 = compute_network_covariance(D_manager, data.log_revenue, 4)
+    # Firm-firm covariance: obs sharing a MANAGER (firm effects correlate)
+    C_ff2, n_ff2 = compute_network_covariance(D_manager, data.log_revenue, 2)
+    C_ff4, n_ff4 = compute_network_covariance(D_manager, data.log_revenue, 4)
     
     n_firms = length(unique(data.firm_ids))
     n_managers = length(unique(data.manager_ids))
