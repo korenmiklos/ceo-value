@@ -1,6 +1,7 @@
 using CSV, DataFrames
 using SparseArrays, Statistics, LinearAlgebra
 using Logging
+using Roots
 
 struct WindowData
     window_id::Int
@@ -157,28 +158,48 @@ function estimate_parameters_gmm(moments::MomentEstimates)::ParameterEstimates
     ρ2_ff = C_ff4 / C_ff2
     
     ρ2 = (ρ2_mm + ρ2_ff) / 2
-    ρ2 = clamp(ρ2, 0.0, 1.0)
+    ρ2 = clamp(ρ2, 0.0, 0.999)
     
     ρ = sqrt(ρ2)
     if C_mm2 < 0 || C_ff2 < 0
         ρ = -ρ
     end
     
-    D = (C_ff2 - C_mm2) / (1 - ρ2 + 1e-10)
-    
+    excess_mm = V - C_mm2
+    excess_ff = V - C_ff2
     sum_cov2 = C_mm2 + C_ff2
     
-    S_term = sum_cov2 - 4 * ρ * sqrt(max(0, D^2 / 4 + 1e-10))
-    S = S_term / (1 + ρ2 + 1e-10)
+    function objective(σ_ε2)
+        if σ_ε2 < 0 || σ_ε2 >= min(excess_mm, excess_ff)
+            return 1e10
+        end
+        
+        σ_z2 = (excess_mm - σ_ε2) / (1 - ρ2 + 1e-10)
+        σ_a2 = (excess_ff - σ_ε2) / (1 - ρ2 + 1e-10)
+        
+        if σ_z2 <= 0 || σ_a2 <= 0
+            return 1e10
+        end
+        
+        σ_z = sqrt(σ_z2)
+        σ_a = sqrt(σ_a2)
+        
+        predicted_sum = (1 + ρ2) * (σ_a2 + σ_z2) + 4 * ρ * σ_a * σ_z
+        
+        return (predicted_sum - sum_cov2)^2
+    end
     
-    σ_a2 = max(0, (S - D) / 2)
-    σ_z2 = max(0, (S + D) / 2)
+    σ_ε2_candidates = range(0.0, min(excess_mm, excess_ff) * 0.99, length=1000)
+    objectives = [objective(σ_ε2) for σ_ε2 in σ_ε2_candidates]
+    best_idx = argmin(objectives)
+    σ_ε2_opt = σ_ε2_candidates[best_idx]
     
-    σ_a = sqrt(σ_a2)
-    σ_z = sqrt(σ_z2)
+    σ_z2 = (excess_mm - σ_ε2_opt) / (1 - ρ2 + 1e-10)
+    σ_a2 = (excess_ff - σ_ε2_opt) / (1 - ρ2 + 1e-10)
     
-    σ_ε2 = max(0, V - σ_a2 - σ_z2 - 2 * ρ * σ_a * σ_z)
-    σ_ε = sqrt(σ_ε2)
+    σ_z = sqrt(max(0, σ_z2))
+    σ_a = sqrt(max(0, σ_a2))
+    σ_ε = sqrt(max(0, σ_ε2_opt))
     
     return ParameterEstimates(
         moments.window_id, moments.year_min, moments.year_max,
@@ -194,15 +215,15 @@ function save_moments_csv(moments::Vector{MomentEstimates}, path::String)
         n_obs = [m.n_obs for m in moments],
         n_firms = [m.n_firms for m in moments],
         n_managers = [m.n_managers for m in moments],
-        V = [m.V for m in moments],
-        C_mm2 = [m.C_mm2 for m in moments],
-        C_ff2 = [m.C_ff2 for m in moments],
-        C_mm4 = [m.C_mm4 for m in moments],
-        C_ff4 = [m.C_ff4 for m in moments],
-        n_edges_mm2 = [m.n_edges_mm2 for m in moments],
-        n_edges_ff2 = [m.n_edges_ff2 for m in moments],
-        n_edges_mm4 = [m.n_edges_mm4 for m in moments],
-        n_edges_ff4 = [m.n_edges_ff4 for m in moments]
+        variance = [round(m.V, digits=5) for m in moments],
+        cov_mm_2step = [round(m.C_mm2, digits=5) for m in moments],
+        cov_ff_2step = [round(m.C_ff2, digits=5) for m in moments],
+        cov_mm_4step = [round(m.C_mm4, digits=5) for m in moments],
+        cov_ff_4step = [round(m.C_ff4, digits=5) for m in moments],
+        n_edges_mm_2step = [m.n_edges_mm2 for m in moments],
+        n_edges_ff_2step = [m.n_edges_ff2 for m in moments],
+        n_edges_mm_4step = [m.n_edges_mm4 for m in moments],
+        n_edges_ff_4step = [m.n_edges_ff4 for m in moments]
     )
     CSV.write(path, df)
 end
@@ -212,25 +233,25 @@ function save_estimates_csv(estimates::Vector{ParameterEstimates}, path::String)
         window_id = [e.window_id for e in estimates],
         year_min = [e.year_min for e in estimates],
         year_max = [e.year_max for e in estimates],
-        σ_a = [e.σ_a for e in estimates],
-        σ_z = [e.σ_z for e in estimates],
-        ρ = [e.ρ for e in estimates],
-        σ_ε = [e.σ_ε for e in estimates]
+        sigma_a = [round(e.σ_a, digits=5) for e in estimates],
+        sigma_z = [round(e.σ_z, digits=5) for e in estimates],
+        rho = [round(e.ρ, digits=5) for e in estimates],
+        sigma_epsilon = [round(e.σ_ε, digits=5) for e in estimates]
     )
     CSV.write(path, df)
 end
 
 function main()
-    @info "Reading window data from temp/sorting_windows.csv"
+    @info "Variance-covariance decomposition for CEO-firm sorting"
+    
     windows = read_window_data("temp/sorting_windows.csv")
-    @info "Loaded $(length(windows)) windows"
+    @info "Loaded $(length(windows)) windows spanning 1992-2021"
     
     moments_vec = MomentEstimates[]
     estimates_vec = ParameterEstimates[]
     
     for window in windows
         year_min, year_max = minimum(window.years), maximum(window.years)
-        @info "Processing window $(window.window_id) ($year_min-$year_max): $(length(window.log_revenue)) obs, $(length(unique(window.firm_ids))) firms, $(length(unique(window.manager_ids))) managers"
         
         moments = compute_window_moments(window)
         push!(moments_vec, moments)
@@ -238,12 +259,13 @@ function main()
         params = estimate_parameters_gmm(moments)
         push!(estimates_vec, params)
         
-        @info "  ρ=$(round(params.ρ, digits=4)), σ_a=$(round(params.σ_a, digits=4)), σ_z=$(round(params.σ_z, digits=4))"
+        @info "Window $year_min-$year_max: ρ=$(round(params.ρ, sigdigits=4)), σ_firm=$(round(params.σ_a, sigdigits=3)), σ_manager=$(round(params.σ_z, sigdigits=3))"
     end
     
     save_moments_csv(moments_vec, "output/sorting_moments.csv")
     save_estimates_csv(estimates_vec, "output/sorting_estimates.csv")
-    @info "Results saved to output/sorting_moments.csv and output/sorting_estimates.csv"
+    
+    @info "Results saved to output/"
 end
 
 if abspath(PROGRAM_FILE) == @__FILE__
