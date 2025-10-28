@@ -141,15 +141,7 @@ Under the model assumptions, these moments have expectation
 \end{align}
 where $\Bar\lambda$ is the average variance of true CEO effect changes across groups (the object of interest), and $A$ and $B$ are \emph{bias terms} that depend on the spell-length distributions, event-window designs, and the autocovariance structure of shocks. Appendix A derives these bias terms formally via matrix algebra.
 
-The key properties of the bias terms are:
-\begin{itemize}
-\item $A$ and $B$ are weighted sums over design groups, with weights determined by spell lengths and event-window contrasts.
-\item When shocks are i.i.d. and spells are long, $A\approx 0$ and $B\approx 0$.
-\item When spells are short or shocks are persistent, $A$ and $B$ can be large, severely distorting variances, covariances, and regression slopes.
-\item The bias terms are \emph{the same} (up to a scalar multiplier) for any two samples that have identical spell-length distributions and event-window designs, even if one sample has no true CEO effects.
-\end{itemize}
-
-This last property is the foundation of our placebo-controlled debiasing.
+The bias terms have four key properties. First, $A$ and $B$ are weighted sums over design groups, with weights determined by spell lengths and event-window contrasts. Second, when shocks are independent and identically distributed and spells are long, $A\approx 0$ and $B\approx 0$. In this ideal case, the bias vanishes asymptotically. Third, when spells are short or shocks are persistent, $A$ and $B$ can be large, severely distorting variances, covariances, and regression slopes. This is the empirically relevant case in many CEO studies, where tenures are often brief and performance shocks are serially correlated. Fourth, and most important for our method, the bias terms are the same up to a scalar multiplier for any two samples that have identical spell-length distributions and event-window designs, even if one sample has no true CEO effects. This last property is the foundation of our placebo-controlled debiasing.
 
 \section{Placebo-Controlled Debiasing} 
 
