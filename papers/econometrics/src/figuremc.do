@@ -33,7 +33,12 @@ foreach panel in A B C D E F {
         capture generate lower_`X' = coef_`X' - 1.96*se_`X'
     }
 
-    do "src/exhibit/event_study.do" `panel' "`title'" "`ytitle'" `outcome'
+    if "`sample'" == "all" {
+        do "src/exhibit/event_study3.do" `panel' "`title'" "`ytitle'" `outcome'
+    }
+    else {
+        do "src/exhibit/event_study2.do" `panel' "`title'" "`ytitle'" `outcome'
+    }
 }
 
 graph combine panelA panelB panelC panelD panelE panelF, ///

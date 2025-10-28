@@ -34,11 +34,11 @@ table/atets.tex: src/exhibit/atets.do $(EVENT_STUDIES)
 	mkdir -p table
 	stata -b do "src/exhibit/atets.do"
 
-figure/figuremc.pdf: src/figuremc.do src/exhibit/event_study.do $(EVENT_STUDIES)
+figure/figuremc.pdf: src/figuremc.do src/exhibit/event_study2.do src/exhibit/event_study3.do $(EVENT_STUDIES)
 	mkdir -p figure
 	stata -b do "src/figuremc.do"
 
-figure/application.pdf: src/application.do src/exhibit/age.do src/exhibit/event_study.do src/exhibit/event_study3.do data/full_lnR.csv data/full_exporter.csv ../../temp/surplus.dta ../../temp/analysis-sample.dta ../../temp/manager_value.dta
+figure/application.pdf: src/application.do src/exhibit/age.do src/exhibit/event_study.do data/full_lnR.csv data/full_exporter.csv ../../temp/surplus.dta ../../temp/analysis-sample.dta ../../temp/manager_value.dta
 	mkdir -p figure
 	stata -b do "src/application.do"
 
