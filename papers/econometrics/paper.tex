@@ -26,9 +26,9 @@
 
 \author{Miklós Koren\thanks{Central European University, ELTE Centre for Economic and Regional Studies, CEPR and CESifo. E-mail: korenm@ceu.edu} \\
         Krisztina Orbán\thanks{Monash University.} \\
-        Álmos Telegdy\thanks{Corvinus University of Budapest.}}
+        Álmos Telegdy\thanks{Corvinus University of Budapest. E-mail: almos.telegdy@uni-corvinus.hu}}
 
-\date{September 2025}
+\date{October 2025}
 
 \begin{document}
 
@@ -39,9 +39,9 @@
 How much do individual CEOs contribute to firm performance? Studies typically estimate CEO fixed effects and analyze their second moments to quantify the importance of CEO heterogeneity. We show that small-sample noise systematically biases these second moments even when mean effects are unbiased, leading researchers to overstate CEO contributions and observe spurious pre-trends in event studies. We develop a placebo-controlled method that identifies and removes these biases without modeling the full error process. The method constructs matched control transitions in firms that do not change CEOs, replicating the spell-length design of actual transitions. Placebo moments recover the bias terms, which are then subtracted from treated estimates to yield debiased variances, covariances, and regression slopes. Monte Carlo experiments confirm the method removes bias across scenarios with persistent shocks, short tenures, and unbalanced panels. Applying the method to 60,000 CEO transitions in Hungarian private firms (1992--2022), we find naive estimates overstate CEO contributions to revenue variance by more than half (60 percent naive versus 29 percent corrected) and generate entirely spurious pre-trends. Debiased estimates reveal immediate and persistent CEO effects with no anticipatory patterns, suggesting that much of the apparent gradual adjustment in naive estimates is a mechanical artifact of small-sample bias. The method is broadly applicable to any setting where analysts use estimated fixed effects with short spells.
 \end{abstract}
 
-\textbf{Keywords:} CEO value, private firms, revenue
+\textbf{Keywords:} CEO value, CEO-Firm Fixed Effects, Bias Correction
 
-\textbf{JEL Classification:} D24, G34
+\textbf{JEL Classification:} C23, D24, G34
 
 \clearpage
 \setcounter{page}{1}
@@ -50,13 +50,13 @@ How much do individual CEOs contribute to firm performance? Studies typically es
 \section{Introduction}
 %%%%%%%%%%%%%%%%%%%%%%
 
-The impact of individual CEOs on business practices and performance is a widely studied question in economics,  corporate finance, and management. In absence of direct measures of CEO characteristics that are relevant for firm outcomes, studies often include CEO fixed effects to capture variations in latent CEO skills \citep{Bertrand2003-io, crossland2011differences, quigley2015has}. Under the standard assumption of ``random mobility,'' that is, that CEO moves are unrelated to past and future performance shocks of the firm, the mean of estimated CEO fixed effects is unbiased. 
+The impact of individual CEOs on business practices and firm performance is a widely studied question in economics, corporate finance, and management. In absence of direct measures of CEO characteristics relevant for firm outcomes, studies often include CEO fixed effects to capture variations in latent CEO skills \citep{Bertrand2003-io, crossland2011differences, quigley2015has}. Under the standard assumption of ``random mobility,'' that is, CEO moves are unrelated to past and future performance shocks of the firm, the mean of estimated CEO fixed effects is unbiased. 
 
-Most applied work, however, is concerned with the second moments of the estimated fixed effects. We highlight three common use cases. First, variance decompositions reveal how much CEO effects contribute to the variance of certain firm outcomes, such as revenue or profitability. Second, the covariance of the CEO effect with other variables helps to understand the mechanisms through which CEOs affect firm outcomes; for example, whether firms led by better CEOs adopt different managerial practices \citep{bloom2012organization} or CEO attributes such as age, gender, or education affect firm policies \citep{anderson2018pathways, henderson2006quickly, Koren2023expat}. Third, dynamic covariances are used in event studies to assess how outcomes evolve before and after CEO transitions \citep{bennedsen2020ceos}, as a way to test for pre-trends and to understand post-transition dynamics. 
+Most applied work, however, is concerned with the second moments of the estimated fixed effects. First, variance decompositions reveal how much CEO effects contribute to the variance of certain firm outcomes, such as revenue or profitability. Second, to understand the mechanisms through which CEOs affect firm outcomes, the estimated CEO effect is often used to assess its effect on other variables, which is based on the covariance. For example, whether firms led by better CEOs are more profitable \citep{mackey2008effect} or how much risk they take \citep{schoar2024effect}. Third, dynamic covariances are used in event studies to assess how outcomes evolve before and after CEO transitions, as a way to test for pre-trends and to understand post-transition dynamics \citep{schoar2024effect}. 
 
 All these second moments are biased by small-sample noise in the estimated CEO effects, even under credible identification assumptions \citep{andrews2008high,gaure2014correlation,Bonhomme2023-dx}. This is not a nuisance, but has important implications for the interpretation of empirical results. Perhaps most intuitively, small-sample bias overstates the role of CEOs in explaining firm performance. Second, it distorts the covariance of CEO quality with firm outcomes, biasing estimates of how CEOs affect operational decisions. And, as we show below, the bias introduces spurious pre-trends and distorts post-transition dynamics in event studies.
 
-Correcting for small-sample bias is challenging. Existing methods are either ad hoc, such as leave-one-out adjustments with the goal of removing own-observation noise [[note: add citation to Card, Cardoso, Kline or similar leave-one-out method]], or highly structural: estimate the bias from the variance-covariance of shocks and the design matrix and then apply Empirical Bayes shrinkage \citep{andrews2008high,Bonhomme2023-dx,kline2024firm}. While powerful, these require estimating many components and re-deriving formulas for each target second moment.
+Correcting for small-sample bias is challenging. Existing methods are either ad hoc, such as leave-one-out adjustments \citep{kline2020leave}, or highly structural: estimate the bias from the variance-covariance of shocks and the design matrix and then apply Empirical Bayes shrinkage \citep{andrews2008high,Bonhomme2023-dx,kline2024firm}. While powerful, these require estimating many components and re-deriving formulas for each target second moment.
 
 Our approach is different: we create a placebo-controlled experiment. For each firm that truly changes CEOs, we find a group of comparable non-changing firms, and use this placebo control group to estimate the mechanical noise in the second moments.\footnote{This step in the spirit of \cite{jarosiewicz2023revisiting}, who compare the replicated results of  \cite{Bertrand2003-io} with placebo regressions.} Under weak assumptions, the placebo group can be used to measure the exact bias in variance, covariance, and dynamic covariance. The difference in second moments between the treated and the placebo groups yields debiased estimates, without having to model and estimate the full variance-covariance structure of errors.
 
@@ -99,7 +99,7 @@ or
 $$
 \hat z_n = \frac{1}{T_n} \sum_{i,t:m(i,t)=n} y_{it} = z_n + \frac{1}{T_n} \sum_{i,t:m(i,t)=n} e_{it},
 $$
-where $T_n$ is the number of observations with CEO $n$. The estimator is unbiased because $\mathbb E[\hat z_n|z_n] = z_n$. The estimator, however, is only consistent as $T_n\to\infty$, that is, as the number of observations per CEO grows large. In practice, many CEOs have short tenures (REFs), so $\hat z_n$ contains substantial noise. 
+where $T_n$ is the number of observations with CEO $n$. The estimator is unbiased because $\mathbb E[\hat z_n|z_n] = z_n$. The estimator, however, is only consistent as $T_n\to\infty$, that is, as the number of observations per CEO grows large. In practice, many CEOs have short tenures, so $\hat z_n$ contains substantial noise.\footnote{The mean CEO tenure (standard deviation) is 13.8 (1.7) years in US small and medium-sized companies \citep{simsek2007ceo}, 8.1 (5.8) years in US public companies \citep{brookman2009ceo}. The large standard deviations demonstrate that many CEOs have only a few years of tenure.} 
 
 Econometric applications often require the second moments of $\hat z_n$, for example, to estimate the variance of CEO effects or to run regressions of an outcome $y_{it}$ on $\hat z_n$. The former could inform us about the importance of CEO heterogeneity (REFs), while the latter could inform us about the effect of CEO quality on firm performance and firm policies (REFs). 
 
@@ -364,7 +364,7 @@ An alternative way to deal with the noise problem is to use observable manager c
 
 \clearpage
 \bibliographystyle{apalike}
-\bibliography{../../lib/references}
+\bibliography{lib/references}
 
 \clearpage
 \appendix
