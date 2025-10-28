@@ -7,8 +7,8 @@ local scenarios "baseline longpanel persistent unbalanced excessvariance all"
 local scenario_labels `" "Baseline" "Long Panel" "Persistent Errors" "Unbalanced Panel" "Excess Variance" "All Complications" "'
 
 * which results to extract for the table
-local row1 sqrt(Var1[1])
-local row2 sqrt(dVar[1])
+local row1 Var1[1]
+local row2 dVar[1]
 local row3 Rsq1[7]
 local row4 dRsq[7]
 local row5 coef_beta1[7]
@@ -22,8 +22,8 @@ local p6 2*normal(-abs((coef_dbeta[7] - 1.0)/((upper_dbeta[7] - coef_dbeta[7]) /
 local p7 2*normal(-abs(coef_beta1[3]/((upper_beta1[3] - coef_beta1[3]) / invnormal(0.975))))
 local p8 2*normal(-abs(coef_dbeta[3]/((upper_dbeta[3] - coef_dbeta[3]) / invnormal(0.975))))
 
-local label1 "$\sigma(\Delta \hat z)$ (OLS)"
-local label2 "$\sigma(\Delta \hat z)$ (debiased)"
+local label1 "$\sigma^2(\Delta \hat z)$ (OLS)"
+local label2 "$\sigma^2(\Delta \hat z)$ (debiased)"
 local label3 "\addlinespace $ R^2$ (OLS)"
 local label4 "$ R^2$ (debiased)"
 local label5 "\addlinespace$\hat \beta_2$ (OLS)"
