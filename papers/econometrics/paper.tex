@@ -110,193 +110,71 @@ Existing methods of bias correction for second moments take two broad forms. One
 
 \newenvironment{example}{\par\noindent\textbf{Example.}\ }{\par}
 
-Consider the following example to fix ideas. Our method will be more general, but this example captures the key elements.
-\begin{example}
-Event window $t\in\{-2,-1,0,+1,+2\}$ with baseline $t=-1$. Pre-spell length $T_1=2$ (years $-2,-1$ under CEO A). Post-spell length $T_2=3$ (years $0, +1,+2$ under CEO B). The contrast of interest is the change from the baseline year $t=-1$ to three years after the transition $t=+3$:
-\[
-y_{i,+3} - y_{i,-1}.
-\]
-\end{example}
-
-Stack outcomes as $\mathbf y_i=[y_{i,-2},\,y_{i,-1},\,y_{i,0},\,y_{i,+1},\,y_{i,+2}]'$. Define the piecewise-constant CEO path $\mathbf z_i$ so that $z_{i,-2}=z_{i,-1}$ (CEO A), $z_{i,0} = z_{i,+1}=z_{i,+2}$ (CEO B). The linear contrast for the example is implemented by the weight vector
-\[
-  \mathbf w = [\,0,\,-1,\,0,\,0,\,+1\,]',
-\]
-so that 
+\paragraph{Estimation and the bias problem.} In practice, we estimate CEO effects $z_m$ as the average outcome during each manager's tenure (the least-squares dummy variable or LSDV estimator). When manager $m$ is observed for $T_m$ periods, the estimate is
 $$
-y_{i,+3} - y_{i,-1} = \mathbf w' \mathbf y_i.
+\hat z_m = \frac{1}{T_m}\sum_{i,t:m(i,t)=m} y_{it} = z_m + \frac{1}{T_m}\sum_{i,t:m(i,t)=m} e_{it}.
 $$
+Under strict exogeneity, $\hat z_m$ is unbiased: $\mathbb E[\hat z_m] = z_m$. However, the estimator is only consistent as $T_m\to\infty$. With short tenures, $\hat z_m$ contains substantial noise from the averaged shocks.
 
-\paragraph{Model setup.} We are now ready to present the general setup in matrix notation. Let firm $i$ be observed for $T$ periods with outcome path $\mathbf y_i\in\mathbb R^T$ that decomposes into a (piecewise-constant) manager-effect path $\mathbf z_i$ and shocks $\mathbf e_i$. Suppose manager 1 serves in the first $T_1$ periods and manager 2 in the last $T_2=T-T_1$ periods. (Other transition paths can be modeled similarly.) The model is
-\begin{equation}
-\mathbf y_i = \mathbf z_i + \mathbf e_i
-\end{equation}
-with 
-\begin{equation}
-\mathbb E[\mathbf z_i\mathbf z_i']= \mathbf \Lambda_i=
-\begin{bmatrix}
-  \lambda_{i11}\otimes \mathbf{11}' & \lambda_{i12}\otimes \mathbf{11}'\\
-  \lambda_{i12}\otimes \mathbf{11}' & \lambda_{i22}\otimes \mathbf{11}'
-\end{bmatrix},
-\qquad \mathbb E[\mathbf z_i\mathbf e_i']=0,
-\qquad \mathbb E[\mathbf e_i\mathbf e_i']=\sigma_1\mathbf\Sigma
-\end{equation}
-for changing firms, and 
-\begin{equation}
-\mathbb E[\mathbf z_i\mathbf z_i']= \mathbf \Lambda_i=
-  \lambda_{i11}\otimes \mathbf{11}',
-\qquad \mathbb E[\mathbf z_i\mathbf e_i']=0,
-\qquad \mathbb E[\mathbf e_i\mathbf e_i']=\sigma_0\mathbf\Sigma
-\end{equation}
-for non-changing firms. The first equation is just notation for the variance and covariance of manager fixed effects at firm $i$. These are the objects of interest. The second equation states the standard strict exogeneity assumption, often called ``random mobility'' in such designs. Every period's shock is mean independent of the entire CEO path. The third assumption allows for arbitrary autocorrelation in shocks over time (e.g., persistent shocks), but assumes that this autocorrelation is the same for changing and non-changing firms, up to a scalar multiplier $\sigma_1/\sigma_0$. We call this assumption ``proportional autocovariance.''
+This small-sample noise contaminates all second moments of $\hat z_m$. Consider three common applied use cases:
 
-For any linear contrast with weights $\mathbf w\in\mathbb R^T$ and $\mathbf w'\mathbf 1=0$, define $\Delta y_i=\mathbf w'\mathbf y_i$, $\Delta z_i=\mathbf w'\mathbf z_i$, and $\varepsilon_i=\mathbf w'\mathbf e_i$, resulting in
-\begin{equation}\label{eq:contrast}
-\Delta y_i = \Delta z_i + \varepsilon_i.
-\end{equation}
-The weight vector may be computing first differences, long-run differences relative to a baseline, or an average of pre- and post-periods of CEO arrival. We require $\mathbf w'\mathbf 1=0$ so that constant components of $\mathbf z_i$ are differenced out. This ensures that $\Delta z_i=0$ for firms that do not change their CEO. For meaningful contrasts, we also require that $\mathbf w'\mathbf z_i\neq 0$ for changing firms. That is, the contrast must capture some change in CEO effects. For ease of interpretation, we assume $\mathbf w$ has positive weights adding to $+1$ on post-change periods and negative weights adding to $-1$ on pre-change periods. This implies $\Delta z_i = \mathbf w'\mathbf z_i=z_{2i} - z_{1i}$ measures the \emph{difference} in the CEO fixed effects at firm $i$ before and after the transition. This assumption is not essential for any of our results, and our method applies to arbitrary contrasts with $\mathbf w'\mathbf 1=0$.
+\textit{Variance decompositions.} Researchers estimate $\Var(\hat z_m)$ to quantify the importance of CEO heterogeneity. But $\Var(\hat z_m) = \Var(z_m) + \Var(\text{noise})$, systematically overstating the role of CEOs.
 
-The assumptions imply
+\textit{Covariances with other variables.} Researchers regress firm outcomes or policies on $\hat z_m$ to understand mechanisms. But $\Cov(\hat z_m, y_{it})$ includes spurious correlation between the noise component of $\hat z_m$ and $y_{it}$.
+
+\textit{Event studies.} Researchers examine outcome dynamics around CEO transitions by contrasting post-transition and pre-transition averages. These contrasts embed noise that can generate spurious pre-trends and distorted post-transition dynamics, even when the true causal effect has no pre-trend.
+
+The key insight is that the bias depends on the \emph{design}: the spell lengths (how long each CEO is observed) and the autocorrelation structure of shocks. When spells are short and shocks are persistent, noise inflates variances, distorts covariances, and creates spurious dynamics.
+
+\paragraph{Bias terms.} We formalize the bias for a typical event-study contrast. Consider firms with a CEO transition, where we observe $T_1$ periods before the transition (under the old CEO) and $T_2$ periods after (under the new CEO). The contrast of interest compares an outcome from the post period to an outcome from the pre period, for example, the change from the year before transition ($t=-1$) to three years after ($t=+3$). 
+
+For a general linear contrast, let $\Delta \hat z_i$ denote the estimated change in CEO effects for transition $i$, and $\Delta y_i$ the corresponding change in outcomes. In applications with heterogeneous spell lengths and event windows, firms are grouped into design groups $g=1,\ldots,G$, each with $N_g$ transitions. The sample covariance and variance are
 \begin{align}
-\mathbb E[\Delta z_i\Delta \varepsilon_i] &= \mathbf w'\mathbb E[\mathbf z_i\mathbf e_i']\mathbf w = 0\\
-\mathbb E[(\Delta z_i)^2] &= \mathbf w'\mathbb E[\mathbf z_i\mathbf z_i']\mathbf w = 
-\begin{cases}
-  \mathbb E[(z_{2i} - z_{1i})^2] := \lambda_i & \text{for changing firms},\\
-  0 & \text{for non-changing firms}
-\end{cases}
-\end{align}
-The first equation implies that the change in CEO effects is orthogonal to the error term in the contrast equation \eqref{eq:contrast} so that OLS regressions of $\Delta y_i$ on $\Delta z_i$ are unbiased. The second equation introduces the notation $\lambda_i$ for the variance of the change in CEO effects at changing firms, which is the object of interest in variance decompositions.
-
-
-\paragraph{Estimation.} In practice, we do not observe $\Delta z_i$ but estimate it as $\hat{\Delta z}_i$, often from the same outcomes that appear on the left-hand side of \eqref{eq:contrast}. Introduce a design matrix $\mathbf D$ to map rows to CEO spells as
-\[
-  \mathbf D = \begin{bmatrix}
-    1 & 0\\
-    1 & 0\\
-    0 & 1\\
-    0 & 1\\
-    0 & 1
-  \end{bmatrix},
-\]
-and the diagonal matrix of spell lengths $\mathbf T$ as
-$$
-  \mathbf T = \operatorname{diag}(T_1,T_2)=\operatorname{diag}(2,3).
-$$
-We introduce the notation
-$$
-  \mathbf P = \mathbf D\,\mathbf T^{-1}\,\mathbf D'
-$$
-for the projection matrix which converts outcomes to within-spell means. In the example,
-\[
-  \mathbf P = \begin{bmatrix}
-    1/2 & 1/2 & 0 & 0 & 0\\
-    1/2 & 1/2 & 0 & 0 & 0\\
-    0 & 0 & 1/3 & 1/3 & 1/3\\
-    0 & 0 & 1/3 & 1/3 & 1/3\\
-    0 & 0 & 1/3 & 1/3 & 1/3
-  \end{bmatrix}\quad\Rightarrow\quad
-  \mathbf {Py}_i = 
-  \begin{pmatrix}
-  \frac12 \sum_{t=-2}^{-1} y_{it} \\
-  \frac12 \sum_{t=-2}^{-1} y_{it} \\
-  \frac13 \sum_{t=0}^{+2} y_{it}\\
-  \frac13 \sum_{t=0}^{+2} y_{it}\\
-  \frac13 \sum_{t=0}^{+2} y_{it}
-  \end{pmatrix}.
-\]
-In other words,, $\hat z_i$ is a weighted combination of the two spell means that implements $y_{i,+3}-y_{i,-1}$. Note that $\mathbf P$ is idempotent ($\mathbf P^2=\mathbf P$) and symmetric ($\mathbf P'=\mathbf P$). This means that computing the within-spell mean twice is the same as doing it once. We also have $\mathbf P\mathbf z_i = \mathbf z_i$ because $\mathbf z_i$ is piecewise constant within spells.
-
-The least-squares dummy variable (LSDV) estimator of the CEO effects is
-\begin{equation}\label{eq:lsdv}
-  \hat{\mathbf z}_i = \mathbf P\mathbf y_i = \mathbf z_i + \mathbf P\mathbf e_i.
-\end{equation}  
-The estimated CEO effects are the true effects plus the within-spell mean of shocks.
-
-\paragraph{Population moments.}
-The estimator is unbiased but is only consistent as spell lengths grow large. The small-sample noise contaminates all second moments of $\hat{\mathbf z}_i$. The relevant moments are
-\begin{align}
-  \mathbb E[\hat{\mathbf z_i}] &= \mathbf z_i,\\
-  \mathbb E[\hat{\mathbf z_i}\hat{\mathbf z_i}'] &= 
-\mathbb E[(\mathbf z_i + \mathbf P\mathbf e_i)(\mathbf z_i + \mathbf P\mathbf e_i)' ] =
-    \mathbf \Lambda_i + \sigma\mathbf P\mathbf\Sigma\mathbf P,\\ 
-  \mathbb E[\hat{\mathbf z_i}\mathbf e_i'] &= 
-\mathbb E[(\mathbf z_i + \mathbf P\mathbf e_i)\mathbf e_i' ] = \sigma\mathbf P\mathbf\Sigma,\\
-  \mathbb E[\hat{\mathbf z_i}\mathbf y_i'] &= 
-\mathbb E[(\mathbf z_i + \mathbf P\mathbf e_i)(\mathbf z_i + \mathbf e_i)' ] = \mathbf \Lambda_i + \sigma\mathbf P\mathbf\Sigma.
-\end{align}
-The first equation restates unbiasedness. The second equation shows that the variance-covariance of estimated CEO effects is inflated by the term $\sigma\mathbf P\mathbf\Sigma\mathbf P$ relative to the true variance-covariance $\mathbf \Lambda_i$. This is because the within-spell noise, though orthogonal to the fixed effects by assumption, add to the variance. The third equation shows that the covariance of estimated CEO effects with shocks is also contaminated by the same term. While the \emph{true} CEO effect is orthogonal to shocks, the \emph{estimated} CEO effect contains within-spell noise that is correlated with shocks. And the fourth equation shows that the covariance of outcomes with estimated CEO effects is also inflated by the same term.
-
-\paragraph{Naive OLS using estimated effects.} 
-Define the estimated effect for the contrast by
-$$
-\Delta\hat z_i = \mathbf w'\hat{\mathbf z}_i = \mathbf w'\mathbf P\,\mathbf y_i = \Delta z_i + \eta_i,\qquad \eta_i:=\mathbf w'\mathbf P\,\mathbf e_i,
-$$
-and recall from \eqref{eq:contrast} that $\Delta y_i = \Delta z_i + \varepsilon_i$. 
-
-\begin{equation}
-\hat\beta = 
-  \frac {\Cov(\Delta \hat z_i, \Delta y_i)}
-        {\Var(\Delta \hat z_i)} =
-  \frac {\mathbf w' \mathbb E[\hat{\mathbf z_i}\mathbf y_i ']\mathbf w}
-        {\mathbf w' \mathbb E[\hat{\mathbf z_i}\hat{\mathbf z_i}']\mathbf w} =
-  \frac {\mathbf w' [\mathbf \Lambda_i + \sigma \mathbf P\mathbf\Sigma]\mathbf w}
-        {\mathbf w' [\mathbf \Lambda_i + \sigma \mathbf P\mathbf\Sigma\mathbf P]\mathbf w} =
-  \frac {\lambda_i + \sigma \mathbf w' \mathbf P\mathbf\Sigma \mathbf w}
-        {\lambda_i + \sigma \mathbf w' \mathbf P\mathbf\Sigma \mathbf P \mathbf w}. 
-\end{equation}  
-
-%% FIXME: explain bias components
-
- 
-\textit{Covariance term.} $\Cov(\varepsilon_i,\eta_i)$ is typically positive because both $\varepsilon_i$ and $\eta_i$ are formed from the same underlying shocks averaged over overlapping windows (short spells and persistent shocks make this more pronounced). This inflates the numerator relative to $\beta\Var(z_i)$.
-
-\textit{Variance term (classical measurement error).} $\Var(\eta_i)>0$ inflates the denominator relative to $\Var(z_i)$, the standard attenuation channel.
-
-Together, the slope $\tilde\beta$ can be biased up or down depending on the balance between the inflated covariance (numerator) and the inflated variance (denominator). With i.i.d. shocks and long, balanced spells, $\Cov(\varepsilon_i,\eta_i)\approx 0$ and $\Var(\eta_i)$ is small, so the attenuation channel dominates but vanishes as sample size grows.
-
-\textit{Small-sample nature.} Both components are small-sample phenomena driven by short $T_1$ and $T_2$. As $T_1,T_2\to\infty$, spell means average out shocks so $\Var(\eta_i)\to 0$ and $\Cov(\varepsilon_i,\eta_i)\to 0$, implying $\tilde\beta\to\beta$.
-
-
-\paragraph{Sample moments.} In practice, we estimate the population moments using sample analogs. 
-
-There are $G$ groups with different spell lengths and contrasts (e.g., different event windows). Within each group $g$, we observe $N_g$ firms with outcomes $\{\Delta y_i, \Delta \hat z_i\}_{i=1}^{N_g}$. The sample moments are
-\begin{align}
-\widehat{\Cov}(\Delta y_i,\Delta \hat z_i) &= \sum_{g=1}^G \frac{N_g}{N} \widehat{\Cov}_g(\Delta y_i,\Delta \hat z_i)\\
-\widehat{\Var}(\Delta \hat z_i) &= \sum_{g=1}^G \frac{N_g}{N} \widehat{\Var}_g(\Delta \hat z_i)
+\widehat{\Cov}(\Delta y_i,\Delta \hat z_i) &= \sum_{g=1}^G \frac{N_g}{N} \widehat{\Cov}_g(\Delta y_i,\Delta \hat z_i),\\
+\widehat{\Var}(\Delta \hat z_i) &= \sum_{g=1}^G \frac{N_g}{N} \widehat{\Var}_g(\Delta \hat z_i).
 \end{align}
 
+Under the model assumptions, these moments have expectation
 \begin{align}
-\mathbb E\widehat{\Cov}(\Delta y_i,\Delta \hat z_i) &= \sum_{g=1}^G \frac{N_g}{N} \left[ 
-\Bar\lambda_g
-+ \sigma_g \mathbf w_g' \mathbf P_g\mathbf\Sigma \mathbf w_g\right] = 
-\Bar\lambda +\sum_{g=1}^G \frac{N_g}{N} \sigma_g \mathbf w_g' \mathbf P_g\mathbf\Sigma \mathbf w_g\\
-\mathbb E\widehat{\Var}(\Delta \hat z_i) &= \sum_{g=1}^G \frac{N_g}{N} \left[ 
-\Bar\lambda_g
-+ \sigma_g \mathbf w_g' \mathbf P_g\mathbf\Sigma \mathbf P_g \mathbf w_g\right] = 
-\Bar\lambda +\sum_{g=1}^G \frac{N_g}{N} \sigma_g \mathbf w_g' \mathbf P_g\mathbf\Sigma \mathbf P_g \mathbf w_g
+\mathbb E\widehat{\Cov}(\Delta y_i,\Delta \hat z_i) &= \Bar\lambda + A,\\
+\mathbb E\widehat{\Var}(\Delta \hat z_i) &= \Bar\lambda + B,
 \end{align}
+where $\Bar\lambda$ is the average variance of true CEO effect changes across groups (the object of interest), and $A$ and $B$ are \emph{bias terms} that depend on the spell-length distributions, event-window designs, and the autocovariance structure of shocks. Appendix A derives these bias terms formally via matrix algebra.
 
+The key properties of the bias terms are:
+\begin{itemize}
+\item $A$ and $B$ are weighted sums over design groups, with weights determined by spell lengths and event-window contrasts.
+\item When shocks are i.i.d. and spells are long, $A\approx 0$ and $B\approx 0$.
+\item When spells are short or shocks are persistent, $A$ and $B$ can be large, severely distorting variances, covariances, and regression slopes.
+\item The bias terms are \emph{the same} (up to a scalar multiplier) for any two samples that have identical spell-length distributions and event-window designs, even if one sample has no true CEO effects.
+\end{itemize}
 
-Notes: $\Bar\lambda_g$ is the average variance of CEO effects in group $g$, it is just a simple average of individual $\lambda_i$ within group $g$. $\Bar\lambda$ is the overall average variance of CEO effects across all groups. So, without the bias, the sample covariance and variance would identify the ``average treatment effect'' $\Bar\lambda$ even with heterogeneous groups.
+This last property is the foundation of our placebo-controlled debiasing.
 
-The bias terms are complicated group averages that depend on the design matrices $\mathbf P_g$, the weight vectors $\mathbf w_g$, and the shock structure $\sigma_g\mathbf\Sigma$. It is often impractical to estimate these components directly, especially when $\mathbf\Sigma$ is complex (e.g., persistent shocks) and when there are many groups with different designs.
+\section{Placebo-Controlled Debiasing} 
 
-The placebo debiasing idea is that we can construct control groups with the exact same $N_g$, $\mathbf P_g$, and $\mathbf w_g$ as the treated groups. Note that both the covariance and variance bias terms are linear in a combination of these terms, up to a scalar $\sigma_g$. If we have an estimate of $\sigma_g$ scalar terms for each group (see later), we can ``precompute'' the bias terms in the placebo groups and subtract them directly from the treated moments.
+Our approach constructs placebo CEO transitions to directly identify and remove the bias terms $A$ and $B$ without modeling the full autocovariance structure of shocks.
 
-also note that this relies on linearity of covariance and variance operators and would not work for nonlinear transformations such as correlations or regression slopes. In those cases, we first debias all underlying variances and covariances and only then form the ratio.
+\paragraph{Placebo construction.} For each treated firm that experiences a CEO transition, we match control firms that do \emph{not} change CEOs but have similar characteristics (birth cohort, sector, etc.). We assign these control firms a fake CEO transition at the same calendar year as the treated transition, creating artificial pre and post spells of the same length as the treated transition.
 
-\section{Placebo identification} 
-We construct placebo spells among firms that do not change CEOs but replicate the observed spell-length patterns and event windows of treated firms while excluding any windows around actual transitions. For placebo spells, $\Var(z)=0$, so
+The key insight is that for placebo transitions, there is no true CEO effect change: $\Delta z_i = 0$ for all placebo firms. Yet the placebo sample has the same spell-length distribution and event-window design as the treated sample. Therefore, the placebo moments recover the bias terms:
 \begin{equation}
-\widehat{\Cov}^{\,\text{pl}}(y,\hat z)=\hat A_g,\qquad \widehat{\Var}^{\,\text{pl}}(\hat z)=\hat B_g.
+\widehat{\Cov}^{\,\text{pl}}(\Delta y_i,\Delta \hat z_i) \xrightarrow{p} A,\qquad \widehat{\Var}^{\,\text{pl}}(\Delta \hat z_i) \xrightarrow{p} B.
 \end{equation}
-These identify the bias components nonparametrically. Debiased treated moments and slopes are then
+
+\paragraph{Proportional autocovariance assumption.} The placebo and treated groups may differ in volatility. We assume that the autocovariance structure of shocks is the same across groups up to a scalar: if treated firms have shock variance $\sigma_1^2$ and placebo firms have shock variance $\sigma_0^2$, then the bias terms scale proportionally. This assumption, which we call \emph{proportional autocovariance}, allows us to adjust for volatility differences when constructing the bias estimates. In practice, we estimate the scalar ratio $\sigma_1^2/\sigma_0^2$ from the residual variance in non-transition periods and scale the placebo bias terms accordingly.
+
+\paragraph{Debiased moments.} Subtracting the placebo moments from the treated moments yields debiased estimates:
 \begin{align}
-\widehat{\Cov}^{\,\text{db}}(y,\hat z) &= \widehat{\Cov}^{\,\text{tr}}(y,\hat z) - \hat A_g,\\
-\widehat{\Var}^{\,\text{db}}(\hat z) &= \widehat{\Var}^{\,\text{tr}}(\hat z) - \hat B_g,\\
-\hat\beta^{\text{db}}_g &= \frac{\widehat{\Cov}^{\,\text{tr}}(y,\hat z)-\hat A_g}{\widehat{\Var}^{\,\text{tr}}(\hat z)-\hat B_g},
+\widehat{\Cov}^{\,\text{db}}(\Delta y_i,\Delta \hat z_i) &= \widehat{\Cov}^{\,\text{tr}}(\Delta y_i,\Delta \hat z_i) - \widehat{\Cov}^{\,\text{pl}}(\Delta y_i,\Delta \hat z_i),\\
+\widehat{\Var}^{\,\text{db}}(\Delta \hat z_i) &= \widehat{\Var}^{\,\text{tr}}(\Delta \hat z_i) - \widehat{\Var}^{\,\text{pl}}(\Delta \hat z_i).
 \end{align}
-pooled across groups with weights if needed. Inference follows from a delta method for ratios or a firm-level bootstrap that resamples within design groups, preserving spell design.
+For nonlinear transformations such as regression slopes or correlations, we first debias the underlying variances and covariances, then form the ratio:
+\begin{equation}
+\hat\beta^{\text{db}} = \frac{\widehat{\Cov}^{\,\text{db}}(\Delta y_i,\Delta \hat z_i)}{\widehat{\Var}^{\,\text{db}}(\Delta \hat z_i)}.
+\end{equation}
+
+This approach has several advantages. First, it requires no parametric assumptions about the shock process beyond proportional autocovariance. Second, it handles heterogeneous spell lengths and event windows automatically by matching the design. Third, it extends naturally to dynamic event studies by debiasing period-by-period coefficients. Inference follows from standard methods: clustered standard errors for moments, delta method for ratios, or firm-level bootstrap that resamples within design groups.
 
 \section{Monte Carlo Design and Interpretation}
 
@@ -502,14 +380,151 @@ An alternative way to deal with the noise problem is to use observable manager c
 
 \clearpage
 \appendix
-\section{Online Appendix: Additional Tables and Figures}
 \renewcommand{\thefigure}{A\arabic{figure}}
 \renewcommand{\thetable}{A\arabic{table}}
 \setcounter{figure}{0}
 \setcounter{table}{0}
 
+\section{Derivation of Bias Terms}
 
+This appendix provides the formal matrix algebra derivation of the bias terms in second moments of estimated CEO effects.
 
+\subsection{Matrix Notation Setup}
+
+\paragraph{Model setup.} Let firm $i$ be observed for $T$ periods with outcome path $\mathbf y_i\in\mathbb R^T$ that decomposes into a (piecewise-constant) manager-effect path $\mathbf z_i$ and shocks $\mathbf e_i$. Suppose manager 1 serves in the first $T_1$ periods and manager 2 in the last $T_2=T-T_1$ periods. (Other transition paths can be modeled similarly.) The model is
+\begin{equation}
+\mathbf y_i = \mathbf z_i + \mathbf e_i
+\end{equation}
+with 
+\begin{equation}
+\mathbb E[\mathbf z_i\mathbf z_i']= \mathbf \Lambda_i=
+\begin{bmatrix}
+  \lambda_{i11}\otimes \mathbf{11}' & \lambda_{i12}\otimes \mathbf{11}'\\
+  \lambda_{i12}\otimes \mathbf{11}' & \lambda_{i22}\otimes \mathbf{11}'
+\end{bmatrix},
+\qquad \mathbb E[\mathbf z_i\mathbf e_i']=0,
+\qquad \mathbb E[\mathbf e_i\mathbf e_i']=\sigma_1\mathbf\Sigma
+\end{equation}
+for changing firms, and 
+\begin{equation}
+\mathbb E[\mathbf z_i\mathbf z_i']= \mathbf \Lambda_i=
+  \lambda_{i11}\otimes \mathbf{11}',
+\qquad \mathbb E[\mathbf z_i\mathbf e_i']=0,
+\qquad \mathbb E[\mathbf e_i\mathbf e_i']=\sigma_0\mathbf\Sigma
+\end{equation}
+for non-changing firms. The first equation is notation for the variance and covariance of manager fixed effects at firm $i$. The second equation states strict exogeneity (random mobility): every period's shock is mean independent of the entire CEO path. The third assumption allows for arbitrary autocorrelation in shocks over time but assumes that this autocorrelation is the same for changing and non-changing firms, up to a scalar multiplier $\sigma_1/\sigma_0$ (proportional autocovariance).
+
+\paragraph{Projection Matrix and LSDV Estimator.} Introduce a design matrix $\mathbf D$ to map rows to CEO spells. For the example with $T_1=2$ pre-spell periods and $T_2=3$ post-spell periods:
+\[
+  \mathbf D = \begin{bmatrix}
+    1 & 0\\
+    1 & 0\\
+    0 & 1\\
+    0 & 1\\
+    0 & 1
+  \end{bmatrix},
+\]
+and the diagonal matrix of spell lengths $\mathbf T$ as
+$$
+  \mathbf T = \operatorname{diag}(T_1,T_2)=\operatorname{diag}(2,3).
+$$
+The projection matrix that converts outcomes to within-spell means is
+$$
+  \mathbf P = \mathbf D\,\mathbf T^{-1}\,\mathbf D'.
+$$
+In the example,
+\[
+  \mathbf P = \begin{bmatrix}
+    1/2 & 1/2 & 0 & 0 & 0\\
+    1/2 & 1/2 & 0 & 0 & 0\\
+    0 & 0 & 1/3 & 1/3 & 1/3\\
+    0 & 0 & 1/3 & 1/3 & 1/3\\
+    0 & 0 & 1/3 & 1/3 & 1/3
+  \end{bmatrix}\quad\Rightarrow\quad
+  \mathbf {Py}_i = 
+  \begin{pmatrix}
+  \frac12 \sum_{t=-2}^{-1} y_{it} \\
+  \frac12 \sum_{t=-2}^{-1} y_{it} \\
+  \frac13 \sum_{t=0}^{+2} y_{it}\\
+  \frac13 \sum_{t=0}^{+2} y_{it}\\
+  \frac13 \sum_{t=0}^{+2} y_{it}
+  \end{pmatrix}.
+\]
+Note that $\mathbf P$ is idempotent ($\mathbf P^2=\mathbf P$) and symmetric ($\mathbf P'=\mathbf P$). We also have $\mathbf P\mathbf z_i = \mathbf z_i$ because $\mathbf z_i$ is piecewise constant within spells.
+
+The least-squares dummy variable (LSDV) estimator of the CEO effects is
+\begin{equation}\label{eq:lsdv_appendix}
+  \hat{\mathbf z}_i = \mathbf P\mathbf y_i = \mathbf z_i + \mathbf P\mathbf e_i.
+\end{equation}  
+The estimated CEO effects are the true effects plus the within-spell mean of shocks.
+
+\subsection{Population Moments and Bias Terms}
+
+The estimator is unbiased but is only consistent as spell lengths grow large. The small-sample noise contaminates all second moments of $\hat{\mathbf z}_i$. The relevant moments are
+\begin{align}
+  \mathbb E[\hat{\mathbf z_i}] &= \mathbf z_i,\\
+  \mathbb E[\hat{\mathbf z_i}\hat{\mathbf z_i}'] &= 
+\mathbb E[(\mathbf z_i + \mathbf P\mathbf e_i)(\mathbf z_i + \mathbf P\mathbf e_i)' ] =
+    \mathbf \Lambda_i + \sigma\mathbf P\mathbf\Sigma\mathbf P,\\ 
+  \mathbb E[\hat{\mathbf z_i}\mathbf e_i'] &= 
+\mathbb E[(\mathbf z_i + \mathbf P\mathbf e_i)\mathbf e_i' ] = \sigma\mathbf P\mathbf\Sigma,\\
+  \mathbb E[\hat{\mathbf z_i}\mathbf y_i'] &= 
+\mathbb E[(\mathbf z_i + \mathbf P\mathbf e_i)(\mathbf z_i + \mathbf e_i)' ] = \mathbf \Lambda_i + \sigma\mathbf P\mathbf\Sigma.
+\end{align}
+The first equation restates unbiasedness. The second equation shows that the variance-covariance of estimated CEO effects is inflated by the term $\sigma\mathbf P\mathbf\Sigma\mathbf P$ relative to the true variance-covariance $\mathbf \Lambda_i$. The third equation shows that the covariance of estimated CEO effects with shocks is contaminated. The fourth equation shows that the covariance of outcomes with estimated CEO effects is also inflated.
+
+\subsection{Bias in Regression Slopes}
+
+For any linear contrast with weights $\mathbf w\in\mathbb R^T$ and $\mathbf w'\mathbf 1=0$, define the estimated effect for the contrast by
+$$
+\Delta\hat z_i = \mathbf w'\hat{\mathbf z}_i = \mathbf w'\mathbf P\,\mathbf y_i = \Delta z_i + \eta_i,\qquad \eta_i:=\mathbf w'\mathbf P\,\mathbf e_i,
+$$
+and recall that $\Delta y_i = \Delta z_i + \varepsilon_i$ where $\varepsilon_i=\mathbf w'\mathbf e_i$. 
+
+The naive regression slope is
+\begin{equation}
+\hat\beta = 
+  \frac {\Cov(\Delta \hat z_i, \Delta y_i)}
+        {\Var(\Delta \hat z_i)} =
+  \frac {\mathbf w' \mathbb E[\hat{\mathbf z_i}\mathbf y_i ']\mathbf w}
+        {\mathbf w' \mathbb E[\hat{\mathbf z_i}\hat{\mathbf z_i}']\mathbf w} =
+  \frac {\mathbf w' [\mathbf \Lambda_i + \sigma \mathbf P\mathbf\Sigma]\mathbf w}
+        {\mathbf w' [\mathbf \Lambda_i + \sigma \mathbf P\mathbf\Sigma\mathbf P]\mathbf w} =
+  \frac {\lambda_i + \sigma \mathbf w' \mathbf P\mathbf\Sigma \mathbf w}
+        {\lambda_i + \sigma \mathbf w' \mathbf P\mathbf\Sigma \mathbf P \mathbf w}. 
+\end{equation}  
+
+\textit{Covariance bias term.} $\Cov(\varepsilon_i,\eta_i)$ is typically positive because both $\varepsilon_i$ and $\eta_i$ are formed from the same underlying shocks averaged over overlapping windows (short spells and persistent shocks make this more pronounced). This inflates the numerator.
+
+\textit{Variance bias term (classical measurement error).} $\Var(\eta_i)>0$ inflates the denominator, the standard attenuation channel.
+
+Together, the slope can be biased up or down depending on the balance between these terms. With i.i.d. shocks and long, balanced spells, $\Cov(\varepsilon_i,\eta_i)\approx 0$ and $\Var(\eta_i)$ is small. Both components are small-sample phenomena driven by short $T_1$ and $T_2$. As $T_1,T_2\to\infty$, spell means average out shocks so both bias terms vanish.
+
+\subsection{Sample Moments Across Heterogeneous Groups}
+
+In practice, we estimate the population moments using sample analogs. There are $G$ groups with different spell lengths and contrasts (e.g., different event windows). Within each group $g$, we observe $N_g$ firms with outcomes $\{\Delta y_i, \Delta \hat z_i\}_{i=1}^{N_g}$. The sample moments are
+\begin{align}
+\widehat{\Cov}(\Delta y_i,\Delta \hat z_i) &= \sum_{g=1}^G \frac{N_g}{N} \widehat{\Cov}_g(\Delta y_i,\Delta \hat z_i)\\
+\widehat{\Var}(\Delta \hat z_i) &= \sum_{g=1}^G \frac{N_g}{N} \widehat{\Var}_g(\Delta \hat z_i)
+\end{align}
+
+The expected values are
+\begin{align}
+\mathbb E\widehat{\Cov}(\Delta y_i,\Delta \hat z_i) &= \sum_{g=1}^G \frac{N_g}{N} \left[ 
+\Bar\lambda_g
++ \sigma_g \mathbf w_g' \mathbf P_g\mathbf\Sigma \mathbf w_g\right] = 
+\Bar\lambda +\sum_{g=1}^G \frac{N_g}{N} \sigma_g \mathbf w_g' \mathbf P_g\mathbf\Sigma \mathbf w_g\\
+\mathbb E\widehat{\Var}(\Delta \hat z_i) &= \sum_{g=1}^G \frac{N_g}{N} \left[ 
+\Bar\lambda_g
++ \sigma_g \mathbf w_g' \mathbf P_g\mathbf\Sigma \mathbf P_g \mathbf w_g\right] = 
+\Bar\lambda +\sum_{g=1}^G \frac{N_g}{N} \sigma_g \mathbf w_g' \mathbf P_g\mathbf\Sigma \mathbf P_g \mathbf w_g
+\end{align}
+
+Here $\Bar\lambda_g$ is the average variance of CEO effects in group $g$, and $\Bar\lambda$ is the overall average variance of CEO effects across all groups. Without the bias, the sample covariance and variance would identify the average treatment effect $\Bar\lambda$ even with heterogeneous groups.
+
+The bias terms are complicated group averages that depend on the design matrices $\mathbf P_g$, the weight vectors $\mathbf w_g$, and the shock structure $\sigma_g\mathbf\Sigma$. It is often impractical to estimate these components directly, especially when $\mathbf\Sigma$ is complex (e.g., persistent shocks) and when there are many groups with different designs.
+
+\section{Additional Tables and Figures}
 
 %Benne maradhat a populáció, de kellene a minta is. Esetleg kidobhatjuk a firms oszlopot, és készítsük el a táblát a populációra és a mi mintánkra (Population: firm-year CEO, Sample: firm-year CEO, Surplus Share)
 
