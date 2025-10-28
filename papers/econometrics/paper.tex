@@ -103,9 +103,7 @@ where $T_n$ is the number of observations with CEO $n$. The estimator is unbiase
 
 Econometric applications often require the second moments of $\hat z_n$, for example, to estimate the variance of CEO effects or to run regressions of an outcome $y_{it}$ on $\hat z_n$. The former could inform us about the importance of CEO heterogeneity (REFs), while the latter could inform us about the effect of CEO quality on firm performance and firm policies (REFs). 
 
-The small-sample error, however, contaminates \emph{all second moments} of $\hat z_n$. The variance of $\hat z_n$ is inflated relative to the variance of true CEO effects $z_n$ (REFs), and the covariance of $\hat z_n$ with other variables that are affected by $e_{it}$ is also contaminated. A well-known example of this in the labor literature is ``limited mobility bias'' \citep{andrews2008high}, which states that in a two-way fixed effects model of worker and firm effects, the variance of both effects is biased upwards, and their correlation is biased downwards.
-
-Existing methods of bias correction for second moments take two broad forms. One is ad hoc, such as leave-one-out adjustments that hope to remove own-observation noise. These can be impractical in CEO settings with a single manager per firm-year and lack formal guarantees. The other is structural: estimate the bias from the variance–covariance of shocks and the design matrix and then apply Empirical Bayes–type shrinkage (e.g., \citealt{andrews2008high}, \citealt{Bonhomme2023-dx}). While powerful, this requires estimating many components and re-deriving formulas for each target second moment. Our approach is different: we construct placebo transitions that replicate the treated design matrix and use the placebo moments to read off the bias term directly, then subtract it. This delivers debiased variances, covariances, and slopes without modeling the full shock process.
+The small-sample error contaminates all second moments of $\hat z_n$. A well-known example is ``limited mobility bias'' \citep{andrews2008high}, which states that in a two-way fixed effects model of worker and firm effects, the variance of both effects is biased upwards and their correlation is biased downwards.
 
 
 \newenvironment{example}{\par\noindent\textbf{Example.}\ }{\par}
@@ -331,7 +329,7 @@ Notes: Event studies of log revenue around CEO transitions. All panels normalize
 %elég 3 tizedesjegy, nem vagyunk mink atom fizikusok
 %a nobs nem jó, mert három különböző kell a három sorba
 
-\paragraph{CEO Transitions and Revenue Change.} Table \ref{tab:placeholder} shows the average effect of CEO transition on revenue as estimated by the naive OLS regression, the placebo effect and the corrected regression estimate.\footnote{The naive and the pseudo outcome regression are estimated on the treated and placebo samples, respectively. The controls are the not-yet-treated firm years. The corrected regressions are estimated on the merged samples and we use the two-way treatment method discussed in Section \ref{sec:est}.} To start with the effect on the whole sample, revenue increases by 0.5\% around the CEO change. The placebo regression produces precisely measured zeros.\footnote{This is reasonable because here we do not have a reason to believe the estimated effect by simple OLS regression is biased as we do not select on unobservables correlated with revenue.} That is, even without a CEO change, revenue changes somewhat. The placebo controlled estimate equals 0.3\%.
+\paragraph{CEO Transitions and Revenue Change.} Table \ref{tab:placeholder} shows the average effect of CEO transition on revenue as estimated by the naive OLS regression, the placebo effect and the corrected regression estimate.\footnote{The naive and the pseudo outcome regression are estimated on the treated and placebo samples, respectively. The controls are the not-yet-treated firm years. The corrected regressions are estimated on the merged samples using the placebo-controlled debiasing method.} To start with the effect on the whole sample, revenue increases by 0.5\% around the CEO change. The placebo regression produces precisely measured zeros.\footnote{This is reasonable because here we do not have a reason to believe the estimated effect by simple OLS regression is biased as we do not select on unobservables correlated with revenue.} That is, even without a CEO change, revenue changes somewhat. The placebo controlled estimate equals 0.3\%.
 
 As most of our firms are family-owned, we look into an interesting CEO transition: when founders relinquish control. For comparison, we also run a separate regression on other CEO changes. When founders are the departing CEO, the estimated effect is 1\%. For the other CEO changes we do not find any change in revenue. This is also a test of our method: when similar CEOs replace each other, the effect is zero, at least on average. On the contrary, when we measure the revenue change between two distinctly different CEOs, we do find an economically and statistically significant effect.\footnote{The reason for a positive effect of founder replacement may be the timing of the change. Founders usually give up their central role in the firm when they find they no longer have enough energy to run the firm.} 
 
@@ -349,7 +347,7 @@ Good CEOs have immediate and substantial effects on operational inputs. Material
 
 In contrast, strategic variables show different patterns. Fixed assets exhibit a gradual change under good CEOs and little or no change under bad CEOs. The proportion of firms with intangible assets does not change at all around the CEO transition.
 
-\paragraph{Contribution of CEOs to Firm Revenue.} To assess how important CEOs are for firm performance, we conduct the variance decomposition. As we describe at the end of Section \ref{sec:est}, we face two challenges. The variance is biased and it also depends on firm age. The outcome of our method is presented in Figure \ref{fig:variance_decomp} for log revenue. The blue line shows the within-firm change in variance relative to the second year after firm foundation. The blue line shows the evolution of this variance around the CEO transition. Before the CEO transition, the variance grows continuously. The transition increases the variance abruptly; in later years it continues growing. Part of this growth, however, is due to limited mobility bias, and part arises mechanically: as time passes, the chance of receiving shocks increases. To control for these biases, we estimate the same variance on the pseudo transition sample. As the red line shows, this also increases in time. The other panel of the figure shows the evolution of the estimated variance in the two samples by firm age. 
+\paragraph{Contribution of CEOs to Firm Revenue.} To assess how important CEOs are for firm performance, we conduct the variance decomposition. We face two challenges. The variance is biased and it also depends on firm age. The outcome of our method is presented in Figure \ref{fig:variance_decomp} for log revenue. The blue line shows the within-firm change in variance relative to the second year after firm foundation. The blue line shows the evolution of this variance around the CEO transition. Before the CEO transition, the variance grows continuously. The transition increases the variance abruptly; in later years it continues growing. Part of this growth, however, is due to limited mobility bias, and part arises mechanically: as time passes, the chance of receiving shocks increases. To control for these biases, we estimate the same variance on the pseudo transition sample. As the red line shows, this also increases in time. The other panel of the figure shows the evolution of the estimated variance in the two samples by firm age. 
 
 Our estimate of the contribution of CEO change to the total variance of revenue is the difference between the two estimates, and we quantify it in Appendix Table \ref{tab:var_share}. The table presents the total variance, the unadjusted contribution of CEO change and the adjusted contribution. We analyze only one CEO change, and the contribution depends on the length of the period measured (the longer the period, the more the variance increases for reasons unrelated to CEO change). In the first 10 years of existence, the uncorrelated share of CEO change in the variance is 62\%. Our correction decreases this number to 29\%.
 
@@ -526,65 +524,3 @@ The bias terms are complicated group averages that depend on the design matrices
 
 
 \end{document}
-
-
-
-
-
-
-
-
-\appendix
-\section{Online Appendix: Additional Tables and Figures}
-\renewcommand{\thefigure}{A\arabic{figure}}
-\renewcommand{\thetable}{A\arabic{table}}
-\setcounter{figure}{0}
-\setcounter{table}{0}
-
-\subsection{Production Manager Autonomy in Family Firms}
-
-%\input{table/tableA0}
-
-\subsection{Industry Breakdown}
-
-%
-
-%\input{table/revenue_sectors.tex}
-
-
-\subsection{Manager Skill Distributions}
-
-\begin{figure}[htbp]
-\centering
-\begin{minipage}{0.48\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figure/manager_skill_within.pdf}
-\end{minipage}
-\hfill
-\begin{minipage}{0.48\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figure/manager_skill_connected.pdf}
-\end{minipage}
-\caption{Manager Skill Distributions}
-\label{fig:manager_skills_appendix}
-\footnotesize
-Notes: Panel A shows the distribution of within-firm manager skill variation for firms with multiple CEOs. Panel B shows the distribution of manager skills in the largest connected component of managers. Both distributions show manager skills in log points after normalization and scaling.
-\end{figure}
-
-
-% Additional tables and figures to be inserted here as needed
-
-\subsection{Variance-Based Evidence for CEO Heterogeneity}
-
-
-
-Figure \ref{fig:variance_event_study} presents complementary evidence using the variance of log revenue around CEO transitions. Under our framework, if CEO changes introduce real heterogeneity in managerial quality, the cross-sectional variance of outcomes should increase at the transition point—some firms get better CEOs, others get worse ones. In contrast, pure noise or firm-specific trends would not systematically alter variance.
-
-The variance analysis shows that actual CEO transitions are associated with increased dispersion in outcomes, while placebo transitions show no such effect. This provides model-free evidence that CEO transitions introduce real heterogeneity in firm performance, supporting our identification strategy.
-
-
-\subsection{Treatment Effects on Owner vs Manager Variables}
-
-\input{table/atet_owner.tex}
-
-\input{table/atet_manager.tex}
