@@ -1,32 +1,39 @@
 local sampleA baseline
-local sampleB longpanel
+local sampleB baseline
 local sampleC persistent
-local sampleD unbalanced
-local sampleE excessvariance
+local sampleD persistent
+local sampleE all
 local sampleF all
 
-local titleA "Baseline"
-local titleB "Long Panel"
-local titleC "Persistent Errors"
-local titleD "Unbalanced Panel"
-local titleE "Excess Variance"
-local titleF "All Complications"
+local outcomeA VarY
+local outcomeB Cov
+local outcomeC VarY
+local outcomeD Cov
+local outcomeE VarY
+local outcomeF Cov
+
+local titleA "Variance (Baseline)"
+local titleB "Covariance (Baseline)"
+local titleC "Variance (Persistent)"
+local titleD "Covariance (Persistent)"
+local titleE "Variance (All)"
+local titleF "Covariance (All)"
 
 foreach panel in A B C D E F {
     local sample  `sample`panel''
     local title  `title`panel''
+    local outcome `outcome`panel''
 
-    import delimited "data/`sample'_lnR.csv", clear
+    import delimited "data/`sample'_lnR.csv", clear case(preserve)
     * drop ATET estimates
     drop if xvar == "ATET"
 
-    * clip error bands for better visualization
-    foreach var in beta0 beta1 dbeta {
-        replace lower_`var' = max(lower_`var', -0.75)
-        replace upper_`var' = min(upper_`var', 1.75)
+    foreach X in `outcome'1 d`outcome' {
+        capture generate upper_`X' = coef_`X' + 1.96*se_`X'
+        capture generate lower_`X' = coef_`X' - 1.96*se_`X'
     }
 
-    do "src/exhibit/event_study.do" `panel' "`title'" "`ytitle'" beta
+    do "src/exhibit/event_study.do" `panel' "`title'" "`ytitle'" `outcome'
 }
 
 graph combine panelA panelB panelC panelD panelE panelF, ///
