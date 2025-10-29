@@ -1,0 +1,80 @@
+This is BibTeX, Version 0.99d (TeX Live 2025)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: paper.aux
+The style file: apalike.bst
+I couldn't open database file lib/references.bib
+---line 56 of file paper.aux
+ : \bibdata{lib/references
+ :                        }
+I'm skipping whatever remains of this command
+I found no database files---while reading file paper.aux
+Warning--I didn't find a database entry for "Bertrand2003-io"
+Warning--I didn't find a database entry for "crossland2011differences"
+Warning--I didn't find a database entry for "quigley2015has"
+Warning--I didn't find a database entry for "mackey2008effect"
+Warning--I didn't find a database entry for "schoar2024effect"
+Warning--I didn't find a database entry for "andrews2008high"
+Warning--I didn't find a database entry for "gaure2014correlation"
+Warning--I didn't find a database entry for "Bonhomme2023-dx"
+Warning--I didn't find a database entry for "kline2020leave"
+Warning--I didn't find a database entry for "kline2024firm"
+Warning--I didn't find a database entry for "fitza2014use"
+Warning--I didn't find a database entry for "jarosiewicz2023revisiting"
+Warning--I didn't find a database entry for "bloom2013does"
+Warning--I didn't find a database entry for "mckenzie2021small"
+Warning--I didn't find a database entry for "fenizia2022managers"
+Warning--I didn't find a database entry for "janke2024role"
+Warning--I didn't find a database entry for "bennedsen2007inside"
+Warning--I didn't find a database entry for "sraer2007performance"
+Warning--I didn't find a database entry for "Abowd1999Econometrica"
+Warning--I didn't find a database entry for "Card2018JoLE"
+Warning--I didn't find a database entry for "lippi2014corporate"
+Warning--I didn't find a database entry for "simsek2007ceo"
+Warning--I didn't find a database entry for "brookman2009ceo"
+Warning--I didn't find a database entry for "orban2019inception"
+Warning--I didn't find a database entry for "shleifer1994politicians"
+Warning--I didn't find a database entry for "DePirro2025"
+Warning--I didn't find a database entry for "Koren2023expat"
+Warning--I didn't find a database entry for "koren2024managers"
+You've used 0 entries,
+            1935 wiz_defined-function locations,
+            505 strings with 4226 characters,
+and the built_in function-call counts, 17 in all, are:
+= -- 0
+> -- 0
+< -- 0
++ -- 0
+- -- 0
+* -- 0
+:= -- 7
+add.period$ -- 0
+call.type$ -- 0
+change.case$ -- 0
+chr.to.int$ -- 0
+cite$ -- 0
+duplicate$ -- 0
+empty$ -- 1
+format.name$ -- 0
+if$ -- 1
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 0
+newline$ -- 3
+num.names$ -- 0
+pop$ -- 0
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 1
+stack$ -- 0
+substring$ -- 0
+swap$ -- 0
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 0
+while$ -- 0
+width$ -- 0
+write$ -- 2
+(There were 2 error messages)
