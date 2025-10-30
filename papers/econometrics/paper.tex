@@ -127,7 +127,9 @@ The key insight is that the bias depends on the \emph{design}: the spell lengths
 
 \paragraph{Bias terms.} We formalize the bias for a typical event-study contrast. Consider firms with a CEO transition, where we observe $T_1$ periods before the transition (under the old CEO) and $T_2$ periods after (under the new CEO). The contrast of interest compares an outcome from the post period to an outcome from the pre period, for example, the change from the year before transition ($t=-1$) to three years after ($t=+3$). 
 
-For a general linear contrast, let $\Delta \hat z_i$ denote the estimated change in CEO effects for transition $i$, and $\Delta y_i$ the corresponding change in outcomes. In applications with heterogeneous spell lengths and event windows, firms are grouped into design groups $g=1,\ldots,G$, each with $N_g$ transitions. The sample covariance and variance are
+For a general linear contrast, let $\Delta \hat z_i$ denote the estimated change in CEO effects for transition $i$, and $\Delta y_i$ the corresponding change in outcomes. We assume that the contrast weights sum to zero (such as $+1$ for $t=+3$ and $-1$ for $t=-1$), so that under strict exogeneity, the mean change in outcomes would equal the mean change in CEO effects: $\mathbb E[\Delta y_i|\Delta z_i] = \Delta z_i$. 
+
+In applications with heterogeneous spell lengths and event windows, firms are grouped into design groups $g=1,\ldots,G$, each with $N_g$ transitions. The sample covariance and variance are
 \begin{align}
 \widehat{\Cov}(\Delta y_i,\Delta \hat z_i) &= \sum_{g=1}^G \frac{N_g}{N} \widehat{\Cov}_g(\Delta y_i,\Delta \hat z_i),\\
 \widehat{\Var}(\Delta \hat z_i) &= \sum_{g=1}^G \frac{N_g}{N} \widehat{\Var}_g(\Delta \hat z_i).
@@ -149,7 +151,6 @@ Our approach constructs placebo CEO transitions to directly identify and remove 
 \paragraph{Placebo construction.} For each treated firm that experiences a CEO transition, we match control firms that do \emph{not} change CEOs but have similar characteristics (birth cohort, sector, etc.). We assign these control firms a fake CEO transition at the same calendar year as the treated transition, creating artificial pre and post spells of the same length as the treated transition.
 
 The key insight is that for placebo transitions, there is no true CEO effect change: $\Delta z_i = 0$ for all placebo firms. Yet the placebo sample has the same spell-length distribution and event-window design as the treated sample. Therefore, the placebo moments recover the bias terms under the \emph{proportional autocovariance} assumption.
-
 
 \paragraph{Proportional autocovariance assumption.} The placebo and treated groups may differ in volatility. We assume that the autocovariance structure of shocks is the same across groups up to a scalar: 
 \begin{equation}
@@ -230,7 +231,7 @@ In the baseline, the naive variance is upward biased, while the debiased varianc
 
 With persistent errors ($\rho=0.9$), the naive variance is severely upward biased (about 100\% in our calibration), and spurious pre-trends emerge: before the manager arrives, the naive estimate suggests a negative effect. The true pre-trend is zero; the bias is entirely mechanical. The covariance is also upward biased, but by a smaller factor (about 80\%) than the variance. This differential inflation breaks the proportionality that held under i.i.d. shocks: the bias now depends on the specific autocorrelation structure, not just the spell design. As a result, the naive post-arrival slope $\hat\beta_2$ at $+2$ is below one (about 0.90), consistent with a gradual, biased buildup. Debiasing removes the pre-trend, recovers the true covariance and variance, and delivers a post-arrival slope indistinguishable from the true value of 1.00.
 
-The unbalanced-panel scenario (with a 20\% annual hazard of CEO change) compounds persistence and varying spell lengths. We again see a severe upward bias in the variance and evidence of pre-trends in the naive estimates. Debiasing removes these artifacts. Post-arrival dynamics look less gradual than under persistence alone, plausibly because typical spells are shorter in unbalanced panels, leaving less time for any gradual buildup to manifest.
+The unbalanced-panel scenario (with a 20\% annual hazard of CEO change) compounds persistence and varying spell lengths. We again see a severe upward bias in the variance and evidence of pre-trends in the naive estimates. Debiasing removes these artifacts. Post-arrival dynamics in the naive estimates look less gradual than under persistence alone, plausibly because typical spells are shorter in unbalanced panels, leaving less time for any gradual buildup to manifest.
 
 In the excess-variance scenario, the treated group has higher shock variance than controls. Relative to the baseline, this produces more dispersion and an even stronger upward bias in both variance and covariance; the debiased estimates correct both. Finally, the ``all complications'' scenario combines short and unbalanced spells, persistent errors, and excess variance. Here all problems are most severe: very large variance bias, pronounced pre-trends before the CEO arrives, and distorted dynamics. Yet the placebo correction handles them jointly: the debiased variance matches 1.00, the post-arrival slope is 1.00, and the pre-trend is 0.00 across all six scenarios. 
 

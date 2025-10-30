@@ -15,57 +15,7 @@
 A separate, more substantive point remains.  The final sample can contain firm-years with exactly two simultaneous CEOs, yet the core model $y_{it}=z_{m(i,t)}+e_{it}$ presumes a single manager identifier per firm-year.  The draft does not explain how such cases are handled—whether one CEO is selected, the pair is treated as a joint “CEO team,” or the observations are otherwise adjusted.  Clarifying this handling would strengthen transparency and replicability.
 
 
-## Comment 13
 
-**Clarification on the object of interest in the covariance expectation**
-
-"Under the model assumptions, these moments have the expectation
-\begin{align}
-\mathbb E\widehat{\Cov}(\Delta y_i,\Delta \hat z_i) &= \Bar\lambda + A,\\
-\mathbb E\widehat{\Var}(\Delta \hat z_i) &= \Bar\lambda + B,
-\end{align}
-where $\Bar\lambda$ is the average variance of true CEO effect changes across groups (the object of interest), and $A$ and $B$ are \emph{bias terms} that depend on the spell-length distributions, event-window designs, and the autocovariance structure of shocks."
-
-**Message:** Statement (3) is correct for the class of contrasts the paper studies, namely pre–post \emph{differences} in outcomes for which the signal component satisfies $\Delta y_i^{\text{signal}}=\Delta z_i$.  Under this restriction $\Cov(\Delta y_i^{\text{signal}},\Delta z_i)=\Var(\Delta z_i)$, so the same parameter $\bar\lambda$ legitimately appears in both equations (3) and (4).  Because this zero-sum property is explicit only in the example and in Appendix A (where the weight vector $\mathbf w$ obeys $\mathbf w'\mathbf 1=0$), consider adding a brief sentence in the main text to remind readers that “general linear contrast” always refers to a pre–post difference with weights summing to zero.  This would pre-empt the impression that equation (3) covers arbitrary contrasts.
-
----
-
-## Comment 14
-
-**Omission of scaling factor in debiasing formulas**
-
-"Debiased moments.} Subtracting the placebo moments from the treated moments yields debiased estimates:
-\begin{align}
-\widehat{\Cov}^{\,\text{db}}(\Delta y_i,\Delta \hat z_i) &= \widehat{\Cov}^{\,\text{tr}}(\Delta y_i,\Delta \hat z_i) - \widehat{\Cov}^{\,\text{pl}}(\Delta y_i,\Delta \hat z_i),\\
-\widehat{\Var}^{\,\text{db}}(\Delta \hat z_i) &= \widehat{\Var}^{\,\text{tr}}(\Delta \hat z_i) - \widehat{\Var}^{\,\text{pl}}(\Delta \hat z_i).
-\end{align}"
-
-**Message:** I initially had trouble with the “Debiased moments” formulas because, read literally, they appear to subtract the raw placebo moments even when the proportional-autocovariance assumption implies a variance-ratio scaling. Only after re-reading the preceding paragraph did I understand that the authors intend $\widehat{\Cov}^{\text{pl}}$ and $\widehat{\Var}^{\text{pl}}$ to denote the placebo moments \emph{after} multiplication by the estimated variance ratio. To spare readers the same detour, consider adding a sentence clarifying that the symbols with the “pl” superscript refer to the placebo moments \emph{already rescaled} by $\hat c=\sigma_1^{2}/\sigma_0^{2}$.
-
----
-
-## Comment 15
-
-**Ambiguity in the definition of bias terms A and B**
-
-"The key insight is that for placebo transitions, there is no true CEO effect change: $\Delta z_i = 0$ for all placebo firms. Yet the placebo sample has the same spell-length distribution and event-window design as the treated sample. Therefore, the placebo moments recover the bias terms:
-\begin{equation}
-\widehat{\Cov}^{\,\text{pl}}(\Delta y_i,\Delta \hat z_i) \xrightarrow{p} A,\qquad \widehat{\Var}^{\,\text{pl}}(\Delta \hat z_i) \xrightarrow{p} B.
-\end{equation}"
-
-**Message:** The same symbols $A$ and $B$ are used for the bias terms in both the treated and the placebo samples. Because the proportional-autocovariance assumption implies $A_{\text{tr}} = c\,A_{\text{pl}}$ and $B_{\text{tr}} = c\,B_{\text{pl}}$, employing identical notation can obscure which version of the bias a given sentence is referring to. Introducing subscripts (e.g., $A_{\mathrm{pl}}, B_{\mathrm{pl}}$ versus $A_{\mathrm{tr}}, B_{\mathrm{tr}}$) or adding a brief explanatory sentence would make the progression of the argument easier to follow.
-
----
-
-## Comment 16
-
-**Explanation for changing slope bias in unbalanced panels**
-
-"Post-arrival dynamics look less gradual than under persistence alone, plausibly because typical spells are shorter in unbalanced panels, leaving less time for any gradual buildup to manifest."
-
-**Message:** Statement “Post-arrival dynamics look less gradual … leaving less time for any gradual buildup to manifest” briefly puzzled me because the paper elsewhere stresses that the “gradual buildup” in the naïve profile is a biased artefact, not a real dynamic effect.  After rereading the preceding paragraphs I realised the authors are still talking about the biased naïve pattern and are simply offering an intuitive reason – shorter average spells change the weighting of shocks in the bias terms – for why that pattern weakens in the unbalanced-panel scenario.  The explanation is correct, but you might consider adding a clause such as “in the naïve estimates” to make it unmistakable that the reference is to the spurious, not the true, dynamics.
-
----
 
 ## Comment 17
 
@@ -90,15 +40,6 @@ where $\Bar\lambda$ is the average variance of true CEO effect changes across gr
 
 ---
 
-## Comment 19
-
-**Clarification on scaling placebo moments**
-
-"Because the design matrices and weights are the same by construction, and because we assume the error autocovariance (Σ) is the same up to a scalar between treated and placebo groups, the covariance and variance bias components can be "precomputed" in the placebo sample and subtracted from the treated estimates. This delivers debiased variance of Δ ĥz and debiased event-study coefficients β<sub>ℓ</sub>."
-
-**Message:** Statement that the placebo moments are “precomputed … and subtracted” could momentarily make a new reader wonder whether the scalar implied by the proportional-autocovariance assumption is being applied.  Since Section 3 already defines the debiasing formulas with the factor $c$ (e.g.\ $\widehat{\Cov}^{\,\text{tr}}-c\,\widehat{\Cov}^{\,\text{pl}}$), the procedure is correct; but adding a short reminder that the placebo moments are first multiplied by the estimated variance ratio would remove any possible ambiguity.
-
----
 
 ## Comment 20
 
@@ -108,62 +49,6 @@ where $\Bar\lambda$ is the average variance of true CEO effect changes across gr
 
 **Message:** I initially found it hard to reconcile the statement that 80 % of firm-years come from single-CEO firms with the later remark that CEO spells have a 20 % annual hazard (mean ≈5 years). The apparent tension disappears once one realises that (i) the hazard is estimated on completed CEO spells, whereas the 63 %/80 % figures are unconditional firm-level counts over very heterogeneous observation windows, and (ii) entry and exit are pervasive, so most firms are observed for only a few years. It may nevertheless help readers if the text briefly specifies that the hazard rate is estimated on spell data and is not directly comparable to unconditional firm-level proportions.
 
----
-
-## Comment 21
-
-**Clarification on the sign of the covariance pre-trend**
-
-"Covariance displays a milder upward pre-trend. Persistent shocks induce correlation between past outcomes and future estimated CEO effects even when no true CEO change occurs, because high future outcomes signal a growth trajectory that began before the pseudo-transition."
-
-**Message:** At first the phrase “upward pre-trend” made me think the covariance was positive before the transition.  In fact, the simulation shows it is negative at early leads and simply increases (becomes less negative) as $t$ approaches –1.  Consider spelling this out explicitly—e.g., “the covariance is negative four years before, but slopes upward toward zero”—to avoid any risk of misinterpretation.
-
----
-
-## Comment 22
-
-**Clarifying the fixed effect in the event-study model**
-
-"We estimate
-$$
-\tilde r_{it} = \alpha_i + \sum_{\ell\in\{-4,-3,-2,0,1,2,3\}} \beta_{\ell}\,\mathbb 1\{t-g=\ell\} + \varepsilon_{it},
-$$
-... [[note: if a firm has more than two consecutive spells, we treat adjacent spell pairs as separate transitions; multiple transitions per firm are allowed but clustered at the firm level.]]"
-
-**Message:** Because the subscript $i$ is used earlier to denote firms, its appearance in $\alpha_i$ may initially suggest a single firm fixed effect across all transitions.  Since the text later clarifies that each transition is treated as a separate “pseudo-firm” with its own intercept, consider adding a short note here to state explicitly that $i$ now indexes transitions (with standard-error clustering at the real-firm level).
-
----
-
-## Comment 23
-
-**Imprecise notation for the covariance matrix of CEO effects**
-
-"The model is
-\begin{equation}
-\mathbf y_i = \mathbf z_i + \mathbf e_i
-\end{equation}
-with 
-\begin{equation}
-\mathbb E[\mathbf z_i\mathbf z_i']= \mathbf \Lambda_i=
-\begin{bmatrix}
-  \lambda_{i11}\otimes \mathbf{11}' & \lambda_{i12}\otimes \mathbf{11}'\\
-  \lambda_{i12}\otimes \mathbf{11}' & \lambda_{i22}\otimes \mathbf{11}'
-\end{bmatrix},
-\qquad \mathbb E[\mathbf z_i\mathbf e_i']=0,
-\qquad \mathbb E[\mathbf e_i\mathbf e_i']=\sigma_1\mathbf\Sigma
-\end{equation}
-for changing firms, and 
-\begin{equation}
-\mathbb E[\mathbf z_i\mathbf z_i']= \mathbf \Lambda_i=
-  \lambda_{i11}\otimes \mathbf{11}',
-\qquad \mathbb E[\mathbf z_i\mathbf e_i']=0,
-\qquad \mathbb E[\mathbf e_i\mathbf e_i']=\sigma_0\mathbf\Sigma
-\end{equation}
-for non-changing firms."
-
-**Message:** I initially wondered whether the repeated use of the symbol $\mathbf{11}'$ in Equation (A.2) referred to the \emph{same} matrix of ones or to matrices whose dimensions vary across blocks of $\mathbf\Lambda_i$.  Because the upper-left, upper-right, and lower-right blocks are respectively $T_1\times T_1$, $T_1\times T_2$, and $T_2\times T_2$, the reader has to infer that $\mathbf{11}'$ is always the conformable matrix of ones for the block in which it appears (and that a similar convention applies in the non-changing-firm case).  A brief parenthetical remark—e.g.\ “$\mathbf{11}'$ denotes a ones matrix of matching dimension”—or introducing a symbol such as $\mathbf J_{r,c}=\mathbf 1_r\mathbf 1_c'$ would remove this momentary ambiguity.
-
----
 
 ## Comment 24
 
