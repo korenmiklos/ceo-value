@@ -299,5 +299,64 @@ for non-changing firms."
 
 ---
 
+## Comment 24
+
+**Unclear presentation of Monte Carlo scenarios in Figure 1**
+
+"Figure 1 displays the results of six Monte Carlo scenarios..."
+
+**Message:** Figure 1 contains three panels for variance and three panels for covariance, but the text describes six scenarios. It is unclear which three of the six scenarios are displayed in the figure and why the other three are omitted. The selection criteria should be stated explicitly so readers understand which complications are being illustrated graphically.
+
+---
+
+## Comment 25
+
+**Omission of firm fixed effects from the model and simulations**
+
+"Let firm $i$ in year $t$ have outcome $y_{it} = z_{m(i,t)} + e_{it}$..."
+
+**Message:** The model as written includes only CEO fixed effects $z_{m(i,t)}$ and errors $e_{it}$, but the empirical implementation estimates a two-way fixed effects (TWFE) specification that includes both firm and CEO effects. If firm fixed effects are part of the estimation procedure, the Monte Carlo simulations should generate data with a nontrivial variance-covariance structure between firm and CEO effects to match the empirical design. Alternatively, the theoretical sections could present the single-FE model and note that the application uses TWFE as in Kline (2020), where one application employs TWFE while the general framework remains broader. Clarifying whether the firm fixed effect is integral to the theory or specific to the application would strengthen the exposition.
+
+---
+
+## Comment 26
+
+**Overstated difficulty of implementing existing corrections**
+
+"while powerful, these require estimating many components and rederiving formulas for each target second moment)."
+
+**Message:** The statement that existing corrections such as the Andrews (2008) analytical adjustment or the Bonhomme et al. (2019) clustering approach "require estimating many components and rederiving formulas" may overstate their implementation complexity. The Andrews correction for homoskedastic, i.i.d. errors is straightforward to implement, and the Bonhomme clustering approach requires only grouping based on a wage distribution in addition to standard TWFE. It would help to be more precise about which aspects of these methods are burdensome or to clarify that the statement refers to settings with persistent, heteroskedastic errors where analytical adjustments become more involved.
+
+---
+
+## Comment 27
+
+**Removed sentence on limited mobility bias may aid focus**
+
+"A special case in worker-firm studies is limited mobility bias \citep{andrews2008high}, which arises when workers do not move frequently across firms."
+
+**Message:** This sentence was removed because, in a CEO-firm setting without worker-firm mobility data, the reference to limited mobility bias in worker-firm studies risks diverting attention from the core contribution. The bias addressed in this paper affects the estimated variance of CEO (worker) fixed effects, whereas limited mobility bias in the Andrews (2008) sense affects the firm fixed effect estimates. Although the two biases are formally similar under the same TWFE framework, the distinct contexts and affected parameters justify focusing the exposition on the CEO application. The removal clarifies the scope.
+
+---
+
+## Comment 28
+
+**Insufficient motivation for why the proposed method is necessary**
+
+"Our debiasing approach requires only the proportional-autocovariance assumption and a placebo sample..."
+
+**Message:** The current draft demonstrates that the proposed placebo-debiasing method is feasible and works in simulations, but it does not sufficiently explain why it is necessary relative to existing approaches. Kline (2020, p. 1869) and Kline (2024, p. 156) outline when each correction is appropriate: the Andrews (2008) analytical correction works under homoskedastic, independent errors; leave-one-out connected sets (Kline et al., 2020) are powerful but drop many observations in limited-mobility settings such as manager data; clustering (Bonhomme et al., 2019; Kline, 2024) imposes additional structure on the distribution of fixed effects; and cross-fitting has its own requirements. The placebo approach requires less structure than clustering and retains more observations than leave-one-out, but this comparative advantage should be stated explicitly. Adding a paragraph that systematically contrasts the data and modeling requirements of each method—perhaps in a table or bulleted list—would clarify the method's niche and improve its perceived contribution.
+
+---
+
+## Comment 29
+
+**Inconsistent comparison to prior literature on manager effect magnitudes**
+
+"evidence from public sector organizations suggests modest manager effects (fenizia2022, janke 2024), (....) Our results fall between these extremes..."
+
+**Message:** The text positions the findings as falling "between extremes," citing Fenizia (2022) as an example of modest manager effects. Fenizia reports that a one-standard-deviation increase in managerial talent raises office productivity by 10 percent. It is not immediately clear whether this estimate is small relative to the current paper's results or comparable in magnitude. If the 10 percent figure translates to a variance share or $R^2$ that is similar to the estimates reported here, the characterization as an "extreme" may be inaccurate. Please verify the numerical comparison and either reframe the contrast or provide sufficient detail (e.g., converting Fenizia's coefficient to an implied variance share) so readers can assess the magnitude claim directly.
+
+---
 
 *Generated by [refine.ink](https://refine.ink) - AI Feedback for Research*
