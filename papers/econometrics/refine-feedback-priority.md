@@ -58,18 +58,6 @@ A separate, more substantive point remains.  The final sample can contain firm-y
 
 **Message:** Figure 1 contains three panels for variance and three panels for covariance, but the text describes six scenarios. It is unclear which three of the six scenarios are displayed in the figure and why the other three are omitted. The selection criteria should be stated explicitly so readers understand which complications are being illustrated graphically.
 
----
-
-## Comment 25
-
-**Omission of firm fixed effects from the model and simulations**
-
-"Let firm $i$ in year $t$ have outcome $y_{it} = z_{m(i,t)} + e_{it}$..."
-
-**Message:** The model as written includes only CEO fixed effects $z_{m(i,t)}$ and errors $e_{it}$, but the empirical implementation estimates a two-way fixed effects (TWFE) specification that includes both firm and CEO effects. If firm fixed effects are part of the estimation procedure, the Monte Carlo simulations should generate data with a nontrivial variance-covariance structure between firm and CEO effects to match the empirical design. Alternatively, the theoretical sections could present the single-FE model and note that the application uses TWFE as in Kline (2020), where one application employs TWFE while the general framework remains broader. Clarifying whether the firm fixed effect is integral to the theory or specific to the application would strengthen the exposition.
-
----
-
 ## Comment 26
 
 **Overstated difficulty of implementing existing corrections**
@@ -78,17 +66,6 @@ A separate, more substantive point remains.  The final sample can contain firm-y
 
 **Message:** The statement that existing corrections such as the Andrews (2008) analytical adjustment or the Bonhomme et al. (2019) clustering approach "require estimating many components and rederiving formulas" may overstate their implementation complexity. The Andrews correction for homoskedastic, i.i.d. errors is straightforward to implement, and the Bonhomme clustering approach requires only grouping based on a wage distribution in addition to standard TWFE. It would help to be more precise about which aspects of these methods are burdensome or to clarify that the statement refers to settings with persistent, heteroskedastic errors where analytical adjustments become more involved.
 
----
-
-## Comment 27
-
-**Removed sentence on limited mobility bias may aid focus**
-
-"A special case in worker-firm studies is limited mobility bias \citep{andrews2008high}, which arises when workers do not move frequently across firms."
-
-**Message:** This sentence was removed because, in a CEO-firm setting without worker-firm mobility data, the reference to limited mobility bias in worker-firm studies risks diverting attention from the core contribution. The bias addressed in this paper affects the estimated variance of CEO (worker) fixed effects, whereas limited mobility bias in the Andrews (2008) sense affects the firm fixed effect estimates. Although the two biases are formally similar under the same TWFE framework, the distinct contexts and affected parameters justify focusing the exposition on the CEO application. The removal clarifies the scope.
-
----
 
 ## Comment 28
 
