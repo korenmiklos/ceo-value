@@ -149,8 +149,8 @@ After obtaining an estimate for the \emph{excess variance factor} $c$, we can sc
 
 \paragraph{Debiased moments.} Subtracting the rescaled placebo moments from the treated moments yields debiased estimates:
 \begin{align}
-\widehat{\Cov}^{\,\text{db}}(\Delta y_i,\Delta \hat z_i) &= \widehat{\Cov}^{\,\text{tr}}(\Delta y_i,\Delta \hat z_i) - c\cdot\widehat{\Cov}^{\,\text{pl}}(\Delta y_i,\Delta \hat z_i),\\
-\widehat{\Var}^{\,\text{db}}(\Delta \hat z_i) &= \widehat{\Var}^{\,\text{tr}}(\Delta \hat z_i) - c\cdot\widehat{\Var}^{\,\text{pl}}(\Delta \hat z_i).
+\widehat{\Cov}^{\,\text{db}}(\Delta y_i,\Delta \hat z_i) &= \widehat{\Cov}^{\,\text{tr}}(\Delta y_i,\Delta \hat z_i) - \hat c\cdot\widehat{\Cov}^{\,\text{pl}}(\Delta y_i,\Delta \hat z_i),\\
+\widehat{\Var}^{\,\text{db}}(\Delta \hat z_i) &= \widehat{\Var}^{\,\text{tr}}(\Delta \hat z_i) - \hat c\cdot\widehat{\Var}^{\,\text{pl}}(\Delta \hat z_i).
 \end{align}
 For nonlinear transformations such as regression slopes or correlations, we first debias the underlying variances and covariances, then form the ratio:
 \begin{equation}
@@ -353,14 +353,14 @@ $\sigma(\epsilon_{\text{control}})$ & \multicolumn{6}{c}{0.71} \\
 \setcounter{table}{0}
 
 
-\section*{Appendix: Derivation of Bias Terms}
+\section{Appendix: Derivation of Bias Terms}
 This appendix provides the formal matrix algebra derivation of the bias terms in second moments of estimated CEO effects.
 
 \subsection{Matrix Notation Setup}
 
 \paragraph{Model setup.} Let firm $i$ be observed for $T$ periods with outcome path $\mathbf y_i\in\mathbb R^T$ that decomposes into a (piecewise-constant) manager-effect path $\mathbf z_i$ and shocks $\mathbf e_i$. Suppose manager 1 serves in the first $T_1$ periods and manager 2 in the last $T_2=T-T_1$ periods. (Other transition paths can be modeled similarly.) The model is
 \begin{equation}
-\mathbf y_i = \mathbf z_i + \mathbf e_i
+\mathbf y_i = \mathbf \alpha_i + \mathbf z_i + \mathbf e_i
 \end{equation}
 with 
 \begin{equation}
@@ -409,6 +409,7 @@ In the example,
     0 & 0 & 1/3 & 1/3 & 1/3
   \end{bmatrix}\quad\Rightarrow\quad
   \mathbf {Py}_i = 
+  \mathbf\alpha_i +
   \begin{pmatrix}
   \frac12 \sum_{t=-2}^{-1} y_{it} \\
   \frac12 \sum_{t=-2}^{-1} y_{it} \\
@@ -421,9 +422,9 @@ Note that $\mathbf P$ is idempotent ($\mathbf P^2=\mathbf P$) and symmetric ($\m
 
 The least-squares dummy variable (LSDV) estimator of the CEO effects is
 \begin{equation}\label{eq:lsdv_appendix}
-  \hat{\mathbf z}_i = \mathbf P\mathbf y_i = \mathbf z_i + \mathbf P\mathbf e_i.
+  \hat{\mathbf z}_i = \mathbf P\mathbf y_i - \hat{\mathbf \alpha}_i = \mathbf z_i + \mathbf P\mathbf e_i.
 \end{equation}  
-The estimated CEO effects are the true effects plus the within-spell mean of shocks.
+The estimated CEO effects are the true effects plus the within-spell mean of shocks. (For our method, it does not matter how firm fixed effects $\hat{\mathbf \alpha}_i$ are estimated, as we difference out firm means in all contrasts.)
 
 \subsection{Population Moments and Bias Terms}
 
