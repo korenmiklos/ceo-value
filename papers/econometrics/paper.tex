@@ -251,71 +251,6 @@ The paper develops a new placebo-controlled event study design that overcomes li
 An alternative way to deal with the noise problem is to use observable manager characteristics as measures of skill. Observable characteristics such as education and work experience \citep{DePirro2025}, foreign name as a proxy for international exposure \citep{Koren2023expat}, and the selectiveness of entry cohorts \citep{koren2024managers} offer more reliable, though narrower, measures of specific dimensions of managerial quality. These observables capture only partial aspects of CEO ability but avoid the mechanical noise that contaminates fixed effects estimates.
 
 \clearpage
-\bibliographystyle{apalike}
-\bibliography{../../lib/references.bib}
-\clearpage
-
-\section*{Tables and Figures}
-
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.9\textwidth]{figure/figuremc.pdf}
-\caption{Monte Carlo event studies under six scenarios.} \label{fig:mc}
-\vspace{.2cm}
-
-\begin{minipage}{0.9\textwidth}
-\footnotesize Notes: ????
-\end{minipage}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.9\textwidth]{figure/application.pdf}
-\caption{Revenue Dynamics Around CEO Transitions in Hungarian Firms}
-\label{fig:application}
-\vspace{.2cm}
-
-\begin{minipage}{0.9\textwidth}
-\footnotesize
-Notes: Event studies of various second moments around CEO transitions. All panels normalize to year $t=-1$ (one year before CEO arrival). Panel A shows the variance of revenue changes from baseline. Panel B plots the covariance of revenue change with the change in CEO fixed effect. Panel C displays the fraction of revenue variance explained by CEO fixed effects (R-squared). Panel D shows the variance of CEO fixed effects by firm age, decomposed into revenue shocks and CEO contributions. Panel E shows regression coefficients from projecting revenue on CEO effects, and Panel F shows the coefficients from regressing exporter status on CEO effect. Red lines show naive OLS estimates; blue lines show placebo-corrected debiased estimates. Shaded regions indicate 95\% confidence intervals. The placebo group consists of matched non-changing firms from the same birth cohort and sector, assigned pseudo CEO transitions at the same calendar year as treated firms. Event window spans $[-4, +3]$ years around CEO arrival.
-\end{minipage}
-\end{figure}
-
-\begin{table}[t]
-\centering
-\caption{Monte Carlo parameters by scenario}
-\label{tab:mc_params}
-\begin{threeparttable}
-\begin{tabular}{l*{6}{>{\centering\arraybackslash}p{1.8cm}}}
-\toprule
-\textbf{Scenario} & \textbf{Baseline} & \textbf{Long Panel} & \textbf{Persistent Errors} & \textbf{Unbalanced Panel} & \textbf{Excess Variance} & \textbf{All Complications} \\
-\midrule
-\textbf{Parameters} & & & & & & \\
-\addlinespace
-$N_{\text{treated}}$ & \multicolumn{6}{c}{50,000} \\
-$N_{\text{control}}$ & \multicolumn{6}{c}{50,000} \\
-$\sigma(\Delta z)$ & \multicolumn{6}{c}{1.00} \\
-$\sigma(\epsilon_{\text{control}})$ & \multicolumn{6}{c}{0.71} \\
-\addlinespace
- $T_{\max}$ & 5 & 20 & 5 & 5 & 5 & 5 \\
- $\rho$ & 0.00 & 0.00 & 0.90 & 0.90 & 0.00 & 0.90 \\
- $\sigma(\epsilon_{\text{treated}})$ & 0.71 & 0.71 & 0.71 & 0.71 & 1.00 & 1.00 \\
- CEO change & --- & --- & --- & 0.20 & --- & 0.20 \\
- hazard & & & & & & \\
-\midrule
-\textbf{Estimates} & & & & & & \\
-\input{table/atets.tex}\\
-\bottomrule
-\end{tabular}
-\begin{tablenotes}[flushleft]\footnotesize
-\item Notes: Every Monte Carlo simulation assumes 50,000 treated firms and 50,000 control firms. The standard deviation of true CEO effect changes is 1.00 and the standard deviation of errors in the control group is 0.71 in all scenarios. The table lists scenario-specific parameters: maximum spell length $T_{\max}$, error autocorrelation $\rho$, error standard deviation in the treated group $\sigma(\epsilon_{\text{treated}})$, and the annual hazard of CEO change in the unbalanced panel scenarios. The \emph{baseline} calibration assumes short balanced spells and i.i.d. errors. Columns (2) to (5) introduce one complication at a time. The \emph{long panel} scenario extends the length of spells. The \emph{persistent errors} scenario adds strong autocorrelation. The \emph{unbalanced panel} scenario introduces firm-specific spell lengths drawn from a geometric distribution with a constant hazard of CEO change. The \emph{excess variance} scenario adds a 50\% increase in error volatility in the treated group relative to the control group. The \emph{all complications} scenario combines unbalanced spells, persistent errors, and excess variance. Parameter values are chosen to represent realistic moments from our application where CEO tenures are often short, revenue shocks are persistent, and treated firms are more volatile than control firms.
-\end{tablenotes}
-\end{threeparttable}
-\end{table}
-
-
-\clearpage
 \appendix
 \renewcommand{\thefigure}{A\arabic{figure}}
 \renewcommand{\thetable}{A\arabic{table}}
@@ -462,13 +397,68 @@ Here $\Bar\lambda_g$ is the average variance of CEO effects in group $g$, and $\
 
 The bias terms are complicated group averages that depend on the design matrices $\mathbf P_g$, the weight vectors $\mathbf w_g$, and the shock structure $\sigma_g\mathbf\Sigma$. It is often impractical to estimate these components directly, especially when $\mathbf\Sigma$ is complex (e.g., persistent shocks) and when there are many groups with different designs.
 
-%\section{Additional Tables and Figures}
+\clearpage
+\bibliographystyle{apalike}
+\bibliography{../../lib/references.bib}
+\clearpage
 
-%Benne maradhat a populáció, de kellene a minta is. Esetleg kidobhatjuk a firms oszlopot, és készítsük el a táblát a populációra és a mi mintánkra (Population: firm-year CEO, Sample: firm-year CEO, Surplus Share)
+\section*{Tables and Figures}
 
 
-%\input{table/tableA2}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{figure/figuremc.pdf}
+\caption{Monte Carlo event studies under six scenarios.} \label{fig:mc}
+\vspace{.2cm}
 
+\begin{minipage}{0.9\textwidth}
+\footnotesize Notes: ????
+\end{minipage}
+\end{figure}
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{figure/application.pdf}
+\caption{Revenue Dynamics Around CEO Transitions in Hungarian Firms}
+\label{fig:application}
+\vspace{.2cm}
+
+\begin{minipage}{0.9\textwidth}
+\footnotesize
+Notes: Event studies of various second moments around CEO transitions. All panels normalize to year $t=-1$ (one year before CEO arrival). Panel A shows the variance of revenue changes from baseline. Panel B plots the covariance of revenue change with the change in CEO fixed effect. Panel C displays the fraction of revenue variance explained by CEO fixed effects (R-squared). Panel D shows the variance of CEO fixed effects by firm age, decomposed into revenue shocks and CEO contributions. Panel E shows regression coefficients from projecting revenue on CEO effects, and Panel F shows the coefficients from regressing exporter status on CEO effect. Red lines show naive OLS estimates; blue lines show placebo-corrected debiased estimates. Shaded regions indicate 95\% confidence intervals. The placebo group consists of matched non-changing firms from the same birth cohort and sector, assigned pseudo CEO transitions at the same calendar year as treated firms. Event window spans $[-4, +3]$ years around CEO arrival.
+\end{minipage}
+\end{figure}
+
+\begin{table}[t]
+\centering
+\caption{Monte Carlo parameters by scenario}
+\label{tab:mc_params}
+\begin{threeparttable}
+\begin{tabular}{l*{6}{>{\centering\arraybackslash}p{1.8cm}}}
+\toprule
+\textbf{Scenario} & \textbf{Baseline} & \textbf{Long Panel} & \textbf{Persistent Errors} & \textbf{Unbalanced Panel} & \textbf{Excess Variance} & \textbf{All Complications} \\
+\midrule
+\textbf{Parameters} & & & & & & \\
+\addlinespace
+$N_{\text{treated}}$ & \multicolumn{6}{c}{50,000} \\
+$N_{\text{control}}$ & \multicolumn{6}{c}{50,000} \\
+$\sigma(\Delta z)$ & \multicolumn{6}{c}{1.00} \\
+$\sigma(\epsilon_{\text{control}})$ & \multicolumn{6}{c}{0.71} \\
+\addlinespace
+ $T_{\max}$ & 5 & 20 & 5 & 5 & 5 & 5 \\
+ $\rho$ & 0.00 & 0.00 & 0.90 & 0.90 & 0.00 & 0.90 \\
+ $\sigma(\epsilon_{\text{treated}})$ & 0.71 & 0.71 & 0.71 & 0.71 & 1.00 & 1.00 \\
+ CEO change & --- & --- & --- & 0.20 & --- & 0.20 \\
+ hazard & & & & & & \\
+\midrule
+\textbf{Estimates} & & & & & & \\
+\input{table/atets.tex}\\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]\footnotesize
+\item Notes: Every Monte Carlo simulation assumes 50,000 treated firms and 50,000 control firms. The standard deviation of true CEO effect changes is 1.00 and the standard deviation of errors in the control group is 0.71 in all scenarios. The table lists scenario-specific parameters: maximum spell length $T_{\max}$, error autocorrelation $\rho$, error standard deviation in the treated group $\sigma(\epsilon_{\text{treated}})$, and the annual hazard of CEO change in the unbalanced panel scenarios. The \emph{baseline} calibration assumes short balanced spells and i.i.d. errors. Columns (2) to (5) introduce one complication at a time. The \emph{long panel} scenario extends the length of spells. The \emph{persistent errors} scenario adds strong autocorrelation. The \emph{unbalanced panel} scenario introduces firm-specific spell lengths drawn from a geometric distribution with a constant hazard of CEO change. The \emph{excess variance} scenario adds a 50\% increase in error volatility in the treated group relative to the control group. The \emph{all complications} scenario combines unbalanced spells, persistent errors, and excess variance. Parameter values are chosen to represent realistic moments from our application where CEO tenures are often short, revenue shocks are persistent, and treated firms are more volatile than control firms.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
 
 \end{document}
