@@ -38,53 +38,5 @@ A separate, more substantive point remains.  The final sample can contain firm-y
 
 **Message:** Readers accustomed to event studies that use fixed, symmetric windows might wonder why the spell effect $\hat z_{is}$ is averaged over the CEO’s entire tenure. A short reminder that the bias the paper corrects is a function of the actual spell length—already explained in Section 2—would make the rationale for this design choice immediately transparent.
 
----
-
-
-## Comment 20
-
-**Apparent tension in sample descriptive statistics**
-
-"Not surprisingly, a majority of firms have only one CEO: 63% of firms and 80% of firm-years belong to this category. One quarter of firms had two CEOs while 13% at least three CEOs. This latter category comprises only 3% of firm-years. CEO spell lengths follow an exponential distribution with a 20 percent annual hazard rate, implying typical tenures of 3-7 years."
-
-**Message:** I initially found it hard to reconcile the statement that 80 % of firm-years come from single-CEO firms with the later remark that CEO spells have a 20 % annual hazard (mean ≈5 years). The apparent tension disappears once one realises that (i) the hazard is estimated on completed CEO spells, whereas the 63 %/80 % figures are unconditional firm-level counts over very heterogeneous observation windows, and (ii) entry and exit are pervasive, so most firms are observed for only a few years. It may nevertheless help readers if the text briefly specifies that the hazard rate is estimated on spell data and is not directly comparable to unconditional firm-level proportions.
-
-
-## Comment 24
-
-**Unclear presentation of Monte Carlo scenarios in Figure 1**
-
-"Figure 1 displays the results of six Monte Carlo scenarios..."
-
-**Message:** Figure 1 contains three panels for variance and three panels for covariance, but the text describes six scenarios. It is unclear which three of the six scenarios are displayed in the figure and why the other three are omitted. The selection criteria should be stated explicitly so readers understand which complications are being illustrated graphically.
-
-## Comment 26
-
-**Overstated difficulty of implementing existing corrections**
-
-"while powerful, these require estimating many components and rederiving formulas for each target second moment)."
-
-**Message:** The statement that existing corrections such as the Andrews (2008) analytical adjustment or the Bonhomme et al. (2019) clustering approach "require estimating many components and rederiving formulas" may overstate their implementation complexity. The Andrews correction for homoskedastic, i.i.d. errors is straightforward to implement, and the Bonhomme clustering approach requires only grouping based on a wage distribution in addition to standard TWFE. It would help to be more precise about which aspects of these methods are burdensome or to clarify that the statement refers to settings with persistent, heteroskedastic errors where analytical adjustments become more involved.
-
-
-## Comment 28
-
-**Insufficient motivation for why the proposed method is necessary**
-
-"Our debiasing approach requires only the proportional-autocovariance assumption and a placebo sample..."
-
-**Message:** The current draft demonstrates that the proposed placebo-debiasing method is feasible and works in simulations, but it does not sufficiently explain why it is necessary relative to existing approaches. Kline (2020, p. 1869) and Kline (2024, p. 156) outline when each correction is appropriate: the Andrews (2008) analytical correction works under homoskedastic, independent errors; leave-one-out connected sets (Kline et al., 2020) are powerful but drop many observations in limited-mobility settings such as manager data; clustering (Bonhomme et al., 2019; Kline, 2024) imposes additional structure on the distribution of fixed effects; and cross-fitting has its own requirements. The placebo approach requires less structure than clustering and retains more observations than leave-one-out, but this comparative advantage should be stated explicitly. Adding a paragraph that systematically contrasts the data and modeling requirements of each method—perhaps in a table or bulleted list—would clarify the method's niche and improve its perceived contribution.
-
----
-
-## Comment 29
-
-**Inconsistent comparison to prior literature on manager effect magnitudes**
-
-"evidence from public sector organizations suggests modest manager effects (fenizia2022, janke 2024), (....) Our results fall between these extremes..."
-
-**Message:** The text positions the findings as falling "between extremes," citing Fenizia (2022) as an example of modest manager effects. Fenizia reports that a one-standard-deviation increase in managerial talent raises office productivity by 10 percent. It is not immediately clear whether this estimate is small relative to the current paper's results or comparable in magnitude. If the 10 percent figure translates to a variance share or $R^2$ that is similar to the estimates reported here, the characterization as an "extreme" may be inaccurate. Please verify the numerical comparison and either reframe the contrast or provide sufficient detail (e.g., converting Fenizia's coefficient to an implied variance share) so readers can assess the magnitude claim directly.
-
----
 
 *Generated by [refine.ink](https://refine.ink) - AI Feedback for Research*
