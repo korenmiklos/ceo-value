@@ -83,39 +83,27 @@ Methodologically, our paper builds on the two-way fixed effects literature in la
 
 Let firm $i$ in year $t$ have outcome
 \begin{equation}\label{eq:model1}
-  y_{it} = z_{m(i,t)} + e_{it},\qquad \mathbb E[e_{it}|\{z_{is}\}_{s=1}^T]=0,
+  y_{it} = \alpha_i + z_{m(i,t)} + e_{it},\qquad \mathbb E[e_{it}|\{z_{is}\}_{s=1}^T]=0,
 \end{equation}
-where $z_{m(i,t)}$ collects the CEO effect at time $t$ and $e_{it}$ is a shock. We assume that $z_{m(i,t)}$ is piecewise constant, changing only when the CEO changes and that $e_{it}$ is mean independent of the CEO path for all $s$ (``strict exogeneity'').
+where $\alpha_i$ is a firm fixed effect, $z_{m(i,t)}$ collects the CEO effect at time $t$ and $e_{it}$ is a shock. We assume that $z_{m(i,t)}$ is piecewise constant, changing only when the CEO changes and that $e_{it}$ is mean independent of the CEO path for all $s$ (``strict exogeneity'').
 
-Under the strict exogeneity assumption, the ordinary least squares (OLS) estimator of $z_m$ is unbiased. Equation \eqref{eq:model1} can be rewritten as a dummy-variable regression 
+This two-way fixed effects model can be estimated by least squares, or, if we are uninterested in firm fixed effects, by differences in differences. Under the strict exogeneity assumption, both the least-squares dummy variable (LSDV) estimator and the difference-in-differences estimator of CEO effects are unbiased. Equation \eqref{eq:model1} can be rewritten as a dummy-variable regression 
 $$
-y_{it} = \sum_{n} z_n D_{m(i,t)=n}  + e_{it},
+y_{it} = \sum_{j}\alpha_j D_{i=j} + \sum_{n} z_n D_{m(i,t)=n}  + e_{it},
 $$
 and the first-order condition for the OLS estimator $\hat z_n$ is
 $$
-0 = \sum_{i,t:m(i,t)=n} (y_{it} - \hat z_n),
+\sum_{i,t:m(i,t)=n} (y_{it} - \hat\alpha_i - \hat z_n) =0,
 $$
 or 
 $$
-\hat z_n = \frac{1}{T_n} \sum_{i,t:m(i,t)=n} y_{it} = z_n + \frac{1}{T_n} \sum_{i,t:m(i,t)=n} e_{it},
+\hat z_n = \frac{1}{T_n} \sum_{i,t:m(i,t)=n} (y_{it} - \hat\alpha_i) = z_n + \frac{1}{T_n} \sum_{i,t:m(i,t)=n} e_{it},
 $$
 where $T_n$ is the number of observations with CEO $n$. The estimator is unbiased because $\mathbb E[\hat z_n|z_n] = z_n$. The estimator, however, is only consistent as $T_n\to\infty$, that is, as the number of observations per CEO grows large. In practice, many CEOs have short tenures, so $\hat z_n$ contains substantial noise.\footnote{The mean CEO tenure (standard deviation) is 13.8 (1.7) years in US small and medium-sized companies \citep{simsek2007ceo}, 8.1 (5.8) years in US public companies \citep{brookman2009ceo}. The large standard deviations demonstrate that many CEOs have only a few years of tenure.} 
 
-Econometric applications often require the second moments of $\hat z_n$, for example, to estimate the variance of CEO effects or to run regressions of an outcome $y_{it}$ on $\hat z_n$. The former could inform us about the importance of CEO heterogeneity (REFs), while the latter could inform us about the effect of CEO quality on firm performance and firm policies (REFs). 
+The small-sample error contaminates all second moments of $\hat z_n$, biasing estimates of variances, covariances, regression slopes, and correlation coefficients. Because almost every applied question uses second moments (How much do CEOs contribute to firm variance? Are better CEOs associated with higher investment? Do outcomes improve after CEO arrival?), the small-sample noise in first moments propagates into bias in the quantities researchers care about.\footnote{A well-known example is ``limited mobility bias'' \citep{andrews2008high}, which states that in a two-way fixed effects model of worker and firm effects, the variance of both effects is biased upwards and their correlation is biased downwards.}
 
-The small-sample error contaminates all second moments of $\hat z_n$. A well-known example is ``limited mobility bias'' \citep{andrews2008high}, which states that in a two-way fixed effects model of worker and firm effects, the variance of both effects is biased upwards and their correlation is biased downwards.
-
-To be clear: the point estimates of individual CEO fixed effects $\hat z_n$ are unbiased for the true effects $z_n$. The problem is that all second moments involving these estimates—variances, covariances, regression slopes, correlations—are biased. Because almost every applied question uses second moments (How much do CEOs contribute to firm variance? Are better CEOs associated with higher investment? Do outcomes improve after CEO arrival?), the small-sample noise in first moments propagates into bias in the quantities researchers care about.
-
-\newenvironment{example}{\par\noindent\textbf{Example.}\ }{\par}
-
-\paragraph{Estimation and the bias problem.} In practice, we estimate CEO effects $z_m$ as the average outcome during each manager's tenure (the least-squares dummy variable or LSDV estimator). When manager $m$ is observed for $T_m$ periods, the estimate is
-$$
-\hat z_m = \frac{1}{T_m}\sum_{i,t:m(i,t)=m} y_{it} = z_m + \frac{1}{T_m}\sum_{i,t:m(i,t)=m} e_{it}.
-$$
-Under strict exogeneity, $\hat z_m$ is unbiased: $\mathbb E[\hat z_m] = z_m$. However, the estimator is only consistent as $T_m\to\infty$. With short tenures, $\hat z_m$ contains substantial noise from the averaged shocks.
-
-This small-sample noise contaminates all second moments of $\hat z_m$. Consider three common applied use cases:
+Consider three common applied use cases:
 
 \textit{Variance decompositions.} Researchers estimate $\Var(\hat z_m)$ to quantify the importance of CEO heterogeneity. But $\Var(\hat z_m) = \Var(z_m) + \Var(\text{noise})$, systematically overstating the role of CEOs.
 
@@ -123,26 +111,27 @@ This small-sample noise contaminates all second moments of $\hat z_m$. Consider 
 
 \textit{Event studies.} Researchers examine outcome dynamics around CEO transitions by contrasting post-transition and pre-transition averages. These contrasts embed noise that can generate spurious pre-trends and distorted post-transition dynamics, even when the true causal effect has no pre-trend.
 
-The key insight is that the bias depends on the \emph{design}: the spell lengths (how long each CEO is observed) and the autocorrelation structure of shocks. When spells are short and shocks are persistent, noise inflates variances, distorts covariances, and creates spurious dynamics.
+\paragraph{Bias terms.} We formalize the bias for a typical event-study contrast. Consider firms with a CEO transition, where we observe $T_1$ periods before the transition (under the old CEO) and $T_2$ periods after (under the new CEO). The contrast of interest compares outcomes from the post period to outcomes from the pre period, for example, the change from the year before transition ($t=-1$) to three years after ($t=+3$). 
 
-\paragraph{Bias terms.} We formalize the bias for a typical event-study contrast. Consider firms with a CEO transition, where we observe $T_1$ periods before the transition (under the old CEO) and $T_2$ periods after (under the new CEO). The contrast of interest compares an outcome from the post period to an outcome from the pre period, for example, the change from the year before transition ($t=-1$) to three years after ($t=+3$). 
+For a general linear contrast, let $\Delta \hat z_i = \sum_s w_s \hat z_{is}$ denote the estimated change in CEO effects for transition $i$, and $\Delta y_i = \sum_s w_s y_{is}$ the corresponding change in outcomes. We assume that the contrast weights sum to zero , so that under strict exogeneity, the mean change in outcomes would equal the mean change in CEO effects: $\mathbb E[\Delta y_i|\Delta z_i] = \Delta z_i$. This holds for difference-in-differences estimators ($w_s = 1/T_{i+}$ when $s$ is in the post period and $w_s = -1/T_{i-}$ when $s$ is in the pre period), event-study estimators (such as $w_{+3}=1$, $w_{-1}=-1$), and LSDV estimators ($w_s = 1-T_{i+}/T_i$ for $s$ in the post period and $w_s = -T_{i+}/T_i$ for $s$ in the pre period).
 
-For a general linear contrast, let $\Delta \hat z_i$ denote the estimated change in CEO effects for transition $i$, and $\Delta y_i$ the corresponding change in outcomes. We assume that the contrast weights sum to zero (such as $+1$ for $t=+3$ and $-1$ for $t=-1$), so that under strict exogeneity, the mean change in outcomes would equal the mean change in CEO effects: $\mathbb E[\Delta y_i|\Delta z_i] = \Delta z_i$. 
-
-In applications with heterogeneous spell lengths and event windows, firms are grouped into design groups $g=1,\ldots,G$, each with $N_g$ transitions. The sample covariance and variance are
+In applications with heterogeneous spell lengths and event windows, firms can be grouped into design groups $g=1,\ldots,G$, each with $N_g$ transitions. The sample covariance and variance are
 \begin{align}
 \widehat{\Cov}(\Delta y_i,\Delta \hat z_i) &= \sum_{g=1}^G \frac{N_g}{N} \widehat{\Cov}_g(\Delta y_i,\Delta \hat z_i),\\
 \widehat{\Var}(\Delta \hat z_i) &= \sum_{g=1}^G \frac{N_g}{N} \widehat{\Var}_g(\Delta \hat z_i).
 \end{align}
-
 Under the model assumptions, these moments have the expectation
 \begin{align}
-\mathbb E\widehat{\Cov}(\Delta y_i,\Delta \hat z_i) &= \Bar\lambda + A,\\
-\mathbb E\widehat{\Var}(\Delta \hat z_i) &= \Bar\lambda + B,
+\mathbb E\widehat{\Cov}(\Delta y_i,\Delta \hat z_i) &= 
+  \sum_{g=1}^G \frac{N_g}{N} (\lambda_g + A_g) = \Bar\lambda + A,\\
+\mathbb E\widehat{\Var}(\Delta \hat z_i) &= 
+\sum_{g=1}^G \frac{N_g}{N} (\lambda_g + B_g) = \Bar\lambda + B,
 \end{align}
-where $\Bar\lambda$ is the average variance of true CEO effect changes across groups (the object of interest), and $A$ and $B$ are \emph{bias terms} that depend on the spell-length distributions, event-window designs, and the autocovariance structure of shocks. Appendix A derives these bias terms formally via matrix algebra.
+where $\lambda_g = \Var_g(\Delta z_i)$ is the variance of true CEO effect changes, $A_g$ is the covariance bias, and $B_g$ is the variance bias in group $g$. Averaging over groups, we get $\Bar\lambda$ as the average variance of true CEO effect changes across groups (the object of interest), and $A$ and $B$ are \emph{bias terms} that depend on the spell-length distributions, event-window designs, the autocovariance structure of shocks, and the relative size of groups. Appendix A derives these bias terms formally.
 
-The bias terms have four key properties. First, $A$ and $B$ are weighted sums over design groups, with weights determined by spell lengths and event-window contrasts. Second, when shocks are independent and identically distributed and spells are long, $A\approx 0$ and $B\approx 0$. In this ideal case, the bias vanishes asymptotically. Third, when spells are short or shocks are persistent, $A$ and $B$ can be large, severely distorting variances, covariances, and regression slopes. This is the empirically relevant case in many CEO studies, where tenures are often brief and performance shocks are serially correlated. Fourth, and most important for our method, the bias terms are the same up to a scalar multiplier for any two samples that have identical spell-length distributions and event-window designs, even if one sample has no true CEO effects. This last property is the foundation of our placebo-controlled debiasing.
+The bias terms have four key properties. First, $A_g$ and $B_g$ are weighted sums over variances and covariances of shocks within each spell, with weights determined by the estimation design. Second, when shocks are independent and identically distributed and spells are long, $A_g\approx 0$ and $B_g\approx 0$. In this ideal case, the bias vanishes asymptotically. Third, when spells are short or shocks are persistent, $A_g$ and $B_g$ can be large, severely distorting both variances and covariances. This is the empirically relevant case in many CEO studies, where tenures are often brief and performance shocks are serially correlated. Fourth, and most important for our method, the bias terms are the same up to a scalar multiplier for any two samples that have identical spell-length distributions and event-window designs, even if one sample has no true CEO effects. This last property is the foundation of our placebo-controlled debiasing.
+
+The key insight is that the bias depends on the \emph{design}: the spell lengths (how long each CEO is observed) and the autocorrelation structure of shocks. If we can find a sample with the same design but no true CEO effects, then the variance and covariance in that sample identify the bias terms. 
 
 \section{Placebo-Controlled Debiasing} 
 
@@ -150,7 +139,7 @@ Our approach constructs placebo CEO transitions to directly identify and remove 
 
 \paragraph{Placebo construction.} For each treated firm that experiences a CEO transition, we match control firms that do \emph{not} change CEOs but have similar characteristics (birth cohort, sector, etc.). We assign these control firms a fake CEO transition at the same calendar year as the treated transition, creating artificial pre and post spells of the same length as the treated transition.
 
-The key insight is that for placebo transitions, there is no true CEO effect change: $\Delta z_i = 0$ for all placebo firms. Yet the placebo sample has the same spell-length distribution and event-window design as the treated sample. Therefore, the placebo moments recover the bias terms under the \emph{proportional autocovariance} assumption.
+For placebo transitions, there is no true CEO effect change: $\Delta z_i = 0$ for all placebo firms. Yet the placebo sample has the same spell-length distribution and event-window design as the treated sample. Therefore, the estimated covariances and variances in the placebo group recover the bias terms under the \emph{proportional autocovariance} assumption.
 
 \paragraph{Proportional autocovariance assumption.} The placebo and treated groups may differ in volatility. We assume that the autocovariance structure of shocks is the same across groups up to a scalar: 
 \begin{equation}
@@ -158,23 +147,22 @@ The key insight is that for placebo transitions, there is no true CEO effect cha
 \end{equation}
 for some constant $c>0$. Under this assumption, which we call \emph{proportional autocovariance}, the covariance and variance in the placebo group can be written as 
 \begin{equation}
-\widehat{\Cov}^{\,\text{pl}}(\Delta y_i,\Delta \hat z_i) \xrightarrow{p} \frac{1}{c} A,\qquad \widehat{\Var}^{\,\text{pl}}(\Delta \hat z_i) \xrightarrow{p} \frac{1}{c} B.
+\widehat{\Cov}_g^{\,\text{pl}}(\Delta y_i,\Delta \hat z_i) \xrightarrow{p} \frac{1}{c} A_g,\qquad \widehat{\Var}_g^{\,\text{pl}}(\Delta \hat z_i) \xrightarrow{p} \frac{1}{c} B_g.
 \end{equation}
 After obtaining an estimate for the \emph{excess variance factor} $c$, we can scale the placebo moments accordingly,  constructing the bias estimates.
 
-\paragraph{Debiased moments.} Subtracting the placebo moments from the treated moments yields debiased estimates:
+\paragraph{Debiased moments.} Subtracting the rescaled placebo moments from the treated moments yields debiased estimates:
 \begin{align}
-\widehat{\Cov}^{\,\text{db}}(\Delta y_i,\Delta \hat z_i) &= \widehat{\Cov}^{\,\text{tr}}(\Delta y_i,\Delta \hat z_i) - c\widehat{\Cov}^{\,\text{pl}}(\Delta y_i,\Delta \hat z_i),\\
-\widehat{\Var}^{\,\text{db}}(\Delta \hat z_i) &= \widehat{\Var}^{\,\text{tr}}(\Delta \hat z_i) - c\widehat{\Var}^{\,\text{pl}}(\Delta \hat z_i).
+\widehat{\Cov}^{\,\text{db}}(\Delta y_i,\Delta \hat z_i) &= \widehat{\Cov}^{\,\text{tr}}(\Delta y_i,\Delta \hat z_i) - c\cdot\widehat{\Cov}^{\,\text{pl}}(\Delta y_i,\Delta \hat z_i),\\
+\widehat{\Var}^{\,\text{db}}(\Delta \hat z_i) &= \widehat{\Var}^{\,\text{tr}}(\Delta \hat z_i) - c\cdot\widehat{\Var}^{\,\text{pl}}(\Delta \hat z_i).
 \end{align}
 For nonlinear transformations such as regression slopes or correlations, we first debias the underlying variances and covariances, then form the ratio:
 \begin{equation}
 \hat\beta^{\text{db}} = \frac{\widehat{\Cov}^{\,\text{db}}(\Delta y_i,\Delta \hat z_i)}{\widehat{\Var}^{\,\text{db}}(\Delta \hat z_i)}.
 \end{equation}
+The placebo-control approach has several advantages. First, it requires no parametric assumptions about the shock process beyond proportional autocovariance. Second, it handles heterogeneous spell lengths and event windows automatically by matching the design between treated and placebo groups. Third, it extends naturally to dynamic event studies by debiasing period-by-period coefficients. Inference follows from standard methods: clustered standard errors for moments, delta method for ratios, or firm-level bootstrap that resamples within design groups.
 
-This approach has several advantages. First, it requires no parametric assumptions about the shock process beyond proportional autocovariance. Second, it handles heterogeneous spell lengths and event windows automatically by matching the design between treated and placebo groups. Third, it extends naturally to dynamic event studies by debiasing period-by-period coefficients. Inference follows from standard methods: clustered standard errors for moments, delta method for ratios, or firm-level bootstrap that resamples within design groups.
-
-The excess variance term $c$ can be estimated by comparing the overall variances of outcomes in treated and control groups in an event window where no CEO change occurs. In practice, [[ explain what we do]]
+The excess variance term $c$ can be estimated by comparing the overall variances of outcomes in treated and control groups in an event window where no CEO change occurs. In practice, we use a minimum distance estimator that matches various second moments before the arrival of a new CEO with the restriction that treated moments are $c$ times placebo moments. 
 
 \section{Monte Carlo Design and Interpretation}
 
