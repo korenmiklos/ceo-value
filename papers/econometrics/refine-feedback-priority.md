@@ -2,58 +2,7 @@
 
 **Comments sorted by:** Priority
 
----
 
-## Comment 1
-
-**Mismatch in description of Figure panels**
-
-"Variance Decomposition by Firm Age (Panel D). Using the estimated variance of CEO fixed effects, we can compute how much CEOs contribute to revenue variance by firm age. Assuming that each CEO change adds the same variance to log revenue, we can back out the variance of CEO effects by age group. As firms age, they accumulate revenue shocks (red), but they also tend to change CEOs more often (blue). Over time, about a tenth of revenue variance is explained by CEO effects. This is smaller than the $R^2$ reported in Panel C because older firms have more accumulated shocks, diluting the relative contribution of CEOs."
-
-**Message:** In the Results section the prose refers to six panels (A–F) and assigns content to each, yet the caption of Figure \ref{fig:application} lists only four panels (A–D) and uses a different ordering (e.g., caption: Panel B = $R^{2}$, Panel C = covariance; text: Panel B = covariance, Panel C = $R^{2}$).  The text also describes a “Variance Decomposition by Firm Age” as Panel D, whereas the caption states that Panel D contains regression coefficients.  Because the figure is central to the empirical argument, please ensure that the number, ordering, and labelling of panels are consistent across the figure file, its caption, and the accompanying paragraphs so that readers can unambiguously match each statistic to its graphical representation.
-
----
-
-## Comment 2
-
-**Mismatch between figure caption and text for Figure `fig:application`**
-
-"Notes: Event studies of log revenue around CEO transitions. All panels normalize to year $t=-1$ (one year before CEO arrival). Panel A shows the variance of revenue changes from baseline. Panel B displays the fraction of revenue variance explained by CEO fixed effects (R-squared). Panel C plots the covariance of revenue change with the change in CEO fixed effect. Panel D shows regression coefficients from projecting revenue on CEO effects."
-
-**Message:** Figure `fig:application` and the surrounding text use different panel labels.  
-• The caption lists four panels (A–D) and assigns Panel B to the R-squared plot and Panel C to the covariance plot.  
-• The Results section immediately afterward discusses six panels (A–F), assigns Panel B to the covariance plot and Panel C to the R-squared plot, and refers to Panels E and F that the caption never describes.  
-
-Because Figure `fig:application` is central to the empirical results, this mismatch makes it hard to follow which graph the text is interpreting. Please ensure that the caption, figure labels, and paragraph headings use a single, consistent set of panel designations.
-
----
-
-## Comment 3
-
-**Explanation of bias with i.i.d. shocks**
-
-"Together, the slope can be biased up or down depending on the balance between these terms. With i.i.d. shocks and long, balanced spells, $\Cov(\varepsilon_i,\eta_i)\approx 0$ and $\Var(\eta_i)$ is small. Both components are small-sample phenomena driven by short $T_1$ and $T_2$. As $T_1,T_2\to\infty$, spell means average out shocks so both bias terms vanish."
-
-**Message:** The paragraph might leave readers with the impression that, even under i.i.d.\ shocks, the naive slope remains biased until spells become long.  In fact, when $\Sigma=\mathbf I$ we have $\Cov(\varepsilon_i,\eta_i)=\Var(\eta_i)$ for any $T_1,T_2$, so the fraction
-\[
-\hat\beta=\frac{\lambda_i+\Cov(\varepsilon_i,\eta_i)}
-                {\lambda_i+\Var(\eta_i)}
-\]
-simplifies to $\hat\beta=1$ exactly, even in very short panels.  It would help to add a clause noting this exact cancellation and to clarify that the need for long, balanced spells arises only for the bias terms themselves to shrink toward zero, not for the slope to be unbiased.
-
----
-
-## Comment 4
-
-**Mismatch between Monte Carlo summary and detailed results**
-
-"We illustrate our method in Monte Carlo experiments that vary the severity of the bias problem across three scenarios: a baseline with balanced panels and independent shocks, extension to persistent shocks, and allowing for a difference up to a scalar of the error structure between the treated and control groups. ... When we allow for persistent shocks and a level difference between the variance-covariance matrix of the treated and control groups, the naive standard deviation of the CEO effect is upward biased by 28 percent."
-
-**Message:** There appears to be a numerical inconsistency between the introduction’s Monte-Carlo summary and Table 1.  
-The text says that, when both persistent shocks and an overall scale difference in the error variance are introduced, “the naïve standard deviation of the CEO effect is upward biased by 28 percent.”  
-The only simulation that combines those two features is the “All Complications” column, where the naïve variance of Δẑ is 2.552.  With a true variance of 1, this implies a naïve standard deviation of about 1.60—an upward bias of roughly 60 percent, not 28 percent.  No other column delivers a 28 percent SD bias either.  Please check whether (i) the introductory sentence is referring to a different scenario than the one reported in the table, or (ii) the percentage in the prose needs to be updated.
-
----
 
 ## Comment 5
 
@@ -65,89 +14,6 @@ The only simulation that combines those two features is the “All Complications
 
 A separate, more substantive point remains.  The final sample can contain firm-years with exactly two simultaneous CEOs, yet the core model $y_{it}=z_{m(i,t)}+e_{it}$ presumes a single manager identifier per firm-year.  The draft does not explain how such cases are handled—whether one CEO is selected, the pair is treated as a joint “CEO team,” or the observations are otherwise adjusted.  Clarifying this handling would strengthen transparency and replicability.
 
----
-
-## Comment 6
-
-**Omission of scaling factor in debiasing formulas**
-
-"Debiased moments.} Subtracting the placebo moments from the treated moments yields debiased estimates:
-\begin{align}
-\widehat{\Cov}^{\,\text{db}}(\Delta y_i,\Delta \hat z_i) &= \widehat{\Cov}^{\,\text{tr}}(\Delta y_i,\Delta \hat z_i) - \widehat{\Cov}^{\,\text{pl}}(\Delta y_i,\Delta \hat z_i),\\
-\widehat{\Var}^{\,\text{db}}(\Delta \hat z_i) &= \widehat{\Var}^{\,\text{tr}}(\Delta \hat z_i) - \widehat{\Var}^{\,\text{pl}}(\Delta \hat z_i).
-\end{align}
-For nonlinear transformations such as regression slopes or correlations, we first debias the underlying variances and covariances, then form the ratio:
-\begin{equation}
-\hat\beta^{\text{db}} = \frac{\widehat{\Cov}^{\,\text{db}}(\Delta y_i,\Delta \hat z_i)}{\widehat{\Var}^{\,\text{db}}(\Delta \hat z_i)}.
-\end{equation}"
-
-**Message:** The equations in the “Debiased moments” subsection subtract placebo moments from treated moments without explicitly showing the variance-ratio multiplier $c=\hat\sigma_1^2/\hat\sigma_0^2$ that was introduced two paragraphs earlier.  Because the text states that placebo moments must be scaled by $c$ under the proportional-autocovariance assumption, it would help to signal in the display (e.g., with “$\widehat{\Cov}^{\,\text{pl}}$ already scaled by $\hat c$”) that the factor is embedded in the notation.  Otherwise readers may mistakenly infer that the formulas apply only to the special case $c=1$.
-
----
-
-## Comment 7
-
-**Explanation of unbiased OLS slope in baseline MC**
-
-"The covariance of the revenue change at year $+2$ with the CEO effect is also upward biased in the naive estimate, but by exactly the same proportion as the variance. This proportional inflation occurs because when shocks are independent and identically distributed, the bias in both the numerator and denominator of the regression slope scales identically. As a consequence, the naive regression coefficient $\hat\beta_2$ is unbiased even though both its components are biased."
-
-**Message:** The text attributes the near-unbiasedness of $\hat\beta_2$ in the baseline scenario to the covariance and variance being inflated “by exactly the same proportion.”  That exact identity holds only when the same linear contrast is used for both variables; here, $\Delta y_{+2}$ (a two-point change) and $\Delta\hat z$ (difference of spell means) rely on different weighting schemes.  Consistent with this, the reported biases—0.188 for the covariance and 0.172 for the variance—are similar but not identical.  The slope ends up almost unbiased, but the explanation overstates the theoretical equivalence.  Consider replacing “exactly the same proportion” with a more qualified statement (e.g., “very similar magnitudes, leading to a negligible slope bias”).
-
----
-
-## Comment 8
-
-**Inconsistency in Monte Carlo scenario description**
-
-"The table lists scenario-specific parameters: maximum spell length $T_{\max}$, error autocorrelation $\rho$, error standard deviation in the treated group $\sigma(\epsilon_{\text{treated}})$, and the annual hazard of CEO change in the unbalanced panel scenarios. The \emph{baseline} calibration assumes short balanced spells and i.i.d. errors. Columns (2) to (5) introduce one complication at a time."
-
-**Message:** The table note states that columns (2)–(5) each “introduce one complication at a time” relative to the baseline.  Column (4) (“Unbalanced Panel”), however, changes two parameters: it introduces an annual CEO-change hazard of 0.20 \emph{and} sets $\rho=0.90$ instead of the baseline value 0.00.  As written, the note suggests that the scenario isolates the impact of unbalanced panels, whereas it actually combines unbalanced spells with persistent errors.  Please revise either the parameter row (if $\rho$ should be 0) or the wording of the note to make the intended design clear.
-
----
-
-## Comment 9
-
-**Clarity of the subtraction step in the introduction**
-
-"The proportional autocovariance assumption then implies that the bias terms are the same up to a scalar. And because covariance is a bilinear operator and variance is additive under strict exogeneity, the bias terms can be ``precomputed'' in the placebo group and simply subtracted from the treated moments."
-
-**Message:** The sentence “the bias terms can be … ‘precomputed’ in the placebo group and simply subtracted from the treated moments” could be read as implying that subtraction is performed without first applying the scalar factor mentioned in the previous line.  To avoid possible confusion, it would help to state explicitly that the placebo moment is first multiplied by this factor (denoted $c$ later in the paper) and then subtracted.
-
----
-
-## Comment 10
-
-**Inconsistent description of figure panels**
-
-"Figure \ref{fig:application} displays four key moments around CEO arrivals: variance of revenue changes (Panel A), the share of revenue variance explained by CEO transitions (Panel B), covariance of revenue with CEO effects (Panel C), and regression coefficients (Panel D)."
-
-**Message:** The introductory sentence mislabels the panels: later text makes clear that Panel B shows the covariance of revenue with CEO effects and Panel C shows the share of variance explained, not the reverse. It also refers to only four panels, while Panels E and F are discussed immediately afterwards. Revising the panel references in this sentence will align the overview with the detailed descriptions and the figure itself.
-
----
-
-## Comment 11
-
-**Ambiguity in the strict exogeneity assumption (sec:The Econometric Problem)**
-
-"Let firm $i$ in year $t$ have outcome
-\begin{equation}\label{eq:model1}
-  y_{it} = z_{m(i,t)} + e_{it},\qquad \mathbb E[e_{it}|z_{is}]=0,
-\end{equation}
-where $z_{m(i,t)}$ collects the CEO effect at time $t$ and $e_{it}$ is a shock. We assume that $z_{m(i,t)}$ is piecewise constant, changing only when the CEO changes and that $e_{it}$ is mean independent of the CEO path for all $s$ (``strict exogeneity'' or ``random mobility'')."
-
-**Message:** Statement (1) $\mathbb{E}[e_{it}\mid z_{is}]=0$ could, if read literally, be interpreted as conditioning on a single-period CEO effect rather than on the entire sequence of CEO assignments.  At first this made me think the assumption might be weaker than strict exogeneity.  Then I understood from the surrounding sentence (“mean independent of the CEO path for all $s$”) that the intended condition is $\mathbb{E}[e_{it}\mid\{z_{is}\}_{s=1}^T]=0$.  Consider writing the conditioning set explicitly—e.g.\ $\mathbb{E}[e_{it}\mid\mathbf z_i]=0$ or $\mathbb{E}[e_{it}\mid\{m(i,\tau)\}_\tau]=0$—to avoid any possibility of misinterpretation.
-
----
-
-## Comment 12
-
-**Imprecise notation in unbiasedness claim (sec:The Econometric Problem)**
-
-"where $T_n$ is the number of observations with CEO $n$. The estimator is unbiased because $\mathbb E[\hat z_n|z_n] = z_n$. The estimator, however, is only consistent as $T_n\to\infty$, that is, as the number of observations per CEO grows large."
-
-**Message:** Statement $\mathbb{E}[\hat z_n\mid z_n]=z_n$ is correct under a fixed-effects interpretation, but seeing $z_n$ both as the conditioning variable and as the parameter being recovered can be momentarily confusing.  Writing either $\mathbb{E}[\hat z_n]=z_n$ (treating $z_n$ as fixed) or $\mathbb{E}[\hat z_n\mid\mathbf z]=z_n$ (conditioning on the full vector of true effects) would make the unbiasedness claim more transparent.
-
----
 
 ## Comment 13
 

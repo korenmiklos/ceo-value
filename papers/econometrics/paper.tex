@@ -68,7 +68,7 @@ Our method relies on two key assumptions about the nature of shocks. First we as
 %Krisztina: removed mean unbiased, not sure what that is
 To understand how these assumptions help debias the variance-covariance of estimated CEO effects, note that the bias terms are weighted sums of the autocovariances of errors, with weights depending on the research design, including the spell length of CEOs at each firm. The placebo design ensures that treated firms and control firms have the same spell-length distributions, and therefore the same weights. The proportional autocovariance assumption then implies that the bias terms are the same up to a scalar. And because covariance is a bilinear operator and variance is additive under strict exogeneity, the bias terms can be ``precomputed'' in the placebo group and simply subtracted from the treated moments.\footnote{This does not hold for nonlinear transformations of variances and covariances, such as correlations and regression slopes. In these cases, we first debias all underlying variances and covariances and only then form the ratio.} In summary, the placebo group, by construction, has no CEO effects, so the variance and covariance of estimated placebo effects identify the bias terms. Subtracting these from the treated moments yields debiased estimates.
 
-We illustrate our method in Monte Carlo experiments that vary the severity of the bias problem across three scenarios: a baseline with balanced panels and independent shocks, extension to persistent shocks, and allowing for a difference up to a scalar of the error structure between the treated and control groups. In the baseline, naive and debiased estimates coincide, confirming the method imposes no distortion when bias is minimal. Under the other two scenarios, spurious pre-trends emerge (despite the fact that the true pre-trend is zero by construction). When we allow for persistent shocks and a level difference between the variance-covariance matrix of the treated and control groups, the naive standard deviation of the CEO effect is upward biased by 28 percent. 
+We illustrate our method in Monte Carlo experiments that vary the severity of the bias problem across three scenarios: a baseline with balanced panels and independent shocks, extension to persistent shocks, and allowing for a difference up to a scalar of the error structure between the treated and control groups. In the baseline, naive and debiased estimates coincide, confirming the method imposes no distortion when bias is minimal. Under the other two scenarios, spurious pre-trends emerge (despite the fact that the true pre-trend is zero by construction). When we allow for persistent shocks and a proportional difference between the variance-covariance matrix of the treated and control groups, the naive variance of the CEO effect is upward biased by a factor of 2.5. 
 
 We apply the method to the universe of Hungarian private firms from 1992 to 2022, examining revenue dynamics around 60,000 CEO transitions. Naive estimates suggest that CEO effects explain 40--58 percent of revenue variance, which is decreased to 20--35 percent after debiasing the variance. The debiased event studies reveal no pre-trends in revenue, confirming that the strong pre-trends in naive estimates are entirely spurious. We also find that export behavior is correlated with CEO quality, with a 10 log points better CEO about 0.6 percentage points increase in the probability of exporting.
 
@@ -83,9 +83,9 @@ Methodologically, our paper builds on the two-way fixed effects literature in la
 
 Let firm $i$ in year $t$ have outcome
 \begin{equation}\label{eq:model1}
-  y_{it} = z_{m(i,t)} + e_{it},\qquad \mathbb E[e_{it}|z_{is}]=0,
+  y_{it} = z_{m(i,t)} + e_{it},\qquad \mathbb E[e_{it}|\{z_{is}\}_{s=1}^T]=0,
 \end{equation}
-where $z_{m(i,t)}$ collects the CEO effect at time $t$ and $e_{it}$ is a shock. We assume that $z_{m(i,t)}$ is piecewise constant, changing only when the CEO changes and that $e_{it}$ is mean independent of the CEO path for all $s$ (``strict exogeneity'' or ``random mobility'').
+where $z_{m(i,t)}$ collects the CEO effect at time $t$ and $e_{it}$ is a shock. We assume that $z_{m(i,t)}$ is piecewise constant, changing only when the CEO changes and that $e_{it}$ is mean independent of the CEO path for all $s$ (``strict exogeneity'').
 
 Under the strict exogeneity assumption, the ordinary least squares (OLS) estimator of $z_m$ is unbiased. Equation \eqref{eq:model1} can be rewritten as a dummy-variable regression 
 $$
@@ -148,24 +148,32 @@ Our approach constructs placebo CEO transitions to directly identify and remove 
 
 \paragraph{Placebo construction.} For each treated firm that experiences a CEO transition, we match control firms that do \emph{not} change CEOs but have similar characteristics (birth cohort, sector, etc.). We assign these control firms a fake CEO transition at the same calendar year as the treated transition, creating artificial pre and post spells of the same length as the treated transition.
 
-The key insight is that for placebo transitions, there is no true CEO effect change: $\Delta z_i = 0$ for all placebo firms. Yet the placebo sample has the same spell-length distribution and event-window design as the treated sample. Therefore, the placebo moments recover the bias terms:
-\begin{equation}
-\widehat{\Cov}^{\,\text{pl}}(\Delta y_i,\Delta \hat z_i) \xrightarrow{p} A,\qquad \widehat{\Var}^{\,\text{pl}}(\Delta \hat z_i) \xrightarrow{p} B.
-\end{equation}
+The key insight is that for placebo transitions, there is no true CEO effect change: $\Delta z_i = 0$ for all placebo firms. Yet the placebo sample has the same spell-length distribution and event-window design as the treated sample. Therefore, the placebo moments recover the bias terms under the \emph{proportional autocovariance} assumption.
 
-\paragraph{Proportional autocovariance assumption.} The placebo and treated groups may differ in volatility. We assume that the autocovariance structure of shocks is the same across groups up to a scalar: if treated firms have shock variance $\sigma_1^2$ and placebo firms have shock variance $\sigma_0^2$, then the bias terms scale proportionally. This assumption, which we call \emph{proportional autocovariance}, allows us to adjust for volatility differences when constructing the bias estimates. In practice, we estimate the scalar ratio $\sigma_1^2/\sigma_0^2$ from the residual variance in non-transition periods and scale the placebo bias terms accordingly.
+
+\paragraph{Proportional autocovariance assumption.} The placebo and treated groups may differ in volatility. We assume that the autocovariance structure of shocks is the same across groups up to a scalar: 
+\begin{equation}
+  \mathbb{E}^{\text{tr}}[e_{it} e_{is}] = c \cdot \mathbb{E}^{\text{pl}}[e_{it} e_{is}] \quad \text{for all } t,s,
+\end{equation}
+for some constant $c>0$. Under this assumption, which we call \emph{proportional autocovariance}, the covariance and variance in the placebo group can be written as 
+\begin{equation}
+\widehat{\Cov}^{\,\text{pl}}(\Delta y_i,\Delta \hat z_i) \xrightarrow{p} \frac{1}{c} A,\qquad \widehat{\Var}^{\,\text{pl}}(\Delta \hat z_i) \xrightarrow{p} \frac{1}{c} B.
+\end{equation}
+After obtaining an estimate for the \emph{excess variance factor} $c$, we can scale the placebo moments accordingly,  constructing the bias estimates.
 
 \paragraph{Debiased moments.} Subtracting the placebo moments from the treated moments yields debiased estimates:
 \begin{align}
-\widehat{\Cov}^{\,\text{db}}(\Delta y_i,\Delta \hat z_i) &= \widehat{\Cov}^{\,\text{tr}}(\Delta y_i,\Delta \hat z_i) - \widehat{\Cov}^{\,\text{pl}}(\Delta y_i,\Delta \hat z_i),\\
-\widehat{\Var}^{\,\text{db}}(\Delta \hat z_i) &= \widehat{\Var}^{\,\text{tr}}(\Delta \hat z_i) - \widehat{\Var}^{\,\text{pl}}(\Delta \hat z_i).
+\widehat{\Cov}^{\,\text{db}}(\Delta y_i,\Delta \hat z_i) &= \widehat{\Cov}^{\,\text{tr}}(\Delta y_i,\Delta \hat z_i) - c\widehat{\Cov}^{\,\text{pl}}(\Delta y_i,\Delta \hat z_i),\\
+\widehat{\Var}^{\,\text{db}}(\Delta \hat z_i) &= \widehat{\Var}^{\,\text{tr}}(\Delta \hat z_i) - c\widehat{\Var}^{\,\text{pl}}(\Delta \hat z_i).
 \end{align}
 For nonlinear transformations such as regression slopes or correlations, we first debias the underlying variances and covariances, then form the ratio:
 \begin{equation}
 \hat\beta^{\text{db}} = \frac{\widehat{\Cov}^{\,\text{db}}(\Delta y_i,\Delta \hat z_i)}{\widehat{\Var}^{\,\text{db}}(\Delta \hat z_i)}.
 \end{equation}
 
-This approach has several advantages. First, it requires no parametric assumptions about the shock process beyond proportional autocovariance. Second, it handles heterogeneous spell lengths and event windows automatically by matching the design. Third, it extends naturally to dynamic event studies by debiasing period-by-period coefficients. Inference follows from standard methods: clustered standard errors for moments, delta method for ratios, or firm-level bootstrap that resamples within design groups.
+This approach has several advantages. First, it requires no parametric assumptions about the shock process beyond proportional autocovariance. Second, it handles heterogeneous spell lengths and event windows automatically by matching the design between treated and placebo groups. Third, it extends naturally to dynamic event studies by debiasing period-by-period coefficients. Inference follows from standard methods: clustered standard errors for moments, delta method for ratios, or firm-level bootstrap that resamples within design groups.
+
+The excess variance term $c$ can be estimated by comparing the overall variances of outcomes in treated and control groups in an event window where no CEO change occurs. In practice, [[ explain what we do]]
 
 \section{Monte Carlo Design and Interpretation}
 
@@ -218,7 +226,7 @@ $\sigma(\epsilon_{\text{control}})$ & \multicolumn{6}{c}{0.71} \\
 \paragraph{Interpreting Table~\ref{tab:mc_params} and Figure~\ref{fig:mc}.}
 Table~\ref{tab:mc_params} reports six Monte Carlo calibrations with different parameters. The baseline is very simple: balanced panels and i.i.d. (uncorrelated) error terms. Across scenarios we focus on five statistics that are widely used in applications: (i) the variance of the change in the manager fixed effect when the firm switches from the first to the second CEO; (ii) the covariance of the revenue change at two years after the CEO change with the change in the manager fixed effect; (iii) the fraction of revenue variance explained by the CEO effect change; (iv) an event-study slope two full years after the CEO change; and (iv) a pre-trend coefficient two years before the change.
 
-In the baseline, the naive variance is upward biased, while the debiased variance of the CEO effect is not significantly different from the true value of 1.00. The covariance of the revenue change at year $+2$ with the CEO effect is also upward biased in the naive estimate, but by exactly the same proportion as the variance. This proportional inflation occurs because when shocks are independent and identically distributed, the bias in both the numerator and denominator of the regression slope scales identically. As a consequence, the naive regression coefficient $\hat\beta_2$ is unbiased even though both its components are biased. This is a knife-edge case that holds only when $\rho$ is exactly zero. The debiased estimates recover the true covariance and the true slope of 1.00. Even in this favorable scenario, however, the $R^2$ remains upward biased because it is a nonlinear transformation of second moments. The long-panel scenario (spells of length 20) shows that all biases essentially disappear; this is a small-sample phenomenon in short panels.
+In the baseline, the naive variance is upward biased, while the debiased variance of the CEO effect is not significantly different from the true value of 1.00. The covariance of the revenue change at year $+2$ with the CEO effect is also upward biased in the naive estimate, but by the same proportion as the variance. This proportional inflation occurs because when shocks are independent and identically distributed, the bias in both the numerator and denominator of the regression slope scales identically. As a consequence, the naive regression coefficient $\hat\beta_2$ is unbiased even though both its components are biased. This is a knife-edge case that holds only when $\rho$ is exactly zero. The debiased estimates recover the true covariance and the true slope of 1.00. Even in this favorable scenario, however, the $R^2$ remains upward biased because it is a nonlinear transformation of second moments. The long-panel scenario (spells of length 20) shows that all biases essentially disappear; this is a small-sample phenomenon in short panels.
 
 With persistent errors ($\rho=0.9$), the naive variance is severely upward biased (about 100\% in our calibration), and spurious pre-trends emerge: before the manager arrives, the naive estimate suggests a negative effect. The true pre-trend is zero; the bias is entirely mechanical. The covariance is also upward biased, but by a smaller factor (about 80\%) than the variance. This differential inflation breaks the proportionality that held under i.i.d. shocks: the bias now depends on the specific autocorrelation structure, not just the spell design. As a result, the naive post-arrival slope $\hat\beta_2$ at $+2$ is below one (about 0.90), consistent with a gradual, biased buildup. Debiasing removes the pre-trend, recovers the true covariance and variance, and delivers a post-arrival slope indistinguishable from the true value of 1.00.
 
@@ -269,7 +277,7 @@ We then study revenue dynamics around CEO arrivals in event time. For each trans
 with the baseline period normalized to zero at \(t=-1\). The coefficients \(\beta_{\ell}\) trace out the revenue response before and after CEO arrival. Under random mobility, we expect no pre-trends: \(\beta_{-4},\beta_{-3},\beta_{-2}\approx 0\). Post-arrival dynamics are a question for the data: effects may be immediate or build gradually during the new CEO’s tenure. We will report both naive and placebo-corrected profiles; the latter subtract the corresponding placebo moments computed on matched non-changers with replicated spell designs.
 
 \subsection*{Placebo Construction and Debiasing}
-Placebo transitions assign a fake CEO change at the same calendar year as an actual transition to control firms that remain under the same CEO and have long no-change runs covering the event window. We split these control runs into the same pre/post spell lengths as the treated transition and align them in event time. Because the design matrices and weights are the same by construction, and because we assume the error autocovariance (\(\Sigma\)) is the same up to a scalar between treated and placebo groups, the covariance and variance bias components can be “precomputed” in the placebo sample and subtracted from the treated estimates. This delivers debiased variance of \(\Delta \hat z\) and debiased event-study coefficients \(\beta_{\ell}\).
+Placebo transitions assign a fake CEO change at the same calendar year as an actual transition to control firms that remain under the same CEO and have long no-change runs covering the event window. We split these control runs into the same pre/post spell lengths as the treated transition and align them in event time. Because the design matrices and weights are the same by construction, and because we assume the error autocovariance (\(\Sigma\)) is the same up to a scalar between treated and placebo groups, the covariance and variance bias components can be ``precomputed'' in the placebo sample and, after correcting for the excess variance factor, subtracted from the treated estimates. This delivers debiased variance of \(\Delta \hat z\) and debiased event-study coefficients \(\beta_{\ell}\).
 
 [[note: add the companion paper citation for full data construction and additional outcomes (e.g., investment, materials, labor).]]
 
@@ -300,7 +308,7 @@ Table \ref{tab:CEO_desc} shows the proportion of firms (and firm-years) by the n
 \section{Results}
 %%%%%%%%%%%%%%%%% 
 
-We present event studies examining revenue dynamics around CEO transitions. Figure \ref{fig:application} displays four key moments around CEO arrivals: variance of revenue changes (Panel A), the share of revenue variance explained by CEO transitions (Panel B), covariance of revenue with CEO effects (Panel C), and regression coefficients (Panel D). Each panel compares naive OLS estimates (red) with placebo-corrected debiased estimates (blue).
+We present event studies examining revenue dynamics around CEO transitions (Figure \ref{fig:application}).
 
 \begin{figure}[htbp]
 \centering
@@ -309,7 +317,7 @@ We present event studies examining revenue dynamics around CEO transitions. Figu
 \label{fig:application}
 \begin{minipage}{0.95\textwidth}
 \footnotesize
-Notes: Event studies of log revenue around CEO transitions. All panels normalize to year $t=-1$ (one year before CEO arrival). Panel A shows the variance of revenue changes from baseline. Panel B displays the fraction of revenue variance explained by CEO fixed effects (R-squared). Panel C plots the covariance of revenue change with the change in CEO fixed effect. Panel D shows regression coefficients from projecting revenue on CEO effects. Red lines show naive OLS estimates; blue lines show placebo-corrected debiased estimates. Shaded regions indicate 95\% confidence intervals. The placebo group consists of matched non-changing firms from the same birth cohort and sector, assigned pseudo CEO transitions at the same calendar year as treated firms. Event window spans $[-4, +3]$ years around CEO arrival.
+Notes: Event studies of various second moments around CEO transitions. All panels normalize to year $t=-1$ (one year before CEO arrival). Panel A shows the variance of revenue changes from baseline. Panel B plots the covariance of revenue change with the change in CEO fixed effect. Panel C displays the fraction of revenue variance explained by CEO fixed effects (R-squared). Panel D shows the variance of CEO fixed effects by firm age, decomposed into revenue shocks and CEO contributions. Panel E shows regression coefficients from projecting revenue on CEO effects, and Panel F shows the coefficients from regressing exporter status on CEO effect. Red lines show naive OLS estimates; blue lines show placebo-corrected debiased estimates. Shaded regions indicate 95\% confidence intervals. The placebo group consists of matched non-changing firms from the same birth cohort and sector, assigned pseudo CEO transitions at the same calendar year as treated firms. Event window spans $[-4, +3]$ years around CEO arrival.
 \end{minipage}
 \end{figure}
 
@@ -460,7 +468,7 @@ The naive regression slope is
 
 \textit{Variance bias term (classical measurement error).} $\Var(\eta_i)>0$ inflates the denominator, the standard attenuation channel.
 
-Together, the slope can be biased up or down depending on the balance between these terms. With i.i.d. shocks and long, balanced spells, $\Cov(\varepsilon_i,\eta_i)\approx 0$ and $\Var(\eta_i)$ is small. Both components are small-sample phenomena driven by short $T_1$ and $T_2$. As $T_1,T_2\to\infty$, spell means average out shocks so both bias terms vanish.
+Together, the slope can be biased up or down depending on the balance between these terms. With i.i.d. shocks and long, balanced spells, $\Cov(\varepsilon_i,\eta_i)\approx 0$ and $\Var(\eta_i)$ is small. Both components are small-sample phenomena driven by short $T_1$ and $T_2$. As $T_1,T_2\to\infty$, spell means average out shocks so both bias terms vanish. 
 
 \subsection{Sample Moments Across Heterogeneous Groups}
 
