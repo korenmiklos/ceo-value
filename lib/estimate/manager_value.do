@@ -35,9 +35,7 @@ generate within_firm_chi = within_firm / chi
 summarize within_firm_chi if ceo_spell > 1, detail
 display "IQR of within-firm variation in manager surplus: " exp(r(p75) - r(p25))*100 - 100
 
-* now do cross section, but only on connected components
-
-reghdfe TFP, absorb(firm_fixed_effect=frame_id_numeric manager_skill=person_id) keepsingletons
+reghdfe lnR, absorb(firm_fixed_effect=frame_id_numeric manager_skill=person_id) keepsingletons
 
 * but across components we cannot make a comparison!
 summarize manager_skill if giant_component == 1, detail
@@ -51,11 +49,6 @@ histogram manager_skill, ///
     ytitle("Density") ///
     normal
 graph export "output/figure/manager_skill_connected.pdf", replace
-
-generate manager_skill_chi = manager_skill / chi
-generate firm_fixed_effect_chi = firm_fixed_effect / chi
-summarize manager_skill_chi, detail
-display "IQR of manager surplus: " exp(r(p75) - r(p25))*100 - 100
 
 collapse (firstnm) firm_fixed_effect manager_skill chi component_id component_size, by(frame_id_numeric person_id)
 save "temp/manager_value.dta", replace

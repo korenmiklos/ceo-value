@@ -17,11 +17,11 @@ data/placebo_full.dta: ../../temp/placebo_full.dta
 	cp $< $@
 
 # same with real data
-data/full_%.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_full.dta
+data/full_%.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_full.dta ../../temp/analysis-sample.dta ../../temp/manager_value.dta
 	mkdir -p data
 	stata -b do "../../lib/estimate/event_study.do" full $* no lnR
 
-data/full_exporter.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_full.dta
+data/full_exporter.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_full.dta  ../../temp/analysis-sample.dta ../../temp/manager_value.dta
 	mkdir -p data
 	stata -b do "../../lib/estimate/event_study.do" full exporter no lnR
 
