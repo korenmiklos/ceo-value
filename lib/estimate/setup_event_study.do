@@ -72,8 +72,8 @@ tabulate ceo_spell placebo
 
 * CEO skill is also fake, computed from actual outcome
 egen fake_manager_skill = mean(`outcome'), by(fake_id ceo_spell)
-* always use fake manager skill, we are doing dynamic estimates here
-replace manager_skill = fake_manager_skill
+* use TWFE estimate (manager_skill) if available, CEO-spell average for placebo
+replace manager_skill = fake_manager_skill if placebo == 1
 drop fake_manager_skill
 
 * limit event window here, not sooner so that placebo is constructed correctly
