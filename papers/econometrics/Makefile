@@ -12,23 +12,18 @@ data/placebo_%.dta: src/montecarlo/%.do src/montecarlo/params.do src/montecarlo/
 	stata -b do src/montecarlo/run.do $*
 
 # copy relevant files for application
-data/placebo_full.dta: ../../temp/placebo_full.dta
+data/placebo_%.dta: ../../temp/placebo_%.dta
 	mkdir -p $(dir $@)
 	cp $< $@
 
 # same with real data
-data/full_%.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_full.dta ../../temp/analysis-sample.dta ../../temp/manager_value.dta
+data/%_lnR.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_%.dta ../../temp/analysis-sample.dta ../../temp/manager_value.dta
 	mkdir -p data
-	stata -b do "../../lib/estimate/event_study.do" full $* no lnR
+	stata -b do "../../lib/estimate/event_study.do" $* lnR no lnR
 
-data/full_exporter.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_full.dta  ../../temp/analysis-sample.dta ../../temp/manager_value.dta
+data/%_exporter.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_%.dta  ../../temp/analysis-sample.dta ../../temp/manager_value.dta
 	mkdir -p data
-	stata -b do "../../lib/estimate/event_study.do" full exporter no lnR
-
-# Generate event study data for monte carlo scenarios
-data/%_lnR.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_%.dta
-	mkdir -p data
-	stata -b do "../../lib/estimate/event_study.do" $* lnR montecarlo lnR
+	stata -b do "../../lib/estimate/event_study.do" $* exporter no lnR
 
 table/atets.tex: src/exhibit/atets.do $(EVENT_STUDIES)
 	mkdir -p table
@@ -38,7 +33,7 @@ figure/figuremc.pdf: src/figuremc.do src/exhibit/event_study2.do src/exhibit/eve
 	mkdir -p figure
 	stata -b do "src/figuremc.do"
 
-figure/application.pdf: src/application.do src/exhibit/age.do src/exhibit/event_study.do data/full_lnR.csv data/full_exporter.csv ../../temp/surplus.dta ../../temp/analysis-sample.dta ../../temp/manager_value.dta
+figure/application.pdf: src/application.do src/exhibit/age.do src/exhibit/event_study.do data/giant_lnR.csv data/giant_exporter.csv ../../temp/surplus.dta ../../temp/analysis-sample.dta ../../temp/manager_value.dta
 	mkdir -p figure
 	stata -b do "src/application.do"
 

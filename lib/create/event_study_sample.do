@@ -11,8 +11,9 @@ local fnd2non12    founder1 == 1 & founder2 == 0 & ceo_spell1 == 1 & ceo_spell2 
 local non2fnd      founder1 == 0 & founder2 == 1
 local non2non      founder1 == 0 & founder2 == 0
 local post2004     window_start >= 2004
+local giant        component_id == 1
 
-assert inlist("`sample'", "full", "fnd2fnd", "fnd2non", "non2fnd", "non2non", "post2004", "fnd2non12")
+assert inlist("`sample'", "full", "fnd2fnd", "fnd2non", "non2fnd", "non2non", "post2004", "fnd2non12", "giant")
 
 clear all
 tempfile cohortsfile
@@ -51,7 +52,7 @@ replace cohort = min_cohort if cohort != min_cohort
 drop min_cohort
 
 * refactor to collapse
-collapse (mean) MS = manager_skill (count) T = TFP (max) founder owner (min) change_year = year (max) window_end = year (firstnm) $exact_match_on, by(frame_id_numeric ceo_spell)
+collapse (mean) MS = manager_skill (count) T = TFP (max) founder owner (min) change_year = year (max) window_end = year (firstnm) $exact_match_on component_id, by(frame_id_numeric ceo_spell)
 
 drop if missing(MS)
 drop if T < ${min_T}
