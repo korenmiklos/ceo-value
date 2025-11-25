@@ -40,11 +40,6 @@ keep if !missing(TFP)
 
 tabulate ceo_spell
 
-generate cohort = foundyear
-tabulate cohort, missing
-replace cohort = 1989 if cohort < 1989
-tabulate cohort, missing
-
 * for some reason, there is 1 duplicate in cohort
 egen min_cohort = min(cohort), by(frame_id_numeric)
 replace cohort = min_cohort if cohort != min_cohort
@@ -125,12 +120,8 @@ scalar MULTIPLE = `TARGET_N_CONTROL' / MEAN
 scalar list
 
 use "temp/surplus.dta", clear
-merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match) nogen keepusing(foundyear)
+merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match) nogen keepusing(${exact_match_on})
 
-generate cohort = foundyear
-tabulate cohort, missing
-replace cohort = 1989 if cohort < 1989
-tabulate cohort, missing
 collapse (min) window_start1 = year (max) window_end1 = year (min) $exact_match_on, by(frame_id_numeric ceo_spell)
 
 * we need at least T = 2 to have a before and after period
