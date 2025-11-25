@@ -23,7 +23,7 @@ local SEED 1391
 global min_obs_threshold 1         // Minimum observations before/after
 global min_T 1                     // Minimum observations to estimate fixed effects
 global max_n_ceo 1                // Maximum number of CEOs per firm for analysis
-global exact_match_on cohort sector // Variables to exactly match on for placebo
+global exact_match_on cohort sector early_size early_exporter // Variables to exactly match on for placebo
 
 use "temp/surplus.dta", clear
 merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match) nogen
