@@ -9,6 +9,12 @@ generate lnL = ln(employment)
 generate lnK = ln(tangible_assets + intangible_assets)
 generate lnM = ln(materials)
 generate lnWL = ln(personnel_expenses)
+generate lnKL = lnK - lnL
+generate lnRL = lnR - lnL
+generate lnMR = lnM - lnR
+generate exportshare = export / sales
+replace exportshare = 0 if exportshare < 0 
+replace exportshare = 1 if exportshare > 1 & !missing(exportshare)
 generate intangible_share = intangible_assets / (tangible_assets + intangible_assets)
 replace intangible_share = 0 if intangible_share < 0 | missing(intangible_share)
 replace intangible_share = 1 if intangible_share > 1
@@ -121,3 +127,7 @@ label variable exit "Exit in year"
 label variable early_exporter "Exporter in first CEO spell"
 label variable early_size "Firm size in first CEO spell (-10, 11-100, 101+)"
 label variable EBITDA_share "EBITDA to sales ratio (winsorized between 0 and 1)"
+label variable lnKL "Capital to labor ratio (log)"
+label variable lnRL "Sales to labor ratio (log)"
+label variable lnMR "Materials to sales ratio (log)"
+label variable exportshare "Export to sales ratio (winsorized between 0 and 1)"
