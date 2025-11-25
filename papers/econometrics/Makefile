@@ -8,13 +8,15 @@ all: paper
 
 montecarlo: $(EVENT_STUDIES)
 
-data/placebo_%.dta: src/montecarlo/%.do src/montecarlo/params.do src/montecarlo/setup.do
-	stata -b do src/montecarlo/run.do $*
+application: $(foreach sample,full small medium large,$(foreach outcome,$(OUTCOMES),data/$(sample)_$(outcome).csv))
 
 # copy relevant files for application
-data/placebo_full.dta: ../../temp/placebo_full.dta
+data/placebo_%.dta: ../../temp/placebo_%.dta
 	mkdir -p $(dir $@)
 	cp $< $@
+
+data/placebo_%.dta: src/montecarlo/%.do src/montecarlo/params.do src/montecarlo/setup.do
+	stata -b do src/montecarlo/run.do $*
 
 application: $(foreach outcome,$(OUTCOMES),data/full_$(outcome).csv)
 
@@ -22,6 +24,17 @@ application: $(foreach outcome,$(OUTCOMES),data/full_$(outcome).csv)
 data/full_%.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_full.dta
 	mkdir -p data
 	stata -b do "../../lib/estimate/event_study.do" full $* no lnR
+
+data/small_%.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_small.dta
+	mkdir -p data
+	stata -b do "../../lib/estimate/event_study.do" small $* no lnR
+
+data/medium_%.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_medium.dta
+	mkdir -p data
+	stata -b do "../../lib/estimate/event_study.do" medium $* no lnR
+data/large_%.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_large.dta
+	mkdir -p data
+	stata -b do "../../lib/estimate/event_study.do" large $* no lnR
 
 # Generate event study data for monte carlo scenarios
 data/%_lnR.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_%.dta

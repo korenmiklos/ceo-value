@@ -5,14 +5,13 @@ confirm existence `sample'
 * ACCEPTED VALUES FOR sample *
 ******************************
 local full         1
-local fnd2fnd      founder1 == 1 & founder2 == 1 
 local fnd2non      founder1 == 1 & founder2 == 0
-local fnd2non12    founder1 == 1 & founder2 == 0 & ceo_spell1 == 1 & ceo_spell2 == 2
-local non2fnd      founder1 == 0 & founder2 == 1
 local non2non      founder1 == 0 & founder2 == 0
-local post2004     window_start >= 2004
+local small        early_size == 10
+local medium       early_size == 100
+local large        early_size == 1000
 
-assert inlist("`sample'", "full", "fnd2fnd", "fnd2non", "non2fnd", "non2non", "post2004", "fnd2non12")
+assert inlist("`sample'", "full", "fnd2non", "non2non", "small", "medium", "large")
 
 clear all
 tempfile cohortsfile
