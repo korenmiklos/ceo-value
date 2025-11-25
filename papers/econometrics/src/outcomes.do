@@ -4,8 +4,8 @@ local A lnKL
 local B lnRL
 local C lnMR
 local D exporter
-local E has_intangibles
-local F EBITDTA_share
+local E has_intangible
+local F EBITDA_share
 
 foreach outcome in A B C D E F {
     import delimited "data/full_``outcome''.csv", clear case(preserve)
