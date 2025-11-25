@@ -23,7 +23,7 @@ local SEED 1391
 global min_obs_threshold 1         // Minimum observations before/after
 global min_T 1                     // Minimum observations to estimate fixed effects
 global max_n_ceo 1                // Maximum number of CEOs per firm for analysis
-global exact_match_on cohort sector // Variables to exactly match on for placebo
+global exact_match_on cohort sector early_size early_exporter // Variables to exactly match on for placebo
 
 use "temp/surplus.dta", clear
 merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match) nogen
@@ -39,11 +39,6 @@ keep if ceo_spell <= max_ceo_spell
 keep if !missing(TFP)
 
 tabulate ceo_spell
-
-generate cohort = foundyear
-tabulate cohort, missing
-replace cohort = 1989 if cohort < 1989
-tabulate cohort, missing
 
 * for some reason, there is 1 duplicate in cohort
 egen min_cohort = min(cohort), by(frame_id_numeric)
@@ -125,12 +120,8 @@ scalar MULTIPLE = `TARGET_N_CONTROL' / MEAN
 scalar list
 
 use "temp/surplus.dta", clear
-merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match) nogen keepusing(foundyear)
+merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match) nogen keepusing(${exact_match_on})
 
-generate cohort = foundyear
-tabulate cohort, missing
-replace cohort = 1989 if cohort < 1989
-tabulate cohort, missing
 collapse (min) window_start1 = year (max) window_end1 = year (min) $exact_match_on, by(frame_id_numeric ceo_spell)
 
 * we need at least T = 2 to have a before and after period

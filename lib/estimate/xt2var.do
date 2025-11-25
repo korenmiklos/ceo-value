@@ -41,7 +41,7 @@ table `group', stat(min `T0' `T1')
 * compute covariances with driver variable
 egen `E' = mean(`dY'), by(`g' `t' `treated_group')
 egen `EX' = mean(`X'), by(`g' `t' `treated_group')
-egen `EZ' = mean(`Z'), by(`g' `treated_group')
+egen `EZ' = mean(`Z'), by(`g' `t' `treated_group')
 generate `dY2' = (`dY' - `E')^2
 generate `dYdX' = (`dY' - `E') * (`X' - `EX')
 generate `dX2' = (`X' - `EX')^2

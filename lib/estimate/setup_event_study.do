@@ -46,6 +46,14 @@ if !("`montecarlo'" == "montecarlo") {
     keep if keep == 1
     drop keep
     * bad naming, sorry!
+
+    egen group = group(window_start change_year window_end sector cohort early_size early_exporter)
+    egen N_treated = total(placebo == 0), by(group)
+    egen N_control = total(placebo == 1), by(group)
+    * for comparison, only keep groups with both treated and control firms
+    keep if N_treated > 0 & N_control > 0
+    tabulate N_control 
+    tabulate N_treated
 }
 else {
     use "data/placebo_`sample'.dta", clear

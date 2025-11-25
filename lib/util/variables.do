@@ -9,11 +9,20 @@ generate lnL = ln(employment)
 generate lnK = ln(tangible_assets + intangible_assets)
 generate lnM = ln(materials)
 generate lnWL = ln(personnel_expenses)
+generate lnKL = lnK - lnL
+generate lnRL = lnR - lnL
+generate lnMR = lnM - lnR
+generate exportshare = export / sales
+replace exportshare = 0 if exportshare < 0 
+replace exportshare = 1 if exportshare > 1 & !missing(exportshare)
 generate intangible_share = intangible_assets / (tangible_assets + intangible_assets)
 replace intangible_share = 0 if intangible_share < 0 | missing(intangible_share)
 replace intangible_share = 1 if intangible_share > 1
 generate byte has_intangible = intangible_assets > 0
 egen max_employment = max(employment), by(frame_id_numeric)
+generate EBITDA_share = EBITDA / sales
+replace EBITDA_share = 0 if EBITDA_share < 0
+replace EBITDA_share = 1 if EBITDA_share > 1 & !missing(EBITDA_share)
 
 * manager spells etc
 egen firm_year_tag = tag(frame_id_numeric year)
@@ -50,11 +59,21 @@ generate byte second_ceo = (ceo_spell == 2)
 generate byte third_ceo = (ceo_spell >= 3)
 generate byte founder = (manager_category == 1)
 replace firm_age = 20 if firm_age > 20 & !missing(firm_age)
+generate cohort = foundyear
+tabulate cohort, missing
+replace cohort = 1989 if cohort < 1989
+tabulate cohort, missing
 
 * quadratics
 foreach var in ceo_age firm_age ceo_tenure {
     generate `var'_sq = `var'^2
 }
+
+* variables fixed by firm, can be used for segmenting the analysis
+egen byte early_exporter = max(exporter & (ceo_spell <= 1)), by(frame_id_numeric)
+egen early_employment = max(cond(ceo_spell <= 1, employment, .)), by(frame_id_numeric)
+generate early_size = early_employment
+recode early_size min/10 = 10 11/100 = 100 101/max = 1000
 
 * variable labels
 label variable frame_id_numeric "Numeric frame ID"
@@ -99,3 +118,16 @@ label variable lnM "Materials (log)"
 label variable intangible_share "Intangible assets share"
 label variable lnWL "Wagebill (log)"
 label variable has_intangible "Has intangible assets"
+
+label variable EBITDA "Earnings before interest, taxes, depreciation, and amortization"
+label variable exporter "Exporter firm"
+
+label variable max_employment "Maximum employment in sample"
+label variable exit "Exit in year"
+label variable early_exporter "Exporter in first CEO spell"
+label variable early_size "Firm size in first CEO spell (-10, 11-100, 101+)"
+label variable EBITDA_share "EBITDA to sales ratio (winsorized between 0 and 1)"
+label variable lnKL "Capital to labor ratio (log)"
+label variable lnRL "Sales to labor ratio (log)"
+label variable lnMR "Materials to sales ratio (log)"
+label variable exportshare "Export to sales ratio (winsorized between 0 and 1)"
