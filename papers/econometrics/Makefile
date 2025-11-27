@@ -8,7 +8,7 @@ all: paper
 
 montecarlo: $(EVENT_STUDIES)
 
-application: $(foreach sample,full small medium large,$(foreach outcome,$(OUTCOMES),data/$(sample)_$(outcome).csv))
+application: $(foreach sample,full small large,$(foreach outcome,$(OUTCOMES),data/$(sample)_$(outcome).csv))
 
 # copy relevant files for application
 data/placebo_%.dta: ../../temp/placebo_%.dta
@@ -29,9 +29,6 @@ data/small_%.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_eve
 	mkdir -p data
 	stata -b do "../../lib/estimate/event_study.do" small $* no lnR
 
-data/medium_%.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_medium.dta
-	mkdir -p data
-	stata -b do "../../lib/estimate/event_study.do" medium $* no lnR
 data/large_%.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_large.dta
 	mkdir -p data
 	stata -b do "../../lib/estimate/event_study.do" large $* no lnR

@@ -7,11 +7,10 @@ confirm existence `sample'
 local full         1
 local fnd2non      founder1 == 1 & founder2 == 0
 local non2non      founder1 == 0 & founder2 == 0
-local small        early_size == 10
-local medium       early_size == 100
-local large        early_size == 1000
+local small        early_size == 1
+local large        early_size == 2
 
-assert inlist("`sample'", "full", "fnd2non", "non2non", "small", "medium", "large")
+assert inlist("`sample'", "full", "fnd2non", "non2non", "small", "large")
 
 clear all
 tempfile cohortsfile
@@ -22,7 +21,7 @@ local SEED 1391
 global min_obs_threshold 1         // Minimum observations before/after
 global min_T 1                     // Minimum observations to estimate fixed effects
 global max_n_ceo 1                // Maximum number of CEOs per firm for analysis
-global exact_match_on cohort sector early_size early_exporter // Variables to exactly match on for placebo
+global exact_match_on cohort sector early_size  // Variables to exactly match on for placebo
 
 use "temp/surplus.dta", clear
 merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match) nogen
