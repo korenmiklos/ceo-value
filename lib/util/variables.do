@@ -59,8 +59,10 @@ generate byte second_ceo = (ceo_spell == 2)
 generate byte third_ceo = (ceo_spell >= 3)
 generate byte founder = (manager_category == 1)
 replace firm_age = 20 if firm_age > 20 & !missing(firm_age)
-generate cohort = foundyear
+* use 3-year windows for cohort to increase cohort sizes
+generate cohort = int(foundyear/3)*3
 tabulate cohort, missing
+* 1989 is divisible by 3
 replace cohort = 1989 if cohort < 1989
 tabulate cohort, missing
 
