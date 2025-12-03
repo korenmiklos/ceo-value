@@ -7,7 +7,7 @@ local D exporter
 local E has_intangible
 local F EBITDA_share
 
-foreach sample in small medium large full {
+foreach sample in small large full {
     foreach outcome in A B C D E F {
         import delimited "data/`sample'_``outcome''.csv", clear case(preserve)
         * drop ATET estimates

@@ -59,8 +59,10 @@ generate byte second_ceo = (ceo_spell == 2)
 generate byte third_ceo = (ceo_spell >= 3)
 generate byte founder = (manager_category == 1)
 replace firm_age = 20 if firm_age > 20 & !missing(firm_age)
-generate cohort = foundyear
+* use 3-year windows for cohort to increase cohort sizes
+generate cohort = int(foundyear/3)*3
 tabulate cohort, missing
+* 1989 is divisible by 3
 replace cohort = 1989 if cohort < 1989
 tabulate cohort, missing
 
@@ -72,8 +74,9 @@ foreach var in ceo_age firm_age ceo_tenure {
 * variables fixed by firm, can be used for segmenting the analysis
 egen byte early_exporter = max(exporter & (ceo_spell <= 1)), by(frame_id_numeric)
 egen early_employment = max(cond(ceo_spell <= 1, employment, .)), by(frame_id_numeric)
-generate early_size = early_employment
-recode early_size min/10 = 10 11/100 = 100 101/max = 1000
+generate early_size = cond(early_employment < 50, 1, 2)
+label define size 1 "Small (2-49)" 2 "Large (50+)"
+label values early_size size
 
 * variable labels
 label variable frame_id_numeric "Numeric frame ID"
