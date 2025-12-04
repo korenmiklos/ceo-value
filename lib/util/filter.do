@@ -52,8 +52,8 @@ tabulate sector if firm_tag
 drop if inlist(sector, `excluded_sectors')
 
 * drop firms with too few employees
-summarize early_employment if firm_tag, detail
-drop if early_employment < `min_employment'
+summarize max_employment if firm_tag, detail
+drop if max_employment < `min_employment'
 
 * clean up
 drop max_n_ceo firm_tag

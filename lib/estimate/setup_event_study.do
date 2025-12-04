@@ -47,7 +47,7 @@ if !("`montecarlo'" == "montecarlo") {
     drop keep
     * bad naming, sorry!
 
-    egen group = group(window_start change_year window_end sector cohort early_size early_exporter)
+    egen group = group(window_start change_year window_end sector cohort max_size)
     egen N_treated = total(placebo == 0), by(group)
     egen N_control = total(placebo == 1), by(group)
     * for comparison, only keep groups with both treated and control firms

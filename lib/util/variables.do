@@ -23,6 +23,9 @@ egen max_employment = max(employment), by(frame_id_numeric)
 generate EBITDA_share = EBITDA / sales
 replace EBITDA_share = 0 if EBITDA_share < 0
 replace EBITDA_share = 1 if EBITDA_share > 1 & !missing(EBITDA_share)
+generate lnROA = ln(EBITDA + tangible_assets + intangible_assets) - lnK
+replace lnROA = -5 if lnROA < -5 | EBITDA + tangible_assets + intangible_assets <= 0
+replace lnROA = 5 if lnROA > 5 & !missing(lnROA)
 
 * manager spells etc
 egen firm_year_tag = tag(frame_id_numeric year)
@@ -74,8 +77,10 @@ foreach var in ceo_age firm_age ceo_tenure {
 * variables fixed by firm, can be used for segmenting the analysis
 egen byte early_exporter = max(exporter & (ceo_spell <= 1)), by(frame_id_numeric)
 egen early_employment = max(cond(ceo_spell <= 1, employment, .)), by(frame_id_numeric)
+generate max_size = cond(max_employment < 50, 1, 2)
 generate early_size = cond(early_employment < 50, 1, 2)
 label define size 1 "Small (2-49)" 2 "Large (50+)"
+label values max_size size
 label values early_size size
 
 * variable labels
@@ -128,9 +133,11 @@ label variable exporter "Exporter firm"
 label variable max_employment "Maximum employment in sample"
 label variable exit "Exit in year"
 label variable early_exporter "Exporter in first CEO spell"
-label variable early_size "Firm size in first CEO spell (-10, 11-100, 101+)"
+label variable early_size "Firm size in first CEO spell (2-49, 50+)"
+label variable max_size "Maximum firm size in sample (2-49, 50+)"
 label variable EBITDA_share "EBITDA to sales ratio (winsorized between 0 and 1)"
 label variable lnKL "Capital to labor ratio (log)"
 label variable lnRL "Sales to labor ratio (log)"
 label variable lnMR "Materials to sales ratio (log)"
 label variable exportshare "Export to sales ratio (winsorized between 0 and 1)"
+label variable lnROA "Return on assets (log 1+R, winsorized between -5 and 5)"
