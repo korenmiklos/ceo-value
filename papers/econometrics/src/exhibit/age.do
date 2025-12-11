@@ -1,6 +1,5 @@
 clear all
-use "../../temp/surplus.dta", clear
-merge 1:1 frame_id_numeric person_id year using "../../temp/analysis-sample.dta", keep(match) nogen
+use "../../temp/analysis-sample.dta", clear
 merge m:1 frame_id_numeric person_id using "../../temp/manager_value.dta", keep(master match) nogen
 
 local lambda 0.5714

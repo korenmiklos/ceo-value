@@ -16,7 +16,6 @@ egen sometimes_missing = max(missing(`outcome')), by(fake_id)
 drop if sometimes_missing == 1
 drop sometimes_missing
 
-* TFP treatment treated_group d  frame_id_numeric
 generate byte treatment = event_time >= 0
 generate byte treated_group = !placebo
 generate manager_diff = MS2 - MS1

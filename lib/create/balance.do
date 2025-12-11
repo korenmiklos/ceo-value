@@ -13,8 +13,8 @@ generate long frame_id_numeric = real(substr(frame_id, 3, .)) if substr(frame_id
 
 tabulate year, missing
 
-local dimensions frame_id_numeric originalid foundyear year teaor08_2d teaor08_1d
-local facts sales export emp tanass ranyag wbill persexp immat so3_with_mo3 fo3
+local dimensions frame_id_numeric originalid foundyear year teaor08_2d teaor08_1d so3_with_mo3 fo3
+local facts sales export emp eszk tanass ranyag wbill persexp immat 
 
 keep `dimensions' `facts'
 order `dimensions' `facts'
@@ -27,11 +27,17 @@ rename persexp personnel_expenses
 rename immat intangible_assets
 rename so3_with_mo3 state_owned
 rename fo3 foreign_owned
+rename eszk assets
 
 
-mvencode sales export employment tangible_assets materials wagebill personnel_expenses intangible_assets state_owned foreign_owned, mv(0) override
+mvencode sales export employment assets tangible_assets materials wagebill personnel_expenses intangible_assets state_owned foreign_owned, mv(0) override
 replace employment = `min_employment' if employment < `min_employment'
 replace employment = int(employment)
+* return on assets, but also defined, if L. is missing, assuming EBITDA increased assets
+* this has to be done on the firm panel so that xtset is unambiguous
+xtset frame_id_numeric year
+generate EBITDA = sales - personnel_expenses - materials
+generate capital = cond(missing(L.assets), assets - EBITDA, L.assets)
 
 compress
 

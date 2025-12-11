@@ -22,9 +22,9 @@ global min_obs_threshold 1         // Minimum observations before/after
 global min_T 1                     // Minimum observations to estimate fixed effects
 global max_n_ceo 1                // Maximum number of CEOs per firm for analysis
 global exact_match_on cohort sector max_size  // Variables to exactly match on for placebo
+global fixed_effect lnROA
 
-use "temp/surplus.dta", clear
-merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match) nogen
+use "temp/analysis-sample.dta", clear
 merge m:1 frame_id_numeric person_id using "temp/manager_value.dta", keep(master match) nogen
 
 * keep single-ceo firms
@@ -34,7 +34,7 @@ keep if max_n_ceo <= ${max_n_ceo}
 
 * limit sample to clean changes  
 keep if ceo_spell <= max_ceo_spell
-keep if !missing(TFP)
+keep if !missing(${fixed_effect})
 
 tabulate ceo_spell
 
@@ -44,7 +44,7 @@ replace cohort = min_cohort if cohort != min_cohort
 drop min_cohort
 
 * refactor to collapse
-collapse (mean) MS = manager_skill (count) T = TFP (max) founder owner (min) change_year = year (max) window_end = year (firstnm) $exact_match_on, by(frame_id_numeric ceo_spell)
+collapse (mean) MS = manager_skill (count) T = ${fixed_effect} (max) founder owner (min) change_year = year (max) window_end = year (firstnm) $exact_match_on, by(frame_id_numeric ceo_spell)
 
 drop if missing(MS)
 drop if T < ${min_T}
@@ -117,8 +117,8 @@ scalar MEAN = r(mean)
 scalar MULTIPLE = `TARGET_N_CONTROL' / MEAN
 scalar list
 
-use "temp/surplus.dta", clear
-merge 1:1 frame_id_numeric person_id year using "temp/analysis-sample.dta", keep(match) nogen keepusing(${exact_match_on})
+use "temp/analysis-sample.dta", clear
+keep frame_id_numeric person_id year ceo_spell ${exact_match_on}
 
 collapse (min) window_start1 = year (max) window_end1 = year (min) $exact_match_on, by(frame_id_numeric ceo_spell)
 

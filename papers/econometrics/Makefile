@@ -2,7 +2,7 @@
 
 SCENARIOS = baseline longpanel persistent unbalanced excessvariance all
 EVENT_STUDIES = $(addprefix data/,$(addsuffix _lnR.csv,$(SCENARIOS)))
-OUTCOMES := lnR lnKL lnRL lnMR exporter exportshare EBITDA_share has_intangible
+OUTCOMES :=  lnROA lnR exporter lnL lnM lnK has_intangible
 
 all: paper
 
@@ -23,15 +23,14 @@ application: $(foreach outcome,$(OUTCOMES),data/full_$(outcome).csv)
 # same with real data
 data/full_%.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_full.dta
 	mkdir -p data
-	stata -b do "../../lib/estimate/event_study.do" full $* no lnR
+	stata -b do "../../lib/estimate/event_study.do" full $* no lnROA
 
 data/small_%.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_small.dta
 	mkdir -p data
-	stata -b do "../../lib/estimate/event_study.do" small $* no lnR
-
+	stata -b do "../../lib/estimate/event_study.do" small $* no lnROA
 data/large_%.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_large.dta
 	mkdir -p data
-	stata -b do "../../lib/estimate/event_study.do" large $* no lnR
+	stata -b do "../../lib/estimate/event_study.do" large $* no lnROA
 
 # Generate event study data for monte carlo scenarios
 data/%_lnR.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_%.dta
@@ -46,7 +45,7 @@ figure/figuremc.pdf: src/figuremc.do src/exhibit/event_study2.do src/exhibit/eve
 	mkdir -p figure
 	stata -b do "src/figuremc.do"
 
-figure/application.pdf: src/application.do src/exhibit/age.do src/exhibit/event_study.do data/full_lnR.csv data/full_exporter.csv ../../temp/surplus.dta ../../temp/analysis-sample.dta ../../temp/manager_value.dta
+figure/application.pdf: src/application.do src/exhibit/age.do src/exhibit/event_study.do data/full_lnR.csv data/full_exporter.csv ../../temp/analysis-sample.dta ../../temp/manager_value.dta
 	mkdir -p figure
 	stata -b do "src/application.do"
 
@@ -57,9 +56,3 @@ paper.pdf: paper.tex table/atets.tex figure/application.pdf ../application/table
 	pdflatex paper.tex
 
 paper: paper.pdf
-
-clean:
-	rm -f data/placebo_*.dta data/*_TFP.csv
-	rm -f table/atets.tex
-	rm -f figure/figuremc.pdf figure/application.pdf
-	rm -f paper.pdf paper.aux paper.log paper.out paper.bbl paper.blg

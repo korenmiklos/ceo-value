@@ -21,8 +21,7 @@ which reghdfe
 which e2frame
 
 if !("`montecarlo'" == "montecarlo") {
-    use "../../temp/surplus.dta", clear
-    merge 1:1 frame_id_numeric person_id year using "../../temp/analysis-sample.dta", keep(match) nogen
+    use "../../temp/analysis-sample.dta", clear
     merge m:1 frame_id_numeric person_id using "../../temp/manager_value.dta", keep(master match) nogen
     confirm numeric variable `outcome'
 

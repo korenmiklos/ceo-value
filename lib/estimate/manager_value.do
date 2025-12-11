@@ -5,15 +5,14 @@ local within_firm_skill_min -1     // Minimum within-firm manager skill bound
 local within_firm_skill_max 1      // Maximum within-firm manager skill bound  
 local outcomes lnR lnEBITDA lnL
 local controls lnK foreign_owned has_intangible
+local fixed_effect lnROA
 
-use "temp/surplus.dta", clear
+use "temp/analysis-sample.dta", clear
 
 * Create connected component indicator
 do "lib/create/network-sample.do"
 
-egen max_ceo_spell = max(ceo_spell), by(frame_id_numeric)
-
-egen within_firm = mean(TFP), by(frame_id_numeric person_id)
+egen within_firm = mean(`fixed_effect'), by(frame_id_numeric person_id)
 egen first_ceo = mean(cond(ceo_spell == 1, within_firm, .)), by(frame_id_numeric)
 replace within_firm = within_firm - first_ceo
 drop first_ceo
@@ -31,13 +30,9 @@ histogram within_firm if ceo_spell > 1, ///
     normal
 graph export "output/figure/manager_skill_within.pdf", replace
 
-generate within_firm_chi = within_firm / chi
-summarize within_firm_chi if ceo_spell > 1, detail
-display "IQR of within-firm variation in manager surplus: " exp(r(p75) - r(p25))*100 - 100
-
 * now do cross section, but only on connected components
 
-reghdfe TFP, absorb(firm_fixed_effect=frame_id_numeric manager_skill=person_id) keepsingletons
+reghdfe `fixed_effect', absorb(firm_fixed_effect=frame_id_numeric manager_skill=person_id) keepsingletons
 
 * but across components we cannot make a comparison!
 summarize manager_skill if giant_component == 1, detail
@@ -52,10 +47,5 @@ histogram manager_skill, ///
     normal
 graph export "output/figure/manager_skill_connected.pdf", replace
 
-generate manager_skill_chi = manager_skill / chi
-generate firm_fixed_effect_chi = firm_fixed_effect / chi
-summarize manager_skill_chi, detail
-display "IQR of manager surplus: " exp(r(p75) - r(p25))*100 - 100
-
-collapse (firstnm) firm_fixed_effect manager_skill chi component_id component_size, by(frame_id_numeric person_id)
+collapse (firstnm) firm_fixed_effect manager_skill component_id component_size, by(frame_id_numeric person_id)
 save "temp/manager_value.dta", replace

@@ -1,5 +1,3 @@
-generate EBITDA = sales - personnel_expenses - materials
-
 generate byte exporter = export > 0 & !missing(export)
 
 * log transformations
@@ -23,8 +21,8 @@ egen max_employment = max(employment), by(frame_id_numeric)
 generate EBITDA_share = EBITDA / sales
 replace EBITDA_share = 0 if EBITDA_share < 0
 replace EBITDA_share = 1 if EBITDA_share > 1 & !missing(EBITDA_share)
-generate lnROA = ln(EBITDA + tangible_assets + intangible_assets) - lnK
-replace lnROA = -5 if lnROA < -5 | EBITDA + tangible_assets + intangible_assets <= 0
+generate lnROA = ln(1 + EBITDA/capital)
+replace lnROA = -5 if lnROA < -5 | EBITDA/capital <= -1
 replace lnROA = 5 if lnROA > 5 & !missing(lnROA)
 
 * manager spells etc

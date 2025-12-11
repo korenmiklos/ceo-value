@@ -11,7 +11,7 @@ PANDOC := pandoc
 UTILS := $(wildcard lib/util/*.do)
 
 SAMPLES := full fnd2non non2non small large
-OUTCOMES := TFP lnK lnWL lnM has_intangible
+OUTCOMES := lnK lnWL lnM has_intangible
 
 # Commit hashes for reproducible file extraction
 # Update these when you need specific versions of files from other branches
@@ -22,7 +22,7 @@ COMMIT_EXPERIMENT := experiment/preferred  # Update with specific hash when need
 # Define costly intermediate files to preserve
 PRECIOUS_FILES := temp/balance.dta temp/ceo-panel.dta temp/unfiltered.dta \
                   temp/analysis-sample.dta temp/placebo.dta temp/edgelist.csv \
-                  temp/large_component_managers.csv temp/surplus.dta \
+                  temp/large_component_managers.csv \
                   temp/manager_value.dta temp/revenue_models.ster $(foreach sample,$(SAMPLES),temp/placebo_$(sample).dta)
 
 # Mark these files as PRECIOUS so make won't delete them
@@ -44,7 +44,7 @@ install: install.log
 data: temp/unfiltered.dta temp/analysis-sample.dta temp/placebo.dta temp/large_component_managers.csv
 
 # Statistical analysis pipeline  
-analysis: temp/surplus.dta temp/manager_value.dta temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_moments.dta temp/revenue_models.ster bloom_autonomy_analysis.log output/table/atet_owner.tex output/table/atet_manager.tex
+analysis: temp/manager_value.dta temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_moments.dta temp/revenue_models.ster bloom_autonomy_analysis.log output/table/atet_owner.tex output/table/atet_manager.tex
 
 # Final reporting pipeline
 report: output/paper.pdf output/slides60.pdf output/figure/event_study_outcomes.pdf
@@ -71,7 +71,7 @@ temp/analysis-sample.dta: lib/create/analysis-sample.do temp/unfiltered.dta lib/
 	$(STATA) $<
 
 # Generate placebo CEO transitions
-temp/placebo_%.dta: lib/create/event_study_sample.do temp/surplus.dta temp/analysis-sample.dta temp/manager_value.dta 
+temp/placebo_%.dta: lib/create/event_study_sample.do temp/analysis-sample.dta temp/manager_value.dta 
 	$(STATA) $< $*
 
 # Extract firm-manager edgelist
@@ -90,18 +90,14 @@ temp/unfiltered.dta: lib/create/unfiltered.do temp/balance.dta temp/ceo-panel.dt
 # Statistical analysis
 # =============================================================================
 
-# Estimate revenue function and residualize surplus
-temp/surplus.dta: lib/estimate/surplus.do temp/analysis-sample.dta
-	$(STATA) $<
-
 # Estimate manager fixed effects and variance decomposition components
-temp/manager_value.dta output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf: lib/estimate/manager_value.do temp/surplus.dta temp/large_component_managers.csv lib/create/network-sample.do
+temp/manager_value.dta output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf: lib/estimate/manager_value.do temp/analysis-sample.dta temp/large_component_managers.csv lib/create/network-sample.do
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
 # Function to generate the rule for each outcome
 define OUTCOME_RULE
-output/event_study/%_$(1).csv: lib/estimate/event_study.do lib/estimate/setup_event_study.do temp/surplus.dta temp/analysis-sample.dta temp/manager_value.dta temp/placebo_%.dta
+output/event_study/%_$(1).csv: lib/estimate/event_study.do lib/estimate/setup_event_study.do temp/analysis-sample.dta temp/manager_value.dta temp/placebo_%.dta
 	mkdir -p $$(dir $$@)
 	$$(STATA) $$< $$* $(1)
 endef
@@ -144,33 +140,11 @@ output/table/table3.tex: lib/exhibit/table3.do temp/revenue_models.ster temp/ana
 
 
 # =============================================================================
-# LaTeX compilation
-# =============================================================================
-
-# Compile final paper
-output/paper.pdf: output/paper.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf output/figure/event_study.pdf output/figure/event_study_outcomes.pdf output/references.bib
-	cd output && $(LATEX) paper.tex && bibtex paper && $(LATEX) paper.tex && $(LATEX) paper.tex
-
-# Compile presentation slides
-output/slides60.pdf: output/slides60.md output/preamble-slides.tex output/table/table1.tex output/table/table2_panelA.tex output/table/table2_panelB.tex output/table/table3.tex output/table/tableA0.tex output/table/tableA1.tex output/table/atet_owner.tex output/table/atet_manager.tex output/figure/manager_skill_connected.pdf output/figure/event_study.pdf output/figure/event_study_outcomes.pdf
-	cd output && $(PANDOC) slides60.md -t beamer --slide-level 2 -H preamble-slides.tex -o slides60.pdf
-
-# Figure 2: Event study by CEO transition type (4 panels)  
-output/figure/figure2.pdf: lib/exhibit/figure2.do output/event_study/fnd2non_TFP.csv output/event_study/non2non_TFP.csv output/event_study/full_TFP.csv output/event_study/post2004_TFP.csv lib/exhibit/event_study.do
-	mkdir -p $(dir $@)
-	$(STATA) $<
-
-# Figure 3: Event study outcomes (Capital, Intangibles, Materials, Wagebill)
-output/figure/figure3.pdf: lib/exhibit/figure3.do output/event_study/full_lnK.csv output/event_study/full_has_intangible.csv output/event_study/full_lnM.csv output/event_study/full_lnWL.csv lib/exhibit/event_study.do
-	mkdir -p $(dir $@)
-	$(STATA) $<
-
-# =============================================================================
 # Optional extracts and tests
 # =============================================================================
 
 # Data extracts for external sharing
-output/extract/manager_changes_2015.dta output/extract/connected_managers.dta: lib/create/extract.do temp/manager_value.dta temp/surplus.dta temp/analysis-sample.dta input/ceo-panel/ceo-panel.dta
+output/extract/manager_changes_2015.dta output/extract/connected_managers.dta: lib/create/extract.do temp/manager_value.dta temp/analysis-sample.dta input/ceo-panel/ceo-panel.dta
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
