@@ -17,7 +17,7 @@ assert inlist(`treatment', 0, 1)
 assert inlist(`treated_group', 0, 1)
 
 tempvar group T1 T0
-tempvar g e Yg dY E dY2 Xg dX EX dYdX dX2 t0 t1 VarX VarY Z EZ CovZZ ZZ
+tempvar g e Yg dY E dY2 Xg dX EX dYdX dX2 t0 t1 VarX VarY Z EZ Zg dZ dZ2 VarZ
 
 xtset
 local i = r(panelvar)
@@ -28,8 +28,9 @@ if "`cluster'" == "" {
 
 egen `g' = max(cond(`treatment' == 0, `t', .)), by(`i')
 egen `Yg' = mean(cond(`t' == `g', `outcome', .)), by(`i')
-egen `Z' = mean(cond(`t' <= `g', `fixed_effects', .)), by(`i')
+egen `Zg' = mean(cond(`t' == `g', `fixed_effects', .)), by(`i')
 generate `dY' = `outcome' - `Yg'
+generate `dZ' = `fixed_effects' - `Zg'
 generate `e' = `t' - `g' - 1
 
 * form groups based on the shape of the design matrix
@@ -41,22 +42,22 @@ table `group', stat(min `T0' `T1')
 * compute covariances with driver variable
 egen `E' = mean(`dY'), by(`g' `t' `treated_group')
 egen `EX' = mean(`X'), by(`g' `t' `treated_group')
-egen `EZ' = mean(`Z'), by(`g' `t' `treated_group')
+egen `EZ' = mean(`dZ'), by(`g' `t' `treated_group')
 generate `dY2' = (`dY' - `E')^2
+generate `dZ2' = (`dZ' - `EZ')^2
 generate `dYdX' = (`dY' - `E') * (`X' - `EX')
 generate `dX2' = (`X' - `EX')^2
-generate `ZZ' = (`fixed_effects') * (`Z' - `EZ')
 
 * the least-square estimate of excess variance is a nocons OLS
-egen `CovZZ' = mean(cond(!`treated_group', `ZZ', .)), by(`e' `group')
+egen `VarZ' = mean(cond(!`treated_group', `dZ2', .)), by(`e' `group')
 egen `VarY' = mean(cond(!`treated_group', `dY2', .)), by(`e' `group')
 forvalues k = 1/4 {
-    regress `ZZ' `CovZZ' if `treated_group' == 1 & `e' < 0, noconstant
-    local eVarZ = _b[`CovZZ']
+    regress `dZ2' `VarZ' if `treated_group' == 1 & `e' < 0, noconstant
+    local eVarZ = _b[`VarZ']
     regress `dY2' `VarY' if `treated_group' == 1 & `e' < 0, noconstant
     local eVarY = _b[`VarY']
-    drop `CovZZ' `VarY'
-    egen `CovZZ' = mean(cond(!`treated_group', `ZZ', `ZZ' / `eVarZ')), by(`e' `group')
+    drop `VarZ' `VarY'
+    egen `VarZ' = mean(cond(!`treated_group', `dZ2', `dZ2' / `eVarZ')), by(`e' `group')
     egen `VarY' = mean(cond(!`treated_group', `dY2', `dY2' / `eVarY')), by(`e' `group')
 }
 local eCovYZ = sqrt(`eVarZ' * `eVarY')
