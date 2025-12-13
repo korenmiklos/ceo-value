@@ -23,14 +23,14 @@ application: $(foreach outcome,$(OUTCOMES),data/full_$(outcome).csv)
 # same with real data
 data/full_%.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_full.dta
 	mkdir -p data
-	stata -b do "../../lib/estimate/event_study.do" full $* no lnR
+	stata -b do "../../lib/estimate/event_study.do" full $* no lnROA
 
 data/small_%.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_small.dta
 	mkdir -p data
-	stata -b do "../../lib/estimate/event_study.do" small $* no lnR
+	stata -b do "../../lib/estimate/event_study.do" small $* no lnROA
 data/large_%.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_large.dta
 	mkdir -p data
-	stata -b do "../../lib/estimate/event_study.do" large $* no lnR
+	stata -b do "../../lib/estimate/event_study.do" large $* no lnROA
 
 # Generate event study data for monte carlo scenarios
 data/%_lnR.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_%.dta

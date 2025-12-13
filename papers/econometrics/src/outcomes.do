@@ -1,11 +1,11 @@
 clear all
 
-local A lnKL
-local B lnRL
-local C lnMR
-local D exporter
+local A lnR
+local B lnL
+local C lnM
+local D lnK
 local E has_intangible
-local F EBITDA_share
+local F exporter
 
 foreach sample in small large full {
     foreach outcome in A B C D E F {
