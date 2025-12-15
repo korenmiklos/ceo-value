@@ -62,14 +62,9 @@ forvalues k = 1/4 {
 }
 local eCovYZ = sqrt(`eVarZ' * `eVarY')
 
+display "Estimated variance and covariance in treated and placebo groups:"
 table `e' `treated_group', stat(mean `dY2' `dYdX' `dX2') nototals
 
-replace `dY2' = `eVarY' * `dY2' if !`treated_group'
-* FIXME: this only works if Y and X have the same unit
-replace `dYdX' = `eCovYZ' * `dYdX' if !`treated_group'
-replace `dX2' = `eVarZ' * `dX2' if !`treated_group'
-
-table `e' `treated_group', stat(mean `dY2' `dYdX' `dX2') nototals
 forvalues et = `pre'(-1)2 {
     generate byte et_m_`et' = (`e' == -`et') & (`treated_group' == 1)
 }
@@ -169,27 +164,21 @@ frame dCov {
         replace coef_`df' = `coef_`df'' in -1
     }
 
-    generate coef_Cov0_excess = coef_Cov1 - coef_dCov
-    generate coef_Cov0 = coef_Cov0_excess / `eCovYZ'
-    generate coef_VarY0_excess = coef_VarY1 - coef_dVarY
-    generate coef_VarY0 = coef_VarY0_excess / `eVarY'
+    generate coef_Cov0 = coef_Cov1 - coef_dCov
+    generate coef_VarY0 = coef_VarY1 - coef_dVarY
 
-    generate Var0_excess = `Var0'
-    generate Var0 = Var0_excess / `eVarZ'
+    generate Var0 = `Var0'
     generate Var1 = `Var1'
-    generate dVar = Var1 - Var0_excess
+    generate dVar = Var1 - Var0
 
     * standard errors for differences
-    generate se_Cov0_excess = sqrt(se_Cov1^2 + se_dCov^2)
-    generate se_Cov0 = se_Cov0_excess / `eCovYZ'
-    generate se_VarY0_excess = sqrt(se_VarY1^2 + se_dVarY^2)
-    generate se_VarY0 = se_VarY0_excess / `eVarY'
+    generate se_Cov0 = sqrt(se_Cov1^2 + se_dCov^2)
+    generate se_VarY0 = sqrt(se_VarY1^2 + se_dVarY^2)
 
     sort t
 
     generate coef_dbeta = coef_dCov / dVar
     generate coef_beta1 = coef_Cov1 / Var1
-    generate coef_beta0_excess = coef_Cov0_excess / Var0_excess
     generate coef_beta0 = coef_Cov0 / Var0
 
     * use the delta method to get standard errors for beta
@@ -210,17 +199,16 @@ frame dCov {
     generate se_beta0 = sqrt(se_Cov1^2 + se_dCov^2) / Var0 * sqrt(correction)
 
     * now we can compute error bands
-    foreach v in dbeta beta1 beta0 dCov Cov1 Cov0 Cov0_excess dVarY VarY1 VarY0 VarY0_excess {
+    foreach v in dbeta beta1 beta0 dCov Cov1 Cov0 dVarY VarY1 VarY0 {
         generate lower_`v' = coef_`v' - se_`v' * invnormal(0.975)
         generate upper_`v' = coef_`v' + se_`v' * invnormal(0.975)
     }
 
     generate Rsq1 = (coef_Cov1)^2 / (coef_VarY1 * Var1)
-    generate Rsq0_excess = (coef_Cov0_excess)^2 / (coef_VarY1 * Var0_excess)
     generate Rsq0 = (coef_Cov0)^2 / (coef_VarY1 * Var0)
     generate dRsq = (coef_dCov)^2 / (coef_VarY1 * dVar)
 
-    foreach X in Rsq0 Rsq1 dRsq Rsq0_excess {
+    foreach X in Rsq0 Rsq1 dRsq {
         replace `X' = 0 if t == -1
     }
 

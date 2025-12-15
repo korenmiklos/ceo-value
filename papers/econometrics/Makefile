@@ -2,7 +2,7 @@
 
 SCENARIOS = baseline longpanel persistent unbalanced excessvariance all
 EVENT_STUDIES = $(addprefix data/,$(addsuffix _lnR.csv,$(SCENARIOS)))
-OUTCOMES :=  lnROA lnR exporter lnL lnM lnK has_intangible
+OUTCOMES :=  lnROA lnR exporter lnL lnM lnK has_intangible lnKL lnRL lnMR EBITDA_share
 
 all: paper
 
