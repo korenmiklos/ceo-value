@@ -7,9 +7,9 @@ local D lnK
 local E has_intangible
 local F exporter
 
-foreach sample in small large full {
+foreach FE in lnR lnL lnROA lnRL {
     foreach outcome in A B C D E F {
-        import delimited "data/`sample'_``outcome''.csv", clear case(preserve)
+        import delimited "data/full_``outcome''-`FE'.csv", clear case(preserve)
         * drop ATET estimates
         drop if xvar == "ATET"
 
@@ -18,6 +18,6 @@ foreach sample in small large full {
     graph combine panelA panelB panelC panelD panelE panelF, ///
         cols(2) graphregion(color(white)) imargin(small) xsize(5) ysize(7.5)
 
-    graph export "figure/outcomes_`sample'.pdf", replace
+    graph export "figure/outcomes_`FE'.pdf", replace
     graph drop panel*
 }

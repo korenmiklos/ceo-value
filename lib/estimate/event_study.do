@@ -21,4 +21,4 @@ generate byte treated_group = !placebo
 generate manager_diff = MS2 - MS1
 do "../../lib/estimate/xt2var.do" `outcome' treatment treated_group manager_diff $cluster `fixed_effects'
 
-frame dCov: export delimited "data/`sample'_`outcome'.csv", replace
+frame dCov: export delimited "data/`sample'_`outcome'-`fixed_effects'.csv", replace

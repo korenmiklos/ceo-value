@@ -8,7 +8,7 @@ all: paper
 
 montecarlo: $(EVENT_STUDIES)
 
-application: $(foreach sample,full small large,$(foreach outcome,$(OUTCOMES),data/$(sample)_$(outcome).csv))
+application: $(foreach FE,lnR lnL lnROA lnRL,$(foreach outcome,$(OUTCOMES),data/full_$(outcome)-$(FE).csv))
 
 # copy relevant files for application
 data/placebo_%.dta: ../../temp/placebo_%.dta
@@ -18,19 +18,22 @@ data/placebo_%.dta: ../../temp/placebo_%.dta
 data/placebo_%.dta: src/montecarlo/%.do src/montecarlo/params.do src/montecarlo/setup.do
 	stata -b do src/montecarlo/run.do $*
 
-application: $(foreach outcome,$(OUTCOMES),data/full_$(outcome).csv)
-
 # same with real data
-data/full_%.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_full.dta
+data/full_%-lnR.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_full.dta
 	mkdir -p data
 	stata -b do "../../lib/estimate/event_study.do" full $* no lnR
 
-data/small_%.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_small.dta
+data/full_%-lnROA.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_full.dta
 	mkdir -p data
-	stata -b do "../../lib/estimate/event_study.do" small $* no lnR
-data/large_%.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_large.dta
+	stata -b do "../../lib/estimate/event_study.do" full $* no lnROA
+
+data/full_%-lnL.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_full.dta
 	mkdir -p data
-	stata -b do "../../lib/estimate/event_study.do" large $* no lnR
+	stata -b do "../../lib/estimate/event_study.do" full $* no lnL
+
+data/full_%-lnRL.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_full.dta
+	mkdir -p data
+	stata -b do "../../lib/estimate/event_study.do" full $* no lnRL
 
 # Generate event study data for monte carlo scenarios
 data/%_lnR.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_%.dta
