@@ -177,9 +177,11 @@ frame dCov {
 
     sort t
 
-    generate coef_dbeta = coef_dCov / dVar
-    generate coef_beta1 = coef_Cov1 / Var1
-    generate coef_beta0 = coef_Cov0 / Var0
+    * report standardized coefficients
+    generate coef_dbeta = coef_dCov / sqrt(dVar)
+    generate coef_beta1 = coef_Cov1 / sqrt(Var1)
+    generate coef_beta0 = coef_Cov0 / sqrt(Var0)
+    * FIXME: correct standard errors for beta estimates
 
     * use the delta method to get standard errors for beta
     * Var(beta) = Var(Cov)/E(X)^2 [1 + beta^2 * Var(X)/Var(Y)]
