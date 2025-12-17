@@ -4,8 +4,8 @@ local A lnR
 local B lnL
 local C lnM
 local D lnK
-local E has_intangible
-local F exporter
+local E lnROA
+local F EBITDA_share
 
 foreach FE in lnR lnL lnROA lnRL {
     foreach outcome in A B C D E F {
