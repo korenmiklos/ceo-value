@@ -3,12 +3,13 @@
 SCENARIOS = baseline longpanel persistent unbalanced excessvariance all
 EVENT_STUDIES = $(addprefix data/,$(addsuffix _lnR.csv,$(SCENARIOS)))
 OUTCOMES :=  lnROA lnR exporter lnL lnM lnK has_intangible lnKL lnRL lnMR EBITDA_share
+FIXED_EFFECTS := investment
 
 all: paper
 
 montecarlo: $(EVENT_STUDIES)
 
-application: $(foreach FE,lnR lnL lnROA lnRL,$(foreach outcome,$(OUTCOMES),data/full_$(outcome)-$(FE).csv))
+application: $(foreach FE,$(FIXED_EFFECTS),$(foreach outcome,$(OUTCOMES),data/full_$(outcome)-$(FE).csv))
 
 # copy relevant files for application
 data/placebo_%.dta: ../../temp/placebo_%.dta
@@ -34,6 +35,10 @@ data/full_%-lnL.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_
 data/full_%-lnRL.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_full.dta
 	mkdir -p data
 	stata -b do "../../lib/estimate/event_study.do" full $* no lnRL
+
+data/full_%-investment.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_full.dta
+	mkdir -p data
+	stata -b do "../../lib/estimate/event_study.do" full $* no investment
 
 # Generate event study data for monte carlo scenarios
 data/%_lnR.csv: ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do data/placebo_%.dta

@@ -2,12 +2,12 @@ clear all
 
 local A lnR
 local B lnL
-local C lnM
-local D lnK
+local C lnK
+local D exporter
 local E lnROA
 local F EBITDA_share
 
-foreach FE in lnR lnL lnROA lnRL {
+foreach FE in lnR lnROA investment {
     foreach outcome in A B C D E F {
         import delimited "data/full_``outcome''-`FE'.csv", clear case(preserve)
         * drop ATET estimates

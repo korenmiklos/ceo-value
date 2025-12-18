@@ -4,7 +4,6 @@ generate byte exporter = export > 0 & !missing(export)
 generate lnR = ln(sales)
 generate lnEBITDA = ln(EBITDA)
 generate lnL = ln(employment)
-generate lnK = ln(tangible_assets + intangible_assets)
 generate lnM = ln(materials)
 generate lnWL = ln(personnel_expenses)
 generate lnKL = lnK - lnL
@@ -22,6 +21,7 @@ generate EBITDA_share = EBITDA / sales
 replace EBITDA_share = 0 if EBITDA_share < 0
 replace EBITDA_share = 1 if EBITDA_share > 1 & !missing(EBITDA_share)
 generate lnROA = ln(1 + EBITDA/capital)
+* FIXME: check winsorization levels
 replace lnROA = -5 if lnROA < -5 | EBITDA/capital <= -1
 replace lnROA = 5 if lnROA > 5 & !missing(lnROA)
 
@@ -139,3 +139,4 @@ label variable lnRL "Sales to labor ratio (log)"
 label variable lnMR "Materials to sales ratio (log)"
 label variable exportshare "Export to sales ratio (winsorized between 0 and 1)"
 label variable lnROA "Return on assets (log 1+R, winsorized between -5 and 5)"
+label variable investment "Net investment (change in log fixed assets)"

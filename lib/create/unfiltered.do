@@ -7,6 +7,11 @@
 clear all
 
 use "temp/balance.dta", clear
+* create investment here while it is a firm-year panel
+xtset frame_id_numeric year
+generate lnK = ln(tangible_assets + intangible_assets)
+generate investment = lnK - L.lnK
+
 merge 1:m frame_id_numeric year using "temp/ceo-panel.dta", keep(master match) nogen
 
 * Apply industry classification

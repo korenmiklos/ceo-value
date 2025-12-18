@@ -4,7 +4,7 @@
 local max_ceos_per_year 2         // Maximum number of CEOs allowed per firm per year
 local max_ceo_spells 12            // Maximum CEO spell threshold
 local min_firm_age 1              // Minimum firm age (drops age 0)
-local excluded_sectors "2, 9"     // Sector codes to exclude (mining, finance)
+local excluded_sectors "9"     // Sector codes to exclude (finance)
 local min_employment 2           // Minimum employment for analysis
 
 /*
