@@ -23,6 +23,10 @@ which e2frame
 if !("`montecarlo'" == "montecarlo") {
     use "../../temp/analysis-sample.dta", clear
     merge m:1 frame_id_numeric person_id using "../../temp/manager_value.dta", keep(master match) nogen
+    * redefine variables here so as not to rerun everything
+    replace lnROA = . if lnROA < -4.99
+    generate lnYL = ln(sales - materials) - lnL
+    
     confirm numeric variable `outcome'
 
     * sample for performance when testing

@@ -32,27 +32,12 @@ PRECIOUS_FILES := temp/balance.dta temp/ceo-panel.dta temp/unfiltered.dta \
 # Main targets
 # =============================================================================
 
-.PHONY: all install data analysis report event_study
-
-# Complete workflow: data → analysis → report
-all: report
-
-# Install dependencies and setup
-install: install.log
+.PHONY: data
 
 # Data wrangling pipeline
-data: temp/unfiltered.dta temp/analysis-sample.dta temp/placebo.dta temp/large_component_managers.csv
+data: temp/manager_value.dta
 
-# Statistical analysis pipeline  
-analysis: temp/manager_value.dta temp/event_study_panel_a.dta temp/event_study_panel_b.dta temp/event_study_moments.dta temp/revenue_models.ster bloom_autonomy_analysis.log output/table/atet_owner.tex output/table/atet_manager.tex
-
-# Final reporting pipeline
-report: output/paper.pdf output/slides60.pdf output/figure/event_study_outcomes.pdf
-
-extract: output/extract/manager_changes_2015.dta output/extract/connected_managers.dta
-
-# Event study figures pipeline
-event_study: $(foreach sample,$(SAMPLES),$(foreach outcome,$(OUTCOMES),output/event_study/$(sample)_$(outcome).csv))
+install: install.log
 
 # =============================================================================
 # Data wrangling
@@ -91,67 +76,10 @@ temp/unfiltered.dta: lib/create/unfiltered.do temp/balance.dta temp/ceo-panel.dt
 # =============================================================================
 
 # Estimate manager fixed effects and variance decomposition components
-temp/manager_value.dta output/figure/manager_skill_within.pdf output/figure/manager_skill_connected.pdf: lib/estimate/manager_value.do temp/analysis-sample.dta temp/large_component_managers.csv lib/create/network-sample.do
+temp/manager_value.dta: lib/estimate/manager_value.do temp/analysis-sample.dta temp/large_component_managers.csv lib/create/network-sample.do
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
-# Function to generate the rule for each outcome
-define OUTCOME_RULE
-output/event_study/%_$(1).csv: lib/estimate/event_study.do lib/estimate/setup_event_study.do temp/analysis-sample.dta temp/manager_value.dta temp/placebo_%.dta
-	mkdir -p $$(dir $$@)
-	$$(STATA) $$< $$* $(1)
-endef
-
-# Generate rules for each outcome
-$(foreach outcome,$(OUTCOMES),$(eval $(call OUTCOME_RULE,$(outcome))))
-
-# Revenue function estimation results - saves all model estimates
-temp/revenue_models.ster: lib/estimate/revenue_function.do temp/analysis-sample.dta temp/large_component_managers.csv lib/create/network-sample.do
-	$(STATA) $<
-
-# Bloom et al. (2012) autonomy analysis - supporting evidence
-bloom_autonomy_analysis.log: lib/estimate/bloom_autonomy_analysis.do input/bloom-et-al-2012/replication.dta
-	$(STATA) $<
-
-
-# =============================================================================
-# Exhibits (tables and figures)
-# =============================================================================
-
-# Table 1: Sample distribution over time
-output/table/table1.tex: lib/exhibit/table1.do temp/unfiltered.dta temp/analysis-sample.dta temp/large_component_managers.csv
-	mkdir -p $(dir $@)
-	$(STATA) $<
-
-# Table A0: Bloom et al. (2012) autonomy analysis
-output/table/tableA0.tex: lib/exhibit/tableA0.do input/bloom-et-al-2012/replication.dta
-	mkdir -p $(dir $@)
-	$(STATA) $<
-
-# Table A1: Industry-level summary statistics (moved to appendix)
-output/table/tableA1.tex: lib/exhibit/tableA1.do temp/unfiltered.dta temp/analysis-sample.dta $(UTILS)
-	mkdir -p $(dir $@)
-	$(STATA) $<
-
-# Table 3: Revenue function estimation results
-output/table/table3.tex: lib/exhibit/table3.do temp/revenue_models.ster temp/analysis-sample.dta temp/large_component_managers.csv lib/create/network-sample.do
-	mkdir -p $(dir $@)
-	$(STATA) $<
-
-
-# =============================================================================
-# Optional extracts and tests
-# =============================================================================
-
-# Data extracts for external sharing
-output/extract/manager_changes_2015.dta output/extract/connected_managers.dta: lib/create/extract.do temp/manager_value.dta temp/analysis-sample.dta input/ceo-panel/ceo-panel.dta
-	mkdir -p $(dir $@)
-	$(STATA) $<
-
-# Network analysis tests
-output/test/test_paths.csv: lib/test/test_network.jl temp/edgelist.csv temp/large_component_managers.csv
-	mkdir -p $(dir $@)
-	$(JULIA) $< 1000 10
 
 # Balance estimation (alternative analysis)
 balance.log: lib/estimate/balance.do temp/analysis-sample.dta lib/create/network-sample.do
@@ -169,23 +97,3 @@ output/test/placebo_test.log: lib/test/placebo.do output/test/placebo.dta
 # Install Stata packages
 install.log: lib/util/install.do
 	$(STATA) $<
-
-# =============================================================================
-# Extract files from other branches/commits
-# =============================================================================
-
-# Pattern rule to extract any file from any commit
-# Usage: make branches/main/lib/exhibit/table1.do
-#        make branches/abc123f/output/paper.tex
-branches/%:
-	@mkdir -p $(dir $@)
-	@commit=$$(echo $* | cut -d/ -f1); \
-	filepath=$$(echo $* | cut -d/ -f2-); \
-	git show $$commit:$$filepath > $@ 2>/dev/null || (echo "Error: Could not extract $$filepath from $$commit" && rm -f $@ && exit 1)
-	@echo "Extracted: $@"
-
-temp/event_study_panel_c.dta:  branches/1b375e4f6f099795942847f93be0d5ee68efee67/output/event_study_panel_b.dta
-	@cp $< $@
-
-temp/event_study_panel_d.dta:  branches/6ca0e95a270eda23824347489ceb1f3964f75695/output/event_study_panel_b.dta
-	@cp $< $@
