@@ -9,6 +9,7 @@ generate lnWL = ln(personnel_expenses)
 generate lnKL = lnK - lnL
 generate lnRL = lnR - lnL
 generate lnMR = lnM - lnR
+generate lnYL = ln(sales-materials) - lnL
 generate exportshare = export / sales
 replace exportshare = 0 if exportshare < 0 
 replace exportshare = 1 if exportshare > 1 & !missing(exportshare)
@@ -24,6 +25,7 @@ generate lnROA = ln(1 + EBITDA/capital)
 * FIXME: check winsorization levels
 replace lnROA = -5 if lnROA < -5 | EBITDA/capital <= -1
 replace lnROA = 5 if lnROA > 5 & !missing(lnROA)
+replace lnROA = . if lnROA < -4.9
 
 * manager spells etc
 egen firm_year_tag = tag(frame_id_numeric year)
