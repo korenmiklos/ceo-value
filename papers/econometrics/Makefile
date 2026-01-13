@@ -1,9 +1,9 @@
 .PHONY: all montecarlo paper clean
 
 SCENARIOS = baseline longpanel persistent unbalanced excessvariance all
-EVENT_STUDIES = $(addprefix data/,$(addsuffix _lnR.csv,$(SCENARIOS)))
+EVENT_STUDIES = $(addprefix data/,$(addsuffix _lnR.csv,$(SCENARIOS))) 
 OUTCOMES :=  lnROA lnR exporter lnL lnM lnK has_intangible lnKL lnRL lnMR EBITDA_share
-FIXED_EFFECTS := lnR lnROA investment
+FIXED_EFFECTS := lnRL lnR lnROA lnL investment lnYL
 DATALIB := ../../temp/analysis-sample.dta ../../temp/manager_value.dta
 CODELIB := ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do
 
@@ -13,7 +13,7 @@ montecarlo: $(EVENT_STUDIES)
 
 figure/outcomes_%.pdf: src/outcomes.do $(foreach outcome,$(OUTCOMES),data/full_$(outcome)-%.csv)
 	mkdir -p figure
-	stata -b do $<
+	stata -b do $< $*
 
 application: $(foreach FE,$(FIXED_EFFECTS),$(foreach outcome,$(OUTCOMES),data/full_$(outcome)-$(FE).csv))
 
@@ -46,10 +46,14 @@ data/full_%-investment.csv: $(CODELIB) $(DATALIB) data/placebo_full.dta
 	mkdir -p data
 	stata -b do "../../lib/estimate/event_study.do" full $* no investment
 
+data/full_%-lnYL.csv: $(CODELIB) $(DATALIB) data/placebo_full.dta
+	mkdir -p data
+	stata -b do "../../lib/estimate/event_study.do" full $* no lnYL
+
 # Generate event study data for monte carlo scenarios
 data/%_lnR.csv: $(CODELIB) data/placebo_%.dta
 	mkdir -p data
-	stata -b do "../../lib/estimate/event_study.do" $* lnR montecarlo lnR
+	stata -b do "../../lib/estimate/event_study.do" $* lnR montecarlo lnRL
 
 table/atets.tex: src/exhibit/atets.do $(EVENT_STUDIES)
 	mkdir -p table
