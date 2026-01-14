@@ -1,7 +1,7 @@
 local sampleA baseline
 local sampleB baseline
-local sampleC persistent
-local sampleD persistent
+local sampleC persistent_baseline
+local sampleD persistent_baseline
 local sampleE all
 local sampleF all
 
