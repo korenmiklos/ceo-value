@@ -24,7 +24,7 @@ foreach panel in A B C D E F {
     local title  `title`panel''
     local outcome `outcome`panel''
 
-    import delimited "data/`sample'_lnR.csv", clear case(preserve)
+    import delimited "data/`sample'_lnR-lnR.csv", clear case(preserve)
     * drop ATET estimates
     drop if xvar == "ATET"
 

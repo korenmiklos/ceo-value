@@ -1,7 +1,8 @@
 *! Monte Carlo simulation for placebo-controlled event study
 *! Expects locals: rho, sigma_epsilon0, sigma_epsilon1, hazard, T_max
 
-confirm existence "`rho'"
+confirm existence "`rho_control'"
+confirm existence "`rho_treated'"
 confirm existence "`sigma_epsilon0'"
 confirm existence "`sigma_epsilon1'"
 confirm existence "`hazard'"
@@ -10,7 +11,8 @@ confirm existence "`N_changes'"
 confirm existence "`sigma_z'"
 confirm existence "`control_treated_ratio'"
 
-assert `rho' >= 0 & `rho' < 1
+assert `rho_control' >= 0 & `rho_control' < 1
+assert `rho_treated' >= 0 & `rho_treated' < 1
 assert `sigma_epsilon0' > 0
 assert `sigma_epsilon1' > 0
 assert `hazard' >= 0
@@ -57,7 +59,9 @@ tabulate T1 placebo, row
 
 generate dlnR = rnormal(0, cond(placebo == 1, `sigma_epsilon0', `sigma_epsilon1'))
 bysort fake_id (year): generate lnR = 0 if _n == 1
-bysort fake_id (year): replace lnR = `rho' * lnR[_n-1] + dlnR if _n > 1
+bysort fake_id (year): replace lnR = `rho_control' * lnR[_n-1] + dlnR if _n > 1 & placebo == 1
+bysort fake_id (year): replace lnR = `rho_treated' * lnR[_n-1] + dlnR if _n > 1 & placebo == 0
+
 
 generate dz = rnormal(0, `sigma_z')
 summarize dz

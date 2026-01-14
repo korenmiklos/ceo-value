@@ -1,7 +1,7 @@
 .PHONY: all montecarlo paper clean
 
 SCENARIOS = baseline longpanel persistent unbalanced excessvariance all
-EVENT_STUDIES = $(addprefix data/,$(addsuffix _lnR.csv,$(SCENARIOS))) 
+EVENT_STUDIES = $(addprefix data/,$(addsuffix _lnR-lnR.csv,$(SCENARIOS))) 
 OUTCOMES :=  lnROA lnR exporter lnL lnM lnK has_intangible lnKL lnRL lnMR EBITDA_share
 FIXED_EFFECTS := lnRL lnR lnROA lnL investment lnYL
 DATALIB := ../../temp/analysis-sample.dta ../../temp/manager_value.dta
@@ -51,9 +51,9 @@ data/full_%-lnYL.csv: $(CODELIB) $(DATALIB) data/placebo_full.dta
 	stata -b do "../../lib/estimate/event_study.do" full $* no lnYL
 
 # Generate event study data for monte carlo scenarios
-data/%_lnR.csv: $(CODELIB) data/placebo_%.dta
+data/%_lnR-lnR.csv: $(CODELIB) data/placebo_%.dta
 	mkdir -p data
-	stata -b do "../../lib/estimate/event_study.do" $* lnR montecarlo lnRL
+	stata -b do "../../lib/estimate/event_study.do" $* lnR montecarlo lnR
 
 table/atets.tex: src/exhibit/atets.do $(EVENT_STUDIES)
 	mkdir -p table

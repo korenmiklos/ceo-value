@@ -6,7 +6,7 @@ local baseline_year -1            // Baseline year for event study
 
 graph twoway ///
     (rarea lower_`outcome'1 upper_`outcome'1 t, fcolor(gray%5) lcolor(gray%10)) (connected coef_`outcome'1 t, lcolor(red) mcolor(red)) ///
-    (rarea lower_`outcome'0_excess upper_`outcome'0_excess t, fcolor(gray%5) lcolor(gray%10)) (connected coef_`outcome'0_excess t, lcolor(blue) mcolor(blue)) ///
+    (rarea lower_`outcome'0 upper_`outcome'0 t, fcolor(gray%5) lcolor(gray%10)) (connected coef_`outcome'0 t, lcolor(blue) mcolor(blue)) ///
     ,  title("Panel `panel': `title'", size(medium)) ///
     legend(order(2 "Treated" 4 "Control") rows(1) position(6)) ///
     graphregion(color(white)) xlabel(`event_window_start'(1)`event_window_end') ///
