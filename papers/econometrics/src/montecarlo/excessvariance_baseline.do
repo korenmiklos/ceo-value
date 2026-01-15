@@ -1,3 +1,3 @@
 *! Excess variance: baseline + sigma_epsilon1 = 0.075
-local sigma_epsilon0 = 0.5
-local sigma_epsilon1 = 0.7
+
+local sigma_epsilon1 = 1.00

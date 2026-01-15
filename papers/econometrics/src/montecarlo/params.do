@@ -8,8 +8,8 @@ local true_effect = `half_normal' * `sigma_z'
 * control to treated N
 local control_treated_ratio = 1
 
-local rho_control = 0
-local rho_treated = 0
+local rho0 = 0
+local rho1 = 0
 local sigma_epsilon0 = sqrt(0.5)
 local sigma_epsilon1 = sqrt(0.5)
 local hazard = 0

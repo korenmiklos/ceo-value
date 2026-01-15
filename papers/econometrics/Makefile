@@ -1,6 +1,6 @@
 .PHONY: all montecarlo paper clean
 
-SCENARIOS = baseline longpanel persistent_baseline persistent unbalanced excessvariance all 
+SCENARIOS = baseline longpanel persistent_baseline persistent unbalanced excessvariance_baseline excessvariance all 
 EVENT_STUDIES = $(addprefix data/,$(addsuffix _lnR-lnR.csv,$(SCENARIOS))) 
 OUTCOMES :=  lnROA lnR exporter lnL lnM lnK has_intangible lnKL lnRL lnMR EBITDA_share
 FIXED_EFFECTS := lnRL lnR lnROA lnL investment lnYL
@@ -63,9 +63,13 @@ figure/figuremc.pdf: src/figuremc.do src/exhibit/event_study2.do src/exhibit/eve
 	mkdir -p figure
 	stata -b do "src/figuremc.do"
 
-figure/figuremc-compare.pdf: src/figuremc-compare.do src/exhibit/event_study2.do src/exhibit/event_study3.do $(EVENT_STUDIES)
+figure/figuremc-rho.pdf: src/figuremc-rho.do src/exhibit/event_study2.do src/exhibit/event_study3.do $(EVENT_STUDIES)
 	mkdir -p figure
-	stata -b do "src/figuremc-compare.do"
+	stata -b do "src/figuremc-rho.do"
+
+figure/figuremc-epsilon.pdf: src/figuremc-epsilon.do src/exhibit/event_study2.do src/exhibit/event_study3.do $(EVENT_STUDIES)
+	mkdir -p figure
+	stata -b do "src/figuremc-epsilon.do"
 
 paper.pdf: paper.tex table/atets.tex figure/application.pdf ../application/table/table1_panelAB.tex ../application/table/table2.tex ../application/table/tableA1.tex ../application/table/tableA3.tex ../application/table/tableA4.tex ../application/figure/figure1.pdf ../application/figure/figure2.pdf ../application/figure/figure3.pdf figure/figuremc.pdf ../../lib/references.bib
 	pdflatex paper.tex

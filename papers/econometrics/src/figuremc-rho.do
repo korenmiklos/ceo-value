@@ -8,10 +8,10 @@ local outcomeB Cov
 local outcomeC VarY
 local outcomeD Cov
 
-local titleA "Variance (Same rho)"
-local titleB "Covariance (Same rho)"
-local titleC "Variance (Diff. rho)"
-local titleD "Covariance (Diff. rho)"
+local titleA "Var (rho = 0.9)"
+local titleB "Cov (rho = 0.9)"
+local titleC "Var (rho1 = 0.8)"
+local titleD "Cov (rho1 = 0.8)"
 
 foreach panel in A B C D {
     local sample  `sample`panel''
@@ -34,4 +34,4 @@ foreach panel in A B C D {
 graph combine panelA panelB panelC panelD, ///
     cols(2) graphregion(color(white)) imargin(small) xsize(5) ysize(7.5) ycommon
 
-graph export "figure/figuremc-compare.pdf", replace
+graph export "figure/figuremc-rho.pdf", replace
