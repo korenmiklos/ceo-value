@@ -21,11 +21,11 @@ egen max_employment = max(employment), by(frame_id_numeric)
 generate EBITDA_share = EBITDA / sales
 replace EBITDA_share = 0 if EBITDA_share < 0
 replace EBITDA_share = 1 if EBITDA_share > 1 & !missing(EBITDA_share)
-generate lnROA = ln(1 + EBITDA/capital)
+generate lnROA = ln(EBITDA/tangible_assets)
 * FIXME: check winsorization levels
-replace lnROA = -5 if lnROA < -5 | EBITDA/capital <= -1
-replace lnROA = 5 if lnROA > 5 & !missing(lnROA)
-replace lnROA = . if lnROA < -4.9
+replace lnROA = -1 if lnROA < -1 | EBITDA/tangible_assets <= -1
+_pctile lnROA, p(99)
+replace lnROA = r(r1) if lnROA > r(r1)
 
 * manager spells etc
 egen firm_year_tag = tag(frame_id_numeric year)

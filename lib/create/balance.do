@@ -14,11 +14,12 @@ generate long frame_id_numeric = real(substr(frame_id, 3, .)) if substr(frame_id
 tabulate year, missing
 
 local dimensions frame_id_numeric originalid foundyear year teaor08_2d teaor08_1d so3_with_mo3 fo3
-local facts sales export emp eszk tanass ranyag wbill persexp immat 
+local facts sales_clean export emp eszk tanass ranyag wbill persexp immat 
 
 keep `dimensions' `facts'
 order `dimensions' `facts'
 
+rename sales_clean sales
 rename emp employment
 rename tanass tangible_assets
 rename ranyag materials
