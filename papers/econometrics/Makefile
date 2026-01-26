@@ -3,7 +3,7 @@
 SCENARIOS = baseline longpanel persistent_baseline persistent unbalanced excessvariance_baseline excessvariance all all_persistent all_excess all_both 
 EVENT_STUDIES = $(addprefix data/,$(addsuffix _lnR-lnR.csv,$(SCENARIOS))) 
 OUTCOMES :=  lnROA lnR exporter lnL lnM lnK has_intangible lnKL lnRL lnMR EBITDA_share
-FIXED_EFFECTS := lnRL lnR lnROA lnL investment lnYL
+FIXED_EFFECTS := lnR lnROA 
 DATALIB := ../../temp/analysis-sample.dta ../../temp/manager_value.dta
 CODELIB := ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do
 
