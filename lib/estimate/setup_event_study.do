@@ -11,7 +11,7 @@ global baseline_year -1            // Baseline year for event study
 global random_seed 2181            // Random seed for reproducibility
 global sample 100                   // Sample selection for analysis
 global cluster frame_id_numeric     // Clustering variable
-global T_min 4
+global T_min 1
 
 * report package versions
 which xt2treatments

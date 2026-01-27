@@ -5,7 +5,7 @@ local within_firm_skill_min -1     // Minimum within-firm manager skill bound
 local within_firm_skill_max 1      // Maximum within-firm manager skill bound  
 local outcomes lnR lnEBITDA lnL
 local controls lnK foreign_owned has_intangible
-local fixed_effect lnROA
+local fixed_effect ROA
 
 use "temp/analysis-sample.dta", clear
 

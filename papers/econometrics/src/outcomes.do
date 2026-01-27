@@ -2,11 +2,11 @@ args FE
 clear all
 
 local A lnR
-local B lnL
-local C lnK
-local D exporter
-local E lnROA
-local F EBITDA_share
+local B ROA
+local C lnL
+local D lnK
+local E exporter
+local F lnWL
 
 foreach outcome in A B C D E F {
   import delimited "data/full_``outcome''-`FE'.csv", clear case(preserve)
