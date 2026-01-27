@@ -1,22 +1,25 @@
 clear all
 use "../../temp/analysis-sample.dta"
 
-drop if n_ceo > 1
-sort originalid year person_id
-egen max_firm_age = max(firm_age), by(originalid)
-by originalid: gen ceo_switch = (person_id != person_id[_n-1]) if _n >1
-by originalid: gen total_ceo_switches = sum(ceo_switch)
-egen nr_ceo_switches = max(total_ceo_switches), by(originalid)
-by originalid: gen ceo_number = sum(ceo_switch) + 1 
-by originalid: gen is_last_ceo = (ceo_number == ceo_number[_N])
+egen max_firm_age = max(firm_age), by(frame_id_numeric)
 
-gen ceo1_tenure = ceo_tenure if ceo_number == 1 & is_last_ceo == 0
-gen ceo2_tenure = ceo_tenure if ceo_number == 2 & is_last_ceo == 0
-gen ceo3_tenure = ceo_tenure if ceo_number == 3 & is_last_ceo == 0
-gen ceo4_tenure = ceo_tenure if ceo_number == 4 & is_last_ceo == 0
+egen spell_year_tag = tag(frame_id_numeric ceo_spell year)
 
+* first collapse by ceo spell
+collapse (firstnm) max_firm_age max_ceo_spells (sum) T = spell_year_tag, by(frame_id_numeric ceo_spell)
+generate nr_ceo_switches = max_ceo_spells - 1
 
-collapse (first) firm_age=max_firm_age nr_ceo_switches (mean) ceo1_tenure ceo2_tenure ceo3_tenure ceo4_tenure, by(originalid)
+* we leave last CEO spells in the sample
+forvalues ceo_num = 1/4 {
+    generate ceo`ceo_num'_tenure = T if ceo_num == `ceo_num'
+}
+
+collapse (firstnm) firm_age = max_firm_age nr_ceo_switches ceo1_tenure ceo2_tenure ceo3_tenure ceo4_tenure, by(frame_id_numeric)
+* veriy there are no zero spells
+forvalues ceo_num = 1/4 {
+    count if ceo`ceo_num'_tenure == 0
+    assert r(N) == 0
+}
 
 * Overall number of firms
 count
@@ -39,6 +42,7 @@ forvalues ceo_num = 1/4 {
     local row_num =  `ceo_num' + 3
     qui count if !missing(ceo`ceo_num'_tenure)
     if r(N) > 0 {
+        * FIXME: also compute weighted percentiles
         _pctile ceo`ceo_num'_tenure if !missing(ceo`ceo_num'_tenure), p(25 50 75)
         local row`row_num'col2 = r(r1)
         local row`row_num'col3 = r(r2)
