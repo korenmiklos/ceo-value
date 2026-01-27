@@ -20,6 +20,7 @@ local TARGET_N_CONTROL 10
 local SEED 1391
 global min_obs_threshold 1         // Minimum observations before/after
 global min_T 1                     // Minimum observations to estimate fixed effects
+* we can also compute our analysis for spells with n_ceo > 1
 global max_n_ceo 1                // Maximum number of CEOs per firm for analysis
 global exact_match_on cohort sector max_size  // Variables to exactly match on for placebo
 global fixed_effect lnROA
@@ -28,6 +29,7 @@ use "temp/analysis-sample.dta", clear
 merge m:1 frame_id_numeric person_id using "temp/manager_value.dta", keep(master match) nogen
 
 * keep single-ceo firms
+* we can also compute our analysis for spells with n_ceo > 1
 egen max_n_ceo = max(n_ceo), by(frame_id_numeric)
 tabulate n_ceo max_n_ceo, missing
 keep if max_n_ceo <= ${max_n_ceo}
