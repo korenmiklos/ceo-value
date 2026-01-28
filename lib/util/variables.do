@@ -21,7 +21,7 @@ egen max_employment = max(employment), by(frame_id_numeric)
 generate EBITDA_share = EBITDA / sales
 replace EBITDA_share = 0 if EBITDA_share < 0
 replace EBITDA_share = 1 if EBITDA_share > 1 & !missing(EBITDA_share)
-generate ROA = EBITDA/tangible_assets
+generate ROA = EBITDA/Ltangibles
 * FIXME: check winsorization levels
 replace ROA = -1 if ROA < -1
 _pctile ROA, p(99)
@@ -142,5 +142,5 @@ label variable lnKL "Capital to labor ratio (log)"
 label variable lnRL "Sales to labor ratio (log)"
 label variable lnMR "Materials to sales ratio (log)"
 label variable exportshare "Export to sales ratio (winsorized between 0 and 1)"
-label variable ROA "Return on assets (EBITDA/tangibles, winsorized between -1 and p99)"
+label variable ROA "Return on assets (EBITDA/L.tangibles, winsorized between -1 and p99)"
 label variable investment "Net investment (change in log fixed assets)"
