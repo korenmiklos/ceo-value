@@ -6,12 +6,12 @@ egen max_firm_age = max(firm_age), by(frame_id_numeric)
 egen spell_year_tag = tag(frame_id_numeric ceo_spell year)
 
 * first collapse by ceo spell
-collapse (firstnm) max_firm_age max_ceo_spells (sum) T = spell_year_tag, by(frame_id_numeric ceo_spell)
-generate nr_ceo_switches = max_ceo_spells - 1
+collapse (firstnm) max_firm_age max_ceo_spell (sum) T = spell_year_tag, by(frame_id_numeric ceo_spell)
+generate nr_ceo_switches = max_ceo_spell - 1
 
 * we leave last CEO spells in the sample
 forvalues ceo_num = 1/4 {
-    generate ceo`ceo_num'_tenure = T if ceo_num == `ceo_num'
+    generate ceo`ceo_num'_tenure = T if ceo_spell == `ceo_num'
 }
 
 collapse (firstnm) firm_age = max_firm_age nr_ceo_switches ceo1_tenure ceo2_tenure ceo3_tenure ceo4_tenure, by(frame_id_numeric)
@@ -83,7 +83,7 @@ local label6 "Years with 3rd CEO"
 local label7 "Years with 4th CEO"
 
 forvalues row = 1/`rows' {
-  file write texfile "\\ `label`row'' & "
+  file write texfile "`label`row'' & "
   forvalues col = 2/4{
     local stat = stats[`row',`col']
     local stat_str = string(`stat', "%9.2f")
@@ -91,7 +91,7 @@ forvalues row = 1/`rows' {
       file write texfile "$`stat_str'$ & "
     }
     else {
-      file write texfile "$`stat_str'$\n"
+      file write texfile "$`stat_str'$ \\" _n
     }
   }
 }
