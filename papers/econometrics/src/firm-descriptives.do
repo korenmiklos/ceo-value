@@ -15,7 +15,7 @@ forvalues ceo_num = 1/4 {
 }
 
 collapse (firstnm) firm_age = max_firm_age nr_ceo_switches ceo1_tenure ceo2_tenure ceo3_tenure ceo4_tenure, by(frame_id_numeric)
-* veriy there are no zero spells
+* verify there are no zero spells
 forvalues ceo_num = 1/4 {
     count if ceo`ceo_num'_tenure == 0
     assert r(N) == 0
