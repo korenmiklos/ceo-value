@@ -1,5 +1,10 @@
 {
     "inputs": {
+        "balance-sheet-1980-2023-panel-cleaned": {
+            "content_id": "7e229f0f0aae8ebb89d978dfc7cee52fec8f7932a4eb03949adb9eb3b70c493e055c5e1cf76f3d5b62dcba297fb6c227de8754c86ce925d73bc5b2630a969e4c",
+            "freeze_time": "20251106T151510552177+0100",
+            "kind": "1790c07fa6085fe212a495f96ab23a9e-7ca19c36-989d-4db8-88e3-19379ea35ea7"
+        },
         "manager-db-ceo-panel": {
             "content_id": "79617cf3bbc7244edacf7c142641535ef6ada4bc0950df234cee6eef9aee2bdb890c220013e52603199e488b5d8c5ee57174cfc52b4a9c4e8f4009df2e86f802",
             "freeze_time": "20251015T132830875065+0200",
