@@ -1,13 +1,16 @@
 clear all
 use "../../temp/analysis-sample.dta"
 
+/*
 sort frame_id_numeric person_id year
 by frame_id_numeric person_id: egen min_ceo_spell = min(ceo_spell)
 sort frame_id_numeric year person_id
 by frame_id_numeric year: gen keep = (ceo_spell == min_ceo_spell)
 keep if keep == 1
 drop keep
-
+*/
+keep if n_ceo < 2
+sort frame_id_numeric year person_id
 by frame_id_numeric: gen ceo_switch = (ceo_spell != ceo_spell[_n-1])  if _n>1
 by frame_id_numeric: gen prev_male = male[_n-1]                       if ceo_switch == 1
 by frame_id_numeric: gen prev_founder = founder[_n-1]                 if ceo_switch == 1
