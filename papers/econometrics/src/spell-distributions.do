@@ -1,14 +1,16 @@
 use "../../temp/analysis-sample.dta", clear
 
-bysort frame_id_numeric ceo_spell: egen spell_length = count(year)
+egen firm_year_tag = tag(frame_id_numeric year)
+bysort frame_id_numeric ceo_spell: egen spell_length = sum(firm_year_tag)
 
 local spells ""
 forvalues i = 1/4 {
     histogram spell_length if ceo_spell == `i' [fw=spell_length], ///
         title("CEO Spell `i'", size(medium)) ///
-        frequency ///
         name(spell`i', replace) ///
-        xtitle("") ytitle("Frequency")
+        xtitle("") ytitle("Frequency") ///
+        disc ///
+        percent
     local spells "`spells' spell`i'"
 }
 
@@ -22,9 +24,10 @@ local no_max ""
 forvalues i = 1/4 {
     histogram spell_length if ceo_spell == `i' & ceo_spell != max_ceo_spell [fw=spell_length], ///
         title("CEO Spell `i'", size(medium)) ///
-        frequency ///
         name(no_max`i', replace) ///
-        xtitle("") ytitle("Frequency")
+        xtitle("") ytitle("Frequency") ///
+        disc ///
+        percent
     local no_max "`no_max' no_max`i'"
 }
 
