@@ -29,24 +29,27 @@ generate ROA = aftertax/assets
 * operating also winsorized at p(90) at top as it is around 8.4
 sum ROA_operating, d
 replace ROA_operating = . if ROA_operating < r(p5)
-replace ROA_operating = . if ROA_operating > r(p90) & !missing(ROA_operating)
+replace ROA_operating = . if ROA_operating > r(p95) & !missing(ROA_operating)
 sum ROA, d
 replace ROA = . if ROA < r(p5)
-replace ROA = . if ROA > r(p99) & !missing(ROA)
+replace ROA = . if ROA > r(p95) & !missing(ROA)
 
 * manager spells etc
 egen firm_year_tag = tag(frame_id_numeric year)
 egen firm_tag = tag(frame_id_numeric)
 
 egen first_time = min(year) if !missing(person_id), by(frame_id_numeric person_id)
+egen last_time = max(year) if !missing(person_id), by (frame_id_numeric person_id)
 egen first_ceo_in_sample = min(first_time), by(frame_id_numeric)
 generate byte ceo_tenure = year - first_time
 * arrival of a CEO triggers a new spell. leave of a CEO does not. this is relevant for when n_ceo > 1
 egen byte has_new_ceo = max(first_time == year), by(frame_id_numeric year)
+egen byte leaving_ceo = max(last_time == year-1), by(frame_id_numeric year)
 
 tabulate has_new_ceo if firm_year_tag, missing
+tabulate leaving_ceo if firm_year_tag, missing
 
-bysort firm_year_tag frame_id_numeric (year): generate ceo_spell = sum(has_new_ceo) if firm_year_tag
+bysort firm_year_tag frame_id_numeric (year): generate ceo_spell = sum(has_new_ceo + leaving_ceo) if firm_year_tag
 * for n_ceo > 1, propagate the ceo spell variable that was only computed once per firm-year
 egen tmp = max(ceo_spell), by(frame_id_numeric year)
 replace ceo_spell = tmp if missing(ceo_spell)
