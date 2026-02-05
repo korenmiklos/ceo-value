@@ -36,3 +36,11 @@ graph combine `no_max', ///
 
 graph export "figure/no-max-spell-distributions.pdf", replace
 
+
+gen weight = 1 / tenure_length
+collapse (sum) weight, by (ceo_tenure)
+egen total = sum(weight)
+gen proportional = weight/total
+
+graph bar proportion, over(ceo_tenure) ytitle("Proportion") 
+graph export "figure/inverse-weighted-tenure.pdf", replace
