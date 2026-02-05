@@ -5,7 +5,7 @@ bysort frame_id_numeric ceo_spell: egen spell_length = sum(firm_year_tag)
 
 local spells ""
 forvalues i = 1/4 {
-    histogram spell_length if ceo_spell == `i' [fw=spell_length], ///
+    histogram ceo_tenure if ceo_spell == `i' [fw=1/spell_length], ///
         title("CEO Spell `i'", size(medium)) ///
         name(spell`i', replace) ///
         xtitle("") ytitle("Frequency") ///
@@ -22,7 +22,7 @@ graph export "figure/ceo-spell-distributions.pdf", replace
 
 local no_max ""
 forvalues i = 1/4 {
-    histogram spell_length if ceo_spell == `i' & ceo_spell != max_ceo_spell [fw=spell_length], ///
+    histogram ceo_tenure if ceo_spell == `i' & ceo_spell != max_ceo_spell [fw=1/spell_length], ///
         title("CEO Spell `i'", size(medium)) ///
         name(no_max`i', replace) ///
         xtitle("") ytitle("Frequency") ///
