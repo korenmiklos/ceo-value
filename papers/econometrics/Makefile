@@ -15,7 +15,7 @@ all: $(foreach FE,$(FIXED_EFFECTS),figure/outcomes_$(FE).pdf) \
 	figure/inverse-weighted-tenure.pdf \
 	figure/no-max-spell-distributions.pdf \
 	figure/ridgeline-ROA.pdf \
-	figure/violin-ROA.pdf \
+	figure/violin-ROA.pdf 
 
 montecarlo: $(EVENT_STUDIES)
 

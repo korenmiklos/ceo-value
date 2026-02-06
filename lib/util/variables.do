@@ -27,8 +27,7 @@ generate ROA = aftertax/L_assets
 * p(5) is at -4.8 for operating and -1.4 for normal.
 * operating also winsorized at p(90) at top as it is around 8.4
 sum ROA, d
-drop if ROA < r(p5)
-drop if ROA > r(p95) & !missing(ROA)
+drop if ROA < r(p1) | (ROA>r(p99) & !missing(ROA))
 
 * manager spells etc
 egen firm_year_tag = tag(frame_id_numeric year)
