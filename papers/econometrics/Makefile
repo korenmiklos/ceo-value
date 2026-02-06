@@ -3,7 +3,7 @@
 SCENARIOS = baseline longpanel persistent_baseline persistent unbalanced excessvariance_baseline excessvariance all all_persistent all_excess all_both 
 EVENT_STUDIES = $(addprefix data/,$(addsuffix _lnR-lnR.csv,$(SCENARIOS))) 
 OUTCOMES :=  ROA lnR exporter lnL lnK lnWL
-FIXED_EFFECTS := lnR ROA ROA_operating 
+FIXED_EFFECTS := lnR ROA 
 DATALIB := ../../temp/analysis-sample.dta ../../temp/manager_value.dta
 CODELIB := ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do
 
@@ -15,9 +15,7 @@ all: $(foreach FE,$(FIXED_EFFECTS),figure/outcomes_$(FE).pdf) \
 	figure/inverse-weighted-tenure.pdf \
 	figure/no-max-spell-distributions.pdf \
 	figure/ridgeline-ROA.pdf \
-	figure/ridgeline-ROA_operating.pdf \
 	figure/violin-ROA.pdf \
-	figure/violin-ROA_operating.pdf
 
 montecarlo: $(EVENT_STUDIES)
 
@@ -44,9 +42,6 @@ data/full_%-ROA.csv: $(CODELIB) $(DATALIB) data/placebo_full.dta
 	mkdir -p data
 	stata -b do "../../lib/estimate/event_study.do" full $* no ROA
 
-data/full_%-ROA_operating.csv: $(CODELIB) $(DATALIB) data/placebo_full.dta
-	mkdir -p data
-	stata -b do "../../lib/estimate/event_study.do" full $* no ROA_operating
 
 # Generate event study data for monte carlo scenarios
 data/%_lnR-lnR.csv: $(CODELIB) data/placebo_%.dta
@@ -79,13 +74,7 @@ table/%.tex: src/%.do $(DATALIB)
 figure/ridgeline-ROA.pdf: src/roa-distributions.do $(DATALIB)
 	stata -b do $<
 
-figure/ridgeline-ROA_operating.pdf: src/roa-distributions.do $(DATALIB)
-	stata -b do $<
-
 figure/violin-ROA.pdf: src/roa-distributions.do $(DATALIB)
-	stata -b do $<
-
-figure/violin-ROA_operating.pdf: src/roa-distributions.do $(DATALIB)
 	stata -b do $<
 
 figure/ceo-%.pdf: src/%.do $(DATALIB)

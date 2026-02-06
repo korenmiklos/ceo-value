@@ -28,13 +28,14 @@ keep `dims'
 order `dims'
 
 * create spell indicator while everybody is still in the sample
+/*
 egen firm_manager = group(frame_id_numeric person_id)
 summarize year
 local t0 = r(min)
 local t1 = r(max)
 
 * FIXME
-
+*/
 egen n_ceo = count(person_id), by(frame_id_numeric year)
 egen ft = tag(frame_id_numeric year)
 

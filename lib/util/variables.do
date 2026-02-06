@@ -21,18 +21,14 @@ egen max_employment = max(employment), by(frame_id_numeric)
 generate EBITDA_share = EBITDA / sales
 replace EBITDA_share = 0 if EBITDA_share < 0
 replace EBITDA_share = 1 if EBITDA_share > 1 & !missing(EBITDA_share)
-generate ROA_operating = EBITDA/(L_tangibles + L_intangibles)
-generate ROA = aftertax/assets
+generate ROA = aftertax/L_assets
 * FIXME: check winsorization levels
 * P(1) was irreally low in both cases, for operating it is at -41.5, for normal at -10.5
 * p(5) is at -4.8 for operating and -1.4 for normal.
 * operating also winsorized at p(90) at top as it is around 8.4
-sum ROA_operating, d
-replace ROA_operating = . if ROA_operating < r(p5)
-replace ROA_operating = . if ROA_operating > r(p95) & !missing(ROA_operating)
 sum ROA, d
-replace ROA = . if ROA < r(p5)
-replace ROA = . if ROA > r(p95) & !missing(ROA)
+drop if ROA < r(p5)
+drop if ROA > r(p95) & !missing(ROA)
 
 * manager spells etc
 egen firm_year_tag = tag(frame_id_numeric year)
@@ -152,6 +148,5 @@ label variable lnKL "Capital to labor ratio (log)"
 label variable lnRL "Sales to labor ratio (log)"
 label variable lnMR "Materials to sales ratio (log)"
 label variable exportshare "Export to sales ratio (winsorized between 0 and 1)"
-label variable ROA_operating "Return on assets (EBITDA/L.tangibles, winsorized between -1 and p99)"
-label variable ROA "Return on assets (winsorized between -1 and p99)"
+label variable ROA "Return on assets (winsorized between p1 and p99)"
 label variable investment "Net investment (change in log fixed assets)"
