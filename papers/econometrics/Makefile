@@ -7,7 +7,17 @@ FIXED_EFFECTS := lnR ROA ROA_operating
 DATALIB := ../../temp/analysis-sample.dta ../../temp/manager_value.dta
 CODELIB := ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do
 
-all: $(foreach FE,$(FIXED_EFFECTS),figure/outcomes_$(FE).pdf) 
+all: $(foreach FE,$(FIXED_EFFECTS),figure/outcomes_$(FE).pdf) \
+	table/firm-descriptives.tex \
+	table/firm-year-descriptives.tex \
+	table/max-emp-by-ceo-switches.tex \
+	figure/ceo-spell-distributions.pdf \
+	figure/inverse-weighted-tenure.pdf \
+	figure/no-max-spell-distributions.pdf \
+	figure/ridgeline-ROA.pdf \
+	figure/ridgeline-ROA_operating.pdf \
+	figure/violin-ROA.pdf \
+	figure/violin-ROA_operating.pdf
 
 montecarlo: $(EVENT_STUDIES)
 
@@ -63,6 +73,29 @@ figure/figuremc-all.pdf: src/figuremc-all.do src/exhibit/event_study2.do src/exh
 	mkdir -p figure 
 	stata -b do "src/figuremc-all.do"
 
+table/%.tex: src/%.do $(DATALIB)
+	stata -b do $<
+
+figure/ridgeline-ROA.pdf: src/roa-distributions.do $(DATALIB)
+	stata -b do $<
+
+figure/ridgeline-ROA_operating.pdf: src/roa-distributions.do $(DATALIB)
+	stata -b do $<
+
+figure/violin-ROA.pdf: src/roa-distributions.do $(DATALIB)
+	stata -b do $<
+
+figure/violin-ROA_operating.pdf: src/roa-distributions.do $(DATALIB)
+	stata -b do $<
+
+figure/ceo-%.pdf: src/%.do $(DATALIB)
+	stata -b do $<
+
+figure/no-max-%.pdf: src/%.do $(DATALIB)
+	stata -b do $<
+
+figure/inverse-weighted-tenure.pdf: src/spell-distributions.do $(DATALIB)
+	stata -b do $<
 
 paper.pdf: paper.tex table/atets.tex figure/application.pdf ../application/table/table1_panelAB.tex ../application/table/table2.tex ../application/table/tableA1.tex ../application/table/tableA3.tex ../application/table/tableA4.tex ../application/figure/figure1.pdf ../application/figure/figure2.pdf ../application/figure/figure3.pdf figure/figuremc.pdf ../../lib/references.bib
 	pdflatex paper.tex
