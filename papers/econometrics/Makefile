@@ -11,9 +11,11 @@ all: $(foreach FE,$(FIXED_EFFECTS),figure/outcomes_$(FE).pdf) \
 	table/firm-descriptives.tex \
 	table/firm-year-descriptives.tex \
 	table/max-emp-by-ceo-switches.tex \
+	table/managers-in-lifetime.tex \
 	figure/ceo-spell-distributions.pdf \
 	figure/ceo-spell-distributions-weighted.pdf \
-	figure/ridgeline-ROA.pdf 
+	figure/ridgeline-ROA.pdf \
+	figure/tenure-snapshots.pdf
 
 montecarlo: $(EVENT_STUDIES)
 
@@ -72,16 +74,10 @@ table/%.tex: src/%.do $(DATALIB)
 figure/ridgeline-ROA.pdf: src/roa-distributions.do $(DATALIB)
 	stata -b do $<
 
-figure/violin-ROA.pdf: src/roa-distributions.do $(DATALIB)
-	stata -b do $<
-
 figure/ceo-%.pdf: src/%.do $(DATALIB)
 	stata -b do $<
 
-figure/no-max-%.pdf: src/%.do $(DATALIB)
-	stata -b do $<
-
-figure/inverse-weighted-tenure.pdf: src/spell-distributions.do $(DATALIB)
+figure/%.pdf: src/%.do $(DATALIB)
 	stata -b do $<
 
 paper.pdf: paper.tex table/atets.tex figure/application.pdf ../application/table/table1_panelAB.tex ../application/table/table2.tex ../application/table/tableA1.tex ../application/table/tableA3.tex ../application/table/tableA4.tex ../application/figure/figure1.pdf ../application/figure/figure2.pdf ../application/figure/figure3.pdf figure/figuremc.pdf ../../lib/references.bib
