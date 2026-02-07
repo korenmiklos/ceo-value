@@ -39,7 +39,7 @@ egen first_ceo_in_sample = min(first_time), by(frame_id_numeric)
 generate byte ceo_tenure = year - first_time
 * arrival of a CEO triggers a new spell. leave of a CEO does not. this is relevant for when n_ceo > 1
 egen byte has_new_ceo = max(first_time == year), by(frame_id_numeric year)
-egen byte leaving_ceo = max(last_time == year-1), by(frame_id_numeric year)
+egen byte leaving_ceo = max(last_time == year), by(frame_id_numeric year)
 
 tabulate has_new_ceo if firm_year_tag, missing
 tabulate leaving_ceo if firm_year_tag, missing

@@ -12,8 +12,7 @@ all: $(foreach FE,$(FIXED_EFFECTS),figure/outcomes_$(FE).pdf) \
 	table/firm-year-descriptives.tex \
 	table/max-emp-by-ceo-switches.tex \
 	figure/ceo-spell-distributions.pdf \
-	figure/inverse-weighted-tenure.pdf \
-	figure/no-max-spell-distributions.pdf \
+	figure/ceo-spell-distributions-weighted.pdf \
 	figure/ridgeline-ROA.pdf \
 	figure/violin-ROA.pdf 
 
