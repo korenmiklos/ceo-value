@@ -44,7 +44,7 @@ egen byte leaving_ceo = max(last_time == year), by(frame_id_numeric year)
 tabulate has_new_ceo if firm_year_tag, missing
 tabulate leaving_ceo if firm_year_tag, missing
 
-bysort firm_year_tag frame_id_numeric (year): generate ceo_spell = sum(has_new_ceo + leaving_ceo) if firm_year_tag
+bysort firm_year_tag frame_id_numeric (year): generate ceo_spell = sum(has_new_ceo) if firm_year_tag
 * for n_ceo > 1, propagate the ceo spell variable that was only computed once per firm-year
 egen tmp = max(ceo_spell), by(frame_id_numeric year)
 replace ceo_spell = tmp if missing(ceo_spell)

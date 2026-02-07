@@ -13,8 +13,7 @@ all: $(foreach FE,$(FIXED_EFFECTS),figure/outcomes_$(FE).pdf) \
 	table/max-emp-by-ceo-switches.tex \
 	figure/ceo-spell-distributions.pdf \
 	figure/ceo-spell-distributions-weighted.pdf \
-	figure/ridgeline-ROA.pdf \
-	figure/violin-ROA.pdf 
+	figure/ridgeline-ROA.pdf 
 
 montecarlo: $(EVENT_STUDIES)
 
