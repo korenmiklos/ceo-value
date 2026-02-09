@@ -27,7 +27,7 @@ generate ROA = aftertax/L_assets
 * p(5) is at -4.8 for operating and -1.4 for normal.
 * operating also winsorized at p(90) at top as it is around 8.4
 sum ROA, d
-drop if ROA < r(p1) | (ROA>r(p99) & !missing(ROA))
+replace ROA = . if ROA < r(p1) | (ROA>r(p99) & !missing(ROA))
 
 * manager spells etc
 egen firm_year_tag = tag(frame_id_numeric year)
@@ -86,6 +86,10 @@ egen byte early_exporter = max(exporter & (ceo_spell <= 1)), by(frame_id_numeric
 egen early_employment = max(cond(ceo_spell <= 1, employment, .)), by(frame_id_numeric)
 generate max_size = cond(max_employment < 10, 1, 2)
 generate early_size = cond(early_employment < 10, 1, 2)
+
+* drop, not just miss, because event study is looking for a "balanced" panel in terms of non-missing outcomes
+drop if missing(ROA)
+
 label define size 1 "Small (2-9)" 2 "Large (10+)"
 label values max_size size
 label values early_size size
