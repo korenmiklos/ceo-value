@@ -71,6 +71,10 @@ temp/large_component_managers.csv: lib/create/connected_component.jl temp/edgeli
 temp/unfiltered.dta: lib/create/unfiltered.do temp/balance.dta temp/ceo-panel.dta $(UTILS)
 	$(STATA) $<
 
+# Create cleaned CEO tenure intervals
+temp/intervals.dta: lib/create/intervals.do input/manager-db-ceo-panel/ceo-panel.dta
+	$(STATA) $<
+
 # =============================================================================
 # Statistical analysis
 # =============================================================================
