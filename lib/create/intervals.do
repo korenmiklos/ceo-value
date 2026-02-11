@@ -1,4 +1,5 @@
 local T 2
+local max_ceo_spells 12            // Must match lib/util/filter.do max_ceo_spells
 
 use "input/manager-db-ceo-panel/ceo-panel.dta", clear
 
@@ -49,8 +50,8 @@ drop spell
 * single-ceo firms need not be touched
 drop if N == 1
 
-* limit to firms with no too many managers, FIXME: this should be a param
-drop if N > 10
+* limit to firms with not too many managers
+drop if N > `max_ceo_spells'
 
 * create all pairwise combinations of intervals for each firm
 drop N
@@ -129,7 +130,7 @@ keep if drop | truncate
 keep frame_id_numeric person_id start_year end_year truncate drop
 duplicates drop
 
-merge 1:1 frame_id_numeric person_id start_year using "`clean_intervals'", keep(match using match_update match_conflict) update replace
+merge 1:1 frame_id_numeric person_id start_year using "`clean_intervals'", keep(match using match_update match_conflict) update 
 tabulate _merge
 
 drop if drop == 1
