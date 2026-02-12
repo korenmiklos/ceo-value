@@ -20,7 +20,7 @@ COMMIT_PLACEBO := placebo  # Update with specific hash when needed
 COMMIT_EXPERIMENT := experiment/preferred  # Update with specific hash when needed
 
 # Define costly intermediate files to preserve
-PRECIOUS_FILES := temp/balance.dta temp/ceo-panel.dta temp/unfiltered.dta \
+PRECIOUS_FILES := temp/balance.dta temp/ceo-panel.dta temp/intervals.dta temp/unfiltered.dta \
                   temp/analysis-sample.dta temp/placebo.dta temp/edgelist.csv \
                   temp/large_component_managers.csv \
                   temp/manager_value.dta temp/revenue_models.ster $(foreach sample,$(SAMPLES),temp/placebo_$(sample).dta)
@@ -68,7 +68,7 @@ temp/large_component_managers.csv: lib/create/connected_component.jl temp/edgeli
 	$(JULIA) $<
 
 # Create unfiltered dataset for table creation
-temp/unfiltered.dta: lib/create/unfiltered.do temp/balance.dta temp/ceo-panel.dta $(UTILS)
+temp/unfiltered.dta: lib/create/unfiltered.do temp/balance.dta temp/ceo-panel.dta temp/intervals.dta $(UTILS)
 	$(STATA) $<
 
 # Create cleaned CEO tenure intervals

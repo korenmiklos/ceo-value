@@ -69,7 +69,7 @@ replace ceo_spell = ceo_spell - first_spell + 1
 * create fake CEO spells for placebo group
 tabulate ceo_spell placebo
 * should be 1 and 2 only
-drop if ceo_spell > 2 // we have changed for counting exiting ceos too, ceo_spell >2 is still 675k observations. out of that 670k is <=4.
+drop if ceo_spell > 2 // we have changed for counting exiting ceos too, 34.4k have ceo_spell 3
 summarize ceo_spell if placebo == 0
 local s1 = r(min)
 local s2 = r(max)
