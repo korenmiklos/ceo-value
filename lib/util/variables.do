@@ -29,50 +29,11 @@ generate ROA = aftertax/L_assets
 sum ROA, d
 replace ROA = . if ROA < r(p1) | (ROA>r(p99) & !missing(ROA))
 
-* =============================================================================
-* CEO spell computation from cleaned intervals
-* =============================================================================
-
-* Expand intervals to firm-person-year level for merging
-preserve
-use "temp/intervals.dta", clear
-generate duration = end_year - start_year + 1
-expand duration
-bysort frame_id_numeric person_id start_year: generate year = start_year + _n - 1
-keep frame_id_numeric person_id year start_year end_year
-tempfile interval_years
-save "`interval_years'"
-restore
-
-* Merge interval data onto main dataset
-* Person-years matching a cleaned interval get start_year, end_year
-merge m:1 frame_id_numeric person_id year using "`interval_years'", keep(master match)
-tabulate _merge
-count if _merge == 1 & !missing(person_id)
-display "Person-years not in any cleaned interval (will be dropped): " r(N)
-count if _merge == 1 & missing(person_id)
-display "Firm-years with no CEO (kept): " r(N)
-drop if _merge == 1 & !missing(person_id)
-drop _merge
-
 egen firm_year_tag = tag(frame_id_numeric year)
 egen firm_tag = tag(frame_id_numeric)
 
 * CEO tenure = years since start of current spell
 generate byte ceo_tenure = year - start_year if !missing(start_year)
-
-* CEO arrival/departure from interval boundaries
-egen byte has_new_ceo = max(year == start_year & !missing(start_year)), by(frame_id_numeric year)
-egen byte leaving_ceo = max(year == end_year & !missing(end_year)), by(frame_id_numeric year)
-
-tabulate has_new_ceo if firm_year_tag, missing
-tabulate leaving_ceo if firm_year_tag, missing
-
-* CEO spell: cumulative count of CEO arrivals at the firm level
-bysort firm_year_tag frame_id_numeric (year): generate ceo_spell = sum(has_new_ceo) if firm_year_tag
-* for n_ceo > 1, propagate the ceo spell variable that was only computed once per firm-year
-egen tmp = max(ceo_spell), by(frame_id_numeric year)
-replace ceo_spell = tmp if missing(ceo_spell)
 
 * ceo_spell = 0 denotes firm-years with no CEO
 tabulate ceo_spell if firm_year_tag, missing
@@ -82,7 +43,7 @@ tabulate max_ceo_spell if firm_tag, missing
 egen last_year = max(year), by(frame_id_numeric)
 generate byte exit = (year == last_year)
 
-drop tmp has_new_ceo start_year end_year firm_year_tag firm_tag last_year
+drop firm_year_tag firm_tag last_year 
 
 * we only infer gender from Hungarian names
 generate expat = missing(male)

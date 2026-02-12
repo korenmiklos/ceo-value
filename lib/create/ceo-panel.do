@@ -23,19 +23,29 @@ tabulate birth_year imputed_age if pt, missing
 
 keep if inrange(year, `start_year', `end_year')
 
-local dims frame_id_numeric person_id year male birth_year manager_category owner cf
+egen fp = group(frame_id_numeric person_id)
+xtset fp year, yearly
+
+generate byte entering_ceo = missing(L.year)
+generate byte leaving_ceo = missing(F.year)
+
+* the same person may have multiple spells at the firm
+bysort frame_id_numeric person_id (year): generate spell = sum(entering_ceo)
+egen start_year = min(year), by(frame_id_numeric person_id spell)
+
+local dims frame_id_numeric person_id start_year male birth_year manager_category owner //cf is excluded as it creates about 28k duplicates.
 keep `dims'
 order `dims'
+duplicates drop `dims', force
 
-* create spell indicator while everybody is still in the sample
-/*
-egen firm_manager = group(frame_id_numeric person_id)
-summarize year
-local t0 = r(min)
-local t1 = r(max)
+merge 1:m frame_id_numeric person_id start_year using "temp/intervals.dta", keep(matched) nogen
+gen duration = end_year - start_year + 1
+expand duration
+drop duration
+bysort frame_id_numeric person_id spell: generate year = start_year + _n -1
+ren spell ceo_spell
 
-* FIXME
-*/
+
 egen n_ceo = count(person_id), by(frame_id_numeric year)
 egen ft = tag(frame_id_numeric year)
 
