@@ -48,7 +48,7 @@ temp/balance.dta: lib/create/balance.do input/merleg-LTS-2023/balance/balance_sh
 	$(STATA) $<
 
 # Process CEO panel data
-temp/ceo-panel.dta: lib/create/ceo-panel.do input/manager-db-ceo-panel/ceo-panel.dta temp/intervals.dta
+temp/ceo-panel.dta: lib/create/ceo-panel.do input/manager-db-ceo-panel/ceo-panel.dta temp/intervals.dta lib/util/potholes.do
 	$(STATA) $<
 
 # Create analysis sample
@@ -72,7 +72,7 @@ temp/unfiltered.dta: lib/create/unfiltered.do temp/balance.dta temp/ceo-panel.dt
 	$(STATA) $<
 
 # Create cleaned CEO tenure intervals
-temp/intervals.dta: lib/create/intervals.do input/manager-db-ceo-panel/ceo-panel.dta
+temp/intervals.dta: lib/create/intervals.do input/manager-db-ceo-panel/ceo-panel.dta lib/util/potholes.do
 	$(STATA) $<
 
 # =============================================================================

@@ -23,15 +23,7 @@ tabulate birth_year imputed_age if pt, missing
 
 keep if inrange(year, `start_year', `end_year')
 
-egen fp = group(frame_id_numeric person_id)
-xtset fp year, yearly
-
-generate byte entering_ceo = missing(L.year)
-generate byte leaving_ceo = missing(F.year)
-
-* the same person may have multiple spells at the firm
-bysort frame_id_numeric person_id (year): generate spell = sum(entering_ceo)
-egen start_year = min(year), by(frame_id_numeric person_id spell)
+do "lib/util/potholes.do"
 
 local dims frame_id_numeric person_id start_year male birth_year manager_category owner //cf is excluded as it creates about 28k duplicates.
 keep `dims'
@@ -43,11 +35,17 @@ gen duration = end_year - start_year + 1
 expand duration
 drop duration
 bysort frame_id_numeric person_id spell: generate year = start_year + _n -1
-ren spell ceo_spell
-
 
 egen n_ceo = count(person_id), by(frame_id_numeric year)
 egen ft = tag(frame_id_numeric year)
+
+* ceo_spell is a firm-level counter: cumulative number of CEO arrivals
+egen byte has_new_ceo = max(year == start_year & !missing(start_year)), by(frame_id_numeric year)
+egen byte leaving_ceo = max(year == end_year & !missing(end_year)), by(frame_id_numeric year)
+bysort ft frame_id_numeric (year): generate ceo_spell = sum(has_new_ceo) if ft
+egen tmp = max(ceo_spell), by(frame_id_numeric year)
+replace ceo_spell = tmp if missing(ceo_spell)
+drop tmp has_new_ceo spell
 
 tabulate n_ceo if ft, missing
 drop ft

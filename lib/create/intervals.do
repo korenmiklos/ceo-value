@@ -7,41 +7,11 @@ keep frame_id_numeric year person_id
 duplicates drop
 
 drop if missing(frame_id_numeric, person_id, year)
-egen fp = group(frame_id_numeric person_id)
-xtset fp year, yearly
 
-* we are glossing over potholes of 1 or 2 years
-bysort fp (year): generate gap = year - year[_n-1] - 1
-replace gap = 0 if missing(gap)
-* number of clones to create of CEO
-generate clones = 1
-forvalues t = 1/2 {
-    replace clones = `t' + 1 if gap == `t'
-}
-expand clones
-bysort fp year: replace year = year - _n + 1
-
-drop gap clones fp
-
-* test whether potholes have been filled
-* we are glossing over potholes of 1 or 2 years
-bysort frame_id_numeric person_id (year): generate gap = year - year[_n-1] - 1
-replace gap = 0 if missing(gap)
-tabulate gap, missing
-
-assert gap == 0 | gap > 2
-
-egen fp = group(frame_id_numeric person_id)
-xtset fp year, yearly
-
-generate byte entering_ceo = missing(L.year)
-generate byte leaving_ceo = missing(F.year)
-
-* the same person may have multiple spells at the firm
-bysort frame_id_numeric person_id (year): generate spell = sum(entering_ceo)
+do "lib/util/potholes.do"
 
 * aggregate to actual intervals so that we can do interval algebra later
-collapse (min) start_year = year (max) end_year = year, by(frame_id_numeric person_id spell)
+collapse (firstnm) start_year (max) end_year = year, by(frame_id_numeric person_id spell)
 tempfile clean_intervals
 save "`clean_intervals'", replace
 egen N = count(spell), by(frame_id_numeric)

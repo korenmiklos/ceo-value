@@ -23,7 +23,7 @@ global min_T 1                     // Minimum observations to estimate fixed eff
 * we can also compute our analysis for spells with n_ceo > 1
 global max_n_ceo 1                // Maximum number of CEOs per firm for analysis
 global exact_match_on cohort sector max_size  // Variables to exactly match on for placebo
-global fixed_effect lnROA
+global fixed_effect ROA
 
 use "temp/analysis-sample.dta", clear
 merge m:1 frame_id_numeric person_id using "temp/manager_value.dta", keep(master match) nogen
