@@ -11,7 +11,7 @@ all: $(foreach FE,$(FIXED_EFFECTS),figure/outcomes_$(FE).pdf) \
 	table/firm-descriptives.tex \
 	table/firm-year-descriptives.tex \
 	table/max-emp-by-ceo-switches.tex \
-	table/managers-in-lifetime.tex \
+	table/ceo-counts.tex \
 	figure/ceo-spell-distributions.pdf \
 	figure/ceo-spell-distributions-weighted.pdf \
 	figure/ridgeline-ROA.pdf \
