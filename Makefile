@@ -35,7 +35,7 @@ PRECIOUS_FILES := temp/balance.dta temp/ceo-panel.dta temp/intervals.dta temp/un
 .PHONY: data
 
 # Data wrangling pipeline
-data: temp/manager_value.dta
+data: temp/manager_value.dta temp/placebo_full.dta
 
 install: install.log
 

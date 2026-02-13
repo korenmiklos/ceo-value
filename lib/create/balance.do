@@ -1,7 +1,7 @@
 * =============================================================================
 * BALANCE SHEET DATA PARAMETERS
 * =============================================================================
-local start_year 1992             // Start year for data inclusion
+local start_year 1988             // Start year for data inclusion
 local end_year 2022               // End year for data inclusion
 
 use "input/merleg-LTS-2023/balance/balance_sheet_80_22.dta", clear
@@ -39,7 +39,7 @@ preserve
 tempfile tax
 use "input/balance-sheet-1980-2023-panel-cleaned/panel1980_2023_2.dta",clear
 drop if originalid < 0
-keep if inrange(year, 1992, 2022)
+keep if inrange(year, `start_year', `end_year')
 drop if frame_id == "only_originalid"
 ren frame_id2 frame_id_numeric
 
