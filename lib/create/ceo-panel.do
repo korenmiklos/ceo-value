@@ -42,7 +42,7 @@ egen ft = tag(frame_id_numeric year)
 * ceo_spell is a firm-level counter: cumulative number of CEO arrivals
 egen byte has_new_ceo = max(year == start_year & !missing(start_year)), by(frame_id_numeric year)
 egen byte leaving_ceo = max(year == end_year & !missing(end_year)), by(frame_id_numeric year)
-bysort ft frame_id_numeric (year): generate ceo_spell = sum(has_new_ceo) if ft
+bysort ft frame_id_numeric (year): generate ceo_spell = sum(has_new_ceo | leaving_ceo) if ft
 egen tmp = max(ceo_spell), by(frame_id_numeric year)
 replace ceo_spell = tmp if missing(ceo_spell)
 drop tmp has_new_ceo spell
