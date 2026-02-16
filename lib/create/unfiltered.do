@@ -9,10 +9,9 @@ clear all
 use "temp/balance.dta", clear
 * create investment here while it is a firm-year panel
 xtset frame_id_numeric year
-generate lnK = ln(tangible_assets + intangible_assets)
-generate investment = lnK - L.lnK
+generate lnK = ln(assets)
 
-merge 1:m frame_id_numeric year using "temp/ceo-panel.dta", keep(master match) nogen
+merge 1:1 frame_id_numeric year using "temp/ceo-panel.dta", keep(master match) nogen
 
 * Apply industry classification
 do "lib/util/industry.do"
@@ -23,5 +22,3 @@ drop if max_ceo_spell == 0
 
 * Save unfiltered dataset
 save "temp/unfiltered.dta", replace
-
-display "Unfiltered dataset created: temp/unfiltered.dta"

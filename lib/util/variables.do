@@ -5,7 +5,7 @@ generate lnR = ln(sales)
 generate lnEBITDA = ln(EBITDA)
 generate lnL = ln(employment)
 generate lnM = ln(materials)
-generate lnWL = ln(personnel_expenses)
+generate lnWL = ln(wagebill) - lnL
 generate lnKL = lnK - lnL
 generate lnRL = lnR - lnL
 generate lnMR = lnM - lnR
@@ -32,9 +32,6 @@ replace ROA = . if ROA < r(p1) | (ROA>r(p99) & !missing(ROA))
 egen firm_year_tag = tag(frame_id_numeric year)
 egen firm_tag = tag(frame_id_numeric)
 
-* CEO tenure = years since start of current spell
-generate byte ceo_tenure = year - start_year if !missing(start_year)
-
 * ceo_spell = 0 denotes firm-years with no CEO
 tabulate ceo_spell if firm_year_tag, missing
 egen max_ceo_spell = max(ceo_spell), by(frame_id_numeric)
@@ -46,9 +43,7 @@ generate byte exit = (year == last_year)
 drop firm_year_tag firm_tag last_year 
 
 * we only infer gender from Hungarian names
-generate expat = missing(male)
 generate firm_age = year - foundyear
-generate ceo_age = year - birth_year
 generate byte second_ceo = (ceo_spell == 2)
 generate byte third_ceo = (ceo_spell >= 3)
 generate byte founder = (manager_category == 1)
@@ -61,7 +56,7 @@ replace cohort = 1989 if cohort < 1989
 tabulate cohort, missing
 
 * quadratics
-foreach var in ceo_age firm_age ceo_tenure {
+foreach var in firm_age {
     generate `var'_sq = `var'^2
 }
 
@@ -82,24 +77,16 @@ label values early_size size
 label variable frame_id_numeric "Numeric frame ID"
 label variable foundyear "Year of foundation"
 label variable person_id "Person ID"
-label variable manager_category "Manager category"
-label variable male "Male CEO"
-label variable owner "CEO is owner"
-label variable expat "Expatriate CEO"
-label variable birth_year "Year of birth"
+label variable n_ceo_male "Number of male CEOs"
+label variable has_expat_ceo "Expatriate CEO"
+label variable has_founder "Founder CEO"
 label variable firm_age "Firm age (years)"
 
-label variable ceo_age "CEO age (years)"
-label variable ceo_tenure "CEO tenure (years)"
 label variable ceo_spell "CEO spell"
 label variable second_ceo "Second CEO"
 label variable third_ceo "Third or later CEO"
-label variable founder "Founding owner"
-label variable owner "Non-founding owner"
 * quadratics
-label variable ceo_age_sq "CEO age squared"
 label variable firm_age_sq "Firm age squared"
-label variable ceo_tenure_sq "CEO tenure squared"
 
 label variable year "Year"
 label variable sales "Sales"
@@ -119,7 +106,7 @@ label variable lnL "Employment (log)"
 label variable lnK "Fixed assets (log)"
 label variable lnM "Materials (log)"
 label variable intangible_share "Intangible assets share"
-label variable lnWL "Wagebill (log)"
+label variable lnWL "Average wage per worker (log)"
 label variable has_intangible "Has intangible assets"
 
 label variable EBITDA "Earnings before interest, taxes, depreciation, and amortization"
@@ -136,4 +123,3 @@ label variable lnRL "Sales to labor ratio (log)"
 label variable lnMR "Materials to sales ratio (log)"
 label variable exportshare "Export to sales ratio (winsorized between 0 and 1)"
 label variable ROA "Return on assets (winsorized between p1 and p99)"
-label variable investment "Net investment (change in log fixed assets)"
