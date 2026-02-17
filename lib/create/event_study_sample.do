@@ -26,6 +26,21 @@ global exact_match_on cohort sector max_size  // Variables to exactly match on f
 global fixed_effect ROA
 
 use "temp/analysis-sample.dta", clear
+
+* person_id lives in intervals.dta, not in the firm-year panel
+preserve
+use "temp/intervals.dta", clear
+generate T = end_year - start_year + 1
+expand T
+bysort frame_id_numeric person_id spell: generate year = start_year + _n - 1
+keep frame_id_numeric person_id year
+duplicates drop
+tempfile ceo_person_year
+save "`ceo_person_year'", replace
+restore
+
+joinby frame_id_numeric year using "`ceo_person_year'"
+
 merge m:1 frame_id_numeric person_id using "temp/manager_value.dta", keep(master match) nogen
 
 * keep single-ceo firms
@@ -46,7 +61,7 @@ replace cohort = min_cohort if cohort != min_cohort
 drop min_cohort
 
 * refactor to collapse
-collapse (mean) MS = manager_skill (count) T = ${fixed_effect} (max) founder owner (min) change_year = year (max) window_end = year (firstnm) $exact_match_on, by(frame_id_numeric ceo_spell)
+collapse (mean) MS = manager_skill (count) T = ${fixed_effect} (min) change_year = year (max) window_end = year (firstnm) $exact_match_on, by(frame_id_numeric ceo_spell)
 
 drop if missing(MS)
 drop if T < ${min_T}
@@ -71,7 +86,7 @@ bysort frame_id_numeric (ceo_spell index): generate byte spell_id = sum(new_spel
 drop first_spell last_spell duplicate index new_spell
 bysort frame_id_numeric spell_id (ceo_spell): generate index = _n
 
-reshape wide MS T founder owner change_year window_end ceo_spell, i(frame_id_numeric spell_id) j(index)
+reshape wide MS T change_year window_end ceo_spell, i(frame_id_numeric spell_id) j(index)
 rename change_year2 change_year
 
 generate window_start = change_year1
@@ -120,7 +135,7 @@ scalar MULTIPLE = `TARGET_N_CONTROL' / MEAN
 scalar list
 
 use "temp/analysis-sample.dta", clear
-keep frame_id_numeric person_id year ceo_spell ${exact_match_on}
+keep frame_id_numeric year ceo_spell ${exact_match_on}
 
 collapse (min) window_start1 = year (max) window_end1 = year (min) $exact_match_on, by(frame_id_numeric ceo_spell)
 

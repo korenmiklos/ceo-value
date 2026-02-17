@@ -44,9 +44,6 @@ drop firm_year_tag firm_tag last_year
 
 * we only infer gender from Hungarian names
 generate firm_age = year - foundyear
-generate byte second_ceo = (ceo_spell == 2)
-generate byte third_ceo = (ceo_spell >= 3)
-generate byte founder = (manager_category == 1)
 replace firm_age = 20 if firm_age > 20 & !missing(firm_age)
 * use 3-year windows for cohort to increase cohort sizes
 generate cohort = int(foundyear/3)*3
@@ -76,15 +73,12 @@ label values early_size size
 * variable labels
 label variable frame_id_numeric "Numeric frame ID"
 label variable foundyear "Year of foundation"
-label variable person_id "Person ID"
 label variable n_ceo_male "Number of male CEOs"
 label variable has_expat_ceo "Expatriate CEO"
 label variable has_founder "Founder CEO"
 label variable firm_age "Firm age (years)"
 
 label variable ceo_spell "CEO spell"
-label variable second_ceo "Second CEO"
-label variable third_ceo "Third or later CEO"
 * quadratics
 label variable firm_age_sq "Firm age squared"
 

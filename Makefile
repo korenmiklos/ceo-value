@@ -23,7 +23,7 @@ COMMIT_EXPERIMENT := experiment/preferred  # Update with specific hash when need
 PRECIOUS_FILES := temp/balance.dta temp/ceo-panel.dta temp/intervals.dta temp/unfiltered.dta \
                   temp/analysis-sample.dta temp/placebo.dta temp/edgelist.csv \
                   temp/large_component_managers.csv \
-                  temp/manager_value.dta temp/revenue_models.ster $(foreach sample,$(SAMPLES),temp/placebo_$(sample).dta)
+                  temp/manager_value.dta temp/manager_value_spell.dta temp/revenue_models.ster $(foreach sample,$(SAMPLES),temp/placebo_$(sample).dta)
 
 # Mark these files as PRECIOUS so make won't delete them
 .PRECIOUS: $(PRECIOUS_FILES)
@@ -56,7 +56,7 @@ temp/analysis-sample.dta: lib/create/analysis-sample.do temp/unfiltered.dta lib/
 	$(STATA) $<
 
 # Generate placebo CEO transitions
-temp/placebo_%.dta: lib/create/event_study_sample.do temp/analysis-sample.dta temp/manager_value.dta 
+temp/placebo_%.dta: lib/create/event_study_sample.do temp/analysis-sample.dta temp/manager_value.dta
 	$(STATA) $< $*
 
 # Extract firm-manager edgelist

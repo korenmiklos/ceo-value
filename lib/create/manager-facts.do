@@ -6,8 +6,8 @@ duplicates drop
 
 preserve
     drop male birth_year hungarian_name
-    save "temp/manager_firm_facts.dta", replace
+    save "temp/manager-firm-facts.dta", replace
 restore
 
 collapse (firstnm) male birth_year (max) hungarian_name, by(person_id)
-save "temp/manager_facts.dta", replace
+save "temp/manager-facts.dta", replace
