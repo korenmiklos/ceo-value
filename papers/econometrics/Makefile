@@ -8,7 +8,6 @@ DATALIB := ../../temp/analysis-sample.dta ../../temp/manager_value.dta
 CODELIB := ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do
 
 all: $(foreach FE,$(FIXED_EFFECTS),figure/outcomes_$(FE).pdf) \
-	$(foreach FE,$(FIXED_EFFECTS),figure/outcomes_$(FE)_weighted.pdf) \
 	table/firm-descriptives.tex \
 	table/firm-year-descriptives.tex \
 	table/max-emp-by-ceo-switches.tex \
