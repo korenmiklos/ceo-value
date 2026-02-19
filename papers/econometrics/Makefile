@@ -8,6 +8,7 @@ DATALIB := ../../temp/analysis-sample.dta ../../temp/manager_value.dta
 CODELIB := ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do
 
 all: $(foreach FE,$(FIXED_EFFECTS),figure/outcomes_$(FE).pdf) \
+	$(foreach FE,$(FIXED_EFFECTS),figure/outcomes_$(FE)_weighted.pdf) \
 	table/firm-descriptives.tex \
 	table/firm-year-descriptives.tex \
 	table/max-emp-by-ceo-switches.tex \
@@ -20,6 +21,10 @@ all: $(foreach FE,$(FIXED_EFFECTS),figure/outcomes_$(FE).pdf) \
 montecarlo: $(EVENT_STUDIES)
 
 figure/outcomes_%.pdf: src/outcomes.do $(foreach outcome,$(OUTCOMES),data/full_$(outcome)-%.csv)
+	mkdir -p figure
+	stata -b do $< $*
+
+figure/outcomes_%_weighted.pdf: src/outcomes-weighted.do $(foreach outcome,$(OUTCOMES),data/full_$(outcome)-%_wlnR.csv)
 	mkdir -p figure
 	stata -b do $< $*
 
@@ -49,6 +54,23 @@ data/full_%-lnYL.csv: $(CODELIB) $(DATALIB) data/placebo_full.dta
 data/full_%-ROA_op.csv: $(CODELIB) $(DATALIB) data/placebo_full.dta
 	mkdir -p data
 	stata -b do "../../lib/estimate/event_study.do" full $* no ROA_op
+
+# lnR-weighted event study estimates
+data/full_%-lnR_wlnR.csv: $(CODELIB) $(DATALIB) data/placebo_full.dta
+	mkdir -p data
+	stata -b do "../../lib/estimate/event_study.do" full $* no lnR lnR
+
+data/full_%-ROA_wlnR.csv: $(CODELIB) $(DATALIB) data/placebo_full.dta
+	mkdir -p data
+	stata -b do "../../lib/estimate/event_study.do" full $* no ROA lnR
+
+data/full_%-lnYL_wlnR.csv: $(CODELIB) $(DATALIB) data/placebo_full.dta
+	mkdir -p data
+	stata -b do "../../lib/estimate/event_study.do" full $* no lnYL lnR
+
+data/full_%-ROA_op_wlnR.csv: $(CODELIB) $(DATALIB) data/placebo_full.dta
+	mkdir -p data
+	stata -b do "../../lib/estimate/event_study.do" full $* no ROA_op lnR
 
 # Generate event study data for monte carlo scenarios
 data/%_lnR-lnR.csv: $(CODELIB) data/placebo_%.dta
