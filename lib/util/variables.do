@@ -21,13 +21,18 @@ egen max_employment = max(employment), by(frame_id_numeric)
 generate EBITDA_share = EBITDA / sales
 replace EBITDA_share = 0 if EBITDA_share < 0
 replace EBITDA_share = 1 if EBITDA_share > 1 & !missing(EBITDA_share)
-generate ROA = aftertax/L_assets
+generate ROA = aftertax/(L_assets+assets) * 2
+generate ROA_op = EBITDA/(L_tangibles + tangible_assets) * 2
 * FIXME: check winsorization levels
 * P(1) was irreally low in both cases, for operating it is at -41.5, for normal at -10.5
 * p(5) is at -4.8 for operating and -1.4 for normal.
 * operating also winsorized at p(90) at top as it is around 8.4
 sum ROA, d
 replace ROA = . if ROA < r(p1) | (ROA>r(p99) & !missing(ROA))
+
+sum ROA_op, d
+replace ROA_op = . if ROA_op < r(p1) | (ROA_op>r(p99) & !missing(ROA_op))
+
 
 egen firm_year_tag = tag(frame_id_numeric year)
 egen firm_tag = tag(frame_id_numeric)
