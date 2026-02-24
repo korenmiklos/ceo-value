@@ -9,8 +9,10 @@ local fnd2non      founder1 == 1 & founder2 == 0
 local non2non      founder1 == 0 & founder2 == 0
 local small        max_size == 1
 local large        max_size == 2
+local one2one      n_ceo1 == 1 & n_ceo2 == 1
+local twos         n_ceo1 == 2 | n_ceo2 == 2
 
-assert inlist("`sample'", "full", "fnd2non", "non2non", "small", "large")
+assert inlist("`sample'", "full", "fnd2non", "non2non", "small", "large", "one2one", "twos")
 
 clear all
 tempfile cohortsfile
