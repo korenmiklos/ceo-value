@@ -1,4 +1,4 @@
-args FE
+args sample FE
 clear all
 
 local A lnR
@@ -9,7 +9,7 @@ local E exporter
 local F lnWL
 
 foreach outcome in A B C D E F {
-  import delimited "data/full_``outcome''-`FE'.csv", clear case(preserve)
+  import delimited "data/`sample'_``outcome''-`FE'.csv", clear case(preserve)
   * drop ATET estimates
     drop if xvar == "ATET"
 
@@ -19,5 +19,5 @@ foreach outcome in A B C D E F {
 graph combine panelA panelB panelC panelD panelE panelF, ///
         cols(2) graphregion(color(white)) imargin(small) xsize(5) ysize(7.5)
 
-graph export "figure/outcomes_`FE'.pdf", replace
+graph export "figure/outcomes_`sample'.pdf", replace
 graph drop panel*

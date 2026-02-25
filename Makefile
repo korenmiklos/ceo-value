@@ -10,7 +10,7 @@ LATEX := pdflatex
 PANDOC := pandoc
 UTILS := $(wildcard lib/util/*.do)
 
-SAMPLES := full fnd2non non2non small large
+SAMPLES := full one2one twos
 OUTCOMES := lnK lnWL lnM has_intangible
 
 # Commit hashes for reproducible file extraction

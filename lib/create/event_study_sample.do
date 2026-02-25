@@ -63,7 +63,7 @@ replace cohort = min_cohort if cohort != min_cohort
 drop min_cohort
 
 * refactor to collapse
-collapse (mean) MS = manager_skill (count) T = ${fixed_effect} (min) change_year = year (max) window_end = year (firstnm) $exact_match_on, by(frame_id_numeric ceo_spell)
+collapse (mean) MS = manager_skill (count) T = ${fixed_effect} (min) change_year = year (max) window_end = year n_ceo (firstnm) $exact_match_on, by(frame_id_numeric ceo_spell)
 
 drop if missing(MS)
 drop if T < ${min_T}
@@ -88,7 +88,7 @@ bysort frame_id_numeric (ceo_spell index): generate byte spell_id = sum(new_spel
 drop first_spell last_spell duplicate index new_spell
 bysort frame_id_numeric spell_id (ceo_spell): generate index = _n
 
-reshape wide MS T change_year window_end ceo_spell, i(frame_id_numeric spell_id) j(index)
+reshape wide MS T change_year window_end ceo_spell n_ceo, i(frame_id_numeric spell_id) j(index)
 rename change_year2 change_year
 
 generate window_start = change_year1
