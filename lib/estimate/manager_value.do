@@ -9,6 +9,20 @@ local fixed_effect ROA
 
 use "temp/analysis-sample.dta", clear
 
+* person_id lives in intervals.dta, not in the firm-year panel
+preserve
+use "temp/intervals.dta", clear
+generate T = end_year - start_year + 1
+expand T
+bysort frame_id_numeric person_id spell: generate year = start_year + _n - 1
+keep frame_id_numeric person_id year
+duplicates drop
+tempfile ceo_person_year
+save "`ceo_person_year'", replace
+restore
+
+joinby frame_id_numeric year using "`ceo_person_year'"
+
 * Create connected component indicator
 do "lib/create/network-sample.do"
 
@@ -46,6 +60,12 @@ histogram manager_skill, ///
     ytitle("Density") ///
     normal
 graph export "output/figure/manager_skill_connected.pdf", replace
+
+* save spell-level version for event study (no person_id needed)
+preserve
+collapse (firstnm) manager_skill, by(frame_id_numeric ceo_spell)
+save "temp/manager_value_spell.dta", replace
+restore
 
 collapse (firstnm) firm_fixed_effect manager_skill component_id component_size, by(frame_id_numeric person_id)
 save "temp/manager_value.dta", replace

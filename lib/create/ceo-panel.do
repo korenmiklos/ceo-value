@@ -6,8 +6,8 @@ expand T
 
 bysort frame_id_numeric person_id spell: generate year = start_year + _n -1
 
-merge m:1 frame_id_numeric person_id using "temp/manager_firm_facts.dta", keep(match) nogen
-merge m:1 person_id using "temp/manager_facts.dta", keep(match) nogen
+merge m:1 frame_id_numeric person_id using "temp/manager-firm-facts.dta", keep(match) nogen
+merge m:1 person_id using "temp/manager-facts.dta", keep(match) nogen
 
 generate byte someone_enters = year == start_year
 generate byte someone_exits = year == end_year

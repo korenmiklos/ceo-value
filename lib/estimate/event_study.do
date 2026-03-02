@@ -1,4 +1,4 @@
-args sample outcome montecarlo fixed_effects
+args sample outcome montecarlo fixed_effects weight_var
 
 * you can compute fixed effects on variables other than the outcome variable
 if ("`fixed_effects'" == "") {
@@ -16,9 +16,19 @@ egen sometimes_missing = max(missing(`outcome')), by(fake_id)
 drop if sometimes_missing == 1
 drop sometimes_missing
 
+* if weight variable specified, also drop observations with missing weights
+if ("`weight_var'" != "") {
+    confirm numeric variable `weight_var'
+    drop if missing(`weight_var')
+}
+
 generate byte treatment = event_time >= 0
 generate byte treated_group = !placebo
 generate manager_diff = MS2 - MS1
-do "../../lib/estimate/xt2var.do" `outcome' treatment treated_group manager_diff $cluster `fixed_effects'
+do "../../lib/estimate/xt2var.do" `outcome' treatment treated_group manager_diff $cluster `fixed_effects' `weight_var'
 
-frame dCov: export delimited "data/`sample'_`outcome'-`fixed_effects'.csv", replace
+* append weight suffix to filename if weighted
+if ("`weight_var'" != "") {
+    local weight_suffix _w`weight_var'
+}
+frame dCov: export delimited "data/`sample'_`outcome'-`fixed_effects'`weight_suffix'.csv", replace

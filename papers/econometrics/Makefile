@@ -1,29 +1,32 @@
 .PHONY: all montecarlo paper clean
 
-SCENARIOS = baseline longpanel persistent_baseline persistent unbalanced excessvariance_baseline excessvariance all all_persistent all_excess all_both 
-EVENT_STUDIES = $(addprefix data/,$(addsuffix _lnR-lnR.csv,$(SCENARIOS))) 
+SCENARIOS = baseline longpanel persistent_baseline persistent unbalanced excessvariance_baseline excessvariance all all_persistent all_excess all_both
+EVENT_STUDIES = $(addprefix data/,$(addsuffix _lnR-lnR.csv,$(SCENARIOS)))
 OUTCOMES :=  ROA lnR exporter lnL lnK lnWL
-FIXED_EFFECTS := lnR ROA 
+REAL_SAMPLES := full one2one twos
+FIXED_EFFECTS := lnR
 DATALIB := ../../temp/analysis-sample.dta ../../temp/manager_value.dta
 CODELIB := ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do
 
-all: $(foreach FE,$(FIXED_EFFECTS),figure/outcomes_$(FE).pdf) \
+all: $(foreach sample,$(REAL_SAMPLES),figure/outcomes_$(sample).pdf) \
 	table/firm-descriptives.tex \
 	table/firm-year-descriptives.tex \
 	table/max-emp-by-ceo-switches.tex \
 	table/ceo-counts.tex \
 	figure/ceo-spell-distributions.pdf \
 	figure/ceo-spell-distributions-weighted.pdf \
-	figure/ridgeline-ROA.pdf \
 	figure/tenure-snapshots.pdf
 
 montecarlo: $(EVENT_STUDIES)
 
-figure/outcomes_%.pdf: src/outcomes.do $(foreach outcome,$(OUTCOMES),data/full_$(outcome)-%.csv)
+define OUTCOMES_RULE
+figure/outcomes_$(1).pdf: src/outcomes.do $$(foreach outcome,$$(OUTCOMES),data/$(1)_$$(outcome)-lnR.csv)
 	mkdir -p figure
-	stata -b do $< $*
+	stata -b do $$< $(1) lnR
+endef
+$(foreach sample,$(REAL_SAMPLES),$(eval $(call OUTCOMES_RULE,$(sample))))
 
-application: $(foreach FE,$(FIXED_EFFECTS),$(foreach outcome,$(OUTCOMES),data/full_$(outcome)-$(FE).csv))
+application: $(foreach sample,$(REAL_SAMPLES),$(foreach outcome,$(OUTCOMES),data/$(sample)_$(outcome)-lnR.csv))
 
 # copy relevant files for application
 data/placebo_%.dta: ../../temp/placebo_%.dta
@@ -33,15 +36,13 @@ data/placebo_%.dta: ../../temp/placebo_%.dta
 data/placebo_%.dta: src/montecarlo/%.do src/montecarlo/params.do src/montecarlo/setup.do
 	stata -b do src/montecarlo/run.do $*
 
-# same with real data
-data/full_%-lnR.csv: $(CODELIB) $(DATALIB) data/placebo_full.dta
+# Generate event study data for real data samples
+define REAL_RULE
+data/$(1)_%-lnR.csv: $$(CODELIB) $$(DATALIB) data/placebo_$(1).dta
 	mkdir -p data
-	stata -b do "../../lib/estimate/event_study.do" full $* no lnR
-
-data/full_%-ROA.csv: $(CODELIB) $(DATALIB) data/placebo_full.dta
-	mkdir -p data
-	stata -b do "../../lib/estimate/event_study.do" full $* no ROA
-
+	stata -b do "../../lib/estimate/event_study.do" $(1) $$* no lnR
+endef
+$(foreach sample,$(REAL_SAMPLES),$(eval $(call REAL_RULE,$(sample))))
 
 # Generate event study data for monte carlo scenarios
 data/%_lnR-lnR.csv: $(CODELIB) data/placebo_%.dta
@@ -65,13 +66,10 @@ figure/figuremc-epsilon.pdf: src/figuremc-epsilon.do src/exhibit/event_study2.do
 	stata -b do "src/figuremc-epsilon.do"
 
 figure/figuremc-all.pdf: src/figuremc-all.do src/exhibit/event_study2.do src/exhibit/event_study3.do $(EVENT_STUDIES)
-	mkdir -p figure 
+	mkdir -p figure
 	stata -b do "src/figuremc-all.do"
 
 table/%.tex: src/%.do $(DATALIB)
-	stata -b do $<
-
-figure/ridgeline-ROA.pdf: src/roa-distributions.do $(DATALIB)
 	stata -b do $<
 
 figure/ceo-%.pdf: src/%.do $(DATALIB)

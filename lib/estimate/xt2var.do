@@ -1,4 +1,4 @@
-args outcome treatment treated_group X cluster fixed_effects
+args outcome treatment treated_group X cluster fixed_effects weight_var
 confirm numeric variable `outcome'
 confirm numeric variable `treatment'
 confirm numeric variable `treated_group'
@@ -9,6 +9,16 @@ if ("`fixed_effects'" == "") {
     local fixed_effects `outcome'
 }
 confirm numeric variable `fixed_effects'
+
+* optional analytical weights
+if ("`weight_var'" != "") {
+    confirm numeric variable `weight_var'
+    local weight_opt [aweight=`weight_var']
+    display "Using analytical weights: `weight_var'"
+}
+else {
+    local weight_opt
+}
 
 local pre 4
 local post 3
@@ -73,13 +83,13 @@ forvalues et = 0(1)`post' {
 }
 
 * compute difference in a regression to get standard errors
-reghdfe `dX2' if !`treated_group', vce(cluster `cluster')
+reghdfe `dX2' `weight_opt' if !`treated_group', vce(cluster `cluster')
 local Var0 = _b[_cons]
 local se_Var0 = _se[_cons]
-reghdfe `dX2' if `treated_group', vce(cluster `cluster')
+reghdfe `dX2' `weight_opt' if `treated_group', vce(cluster `cluster')
 local Var1 = _b[_cons]
 local se_Var1 = _se[_cons]
-reghdfe `dX2' `treated_group', vce(cluster `cluster')
+reghdfe `dX2' `treated_group' `weight_opt', vce(cluster `cluster')
 local dVar = _b[`treated_group']
 local se_dVar  = _se[`treated_group']
 
@@ -91,40 +101,40 @@ foreach df in dCov Cov1 {
 }
 
 * first compute covariance in treated group only - this is biased
-reghdfe `dYdX' et_m_`pre'-et_m_2 et_p_0-et_p_`post' if `treated_group' == 1, absorb(`group') vce(cluster `cluster') nocons
+reghdfe `dYdX' et_m_`pre'-et_m_2 et_p_0-et_p_`post' `weight_opt' if `treated_group' == 1, absorb(`group') vce(cluster `cluster') nocons
 e2frame, generate(Cov1)
 
 * difference to placebo group - this is unbiased
-reghdfe `dYdX' et_m_`pre'-et_m_2 et_p_0-et_p_`post', absorb(`group' `e') vce(cluster `cluster') nocons
+reghdfe `dYdX' et_m_`pre'-et_m_2 et_p_0-et_p_`post' `weight_opt', absorb(`group' `e') vce(cluster `cluster') nocons
 e2frame, generate(dCov)
 **** Do the same for variance
 
 * first compute variance in treated group only - this is biased
-reghdfe `dY2' et_m_`pre'-et_m_2 et_p_0-et_p_`post' if `treated_group' == 1, absorb(`group') vce(cluster `cluster') nocons
+reghdfe `dY2' et_m_`pre'-et_m_2 et_p_0-et_p_`post' `weight_opt' if `treated_group' == 1, absorb(`group') vce(cluster `cluster') nocons
 e2frame, generate(VarY1)
 
 * difference to placebo group - this is unbiased
-reghdfe `dY2' et_m_`pre'-et_m_2 et_p_0-et_p_`post', absorb(`group' `e') vce(cluster `cluster') nocons
+reghdfe `dY2' et_m_`pre'-et_m_2 et_p_0-et_p_`post' `weight_opt', absorb(`group' `e') vce(cluster `cluster') nocons
 e2frame, generate(dVarY)
 
 * save ATET estimates
 generate byte TXT = `treated_group' & `treatment'
-reghdfe `dYdX' TXT if `treated_group' == 1 & inrange(`e', -1, `post'), absorb(`group') vce(cluster `cluster') 
+reghdfe `dYdX' TXT `weight_opt' if `treated_group' == 1 & inrange(`e', -1, `post'), absorb(`group') vce(cluster `cluster')
 local coef_Cov1 = _b[TXT]
 local lower_Cov1 = _b[TXT] - invttail(e(df_r), 0.025)*_se[TXT]
 local upper_Cov1 = _b[TXT] + invttail(e(df_r), 0.025)*_se[TXT]
 
-reghdfe `dYdX' TXT if inrange(`e', -1, `post'), absorb(`group' `e') vce(cluster `cluster') 
+reghdfe `dYdX' TXT `weight_opt' if inrange(`e', -1, `post'), absorb(`group' `e') vce(cluster `cluster')
 local coef_dCov = _b[TXT]
 local lower_dCov = _b[TXT] - invttail(e(df_r), 0.025)*_se[TXT]
 local upper_dCov = _b[TXT] + invttail(e(df_r), 0.025)*_se[TXT]
 
-reghdfe `dY2' TXT if `treated_group' == 1 & inrange(`e', -1, `post'), absorb(`group') vce(cluster `cluster') 
+reghdfe `dY2' TXT `weight_opt' if `treated_group' == 1 & inrange(`e', -1, `post'), absorb(`group') vce(cluster `cluster')
 local coef_VarY1 = _b[TXT]
 local lower_VarY1 = _b[TXT] - invttail(e(df_r), 0.025)*_se[TXT]
 local upper_VarY1 = _b[TXT] + invttail(e(df_r), 0.025)*_se[TXT]
 
-reghdfe `dY2' TXT if inrange(`e', -1, `post'), absorb(`group' `e') vce(cluster `cluster') 
+reghdfe `dY2' TXT `weight_opt' if inrange(`e', -1, `post'), absorb(`group' `e') vce(cluster `cluster')
 local coef_dVarY = _b[TXT]
 local lower_dVarY = _b[TXT] - invttail(e(df_r), 0.025)*_se[TXT]
 local upper_dVarY = _b[TXT] + invttail(e(df_r), 0.025)*_se[TXT]

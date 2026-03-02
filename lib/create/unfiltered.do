@@ -11,7 +11,7 @@ use "temp/balance.dta", clear
 xtset frame_id_numeric year
 generate lnK = ln(assets)
 
-merge 1:1 frame_id_numeric year using "temp/ceo-panel.dta", keep(master match) nogen
+merge 1:1 frame_id_numeric year using "temp/ceo-panel.dta", keep(match) nogen
 
 * Apply industry classification
 do "lib/util/industry.do"

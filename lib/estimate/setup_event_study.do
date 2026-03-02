@@ -11,7 +11,7 @@ global baseline_year -1            // Baseline year for event study
 global random_seed 2181            // Random seed for reproducibility
 global sample 100                   // Sample selection for analysis
 global cluster frame_id_numeric     // Clustering variable
-global T_min 4
+global T_min 1
 
 * report package versions
 which xt2treatments
@@ -22,9 +22,12 @@ which e2frame
 
 if !("`montecarlo'" == "montecarlo") {
     use "../../temp/analysis-sample.dta", clear
-    merge m:1 frame_id_numeric person_id using "../../temp/manager_value.dta", keep(master match) nogen
+    merge m:1 frame_id_numeric ceo_spell using "../../temp/manager_value_spell.dta", keep(master match) nogen
     * redefine variables here so as not to rerun everything
     confirm numeric variable `outcome'
+
+    * ceo_spell is also in the placebo file, drop before joinby to avoid implicit matching on it
+    drop ceo_spell
 
     * sample for performance when testing
     set seed ${random_seed}
@@ -39,14 +42,6 @@ if !("`montecarlo'" == "montecarlo") {
 
     * limit to relevant CEO spells
     keep if inrange(year, window_start, window_end)
-    * for 2-ceo firms, only keep 1 of them, these are only placebo anyway
-    tabulate n_ceo
-    bysort fake_id year (person_id): generate keep = _n == 1
-    tabulate n_ceo keep
-    keep if keep == 1
-    drop keep
-    * bad naming, sorry!
-
     egen group = group(window_start change_year window_end sector cohort max_size)
     egen N_treated = total(placebo == 0), by(group)
     egen N_control = total(placebo == 1), by(group)
@@ -62,21 +57,14 @@ else {
 tabulate year placebo
 tabulate change_year placebo
 
-* reindex CEO spells, 1 is found, 2 is non-founder
-egen first_spell = min(ceo_spell), by(fake_id)
-replace ceo_spell = ceo_spell - first_spell + 1
-
-* create fake CEO spells for placebo group
-tabulate ceo_spell placebo
-* should be 1 and 2 only
-drop if ceo_spell > 2 // we have changed for counting exiting ceos too, 34.4k have ceo_spell 3
-summarize ceo_spell if placebo == 0
-local s1 = r(min)
-local s2 = r(max)
-assert `s1' == 1
-assert `s2' == 2
-replace ceo_spell = `s1' if placebo == 1 & year < change_year
-replace ceo_spell = `s2' if placebo == 1 & year >= change_year
+* assign CEO spells based on year relative to change_year, for both treated and placebo
+local s1 1
+local s2 2
+drop ceo_spell
+generate byte ceo_spell = cond(year < change_year, `s1', `s2')
+summarize ceo_spell
+assert r(min) == `s1'
+assert r(max) == `s2'
 tabulate ceo_spell placebo
 
 * CEO skill is also fake, computed from actual outcome
