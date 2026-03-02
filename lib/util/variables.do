@@ -1,6 +1,8 @@
 generate byte exporter = export > 0 & !missing(export)
 
 * log transformations
+generate lnK = ln(tangible_assets)
+generate lnA = ln(assets)
 generate lnR = ln(sales)
 generate lnEBITDA = ln(EBITDA)
 generate lnL = ln(employment)
@@ -11,7 +13,7 @@ generate lnRL = lnR - lnL
 generate lnMR = lnM - lnR
 generate lnYL = ln(sales-materials) - lnL
 generate exportshare = export / sales
-replace exportshare = 0 if exportshare < 0 
+replace exportshare = 0 if exportshare < 0
 replace exportshare = 1 if exportshare > 1 & !missing(exportshare)
 generate intangible_share = intangible_assets / (tangible_assets + intangible_assets)
 replace intangible_share = 0 if intangible_share < 0 | missing(intangible_share)
@@ -21,12 +23,9 @@ egen max_employment = max(employment), by(frame_id_numeric)
 generate EBITDA_share = EBITDA / sales
 replace EBITDA_share = 0 if EBITDA_share < 0
 replace EBITDA_share = 1 if EBITDA_share > 1 & !missing(EBITDA_share)
-generate ROA = aftertax/(L_assets+assets) * 2
-generate ROA_op = EBITDA/(L_tangibles + tangible_assets) * 2
-* FIXME: check winsorization levels
-* P(1) was irreally low in both cases, for operating it is at -41.5, for normal at -10.5
-* p(5) is at -4.8 for operating and -1.4 for normal.
-* operating also winsorized at p(90) at top as it is around 8.4
+generate ROA = aftertax/(L.assets+assets) * 2
+generate ROA_op = EBITDA/(L.tangibles + tangible_assets) * 2
+
 sum ROA, d
 replace ROA = . if ROA < r(p1) | (ROA>r(p99) & !missing(ROA))
 
@@ -45,7 +44,7 @@ tabulate max_ceo_spell if firm_tag, missing
 egen last_year = max(year), by(frame_id_numeric)
 generate byte exit = (year == last_year)
 
-drop firm_year_tag firm_tag last_year 
+drop firm_year_tag firm_tag last_year
 
 * we only infer gender from Hungarian names
 generate firm_age = year - foundyear
@@ -102,7 +101,8 @@ label variable n_ceo "Number of CEOs in a year"
 label variable lnR "Sales (log)"
 label variable lnEBITDA "EBITDA (log)"
 label variable lnL "Employment (log)"
-label variable lnK "Fixed assets (log)"
+label variable lnK "Tangible assets (log)"
+label variable lnA "Fixced assets (log)"
 label variable lnM "Materials (log)"
 label variable intangible_share "Intangible assets share"
 label variable lnWL "Average wage per worker (log)"

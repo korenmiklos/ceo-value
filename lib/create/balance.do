@@ -13,7 +13,7 @@ generate long frame_id_numeric = real(substr(frame_id, 3, .)) if substr(frame_id
 tabulate year, missing
 
 local dimensions frame_id_numeric originalid foundyear year teaor08_2d teaor08_1d so3_with_mo3 fo3
-local facts sales_clean export emp eszk tanass ranyag wbill persexp immat 
+local facts sales_clean export emp eszk tanass ranyag wbill persexp immat
 
 keep `dimensions' `facts'
 order `dimensions' `facts'
@@ -55,7 +55,7 @@ display "Dropped " `N_before' - _N " firm-years, " _N " remaining"
 drop core_missing first_clean_year
 
 mvencode sales export employment assets tangible_assets materials wagebill personnel_expenses intangible_assets state_owned foreign_owned, mv(0) override
-replace employment = employment + 1 
+replace employment = employment + 1
 replace employment = int(employment)
 
 preserve
@@ -84,9 +84,6 @@ restore
 * this has to be done on the firm panel so that xtset is unambiguous
 xtset frame_id_numeric year
 generate EBITDA = sales - personnel_expenses - materials
-generate L_assets = L.assets
-generate L_tangibles = L.tangible_assets
-generate L_intangibles = L.intangible_assets
 generate capital = cond(missing(L.assets), assets - EBITDA, L.assets)
 
 merge 1:1 frame_id_numeric year using `tax', nogen keep(matched)
