@@ -23,14 +23,10 @@ egen max_employment = max(employment), by(frame_id_numeric)
 generate EBITDA_share = EBITDA / sales
 replace EBITDA_share = 0 if EBITDA_share < 0
 replace EBITDA_share = 1 if EBITDA_share > 1 & !missing(EBITDA_share)
-generate ROA = aftertax/(L.assets+assets) * 2
-generate ROA_op = EBITDA/(L.tangibles + tangible_assets) * 2
+generate ROA= EBITDA/(L.tangible_assets + tangible_assets) * 2
 
 sum ROA, d
 replace ROA = . if ROA < r(p1) | (ROA>r(p99) & !missing(ROA))
-
-sum ROA_op, d
-replace ROA_op = . if ROA_op < r(p1) | (ROA_op>r(p99) & !missing(ROA_op))
 
 
 egen firm_year_tag = tag(frame_id_numeric year)
@@ -66,9 +62,6 @@ egen byte early_exporter = max(exporter & (ceo_spell <= 1)), by(frame_id_numeric
 egen early_employment = max(cond(ceo_spell <= 1, employment, .)), by(frame_id_numeric)
 generate max_size = cond(max_employment < 10, 1, 2)
 generate early_size = cond(early_employment < 10, 1, 2)
-
-* drop, not just miss, because event study is looking for a "balanced" panel in terms of non-missing outcomes
-drop if missing(ROA)
 
 label define size 1 "Small (2-9)" 2 "Large (10+)"
 label values max_size size
@@ -121,4 +114,4 @@ label variable lnKL "Capital to labor ratio (log)"
 label variable lnRL "Sales to labor ratio (log)"
 label variable lnMR "Materials to sales ratio (log)"
 label variable exportshare "Export to sales ratio (winsorized between 0 and 1)"
-label variable ROA "Return on assets (winsorized between p1 and p99)"
+label variable ROA "Return on assets (winsorized between p1 and p99), EBITDA/tangibles"

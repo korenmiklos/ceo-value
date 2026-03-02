@@ -4,11 +4,11 @@ SCENARIOS = baseline longpanel persistent_baseline persistent unbalanced excessv
 EVENT_STUDIES = $(addprefix data/,$(addsuffix _lnR-lnR.csv,$(SCENARIOS)))
 OUTCOMES :=  ROA lnR exporter lnL lnK lnWL
 REAL_SAMPLES := full one2one twos
-FIXED_EFFECTS := lnR
+FIXED_EFFECTS := lnR ROA
 DATALIB := ../../temp/analysis-sample.dta ../../temp/manager_value.dta
 CODELIB := ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do
 
-all: $(foreach sample,$(REAL_SAMPLES),figure/outcomes_$(sample).pdf) \
+all: $(foreach sample,$(REAL_SAMPLES),$(foreach fe, $(FIXED_EFFECTS), figure/outcomes_$(sample)_$(fe).pdf)) \
 	table/firm-descriptives.tex \
 	table/firm-year-descriptives.tex \
 	table/max-emp-by-ceo-switches.tex \
@@ -20,9 +20,9 @@ all: $(foreach sample,$(REAL_SAMPLES),figure/outcomes_$(sample).pdf) \
 montecarlo: $(EVENT_STUDIES)
 
 define OUTCOMES_RULE
-figure/outcomes_$(1).pdf: src/outcomes.do $$(foreach outcome,$$(OUTCOMES),data/$(1)_$$(outcome)-lnR.csv)
+figure/outcomes_$(1)_%.pdf: src/outcomes.do $$(foreach outcome,$$(OUTCOMES),data/$(1)_$$(outcome)-%.csv)
 	mkdir -p figure
-	stata -b do $$< $(1) lnR
+	stata -b do $$< $(1) $$*
 endef
 $(foreach sample,$(REAL_SAMPLES),$(eval $(call OUTCOMES_RULE,$(sample))))
 
@@ -37,12 +37,20 @@ data/placebo_%.dta: src/montecarlo/%.do src/montecarlo/params.do src/montecarlo/
 	stata -b do src/montecarlo/run.do $*
 
 # Generate event study data for real data samples
-define REAL_RULE
+define lnR_RULE
 data/$(1)_%-lnR.csv: $$(CODELIB) $$(DATALIB) data/placebo_$(1).dta
 	mkdir -p data
 	stata -b do "../../lib/estimate/event_study.do" $(1) $$* no lnR
 endef
-$(foreach sample,$(REAL_SAMPLES),$(eval $(call REAL_RULE,$(sample))))
+$(foreach sample,$(REAL_SAMPLES),$(eval $(call lnR_RULE,$(sample))))
+
+define ROA_RULE
+data/$(1)_%-ROA.csv: $$(CODELIB) $$(DATALIB) data/placebo_$(1).dta
+	mkdir -p data
+	stata -b do "../../lib/estimate/event_study.do" $(1) $$* no ROA
+endef
+$(foreach sample,$(REAL_SAMPLES),$(eval $(call ROA_RULE,$(sample))))
+
 
 # Generate event study data for monte carlo scenarios
 data/%_lnR-lnR.csv: $(CODELIB) data/placebo_%.dta

@@ -9,7 +9,6 @@ clear all
 use "temp/balance.dta", clear
 * create investment here while it is a firm-year panel
 xtset frame_id_numeric year
-generate lnK = ln(assets)
 
 merge 1:1 frame_id_numeric year using "temp/ceo-panel.dta", keep(match) nogen
 
