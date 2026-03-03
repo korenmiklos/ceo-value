@@ -11,7 +11,7 @@ if "`title'" != "exporter" & ("`title'" != "ROA" | "`outcome'" == "lnR") {
     local yscale_opts "yscale(range(-1 1.5)) ylabel(-1(0.5)1.5, angle(0) format(%9.1f))"
 }
 
-if "`outcome'" == "Rsq" {
+if "`outcome'" == "ROA" {
     graph twoway ///
         (connected `outcome'1 t, lcolor(red) mcolor(red)) ///
         (connected d`outcome' t, lcolor(blue) mcolor(blue)) ///

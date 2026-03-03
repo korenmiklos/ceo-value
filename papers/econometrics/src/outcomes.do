@@ -19,5 +19,5 @@ foreach outcome in A B C D E F {
 graph combine panelA panelB panelC panelD panelE panelF, ///
         cols(2) graphregion(color(white)) imargin(small) xsize(5) ysize(7.5)
 
-graph export "figure/outcomes_`sample'-`FE'.pdf", replace
+graph export "figure/outcomes_`sample'_`FE'.pdf", replace
 graph drop panel*
