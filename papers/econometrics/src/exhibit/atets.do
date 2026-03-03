@@ -66,7 +66,8 @@ file open texfile using "table/atets.tex", write replace
 * Function to write a row
 forvalues row = 1/`rows' {
     * Set row label
-    file write texfile "\\ `label`row'' & "
+    file write texfile "\\" _n
+    file write texfile "`label`row'' & "
     forvalues i = 1/6 {
         local coef = stats[`row', `i']
         local coef_str = string(`coef', "%5.3f")

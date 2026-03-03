@@ -57,35 +57,35 @@ $(foreach sample,$(REAL_SAMPLES),$(eval $(call ROA_RULE,$(sample))))
 # Generate event study data for monte carlo scenarios
 data/%_lnR-lnR.csv: $(CODELIB) data/placebo_%.dta
 	mkdir -p data
-	stata -b do "../../lib/estimate/event_study.do" $* lnR montecarlo lnR
+	stata -b do ../../lib/estimate/event_study.do $* lnR montecarlo lnR
 
 table/atets.tex: src/exhibit/atets.do $(EVENT_STUDIES)
 	mkdir -p table
-	stata -b do "src/exhibit/atets.do"
+	stata -b do src/exhibit/atets.do
 
 figure/figuremc.pdf: src/figuremc.do src/exhibit/event_study2.do src/exhibit/event_study3.do $(EVENT_STUDIES)
 	mkdir -p figure
-	stata -b do "src/figuremc.do"
+	stata -b do src/figuremc.do
 
 figure/figuremc-rho.pdf: src/figuremc-rho.do src/exhibit/event_study2.do src/exhibit/event_study3.do $(EVENT_STUDIES)
 	mkdir -p figure
-	stata -b do "src/figuremc-rho.do"
+	stata -b do src/figuremc-rho.do
 
 figure/figuremc-epsilon.pdf: src/figuremc-epsilon.do src/exhibit/event_study2.do src/exhibit/event_study3.do $(EVENT_STUDIES)
 	mkdir -p figure
-	stata -b do "src/figuremc-epsilon.do"
+	stata -b do src/figuremc-epsilon.do
 
 figure/figuremc-all.pdf: src/figuremc-all.do src/exhibit/event_study2.do src/exhibit/event_study3.do $(EVENT_STUDIES)
 	mkdir -p figure
-	stata -b do "src/figuremc-all.do"
+	stata -b do src/figuremc-all.do
 
-table/%.tex: src/%.do $(DATALIB)
+table/%.tex: src/exhibit/%.do $(DATALIB)
 	stata -b do $<
 
-figure/ceo-%.pdf: src/%.do $(DATALIB)
+figure/ceo-%.pdf: src/exhibit/%.do $(DATALIB)
 	stata -b do $<
 
-figure/%.pdf: src/%.do $(DATALIB)
+figure/%.pdf: src/exhibit/%.do $(DATALIB)
 	stata -b do $<
 
 paper.pdf: paper.tex table/atets.tex figure/application.pdf ../application/table/table1_panelAB.tex ../application/table/table2.tex ../application/table/tableA1.tex ../application/table/tableA3.tex ../application/table/tableA4.tex ../application/figure/figure1.pdf ../application/figure/figure2.pdf ../application/figure/figure3.pdf figure/figuremc.pdf ../../lib/references.bib
