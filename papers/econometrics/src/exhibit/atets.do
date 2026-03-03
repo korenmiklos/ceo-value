@@ -44,17 +44,17 @@ matrix ps = J(`rows', 6, 0.99999)
 * Loop through scenarios and extract ATET
 local col = 1
 foreach scenario of local scenarios {
-    
+
     * Import CSV file
-    import delimited "data/`scenario'_lnR.csv", clear varnames(1) case(preserve)
+    import delimited "data/`scenario'_lnR-lnR.csv", clear varnames(1) case(preserve)
 
     forvalues row = 1/`rows' {
         matrix stats[`row', `col'] = `row`row''
         if "`p`row''" != "" {
             matrix ps[`row', `col'] = `p`row''
         }
-    }  
-    
+    }
+
     local ++col
 }
 
@@ -63,8 +63,8 @@ matrix list stats
 * Open LaTeX file for writing
 file open texfile using "table/atets.tex", write replace
 
-* Function to write a row 
-forvalues row = 1/`rows' {    
+* Function to write a row
+forvalues row = 1/`rows' {
     * Set row label
     file write texfile "\\ `label`row'' & "
     forvalues i = 1/6 {

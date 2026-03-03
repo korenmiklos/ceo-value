@@ -4,6 +4,13 @@ local event_window_start -4      // Event study window start
 local event_window_end 3         // Event study window end
 local baseline_year -1            // Baseline year for event study
 
+* Use common y-axis scale for comparability across outcomes
+* exporter (dummy) and ROA have their own scales
+local yscale_opts "ylabel(, angle(0) format(%9.2f))"
+if "`title'" != "exporter" & ("`title'" != "ROA" | "`outcome'" == "lnR") {
+    local yscale_opts "yscale(range(-1 1.5)) ylabel(-1(0.5)1.5, angle(0) format(%9.1f))"
+}
+
 if "`outcome'" == "Rsq" {
     graph twoway ///
         (connected `outcome'1 t, lcolor(red) mcolor(red)) ///
@@ -14,7 +21,7 @@ if "`outcome'" == "Rsq" {
         xline(-0.5) xscale(range (`event_window_start' `event_window_end')) ///
         xtitle("Time since CEO change (year)") yline(0) ///
         ytitle("`ytitle'") ///
-        `yline' ylabel(, angle(0) format(%9.2f)) ///
+        `yline' `yscale_opts' ///
         aspectratio(1) xsize(5) ysize(5) ///
         name(panel`panel', replace)
 }
@@ -28,7 +35,7 @@ else {
         xline(-0.5) xscale(range (`event_window_start' `event_window_end')) ///
         xtitle("Time since CEO change (year)") yline(0) ///
         ytitle("`ytitle'") ///
-        `yline' ylabel(, angle(0) format(%9.2f)) ///
+        `yline' `yscale_opts' ///
         aspectratio(1) xsize(5) ysize(5) ///
         name(panel`panel', replace)
 }

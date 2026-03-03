@@ -13,6 +13,7 @@ all: $(foreach sample,$(REAL_SAMPLES),$(foreach fe, $(FIXED_EFFECTS), figure/out
 	table/firm-year-descriptives.tex \
 	table/max-emp-by-ceo-switches.tex \
 	table/ceo-counts.tex \
+	table/atets.tex \
 	figure/ceo-spell-distributions.pdf \
 	figure/ceo-spell-distributions-weighted.pdf \
 	figure/tenure-snapshots.pdf
@@ -26,7 +27,8 @@ figure/outcomes_$(1)_%.pdf: src/outcomes.do $$(foreach outcome,$$(OUTCOMES),data
 endef
 $(foreach sample,$(REAL_SAMPLES),$(eval $(call OUTCOMES_RULE,$(sample))))
 
-application: $(foreach sample,$(REAL_SAMPLES),$(foreach outcome,$(OUTCOMES),data/$(sample)_$(outcome)-lnR.csv))
+application: $(foreach sample,$(REAL_SAMPLES),$(foreach outcome,$(OUTCOMES),data/$(sample)_$(outcome)-lnR.csv)) \
+	$(foreach sample,$(REAL_SAMPLES),$(foreach outcome,$(OUTCOMES),data/$(sample)_$(outcome)-ROA.csv))
 
 # copy relevant files for application
 data/placebo_%.dta: ../../temp/placebo_%.dta
