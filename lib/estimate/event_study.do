@@ -1,5 +1,8 @@
 args sample outcome montecarlo fixed_effects weight_var
 
+* Add local ado path for placebo2nd
+adopath ++ "../../lib/estimate"
+
 * you can compute fixed effects on variables other than the outcome variable
 if ("`fixed_effects'" == "") {
     local fixed_effects `outcome'
@@ -25,7 +28,7 @@ if ("`weight_var'" != "") {
 generate byte treatment = event_time >= 0
 generate byte treated_group = !placebo
 generate manager_diff = MS2 - MS1
-do "../../lib/estimate/xt2var.do" `outcome' treatment treated_group manager_diff $cluster `fixed_effects' `weight_var'
+placebo2nd `outcome' treatment treated_group manager_diff, cluster($cluster) fixed_effects(`fixed_effects')
 
 * append weight suffix to filename if weighted
 if ("`weight_var'" != "") {
