@@ -187,18 +187,18 @@ frame dCov {
     * Var(beta) = Var(Cov)/E(X)^2 [1 + beta^2 * Var(X)/Var(Y)]
     * so se(beta) = se(Cov)/E(X) sqrt[1 + beta^2 * Var(X)/Var(Y)]
 
-    scalar Var_ratio = (`se_dVar' / se_dCov)^2
-    scalar correction = sqrt(1 + Var_ratio * coef_dbeta^2)
+    scalar Var_ratio = `se_dVar' / se_dCov
+    scalar correction = 1 + Var_ratio * coef_dbeta^2
     display "Variance correction factor for se(beta): " correction
-    generate se_dbeta = se_dCov / dVar * correction
+    generate se_dbeta = se_dCov / dVar * sqrt(correction)
 
-    scalar Var_ratio = (`se_Var1' / se_Cov1)^2
-    scalar correction = sqrt(1 + Var_ratio * coef_beta1^2)
-    generate se_beta1 = se_Cov1 / Var1 * correction
+    scalar Var_ratio = `se_Var1' / se_Cov1
+    scalar correction = 1 + Var_ratio * coef_beta1^2
+    generate se_beta1 = se_Cov1 / Var1 * sqrt(correction)
 
-    scalar Var_ratio = (`se_Var0' / sqrt(se_Cov1^2 + se_dCov^2))^2
-    scalar correction = sqrt(1 + Var_ratio * coef_beta0^2)
-    generate se_beta0 = se_Cov0 / Var0 * correction
+    scalar Var_ratio = `se_Var0' / sqrt(se_Cov1^2 + se_dCov^2)
+    scalar correction = 1 + Var_ratio * coef_beta0^2
+    generate se_beta0 = sqrt(se_Cov1^2 + se_dCov^2) / Var0 * sqrt(correction)
 
     * now we can compute error bands
     foreach v in dbeta beta1 beta0 dCov Cov1 Cov0 dVarY VarY1 VarY0 {
