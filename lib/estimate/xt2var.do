@@ -178,9 +178,9 @@ frame dCov {
     sort t
 
     * report coefficients (previously standardized)
-    generate coef_dbeta = coef_dCov
-    generate coef_beta1 = coef_Cov1
-    generate coef_beta0 = coef_Cov0
+    generate coef_dbeta = coef_dCov / dVar
+    generate coef_beta1 = coef_Cov1 / Var1
+    generate coef_beta0 = coef_Cov0 / Var0
     * FIXME: correct standard errors for beta estimates
 
     * use the delta method to get standard errors for beta
@@ -190,15 +190,15 @@ frame dCov {
     scalar Var_ratio = `se_dVar' / se_dCov
     scalar correction = 1 + Var_ratio * coef_dbeta^2
     display "Variance correction factor for se(beta): " correction
-    generate se_dbeta = se_dCov
+    generate se_dbeta = se_dCov / dVar * sqrt(correction)
 
     scalar Var_ratio = `se_Var1' / se_Cov1
     scalar correction = 1 + Var_ratio * coef_beta1^2
-    generate se_beta1 = se_Cov1
+    generate se_beta1 = se_Cov1 / Var1 * sqrt(correction)
 
     scalar Var_ratio = `se_Var0' / sqrt(se_Cov1^2 + se_dCov^2)
     scalar correction = 1 + Var_ratio * coef_beta0^2
-    generate se_beta0 = se_Cov0
+    generate se_beta0 = sqrt(se_Cov1^2 + se_dCov^2) / Var0 * sqrt(correction)
 
     * now we can compute error bands
     foreach v in dbeta beta1 beta0 dCov Cov1 Cov0 dVarY VarY1 VarY0 {
