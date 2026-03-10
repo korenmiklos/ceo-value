@@ -21,11 +21,11 @@ all: $(foreach sample,$(REAL_SAMPLES),$(foreach fe, $(FIXED_EFFECTS), figure/out
 montecarlo: $(EVENT_STUDIES)
 
 define OUTCOMES_RULE
-figure/outcomes_$(1)_%.pdf: src/outcomes.do $$(foreach outcome,$$(OUTCOMES),data/$(1)_$$(outcome)-%.csv)
+figure/outcomes_$(1)_%.pdf: src/exhibit/outcomes.do $$(foreach outcome,$$(OUTCOMES),data/$(1)_$$(outcome)-%.csv)
 	mkdir -p figure
 	stata -b do $$< $(1) $$*
 endef
-$(foreach sample,$(REAL_SAMPLES),$(eval $(call OUTCOMES_RULE,$(sample))))
+outcomes: $(foreach sample,$(REAL_SAMPLES),$(eval $(call OUTCOMES_RULE,$(sample))))
 
 application: $(foreach sample,$(REAL_SAMPLES),$(foreach outcome,$(OUTCOMES),data/$(sample)_$(outcome)-lnR.csv)) \
 	$(foreach sample,$(REAL_SAMPLES),$(foreach outcome,$(OUTCOMES),data/$(sample)_$(outcome)-ROA.csv))

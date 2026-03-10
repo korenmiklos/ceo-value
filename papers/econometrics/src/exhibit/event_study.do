@@ -7,7 +7,7 @@ local baseline_year -1            // Baseline year for event study
 * Use common y-axis scale for comparability across outcomes
 * exporter (dummy) and ROA have their own scales
 local yscale_opts "ylabel(, angle(0) format(%9.2f))"
-if "`title'" != "exporter" & ("`title'" != "ROA" | "`outcome'" == "lnR") {
+if "`title'" != "exporter" & "`title'" != "lnWL" & ("`title'" != "ROA" | "`outcome'" == "lnR") {
     local yscale_opts "yscale(range(-1 1.5)) ylabel(-1(0.5)1.5, angle(0) format(%9.1f))"
 }
 
