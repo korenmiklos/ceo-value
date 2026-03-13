@@ -13,7 +13,7 @@ foreach outcome in A B C D E F {
   * drop ATET estimates
     drop if xvar == "ATET"
 
-    do "src/exhibit/event_study.do" `outcome' "``outcome''" "``outcome''" beta
+    do "src/exhibit/event_study.do" `outcome' "``outcome''" "``outcome''" Cov
 }
 
 graph combine panelA panelB panelC panelD panelE panelF, ///
