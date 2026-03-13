@@ -1,10 +1,10 @@
 .PHONY: all montecarlo paper clean
 
-SCENARIOS = baseline longpanel persistent_baseline persistent unbalanced excessvariance_baseline excessvariance all all_persistent all_excess all_both
+SCENARIOS = baseline longpanel persistent unbalanced excessvariance all
 EVENT_STUDIES = $(addprefix data/,$(addsuffix _lnR-lnR.csv,$(SCENARIOS)))
 OUTCOMES :=  ROA lnR exporter lnL lnK lnWL
 REAL_SAMPLES := full one2one twos
-FIXED_EFFECTS := lnR ROA
+FIXED_EFFECTS := lnR ROA lnYL
 DATALIB := ../../temp/analysis-sample.dta ../../temp/manager_value.dta
 CODELIB := ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do
 
@@ -25,10 +25,11 @@ figure/outcomes_$(1)_%.pdf: src/exhibit/outcomes.do $$(foreach outcome,$$(OUTCOM
 	mkdir -p figure
 	stata -b do $$< $(1) $$*
 endef
-outcomes: $(foreach sample,$(REAL_SAMPLES),$(eval $(call OUTCOMES_RULE,$(sample))))
+$(foreach sample,$(REAL_SAMPLES),$(eval $(call OUTCOMES_RULE,$(sample))))
 
 application: $(foreach sample,$(REAL_SAMPLES),$(foreach outcome,$(OUTCOMES),data/$(sample)_$(outcome)-lnR.csv)) \
-	$(foreach sample,$(REAL_SAMPLES),$(foreach outcome,$(OUTCOMES),data/$(sample)_$(outcome)-ROA.csv))
+	$(foreach sample,$(REAL_SAMPLES),$(foreach outcome,$(OUTCOMES),data/$(sample)_$(outcome)-ROA.csv)) \
+	$(foreach sample,$(REAL_SAMPLES),$(foreach outcome,$(OUTCOMES),data/$(sample)_$(outcome)-lnYL.csv))
 
 # copy relevant files for application
 data/placebo_%.dta: ../../temp/placebo_%.dta
@@ -53,6 +54,12 @@ data/$(1)_%-ROA.csv: $$(CODELIB) $$(DATALIB) data/placebo_$(1).dta
 endef
 $(foreach sample,$(REAL_SAMPLES),$(eval $(call ROA_RULE,$(sample))))
 
+define lnYL_RULE
+data/$(1)_%-lnYL.csv: $$(CODELIB) $$(DATALIB) data/placebo_$(1).dta
+	mkdir -p data
+	stata -b do "../../lib/estimate/event_study.do" $(1) $$* no lnYL
+endef
+$(foreach sample,$(REAL_SAMPLES),$(eval $(call lnYL_RULE,$(sample))))
 
 # Generate event study data for monte carlo scenarios
 data/%_lnR-lnR.csv: $(CODELIB) data/placebo_%.dta
@@ -66,18 +73,6 @@ table/atets.tex: src/exhibit/atets.do $(EVENT_STUDIES)
 figure/figuremc.pdf: src/figuremc.do src/exhibit/event_study2.do src/exhibit/event_study3.do $(EVENT_STUDIES)
 	mkdir -p figure
 	stata -b do src/figuremc.do
-
-figure/figuremc-rho.pdf: src/figuremc-rho.do src/exhibit/event_study2.do src/exhibit/event_study3.do $(EVENT_STUDIES)
-	mkdir -p figure
-	stata -b do src/figuremc-rho.do
-
-figure/figuremc-epsilon.pdf: src/figuremc-epsilon.do src/exhibit/event_study2.do src/exhibit/event_study3.do $(EVENT_STUDIES)
-	mkdir -p figure
-	stata -b do src/figuremc-epsilon.do
-
-figure/figuremc-all.pdf: src/figuremc-all.do src/exhibit/event_study2.do src/exhibit/event_study3.do $(EVENT_STUDIES)
-	mkdir -p figure
-	stata -b do src/figuremc-all.do
 
 table/%.tex: src/exhibit/%.do $(DATALIB)
 	stata -b do $<

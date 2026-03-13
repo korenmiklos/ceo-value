@@ -1,25 +1,34 @@
 local sampleA baseline
 local sampleB baseline
-local sampleC persistent_baseline
-local sampleD persistent_baseline
-local sampleE all
-local sampleF all
+local sampleC baseline
+local sampleD persistent
+local sampleE persistent
+local sampleF persistent
+local sampleG all
+local sampleH all
+local sampleI all
 
 local outcomeA VarY
 local outcomeB Cov
-local outcomeC VarY
-local outcomeD Cov
-local outcomeE VarY
-local outcomeF Cov
+local outcomeC beta
+local outcomeD VarY
+local outcomeE Cov
+local outcomeF beta
+local outcomeG VarY
+local outcomeH Cov
+local outcomeI beta
 
-local titleA "Variance (Baseline)"
-local titleB "Covariance (Baseline)"
-local titleC "Variance (Persistent)"
-local titleD "Covariance (Persistent)"
-local titleE "Variance (All)"
-local titleF "Covariance (All)"
+local titleA "Var (Baseline)"
+local titleB "Cov (Baseline)"
+local titleC "Beta (Baseline)"
+local titleD "Var (Persistent)"
+local titleE "Cov (Persistent)"
+local titleF "Beta (Persistent)"
+local titleG "Var (All)"
+local titleH "Cov (All)"
+local titleI "Beta (All)"
 
-foreach panel in A B C D E F {
+foreach panel in A B C D E F G H I {
     local sample  `sample`panel''
     local title  `title`panel''
     local outcome `outcome`panel''
@@ -41,7 +50,7 @@ foreach panel in A B C D E F {
     }
 }
 
-graph combine panelA panelB panelC panelD panelE panelF, ///
-    cols(2) graphregion(color(white)) imargin(small) xsize(5) ysize(7.5) ycommon
+graph combine panelA panelB panelC panelD panelE panelF panelG panelH panelI, ///
+    cols(3) graphregion(color(white)) imargin(small) xsize(5) ysize(7.5) ycommon
 
 graph export "figure/figuremc.pdf", replace
