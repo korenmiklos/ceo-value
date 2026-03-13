@@ -4,7 +4,7 @@
 # =============================================================================
 
 # Tool definitions
-STATA := stata -b do
+STATA := stata-mp -b do
 JULIA := julia --project=.
 LATEX := pdflatex
 PANDOC := pandoc
