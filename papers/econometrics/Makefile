@@ -22,14 +22,14 @@ all: $(foreach sample,$(REAL_SAMPLES),$(foreach fe, $(FIXED_EFFECTS), figure/out
 montecarlo: $(EVENT_STUDIES)
 
 define OUTCOMES_RULE
-figure/outcomes_$(1)_%.pdf: src/exhibit/outcomes.do $$(foreach outcome,$$(OUTCOMES),data/$(1)_$$(outcome)-%.csv)
+figure/outcomes_$(1)_%.pdf: src/exhibit/outcomes.do $$(CODELIB) $$(foreach outcome,$$(OUTCOMES),data/$(1)_$$(outcome)-%.csv)
 	mkdir -p figure
 	stata -b do $$< $(1) $$*
 endef
 $(foreach sample,$(REAL_SAMPLES),$(eval $(call OUTCOMES_RULE,$(sample))))
 
 define ATETS_RULE
-table/atets_$(1)_%.tex: src/exhibit/application_atets.do $$(foreach outcome, $$(OUTCOMES), data/$(1)_$$(outcome)-%.csv)
+table/atets_$(1)_%.tex: src/exhibit/application_atets.do $$(CODELIB) $$(foreach outcome, $$(OUTCOMES), data/$(1)_$$(outcome)-%.csv)
 	mkdir -p table
 	stata -b do $$< $(1) $$*
 endef
