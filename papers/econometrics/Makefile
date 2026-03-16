@@ -9,6 +9,7 @@ DATALIB := ../../temp/analysis-sample.dta ../../temp/manager_value.dta
 CODELIB := ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do
 
 all: $(foreach sample,$(REAL_SAMPLES),$(foreach fe, $(FIXED_EFFECTS), figure/outcomes_$(sample)_$(fe).pdf)) \
+	$(foreach sample,$(REAL_SAMPLES),$(foreach fe, $(FIXED_EFFECTS), table/atets_$(sample)_$(fe).tex)) \
 	table/firm-descriptives.tex \
 	table/firm-year-descriptives.tex \
 	table/max-emp-by-ceo-switches.tex \
@@ -26,6 +27,13 @@ figure/outcomes_$(1)_%.pdf: src/exhibit/outcomes.do $$(foreach outcome,$$(OUTCOM
 	stata -b do $$< $(1) $$*
 endef
 $(foreach sample,$(REAL_SAMPLES),$(eval $(call OUTCOMES_RULE,$(sample))))
+
+define ATETS_RULE
+table/atets_$(1)_%.tex: src/exhibit/application_atets.do $$(foreach outcome, $$(OUTCOMES), data/$(1)_$$(outcome)-%.csv)
+	mkdir -p table
+	stata -b do $$< $(1) $$*
+endef
+$(foreach sample, $(REAL_SAMPLES),$(eval $(call ATETS_RULE,$(sample))))
 
 application: $(foreach sample,$(REAL_SAMPLES),$(foreach outcome,$(OUTCOMES),data/$(sample)_$(outcome)-lnR.csv)) \
 	$(foreach sample,$(REAL_SAMPLES),$(foreach outcome,$(OUTCOMES),data/$(sample)_$(outcome)-ROA.csv)) \
