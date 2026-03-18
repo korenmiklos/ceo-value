@@ -14,3 +14,4 @@ local sigma_epsilon0 = sqrt(0.5)
 local sigma_epsilon1 = sqrt(0.5)
 local hazard = 0
 local T_max = 5
+local delta_trend = 0

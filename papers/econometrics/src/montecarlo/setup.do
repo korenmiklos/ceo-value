@@ -1,5 +1,5 @@
 *! Monte Carlo simulation for placebo-controlled event study
-*! Expects locals: rho, sigma_epsilon0, sigma_epsilon1, hazard, T_max
+*! Expects locals: rho, sigma_epsilon0, sigma_epsilon1, hazard, T_max, delta_trend
 
 confirm existence "`rho0'"
 confirm existence "`rho1'"
@@ -10,6 +10,7 @@ confirm existence "`T_max'"
 confirm existence "`N_changes'"
 confirm existence "`sigma_z'"
 confirm existence "`control_treated_ratio'"
+confirm existence "`delta_trend'"
 
 assert `rho0' >= 0 & `rho0' < 1
 assert `rho1' >= 0 & `rho1' < 1
@@ -19,7 +20,8 @@ assert `hazard' >= 0
 assert `T_max' > 0
 assert `N_changes' > 0 & `N_changes' == floor(`N_changes')
 assert `sigma_z' > 0
-assert `control_treated_ratio' >= 0 
+assert `control_treated_ratio' >= 0
+assert `delta_trend'  >= 0
 
 clear all
 
@@ -57,10 +59,11 @@ generate change_year = T1 + 1
 
 tabulate T1 placebo, row
 
+generate trend_t = (year-change_year)*`delta_trend'
 generate dlnR = rnormal(0, cond(placebo == 1, `sigma_epsilon0', `sigma_epsilon1'))
-bysort fake_id (year): generate lnR = 0 if _n == 1
-bysort fake_id (year): replace lnR = `rho1' * lnR[_n-1] + dlnR if _n > 1 & placebo == 1
-bysort fake_id (year): replace lnR = `rho0' * lnR[_n-1] + dlnR if _n > 1 & placebo == 0
+bysort fake_id (year): generate lnR = trend_t if _n == 1
+bysort fake_id (year): replace lnR = trend_t + `rho1' * (lnR[_n-1] - trend_t[_n-1]) + dlnR if _n > 1 & placebo == 1
+bysort fake_id (year): replace lnR = `rho0' * (lnR[_n-1] - trend_t[_n-1]) + dlnR if _n > 1 & placebo == 0
 
 
 generate dz = rnormal(0, `sigma_z')
