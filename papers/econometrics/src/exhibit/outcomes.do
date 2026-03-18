@@ -13,6 +13,8 @@ foreach outcome in A B C D E F {
   * drop ATET estimates
     drop if xvar == "ATET"
 
+    generate coef_beta1_attcorr = coef_Cov1 / dVar
+    
     do "src/exhibit/event_study.do" `outcome' "``outcome''" "``outcome''" beta
 }
 

@@ -10,9 +10,10 @@ local yscale_opts "ylabel(, angle(0) format(%9.2f))"
 
 graph twoway ///
     (rarea lower_`outcome'1 upper_`outcome'1 t, fcolor(gray%5) lcolor(gray%10)) (connected coef_`outcome'1 t, lcolor(red) mcolor(red)) ///
-    (rarea lower_`outcome'0 upper_`outcome'0 t, fcolor(gray%5) lcolor(gray%10)) (connected coef_`outcome'0 t, lcolor(blue) mcolor(blue)) ///
+    (rarea lower_d`outcome' upper_d`outcome' t, fcolor(gray%5) lcolor(gray%10)) (connected coef_d`outcome' t, lcolor(blue) mcolor(blue)) ///
+    (rarea lower_d`outcome' upper_d`outcome' t, fcolor(gray%5) lcolor(gray%10)) (connected coef_`outcome'1_attcorr t, lcolor(black) mcolor(black)) ///
     ,  title("Panel `panel': `title'", size(medium)) ///
-    legend(order(2 "Treated" 4 "Placebo") rows(1) position(6)) ///
+    legend(order(2 "Naive" 4 "Debiased" 5 "Corrected Naive") rows(1) position(6)) ///
     graphregion(color(white)) xlabel(`event_window_start'(1)`event_window_end') ///
     xline(-0.5) xscale(range (`event_window_start' `event_window_end')) ///
     xtitle("Time since CEO change (year)") yline(0) ///
