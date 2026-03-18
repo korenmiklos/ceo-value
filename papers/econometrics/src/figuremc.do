@@ -7,6 +7,9 @@ local sampleF persistent
 local sampleG all
 local sampleH all
 local sampleI all
+local sampleJ trend
+local sampleK trend
+local sampleL trend
 
 local outcomeA VarY
 local outcomeB Cov
@@ -17,18 +20,26 @@ local outcomeF beta
 local outcomeG VarY
 local outcomeH Cov
 local outcomeI beta
+local outcomeJ VarY
+local outcomeK Cov
+local outcomeL beta
 
-local titleA "Var (Baseline)"
-local titleB "Cov (Baseline)"
-local titleC "Beta (Baseline)"
-local titleD "Var (Persistent)"
-local titleE "Cov (Persistent)"
-local titleF "Beta (Persistent)"
+
+local titleA "Var (Base)"
+local titleB "Cov (Base)"
+local titleC "Beta (Base)"
+local titleD "Var (Pers)"
+local titleE "Cov (Pers)"
+local titleF "Beta (Pers)"
 local titleG "Var (All)"
 local titleH "Cov (All)"
 local titleI "Beta (All)"
+local titleJ "Var (Trend)"
+local titleK "Cov (Trend)"
+local titleL "Beta (Trend)"
 
-foreach panel in A B C D E F G H I {
+
+foreach panel in A B C D E F G H I J K L {
     local sample  `sample`panel''
     local title  `title`panel''
     local outcome `outcome`panel''
@@ -50,7 +61,7 @@ foreach panel in A B C D E F G H I {
     }
 }
 
-graph combine panelA panelB panelC panelD panelE panelF panelG panelH panelI, ///
+graph combine panelA panelB panelC panelD panelE panelF panelG panelH panelI panelJ panelK panelL, ///
     cols(3) graphregion(color(white)) imargin(small) xsize(5) ysize(7.5) ycommon
 
 graph export "figure/figuremc.pdf", replace

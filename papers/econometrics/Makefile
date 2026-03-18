@@ -1,6 +1,6 @@
 .PHONY: all montecarlo paper clean
 
-SCENARIOS = baseline longpanel persistent unbalanced excessvariance all
+SCENARIOS = baseline longpanel persistent unbalanced excessvariance all trend
 EVENT_STUDIES = $(addprefix data/,$(addsuffix _lnR-lnR.csv,$(SCENARIOS)))
 OUTCOMES :=  ROA lnR exporter lnL lnK lnWL
 REAL_SAMPLES := full one2one twos
