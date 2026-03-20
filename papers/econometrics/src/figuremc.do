@@ -4,12 +4,12 @@ local sampleC baseline
 local sampleD persistent
 local sampleE persistent
 local sampleF persistent
-local sampleG all
-local sampleH all
-local sampleI all
-local sampleJ trend
-local sampleK trend
-local sampleL trend
+local sampleG excessvariance
+local sampleH excessvariance
+local sampleI excessvariance
+local sampleJ all
+local sampleK all
+local sampleL all
 
 local outcomeA VarY
 local outcomeB Cov
@@ -31,12 +31,12 @@ local titleC "Beta (Base)"
 local titleD "Var (Pers)"
 local titleE "Cov (Pers)"
 local titleF "Beta (Pers)"
-local titleG "Var (All)"
-local titleH "Cov (All)"
-local titleI "Beta (All)"
-local titleJ "Var (Trend)"
-local titleK "Cov (Trend)"
-local titleL "Beta (Trend)"
+local titleG "Var (Var)"
+local titleH "Cov (Var)"
+local titleI "Beta (Var)"
+local titleJ "Var (All)"
+local titleK "Cov (All)"
+local titleL "Beta (All)"
 
 
 foreach panel in A B C D E F G H I J K L {

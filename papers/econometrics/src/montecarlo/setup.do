@@ -59,12 +59,12 @@ generate change_year = T1 + 1
 
 tabulate T1 placebo, row
 
-generate trend_t = (year-change_year)*`delta_trend'
+*generate trend_t = (year-change_year)*`delta_trend'
 generate dlnR = rnormal(0, cond(placebo == 1, `sigma_epsilon0', `sigma_epsilon1'))
 bysort fake_id (year): generate lnR = 0 if _n == 1
-bysort fake_id (year): replace lnR = trend_t if _n == 1 & placebo != 1
+*bysort fake_id (year): replace lnR = trend_t if _n == 1 & placebo != 1
 bysort fake_id (year): replace lnR = `rho0' * lnR[_n-1] + dlnR if _n > 1 & placebo == 1
-bysort fake_id (year): replace lnR = trend_t + `rho1' * (lnR[_n-1] - trend_t[_n-1]) + dlnR if _n > 1 & placebo == 0
+bysort fake_id (year): replace lnR = `rho1' * lnR[_n-1] + dlnR if _n > 1 & placebo == 0
 
 
 generate dz = rnormal(0, `sigma_z')
