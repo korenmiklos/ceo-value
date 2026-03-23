@@ -1,4 +1,4 @@
-args sample outcome montecarlo fixed_effects weight_var
+args sample outcome montecarlo fixed_effects
 
 * you can compute fixed effects on variables other than the outcome variable
 if ("`fixed_effects'" == "") {
@@ -16,19 +16,23 @@ egen sometimes_missing = max(missing(`outcome')), by(fake_id)
 drop if sometimes_missing == 1
 drop sometimes_missing
 
-* if weight variable specified, also drop observations with missing weights
-if ("`weight_var'" != "") {
-    confirm numeric variable `weight_var'
-    drop if missing(`weight_var')
-}
+* run xt2denoise with detail to get both denoised and naive estimates
+local pre  4
+local post 3
 
-generate byte treatment = event_time >= 0
-generate byte treated_group = !placebo
-generate manager_diff = MS2 - MS1
-do "../../lib/estimate/xt2var.do" `outcome' treatment treated_group manager_diff $cluster `fixed_effects' `weight_var'
+xt2denoise `outcome', ///
+    z(manager_skill) treatment(actual_ceo) control(placebo_ceo) ///
+    pre(`pre') post(`post') detail
 
-* append weight suffix to filename if weighted
-if ("`weight_var'" != "") {
-    local weight_suffix _w`weight_var'
-}
-frame dCov: export delimited "data/`sample'_`outcome'-`fixed_effects'`weight_suffix'.csv", replace
+* capture denoised result from e(b) / e(V)
+capture frames drop denoised
+e2frame, generate(denoised) numeric
+
+* swap naive matrices into e() so e2frame can capture them
+tempname b_naive V_naive
+matrix `b_naive' = e(b_naive)
+matrix `V_naive' = e(V_naive)
+scalar N_obs     = e(N)
+ereturn post `b_naive' `V_naive', obs(`=N_obs')
+capture frames drop naive
+e2frame, generate(naive) numeric
