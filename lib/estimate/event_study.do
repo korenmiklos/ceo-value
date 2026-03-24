@@ -25,7 +25,7 @@ local post 3
 
 xt2denoise `outcome', ///
     z(manager_skill) treatment(actual_ceo) control(placebo_ceo) ///
-    pre(`pre') post(`post') detail
+    pre(`pre') post(`post') detail excessvariance
 
 * extract scalar variance estimates
 matrix mat_var = e(var_z1)
@@ -62,7 +62,7 @@ e2frame, generate(_beta1) numeric
 
 xt2denoise `outcome', ///
     z(manager_skill) treatment(actual_ceo) control(placebo_ceo) ///
-    pre(`pre') post(`post') cov detail
+    pre(`pre') post(`post') cov detail excessvariance
 
 * capture debiased covariance path — e(b) is cov_debiased when cov option used
 capture frames drop _dCov
