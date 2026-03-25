@@ -9,7 +9,7 @@ local E exporter
 local F lnWL
 
 foreach outcome in A B C D E F {
-    do "../../lib/estimate/event_study.do" `sample' ``outcome'' no `FE'
+    import delimited "data/`sample'-``outcome''-`FE'"
 
     do "src/exhibit/event_study.do" `outcome' "``outcome''" "``outcome''" beta
 }

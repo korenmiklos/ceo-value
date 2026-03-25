@@ -4,12 +4,13 @@ local event_window_start -4      // Event study window start
 local event_window_end 3         // Event study window end
 local baseline_year -1            // Baseline year for event study
 
+drop if t == 99
+
 graph twoway ///
     (rarea lower_`outcome'1 upper_`outcome'1 t, fcolor(gray%5) lcolor(gray%10)) (connected coef_`outcome'1 t, lcolor(red) mcolor(red)) ///
-    (rarea lower_`outcome'0 upper_`outcome'0 t, fcolor(gray%5) lcolor(gray%10)) (connected coef_`outcome'0 t, lcolor(blue) mcolor(blue)) ///
     (rarea lower_d`outcome' upper_d`outcome' t, fcolor(gray%5) lcolor(gray%10)) (connected coef_d`outcome' t, lcolor(black) mcolor(black)) ///
     ,  title("Panel `panel': `title'", size(medium)) ///
-    legend(order(2 "T" 4 "C" 6 "D") rows(1) position(6)) ///
+    legend(order(2 "T" 4 "D") rows(1) position(6)) ///
     graphregion(color(white)) xlabel(`event_window_start'(1)`event_window_end') ///
     xline(-0.5) xscale(range (`event_window_start' `event_window_end')) ///
     xtitle("Years since CEO change") yline(0) ///
@@ -17,4 +18,3 @@ graph twoway ///
     `yline' ylabel(, angle(0) format(%9.2f)) ///
     aspectratio(1) xsize(5) ysize(5) ///
     name(panel`panel', replace)
-
