@@ -9,7 +9,7 @@ local E exporter
 local F lnWL
 
 foreach outcome in A B C D E F {
-    import delimited "data/`sample'-``outcome''-`FE'"
+    import delimited "data/`sample'_``outcome''-`FE'.csv", clear case(preserve)
 
     do "src/exhibit/event_study.do" `outcome' "``outcome''" "``outcome''" beta
 }
