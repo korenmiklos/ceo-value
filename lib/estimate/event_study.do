@@ -17,7 +17,6 @@ drop sometimes_missing
 
 local pre  4
 local post 3
-local K =  `pre' + `post' + 1
 * =============================================================================
 * Helper: swap e(b_naive)/e(V_naive) into e() and capture with e2frame
 * =============================================================================
@@ -37,12 +36,11 @@ xt2denoise `outcome', ///
 capture frames drop _dbeta _beta1 _dCov _Cov1
 e2frame, generate(_dbeta) numeric
 
-tempname b_naive V_naive Var1 dVar Var0 Cov V_Cov Cov_naive V_Cov_naive
+tempname b_naive V_naive Var1_mat dVar_mat Cov V_Cov Cov_naive V_Cov_naive
 matrix `b_naive'      = e(b_naive)
 matrix `V_naive'      = e(V_naive)
-matrix `Var1'         = e(var_z1)
-matrix `dVar'         = e(true_var_z)
-matrix `Var0'         = `Var1' -`dVar'
+matrix `Var1_mat'     = e(var_z1)
+matrix `dVar_mat'     = e(true_var_z)
 matrix `Cov'          = e(cov_diff)
 matrix `V_Cov'        = e(V_cov_diff)
 matrix `Cov_naive'    = e(cov1)
@@ -88,6 +86,25 @@ ereturn post `b_naive' `V_naive', obs(`=_N_obs')
 e2frame, generate(_VarY1) numeric
 
 * =============================================================================
+* Compute scalar Var1, dVar, Var0 from pre-treatment columns only
+* dz = z_after - z_before is spell-level, so its variance is a single number.
+* We average over pre-treatment event times (cols 1..pre) to match xt2var,
+* which estimated Var0/Var1 from pre-period data only.
+* Pre-treatment columns are 1..pre in the matrix (event times -pre..-1,
+* skipping the baseline col which is stored as 0 anyway).
+* =============================================================================
+
+local Var1 = 0
+local dVar = 0
+forvalues k = 1/`pre' {
+    local Var1 = `Var1' + `Var1_mat'[1, `k']
+    local dVar = `dVar' + `dVar_mat'[1, `k']
+}
+local Var1 = `Var1' / `pre'
+local dVar = `dVar' / `pre'
+local Var0 = `Var1' - `dVar'
+
+* =============================================================================
 * Build unified dCov frame with all series for both exhibit scripts
 * Columns needed by event_study2/3.do:
 *   beta:  coef_beta1, coef_beta0, coef_dbeta  + CI bands
@@ -105,27 +122,6 @@ foreach f in _dbeta _beta1 _dCov _Cov1 _dVarY _VarY1 {
 }
 
 * build a small dataset: one row per event time with Var1, dVar, Var0
-tempfile varfile
-frame create var
-cwf var
-    set obs `K'
-    generate int xvar      = .
-    generate double Var1 = .
-    generate double dVar = .
-    forvalues k = 1/`K' {
-        * event time: -pre, ..., -1(baseline=0), ..., +post
-        * xt2denoise column names are the event times themselves
-        local et = `k' - `pre' - 1
-        * skip baseline col (stored as 0), adjust index for gap
-        replace xvar = `et'                in `k'
-        replace Var1 = `Var1'[1, `k']      in `k'
-        replace dVar = `dVar'[1, `k']      in `k'
-    }
-    generate double Var0 = Var1 - dVar
-    save `varfile'
-cwf default
-
-
 capture frames drop dCov
 frame create dCov
 
@@ -167,28 +163,20 @@ frame dCov {
     generate lower_VarY0 = coef_VarY0 - invnormal(0.975) * se_VarY0
     generate upper_VarY0 = coef_VarY0 + invnormal(0.975) * se_VarY0
 
-    * merge per-period variance vectors
-    merge 1:1 xvar using `varfile', nogen
     rename xvar t
 
     * --- derived beta series for outcomes exhibit ---
     * cov_beta = dCov / Var1  (only covariance corrected)
-    generate coef_cov_beta = coef_dCov / Var1
-    generate se_cov_beta   = se_dCov   / Var1
+    generate coef_cov_beta = coef_dCov / `Var1'
+    generate se_cov_beta   = se_dCov   / `Var1'
     generate lower_cov_beta = coef_cov_beta - invnormal(0.975) * se_cov_beta
     generate upper_cov_beta = coef_cov_beta + invnormal(0.975) * se_cov_beta
 
     * var_beta = Cov1 / dVar  (only variance corrected)
-    generate coef_var_beta = coef_Cov1 / dVar
-    generate se_var_beta   = se_Cov1   / dVar
+    generate coef_var_beta = coef_Cov1 / `dVar'
+    generate se_var_beta   = se_Cov1   / `dVar'
     generate lower_var_beta = coef_var_beta - invnormal(0.975) * se_var_beta
     generate upper_var_beta = coef_var_beta + invnormal(0.975) * se_var_beta
-
-    * --- beta0 (cov-only, as in xt2var: Cov0/Var0) ---
-    generate coef_beta0 = coef_Cov0 / Var0
-    generate se_beta0   = se_Cov0   / Var0
-    generate lower_beta0 = coef_beta0 - invnormal(0.975) * se_beta0
-    generate upper_beta0 = coef_beta0 + invnormal(0.975) * se_beta0
 
     sort t
 
