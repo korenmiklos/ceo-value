@@ -178,6 +178,9 @@ frame dCov {
     generate lower_var_beta = coef_var_beta - invnormal(0.975) * se_var_beta
     generate upper_var_beta = coef_var_beta + invnormal(0.975) * se_var_beta
 
+    generate Rsq1 = (coef_Cov1)^2 / (coef_VarY1 * `Var1')
+    generate dRsq = (coef_dCov)^2 / (coef_dVarY * `dVar')
+
     sort t
 
     export delimited "data/`sample'_`outcome'-`fixed_effects'.csv", replace
