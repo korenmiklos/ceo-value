@@ -58,36 +58,11 @@ mvencode sales export employment assets tangible_assets materials wagebill perso
 replace employment = employment + 1
 replace employment = int(employment)
 
-preserve
-
-tempfile tax
-use "input/balance-sheet-1980-2023-panel-cleaned/panel1980_2023_2.dta",clear
-drop if originalid < 0
-keep if inrange(year, 1992, 2022)
-drop if frame_id == "only_originalid"
-ren frame_id2 frame_id_numeric
-
-cap drop tao_ceu
-gen double tao_ceu = pretax - eredadoz
-replace tao_ceu = . if year < 2006
-cap drop tao_final
-clonevar tao_final = tao_old
-replace tao_final = tao_ceu if tao_ceu != . & year >= 2006
-replace tao_final = abs(tao_final)
-cap drop tax
-ren (tao_final keszl) (tax inventories)
-gen double aftertax = pretax - tax
-keep frame_id_numeric aftertax inventories year
-save `tax', replace
-restore
 * return on assets, but also defined, if L. is missing, assuming EBITDA increased assets
 * this has to be done on the firm panel so that xtset is unambiguous
 xtset frame_id_numeric year
 generate EBITDA = sales - personnel_expenses - materials
 generate capital = cond(missing(L.assets), assets - EBITDA, L.assets)
 
-merge 1:1 frame_id_numeric year using `tax', nogen keep(matched)
-* master only 130
-* using only 162493
 compress
 save "temp/balance.dta", replace
