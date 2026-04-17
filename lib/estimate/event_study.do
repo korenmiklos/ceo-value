@@ -36,7 +36,7 @@ xt2denoise `outcome', ///
 capture frames drop _dbeta _beta1 _dCov _Cov1
 e2frame, generate(_dbeta) numeric
 
-tempname b_naive V_naive Var1_mat dVar_mat Cov V_Cov Cov_naive V_Cov_naive
+tempname b_naive V_naive Var1_mat dVar_mat Cov V_Cov Cov_naive V_Cov_naive VarY
 matrix `b_naive'      = e(b_naive)
 matrix `V_naive'      = e(V_naive)
 matrix `Var1_mat'     = e(var_z1)
@@ -45,6 +45,7 @@ matrix `Cov'          = e(cov_diff)
 matrix `V_Cov'        = e(V_cov_diff)
 matrix `Cov_naive'    = e(cov1)
 matrix `V_Cov_naive'  = e(V_cov_naive)
+matrix `VarY'         = e(vary)
 scalar _N_obs         = e(N)
 
 ereturn post `b_naive' `V_naive', obs(`=_N_obs')
@@ -53,7 +54,6 @@ ereturn post `Cov' `V_Cov', obs(`=_N_obs')
 e2frame, generate(_dCov) numeric
 ereturn post `Cov_naive' `V_Cov_naive', obs(`=_N_obs')
 e2frame, generate(_Cov1) numeric
-
 
 * =============================================================================
 * Call 2: VarY — xt2denoise with cov detail, z = outcome itself
@@ -177,10 +177,9 @@ frame dCov {
     generate se_var_beta   = se_Cov1   / `dVar'
     generate lower_var_beta = coef_var_beta - invnormal(0.975) * se_var_beta
     generate upper_var_beta = coef_var_beta + invnormal(0.975) * se_var_beta
-
-    generate Rsq1 = (coef_Cov1)^2 / (coef_VarY1 * `Var1')
-    generate dRsq = (coef_dCov)^2 / (coef_dVarY * `dVar')
-
+    svmat `VarY', names(VarY)
+    generate Rsq = coef_Cov1^2/VarY
+    generate dRsq = coef_dCov^2/VarY
     sort t
 
     export delimited "data/`sample'_`outcome'-`fixed_effects'.csv", replace
