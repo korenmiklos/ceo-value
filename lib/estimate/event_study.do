@@ -7,11 +7,19 @@ if ("`fixed_effects'" == "") {
 confirm file "data/placebo_`sample'.dta"
 confirm existence `outcome'
 
-do "../../lib/estimate/setup_event_study.do" `sample' `fixed_effects' `montecarlo'
-confirm numeric variable `outcome'
-confirm numeric variable `fixed_effects'
+* dmean outcome and fixed effects by industry-year
+foreach var in outcome fixed_effects {
+    tempvar mean_`var' demean_`var'
+    egen double `mean_`var'' = mean(``var''), by(teaor08_2d year)
+    generate `demean_`var'' = ``var'' - `mean_`var''
+    drop `mean_`var''
+}
 
-egen sometimes_missing = max(missing(`outcome')), by(fake_id)
+do "../../lib/estimate/setup_event_study.do" `sample' `demean_fixed_effects' `montecarlo'
+confirm numeric variable `demean_outcome'
+confirm numeric variable `demean_fixed_effects'
+
+egen sometimes_missing = max(missing(`demean_outcome')), by(fake_id)
 drop if sometimes_missing == 1
 drop sometimes_missing
 
@@ -29,7 +37,7 @@ local post 3
 * also grab Var1, dVar, Var0 from e(var_z1) and e(true_var_z)
 * =============================================================================
 
-xt2denoise `outcome', ///
+xt2denoise `demean_outcome', ///
     z(manager_skill) treatment(actual_ceo) control(placebo_ceo) ///
     pre(`pre') post(`post') detail
 
@@ -55,6 +63,7 @@ e2frame, generate(_dCov) numeric
 ereturn post `Cov_naive' `V_Cov_naive', obs(`=_N_obs')
 e2frame, generate(_Cov1) numeric
 
+** FIXME: this seems wrong, E(dy) =/= dy
 * =============================================================================
 * Call 2: VarY — xt2denoise with cov detail, z = outcome itself
 * Cov(dY, dY) = Var(dY), so:
@@ -70,10 +79,10 @@ e2frame, generate(_Cov1) numeric
 *  if they differ we need to redo for outcome)
 if "`outcome'" != "`fixed_effects'" {
     drop manager_skill
-    egen manager_skill = mean(`outcome'), by(fake_id ceo_spell)
+    egen manager_skill = mean(`demean_outcome'), by(fake_id ceo_spell)
 }
-
-xt2denoise `outcome', ///
+    
+xt2denoise `demean_outcome', ///
     z(manager_skill) treatment(actual_ceo) control(placebo_ceo) ///
     pre(`pre') post(`post') cov detail
 
