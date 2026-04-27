@@ -1,5 +1,7 @@
 .PHONY: all montecarlo paper clean
 
+STATA := stata-mp
+
 SCENARIOS = baseline longpanel persistent unbalanced excessvariance all trend
 EVENT_STUDIES = $(addprefix data/,$(addsuffix _lnR-lnR.csv,$(SCENARIOS)))
 OUTCOMES :=  ROA lnR exporter lnL lnK lnWL
@@ -24,14 +26,14 @@ montecarlo: figure/figuremc.pdf
 define OUTCOMES_RULE
 figure/outcomes_$(1)_%.pdf: src/exhibit/outcomes.do $$(CODELIB) $$(foreach outcome, $$(OUTCOMES), data/$(1)_$$(outcome)-%.csv)
 	mkdir -p figure
-	stata -b do $$< $(1) $$*
+	$(STATA) -b do $$< $(1) $$*
 endef
 $(foreach sample,$(REAL_SAMPLES),$(eval $(call OUTCOMES_RULE,$(sample))))
 
 define ATETS_RULE
 table/atets_$(1)_%.tex: src/exhibit/application_atets.do $$(CODELIB) $$(foreach outcome, $$(OUTCOMES), data/$(1)_$$(outcome)-%.csv)
 	mkdir -p table
-	stata -b do $$< $(1) $$*
+	$(STATA) -b do $$< $(1) $$*
 endef
 $(foreach sample, $(REAL_SAMPLES),$(eval $(call ATETS_RULE,$(sample))))
 
@@ -43,48 +45,48 @@ data/placebo_%.dta: ../../temp/placebo_%.dta
 define lnR_RULE
 data/$(1)_%-lnR.csv: $$(CODELIB) $$(DATALIB) data/placebo_$(1).dta
 	mkdir -p data
-	stata -b do "../../lib/estimate/event_study.do" $(1) $$* no lnR
+	$(STATA) -b do "../../lib/estimate/event_study.do" $(1) $$* no lnR
 endef
 $(foreach sample,$(REAL_SAMPLES),$(eval $(call lnR_RULE,$(sample))))
 
 define ROA_RULE
 data/$(1)_%-ROA.csv: $$(CODELIB) $$(DATALIB) data/placebo_$(1).dta
 	mkdir -p data
-	stata -b do "../../lib/estimate/event_study.do" $(1) $$* no ROA
+	$(STATA) -b do "../../lib/estimate/event_study.do" $(1) $$* no ROA
 endef
 $(foreach sample,$(REAL_SAMPLES),$(eval $(call ROA_RULE,$(sample))))
 
 define lnYL_RULE
 data/$(1)_%-lnYL.csv: $$(CODELIB) $$(DATALIB) data/placebo_$(1).dta
 	mkdir -p data
-	stata -b do "../../lib/estimate/event_study.do" $(1) $$* no lnYL
+	$(STATA) -b do "../../lib/estimate/event_study.do" $(1) $$* no lnYL
 endef
 $(foreach sample,$(REAL_SAMPLES),$(eval $(call lnYL_RULE,$(sample))))
 
 # Generate event study data for monte carlo scenarios
 data/%_lnR-lnR.csv: $(CODELIB) data/placebo_%.dta
 	mkdir -p data
-	stata -b do ../../lib/estimate/event_study.do $* lnR montecarlo lnR
+	$(STATA) -b do ../../lib/estimate/event_study.do $* lnR montecarlo lnR
 
 data/placebo_%.dta: src/montecarlo/%.do src/montecarlo/params.do src/montecarlo/setup.do
-	stata -b do src/montecarlo/run.do $*
+	$(STATA) -b do src/montecarlo/run.do $*
 
 table/atets.tex: src/exhibit/atets.do $(EVENT_STUDIES)
 	mkdir -p table
-	stata -b do src/exhibit/atets.do
+	$(STATA) -b do src/exhibit/atets.do
 
 figure/figuremc.pdf: src/figuremc.do src/exhibit/event_study2.do src/exhibit/event_study3.do $(EVENT_STUDIES)
 	mkdir -p figure
-	stata -b do src/figuremc.do
+	$(STATA) -b do src/figuremc.do
 
 table/%.tex: src/exhibit/%.do $(DATALIB)
-	stata -b do $<
+	$(STATA) -b do $<
 
 figure/ceo-%.pdf: src/exhibit/%.do $(DATALIB)
-	stata -b do $<
+	$(STATA) -b do $<
 
 figure/%.pdf: src/exhibit/%.do $(DATALIB)
-	stata -b do $<
+	$(STATA) -b do $<
 
 paper.pdf: paper.tex table/atets.tex figure/application.pdf ../application/table/table1_panelAB.tex ../application/table/table2.tex ../application/table/tableA1.tex ../application/table/tableA3.tex ../application/table/tableA4.tex ../application/figure/figure1.pdf ../application/figure/figure2.pdf ../application/figure/figure3.pdf figure/figuremc.pdf ../../lib/references.bib
 	pdflatex paper.tex

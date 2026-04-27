@@ -4,7 +4,7 @@
 # =============================================================================
 
 # Tool definitions
-STATA := stata -b do
+STATA := stata-mp -b do
 JULIA := julia --project=.
 LATEX := pdflatex
 PANDOC := pandoc
@@ -47,8 +47,12 @@ install: install.log
 temp/balance.dta: lib/create/balance.do input/merleg-LTS-2023/balance/balance_sheet_80_22.dta
 	$(STATA) $<
 
+# Create manager facts lookup tables
+temp/manager-firm-facts.dta temp/manager-facts.dta: lib/create/manager-facts.do input/manager-db-ceo-panel/ceo-panel.dta
+	$(STATA) $<
+
 # Process CEO panel data
-temp/ceo-panel.dta: lib/create/ceo-panel.do input/manager-db-ceo-panel/ceo-panel.dta temp/intervals.dta lib/util/potholes.do
+temp/ceo-panel.dta: lib/create/ceo-panel.do input/manager-db-ceo-panel/ceo-panel.dta temp/intervals.dta temp/manager-firm-facts.dta temp/manager-facts.dta lib/util/potholes.do
 	$(STATA) $<
 
 # Create analysis sample
