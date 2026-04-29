@@ -6,7 +6,7 @@ clear all
 local scenarios "lnR ROA lnL lnK exporter lnWL"
 
 * which results to extract for the table
-local row1 Rsq1[7]
+local row1 Rsq[7]
 local row2 dRsq[7]
 local row3 coef_beta1[7]
 local row4 coef_dbeta[7]

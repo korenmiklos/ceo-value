@@ -40,12 +40,13 @@ tempname b_naive V_naive Var1_mat dVar_mat Cov V_Cov Cov_naive V_Cov_naive VarY
 matrix `b_naive'      = e(b_naive)
 matrix `V_naive'      = e(V_naive)
 matrix `Var1_mat'     = e(var_z1)
-matrix `dVar_mat'     = e(true_var_z)
+matrix `dVar_mat'     = e(var_z_diff)
 matrix `Cov'          = e(cov_diff)
 matrix `V_Cov'        = e(V_cov_diff)
 matrix `Cov_naive'    = e(cov1)
 matrix `V_Cov_naive'  = e(V_cov_naive)
-matrix `VarY'         = e(vary)
+matrix `VarY'         = e(var_y1)
+matrix `VarY'         = `VarY''
 scalar _N_obs         = e(N)
 
 ereturn post `b_naive' `V_naive', obs(`=_N_obs')
@@ -179,8 +180,9 @@ frame dCov {
     generate upper_var_beta = coef_var_beta + invnormal(0.975) * se_var_beta
 
     *Rsquared correction
-    generate Rsq = coef_Cov1^2/coef_VarY1
-    generate dRsq = coef_dCov^2/coef_dVarY
+    svmat `VarY', names(VarY)
+    generate Rsq = coef_Cov1^2/(VarY*`Var1')
+    generate dRsq = coef_dCov^2/(VarY*`dVar')
     sort t
 
     export delimited "data/`sample'_`outcome'-`fixed_effects'.csv", replace
