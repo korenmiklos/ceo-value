@@ -2,7 +2,7 @@
 * BALANCE SHEET DATA PARAMETERS
 * =============================================================================
 local start_year 1992             // Start year for data inclusion
-local end_year 2022               // End year for data inclusion
+local end_year 2023               // End year for data inclusion
 
 use "input/merleg-LTS-2024/balance/balance_sheet_80_23.dta", clear
 
