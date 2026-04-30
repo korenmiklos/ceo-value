@@ -4,7 +4,7 @@
 local start_year 1992             // Start year for data inclusion
 local end_year 2022               // End year for data inclusion
 
-use "input/merleg-LTS-2023/balance/balance_sheet_80_22.dta", clear
+use "input/merleg-LTS-2024/balance/balance_sheet_80_23.dta", clear
 
 keep if inrange(year, `start_year', `end_year')
 drop if frame_id == "only_originalid"
