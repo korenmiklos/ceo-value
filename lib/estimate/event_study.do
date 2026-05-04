@@ -31,7 +31,7 @@ local post 3
 
 xt2denoise `outcome', ///
     z(manager_skill) treatment(actual_ceo) control(placebo_ceo) ///
-    pre(`pre') post(`post') detail
+    pre(`pre') post(`post') detail excessvariance
 
 capture frames drop _dbeta _beta1 _dCov _Cov1
 e2frame, generate(_dbeta) numeric
@@ -76,7 +76,7 @@ if "`outcome'" != "`fixed_effects'" {
 
 xt2denoise `outcome', ///
     z(manager_skill) treatment(actual_ceo) control(placebo_ceo) ///
-    pre(`pre') post(`post') cov detail
+    pre(`pre') post(`post') cov detail excessvariance
 
 capture frames drop _dVarY _VarY1
 e2frame, generate(_dVarY) numeric
