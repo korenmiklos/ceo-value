@@ -1,9 +1,9 @@
 *Extract atet setimates from appliation and write to LaTeX table row
-args sample outcome
+args sample FE
 clear all
 
-* Define scenarios in order matching table columns
-local scenarios "lnR ROA lnL lnK exporter lnWL"
+* Define outcomes in order matching table columns
+local outcomes "lnR ROA lnL lnK exporter lnWL"
 
 * which results to extract for the table
 local row1 Rsq[7]
@@ -12,8 +12,8 @@ local row3 coef_beta1[7]
 local row4 coef_dbeta[7]
 local row5 coef_beta1[3]
 local row6 coef_dbeta[3]
-local row7 coef_beta1[9]
-local row8 coef_dbeta[9]
+local row7 (coef_beta1[5] + coef_beta1[6] + coef_beta1[7] + coef_beta1[8])/4 - (coef_beta1[3] + coef_beta1[2] + coef_beta1[1])/3
+local row8 (coef_dbeta[5] + coef_dbeta[6] + coef_dbeta[7] + coef_dbeta[8])/4 - (coef_beta1[3] + coef_beta1[2] + coef_beta1[1])/3
 
 * compute p values for significance stars
 local p3 2*normal(-abs((coef_beta1[7] - 1.0)/((upper_beta1[7] - coef_beta1[7]) / invnormal(0.975))))
@@ -36,12 +36,12 @@ local rows 8
 matrix stats = J(`rows', 6, .)
 matrix ps = J(`rows', 6, 0.99999)
 
-* Loop through scenarios and extract ATET
+* Loop through outcomes and extract ATET
 local col = 1
-foreach scenario of local scenarios {
+foreach outcome of local outcomes {
 
     * Import CSV file
-    import delimited "data/`sample'_`scenario'-`outcome'.csv", clear varnames(1) case(preserve)
+    import delimited "data/`sample'_`outcome'-`FE'.csv", clear varnames(1) case(preserve)
 
     forvalues row = 1/`rows' {
         matrix stats[`row', `col'] = `row`row''
@@ -56,10 +56,10 @@ foreach scenario of local scenarios {
 matrix list stats
 
 * Open LaTeX file for writing
-file open texfile using "table/atets_`sample'_`outcome'.tex", write replace
+file open texfile using "table/atets_`sample'_`FE'.tex", write replace
 file write texfile "Estimate"
-foreach scenario of local scenarios{
-  file write texfile " & `scenario'"
+foreach outcome of local outcomes{
+  file write texfile " & `outcome'"
 }
 * Function to write a row
 forvalues row = 1/`rows' {
