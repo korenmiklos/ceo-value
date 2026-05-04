@@ -6,32 +6,17 @@ clear all
 local outcomes "lnR ROA lnL lnK exporter lnWL"
 
 * which results to extract for the table
-local row1 Rsq[7]
-local row2 dRsq[7]
-local row3 coef_beta1[7]
-local row4 coef_dbeta[7]
-local row5 coef_beta1[3]
-local row6 coef_dbeta[3]
-local row7 (coef_beta1[5] + coef_beta1[6] + coef_beta1[7] + coef_beta1[8])/4 - (coef_beta1[3] + coef_beta1[2] + coef_beta1[1])/3
-local row8 (coef_dbeta[5] + coef_dbeta[6] + coef_dbeta[7] + coef_dbeta[8])/4 - (coef_beta1[3] + coef_beta1[2] + coef_beta1[1])/3
+local row1 (coef_beta1[5] + coef_beta1[6] + coef_beta1[7] + coef_beta1[8])/4 - (coef_beta1[3] + coef_beta1[2] + coef_beta1[1])/3
+local row2 (coef_dbeta[5] + coef_dbeta[6] + coef_dbeta[7] + coef_dbeta[8])/4 - (coef_beta1[3] + coef_beta1[2] + coef_beta1[1])/3
+local row3 Rsq[7]
+local row4 dRsq[7]
 
-* compute p values for significance stars
-local p3 2*normal(-abs((coef_beta1[7] - 1.0)/((upper_beta1[7] - coef_beta1[7]) / invnormal(0.975))))
-local p4 2*normal(-abs((coef_dbeta[7] - 1.0)/((upper_dbeta[7] - coef_dbeta[7]) / invnormal(0.975))))
-local p5 2*normal(-abs(coef_beta1[3]/((upper_beta1[3] - coef_beta1[3]) / invnormal(0.975))))
-local p6 2*normal(-abs(coef_dbeta[3]/((upper_dbeta[3] - coef_dbeta[3]) / invnormal(0.975))))
+local label1 "ATET (OLS)"
+local label2 "ATET (debiased)"
+local label3 "\addlinespace $ R^2$ (OLS)"
+local label4 "$ R^2$ (debiased)"
 
-
-local label1 "\addlinespace $ R^2$ (OLS)"
-local label2 "$ R^2$ (debiased)"
-local label3 "\addlinespace$\hat \beta_2$ (OLS)"
-local label4 "$\hat \beta_2$ (debiased)"
-local label5 "\addlinespace$\hat \beta_{-2}$ (OLS)"
-local label6 "$\hat \beta_{-2}$ (debiased)"
-local label7 "ATET (OLS)"
-local label8 "ATET (debiased)"
-
-local rows 8
+local rows 4
 
 matrix stats = J(`rows', 6, .)
 matrix ps = J(`rows', 6, 0.99999)
