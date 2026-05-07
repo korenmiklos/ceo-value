@@ -3,46 +3,37 @@
 clear all
 
 * Define scenarios in order matching table columns
-local scenarios "baseline longpanel persistent unbalanced excessvariance all"
-local scenario_labels `" "Baseline" "Long Panel" "Persistent Errors" "Unbalanced Panel" "Excess Variance" "All Complications" "'
+local scenarios "baseline excessvariance excessvariance_corr longpanel"
+local scenario_labels "& Baseline & Excess Variance & E. V. with Correction & Long Panel"
 
 * which results to extract for the table
-
-local row1 Rsq[7]
-local row2 dRsq[7]
-local row3 coef_beta1[7]
-local row4 coef_dbeta[7]
-local row5 coef_beta1[3]
-local row6 coef_dbeta[3]
-local row7 (coef_beta1[5] + coef_beta1[6] + coef_beta1[7] + coef_beta1[8])/4 - (coef_beta1[3] + coef_beta1[2] + coef_beta1[1])/3
-local row8 (coef_dbeta[5] + coef_dbeta[6] + coef_dbeta[7] + coef_dbeta[8])/4 - (coef_beta1[3] + coef_beta1[2] + coef_beta1[1])/3
-
+local row1 (Var1z1[1] + Var1z1[2])/2
+local row2 (dVarz1[1] + dVarz1[2])/2
+local row3 (Cov1[2]-Cov1[1])
+local row4 (dCov1[2]-dCov1[1])
+local row5 Rsq[1]
+local row6 dRsq[1]
 * compute p values for significance stars
-local p3 2*normal(-abs((coef_beta1[7] - 1.0)/((upper_beta1[7] - coef_beta1[7]) / invnormal(0.975))))
-local p4 2*normal(-abs((coef_dbeta[7] - 1.0)/((upper_dbeta[7] - coef_dbeta[7]) / invnormal(0.975))))
-local p5 2*normal(-abs(coef_beta1[3]/((upper_beta1[3] - coef_beta1[3]) / invnormal(0.975))))
-local p6 2*normal(-abs(coef_dbeta[3]/((upper_dbeta[3] - coef_dbeta[3]) / invnormal(0.975))))
 
-local label1 "\addlinespace $ R^2$ (OLS)"
-local label2 "$ R^2$ (debiased)"
-local label3 "\addlinespace$\hat \beta_2$ (OLS)"
-local label4 "$\hat \beta_2$ (debiased)"
-local label5 "\addlinespace$\hat \beta_{-2}$ (OLS)"
-local label6 "$\hat \beta_{-2}$ (debiased)"
-local label7 "\addlinespace$\hat ATET$ (OLS)"
-local label8 "$\hat ATET$ (debiased)"
+local label1 "\addlinespace$\hat Var(dz) (OLS)"
+local label2 "$\hat Var(dz)$ (debiased)"
+local label3 "\addlinespace$\hat Cov(dz, dy)$ (OLS)"
+local label4 "$\hat Cov(dz,dy)$ (debiased)"
+local label5 "\addlinespace $ R^2$ (Naive)"
+local label6 "$ R^2$ (debiased)"
 
-local rows 8
 
-matrix stats = J(`rows', 6, .)
-matrix ps = J(`rows', 6, 0.99999)
+local rows 6
+
+matrix stats = J(`rows', 4, .)
+matrix ps = J(`rows', 4, 0.99999)
 
 * Loop through scenarios and extract ATET
 local col = 1
 foreach scenario of local scenarios {
 
     * Import CSV file
-    import delimited "data/`scenario'_lnR-lnR.csv", clear varnames(1) case(preserve)
+    import delimited "data/atet_`scenario'_lnR-lnR.csv", clear varnames(1) case(preserve)
 
     forvalues row = 1/`rows' {
         matrix stats[`row', `col'] = `row`row''
@@ -58,13 +49,13 @@ matrix list stats
 
 * Open LaTeX file for writing
 file open texfile using "table/atets.tex", write replace
-
+file write texfile "`scenario_labels'"
 * Function to write a row
 forvalues row = 1/`rows' {
     * Set row label
     file write texfile "\\" _n
     file write texfile "`label`row'' & "
-    forvalues i = 1/6 {
+    forvalues i = 1/4 {
         local coef = stats[`row', `i']
         local coef_str = string(`coef', "%5.3f")
         local stars ""

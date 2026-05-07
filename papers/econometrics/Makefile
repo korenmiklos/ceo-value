@@ -87,11 +87,11 @@ data/beta_excessvariance_lnR-lnR.csv: $(CODELIB) data/placebo_excessvariance.dta
 
 data/atet_%_lnR-lnR.csv: $(CODELIB) data/placebo_%.dta
 	mkdir -p data
-	$(STATA) -b do ../../lib/estimate/event_study_atet.do $* lnR montecarlo lnR excessvariance atet
+	$(STATA) -b do ../../lib/estimate/event_study_atet.do $* lnR montecarlo lnR excessvariance
 
 data/atet_excessvariance_lnR-lnR.csv: $(CODELIB) data/placebo_excessvariance.dta
 	mkdir -p data
-	$(STATA) -b do ../../lib/estimate/event_study_atet.do excessvariance lnR montecarlo lnR "" atet
+	$(STATA) -b do ../../lib/estimate/event_study_atet.do excessvariance lnR montecarlo lnR
 
 data/placebo_%.dta: src/montecarlo/%.do src/montecarlo/params.do src/montecarlo/setup.do
 	$(STATA) -b do src/montecarlo/run.do $*
