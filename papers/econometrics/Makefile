@@ -2,7 +2,7 @@
 
 STATA := stata-mp
 
-SCENARIOS = baseline longpanel persistent unbalanced excessvariance all trend
+SCENARIOS = baseline persistent excessvariance excessvariance_corr all trend
 EVENT_STUDIES = $(addprefix data/,$(addsuffix _lnR-lnR.csv,$(SCENARIOS)))
 OUTCOMES :=  ROA lnR exporter lnL lnK lnWL
 REAL_SAMPLES := full one2one twos
@@ -67,6 +67,10 @@ $(foreach sample,$(REAL_SAMPLES),$(eval $(call lnYL_RULE,$(sample))))
 data/%_lnR-lnR.csv: $(CODELIB) data/placebo_%.dta
 	mkdir -p data
 	$(STATA) -b do ../../lib/estimate/event_study.do $* lnR montecarlo lnR
+
+data/excessvariance_lnR-lnR.csv: $(CODELIB) data/placebo_excessvariance.dta
+	mkdir -p data
+	$(STATA) -b do ../../lib/estimate/event_study_wo_variance.do excessvariance lnR montecarlo lnR
 
 data/placebo_%.dta: src/montecarlo/%.do src/montecarlo/params.do src/montecarlo/setup.do
 	$(STATA) -b do src/montecarlo/run.do $*
