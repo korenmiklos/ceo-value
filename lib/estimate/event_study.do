@@ -1,9 +1,8 @@
-args sample outcome montecarlo fixed_effects
+args sample outcome montecarlo fixed_effects excesssvariance
 
 if ("`fixed_effects'" == "") {
     local fixed_effects `outcome'
 }
-
 confirm file "data/placebo_`sample'.dta"
 confirm existence `outcome'
 
@@ -41,7 +40,7 @@ local post 3
 
 xt2denoise `outcome', ///
     z(manager_skill) treatment(actual_ceo) control(placebo_ceo) ///
-    pre(`pre') post(`post') detail excessvariance
+    pre(`pre') post(`post') detail `excesssvariance'
 
 capture frames drop _dbeta _beta1 _dCov _Cov1
 e2frame, generate(_dbeta) numeric
@@ -88,7 +87,7 @@ if "`outcome'" != "`fixed_effects'" {
 
 xt2denoise `outcome', ///
     z(manager_skill) treatment(actual_ceo) control(placebo_ceo) ///
-    pre(`pre') post(`post') cov detail excessvariance
+    pre(`pre') post(`post') cov detail `excesssvariance'
 
 capture frames drop _dVarY _VarY1
 e2frame, generate(_dVarY) numeric

@@ -2,8 +2,8 @@
 
 STATA := stata-mp
 
-SCENARIOS = baseline persistent excessvariance excessvariance_corr all trend
-EVENT_STUDIES = $(addprefix data/,$(addsuffix _lnR-lnR.csv,$(SCENARIOS)))
+SCENARIOS = baseline persistent excessvariance excessvariance_corr all trend longpanel
+EVENT_STUDIES = $(addprefix data/atet_,$(addsuffix _lnR-lnR.csv,$(SCENARIOS)))
 OUTCOMES :=  ROA lnR exporter lnL lnK lnWL
 REAL_SAMPLES := full one2one twos
 FIXED_EFFECTS := lnR ROA lnYL
@@ -42,35 +42,56 @@ data/placebo_%.dta: ../../temp/placebo_%.dta
 	mkdir -p $(dir $@)
 	cp $< $@
 
-define lnR_RULE
+define lnR_RULE_beta
 data/$(1)_%-lnR.csv: $$(CODELIB) $$(DATALIB) data/placebo_$(1).dta
 	mkdir -p data
-	$(STATA) -b do "../../lib/estimate/event_study.do" $(1) $$* no lnR
+	$(STATA) -b do "../../lib/estimate/event_study.do" $(1) $$* no lnR excessvariance
 endef
-$(foreach sample,$(REAL_SAMPLES),$(eval $(call lnR_RULE,$(sample))))
+$(foreach sample,$(REAL_SAMPLES),$(eval $(call lnR_RULE_beta,$(sample))))
 
-define ROA_RULE
+define ROA_RULE_beta
 data/$(1)_%-ROA.csv: $$(CODELIB) $$(DATALIB) data/placebo_$(1).dta
 	mkdir -p data
-	$(STATA) -b do "../../lib/estimate/event_study.do" $(1) $$* no ROA
+	$(STATA) -b do "../../lib/estimate/event_study.do" $(1) $$* no ROA excessvariance
 endef
-$(foreach sample,$(REAL_SAMPLES),$(eval $(call ROA_RULE,$(sample))))
+$(foreach sample,$(REAL_SAMPLES),$(eval $(call ROA_RULE_beta,$(sample))))
 
-define lnYL_RULE
+define lnYL_RULE_beta
 data/$(1)_%-lnYL.csv: $$(CODELIB) $$(DATALIB) data/placebo_$(1).dta
 	mkdir -p data
-	$(STATA) -b do "../../lib/estimate/event_study.do" $(1) $$* no lnYL
+	$(STATA) -b do "../../lib/estimate/event_study.do" $(1) $$* no lnYL excessvariance
 endef
-$(foreach sample,$(REAL_SAMPLES),$(eval $(call lnYL_RULE,$(sample))))
+$(foreach sample,$(REAL_SAMPLES),$(eval $(call lnYL_RULE_beta,$(sample))))
+
+data/atet_full_%-lnR.csv: $$(CODELIB) $$(DATALIB) data/placebo_full.dta
+	mkdir -p data
+	$(STATA) -b do "../../lib/estimate/event_study_atet.do" full $* no lnR excessvariance atet
+
+data/atet_full_%-ROA.csv: $$(CODELIB) $$(DATALIB) data/placebo_full.dta
+	mkdir -p data
+	$(STATA) -b do "../../lib/estimate/event_study_atet.do" full $* no ROA excessvariance atet
+
+data/atet_full_%-lnYL.csv: $$(CODELIB) $$(DATALIB) data/placebo_full.dta
+	mkdir -p data
+	$(STATA) -b do "../../lib/estimate/event_study_atet.do" full $* no lnYL excessvariance atet
+
 
 # Generate event study data for monte carlo scenarios
-data/%_lnR-lnR.csv: $(CODELIB) data/placebo_%.dta
+data/beta_%_lnR-lnR.csv: $(CODELIB) data/placebo_%.dta
 	mkdir -p data
-	$(STATA) -b do ../../lib/estimate/event_study.do $* lnR montecarlo lnR
+	$(STATA) -b do ../../lib/estimate/event_study.do $* lnR montecarlo lnR excessvariance
 
-data/excessvariance_lnR-lnR.csv: $(CODELIB) data/placebo_excessvariance.dta
+data/beta_excessvariance_lnR-lnR.csv: $(CODELIB) data/placebo_excessvariance.dta
 	mkdir -p data
-	$(STATA) -b do ../../lib/estimate/event_study_wo_variance.do excessvariance lnR montecarlo lnR
+	$(STATA) -b do ../../lib/estimate/event_study.do excessvariance lnR montecarlo lnR
+
+data/atet_%_lnR-lnR.csv: $(CODELIB) data/placebo_%.dta
+	mkdir -p data
+	$(STATA) -b do ../../lib/estimate/event_study_atet.do $* lnR montecarlo lnR excessvariance atet
+
+data/atet_excessvariance_lnR-lnR.csv: $(CODELIB) data/placebo_excessvariance.dta
+	mkdir -p data
+	$(STATA) -b do ../../lib/estimate/event_study_atet.do excessvariance lnR montecarlo lnR "" atet
 
 data/placebo_%.dta: src/montecarlo/%.do src/montecarlo/params.do src/montecarlo/setup.do
 	$(STATA) -b do src/montecarlo/run.do $*
