@@ -9,10 +9,8 @@ local yscale_opts "ylabel(, angle(0) format(%9.2f))"
         (connected coef_`outcome'1   t, lcolor(red)   mcolor(red))   ///
         (rarea lower_d`outcome'  upper_d`outcome'  t, fcolor(gray%5) lcolor(gray%10)) ///
         (connected coef_d`outcome'   t, lcolor(blue)  mcolor(blue))  ///
-        (connected coef_cov_`outcome' t, lcolor(black) mcolor(black)) ///
-        (connected coef_var_`outcome' t, lcolor(green) mcolor(green)) ///
         , title("Panel `panel': `title'", size(medium)) ///
-        legend(order(2 "No" 4 "All" 5 "Cov" 6 "Var") rows(1) position(6)) ///
+        legend(order(2 "Naive" 4 "Debiased") rows(1) position(6)) ///
         graphregion(color(white)) ///
         xlabel(`event_window_start'(1)`event_window_end') ///
         xline(-0.5) xscale(range(`event_window_start' `event_window_end')) ///
