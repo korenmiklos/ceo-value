@@ -17,6 +17,8 @@ if !("`montecarlo'" == "montecarlo") {
   }
   confirm numeric variable `demean_outcome'
   confirm numeric variable `demean_fixed_effects'
+  local OC `outcome'
+  local FE `fixed_effects'
   local outcome `demean_outcome'
   local fixed_effects `demean_fixed_effects'
 }
@@ -66,12 +68,13 @@ frame atet {
     svmat `Cov', names(dCov)
     svmat `Cov_naive', names(Cov)
     svmat `VarY', names(VarY)
+    generate N = _N_obs
     generate Rsq = (Cov[2]-Cov[1])^2/(VarY[1]*(Var1z[1]+Var1z[2])/2)
     generate dRsq = (dCov[2]-Cov[1])^2/(VarY[1]*(dVarz[1]+dVarz[2])/2)
     generate i = _n
     generate t = "pre"
     replace t = "post" if i == 2
-    order i t Var1z dVarz dCov Cov VarY Rsq dRsq
-    export delimited "data/atet_`sample'_`outcome'-`fixed_effects'.csv", replace
+    order i t Var1z dVarz dCov Cov VarY Rsq dRsq N
+    export delimited "data/atet_`sample'_`OC'-`FE'.csv", replace
 }
 

@@ -6,17 +6,19 @@ clear all
 local outcomes "lnR ROA lnL lnK exporter lnWL"
 
 * which results to extract for the table
-local row1 (coef_beta1[5] + coef_beta1[6] + coef_beta1[7] + coef_beta1[8])/4 - (coef_beta1[3] + coef_beta1[2] + coef_beta1[1])/3
-local row2 (coef_dbeta[5] + coef_dbeta[6] + coef_dbeta[7] + coef_dbeta[8])/4 - (coef_beta1[3] + coef_beta1[2] + coef_beta1[1])/3
-local row3 Rsq[7]
-local row4 dRsq[7]
+local row1 (Cov1[2]-Cov1[1])/(Var1z1[1] + Var1z1[2])*2
+local row2 (dCov1[2]-dCov1[1])/(dVarz1[1] + dVarz1[2])*2
+local row3 Rsq[1]
+local row4 dRsq[1]
+local row5 N[1]
 
 local label1 "ATET (OLS)"
 local label2 "ATET (debiased)"
 local label3 "\addlinespace $ R^2$ (OLS)"
 local label4 "$ R^2$ (debiased)"
+local label5 "N"
 
-local rows 4
+local rows 5
 
 matrix stats = J(`rows', 6, .)
 matrix ps = J(`rows', 6, 0.99999)
@@ -26,7 +28,7 @@ local col = 1
 foreach outcome of local outcomes {
 
     * Import CSV file
-    import delimited "data/`sample'_`outcome'-`FE'.csv", clear varnames(1) case(preserve)
+    import delimited "data/atet_`sample'_`outcome'-`FE'.csv", clear varnames(1) case(preserve)
 
     forvalues row = 1/`rows' {
         matrix stats[`row', `col'] = `row`row''
