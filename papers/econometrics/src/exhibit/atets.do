@@ -13,6 +13,8 @@ local row3 (Cov1[2]-Cov1[1])
 local row4 (dCov1[2]-dCov1[1])
 local row5 Rsq[1]
 local row6 dRsq[1]
+local row7 Rsq[8]
+local row8 dRsq[8]
 * compute p values for significance stars
 
 local label1 "\addlinespace$\hat Var(dz) (OLS)"
@@ -21,9 +23,10 @@ local label3 "\addlinespace$\hat Cov(dz, dy)$ (OLS)"
 local label4 "$\hat Cov(dz,dy)$ (debiased)"
 local label5 "\addlinespace $ R^2$ (Naive)"
 local label6 "$ R^2$ (debiased)"
+local label7 "\addlinespace $ R^2$ at t=3 (Naive)"
+local label8 "$ R^2$ at t=3 (debiased)"
 
-
-local rows 6
+local rows 8
 
 matrix stats = J(`rows', 4, .)
 matrix ps = J(`rows', 4, 0.99999)
@@ -35,11 +38,21 @@ foreach scenario of local scenarios {
     * Import CSV file
     import delimited "data/atet_`scenario'_lnR-lnR.csv", clear varnames(1) case(preserve)
 
-    forvalues row = 1/`rows' {
+    forvalues row = 1/6 {
         matrix stats[`row', `col'] = `row`row''
         if "`p`row''" != "" {
             matrix ps[`row', `col'] = `p`row''
         }
+    }
+
+    import delimited "data/`scenario'_lnR-lnR.csv", clear varnames(1) case(preserve)
+
+    forvalues row = 6/`rows'{
+      matrix stats[`row', `col'] = `row`row''
+        if "`p`row''" != "" {
+            matrix ps[`row', `col'] = `p`row''
+        }
+
     }
 
     local ++col
