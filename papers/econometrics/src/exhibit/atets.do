@@ -47,7 +47,7 @@ foreach scenario of local scenarios {
 
     import delimited "data/`scenario'_lnR-lnR.csv", clear varnames(1) case(preserve)
 
-    forvalues row = 6/`rows'{
+    forvalues row = 7/`rows'{
       matrix stats[`row', `col'] = `row`row''
         if "`p`row''" != "" {
             matrix ps[`row', `col'] = `p`row''
