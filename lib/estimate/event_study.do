@@ -3,10 +3,17 @@ args sample outcome montecarlo fixed_effects excesssvariance
 if ("`fixed_effects'" == "") {
     local fixed_effects `outcome'
 }
-confirm file "data/placebo_`sample'.dta"
+
+if ("`sample'" == "excessvariance_corr"){
+  local s "excessvariance"
+}
+else {
+  local s `sample'
+}
+confirm file "data/placebo_`s'.dta"
 confirm existence `outcome'
 
-do "../../lib/estimate/setup_event_study.do" `sample' `fixed_effects' `montecarlo'
+do "../../lib/estimate/setup_event_study.do" `s' `fixed_effects' `montecarlo'
 if !("`montecarlo'" == "montecarlo") {
   foreach var in outcome fixed_effects {
     tempvar mean_`var' demean_`var'
@@ -16,8 +23,14 @@ if !("`montecarlo'" == "montecarlo") {
   }
   confirm numeric variable `demean_outcome'
   confirm numeric variable `demean_fixed_effects'
+  local OC `outcome'
+  local FE `fixed_effects'
   local outcome `demean_outcome'
   local fixed_effects `demean_fixed_effects'
+}
+else {
+  local OC `outcome'
+  local FE `fixed_effects'
 }
 
 egen sometimes_missing = max(missing(`outcome')), by(fake_id)
@@ -196,7 +209,7 @@ frame dCov {
     generate dRsq = coef_dCov^2/(VarY*`dVar')
     sort t
 
-    export delimited "data/`sample'_`outcome'-`fixed_effects'.csv", replace
+    export delimited "data/`sample'_`OC'-`FE'.csv", replace
 }
 
 frames drop _dbeta _beta1 _dCov _Cov1 _dVarY _VarY1

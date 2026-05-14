@@ -6,7 +6,7 @@ local B ROA
 local C lnL
 local D lnK
 local E exporter
-local F lnWL
+local F lnYL
 
 foreach outcome in A B C D E F {
     import delimited "data/`sample'_``outcome''-`FE'.csv", clear case(preserve)

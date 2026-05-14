@@ -4,10 +4,17 @@ if ("`fixed_effects'" == "") {
     local fixed_effects `outcome'
 }
 
-confirm file "data/placebo_`sample'.dta"
+if ("`sample'" == "excessvariance_corr"){
+  local s "excessvariance"
+}
+else {
+  local s `sample'
+}
+
+confirm file "data/placebo_`s'.dta"
 confirm existence `outcome'
 
-do "../../lib/estimate/setup_event_study.do" `sample' `fixed_effects' `montecarlo'
+do "../../lib/estimate/setup_event_study.do" `s' `fixed_effects' `montecarlo'
 if !("`montecarlo'" == "montecarlo") {
   foreach var in outcome fixed_effects {
     tempvar mean_`var' demean_`var'
@@ -21,6 +28,10 @@ if !("`montecarlo'" == "montecarlo") {
   local FE `fixed_effects'
   local outcome `demean_outcome'
   local fixed_effects `demean_fixed_effects'
+}
+else {
+  local OC `outcome'
+  local FE `fixed_effects'
 }
 
 egen sometimes_missing = max(missing(`outcome')), by(fake_id)
@@ -49,10 +60,8 @@ matrix `Cov'          = e(cov_diff)
 matrix `Cov'          = `Cov''
 matrix `Cov_naive'    = e(cov1)
 matrix `Cov_naive'    = `Cov_naive''
+matrix `VarY'         = e(var_y1)
 scalar _N_obs         = e(N)
-
-su `outcome' if actual_ceo, det
-matrix `VarY'         = r(Var)
 * =============================================================================
 * Build unified dCov frame with all series for both exhibit scripts
 * turn matrices and scalars into csv.
@@ -69,12 +78,10 @@ frame atet {
     svmat `Cov_naive', names(Cov)
     svmat `VarY', names(VarY)
     generate N = _N_obs
-    generate Rsq = (Cov[2]-Cov[1])^2/(VarY[1]*(Var1z[1]+Var1z[2])/2)
-    generate dRsq = (dCov[2]-Cov[1])^2/(VarY[1]*(dVarz[1]+dVarz[2])/2)
+    generate Rsq = (Cov1)^2/(VarY1*Var1z1)
+    generate dRsq = (dCov1)^2/(VarY1*dVarz1)
     generate i = _n
-    generate t = "pre"
-    replace t = "post" if i == 2
-    order i t Var1z dVarz dCov Cov VarY Rsq dRsq N
+    order i Var1z dVarz dCov Cov VarY Rsq dRsq N
     export delimited "data/atet_`sample'_`OC'-`FE'.csv", replace
 }
 

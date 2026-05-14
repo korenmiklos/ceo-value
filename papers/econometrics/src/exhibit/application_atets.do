@@ -3,7 +3,7 @@ args sample FE
 clear all
 
 * Define outcomes in order matching table columns
-local outcomes "lnR ROA lnL lnK exporter lnWL"
+local outcomes "lnR exporter lnL lnK ROA lnYL"
 
 * which results to extract for the table
 local row1 (Cov1[2]-Cov1[1])/(Var1z1[1] + Var1z1[2])*2
@@ -55,7 +55,12 @@ forvalues row = 1/`rows' {
     file write texfile "`label`row'' & "
     forvalues i = 1/6 {
         local coef = stats[`row', `i']
-        local coef_str = string(`coef', "%5.3f")
+        if `row' < 5 {
+          local coef_str = string(`coef', "%5.3f")
+        }
+        else {
+          local coef_str = string(`coef', "%12.0fc")
+        }
         local stars ""
         if matrix(ps[`row', `i']) < 0.01 {
             local stars "***"
@@ -66,14 +71,24 @@ forvalues row = 1/`rows' {
         else if matrix(ps[`row', `i']) < 0.1 {
             local stars "*"
         }
-        * Write to file
-        if `i' < 6 {
+        if `row' < 6 {
+          if `i' < 6 {
             file write texfile "$`coef_str'^{`stars'}$ & "
-        }
-        else {
+            }
+          else {
             file write texfile "$`coef_str'^{`stars'}$"
+            }
+          }
+        else {
+          if `i' < 6 {
+            file write texfile "$`coef_str'$ & "
+            }
+          else {
+            file write texfile "$`coef_str'$"
+            }
+          }
+
         }
-    }
 }
 
 file close texfile
