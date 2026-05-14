@@ -6,8 +6,8 @@ clear all
 local outcomes "lnR exporter lnL lnK ROA lnYL"
 
 * which results to extract for the table
-local row1 (Cov1[2]-Cov1[1])/(Var1z1[1] + Var1z1[2])*2
-local row2 (dCov1[2]-dCov1[1])/(dVarz1[1] + dVarz1[2])*2
+local row1 Cov1[1]/Var1z1[1]
+local row2 dCov1[1]/dVarz1[1]
 local row3 Rsq[1]
 local row4 dRsq[1]
 local row5 N[1]

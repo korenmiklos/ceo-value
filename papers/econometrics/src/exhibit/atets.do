@@ -7,10 +7,10 @@ local scenarios "baseline excessvariance excessvariance_corr longpanel"
 local scenario_labels "& Baseline & Excess Variance & E. V. with Correction & Long Panel"
 
 * which results to extract for the table
-local row1 (Var1z1[1] + Var1z1[2])/2
-local row2 (dVarz1[1] + dVarz1[2])/2
-local row3 (Cov1[2]-Cov1[1])
-local row4 (dCov1[2]-dCov1[1])
+local row1 Var1z1[1]
+local row2 dVarz1[1]
+local row3 Cov1[1]
+local row4 dCov1[1]
 local row5 Rsq[1]
 local row6 dRsq[1]
 local row7 Rsq[8]
