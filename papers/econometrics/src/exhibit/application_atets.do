@@ -7,6 +7,7 @@ local outcomes "lnR exporter lnL lnK ROA lnYL"
 
 * which results to extract for the table
 local row1 Cov1[1]/Var1z1[1]
+*se: sqrt(vary*(1-rsq)/((n-2)*varx))
 local row2 dCov1[1]/dVarz1[1]
 local row3 Rsq[1]
 local row4 dRsq[1]

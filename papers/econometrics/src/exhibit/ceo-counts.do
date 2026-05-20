@@ -17,12 +17,13 @@ file write fh "CEOs & Firm-years & \% & Firms & \% \\" _n
 file write fh "\midrule" _n
 
 forvalues i = 1/5 {
-      local label = cond(`i' == 5, "4+", "`=`i'-1'")
+      local label1 = cond(`i' == 5, "4+", "`=`i'-1'")
+      local label2 = cond(`i' == 5, "4+", "`i'")
       local f1 : display %12.0fc freq1[`i', 1]
       local p1 : display %5.1f 100 * freq1[`i', 1] / `N1'
       local f2 : display %12.0fc freq2[`i', 1]
       local p2 : display %5.1f 100 * freq2[`i', 1] / `N2'
-      file write fh "`label' & `f1' & `p1'\% & `f2' & `p2'\% \\" _n
+      file write fh "`label1' & `f1' & `p1'\% & `label2' & `p2'\% \\" _n
   }
 
 file write fh "\midrule" _n
