@@ -4,7 +4,7 @@ clear all
 
 * Define scenarios in order matching table columns
 local scenarios "baseline excessvariance excessvariance_corr longpanel"
-local scenario_labels "& Baseline & Excess Variance & E. V. with Correction & Long Panel"
+local scenario_labels "& Baseline & Excess Variance & E. V. with Correction & Long Panel \\"
 
 * which results to extract for the table
 local row1 Var1z1[1]
@@ -60,9 +60,20 @@ foreach scenario of local scenarios {
 
 matrix list stats
 
+local texheader1 "\begin{tabular}{l*{4}{c}}"
+local texheader2 "\hline\hline"
+local texheader3 "& Baseline & Excess Variance & E. V. with Correction & Long Panel \\"
+local texheader4 "\hline"
+
+local texfooter1 "\hline\hline"
+local texfooter2 "\end{tabular}"
+
+
 * Open LaTeX file for writing
 file open texfile using "table/atets.tex", write replace
-file write texfile "`scenario_labels'"
+forvalues num = 1/4{
+  file write texfile "`texheader`num''" _n
+}
 * Function to write a row
 forvalues row = 1/`rows' {
     * Set row label
@@ -90,6 +101,7 @@ forvalues row = 1/`rows' {
         }
     }
 }
+file write texfile "`texfooter1'" _n
+file write texfile "`texfooter2'" _n
 
 file close texfile
-

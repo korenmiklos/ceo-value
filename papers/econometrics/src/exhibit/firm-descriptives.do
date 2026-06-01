@@ -72,7 +72,18 @@ forvalues row = 2/`rows'{
   }
 }
 
+local texheader1 "\begin{tabular}{l*{3}{c}}"
+local texheader2 "\hline\hline"
+local texheader3 "Statistic & P25 & P50 & P75 \\"
+local texheader4 "\hline"
+
+local texfooter1 "\hline\hline"
+local texfooter2 "\end{tabular}"
+
 file open texfile using "table/firm-descriptives.tex", write replace
+forvalues num = 1/4{
+  file write texfile "`texheader`num''" _n
+}
 
 local label1 "Nr. of Firms"
 local label2 "Lived years"
@@ -95,5 +106,7 @@ forvalues row = 1/`rows' {
     }
   }
 }
+file write texfile "`texfooter1'" _n
+file write texfile "`texfooter2'" _n
 
 file close texfile

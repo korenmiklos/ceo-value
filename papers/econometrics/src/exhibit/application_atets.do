@@ -43,12 +43,21 @@ foreach outcome of local outcomes {
 
 matrix list stats
 
+local texheader1 "\begin{tabular}{l*{6}{c}}"
+local texheader2 "\hline\hline"
+local texheader3 " Estimate & lnR & export & lnL & lnK & ROA & lnYL \\"
+local texheader4 "\hline"
+
+local texfooter1 "\hline\hline"
+local texfooter2 "\end{tabular}"
+
+
 * Open LaTeX file for writing
 file open texfile using "table/atets_`sample'_`FE'.tex", write replace
-file write texfile "Estimate"
-foreach outcome of local outcomes{
-  file write texfile " & `outcome'"
+forvalues num = 1/4{
+  file write texfile "`texheader`num''" _n
 }
+
 * Function to write a row
 forvalues row = 1/`rows' {
     * Set row label
@@ -91,6 +100,7 @@ forvalues row = 1/`rows' {
 
         }
 }
+file write texfile "`texfooter1'" _n
+file write texfile "`texfooter2'" _n
 
 file close texfile
-

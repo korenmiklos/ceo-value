@@ -1,11 +1,11 @@
 args sample FE
 clear all
 
-local A lnR
-local B ROA
-local C lnL
-local D lnK
-local E exporter
+local A lnK
+local B lnL
+local C lnR
+local D exporter
+local E ROA
 local F lnYL
 
 foreach outcome in A B C D E F {
