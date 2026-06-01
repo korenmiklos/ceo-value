@@ -108,7 +108,7 @@ table/atets_full_%.tex: src/exhibit/application_atets.do $(CODELIB) $(foreach ou
 	mkdir -p table
 	$(STATA) -b do $< full $*
 
-table/atets.tex: src/exhibit/atets.do $(EVENT_STUDIES_TABLE) $(EVENT_STUDIES_GRAPH)
+table/atets.tex: src/exhibit/atets.do $(EVENT_STUDIES_TABLE) $(EVENT_STUDIES_GRAPH) $(CODELIB)
 	mkdir -p table
 	$(STATA) -b do src/exhibit/atets.do
 
@@ -116,7 +116,7 @@ figure/figuremc.pdf: src/figuremc.do src/exhibit/event_study2.do src/exhibit/eve
 	mkdir -p figure
 	$(STATA) -b do src/figuremc.do
 
-table/%.tex: src/exhibit/%.do $(DATALIB)
+table/%.tex: src/exhibit/%.do $(DATALIB) $(CODELIB)
 	$(STATA) -b do $<
 
 figure/ceo-%.pdf: src/exhibit/%.do $(DATALIB)

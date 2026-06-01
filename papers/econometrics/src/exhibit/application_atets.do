@@ -19,6 +19,9 @@ local label3 "\addlinespace $ R^2$ (OLS)"
 local label4 "$ R^2$ (debiased)"
 local label5 "N"
 
+local p1 se_naive[1]
+local p2 dse[1]
+
 local rows 5
 
 matrix stats = J(`rows', 6, .)
