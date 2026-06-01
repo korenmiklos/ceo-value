@@ -77,7 +77,6 @@ forvalues num = 1/4{
 * Function to write a row
 forvalues row = 1/`rows' {
     * Set row label
-    file write texfile "\\" _n
     file write texfile "`label`row'' & "
     forvalues i = 1/4 {
         local coef = stats[`row', `i']
@@ -93,11 +92,11 @@ forvalues row = 1/`rows' {
             local stars "*"
         }
         * Write to file
-        if `i' < 6 {
+        if `i' < 4 {
             file write texfile "$`coef_str'^{`stars'}$ & "
         }
         else {
-            file write texfile "$`coef_str'^{`stars'}$"
+            file write texfile "$`coef_str'^{`stars'}$ \\" _n
         }
     }
 }

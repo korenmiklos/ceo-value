@@ -61,7 +61,6 @@ forvalues num = 1/4{
 * Function to write a row
 forvalues row = 1/`rows' {
     * Set row label
-    file write texfile "\\" _n
     file write texfile "`label`row'' & "
     forvalues i = 1/6 {
         local coef = stats[`row', `i']
@@ -81,12 +80,12 @@ forvalues row = 1/`rows' {
         else if matrix(ps[`row', `i']) < 0.1 {
             local stars "*"
         }
-        if `row' < 6 {
+        if `row' < 5 {
           if `i' < 6 {
             file write texfile "$`coef_str'^{`stars'}$ & "
             }
           else {
-            file write texfile "$`coef_str'^{`stars'}$"
+            file write texfile "$`coef_str'^{`stars'}$ \\" _n
             }
           }
         else {
@@ -94,10 +93,9 @@ forvalues row = 1/`rows' {
             file write texfile "$`coef_str'$ & "
             }
           else {
-            file write texfile "$`coef_str'$"
+            file write texfile "$`coef_str'$ \\" _n
             }
           }
-
         }
 }
 file write texfile "`texfooter1'" _n
