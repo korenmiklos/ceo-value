@@ -26,13 +26,13 @@
 % Define \sym command for significance stars from esttab
 \newcommand{\sym}[1]{{#1}}
 
-\title{CEO Replacements and Firm Growth: Correcting for Small-Sample Bias in Fixed-Effect Estimates\thanks{We thank Ot\'{a}vio Bartalotti and St\'ephane Bonhomme for helpful discussions and comments and the seminar participants at the Universit\'a della Svizzera Italiana and Corvinus Empirical Seminar for comments. Project no. 144193 has been implemented with the support provided by the Ministry of Culture and Innovation of Hungary from the National Research, Development and Innovation Fund, financed under the KKP\_22 funding scheme. This project was funded by the European Research Council (ERC Advanced Grant agreement number 101097789). Telegdy received support from the Hungarian Scientific Research Fund – OTKA, contract number 143346. The views expressed in this research are those of the authors and do not necessarily reflect the official view of the European Union or the European Research Council.}}
+\title{CEO Replacements and Firm Growth: Correcting for Small-Sample Bias in Fixed-Effect Estimates\thanks{We thank Ot\'{a}vio Bartalotti and St\'ephane Bonhomme for helpful discussions and comments.  We thank the excellent assistance provided by Gergely Attila Kiss. The paper benefited from presentations at the Universit\'a della Svizzera Italiana and Corvinus Empirical Seminar. Project no. 144193 has been implemented with the support provided by the Ministry of Culture and Innovation of Hungary from the National Research, Development and Innovation Fund, financed under the KKP\_22 funding scheme. This project was funded by the European Research Council (ERC Advanced Grant agreement number 101097789). Telegdy received support from the Hungarian Scientific Research Fund – OTKA, contract number 143346. The views expressed in this research are those of the authors and do not necessarily reflect the official view of the European Union or the European Research Council or the National Research, Development and Innovation Fund.}}
 
 \author{Miklós Koren\thanks{Central European University, ELTE Centre for Economic and Regional Studies, CEPR and CESifo. E-mail: korenm@ceu.edu} \\
         Krisztina Orbán\thanks{Monash University. E-mail: krisztina.orban@monash.edu} \\
         Álmos Telegdy\thanks{Corvinus University of Budapest. E-mail: almos.telegdy@uni-corvinus.hu}}
 
-\date{December 2025}
+\date{June 2026}
 
 \begin{document}
 
@@ -323,17 +323,33 @@ Panels C and D introduce persistent shocks ($\rho=0.9$). The control group now e
 
 Panels E and F examine the scenario with all complications: persistent shocks, unbalanced panels, and excess variance in the treated group. We present three lines on the figures: treated (red), control (black), and excess-variance-corrected counterfactual (blue). The treated group exhibits higher volatility than controls by construction. The excess variance correction scales control group moments by the variance ratio estimated before CEO arrival, constructing the counterfactual second moments the treated group would exhibit absent the CEO change. The blue line removes both the spurious pre-trend and the scale difference. The vertical distance between red and blue again recovers the true effect of one in both variance and covariance, confirming that the method handles proportional volatility differences without parametric assumptions about the shock process.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Application: CEO Replacements and Revenue in Hungarian Firms}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Application: CEO Replacements in Hungarian Firms}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We apply the placebo-controlled debiasing method to the universe of Hungarian firms, focusing on CEO arrivals and firm revenue outcomes. The Hungarian data offer an ideal setting, as they encompass the entire population of businesses over three decades, unlike most other studies that focus exclusively on public firms or large corporations \citep{Bertrand2003-io, crossland2011differences, quigley2015has}. In this section, we use our method to obtain estimates of changes in firm behavior around CEO replacements. In the following, we describe our data and present results on several firm outcomes for three measures of CEO change ($\Delta z$): growth (measured by log revenue), profitability (measured by the return on assets) and productivity (measured by log revenue per worker). The outcomes are measures of the output (revenue and whether the firm is exporter), inputs (capital and labor), and efficiency (return on assets and labor productivity). 
+
 
 \subsection{Data and Descriptive Statistics}
 
-We apply the placebo-controlled debiasing method to the universe of Hungarian firms, focusing on CEO arrivals and firm revenue outcomes. The Hungarian data offer an ideal setting, as they encompass the entire population of businesses over three decades, unlike most other studies that focus exclusively on public firms or large corporations \citep{Bertrand2003-io, crossland2011differences, quigley2015has}. We document the data construction and descriptive statistics in our companion paper \citep{ceo_value}. Here we summarize the minimal features needed for this methodological application and outline the estimation design.
+Our analysis combines two administrative datasets. The firm registry, maintained by Hungarian corporate courts, contains records on all company representatives, who are authorized to act on behalf of firms. These records include CEOs and other executives with signatory rights, tracked through a temporal database where each entry reflects representation status over specific time intervals. Updates occur when positions change, personal identifiers are modified, or reporting standards evolve. The registry provides names, addresses, dates of birth (from 2010), and mother’s names (from 1999), though numerical identifiers exist only from 2013 onward. The balance sheet dataset contains annual financial reports for all Hungarian firms with double-entry bookkeeping. The data has information on financial variables and some additional information, such as sector of activity, employment, and ownership (state, domestic, foreign). The two datasets cover 1,063,172 firms over 31 years, yielding 9,627,484 firm-year observations before sample restrictions.
 
-Our corporate data cover the period 1992–2022 (31 years). We restrict the sample to firms that have ever reached at least 5 employees in their lifetime, to exclude non-employer businesses that rarely change CEOs and would inflate the sample numerically without adding identifying transitions. We drop firms from mining and finance due to specialized accounting frameworks and regulatory environments. The resulting sample has 113,918 firms with a mean employment of 11.5 and average lifespan of 12.8 years. They are served by 160,188 CEOs. The treated group in our sample includes firms that have changed CEOs at least once (42,511 firms, 93,666 CEOs, average employment 14.8, and average lifespan 14.1 years). To highlight the paucity of CEO mobility, note that 84\% of the switching CEOs have served at only one firm, and only 3.6\% served at more than two firms. The control group includes a random sample of all non-changers as well as non-changing periods of treated firms, with exact matching on industry, year, and firm age.
+Constructing CEO time series across firms poses several challenges. Before 2013, no numerical identifiers existed, requiring entity resolution based on names, addresses, mother’s names, and birthdates. We link records across these dimensions to create unique person identifiers, enabling tracking across firms and over time. Matching quality improves after 1999 (when mother’s names reporting begins) and 2010 (when birthdates reporting starts), but the 1990s data also achieve reasonable coverage through name and address matching.
 
-In this exercise, our goal is to estimate the effect of CEO changes on firm growth, which we proxy by firm revenue. We remove industry-year means so that the outcome is measured as a deviation from the sectoral environment. Because applied work on firm-level studies commonly examines pre-trends to assess the plausibility of the estimates and the time evolution of effects, we present event-study profiles. 
+Finding CEOs among all individuals from the data requires heuristics since job titles are inconsistently recorded. When explicit “managing director” titles exist, we use them directly. For remaining cases, we assume all representatives are CEOs if three or fewer exist at the firm. When more than three representatives are present, we assign CEO status based on continuity with previously identified CEOs. Time spans between appointments are often unclosed or non-contiguous, requiring imputations based on sequential information. 
+
+%We consider assuming representatives remain active if their tenure includes June 21 of each year.
+
+We apply several restrictions to create a sample suitable for the analysis. First, we the finance sector due to specialized accounting frameworks and regulatory environments. Second, we drop firms ever having more than 2 simultaneous CEOs to avoid complex governance structures that complicate identification. Third, we exclude firms with more than 12 CEO changes over the sample period (removing observations for unstable firms) to reduce noise from misclassified transitions. Fourth, we drop firms which never reach 3 employees during the observation period. This filter removes a substantial portion of observations but eliminates shell companies, tax optimization vehicles, and self-employment arrangements masquerading as corporations. The remaining firms represent genuine businesses with meaningful economic activity where management quality affects performance.
+
+Firms with multiple CEO changes are handled by splitting their history into adjacent transition pairs. After collapsing firm-CEO spells, intermediate spells are duplicated so that a firm with spells 1/2/3 contributes two transitions, 1→2 and 2→3. Each transition defines a pseudo-firm, indexed by a constructed identifier that groups the true firm with the relevant spell window. Fixed effects are estimated separately for these pseudo-firms, so outcomes around different transitions are allowed to have distinct firm intercepts. These pseudo-firms are not treated as independent statistical units. We retain the original firm identifier and cluster standard errors by the true firm.
+
+Appendix Table A1 presents the number of firms in our sample relative to the total number of firms in the data for several year along the time series. The number of Hungarian firms increases abruptly during the nineties and also in the first 15 years of 2000s, albeit at a smaller pace. The result of dropping the small firms results in using about one quarter of all firms. In the first year of study (1992) we have 26 thousand firms which increases to 115 thousand towards the end of the period. Overall, we have over one million firms and almost 10 million firm-years in the sample. The table also shows the number of CEOs each year, which presents a similar pattern; in 1992 we observe 32 thousand CEOs and in 2022 122 thousand. The total number of distinct CEOs is 340 thousand. Appendix Table A2 shows the industrial distribution of firms and CEOs. The largest sectors are Wholesale-Retail, Telecom and Business Services and Nontradable Services.
+
+Table 1 shows the proportion of firms (and firm-years) by the number of CEOs observed in the firm during the period of observation. Not surprisingly, a majority of firms have only one CEO: 63\% of firms and 80\% of firm-years belong to this category. One quarter of firms had two CEOs while 13\% at least three CEOs. This latter category comprises only 3\% of firm-years. CEO spell lengths follow an exponential distribution with a 20 percent annual hazard rate, implying typical tenures of 3-7 years.
+
+
+\subsection{Estimation}
 
 \paragraph{Estimating CEO Spell Effects.} Consider a firm with two CEOs (A and B), with B replacing A. Take two time spells, which cover the entire tenure of A and B as CEO. We compute a spell-level CEO effect as the within-spell mean of firm revenue, which we measure relative to the industry-year mean. Let \(r_{it}\) denote firm revenue and let \(\tilde r_{it}=r_{it}-\bar r_{st}\) be the revenue demeaned by industry–year \((s,t)\) cells. Let \(1\{\text{spell}=s\}\) indicate spell A or B. The spell-level CEO effect is
 \begin{equation}
@@ -352,6 +368,9 @@ We compute all contrasts relative to the year before the CEO arrival ($t=-1$), w
 with the baseline period normalized to zero at \(t=-1\). The coefficients \(\beta_{\ell}\) trace out the revenue response before and after CEO arrival. Under random mobility, we expect no pre-trends: \(\beta_{-4},\beta_{-3},\beta_{-2}\approx 0\). Post-arrival dynamics depend on the data generating process: effects may be immediate or build gradually during the new CEO’s tenure, or there may be no effects. We report both naive and placebo-corrected profiles; the latter subtract the corresponding placebo moments computed on matched non-changers with replicated spell designs.
 
 \paragraph{Placebo Construction and Debiasing.} Placebo transitions assign a fake CEO change to control firms that remain under the same CEO. The placebo is timed to coincide with the calendar year of an actual transition and is applied to firms with long uninterrupted CEO tenures covering the whole event window. We create two pseudo-spells in the control firms, one before and one after the pseudo transition. 
+
+
+\subsection{Results}
 
 \paragraph{Results.} Figure \ref{fig:application} presents the results. In each panel, we present the naive (red line) and the debiased (blue line) event study. 
 
@@ -375,8 +394,187 @@ Finally, Panel F extends the analysis to a binary outcome: whether the firm expo
 We introduce a placebo-controlled difference-in-differences methodology that corrects for small-sample bias in CEO fixed effects estimation. The method constructs matched “placebo” transitions in firms without CEO changes, assigning fictitious transition dates aligned with the actual treatment group. This facilitates the recovery of bias in second moments without the need to model the full error process. Monte Carlo simulations confirm that the approach robustly eliminates bias under persistent shocks, short tenures, and unbalanced panels. It also eliminates spurious pre-trends that arise when error terms are autocorrelated.
 
 Empirical analysis of 60,000 CEO transitions in Hungarian firms reveals that, after correction, CEO effects account for 20–30\% of revenue variance, about half of what naive estimates imply. CEO replacements have immediate and persistent effects on firm growth, with no spurious pre-trends. 
+\clearpage 
 
-\section{Appendix: Derivation of Bias Terms}
+\bibliographystyle{apalike}
+%\bibliography{../../lib/references.bib}
+\bibliography{lib/references}
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Tables and Figures}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width 10cm]{\figurepath/figuremc.pdf}
+\caption{Monte Carlo event studies under six scenarios.} \label{fig:mc}
+\vspace{.2cm}
+
+\begin{minipage}{0.9\textwidth}
+\footnotesize Notes: Event-time dynamics of variance and covariance in Monte Carlo simulations. Panels A–B: Baseline scenario with i.i.d. shocks ($\rho=0$, $T_1=T_2=5$). Panels C–D: Persistent shocks ($\rho=0.9$, $T_1=T_2=5$). Panels E–F: All complications (persistent shocks, unbalanced panels, excess variance in treated group). Red lines show treated firms, black lines show control (placebo) firms, blue lines show variance-corrected control. True CEO effect variance $\sigma^2_z=1$. Panels A, C, E display variance of revenue changes by event time. Panels B, D, F display covariance of revenue change with CEO effect change. Event time $t=0$ marks CEO transition. In Panels A–D, black and blue lines overlap (no excess variance). In Panels E–F, blue line applies excess variance correction factor $c$ estimated from pre-transition periods.
+\end{minipage}
+\end{figure}
+
+ 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width 10cm]{figure/outcomes.pdf}
+\caption{Revenue Dynamics Around CEO Transitions in Hungarian Firms -- Selected Measures}
+\label{fig:application}
+\vspace{.2cm}
+
+\begin{minipage}{0.9\textwidth}
+\footnotesize
+Notes: Event studies of various second moments around CEO transitions. All panels normalize to year $t=-1$ (one year before CEO arrival). Panel A shows the variance of revenue changes from baseline. Panel B plots the covariance of revenue change with the change in CEO fixed effect. Panel C displays the fraction of revenue variance explained by CEO fixed effects (R-squared). Panel D shows the variance of CEO fixed effects by firm age, decomposed into revenue shocks and CEO contributions. Panel E shows regression coefficients from projecting revenue on CEO effects, and Panel F shows the coefficients from regressing exporter status on CEO effect. Red lines show naive OLS estimates; blue lines show placebo-corrected debiased estimates. Shaded regions indicate 95\% confidence intervals. The placebo group consists of matched non-changing firms from the same birth cohort and sector, assigned pseudo CEO transitions at the same calendar year as treated firms. Event window spans $[-4, +3]$ years around CEO arrival.
+\end{minipage}
+\end{figure}
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=13cm]{\figurepath/ceo-spell-distributions.pdf}
+    \includegraphics[width=13cm]{\figurepath/ceo-spell-distributions-weighted.pdf}
+\begin{minipage}{14.5 cm}
+    \caption{CEO Tenure}
+    \label{fig:dynamics}
+\footnotesize {Notes: } 
+    \end{minipage}    
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=15cm]{\figurepath/tenure-snapshots.pdf}
+\begin{minipage}{14.5 cm}
+    \label{fig:dynamics}
+        \caption{CEO Tenure by Year}
+\footnotesize {Notes: } 
+    \end{minipage}    
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width 10cm]{figure/outcomes_full_lnR.pdf}
+\caption{Revenue Dynamics Around CEO Transitions in Hungarian Firms -- CEO Transition measured by Revenue}
+\label{fig:application}
+\vspace{.2cm}
+
+\begin{minipage}{0.9\textwidth}
+\footnotesize
+Notes: Event studies of various second moments around CEO transitions. All panels normalize to year $t=-1$ (one year before CEO arrival). Panel A shows the variance of revenue changes from baseline. Panel B plots the covariance of revenue change with the change in CEO fixed effect. Panel C displays the fraction of revenue variance explained by CEO fixed effects (R-squared). Panel D shows the variance of CEO fixed effects by firm age, decomposed into revenue shocks and CEO contributions. Panel E shows regression coefficients from projecting revenue on CEO effects, and Panel F shows the coefficients from regressing exporter status on CEO effect. Red lines show naive OLS estimates; blue lines show placebo-corrected debiased estimates. Shaded regions indicate 95\% confidence intervals. The placebo group consists of matched non-changing firms from the same birth cohort and sector, assigned pseudo CEO transitions at the same calendar year as treated firms. Event window spans $[-4, +3]$ years around CEO arrival.
+\end{minipage}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width 10 cm]{figure/outcomes_full_ROA.pdf}
+\caption{Revenue Dynamics Around CEO Transitions in Hungarian Firms -- CEO Transition measured by Return on Assets}
+\label{fig:application}
+\vspace{.2cm}
+
+\begin{minipage}{0.9\textwidth}
+\footnotesize
+Notes: Event studies of various second moments around CEO transitions. All panels normalize to year $t=-1$ (one year before CEO arrival). Panel A shows the variance of revenue changes from baseline. Panel B plots the covariance of revenue change with the change in CEO fixed effect. Panel C displays the fraction of revenue variance explained by CEO fixed effects (R-squared). Panel D shows the variance of CEO fixed effects by firm age, decomposed into revenue shocks and CEO contributions. Panel E shows regression coefficients from projecting revenue on CEO effects, and Panel F shows the coefficients from regressing exporter status on CEO effect. Red lines show naive OLS estimates; blue lines show placebo-corrected debiased estimates. Shaded regions indicate 95\% confidence intervals. The placebo group consists of matched non-changing firms from the same birth cohort and sector, assigned pseudo CEO transitions at the same calendar year as treated firms. Event window spans $[-4, +3]$ years around CEO arrival.
+\end{minipage}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width 10cm]{figure/outcomes_full_lnYL.pdf}
+\caption{Revenue Dynamics Around CEO Transitions in Hungarian Firms -- CEO Transition measured by Labor Productivity}
+\label{fig:application}
+\vspace{.2cm}
+
+\begin{minipage}{0.9\textwidth}
+\footnotesize
+Notes: Event studies of various second moments around CEO transitions. All panels normalize to year $t=-1$ (one year before CEO arrival). Panel A shows the variance of revenue changes from baseline. Panel B plots the covariance of revenue change with the change in CEO fixed effect. Panel C displays the fraction of revenue variance explained by CEO fixed effects (R-squared). Panel D shows the variance of CEO fixed effects by firm age, decomposed into revenue shocks and CEO contributions. Panel E shows regression coefficients from projecting revenue on CEO effects, and Panel F shows the coefficients from regressing exporter status on CEO effect. Red lines show naive OLS estimates; blue lines show placebo-corrected debiased estimates. Shaded regions indicate 95\% confidence intervals. The placebo group consists of matched non-changing firms from the same birth cohort and sector, assigned pseudo CEO transitions at the same calendar year as treated firms. Event window spans $[-4, +3]$ years around CEO arrival.
+\end{minipage}
+\end{figure}
+
+\clearpage
+
+\begin{table}[h]
+    \centering
+    \caption{Monte Carlo parameters by scenario}
+    \vspace{.2cm}
+    \label{tab:table_MC}
+    \begin{tabular}{lcccc}
+    \input{\tablepath/atets.tex}
+    \end{tabular}
+    \begin{minipage}{16cm}
+    \vspace{.2cm}
+    \footnotesize{Notes: Every Monte Carlo simulation assumes 50,000 treated firms and 50,000 control firms. The standard deviation of true CEO effect changes is 1.00 and the standard deviation of errors in the control group is 0.71 in all scenarios. The table lists scenario-specific parameters: maximum spell length $T_{\max}$, error autocorrelation $\rho$, error standard deviation in the treated group $\sigma(\epsilon_{\text{treated}})$, and the annual hazard of CEO change in the unbalanced panel scenarios. The \emph{baseline} calibration assumes short balanced spells and i.i.d. errors. Columns (2) to (5) introduce one complication at a time. The \emph{long panel} scenario extends the length of spells. The \emph{persistent errors} scenario adds strong autocorrelation. The \emph{unbalanced panel} scenario introduces firm-specific spell lengths drawn from a geometric distribution with a constant hazard of CEO change. The \emph{excess variance} scenario adds a 50\% increase in error volatility in the treated group relative to the control group. The \emph{all complications} scenario combines unbalanced spells, persistent errors, and excess variance. Parameter values are chosen to represent realistic moments from our application where CEO tenures are often short, revenue shocks are persistent, and treated firms are more volatile than control firms.}
+    \end{minipage}
+\end{table}
+\vspace{.5cm}
+
+\begin{table}[H]
+    \centering
+    \caption{Company Characteristics}
+    \vspace{.2cm}
+    \label{tab:table_firm_desc}
+    \begin{tabular}{lcccc}
+    \input{\tablepath/firm-descriptives.tex}
+    \end{tabular}
+    \begin{minipage}{16cm}
+    \vspace{.2cm}
+    \footnotesize{Notes:}
+    \end{minipage}
+\end{table}
+\vspace{.5cm}
+
+\begin{table}[H]
+    \centering
+    \caption{Estimated Treatment Effect and $\text{R}^2$ --  $\Delta z$ Measured by Revenue}
+    \vspace{.2cm}
+    \label{tab:table_lnR}
+    \begin{tabular}{lcccccc}
+    \input{\tablepath/atets_full_lnR.tex}
+    \end{tabular}
+    \begin{minipage}{15cm}
+    \vspace{.2cm}
+    \footnotesize{Notes: }
+    \end{minipage}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{Estimated Treatment Effect and $\text{R}^2$ --  $\Delta z$ Measured by Return on Assets}
+    \vspace{.2cm}
+    \label{tab:table_ROA}
+    \begin{tabular}{lcccccc}
+    \input{\tablepath/atets_full_ROA.tex}
+    \end{tabular}
+    \begin{minipage}{15cm}
+    \vspace{.2cm}
+    \footnotesize{Notes: }
+    \end{minipage}
+\vspace{.5cm}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{Estimated Treatment Effect and $\text{R}^2$ --  $\Delta z$ Measured by Labor Productivity}
+    \vspace{.2cm}
+    \label{tab:table_lnYL}
+    \begin{tabular}{lcccccc}
+    \input{\tablepath/atets_full_lnYL.tex}
+    \end{tabular}
+    \begin{minipage}{15cm}
+    \vspace{.2cm}
+    \footnotesize{Notes: }
+    \end{minipage}
+\end{table}
+
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Appendix A: Derivation of Bias Terms}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setcounter{equation}{0}
+\renewcommand{\theequation}{A\arabic{equation}}
+
 This appendix provides the formal matrix algebra derivation of the bias terms in second moments of estimated CEO effects.
 
 \subsection{Matrix Notation Setup}
@@ -514,130 +712,15 @@ The expected values are
 Here $\Bar\lambda$ is the average CEO effect variance. Bias terms depend on $\mathbf P_g$, $\mathbf w_g$, and $\sigma_g\mathbf\Sigma$, making direct estimation impractical with complex $\mathbf\Sigma$.
 
 \clearpage
-\bibliographystyle{apalike}
-%\bibliography{../../lib/references.bib}
-\bibliography{lib/references}
-\clearpage
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section*{Tables and Figures}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Appendix B: Additional Figures and Tables}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.8\textwidth]{\figurepath/figuremc.pdf}
-\caption{Monte Carlo event studies under six scenarios.} \label{fig:mc}
-\vspace{.2cm}
-
-\begin{minipage}{0.9\textwidth}
-\footnotesize Notes: Event-time dynamics of variance and covariance in Monte Carlo simulations. Panels A–B: Baseline scenario with i.i.d. shocks ($\rho=0$, $T_1=T_2=5$). Panels C–D: Persistent shocks ($\rho=0.9$, $T_1=T_2=5$). Panels E–F: All complications (persistent shocks, unbalanced panels, excess variance in treated group). Red lines show treated firms, black lines show control (placebo) firms, blue lines show variance-corrected control. True CEO effect variance $\sigma^2_z=1$. Panels A, C, E display variance of revenue changes by event time. Panels B, D, F display covariance of revenue change with CEO effect change. Event time $t=0$ marks CEO transition. In Panels A–D, black and blue lines overlap (no excess variance). In Panels E–F, blue line applies excess variance correction factor $c$ estimated from pre-transition periods.
-\end{minipage}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.9\textwidth]{figure/application.pdf}
-\caption{Revenue Dynamics Around CEO Transitions in Hungarian Firms}
-\label{fig:application}
-\vspace{.2cm}
-
-\begin{minipage}{0.9\textwidth}
-\footnotesize
-Notes: Event studies of various second moments around CEO transitions. All panels normalize to year $t=-1$ (one year before CEO arrival). Panel A shows the variance of revenue changes from baseline. Panel B plots the covariance of revenue change with the change in CEO fixed effect. Panel C displays the fraction of revenue variance explained by CEO fixed effects (R-squared). Panel D shows the variance of CEO fixed effects by firm age, decomposed into revenue shocks and CEO contributions. Panel E shows regression coefficients from projecting revenue on CEO effects, and Panel F shows the coefficients from regressing exporter status on CEO effect. Red lines show naive OLS estimates; blue lines show placebo-corrected debiased estimates. Shaded regions indicate 95\% confidence intervals. The placebo group consists of matched non-changing firms from the same birth cohort and sector, assigned pseudo CEO transitions at the same calendar year as treated firms. Event window spans $[-4, +3]$ years around CEO arrival.
-\end{minipage}
-\end{figure}
-
-
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=13cm]{\figurepath/ceo-spell-distributions.pdf}
-    \includegraphics[width=13cm]{\figurepath/ceo-spell-distributions-weighted.pdf}
-\begin{minipage}{14.5 cm}
-    \caption{CEO Tenure}
-    \label{fig:dynamics}
-\footnotesize {Notes: } 
-    \end{minipage}    
-\end{figure}
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=15cm]{\figurepath/tenure-snapshots.pdf}
-\begin{minipage}{14.5 cm}
-    \label{fig:dynamics}
-        \caption{CEO Tenure by Year}
-\footnotesize {Notes: } 
-    \end{minipage}    
-\end{figure}
-
-\clearpage
-
-\begin{table}[h]
-    \centering
-    \caption{Monte Carlo parameters by scenario}
-    \label{tab:table_MC}
-    \begin{tabular}{lcccc}
-    \input{\tablepath/atets.tex}
-    \end{tabular}
-    \begin{minipage}{16cm}
-    \vspace{.2cm}
-    \footnotesize{Notes: Every Monte Carlo simulation assumes 50,000 treated firms and 50,000 control firms. The standard deviation of true CEO effect changes is 1.00 and the standard deviation of errors in the control group is 0.71 in all scenarios. The table lists scenario-specific parameters: maximum spell length $T_{\max}$, error autocorrelation $\rho$, error standard deviation in the treated group $\sigma(\epsilon_{\text{treated}})$, and the annual hazard of CEO change in the unbalanced panel scenarios. The \emph{baseline} calibration assumes short balanced spells and i.i.d. errors. Columns (2) to (5) introduce one complication at a time. The \emph{long panel} scenario extends the length of spells. The \emph{persistent errors} scenario adds strong autocorrelation. The \emph{unbalanced panel} scenario introduces firm-specific spell lengths drawn from a geometric distribution with a constant hazard of CEO change. The \emph{excess variance} scenario adds a 50\% increase in error volatility in the treated group relative to the control group. The \emph{all complications} scenario combines unbalanced spells, persistent errors, and excess variance. Parameter values are chosen to represent realistic moments from our application where CEO tenures are often short, revenue shocks are persistent, and treated firms are more volatile than control firms.}
-    \end{minipage}
-\end{table}
-\vspace{.5cm}
-
-    \centering
-    \caption{Firm-Level Descriptive Statistics
-    \vspace{.2cm}
-    \label{tab:firm_desc}
-\begin{tabular}{lcccccc}
-    \input{\tablepath/firm-descriptives.tex}
-\end{tabular}
-    \begin{minipage}{15cm}
-    \vspace{.2cm}
-    \footnotesize{Notes: }
-    \end{minipage}
-\vspace{.5cm}
-
-
-
-    \centering
-    \caption{Estimated Treatment Effect and $\text{R}^2$ --  $\Delta z$ Measured by Revenue
-    \label{tab:table_lnR}
-\begin{tabular}{lcccccc}
-    \input{\tablepath/atets_full_lnR.tex}
-\end{tabular}
-    \begin{minipage}{15cm}
-    \vspace{.2cm}
-    \footnotesize{Notes: }
-    \end{minipage}
-\vspace{.5cm}
-
-    \centering
-    \caption{Estimated Treatment Effect and $\text{R}^2$ --  $\Delta z$ Measured by Return on Assets
-    \label{tab:table_ROA}
-\begin{tabular}{lcccccc}
-    \input{\tablepath/atets_full_ROA.tex}
-\end{tabular}
-    \begin{minipage}{15cm}
-    \vspace{.2cm}
-    \footnotesize{Notes: }
-    \end{minipage}
-\vspace{.5cm}
-
-    \centering
-    \caption{Estimated Treatment Effect and $\text{R}^2$ --  $\Delta z$ Measured by Labor Productivity
-    \label{tab:table_lnYL}
-\begin{tabular}{lcccccc}
-    \input{\tablepath/atets_full_lnYL.tex}
-\end{tabular}
-    \begin{minipage}{15cm}
-    \vspace{.2cm}
-    \footnotesize{Notes: }
-    \end{minipage}
-
-
-
+\renewcommand{\thefigure}{B\arabic{figure}} 
+\renewcommand{\thetable}{B\arabic{table}}
+\setcounter{figure}{0}
+\setcounter{table}{0}
 
 
 
