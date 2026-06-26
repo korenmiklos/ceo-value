@@ -17,6 +17,7 @@ all: $(foreach sample,$(REAL_SAMPLES),$(foreach fe, $(FIXED_EFFECTS), figure/out
 	$(foreach fe, $(FIXED_EFFECTS), table/atets_full_$(fe).tex)\
 	table/firm-descriptives.tex \
 	table/firm-year-descriptive.tex \
+	table/switch-descriptives.tex \
 	table/max-emp-by-ceo-switches.tex \
 	table/ceo-counts.tex \
 	table/atets.tex \
