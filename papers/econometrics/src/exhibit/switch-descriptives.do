@@ -28,9 +28,18 @@ count if clean_switch == 1 & ceo_switch == 1
 keep if clean_switch == 1 | ceo_switch == 0
 
 gen productivity = sales/employment
-egen ever_switch = max(ceo_spell>1), by(frame_id_numeric)
+egen ever_switch = (max_ceo_spell>1), by(frame_id_numeric)
+egen firm_count = group(frame_id_numeric ever_switch)
 
-tabstat employment sales productivity ROA, ///
+* Count distinct firms with vs. without a CEO switch
+bysort frame_id_numeric: gen firm_first = (_n==1)
+count if firm_first==1 & ever_switch==0
+local n_firms_no = r(N)
+count if firm_first==1 & ever_switch==1
+local n_firms_yes = r(N)
+gen n_firm = .
+
+tabstat employment sales productivity ROA n_firm, ///
     by(ever_switch) ///
     statistics(mean) ///
     columns(statistics) ///
@@ -40,6 +49,10 @@ tabstat employment sales productivity ROA, ///
 matrix M1 = r(Stat1)
 matrix M2 = r(Stat2)
 
+* Overwrite the n_firm column with the real firm counts
+matrix M1[1, 5] = `n_firms_no'
+matrix M2[1, 5] = `n_firms_yes'
+
 keep if inrange(time_since_switch, -4, 3)
 gen before = time_since_switch < 0
 gen after = time_since_switch >= 0
@@ -47,21 +60,47 @@ gen after = time_since_switch >= 0
 collapse employment sales productivity ROA, by(after)
 
 foreach v in employment sales productivity ROA {
-    local d_`v' = `v'[2] - `v'[1]
+    local d_`v' = (`v'[2] - `v'[1])/`v'[1]
 }
 
 clear
 set obs 1
-foreach v in employment sales productivity ROA {
+foreach v in employment sales productivity ROA{
     gen `v' = `d_`v''
 }
+gen n_firm = .
 
-mkmat employment sales productivity ROA, matrix(Md)
+mkmat employment sales productivity ROA n_firm, matrix(Md)
 matrix Combined = M1 \ M2 \ Md
 
-matrix colnames Combined = "Avg Employment" "Sales" "Productivity" "ROA"
-matrix rownames Combined = "Non-switchers" "Switchers" "Change from -4 to 3"
+matrix colnames Combined = "Employment" "Sales" "Productivity" "ROA" "Firms"
+matrix rownames Combined = "Without CEO switch" "With CEO Switch" "Change from -4 to 3"
 
-esttab matrix(Combined) using "table/switch-descriptives.tex", replace ///
-        noobs nonumber nomtitle ///
-        title("Performance of Firms by CEO switch")
+file open tab using "table/switch-descriptives.tex", write replace
+file write tab "\begin{tabular}{lccccc}" _n
+file write tab "\hline\hline" _n
+file write tab " & Employment & Sales & Productivity & ROA & Firms \\" _n
+file write tab "\hline" _n
+
+local rownames `""Without CEO switch" "With CEO Switch" "Change from t=-4 to t=3""'
+
+forvalues r = 1/3 {
+    local rname : word `r' of `rownames'
+    local dec = cond(`r' == 3, 2, 1)
+    local line `"`rname'"'
+    forvalues c = 1/5 {
+        local val = Combined[`r', `c']
+        if missing(`val') {
+            local cell ""
+        }
+        else {
+            local cell : display %9.`dec'f `val'
+        }
+        local line `"`line' & `cell'"'
+    }
+    file write tab `"`line' \\"' _n
+}
+
+file write tab "\hline\hline" _n
+file write tab "\end{tabular}" _n
+file close tab
