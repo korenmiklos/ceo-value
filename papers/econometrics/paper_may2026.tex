@@ -158,13 +158,14 @@ component is constant during a CEO spell and changes when the firm
 changes CEO. The remaining variation is captured by the firm-level
 shock $e_{it}^{k}$.
 
+We impose strict exogeneity. Let $\mathcal S_i$ denote the set of CEO spells observed at firm $i$.
 We impose strict exogeneity:
 \begin{equation}
 E\!\left[
 e_{it}^{k}
 \mid
 \alpha_i^{k},
-\{z_{is}^{k}\}_{s}
+\{z_{is}^{k}\}_{s\in\mathcal S_i}
 \right]
 =
 0
@@ -195,275 +196,242 @@ components without requiring a connected CEO-firm mobility network.
 \subsection{Changes in CEO-spell components}
 \label{subsec:spell_changes}
 
-Let $\mathcal C$ denote the set of observed CEO transitions. Transition
-$n\in\mathcal C$ occurs at firm $i(n)$ when the firm moves from CEO
-spell 0 to CEO spell 1. Let $\mathcal T_{n0}$ and $\mathcal T_{n1}$
-denote the sets of years belonging to the two spells, with respective
-lengths $T_{n0}$ and $T_{n1}$.
-
-The true change in the CEO-spell component measured using outcome $k$
-is
+For firm $i$, consider two adjacent CEO spells, $s-1$ and $s$. The
+true change in the CEO-spell component measured using outcome $k$ is
 \begin{equation}
-\Delta z_n^{k}
+\Delta z_{is}^{k}
 =
-z_{i(n),1}^{k}
+z_{is}^{k}
 -
-z_{i(n),0}^{k}.
+z_{i,s-1}^{k}.
 \label{eq:true_spell_change}
 \end{equation}
 
-We do not observe either spell component directly. We estimate their
-difference using the difference between the average outcomes observed
-during the two spells:
+We do not observe either spell component directly. Let $T_{is}$
+denote the number of years in which firm $i$ is observed during CEO
+spell $s$. We estimate the difference between the two spell components
+using the difference between the average outcomes observed during the
+two spells:
 \begin{equation}
-\Delta\widehat z_n^{k}
+\Delta\widehat z_{is}^{k}
 =
-\frac{1}{T_{n1}}
-\sum_{t\in\mathcal T_{n1}}
-q_{i(n)t}^{k}
+\frac{1}{T_{is}}
+\sum_{t:\,s(i,t)=s}
+q_{it}^{k}
 -
-\frac{1}{T_{n0}}
-\sum_{t\in\mathcal T_{n0}}
-q_{i(n)t}^{k}.
+\frac{1}{T_{i,s-1}}
+\sum_{t:\,s(i,t)=s-1}
+q_{it}^{k}.
 \label{eq:estimated_spell_change}
 \end{equation}
 
 Substituting Equation~\eqref{eq:outcome_model} into
 Equation~\eqref{eq:estimated_spell_change}, the firm fixed effect
-cancels and the estimated spell change can be written as
+cancels, and the estimated spell change can be written as
 \begin{equation}
-\Delta\widehat z_n^{k}
+\Delta\widehat z_{is}^{k}
 =
-\Delta z_n^{k}
+\Delta z_{is}^{k}
 +
-\eta_n^{k},
+\frac{1}{T_{is}}
+\sum_{t:\,s(i,t)=s}
+e_{it}^{k}
+-
+\frac{1}{T_{i,s-1}}
+\sum_{t:\,s(i,t)=s-1}
+e_{it}^{k}.
 \label{eq:spell_change_error}
 \end{equation}
-where
-\begin{equation}
-\eta_n^{k}
-=
-\frac{1}{T_{n1}}
-\sum_{t\in\mathcal T_{n1}}
-e_{i(n)t}^{k}
--
-\frac{1}{T_{n0}}
-\sum_{t\in\mathcal T_{n0}}
-e_{i(n)t}^{k}
-\label{eq:eta_definition}
-\end{equation}
-is the estimation error in the measured change in the CEO-spell
-component.
+The last two terms constitute the estimation error in the measured
+change in the CEO-spell component.
 
 Under strict exogeneity,
 \begin{equation}
 E\!\left[
-\Delta\widehat z_n^{k}
+\Delta\widehat z_{is}^{k}
 \mid
-\Delta z_n^{k}
+\Delta z_{is}^{k}
 \right]
 =
-\Delta z_n^{k}.
+\Delta z_{is}^{k}.
 \label{eq:unbiased_spell_change}
 \end{equation}
-The estimated change is therefore unbiased. It is also consistent as
-the number of observations in both spells becomes large. In typical
-CEO-firm panels, however, CEO spells are short. As a result, the
-averages in Equation~\eqref{eq:eta_definition} contain substantial
-firm-level noise.
+Therefore, under strict exogeneity, the estimated change is unbiased, regardless of the number of observations within the two spells. Consistency requires the additional condition that the average firm-level shock within each spell converges to zero as the number of observations in both spells goes to infinity. In typical CEO-firm panels, however, CEO spells are short. As a result, the estimated changes can remain substantially noisy even though they are unbiased.
 
-This is the source of the small-sample bias. Even when the number of
-firms and CEO transitions is very large, the estimation error in an
-individual CEO-spell change does not disappear if the number of
-observations within each spell remains small. Increasing the number of
-firms makes the distribution of the noisy estimates more precisely
-measured, but it does not make the individual spell estimates less
-noisy.
+This is the source of the small-sample bias in statistics constructed from the estimated CEO-spell changes. Even when the number of firms and observed CEO changes is very large, each individual spell-change estimate remains noisy if the number of years observed within the two spells is small. A larger number of firms allows us to estimate moments of the distribution of the noisy spell-change estimates more precisely, but it does not eliminate the noise contained in each estimate. Consequently, even with many firms, the variance of the estimated spell changes and their covariance with estimated changes in other outcomes may differ systematically from the corresponding variance and covariance of the true spell changes.
+
 
 \subsection{Firm outcomes and CEO-spell changes}
 \label{subsec:outcomes_spell_changes}
 
-We study how a firm outcome changes when the firm moves from one CEO
-spell to another. Let $y_{it}^{j}$ denote outcome $j$ of firm $i$ in
+We study how a firm outcome changes when firm $i$ moves from CEO spell
+$s-1$ to spell $s$. Let $q_{it}^{j}$ denote outcome $j$ of firm $i$ in
 year $t$. The outcome $j$ need not be the same variable as the measure
 $k$ used to construct the CEO-spell change. For example, we may measure
 the change in the CEO-spell component using revenue and study how
 employment, capital, profitability, labor productivity, or exporter
-status changes around the transition.
+status changes when the firm changes CEO.
 
-Let $g_n$ denote the calendar year of transition $n$. For event time
-$h$, define the outcome contrast
+Let $g_{is}$ denote the first year of CEO spell $s$ at firm $i$. For
+event time $h$, define the outcome contrast
 \begin{equation}
-\Delta_h y_n^{j}
+\Delta_h q_{is}^{j}
 =
-y_{i(n),g_n+h}^{j}
+q_{i,g_{is}+h}^{j}
 -
-y_{i(n),g_n-1}^{j}.
+q_{i,g_{is}-1}^{j}.
 \label{eq:outcome_contrast}
 \end{equation}
-Thus, outcomes in each event year are measured relative to the year
-before the CEO transition. The same argument applies to more general
-linear contrasts, including differences between average
+Thus, the outcome in each event year is measured relative to the final
+year of the preceding CEO spell. The same argument applies to more
+general linear contrasts, including the difference between average
 post-transition and pre-transition outcomes.
 
-The population projection coefficient of interest is
+The population linear-projection coefficient of interest is
 \begin{equation}
 \beta_h^{jk}
 =
 \frac{
 \operatorname{Cov}\!\left(
-\Delta z_n^{k},
-\Delta_h y_n^{j}
+\Delta z_{is}^{k},
+\Delta_h q_{is}^{j}
 \right)
 }{
 \operatorname{Var}\!\left(
-\Delta z_n^{k}
+\Delta z_{is}^{k}
 \right)
 }.
 \label{eq:population_beta}
 \end{equation}
-This coefficient describes how outcome $j$ comoves with the change in
-the CEO-spell component measured using variable $k$. Equivalently, we
-may write
-\begin{equation}
-\Delta_h y_n^{j}
-=
-\beta_h^{jk}\Delta z_n^{k}
-+
-u_{nh}^{jk},
-\label{eq:population_projection}
-\end{equation}
-where
-\[
-\operatorname{Cov}\!\left(
-\Delta z_n^{k},
-u_{nh}^{jk}
-\right)
-=
-0.
-\]
+This coefficient describes how the change in outcome $j$ at event time
+$h$ comoves with the change in the CEO-spell component measured using
+variable $k$.
 
 Because the true CEO-spell change is unobserved, the natural estimator
-replaces $\Delta z_n^{k}$ with $\Delta\widehat z_n^{k}$:
+replaces $\Delta z_{is}^{k}$ with $\Delta\widehat z_{is}^{k}$:
 \begin{equation}
 \widehat\beta_{h,\mathrm{naive}}^{jk}
 =
 \frac{
 \widehat{\operatorname{Cov}}\!\left(
-\Delta\widehat z_n^{k},
-\Delta_h y_n^{j}
+\Delta\widehat z_{is}^{k},
+\Delta_h q_{is}^{j}
 \right)
 }{
 \widehat{\operatorname{Var}}\!\left(
-\Delta\widehat z_n^{k}
+\Delta\widehat z_{is}^{k}
 \right)
 }.
 \label{eq:naive_beta}
 \end{equation}
 
-Although $\Delta\widehat z_n^{k}$ is an unbiased estimate of
-$\Delta z_n^{k}$, the second moments used in
-Equation~\eqref{eq:naive_beta} are generally biased. Short-spell
-estimation error inflates the variance of $\Delta\widehat z_n^{k}$ and
-contaminates its covariance with the outcome contrast. Because the
-regression coefficient is formed as the ratio of these two biased
-moments, it is generally biased as well.
+
+
+Although $\Delta\widehat z_{is}^{k}$ is an unbiased estimate of
+$\Delta z_{is}^{k}$, this does not imply that moments constructed from
+the estimated changes equal the corresponding moments of the true
+changes. Short-spell estimation error inflates the variance of the
+estimated spell changes and may also affect their covariance with the
+outcome contrast. Unless these two distortions happen to offset each
+other exactly, the naive estimator converges to a value different from
+$\beta_h^{jk}$.
+
 
 \subsection{Bias in the variance}
 \label{subsec:variance_bias}
 
-Using Equation~\eqref{eq:spell_change_error}, the variance of the
-estimated CEO-spell change is
-\begin{align}
-\operatorname{Var}\!\left(
-\Delta\widehat z_n^{k}
-\right)
-&=
-\operatorname{Var}\!\left(
-\Delta z_n^{k}+\eta_n^{k}
-\right)
-\nonumber\\
-&=
-\operatorname{Var}\!\left(
-\Delta z_n^{k}
-\right)
-+
-\operatorname{Var}\!\left(
-\eta_n^{k}
-\right)
-+
-2\operatorname{Cov}\!\left(
-\Delta z_n^{k},
-\eta_n^{k}
-\right).
-\label{eq:variance_decomposition}
-\end{align}
-
-Strict exogeneity implies
-\[
-\operatorname{Cov}\!\left(
-\Delta z_n^{k},
-\eta_n^{k}
-\right)
-=
-0.
-\]
-Consequently,
-\begin{equation}
-\operatorname{Var}\!\left(
-\Delta\widehat z_n^{k}
-\right)
-=
-\operatorname{Var}\!\left(
-\Delta z_n^{k}
-\right)
-+
-B^{k},
-\label{eq:variance_bias}
-\end{equation}
-where
+The noise in the estimated CEO-spell change is the difference between
+the average firm-level shocks in spells $s$ and $s-1$. Let the variance
+of this estimation error be
 \begin{equation}
 B^{k}
 =
 \operatorname{Var}\!\left(
-\eta_n^{k}
+\frac{1}{T_{is}}
+\sum_{t:\,s(i,t)=s} e_{it}^{k}
+-
+\frac{1}{T_{i,s-1}}
+\sum_{t:\,s(i,t)=s-1} e_{it}^{k}
 \right)
-\geq 0
+\geq 0.
 \label{eq:B_definition}
 \end{equation}
-is the variance bias.
+
+Using the decomposition of the estimated CEO-spell change, its variance
+is
+\begin{align}
+\operatorname{Var}\!\left(
+\Delta\widehat z_{is}^{k}
+\right)
+={}&
+\operatorname{Var}\!\left(
+\Delta z_{is}^{k}
+\right)
++
+B^{k}
+\nonumber\\
+&+
+2\operatorname{Cov}\!\left(
+\Delta z_{is}^{k},
+\frac{1}{T_{is}}
+\sum_{t:\,s(i,t)=s} e_{it}^{k}
+-
+\frac{1}{T_{i,s-1}}
+\sum_{t:\,s(i,t)=s-1} e_{it}^{k}
+\right).
+\label{eq:variance_decomposition}
+\end{align}
+
+Strict exogeneity implies that the final covariance is zero.
+Consequently,
+\begin{equation}
+\operatorname{Var}\!\left(
+\Delta\widehat z_{is}^{k}
+\right)
+=
+\operatorname{Var}\!\left(
+\Delta z_{is}^{k}
+\right)
++
+B^{k}.
+\label{eq:variance_bias}
+\end{equation}
 
 The observed dispersion in estimated CEO-spell changes therefore
-combines genuine heterogeneity in spell changes with the dispersion
+combines genuine heterogeneity in spell changes with dispersion
 generated by firm-level shocks. A variance decomposition based directly
-on $\Delta\widehat z_n^{k}$ will overstate the importance of CEO-spell
-changes.
+on $\Delta\widehat z_{is}^{k}$ will consequently overstate the variance
+of the true CEO-spell changes.
 
 The magnitude of $B^{k}$ depends on the lengths of the two spells and
-on the temporal covariance structure of firm-level shocks. Short spells
-generate larger estimation error because each spell mean is calculated
-from fewer observations. Persistent shocks can further increase or
-otherwise alter the bias because shocks within and across the two spells
-are correlated.
+on the temporal covariance structure of the firm-level shocks. Short
+spells generally produce more estimation error because each spell
+average is calculated from fewer observations. Correlation among shocks
+within a spell affects the precision of each spell average, while
+correlation between shocks in the two adjacent spells affects the
+precision of their difference.
 
-The variance bias does not disappear as the number of firms grows. If
-spell lengths remain bounded, then as the number of transitions tends
-to infinity,
+This variance distortion does not disappear simply because the number
+of firms grows. If spell lengths remain bounded, then, as the number of
+observed adjacent spell pairs grows,
 \begin{equation}
 \widehat{\operatorname{Var}}\!\left(
-\Delta\widehat z_n^{k}
+\Delta\widehat z_{is}^{k}
 \right)
 \overset{p}{\longrightarrow}
 \operatorname{Var}\!\left(
-\Delta z_n^{k}
+\Delta z_{is}^{k}
 \right)
 +
 B^{k}.
 \label{eq:variance_plim}
 \end{equation}
-The sample variance converges precisely to the wrong population object.
-The bias disappears only as the amount of information within CEO spells
-becomes sufficiently large for $\eta_n^{k}$ to converge to zero.
+Thus, the sample variance consistently estimates the variance of the
+noisy spell-change estimates, rather than the variance of the true
+spell changes. The distortion disappears only if the within-spell
+estimation error converges to zero---for example, as the number of
+observations in both spells grows under conditions that allow the
+firm-level shocks to average out.
 
 \subsection{Bias in the covariance}
 \label{subsec:covariance_bias}
@@ -949,9 +917,9 @@ Notes: Event studies of various second moments around CEO transitions. All panel
     \begin{tabular}{lcccc}
     \input{\tablepath/switch-descriptives.tex}
     \end{tabular}
-    \begin{minipage}{16cm}
+    \begin{minipage}{13.5cm}
     \vspace{.2cm}
-    \footnotesize{Notes: this table shows the characteristics of firms with and without CEO replacement and the change of firm characteristics around the CEO replacement.}
+    \footnotesize{Notes: this table shows the characteristics of firms with and without CEO replacement and the proportional change of firm characteristics around the CEO replacement.}
     \end{minipage}
 \end{table}
 \vspace{.5cm}
@@ -982,9 +950,9 @@ Notes: Event studies of various second moments around CEO transitions. All panel
     \input{\tablepath/atets_full_lnR.tex}
     \input{\tablepath/atets_full_ROA.tex}
     \input{\tablepath/atets_full_lnYL.tex}
-    \begin{minipage}{15cm}
+    \begin{minipage}{16cm}
     \vspace{.2cm}
-    \footnotesize{Notes: }
+    \footnotesize{Notes: The table presents the naive and placebo-controlled debiased estimated coefficients and the corresponding $R^2$ of CEO replacement. The variable used for estimating $\Delta z$ is log revenue (top panel), return on assets (middle panel), log labor productivity (bottom panel). lnR = log revenue; Export = dummy variable = 1 if the firm exports in the given year; lnL = log labor; lnK = log tangible assets; ROA = return on assets; lnRL = log labor productivity.}
     \end{minipage}
 \end{table}
 
@@ -1150,9 +1118,9 @@ Here $\Bar\lambda$ is the average CEO effect variance. Bias terms depend on $\ma
     \vspace{.2cm}
     \label{tab:year_desc}
     \input{\tablepath/firm-year-descriptives.tex}
-    \begin{minipage}{16cm}
+    \begin{minipage}{9cm}
     \vspace{.2cm}
-    \footnotesize{Notes:}
+    \footnotesize{Notes: the table presents the number of firms, number of CEO replacements, and average employment of firms in each year of the data.}
     \end{minipage}
 \end{table}
 \vspace{.5cm}
