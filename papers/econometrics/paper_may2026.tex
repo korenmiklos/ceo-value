@@ -429,95 +429,91 @@ B^{k}.
 Thus, the sample variance consistently estimates the variance of the
 noisy spell-change estimates, rather than the variance of the true
 spell changes. The distortion disappears only if the within-spell
-estimation error converges to zero---for example, as the number of
+estimation error converges to zero. For example, as the number of
 observations in both spells grows under conditions that allow the
 firm-level shocks to average out.
 
 \subsection{Bias in the covariance}
 \label{subsec:covariance_bias}
 
-The numerator of Equation~\eqref{eq:naive_beta} is also contaminated by
-the estimation error in the CEO-spell change. Using
-Equations~\eqref{eq:spell_change_error} and
-\eqref{eq:population_projection},
+The numerator of the naive estimator is also affected by the
+estimation error in the CEO-spell change. Using the decomposition of
+the estimated spell change,
 \begin{align}
 \operatorname{Cov}\!\left(
-\Delta\widehat z_n^{k},
-\Delta_h y_n^{j}
+\Delta\widehat z_{is}^{k},
+\Delta_h q_{is}^{j}
 \right)
-&=
+={}&
 \operatorname{Cov}\!\left(
-\Delta z_n^{k}+\eta_n^{k},
-\beta_h^{jk}\Delta z_n^{k}
-+
-u_{nh}^{jk}
+\Delta z_{is}^{k},
+\Delta_h q_{is}^{j}
 \right)
 \nonumber\\
-&=
-\beta_h^{jk}
-\operatorname{Var}\!\left(
-\Delta z_n^{k}
-\right)
-+
+&+
 \operatorname{Cov}\!\left(
-\eta_n^{k},
-u_{nh}^{jk}
+\frac{1}{T_{is}}
+\sum_{t:\,s(i,t)=s} e_{it}^{k}
+-
+\frac{1}{T_{i,s-1}}
+\sum_{t:\,s(i,t)=s-1} e_{it}^{k},
+\Delta_h q_{is}^{j}
 \right).
 \label{eq:covariance_decomposition}
 \end{align}
-Here, the definition of the population projection implies that
-$\Delta z_n^{k}$ is uncorrelated with $u_{nh}^{jk}$, while strict
-exogeneity implies that $\Delta z_n^{k}$ is uncorrelated with
-$\eta_n^{k}$.
 
 Define
 \begin{equation}
 A_h^{jk}
 =
 \operatorname{Cov}\!\left(
-\eta_n^{k},
-u_{nh}^{jk}
+\frac{1}{T_{is}}
+\sum_{t:\,s(i,t)=s} e_{it}^{k}
+-
+\frac{1}{T_{i,s-1}}
+\sum_{t:\,s(i,t)=s-1} e_{it}^{k},
+\Delta_h q_{is}^{j}
 \right).
 \label{eq:A_definition}
 \end{equation}
-The covariance based on the estimated CEO-spell change is then
+The covariance based on the estimated CEO-spell change is therefore
 \begin{equation}
 \operatorname{Cov}\!\left(
-\Delta\widehat z_n^{k},
-\Delta_h y_n^{j}
+\Delta\widehat z_{is}^{k},
+\Delta_h q_{is}^{j}
 \right)
 =
 \operatorname{Cov}\!\left(
-\Delta z_n^{k},
-\Delta_h y_n^{j}
+\Delta z_{is}^{k},
+\Delta_h q_{is}^{j}
 \right)
 +
 A_h^{jk}.
 \label{eq:covariance_bias}
 \end{equation}
 
-The term $A_h^{jk}$ is the covariance bias. It arises because the
-firm-level shocks used to estimate the CEO-spell change may also enter,
-or be correlated with shocks entering, the outcome contrast.
+The term $A_h^{jk}$ captures the distortion in the covariance caused
+by estimation error in the CEO-spell change. It arises because the
+firm-level shocks used to estimate the spell change may also enter, or
+be correlated with shocks entering, the outcome contrast.
 
 The source of this problem is the short length of CEO spells. Each
 CEO-spell component is estimated from only a small number of annual
-observations, so firm-level shocks do not average out. Because the
+observations, so firm-level shocks do not average out. Moreover, the
 estimated explanatory variable is constructed from the firm's own
-realized outcomes over these short spells, the same shocks can enter
-both the measured CEO-spell change and the outcome contrast. The
-estimation error in $\Delta\widehat z_n^{k}$ can therefore be
-mechanically correlated with the outcome being studied.
+realized outcomes. Some of the same shocks may therefore affect both
+the estimated CEO-spell change and the outcome contrast, creating a
+mechanical correlation between them.
 
 This distinguishes our setting from a classical measurement-error
 problem. Under classical measurement error, noise in the explanatory
-variable contaminates the denominator but is assumed to be independent
-of the dependent variable. Here, short-spell estimation error can
-contaminate both the denominator and the numerator.
+variable inflates its variance but is assumed to be uncorrelated with
+the dependent variable. Here, short-spell estimation error can affect
+both the variance of the explanatory variable and its covariance with
+the dependent variable.
 
-Substituting Equations~\eqref{eq:variance_bias} and
-\eqref{eq:covariance_bias} into Equation~\eqref{eq:naive_beta}, the
-probability limit of the naive estimator is
+Combining the variance and covariance decompositions, the probability
+limit of the naive estimator is
 \begin{equation}
 \operatorname{plim}
 \widehat\beta_{h,\mathrm{naive}}^{jk}
@@ -525,13 +521,13 @@ probability limit of the naive estimator is
 \frac{
 \beta_h^{jk}
 \operatorname{Var}\!\left(
-\Delta z_n^{k}
+\Delta z_{is}^{k}
 \right)
 +
 A_h^{jk}
 }{
 \operatorname{Var}\!\left(
-\Delta z_n^{k}
+\Delta z_{is}^{k}
 \right)
 +
 B^{k}
@@ -539,38 +535,39 @@ B^{k}
 \label{eq:naive_beta_plim}
 \end{equation}
 
-Both the numerator and denominator are biased. The direction of the
-resulting bias in the regression coefficient is therefore ambiguous.
-If the covariance and variance happen to be inflated in the same
-proportion, the two biases may cancel in the ratio. This is a special
-case, however, and does not generally hold when firm-level shocks are
-persistent or when different outcome contrasts are considered.
+Thus, the numerator and denominator generally differ from the
+corresponding moments based on the true CEO-spell changes. The
+direction of the resulting asymptotic bias is ambiguous. If the two
+distortions happen to offset each other in the ratio, the naive
+estimator may recover $\beta_h^{jk}$, but there is no general reason
+for such an exact offset to occur.
 
 \subsection{Dynamic bias and spurious pre-trends}
 \label{subsec:dynamic_bias}
 
-The covariance bias is particularly important in event-study
+The covariance distortion is particularly important in event-study
 applications. The estimated CEO-spell change in
 Equation~\eqref{eq:estimated_spell_change} uses outcomes observed
 throughout the pre- and post-transition CEO spells. When firm-level
-shocks are serially correlated, shocks used to estimate the incoming
-CEO's spell component may be correlated with firm outcomes observed
-before the CEO arrives.
+shocks are serially correlated, shocks used to estimate the component
+associated with the incoming CEO spell may be correlated with firm
+outcomes observed before the CEO arrives.
 
-To see the problem, consider a negative or positive shock that begins
-before the CEO transition and persists into the post-transition spell.
-Because the shock affects the outcomes observed under the incoming CEO,
-it enters $\eta_n^{k}$. Because it began before the transition, it is
-also correlated with pre-transition outcomes. The estimated change in
-the CEO-spell component can therefore appear to predict outcomes before
-the CEO arrives, even though the true spell component has not yet
-changed.
+To see the problem, suppose that a firm-level shock begins before the
+CEO transition and persists into the post-transition spell. Because the
+shock affects outcomes observed during the incoming CEO spell, it
+enters the estimated CEO-spell change. Because the shock began before
+the transition, it is also correlated with pre-transition outcomes.
+The estimated CEO-spell change can therefore appear to predict outcomes
+before the incoming CEO arrives, even if the true CEO-spell change has
+no relationship with pre-transition outcomes.
 
-For a pre-transition event time $h<0$, the true coefficient may satisfy
+Under a no-anticipation benchmark, the true coefficient at a
+pre-transition event time $h<-1$ satisfies
 \[
 \beta_h^{jk}=0.
 \]
-Nevertheless, Equation~\eqref{eq:naive_beta_plim} becomes
+Nevertheless, the probability limit of the naive estimator is
 \begin{equation}
 \operatorname{plim}
 \widehat\beta_{h,\mathrm{naive}}^{jk}
@@ -579,39 +576,41 @@ Nevertheless, Equation~\eqref{eq:naive_beta_plim} becomes
 A_h^{jk}
 }{
 \operatorname{Var}\!\left(
-\Delta z_n^{k}
+\Delta z_{is}^{k}
 \right)
 +
 B^{k}
 },
 \label{eq:pretrend_bias}
 \end{equation}
-which need not be zero. Persistent shocks can thus generate spurious
-pre-trends mechanically.
+which need not be zero. Serially correlated firm-level shocks can
+therefore generate apparent pre-trends even when the true CEO-spell
+change is unrelated to outcomes before the transition.
 
-The same problem distorts post-transition dynamics. A true effect that
-occurs immediately may appear to build gradually, decline over time, or
-overshoot, depending on how the estimation error in the CEO-spell
-change covaries with outcomes at different event times. Observed
-dynamics may therefore reflect the covariance structure of firm-level
-shocks rather than the timing of the change associated with the CEO
-spell.
+The same problem can distort the estimated post-transition dynamics.
+A true relationship that emerges immediately may appear to build
+gradually, decline over time, or overshoot, depending on how the
+estimation error in the CEO-spell change covaries with the outcome
+contrast at different event times. The observed event-study pattern
+may therefore partly reflect the temporal covariance structure of
+firm-level shocks rather than the timing of the change associated with
+the CEO spell.
 
 \subsection{Implications for commonly reported statistics}
 \label{subsec:implications}
 
-The short-spell estimation error affects any statistic constructed from
-second moments of estimated CEO-spell components.
+Short-spell estimation error affects any statistic constructed from
+second moments of estimated CEO-spell changes.
 
-First, the variance of estimated CEO-spell changes overstates genuine
-heterogeneity in the changes experienced by firms:
+First, the variance of the estimated CEO-spell changes overstates
+genuine heterogeneity in the changes experienced by firms:
 \[
 \operatorname{Var}\!\left(
-\Delta\widehat z^{k}
+\Delta\widehat z_{is}^{k}
 \right)
 >
 \operatorname{Var}\!\left(
-\Delta z^{k}
+\Delta z_{is}^{k}
 \right)
 \]
 whenever $B^{k}>0$.
@@ -622,43 +621,44 @@ conclusions about which firm policies or outcomes are associated with
 changes in the CEO-spell component.
 
 Third, regression coefficients inherit both the variance and
-covariance biases through the ratio in
-Equation~\eqref{eq:naive_beta_plim}. The resulting coefficient may be
-biased upward or downward.
+covariance distortions through the ratio in
+Equation~\eqref{eq:naive_beta_plim}. The resulting asymptotic bias may
+be upward or downward.
 
 Fourth, correlations and $R^2$ statistics are nonlinear functions of
-estimated variances and covariances. Debiasing only one component is
-therefore insufficient: the underlying second moments must be corrected
-before constructing these statistics.
+variances and covariances. Correcting only one component is therefore
+insufficient: the underlying second moments must be corrected before
+constructing these statistics.
 
 Finally, event-study coefficients can display spurious pre-trends and
 distorted post-transition dynamics even when
 Equation~\eqref{eq:strict_exogeneity} holds. A conventional pre-trend
-test may therefore reject a valid empirical design because of the
+test may therefore reject the null of no pre-trends because of the
 mechanical relationship between the estimated CEO-spell change and
-persistent firm-level shocks.
+persistent firm-level shocks, rather than because the true CEO-spell
+change predicts outcomes before the transition.
 
 The econometric problem can consequently be summarized by two bias
 terms:
 \begin{align}
 \widehat{\operatorname{Cov}}\!\left(
-\Delta\widehat z_n^{k},
-\Delta_h y_n^{j}
+\Delta\widehat z_{is}^{k},
+\Delta_h q_{is}^{j}
 \right)
 &\overset{p}{\longrightarrow}
 \operatorname{Cov}\!\left(
-\Delta z_n^{k},
-\Delta_h y_n^{j}
+\Delta z_{is}^{k},
+\Delta_h q_{is}^{j}
 \right)
 +
 A_h^{jk},
 \nonumber\\[4pt]
 \widehat{\operatorname{Var}}\!\left(
-\Delta\widehat z_n^{k}
+\Delta\widehat z_{is}^{k}
 \right)
 &\overset{p}{\longrightarrow}
 \operatorname{Var}\!\left(
-\Delta z_n^{k}
+\Delta z_{is}^{k}
 \right)
 +
 B^{k}.
@@ -669,7 +669,6 @@ Recovering the relationship between CEO-spell changes and firm outcomes
 requires identifying and removing both $A_h^{jk}$ and $B^{k}$. In the
 next section, we show how matched firms that do not change CEOs can be
 used to estimate these bias terms.
-```
 
 
 \section{Placebo-Controlled Debiasing} \label{sec:placebo_debiasing} Our approach constructs placebo CEO transitions to identify and remove the bias terms $A_h^{jk}$ and $B^k$ without specifying the full covariance structure of firm-level shocks. The key insight is that the short-spell bias depends on two objects: the design used to construct the estimated CEO-spell change and outcome contrast, and the second-order dependence structure of the shocks entering these objects. A sample with the same design but no true CEO-spell change can therefore identify the bias under an appropriate restriction on the shock process. \paragraph{Construction of the placebo sample, identification restriction.} For each firm experiencing an actual CEO transition, we select one or more observably similar firms whose CEO does not change over the relevant event window. We match firms on characteristics such as sector and birth cohort. We assign each matched firm a placebo transition in the same calendar year as the actual transition and divide its uninterrupted CEO spell into artificial pre- and post-transition spells with the same lengths as in the corresponding treated firm. We then apply exactly the same transformations to the treated and placebo observations. In particular, we use the same pre- and post-spell lengths to construct $\Delta\widehat z_n^k$, the same event-time contrasts to construct $\Delta_h y_n^j$, and the same weights when aggregating across designs. Assigning the placebo transition in the same calendar year also ensures that treated and placebo firms are exposed to the same aggregate time period. Matching does not by itself identify the correction. Its purpose is to reproduce the treated sample's design and to make it plausible that treated and placebo firms have comparable shock processes. Our identifying restriction is that, conditional on the matched design, the covariance structure of firm-level shocks is the same in the two groups up to a scalar multiplier. Formally, for every pair of outcomes $j$ and $k$, \begin{equation} E^{\mathrm{tr}}\!\left[ e_{it}^{k}e_{is}^{j} \right] = c\, E^{\mathrm{pl}}\!\left[ e_{it}^{k}e_{is}^{j} \right] \qquad \text{for every }t,s, \label{eq:proportional_shock_covariance} \end{equation} for some constant $c>0$, where ``tr'' and ``pl'' denote the treated and placebo samples. We refer to this restriction as the \emph{proportional shock covariance restriction}. It allows firms that change CEOs to have systematically larger or smaller shocks than firms that do not change CEOs. It requires the temporal pattern of variances, autocovariances, and cross-outcome covariances to be the same in the two groups up to the common scale factor $c$. The restriction must cover covariances across different outcomes because the variable used to measure the CEO-spell change need not be the same as the outcome whose response is being studied. For example, suppose that the CEO-spell change is measured using revenue, while the outcome of interest is employment. The covariance bias then depends on the correlation between the revenue shocks entering the estimated CEO-spell change and the employment shocks entering the outcome contrast. We therefore require cross-outcome covariances, as well as within-outcome autocovariances, to be proportional between treated and placebo firms. When $j=k$, the restriction reduces to proportionality of the autocovariance structure of a single outcome. The artificial transition in a placebo firm divides one uninterrupted CEO spell into two parts. Under the model in Section~2, there is therefore no true change in the placebo firm's CEO-spell component: \begin{equation} \Delta z_n^k=0. \label{eq:placebo_true_change} \end{equation} Nevertheless, the two artificial spell averages generally differ because they contain different realizations of firm-level shocks. The estimated placebo change is therefore \begin{equation} \Delta\widehat z_n^k = \eta_n^k. \label{eq:placebo_estimated_change} \end{equation} Consequently, the variance and covariance calculated in the placebo sample contain only the short-spell bias. Under the proportional shock covariance restriction and a common distribution of designs, \begin{equation} \widehat{\operatorname{Cov}}^{\mathrm{pl}}\!\left( \Delta\widehat z_n^k, \Delta_h y_n^j \right) \overset{p}{\longrightarrow} \frac{1}{c}A_h^{jk}, \label{eq:placebo_covariance} \end{equation} and \begin{equation} \widehat{\operatorname{Var}}^{\mathrm{pl}}\!\left( \Delta\widehat z_n^k \right) \overset{p}{\longrightarrow} \frac{1}{c}B^k. \label{eq:placebo_variance} \end{equation} The treated moments contain both the economic object of interest and the short-spell bias, whereas the corresponding placebo moments contain only the bias. Scaling the placebo moments by $c$ therefore recovers the bias terms that contaminate the treated moments. The scale factor $c$ captures systematic differences in shock volatility between firms that change CEOs and firms that do not. We estimate $c$ using pre-transition second moments, before the incoming CEO's spell component can affect the firm's outcomes. In the application, we use a minimum-distance estimator that selects $c$ to align a set of treated and placebo pre-transition moments. Under the proportional shock covariance restriction, this estimator converges to the relative scale of the treated and placebo shock processes. \paragraph{Debiased moments.} Subtracting the scaled placebo covariance from the treated covariance gives \begin{align} \widehat{\operatorname{Cov}}^{\mathrm{db}}\!\left( \Delta\widehat z_n^k, \Delta_h y_n^j \right) &= \widehat{\operatorname{Cov}}^{\mathrm{tr}}\!\left( \Delta\widehat z_n^k, \Delta_h y_n^j \right) \nonumber\\ &\quad - \widehat c\, \widehat{\operatorname{Cov}}^{\mathrm{pl}}\!\left( \Delta\widehat z_n^k, \Delta_h y_n^j \right). \label{eq:debiased_covariance} \end{align} Similarly, the debiased variance is \begin{equation} \widehat{\operatorname{Var}}^{\mathrm{db}}\!\left( \Delta\widehat z_n^k \right) = \widehat{\operatorname{Var}}^{\mathrm{tr}}\!\left( \Delta\widehat z_n^k \right) - \widehat c\, \widehat{\operatorname{Var}}^{\mathrm{pl}}\!\left( \Delta\widehat z_n^k \right). \label{eq:debiased_variance} \end{equation} Under strict exogeneity, the proportional shock covariance restriction, a common distribution of designs, and consistency of $\widehat c$, these estimators converge to the corresponding moments involving the true CEO-spell change: \begin{equation} \widehat{\operatorname{Cov}}^{\mathrm{db}}\!\left( \Delta\widehat z_n^k, \Delta_h y_n^j \right) \overset{p}{\longrightarrow} \operatorname{Cov}\!\left( \Delta z_n^k, \Delta_h y_n^j \right), \label{eq:debiased_covariance_plim} \end{equation} and \begin{equation} \widehat{\operatorname{Var}}^{\mathrm{db}}\!\left( \Delta\widehat z_n^k \right) \overset{p}{\longrightarrow} \operatorname{Var}\!\left( \Delta z_n^k \right). \label{eq:debiased_variance_plim} \end{equation} The important feature of these results is that consistency does not require CEO spells to become long. The number of observations within each spell may remain fixed while the number of treated and placebo transitions grows. The placebo sample identifies the nonvanishing short-spell bias that would otherwise remain in the probability limits of the treated moments. For regression coefficients and other nonlinear functions of second moments, we first debias the underlying moments and then form the relevant statistic. The debiased projection coefficient is \begin{equation} \widehat\beta_{h,\mathrm{db}}^{jk} = \frac{ \widehat{\operatorname{Cov}}^{\mathrm{db}}\!\left( \Delta\widehat z_n^k, \Delta_h y_n^j \right) }{ \widehat{\operatorname{Var}}^{\mathrm{db}}\!\left( \Delta\widehat z_n^k \right) }. \label{eq:debiased_beta} \end{equation} Thus, the correction is performed at the level of the covariance and variance. In general, it is not equivalent to subtracting a placebo regression coefficient from the treated regression coefficient. Correlations, $R^2$ statistics, and other functions of second moments are constructed in the same way: we first correct each underlying variance and covariance and then apply the nonlinear transformation. The placebo-control approach has three advantages. First, it does not require a parametric model for the full covariance structure of firm-level shocks. Second, by reproducing the treated sample's spell lengths, transition dates, event-time contrasts, and aggregation weights, it accommodates short and heterogeneous CEO spells and unbalanced panels. Third, it applies separately at each event time, allowing us to correct both spurious pre-trends and distorted post-transition dynamics.
