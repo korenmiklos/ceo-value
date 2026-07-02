@@ -746,21 +746,17 @@ We apply several restrictions to create a sample suitable for the analysis. We d
 
 Firms with multiple CEO changes are handled by splitting their history into adjacent transition pairs. After collapsing firm-CEO spells, intermediate spells are duplicated so that a firm with spells 1/2/3 contributes two transitions, 1→2 and 2→3. Each transition defines a pseudo-firm, indexed by a constructed identifier that groups the true firm with the relevant spell window. Fixed effects are estimated separately for these pseudo-firms, so outcomes around different transitions are allowed to have distinct firm intercepts. These pseudo-firms are not treated as independent statistical units. We retain the original firm identifier and cluster standard errors by the true firm.
 
-Appendix Table \ref{tab:year_desc} presents the number of firms and their average employment in our sample for each year. The number of Hungarian firms increases abruptly during the nineties, from 52 thousand in 1992 to 168 thousand in 2000. The number of firms was quite stable during the next 23 years, and it grew again as the country went out of the great recession of 2008. In 2023 (the last year of our data), the number of firms was over 205 thousand. The average employment size was rather large in early years (19) as it was strongly influenced by the large socialist companies. But employment size quickly declined as small firms entered the data: by 1997 it fell to 9 and remained around this number throughout of the subsequent period.
+In our data, 48\% of firms experience at least one CEO change. Out of them, the typical firm has one CEO change as the median of the distribution is 1. Multiple CEO changes during the rather long time span our data covers are quite uncommon, and the 75th percentile the distribution is 2. The proportion of firms with two CEOs serving at the same time is 28\%. The average (median) firm age is XX (10), but we have firms which survive a long time (the 75 percentile of firm age distribution is 19). Appendix Table \ref{tab:year_desc} presents the number of firms and their average employment in our sample for each year. The number of Hungarian firms increases abruptly during the nineties, from 52 thousand in 1992 to 168 thousand in 2000. The number of firms was quite stable during the next 23 years, and it grew again as the country went out of the great recession of 2008. In 2023 (the last year of our data), the number of firms was over 205 thousand. The average employment size was rather large in early years (19) as it was strongly influenced by the large socialist companies. But employment size quickly declined as small firms entered the data: by 1997 it fell to 9 and remained around this number throughout of the subsequent period.
 
 The table also shows the number of firms with a CEO replacement. Depending on the year, we observe between 3,500 and 25,000 CEO switches, corresponding to a proportion of firms with a CEO replacement of approximately 5\% to 9\%. In total, we have XXX CEO switches, which provides a solid basis for estimating the effect of CEO changes.
 
 %The table also shows the number of CEOs each year, which presents a similar pattern; in 1992 we observe 32 thousand CEOs and in 2022 122 thousand. The total number of distinct CEOs is 340 thousand. 
 
-ÁTÍRNI Appendix Table A2 shows the industrial distribution of firms and CEOs. The largest sectors are Wholesale-Retail, Telecom and Business Services and Nontradable Services.
+Appendix Table XX shows the industrial distribution of firms. The largest sectors is Wholesale-Retail with 27\% of firms while  manufacturing, business services and construction having each a share of 11-12\%.
 
-Firms which experience CEO transitions are different from those which have only one CEO during their whole observed life span. As Table \ref{tab:switch_desc} shows that firms which switch CEOs, are larger both employment (9.5 vs. 2.6), have their output almost twice as large, and 12\% higher output per worker. Return on assets, on the contrary, is smaller by 14\%. The table also shows the changes of these variables around a CEO transition (measured as the proportional change of the average value of the variable in the subsequent and precedent 4 years. ÁTÍRNI
+Firms which experience CEO transitions are different from those which have only one CEO during their whole observed life span. As Table \ref{tab:switch_desc} shows that firms which switch CEOs, are larger both employment (9.5 vs. 2.6), have their output almost twice as large, and 12\% higher output per worker. Return on assets, on the contrary, is smaller by 14\%. The table also shows the changes of these variables around a CEO transition (measured as the proportional change of the average value of the variable in the subsequent and precedent 4 years. 
 
-Table 1 shows the proportion of firms (and firm-years) by the number of CEOs observed in the firm during the period of observation. Not surprisingly, a majority of firms have only one CEO: 63\% of firms and 80\% of firm-years belong to this category. One quarter of firms had two CEOs while 13\% at least three CEOs. This latter category comprises only 3\% of firm-years. CEO spell lengths follow an exponential distribution with a 20 percent annual hazard rate, implying typical tenures of 3-7 years.
-
-DISCUSS TABLE 2: PROPORTION OF FIRMS WITH 2 CEOS, AVERAGE NUMBER OF CEO SWITCHES BY FIRM, TENURE LENGTH OF 1ST, 2ND ETC CEOS. 
-
-The tenure of the firs CEO of the firm is shown in Figure \ref{fig:tenure}. The top panel shows the distribution of tenure at a given year. Not surprisingly, where short tenures abound: 18\% of CEOs have a one-year long tenure, and 12\% two-year long tenure in a given year. The distribution completely changes if we replace the actual tenure with the maximum tenure for each CEO.\footnote{This is technically the maximum tenure of the CEO weighted by the number of firm served.} This statistic shows the prevalence of CEOs in the data serving a given tenure. The bottom panel of Figure \ref{fig:tenure} shows that the typical CEO serves between 4 and 10 years. In this range each tenure has a share of 5-6\% of all firm-years. The prevalence of longer tenures than 10 years gradually decreases up to 20 years, when it levels again. 
+The tenure of the first CEO of the firm is shown in Figure \ref{fig:tenure}.\footnote{In this figure, we measure tenure by the maximum tenure of the CEO. The tenure of the second, third, etc. CEO is somewhat shorter, as Appendix Table \ref{tab:CEO_desc} demonstrates.} Short tenures abound: 18\% of CEOs have a one-year long tenure, and 12\% two-year long tenure in a given year. To assess the prevalence of the CEOs by the maximum tenure, we weight tenure by the number of years serving. This statistic weights up CEOs who serve for a long time. The  distribution of this statistic is shown in the bottom panel of Figure \ref{fig:tenure}: the typical CEO serves between 4 and 10 years. In this range each tenure has a share of 5-6\% of all firm-years. The prevalence of longer tenures than 10 years gradually decreases up to 20 years, when it levels again. 
 
 
 
@@ -785,6 +781,8 @@ The three metrics of CEO change enable us to draw conclusions about what can sta
 Those CEOs who are good at increasing labor productivity, raise sales, exports (though not as much as in those who raise sales), capital but not labor, and ROA (this latter is associated with a very large, but statistically insignificant coefficient). Those who increase ROA do not raise the scale of production, nor exports and labor productivity. In conclusion, it seems that the best CEOs are those who concentrate on raising the volume of sales, as this raises both inputs and also productivity. 
 
 The $R^2$ estimations suggest that CEO change explain less of the variance of the dependent variables as one would expect (REF EARLIER STUDIES). When the metric is the value of sales $R^2$ is larger than 0.10 only when it is estimated on the metric itself. For labor is it 0.09 and for all other dependent variables less than 0.04. When ROA is the metric, the $R^2$s are all close to zero (except for ROA, when it is 0.13). It seems, thus, that CEO change cannot explain itself changes taking place in the firm. (EZ VAJON IGAZ? ÉS HA IGEN, AKKOR MI LEHET AZ OKA? AZ, HOGY JÓ CÉGEKNEK JÓ CEO-JA VAN ÉS AKI LECSERÉLI, AZ IS JÓ? VAGYIS A DELTA Z NEM MAGAS? MEG KELLENE MUTASSUK A DELTA Z STATISZTIKÁIT)   
+
+NEM AKARUNK ÍRNI A FOUNDER-NONFOUNDER ÉS A NONFOUNDER-NONFOUNDER KÜLÖNBSÉGEKRŐL. MEG KELLENE NÉZNI, HOGY VAN-E KÜLÖNBSÉG KÖZÖTTÜK (ÚGY EMLÉKSZEM, VAN, DE RÉGEN NÉZTÜK).
 
 
 %%%%%%%%%%%%%%%%%%%%
@@ -903,7 +901,7 @@ Notes: Event studies of various second moments around CEO transitions. All panel
     \end{tabular}
     \begin{minipage}{16cm}
     \vspace{.2cm}
-    \footnotesize{Notes: The table presents the estimated naive and placebo debiased coefficients corresponding to the CEO change $\Delta z$ and the values of the corresponding $R^2$ on a simulated sample of 50,000 treated firms and 50,000 control firms. The treatment (placebo treatment) year is drawn from a geometric distribution with a constant hazard of CEO change in the years $T = 2...6$. The standard deviation of $\Delta z = 1$. In the baseline scenario the standard deviation of errors $\sigma(\epsilon) = 0.71$ in the treated and control groups. Each firm has a spell $T_{max} = 10$ time periods. The error autocorrelation $\rho = XXX$. Column 1: baseline scenario; Column 2: the treated group's error has an excess variance of $\sigma(\epsilon) = 1.2 \cdot 0.71$; Column 3: Excess variance correction is applied; Column 4: firm spells are raised to $T_{max} = 20$. $R^2$ is from the estimation based on all years (ATET); $R^2 \text{ at } t =3)$ is from an estimation based on the difference between three years after relative to the year precedent to the treatment.}
+    \footnotesize{Notes: The table presents the estimated naive and placebo debiased coefficients corresponding to the CEO change $\Delta z$ and the values of the corresponding $R^2$ on a simulated sample of 50,000 treated firms and 50,000 control firms. The treatment (placebo treatment) year is drawn from a geometric distribution with a constant hazard of CEO change in the years $T = 2...6$. The standard deviation of $\Delta z = 1$. In the baseline scenario the standard deviation of errors $\sigma(\epsilon) = 0.71$ in the treated and control groups. Each firm has a spell $T_{max} = 10$ time periods. The error autocorrelation $\rho = 0.9$. Column 1: baseline scenario; Column 2: the treated group's error has an excess variance of $\sigma(\epsilon) = 1.2 \cdot 0.71$; Column 3: Excess variance correction is applied; Column 4: firm spells are raised to $T_{max} = 20$. $R^2$ is from the estimation based on all years (ATET); $R^2 \text{ at } t =3)$ is from an estimation based on the difference between three years after relative to the year precedent to the treatment.}
     \end{minipage}
 \end{table}
 \vspace{.5cm}
@@ -919,23 +917,6 @@ Notes: Event studies of various second moments around CEO transitions. All panel
     \begin{minipage}{13.5cm}
     \vspace{.2cm}
     \footnotesize{Notes: this table shows the characteristics of firms with and without CEO replacement and the proportional change of firm characteristics around the CEO replacement.}
-    \end{minipage}
-\end{table}
-\vspace{.5cm}
-
-
-
-\begin{table}[H]
-    \centering
-    \caption{Characteristics of CEO Tenure}
-    \vspace{.2cm}
-    \label{tab:tenure_desc}
-    \begin{tabular}{lcccc}
-    \input{\tablepath/firm-descriptives.tex}
-    \end{tabular}
-    \begin{minipage}{16cm}
-    \vspace{.2cm}
-    \footnotesize{Notes:}
     \end{minipage}
 \end{table}
 \vspace{.5cm}
@@ -1120,6 +1101,38 @@ Here $\Bar\lambda$ is the average CEO effect variance. Bias terms depend on $\ma
     \begin{minipage}{9cm}
     \vspace{.2cm}
     \footnotesize{Notes: the table presents the number of firms, number of CEO replacements, and average employment of firms in each year of the data.}
+    \end{minipage}
+\end{table}
+\vspace{.5cm}
+
+\begin{comment}
+\begin{table}[H]
+    \centering
+    \caption{Industrial Distribution of Firms}
+    \vspace{.2cm}
+    \label{tab:tenure_desc}
+    \begin{tabular}{lcccc}
+    \input{\tablepath/}
+    \end{tabular}
+    \begin{minipage}{16cm}
+    \vspace{.2cm}
+    \footnotesize{Notes:}
+    \end{minipage}
+\end{table}
+\vspace{.5cm}
+\end{comment}
+
+\begin{table}[H]
+    \centering
+    \caption{CEO Tenure}
+    \vspace{.2cm}
+    \label{tab:tenure_desc}
+    \begin{tabular}{lcccc}
+    \input{\tablepath/firm-descriptives.tex}
+    \end{tabular}
+    \begin{minipage}{16cm}
+    \vspace{.2cm}
+    \footnotesize{Notes:}
     \end{minipage}
 \end{table}
 \vspace{.5cm}
