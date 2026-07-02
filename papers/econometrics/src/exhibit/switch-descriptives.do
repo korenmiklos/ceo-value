@@ -28,7 +28,7 @@ count if clean_switch == 1 & ceo_switch == 1
 keep if clean_switch == 1 | ceo_switch == 0
 
 gen productivity = sales/employment
-egen ever_switch = (max_ceo_spell>1), by(frame_id_numeric)
+gen ever_switch = max_ceo_spell>1
 egen firm_count = group(frame_id_numeric ever_switch)
 
 * Count distinct firms with vs. without a CEO switch
@@ -94,7 +94,12 @@ forvalues r = 1/3 {
             local cell ""
         }
         else {
+          if `c'!=5 {
             local cell : display %9.`dec'f `val'
+          }
+          else {
+            local cell : display %9.0f `val'
+          }
         }
         local line `"`line' & `cell'"'
     }
