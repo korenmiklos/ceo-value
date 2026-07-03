@@ -497,13 +497,7 @@ by estimation error in the CEO-spell change. It arises because the
 firm-level shocks used to estimate the spell change may also enter, or
 be correlated with shocks entering, the outcome contrast.
 
-The source of this problem is the short length of CEO spells. Each
-CEO-spell component is estimated from only a small number of annual
-observations, so firm-level shocks do not average out. Moreover, the
-estimated explanatory variable is constructed from the firm's own
-realized outcomes. Some of the same shocks may therefore affect both
-the estimated CEO-spell change and the outcome contrast, creating a
-mechanical correlation between them.
+The source of this problem is the short length of CEO spells. With only a small number of annual observations in each spell, the estimated CEO-spell component reflects a mixture of the true CEO-spell component and firm-level shocks. The resulting estimation error may be correlated with the outcome contrast, causing the covariance between the measured CEO-spell change and the outcome to differ systematically from the covariance involving the true CEO-spell change. As spell lengths increase and firm-level shocks average out, this source of covariance bias disappears.
 
 This distinguishes our setting from a classical measurement-error
 problem. Under classical measurement error, noise in the explanatory
@@ -630,13 +624,7 @@ variances and covariances. Correcting only one component is therefore
 insufficient: the underlying second moments must be corrected before
 constructing these statistics.
 
-Finally, event-study coefficients can display spurious pre-trends and
-distorted post-transition dynamics even when
-Equation~\eqref{eq:strict_exogeneity} holds. A conventional pre-trend
-test may therefore reject the null of no pre-trends because of the
-mechanical relationship between the estimated CEO-spell change and
-persistent firm-level shocks, rather than because the true CEO-spell
-change predicts outcomes before the transition.
+Finally, event-study coefficients can display spurious pre-trends and distorted post-transition dynamics even when strict exogeneity holds. A conventional pre-trend test may therefore reject the null of no pre-trends because firm-level shocks entering the estimated CEO-spell change may also enter, or be correlated with shocks entering, the pre-transition outcome contrast, rather than because the true CEO-spell change is related to outcomes before the transition.
 
 The econometric problem can consequently be summarized by two bias
 terms:
@@ -671,8 +659,258 @@ next section, we show how matched firms that do not change CEOs can be
 used to estimate these bias terms.
 
 
-\section{Placebo-Controlled Debiasing} \label{sec:placebo_debiasing} Our approach constructs placebo CEO transitions to identify and remove the bias terms $A_h^{jk}$ and $B^k$ without specifying the full covariance structure of firm-level shocks. The key insight is that the short-spell bias depends on two objects: the design used to construct the estimated CEO-spell change and outcome contrast, and the second-order dependence structure of the shocks entering these objects. A sample with the same design but no true CEO-spell change can therefore identify the bias under an appropriate restriction on the shock process. \paragraph{Construction of the placebo sample, identification restriction.} For each firm experiencing an actual CEO transition, we select one or more observably similar firms whose CEO does not change over the relevant event window. We match firms on characteristics such as sector and birth cohort. We assign each matched firm a placebo transition in the same calendar year as the actual transition and divide its uninterrupted CEO spell into artificial pre- and post-transition spells with the same lengths as in the corresponding treated firm. We then apply exactly the same transformations to the treated and placebo observations. In particular, we use the same pre- and post-spell lengths to construct $\Delta\widehat z_n^k$, the same event-time contrasts to construct $\Delta_h y_n^j$, and the same weights when aggregating across designs. Assigning the placebo transition in the same calendar year also ensures that treated and placebo firms are exposed to the same aggregate time period. Matching does not by itself identify the correction. Its purpose is to reproduce the treated sample's design and to make it plausible that treated and placebo firms have comparable shock processes. Our identifying restriction is that, conditional on the matched design, the covariance structure of firm-level shocks is the same in the two groups up to a scalar multiplier. Formally, for every pair of outcomes $j$ and $k$, \begin{equation} E^{\mathrm{tr}}\!\left[ e_{it}^{k}e_{is}^{j} \right] = c\, E^{\mathrm{pl}}\!\left[ e_{it}^{k}e_{is}^{j} \right] \qquad \text{for every }t,s, \label{eq:proportional_shock_covariance} \end{equation} for some constant $c>0$, where ``tr'' and ``pl'' denote the treated and placebo samples. We refer to this restriction as the \emph{proportional shock covariance restriction}. It allows firms that change CEOs to have systematically larger or smaller shocks than firms that do not change CEOs. It requires the temporal pattern of variances, autocovariances, and cross-outcome covariances to be the same in the two groups up to the common scale factor $c$. The restriction must cover covariances across different outcomes because the variable used to measure the CEO-spell change need not be the same as the outcome whose response is being studied. For example, suppose that the CEO-spell change is measured using revenue, while the outcome of interest is employment. The covariance bias then depends on the correlation between the revenue shocks entering the estimated CEO-spell change and the employment shocks entering the outcome contrast. We therefore require cross-outcome covariances, as well as within-outcome autocovariances, to be proportional between treated and placebo firms. When $j=k$, the restriction reduces to proportionality of the autocovariance structure of a single outcome. The artificial transition in a placebo firm divides one uninterrupted CEO spell into two parts. Under the model in Section~2, there is therefore no true change in the placebo firm's CEO-spell component: \begin{equation} \Delta z_n^k=0. \label{eq:placebo_true_change} \end{equation} Nevertheless, the two artificial spell averages generally differ because they contain different realizations of firm-level shocks. The estimated placebo change is therefore \begin{equation} \Delta\widehat z_n^k = \eta_n^k. \label{eq:placebo_estimated_change} \end{equation} Consequently, the variance and covariance calculated in the placebo sample contain only the short-spell bias. Under the proportional shock covariance restriction and a common distribution of designs, \begin{equation} \widehat{\operatorname{Cov}}^{\mathrm{pl}}\!\left( \Delta\widehat z_n^k, \Delta_h y_n^j \right) \overset{p}{\longrightarrow} \frac{1}{c}A_h^{jk}, \label{eq:placebo_covariance} \end{equation} and \begin{equation} \widehat{\operatorname{Var}}^{\mathrm{pl}}\!\left( \Delta\widehat z_n^k \right) \overset{p}{\longrightarrow} \frac{1}{c}B^k. \label{eq:placebo_variance} \end{equation} The treated moments contain both the economic object of interest and the short-spell bias, whereas the corresponding placebo moments contain only the bias. Scaling the placebo moments by $c$ therefore recovers the bias terms that contaminate the treated moments. The scale factor $c$ captures systematic differences in shock volatility between firms that change CEOs and firms that do not. We estimate $c$ using pre-transition second moments, before the incoming CEO's spell component can affect the firm's outcomes. In the application, we use a minimum-distance estimator that selects $c$ to align a set of treated and placebo pre-transition moments. Under the proportional shock covariance restriction, this estimator converges to the relative scale of the treated and placebo shock processes. \paragraph{Debiased moments.} Subtracting the scaled placebo covariance from the treated covariance gives \begin{align} \widehat{\operatorname{Cov}}^{\mathrm{db}}\!\left( \Delta\widehat z_n^k, \Delta_h y_n^j \right) &= \widehat{\operatorname{Cov}}^{\mathrm{tr}}\!\left( \Delta\widehat z_n^k, \Delta_h y_n^j \right) \nonumber\\ &\quad - \widehat c\, \widehat{\operatorname{Cov}}^{\mathrm{pl}}\!\left( \Delta\widehat z_n^k, \Delta_h y_n^j \right). \label{eq:debiased_covariance} \end{align} Similarly, the debiased variance is \begin{equation} \widehat{\operatorname{Var}}^{\mathrm{db}}\!\left( \Delta\widehat z_n^k \right) = \widehat{\operatorname{Var}}^{\mathrm{tr}}\!\left( \Delta\widehat z_n^k \right) - \widehat c\, \widehat{\operatorname{Var}}^{\mathrm{pl}}\!\left( \Delta\widehat z_n^k \right). \label{eq:debiased_variance} \end{equation} Under strict exogeneity, the proportional shock covariance restriction, a common distribution of designs, and consistency of $\widehat c$, these estimators converge to the corresponding moments involving the true CEO-spell change: \begin{equation} \widehat{\operatorname{Cov}}^{\mathrm{db}}\!\left( \Delta\widehat z_n^k, \Delta_h y_n^j \right) \overset{p}{\longrightarrow} \operatorname{Cov}\!\left( \Delta z_n^k, \Delta_h y_n^j \right), \label{eq:debiased_covariance_plim} \end{equation} and \begin{equation} \widehat{\operatorname{Var}}^{\mathrm{db}}\!\left( \Delta\widehat z_n^k \right) \overset{p}{\longrightarrow} \operatorname{Var}\!\left( \Delta z_n^k \right). \label{eq:debiased_variance_plim} \end{equation} The important feature of these results is that consistency does not require CEO spells to become long. The number of observations within each spell may remain fixed while the number of treated and placebo transitions grows. The placebo sample identifies the nonvanishing short-spell bias that would otherwise remain in the probability limits of the treated moments. For regression coefficients and other nonlinear functions of second moments, we first debias the underlying moments and then form the relevant statistic. The debiased projection coefficient is \begin{equation} \widehat\beta_{h,\mathrm{db}}^{jk} = \frac{ \widehat{\operatorname{Cov}}^{\mathrm{db}}\!\left( \Delta\widehat z_n^k, \Delta_h y_n^j \right) }{ \widehat{\operatorname{Var}}^{\mathrm{db}}\!\left( \Delta\widehat z_n^k \right) }. \label{eq:debiased_beta} \end{equation} Thus, the correction is performed at the level of the covariance and variance. In general, it is not equivalent to subtracting a placebo regression coefficient from the treated regression coefficient. Correlations, $R^2$ statistics, and other functions of second moments are constructed in the same way: we first correct each underlying variance and covariance and then apply the nonlinear transformation. The placebo-control approach has three advantages. First, it does not require a parametric model for the full covariance structure of firm-level shocks. Second, by reproducing the treated sample's spell lengths, transition dates, event-time contrasts, and aggregation weights, it accommodates short and heterogeneous CEO spells and unbalanced panels. Third, it applies separately at each event time, allowing us to correct both spurious pre-trends and distorted post-transition dynamics.
+\section{Placebo-Controlled Debiasing}
+\label{sec:placebo_debiasing}
 
+Our approach constructs placebo CEO transitions to identify and remove
+the bias terms $A_h^{jk}$ and $B^k$ without specifying the full
+covariance structure of firm-level shocks. The key insight is that the
+short-spell bias depends on two objects: how the estimated CEO-spell
+change and the outcome change relative to the reference year are
+constructed, including the pre- and post-spell lengths, transition
+dates, and event-time comparisons; and the variance and covariance
+structure of firm-level shocks. A placebo sample that reproduces these
+features but has no true CEO-spell change can therefore identify the
+bias under an appropriate restriction on the shock process.
+
+\paragraph{Construction of the placebo sample and identification
+restriction.}
+For each firm that moves from CEO spell $s-1$ to spell $s$, we select
+one or more observably similar firms whose CEO does not change over the
+relevant event window. We match firms on characteristics such as sector
+and birth cohort. We assign each matched firm a placebo transition in
+the same calendar year $g_{is}$ as the corresponding actual transition
+and divide its uninterrupted CEO spell into artificial pre- and
+post-transition segments with the same lengths as the two spells in
+the corresponding treated firm. For notational simplicity, we label
+these artificial segments $s-1$ and $s$.
+
+We then apply exactly the same transformations to the treated and
+placebo observations. In particular, we use the same pre- and
+post-spell lengths to construct $\Delta\widehat z_{is}^k$ and the same
+event-time comparisons to construct $\Delta_h q_{is}^j$. Assigning the
+placebo transition in the same calendar year also ensures that treated
+and placebo firms are exposed to the same aggregate time period.
+
+We use the superscripts $\mathrm{tr}$ and $\mathrm{pl}$ to distinguish
+moments calculated in the treated and placebo samples. Population
+moments without a sample superscript continue to refer to firms
+experiencing actual CEO transitions.
+
+Matching does not by itself identify the correction. Its purpose is to
+reproduce the treated sample's design and make it plausible that
+treated and placebo firms have comparable shock processes. Our
+identifying restriction is that, conditional on the matched design, the
+covariance structure of firm-level shocks is the same in the two groups
+up to a scalar multiplier. Formally, for every pair of outcomes $j$
+and $k$,
+\begin{equation}
+\operatorname{Cov}^{\mathrm{tr}}\!\left(
+e_{it}^{k},e_{ir}^{j}
+\right)
+=
+c\,
+\operatorname{Cov}^{\mathrm{pl}}\!\left(
+e_{it}^{k},e_{ir}^{j}
+\right)
+\qquad
+\text{for every }t,r,
+\label{eq:proportional_shock_covariance}
+\end{equation}
+for some constant $c>0$. We refer to this restriction as the
+\emph{proportional shock covariance restriction}.
+
+The restriction allows firms that change CEOs to have systematically
+larger or smaller shocks than firms that do not change CEOs. It
+requires the temporal pattern of variances, autocovariances, and
+cross-outcome covariances to be the same in the two groups up to the
+common scale factor $c$.
+
+The restriction must cover covariances across different outcomes
+because the variable used to measure the CEO-spell change need not be
+the same as the outcome whose response is being studied. For example,
+suppose that the CEO-spell change is measured using revenue, while the
+outcome of interest is employment. The covariance bias then depends on
+the covariance between the revenue shocks entering the estimated
+CEO-spell change and the employment shocks entering the outcome
+contrast. We therefore require cross-outcome covariances, as well as
+within-outcome autocovariances, to be proportional between treated and
+placebo firms. When $j=k$, the restriction reduces to proportionality
+of the autocovariance structure of a single outcome.
+
+The artificial transition in a placebo firm divides one uninterrupted
+CEO spell into two segments. There is therefore no true change in the
+placebo firm's CEO-spell component:
+\begin{equation}
+\Delta z_{is}^{k}=0
+\qquad
+\text{in the placebo sample}.
+\label{eq:placebo_true_change}
+\end{equation}
+
+Nevertheless, the averages calculated over the two artificial segments
+generally differ because they contain different realizations of
+firm-level shocks. The estimated placebo change is therefore
+\begin{equation}
+\Delta\widehat z_{is}^{k}
+=
+\frac{1}{T_{is}}
+\sum_{t:\,s(i,t)=s}
+e_{it}^{k}
+-
+\frac{1}{T_{i,s-1}}
+\sum_{t:\,s(i,t)=s-1}
+e_{it}^{k}
+\qquad
+\text{in the placebo sample}.
+\label{eq:placebo_estimated_change}
+\end{equation}
+
+Consequently, the variance and covariance calculated in the placebo
+sample contain only the short-spell bias. Under the proportional shock
+covariance restriction and a common distribution of designs,
+\begin{equation}
+\widehat{\operatorname{Cov}}^{\mathrm{pl}}\!\left(
+\Delta\widehat z_{is}^{k},
+\Delta_h q_{is}^{j}
+\right)
+\overset{p}{\longrightarrow}
+\frac{1}{c}A_h^{jk},
+\label{eq:placebo_covariance}
+\end{equation}
+and
+\begin{equation}
+\widehat{\operatorname{Var}}^{\mathrm{pl}}\!\left(
+\Delta\widehat z_{is}^{k}
+\right)
+\overset{p}{\longrightarrow}
+\frac{1}{c}B^k.
+\label{eq:placebo_variance}
+\end{equation}
+
+The treated moments contain both the economic object of interest and
+the short-spell bias, whereas the corresponding placebo moments
+contain only the bias. Scaling the placebo moments by $c$ therefore
+recovers the bias terms that contaminate the treated moments.
+
+The scale factor $c$ captures systematic differences in shock
+volatility between firms that change CEOs and firms that do not. We
+estimate $c$ using pre-transition second moments, before the incoming
+CEO-spell component can affect the firm's outcomes. In the application,
+we use a minimum-distance estimator that selects $c$ to align a set of
+treated and placebo pre-transition moments. Under the proportional
+shock covariance restriction, this estimator converges to the relative
+scale of the treated and placebo shock processes.
+
+\paragraph{Debiased moments.}
+Subtracting the scaled placebo covariance from the treated covariance
+gives
+\begin{align}
+\widehat{\operatorname{Cov}}^{\mathrm{db}}\!\left(
+\Delta\widehat z_{is}^{k},
+\Delta_h q_{is}^{j}
+\right)
+={}&
+\widehat{\operatorname{Cov}}^{\mathrm{tr}}\!\left(
+\Delta\widehat z_{is}^{k},
+\Delta_h q_{is}^{j}
+\right)
+\nonumber\\
+&-
+\widehat c\,
+\widehat{\operatorname{Cov}}^{\mathrm{pl}}\!\left(
+\Delta\widehat z_{is}^{k},
+\Delta_h q_{is}^{j}
+\right).
+\label{eq:debiased_covariance}
+\end{align}
+
+Similarly, the debiased variance is
+\begin{equation}
+\widehat{\operatorname{Var}}^{\mathrm{db}}\!\left(
+\Delta\widehat z_{is}^{k}
+\right)
+=
+\widehat{\operatorname{Var}}^{\mathrm{tr}}\!\left(
+\Delta\widehat z_{is}^{k}
+\right)
+-
+\widehat c\,
+\widehat{\operatorname{Var}}^{\mathrm{pl}}\!\left(
+\Delta\widehat z_{is}^{k}
+\right).
+\label{eq:debiased_variance}
+\end{equation}
+
+Under strict exogeneity, the proportional shock covariance restriction,
+a common distribution of designs, and consistency of $\widehat c$,
+these estimators converge to the corresponding moments involving the
+true CEO-spell change:
+\begin{equation}
+\widehat{\operatorname{Cov}}^{\mathrm{db}}\!\left(
+\Delta\widehat z_{is}^{k},
+\Delta_h q_{is}^{j}
+\right)
+\overset{p}{\longrightarrow}
+\operatorname{Cov}\!\left(
+\Delta z_{is}^{k},
+\Delta_h q_{is}^{j}
+\right),
+\label{eq:debiased_covariance_plim}
+\end{equation}
+and
+\begin{equation}
+\widehat{\operatorname{Var}}^{\mathrm{db}}\!\left(
+\Delta\widehat z_{is}^{k}
+\right)
+\overset{p}{\longrightarrow}
+\operatorname{Var}\!\left(
+\Delta z_{is}^{k}
+\right).
+\label{eq:debiased_variance_plim}
+\end{equation}
+
+The important feature of these results is that consistency does not
+require CEO spells to become long. The number of observations within
+each spell may remain fixed while the number of observed treated and
+placebo spell pairs grows. The placebo sample identifies the
+nonvanishing short-spell bias that would otherwise remain in the
+probability limits of the treated moments.
+
+For regression coefficients and other nonlinear functions of second
+moments, we first debias the underlying moments and then form the
+relevant statistic. The debiased projection coefficient is
+\begin{equation}
+\widehat\beta_{h,\mathrm{db}}^{jk}
+=
+\frac{
+\widehat{\operatorname{Cov}}^{\mathrm{db}}\!\left(
+\Delta\widehat z_{is}^{k},
+\Delta_h q_{is}^{j}
+\right)
+}{
+\widehat{\operatorname{Var}}^{\mathrm{db}}\!\left(
+\Delta\widehat z_{is}^{k}
+\right)
+}.
+\label{eq:debiased_beta}
+\end{equation}
+
+Thus, the correction is performed at the level of the covariance and
+variance. In general, it is not equivalent to subtracting a placebo
+regression coefficient from the treated regression coefficient.
+Correlations, $R^2$ statistics, and other functions of second moments
+are constructed in the same way: we first correct each underlying
+variance and covariance and then apply the nonlinear transformation.
+
+The placebo-control approach has three advantages. First, it does not
+require a parametric model for the full covariance structure of
+firm-level shocks. Second, by reproducing the treated sample's spell
+lengths, transition dates, event-time contrasts, and aggregation
+weights, it accommodates short and heterogeneous CEO spells and
+unbalanced panels. Third, it applies separately at each event time,
+allowing us to correct both spurious pre-trends and distorted
+post-transition dynamics.
 %%%%%%%%%%%%%%%%%%%%
 \section{Estimation}
 %%%%%%%%%%%%%%%%%%%%
@@ -728,35 +966,35 @@ Panels E and F examine the scenario with all complications: persistent shocks, u
 \section{Application: CEO Replacements in Hungarian Firms}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-We apply the placebo-controlled debiasing method to the universe of Hungarian firms, focusing on CEO arrivals and firm revenue outcomes. The Hungarian data offer an ideal setting, as they encompass the entire population of businesses over three decades, unlike most other studies that focus exclusively on public firms or large corporations \citep{Bertrand2003-io, crossland2011differences, quigley2015has}. In this section, we use our method to obtain estimates of changes in firm behavior around CEO replacements. In the following, we describe our data and present results on several firm outcomes for three measures of CEO change ($\Delta z$): growth (measured by log revenue), profitability (measured by the return on assets) and productivity (measured by log revenue per worker). The outcomes are measures of the output (revenue and whether the firm is exporter), inputs (capital and labor), and efficiency (return on assets and labor productivity).
+We apply the placebo-controlled debiasing method to CEO replacments in the universe of Hungarian firms. The Hungarian data offer an ideal setting, as they encompass the entire population of businesses over three decades, unlike most other studies that focus exclusively on public firms or large corporations \citep{Bertrand2003-io, crossland2011differences, quigley2015has}. In this section, we use our method to obtain estimates of changes in firm behavior around CEO replacements. In the following, we describe our data and present results on several firm outcomes for three measures of CEO change ($\Delta z$): growth (measured by log revenue), profitability (measured by the return on assets) and productivity (measured by log revenue per worker). The outcomes are measures of the output (revenue and an exporter dummy), inputs (capital and labor), and efficiency (return on assets and labor productivity).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Database Construction and Descriptive Statistics}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Our analysis combines two administrative datasets. The Firm Registry is maintained by Hungarian Corporate Courts and contains records on all individuals authorized to act on behalf of firms. These records include CEOs and other executives with signatory rights, tracked through a temporal database where each entry reflects representation status over specific time intervals. Updates occur when positions change, personal identifiers are modified, or reporting standards evolve. The registry provides names, addresses, dates of birth (from 2010), and mother’s names (from 1999), though numerical identifiers exist only from 2013 onward. Information on CEOs is linked with tax identifiers to the Balance Sheet Database (maintained by the National Tax and Customs Administration), which has annual balance sheets and income statements, as well as employment, industry code and ownership (state, domestic, foreign) for all Hungarian firms with double-entry bookkeeping. The two datasets cover 1,063,172 firms for the period between 1992 and 2024, yielding 9,627,484 firm-year observations before sample restrictions.
+Our analysis combines two administrative datasets. The Firm Registry is maintained by Hungarian Corporate Courts and contains records on all individuals authorized to act on behalf of firms. These records include CEOs and other executives with signatory rights, tracked through a temporal database where each entry reflects representation status over specific time intervals. Updates occur when positions change, personal identifiers are modified, or reporting standards evolve. The registry provides names, addresses, dates of birth (from 2010), and mother’s names (from 1999), though numerical identifiers exist only from 2013 onward. Information on CEOs is linked with tax identifiers to the Balance Sheet Database (maintained by the National Tax and Customs Administration), which has annual balance sheets and income statements, as well as employment, industry code and ownership (state, domestic, foreign) for all Hungarian firms with double-entry book-keeping. The two datasets cover 1,063,172 firms for the period between 1992 and 2024, yielding 9,627,484 firm-year observations before sample restrictions.
 
-Finding CEOs among all individuals from the Firm Registry requires heuristics since job titles are inconsistently recorded. When explicit “managing director” titles are recorded, we use them directly. For remaining cases, we assume all representatives are CEOs if three or fewer exist at the firm. When more than three representatives are present, we assign CEO status based on continuity with previously identified CEOs. Time spans between appointments are often unclosed or non-contiguous. In these cases we use information from adjacent years to identify the CEO. In all other cases we do not identify a CEO in that firm-year (ADD PROPORTION).
+Finding CEOs among all individuals in the Firm Registry requires heuristics since job titles are inconsistently recorded. When explicit “managing director” titles are recorded, we use them directly. For remaining cases, we assume all representatives are CEOs if three or fewer exist at the firm. When more than three representatives are present, we assign CEO status based on continuity with previously identified CEOs. Time spans between appointments are often unclosed or non-contiguous. In these cases we use information from adjacent years to identify the CEO. In all other cases we do not identify a CEO in that firm-year (ADD PROPORTION). These procedures help identifying CEOs for XX\% of all firm-years.
 
 Constructing CEO time series across firms poses several challenges.\footnote{In this analysis, we use the time series only to identify CEO replacements within firm, and do not use CEO transitions from one firm to the other.} Before 2013, no numerical identifiers existed, requiring entity resolution based on names, addresses, mother’s names, and birthdates. We link records across these dimensions to create unique person identifiers, enabling tracking across firms and over time. Matching quality improves after 1999 (when mother’s names reporting begins) and 2010 (when birthdates reporting starts), but the 1990s data also achieve reasonable coverage through name and address matching.
 
 After the construction of the CEO time series, we take a yearly snapshot of the data because firm level information is available yearly. We consider a person to be the CEO of a given firm in a year if she was recorded as the CEO on June 21.
 
-We apply several restrictions to create a sample suitable for the analysis. We drop firm-year without a CEO and with more than 12 CEO spells during the observed period to reduce noise from misclassified transitions. We drop firms ever having more than 2 simultaneous CEOs to avoid complex governance structures that complicate identification. We drop the finance sector due to specialized accounting frameworks and regulatory environments. We drop the first year of firms to avoid mixing stock variables with flow variables observed over less than 12 months. Finally, we drop firms which never reach 3 employees during the observation period. This filter removes a substantial portion of observations but eliminates shell companies, tax optimization vehicles, and self-employment arrangements masquerading as corporations. The remaining firms represent genuine businesses with meaningful economic activity where management quality affects performance.
+Firms with multiple CEO changes are handled by splitting their history into adjacent transition pairs. After collapsing firm-CEO spells, intermediate spells are duplicated so that a firm with spells 1/2/3 contributes two transitions, 1→2 and 2→3. Each transition defines a pseudo-firm, indexed by a constructed identifier that groups the true firm with the relevant spell window. Fixed effects are estimated separately for these pseudo-firms, so outcomes around different transitions are allowed to have distinct firm intercepts. These pseudo-firms are not treated as independent statistical units. We retain the original firm identifier and cluster standard errors by the true firm. 
 
-Firms with multiple CEO changes are handled by splitting their history into adjacent transition pairs. After collapsing firm-CEO spells, intermediate spells are duplicated so that a firm with spells 1/2/3 contributes two transitions, 1→2 and 2→3. Each transition defines a pseudo-firm, indexed by a constructed identifier that groups the true firm with the relevant spell window. Fixed effects are estimated separately for these pseudo-firms, so outcomes around different transitions are allowed to have distinct firm intercepts. These pseudo-firms are not treated as independent statistical units. We retain the original firm identifier and cluster standard errors by the true firm.
+We apply several restrictions to create a sample suitable for the analysis. We drop firm-years without a CEO and with more than 12 CEO spells during the observed period to reduce noise from misclassified transitions. We drop firms ever having more than 2 simultaneous CEOs to avoid complex governance structures that complicate identification. We drop the finance sector due to specialized accounting frameworks and regulatory environments. We drop the first year of firms to avoid mixing stock variables with flow variables observed over less than 12 months. Finally, we drop firms which never reach 3 employees during the observation period. This filter removes a substantial portion of observations but eliminates shell companies, tax optimization vehicles, and self-employment arrangements masquerading as corporations. The remaining firms represent genuine businesses with meaningful economic activity where management quality affects performance. For each CEO replacement, we keep a maximum of 4 precedent and subsequent firm-years (the latter includes the replacement year), forming a symmetric interval around the CEO change.
 
-In our data, 48\% of firms experience at least one CEO change. Out of them, the typical firm has one CEO change as the median of the distribution is 1. Multiple CEO changes during the rather long time span our data covers are quite uncommon, and the 75th percentile the distribution is 2. The proportion of firms with two CEOs serving at the same time is 28\%. The average (median) firm age is XX (10), but we have firms which survive a long time (the 75 percentile of firm age distribution is 19). Appendix Table \ref{tab:year_desc} presents the number of firms and their average employment in our sample for each year. The number of Hungarian firms increases abruptly during the nineties, from 52 thousand in 1992 to 168 thousand in 2000. The number of firms was quite stable during the next 23 years, and it grew again as the country went out of the great recession of 2008. In 2023 (the last year of our data), the number of firms was over 205 thousand. The average employment size was rather large in early years (19) as it was strongly influenced by the large socialist companies. But employment size quickly declined as small firms entered the data: by 1997 it fell to 9 and remained around this number throughout of the subsequent period.
+The final sample has XX firms and XX firm-years, as Appendix Table \ref{tab:year_desc} shows along with the number of firms and their average employment each year. The number of Hungarian firms increased abruptly during the nineties, from 52 thousand in 1992 to 168 thousand in 2000. The number of firms was quite stable during the next 13 years, and it grew again as the country went out of the great recession of 2008. In 2023 (the last year of our data), the number of firms was over 250 thousand. The average employment size was rather large in early years (19) as it was strongly influenced by the large socialist companies. But employment size quickly declined as small firms entered the data: by 1997 it fell to 9 and remained between 7 and 9 throughout of the subsequent period.
 
-The table also shows the number of firms with a CEO replacement. Depending on the year, we observe between 3,500 and 25,000 CEO switches, corresponding to a proportion of firms with a CEO replacement of approximately 5\% to 9\%. In total, we have XXX CEO switches, which provides a solid basis for estimating the effect of CEO changes.
+In our data, 48\% of firms replace their CEO. Among these firms, the typical company experiences one CEO change, as the median of the distribution is 1. Multiple CEO replacements over the 23 year long period covered by our data are uncommon; even at the 75th percentile, firms have experienced only 2 CEO changes. The proportion of firms with two CEOs serving at the same time is 28\%. The average (median) firm age is XX (10), but we have firms which survive a long time (the 75 percentile of firm age distribution is 19).
 
-%The table also shows the number of CEOs each year, which presents a similar pattern; in 1992 we observe 32 thousand CEOs and in 2022 122 thousand. The total number of distinct CEOs is 340 thousand. 
+The table also shows the number of firms with a CEO replacement. Depending on the year, we observe between 3,500 and 23,000 CEO switches, corresponding to a proportion of firms with a CEO replacement of approximately 5\% to 9\%. In total, we have 376,241 CEO switches, which provides a solid basis for estimating the effect of CEO changes.
 
-Appendix Table XX shows the industrial distribution of firms. The largest sectors is Wholesale-Retail with 27\% of firms while  manufacturing, business services and construction having each a share of 11-12\%.
+Appendix Table XX shows the industrial distribution of firms. The largest sectors are Wholesale-Retail with 27\% of firms and  manufacturing, business services and construction with a share of 11-12\% each.
 
-Firms which experience CEO transitions are different from those which have only one CEO during their whole observed life span. As Table \ref{tab:switch_desc} shows that firms which switch CEOs, are larger both employment (9.5 vs. 2.6), have their output almost twice as large, and 12\% higher output per worker. Return on assets, on the contrary, is smaller by 14\%. The table also shows the changes of these variables around a CEO transition (measured as the proportional change of the average value of the variable in the subsequent and precedent 4 years. 
+Firms which experience CEO transitions are different from those which have only one CEO during their whole observed life span. As Table \ref{tab:switch_desc} shows, firms which switch CEOs, have more employees (9.6 vs. 6.2), have their output almost twice as large, and their labor productivity is also 12\% higher. Return on assets, on the contrary, is smaller by 14\%. The table also shows the changes of these variables around a CEO transition (measured as the proportional change of the average value of the variable in the subsequent and precedent 4 years). Employment declines by 11\% while sales grow by 6\%, leading to an increase in labor productivity by 13\%. ROA declines by 3\%.  
 
-The tenure of the first CEO of the firm is shown in Figure \ref{fig:tenure}.\footnote{In this figure, we measure tenure by the maximum tenure of the CEO. The tenure of the second, third, etc. CEO is somewhat shorter, as Appendix Table \ref{tab:CEO_desc} demonstrates.} Short tenures abound: 18\% of CEOs have a one-year long tenure, and 12\% two-year long tenure in a given year. To assess the prevalence of the CEOs by the maximum tenure, we weight tenure by the number of years serving. This statistic weights up CEOs who serve for a long time. The  distribution of this statistic is shown in the bottom panel of Figure \ref{fig:tenure}: the typical CEO serves between 4 and 10 years. In this range each tenure has a share of 5-6\% of all firm-years. The prevalence of longer tenures than 10 years gradually decreases up to 20 years, when it levels again. 
+The tenure of the first CEO of the firm is shown in Figure \ref{fig:tenure}.\footnote{In this figure, we measure tenure by the maximum tenure of the CEO. The tenure of the second, third, etc. CEO is somewhat shorter, as Appendix Table \ref{tab:tenure_desc} demonstrates.} Short tenures abound: 18\% of CEOs have a one-year long tenure, and 12\% two-year long tenure in a given year. To assess the prevalence of the CEOs by the maximum tenure, we weight tenure by the number of years serving. This statistic weights up CEOs who serve for a long time. The  distribution of this statistic is shown in the bottom panel of Figure \ref{fig:tenure}: the typical CEO serves between 4 and 10 years. In this range each tenure has a share of 5-6\% of all firm-years. The prevalence of longer tenures than 10 years gradually decreases up to 20 years, when it levels again. 
 
 
 
@@ -764,32 +1002,34 @@ The tenure of the first CEO of the firm is shown in Figure \ref{fig:tenure}.\foo
 \subsection{Results}
 %%%%%%%%%%%%%%%%%%%%
 
-The first question in the analysis of the value of the CEO (or the effect of CEO change) is the choice of the variable which is used to measure it. The firm's owners may have various objectives: they may want to raise revenue but also profits. From the society's point of view, productivity is arguably the most important firm attribute. Therefore, we carry out the analysis using these three variables as the metric of CEO value. Multiple metrics make possible assessing the activity of various types of CEOs: depending on the metric what firm attributes do they increase the most?
+The first question in the analysis of the value of the CEO (or the effect of CEO change) is the choice of the variable which is used to measure it. The firm's owners may have various objectives: they may want to raise revenue but also profits. From the society's point of view, productivity is arguably the most important firm attribute. Therefore, we carry out the analysis using these three variables as the metric of CEO value. The metric used can be thought of as the variable the decision maker of the company (the owner or the CEO) focuses on and comparing different metrics allow assessing the activity of various types of CEOs: depending on what the CEO maximizes, what firm outcomes increase?
 
-Table \ref{tab:table_application} presents the naive and debiased estimated coefficients and the $R^2$ of the estimation for output (measured by log sales and an exporting dummy variable), inputs (log capital and labor) and financial and operating productivity (return on assets and labor productivity). The naive and debiased regression coefficients are usually very similar, which is due to the fact that both the covariance between the dependent and the explanatory variable and the variance of the explanatory variable are upward biased. We debias both and the result is many times small. Nonetheless in some cases the debiased coefficient is substantially smaller than the naive coefficient. For example, the change in log revenue is 12 log point lower when revenue itself is the metric, the increase in ROA is 11 log point lower when ROA is the metric and employment raises by 8.4 log points more and labor productivity by 15 log point less when labor productivity is the metric. 
+Table \ref{tab:table_application} presents the naive and debiased estimated coefficients and the $R^2$ of the estimation for output (measured by log sales and an exporting dummy variable), inputs (log capital and labor) and financial and operating productivity (return on assets and labor productivity). The naive and debiased regression coefficients are typically very similar because both the covariance between the dependent and explanatory variables and the variance of the explanatory variable tend to be upwardly biased, causing much of the bias to cancel out in the coefficient estimate. We debias both statistics, and as a result, the change in the estimated regression coefficient is often small. Nonetheless, in some cases the naive and the debiased coefficients have different magnitudes. For example, the semi-elasticity of capital with respect to $\Delta Z$ (measured by ROA) is -0.027, suggesting that ROA-maximizing CEOs partially achieve their goal by shedding capital, but the debiased coefficient is only -0.005. Another example is the elasticity of labor with respect to $\Delta Z$ (measured by $lnRL$), which is zero with the naive estimation, but increases to 0.084 when we apply placebo-controlled debasing.
 
-Contrary to the coefficients, the $R^2$ of the estimation is much smaller in many cases. On average, the value from the naive estimation is 2.8 times larger than from the debiased estimation (we did not take into account the $R^2$-s which are essentially zero). In magnitude the difference is also sizable: in those cases when the naive $R^2$ is at least 0.05, the naive estimate is smaller by 0.16 on average. In three cases the difference is close to 0.5. 
+Contrary to the estimated coefficients, the $R^2$ of the estimation declines substantially in most of the cases. On average, the $R^2$ from the naive estimation is 2.8 times larger than from the debiased estimation (we did not take into account the $R^2$-s which are essentially zero). The difference between the two $R^2$s is also sizable: in those cases when the naive $R^2$ is at least 0.05, the naive estimate is smaller by 0.16 on average and in three cases the difference is close to 0.5.
 
-Figures \ref{fig:application_lnR} to \ref{fig:application_lnYR} show the event-time studies for the same metrics and dependent variables (the reference year is one year before the CEO transition). The red lines represent the coefficients from the naive estimation and the blue lines from the debiased estimation. The most important message of the figures is that the pre-trend largely diminishes when the placebo controlled method is used. Visual inspection of the figures demonstrates that in 10 out of 18 cases, the pre-trend is considerably smaller than with the naive estimation, or disappears completely. In only one case it becomes larger while in the remaining 7 cases they are very similar. This is very important because the quality of the estimation is decided upon pre-trends. Our exercise demonstrates that the limited mobility bias may show up in way which may make researchers reject well specified estimations. 
+Figures \ref{fig:application_lnR} to \ref{fig:application_lnYR} present the event-time estimations (the reference year is one year before the CEO transition). The red lines represent the coefficients from the naive estimation and the blue lines from the debiased estimation. As the Monte-Carlo estimation predicted, pre-trends largely diminish in the observational data when the placebo-controlled debiasing method is used. In 10 out of 18 cases, the pre-trend is considerably smaller than with the naive estimation, or it completely disappears. In only one case it becomes larger while in the remaining 7 cases the pre-trends are similar under the two methods. Needless to say, estimating unbiased pre-trends is crucial for any empirical analysis, as the reliability of the estimation is decided upon pre-trends. Our exercise demonstrates that the limited mobility bias may show up in ways which may make researchers reject well specified estimations.
 
-The differences between the estimated coefficients under the two methods for the period subsequent to the CEO transition are less dramatic. In accordance to the average effects presented in Table \ref{tab:table_application}, the two lines mostly differ in their shape and the in magnitude. In several cases, however, the debiased estimations carry on very a different message regarding firm behavior. For example, the naive estimates suggest that capital falls when ROA is the measure of quality of CEO change, but the naive estimations reduce this to nothing. The trajectory of employment is also very different across the two specification when labor productivity is the metric: while the naive resuls suggest a dip in the first year under the new CEO and then some increase, the debiased method estimates are substantial increase which reaches 13 log points after 4 years. Labor productivity estimates are similar in their shape, but not in magnitude: the variable increases by 80 log points in the naive estimation and 55 log point when the placebo controlled debias is applied. 
+The differences between the naive and corrected event-time estimations are smaller for the period subsequent to the CEO transition. Consistent with the average effects presented in Table \ref{tab:table_application}, the two lines mostly differ in their shape and not in magnitude. A good example for this behavior is the elasticity of labor with respect to $\Delta z$ measured by $lnR$: three years after the CEO replacement the two coefficients are identical, but the debiased coefficients reach this level in two years (including the year of CEO replacement), while the naive estimations increase gradually. 
 
-Taken together, the comparison of the naive ad debiased result show that there is nothing mechanical in our method in the sense that the estimated coefficients vary widely depending on the metric and dependent variable. Sometimes they are very similar; sometimes only the pre-trend disappears, in some cases they have similar shape but the magnitude differs; and sometimes thy suggest completely different trajectories of the dependent variables.
+In several cases, the debiased estimations lead to markedly different conclusions regarding firm behavior. For example, the naive estimates suggest that capital constantly decline when ROA is the measure of quality of CEO change, but the naive estimations reduce this to nothing. The elasticity of labor is also very different across the two specification when labor productivity is the metric: while the naive estimation suggests a dip in the first year under the new CEO and then some increase, the debiased estimates show a substantial increase which reaches 0.13 after 4 years.
 
-The three metrics of CEO change enable us to draw conclusions about what can stakeholders expect from various CEO types? For example, what is the difference between a CEO who is good at increasing sales and one who boosts the return on assets? The coefficients can be interpreted as elasticities (semielasticities in the case of the export dummy and ROA) of the dependent variable with respect of our measure of CEO change (which is measured in the metric used). Table \ref{tab:table_application} reveals that those CEOs who raise sales, do raise every outcome we analyze. All the elasticities are large and statistically significant. One standard deviation higher $\Delta z$ induces 66\% increase in revenue. It also increases labor and capital (the corresponding elasticities equal 0.23 and 0.34). The revenue increase is accompanied by substantial increases in productivity: the elasticity of ROA is 0.80 and of labor productivity 0.30. 
+This real-data exercise demonstrates that the primary value of the debiasing method does not lie in correcting the estimated relationship between $\Delta z$ and firm attributes. Rather, its importance lies first in obtaining an accurate measure of the explanatory power of $\Delta z$ for changes in firm attributes, as this explanatory power is substantially overstated in the naive estimates. Second, the pre-trends in event-time estimations are also upward biased in the naive estimates which leads to the rejection of well-identified estimates.
 
-Those CEOs who are good at increasing labor productivity, raise sales, exports (though not as much as in those who raise sales), capital but not labor, and ROA (this latter is associated with a very large, but statistically insignificant coefficient). Those who increase ROA do not raise the scale of production, nor exports and labor productivity. In conclusion, it seems that the best CEOs are those who concentrate on raising the volume of sales, as this raises both inputs and also productivity. 
+The comparison of the naive and debiased results demonstrate that there is nothing mechanical in our method in the sense that the difference between naive and debiased estimates vary widely depending on the metric and dependent variable. Sometimes they are very similar; sometimes only the pre-trend disappears, in some cases they have similar shape but the magnitude differs; and sometimes thy suggest completely different trajectories of the dependent variables.
 
-The $R^2$ estimations suggest that CEO change explain less of the variance of the dependent variables as one would expect (REF EARLIER STUDIES). When the metric is the value of sales $R^2$ is larger than 0.10 only when it is estimated on the metric itself. For labor is it 0.09 and for all other dependent variables less than 0.04. When ROA is the metric, the $R^2$s are all close to zero (except for ROA, when it is 0.13). It seems, thus, that CEO change cannot explain itself changes taking place in the firm. (EZ VAJON IGAZ? ÉS HA IGEN, AKKOR MI LEHET AZ OKA? AZ, HOGY JÓ CÉGEKNEK JÓ CEO-JA VAN ÉS AKI LECSERÉLI, AZ IS JÓ? VAGYIS A DELTA Z NEM MAGAS? MEG KELLENE MUTASSUK A DELTA Z STATISZTIKÁIT)   
+The three metrics of CEO change enable us to draw conclusions about what can stakeholders expect from various CEO types? For example, what is the difference between a CEO who is good at increasing sales and one who boosts the profitability of the firm? Table \ref{tab:table_application} reveals that those CEOs who raise sales, raise every outcome we analyze. All the elasticities (semi-elasticities for ROA and Export) are large and statistically significant. The elasticity of labor with respect to $\Delta z$ is 0.23, of capital 0.33, of ROA 0.80 and of labor productivity 0.30. The semi-elasticities of ROA and exporting is also substantial (0.03 and 0.80). Relative to their average value, XXX.
 
-NEM AKARUNK ÍRNI A FOUNDER-NONFOUNDER ÉS A NONFOUNDER-NONFOUNDER KÜLÖNBSÉGEKRŐL. MEG KELLENE NÉZNI, HOGY VAN-E KÜLÖNBSÉG KÖZÖTTÜK (ÚGY EMLÉKSZEM, VAN, DE RÉGEN NÉZTÜK).
+CEOs who are good at increasing labor productivity are rather similar to those who increase revenue. They raise sales (with an elasticity of 0.50), exports (0.014), capital (0.33) but raise labor very little (0.08), and ROA (this latter is associated with a very large, but statistically insignificant coefficient). Contrary to these two similar types of CEOs, those who increase ROA do not raise the scale of production, BEÍRNI AZ EREDMÉNYEKET AMIKOR MEGVAN AZ ÁTLAGOS delta z. In conclusion, it seems that the best CEOs are those who concentrate on raising the volume of sales, as this raises both inputs and also productivity. 
+
+The $R^2$ estimations suggest that CEO replacements explain less of the variance of the dependent variables as one would expect (REF EARLIER STUDIES). When the metric is the $lnR$, $R^2$ is larger than 0.10 only when it is estimated on the metric itself. For labor is it 0.09 and for all other dependent variables less than 0.04. When ROA is the metric, the $R^2$s are all close to zero (except for ROA, when it is 0.13). It seems, thus, that CEO change cannot explain itself changes taking place in the firm. (EZ VAJON IGAZ? ÉS HA IGEN, AKKOR MI LEHET AZ OKA? AZ, HOGY JÓ CÉGEKNEK JÓ CEO-JA VAN ÉS AKI LECSERÉLI, AZ IS JÓ? VAGYIS A DELTA Z NEM MAGAS? MEG KELLENE MUTASSUK A DELTA Z STATISZTIKÁIT)
 
 
 %%%%%%%%%%%%%%%%%%%%
 \section{Conclusion}
 %%%%%%%%%%%%%%%%%%%%
 
-We introduce a placebo-controlled difference-in-differences methodology that corrects for small-sample bias in CEO fixed effects estimation. The method constructs matched “placebo” transitions in firms without CEO changes, assigning fictitious transition dates aligned with the actual treatment group. This facilitates the recovery of bias in second moments without the need to model the full error process. Monte Carlo simulations confirm that the approach robustly eliminates bias under persistent shocks, short tenures, and unbalanced panels. It also eliminates spurious pre-trends that arise when error terms are autocorrelated.
+ÁTÍRNI We introduce a placebo-controlled difference-in-differences methodology that corrects for small-sample bias in CEO fixed effects estimation. The method constructs matched “placebo” transitions in firms without CEO changes, assigning fictitious transition dates aligned with the actual treatment group. This facilitates the recovery of bias in second moments without the need to model the full error process. Monte Carlo simulations confirm that the approach robustly eliminates bias under persistent shocks, short tenures, and unbalanced panels. It also eliminates spurious pre-trends that arise when error terms are autocorrelated.
 
 Empirical analysis of 60,000 CEO transitions in Hungarian firms reveals that, after correction, CEO effects account for 20–30\% of revenue variance, about half of what naive estimates imply. CEO replacements have immediate and persistent effects on firm growth, with no spurious pre-trends. 
 \clearpage 
@@ -810,7 +1050,7 @@ Empirical analysis of 60,000 CEO transitions in Hungarian firms reveals that, af
 \vspace{.2cm}
 
 \begin{minipage}{0.9\textwidth}
-\footnotesize Notes: Event-time dynamics of variance and covariance in Monte Carlo simulations. Panels A–B: Baseline scenario with i.i.d. shocks ($\rho=0$, $T_1=T_2=5$). Panels C–D: Persistent shocks ($\rho=0.9$, $T_1=T_2=5$). Panels E–F: All complications (persistent shocks, unbalanced panels, excess variance in treated group). Red lines show treated firms, black lines show control (placebo) firms, blue lines show variance-corrected control. True CEO effect variance $\sigma^2_z=1$. Panels A, C, E display variance of revenue changes by event time. Panels B, D, F display covariance of revenue change with CEO effect change. Event time $t=0$ marks CEO transition. In Panels A–D, black and blue lines overlap (no excess variance). In Panels E–F, blue line applies excess variance correction factor $c$ estimated from pre-transition periods.
+\footnotesize {Notes: Event-time dynamics of naive (red line) and placebo-controlled debiased (blue line) coefficients in Monte Carlo simulations (50,000 treated firms and 50,000 control firms). Estimation: $\Delta z$ on lnR, when $\Delta z$ is measured by lnR. Treatment (placebo treatment) year drawn from a geometric distribution with a constant hazard of CEO change. Event time $t=0$ marks CEO transition. Panel A (baseline scenario): $\sigma(\Delta z) = 1$, $\sigma(\epsilon) = 0.71$, $\rho=0.9$, $T_1=T_2=4$; Panel B (persistence): $\rho=0.9/0.8$ in the treated/control group); Panel C-D (excess variance): $\sigma(\epsilon) = 1.2 \cdot 0.71$ in the treated group; Panel E (all complications): persistence and excess variance together; Panel F (pre-trend): XXX.} 
 \end{minipage}
 \end{figure}
 
@@ -820,8 +1060,7 @@ Empirical analysis of 60,000 CEO transitions in Hungarian firms reveals that, af
 \includegraphics[width=10cm]{figure/outcomes.pdf}
 \caption{Revenue Dynamics Around CEO Transitions in Hungarian Firms -- Selected Measures}
 \label{fig:application}
-\vspace{.2cm}
-
+\vspace{.3cm}
 \begin{minipage}{0.9\textwidth}
 \footnotesize
 Notes: Event studies of various second moments around CEO transitions. All panels normalize to year $t=-1$ (one year before CEO arrival). Panel A shows the variance of revenue changes from baseline. Panel B plots the covariance of revenue change with the change in CEO fixed effect. Panel C displays the fraction of revenue variance explained by CEO fixed effects (R-squared). Panel D shows the variance of CEO fixed effects by firm age, decomposed into revenue shocks and CEO contributions. Panel E shows regression coefficients from projecting revenue on CEO effects, and Panel F shows the coefficients from regressing exporter status on CEO effect. Red lines show naive OLS estimates; blue lines show placebo-corrected debiased estimates. Shaded regions indicate 95\% confidence intervals. The placebo group consists of matched non-changing firms from the same birth cohort and sector, assigned pseudo CEO transitions at the same calendar year as treated firms. Event window spans $[-4, +3]$ years around CEO arrival.
@@ -833,10 +1072,11 @@ Notes: Event studies of various second moments around CEO transitions. All panel
     \centering
     \includegraphics[width=13cm]{\figurepath/ceo-spell-distributions.pdf}
     \includegraphics[width=13cm]{\figurepath/ceo-spell-distributions-weighted.pdf}
-\begin{minipage}{14.5 cm}
+\begin{minipage}{10cm}
     \caption{CEO Tenure}
     \label{fig:tenure}
-\footnotesize {Notes: } 
+    \vspace{.3cm}
+\footnotesize {Notes: Maximum tenure of the first CEO. Top panel: unweighted; Bottom panel: weighted by the number of years.} 
     \end{minipage}    
 \end{figure}
 
@@ -846,7 +1086,8 @@ Notes: Event studies of various second moments around CEO transitions. All panel
 \begin{minipage}{14.5 cm}
     \label{fig:tenure_year}
         \caption{CEO Tenure by Year}
-\footnotesize {Notes: } 
+\vspace{.3cm}
+\footnotesize {Notes: Actual CEO tenure in various years.}
     \end{minipage}    
 \end{figure}
 
@@ -858,8 +1099,7 @@ Notes: Event studies of various second moments around CEO transitions. All panel
 \vspace{.2cm}
 
 \begin{minipage}{0.9\textwidth}
-\footnotesize
-Notes: Event studies of various second moments around CEO transitions. All panels normalize to year $t=-1$ (one year before CEO arrival). Panel A shows the variance of revenue changes from baseline. Panel B plots the covariance of revenue change with the change in CEO fixed effect. Panel C displays the fraction of revenue variance explained by CEO fixed effects (R-squared). Panel D shows the variance of CEO fixed effects by firm age, decomposed into revenue shocks and CEO contributions. Panel E shows regression coefficients from projecting revenue on CEO effects, and Panel F shows the coefficients from regressing exporter status on CEO effect. Red lines show naive OLS estimates; blue lines show placebo-corrected debiased estimates. Shaded regions indicate 95\% confidence intervals. The placebo group consists of matched non-changing firms from the same birth cohort and sector, assigned pseudo CEO transitions at the same calendar year as treated firms. Event window spans $[-4, +3]$ years around CEO arrival.
+\footnotesize {Notes: Event-time dynamics of naive (red line) and placebo-controlled debiased (blue line) coefficients and 95\% confidence intervals. $\Delta z$ measured by $lnR$. $lnR$ = log revenue; Export = dummy variable = 1 if the firm exports in the given year; $lnL$ = log labor; $lnK$ = log tangible assets; ROA = return on assets; $lnRL$ = log labor productivity.}
 \end{minipage}
 \end{figure}
 
@@ -871,8 +1111,7 @@ Notes: Event studies of various second moments around CEO transitions. All panel
 \vspace{.2cm}
 
 \begin{minipage}{0.9\textwidth}
-\footnotesize
-Notes: Event studies of various second moments around CEO transitions. All panels normalize to year $t=-1$ (one year before CEO arrival). Panel A shows the variance of revenue changes from baseline. Panel B plots the covariance of revenue change with the change in CEO fixed effect. Panel C displays the fraction of revenue variance explained by CEO fixed effects (R-squared). Panel D shows the variance of CEO fixed effects by firm age, decomposed into revenue shocks and CEO contributions. Panel E shows regression coefficients from projecting revenue on CEO effects, and Panel F shows the coefficients from regressing exporter status on CEO effect. Red lines show naive OLS estimates; blue lines show placebo-corrected debiased estimates. Shaded regions indicate 95\% confidence intervals. The placebo group consists of matched non-changing firms from the same birth cohort and sector, assigned pseudo CEO transitions at the same calendar year as treated firms. Event window spans $[-4, +3]$ years around CEO arrival.
+\footnotesize{Notes: Event-time dynamics of naive (red line) and placebo-controlled debiased (blue line) coefficients and 95\% confidence intervals. $\Delta z$ measured by ROA. $lnR$ = log revenue; Export = dummy variable = 1 if the firm exports in the given year; $lnL$ = log labor; $lnK$ = log tangible assets; ROA = return on assets; $lnRL$ = log labor productivity.}
 \end{minipage}
 \end{figure}
 
@@ -884,8 +1123,7 @@ Notes: Event studies of various second moments around CEO transitions. All panel
 \vspace{.2cm}
 
 \begin{minipage}{0.9\textwidth}
-\footnotesize
-Notes: Event studies of various second moments around CEO transitions. All panels normalize to year $t=-1$ (one year before CEO arrival). Panel A shows the variance of revenue changes from baseline. Panel B plots the covariance of revenue change with the change in CEO fixed effect. Panel C displays the fraction of revenue variance explained by CEO fixed effects (R-squared). Panel D shows the variance of CEO fixed effects by firm age, decomposed into revenue shocks and CEO contributions. Panel E shows regression coefficients from projecting revenue on CEO effects, and Panel F shows the coefficients from regressing exporter status on CEO effect. Red lines show naive OLS estimates; blue lines show placebo-corrected debiased estimates. Shaded regions indicate 95\% confidence intervals. The placebo group consists of matched non-changing firms from the same birth cohort and sector, assigned pseudo CEO transitions at the same calendar year as treated firms. Event window spans $[-4, +3]$ years around CEO arrival.
+\footnotesize {Notes: Event-time dynamics of naive (red line) and placebo-controlled debiased (blue line) coefficients and 95\% confidence intervals. $\Delta z$ measured by $lnRY$. $lnR$ = log revenue; Export = dummy variable = 1 if the firm exports in the given year; $lnL$ = log labor; $lnK$ = log tangible assets; ROA = return on assets; $lnRL$ = log labor productivity.} 
 \end{minipage}
 \end{figure}
 
@@ -899,22 +1137,22 @@ Notes: Event studies of various second moments around CEO transitions. All panel
     \begin{tabular}{lcccc}
     \input{\tablepath/atets.tex}
     \end{tabular}
-    \begin{minipage}{16cm}
+    \begin{minipage}{15.5cm}
     \vspace{.2cm}
-    \footnotesize{Notes: The table presents the estimated naive and placebo debiased coefficients corresponding to the CEO change $\Delta z$ and the values of the corresponding $R^2$ on a simulated sample of 50,000 treated firms and 50,000 control firms. The treatment (placebo treatment) year is drawn from a geometric distribution with a constant hazard of CEO change in the years $T = 2...6$. The standard deviation of $\Delta z = 1$. In the baseline scenario the standard deviation of errors $\sigma(\epsilon) = 0.71$ in the treated and control groups. Each firm has a spell $T_{max} = 10$ time periods. The error autocorrelation $\rho = 0.9$. Column 1: baseline scenario; Column 2: the treated group's error has an excess variance of $\sigma(\epsilon) = 1.2 \cdot 0.71$; Column 3: Excess variance correction is applied; Column 4: firm spells are raised to $T_{max} = 20$. $R^2$ is from the estimation based on all years (ATET); $R^2 \text{ at } t =3)$ is from an estimation based on the difference between three years after relative to the year precedent to the treatment.}
+    \footnotesize{Notes: Naive and placebo debiased coefficients and the values of the corresponding $R^2$ in Monte-Carlo simulations (50,000 treated firms and 50,000 control firms). Estimation of $\Delta z$ on lnR, when $\Delta z$ is measured by lnR. Treatment (placebo treatment) year drawn from a geometric distribution with a constant hazard of CEO change. Column 1 (baseline scenario): $\sigma(\Delta z) = 1$, $\sigma(\epsilon) = 0.71$, $\rho=0.9$, $T_1=T_2=4$; Column 2-3 (excess variance): $\sigma(\epsilon) = 1.2 \cdot 0.71$ in the treated group; Column 4 (long panel): firm spells are raised to $T_1=T_2=10$. $R^2$: the estimation based on all years (ATET); $R^2 \text{ at } t =3)$: the estimation is based on the difference between three years after relative to the year precedent to the treatment.}
     \end{minipage}
 \end{table}
 \vspace{.5cm}
 
 \begin{table}[H]
     \centering
-    \caption{Switch Characteristics}
+    \caption{Characteristics of Firms With and Without a CEO Replacement}
     \vspace{.2cm}
     \label{tab:switch_desc}
     \begin{tabular}{lcccc}
     \input{\tablepath/switch-descriptives.tex}
     \end{tabular}
-    \begin{minipage}{13.5cm}
+    \begin{minipage}{14.5cm}
     \vspace{.2cm}
     \footnotesize{Notes: this table shows the characteristics of firms with and without CEO replacement and the proportional change of firm characteristics around the CEO replacement.}
     \end{minipage}
@@ -1105,22 +1343,20 @@ Here $\Bar\lambda$ is the average CEO effect variance. Bias terms depend on $\ma
 \end{table}
 \vspace{.5cm}
 
-\begin{comment}
+
 \begin{table}[H]
     \centering
     \caption{Industrial Distribution of Firms}
     \vspace{.2cm}
-    \label{tab:tenure_desc}
-    \begin{tabular}{lcccc}
-    \input{\tablepath/}
-    \end{tabular}
-    \begin{minipage}{16cm}
+    \label{tab:industry_desc}
+    \input{papers/econometrics/table/industry-descriptives}
+    \begin{minipage}{13cm}
     \vspace{.2cm}
-    \footnotesize{Notes:}
+    \footnotesize{Notes: Distribution of firms by sector.}
     \end{minipage}
 \end{table}
 \vspace{.5cm}
-\end{comment}
+
 
 \begin{table}[H]
     \centering
@@ -1130,9 +1366,9 @@ Here $\Bar\lambda$ is the average CEO effect variance. Bias terms depend on $\ma
     \begin{tabular}{lcccc}
     \input{\tablepath/firm-descriptives.tex}
     \end{tabular}
-    \begin{minipage}{16cm}
+    \begin{minipage}{10cm}
     \vspace{.2cm}
-    \footnotesize{Notes:}
+    \footnotesize{Notes: distribution of the length of tenure of CEOs. Tenure measured in years.}
     \end{minipage}
 \end{table}
 \vspace{.5cm}
