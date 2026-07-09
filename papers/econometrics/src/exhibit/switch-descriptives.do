@@ -39,7 +39,7 @@ count if firm_first==1 & ever_switch==1
 local n_firms_yes = r(N)
 gen n_firm = .
 
-tabstat employment sales productivity ROA n_firm, ///
+tabstat lnR exporter lnL lnK ROA lnRL n_firm, ///
     by(ever_switch) ///
     statistics(mean) ///
     columns(statistics) ///
@@ -57,29 +57,28 @@ keep if inrange(time_since_switch, -4, 3)
 gen before = time_since_switch < 0
 gen after = time_since_switch >= 0
 
-collapse employment sales productivity ROA, by(after)
+collapse lnR exporter lnL lnK ROA lnRL, by(after)
 
-foreach v in employment sales productivity ROA {
+foreach v in lnR exporter lnL lnK ROA lnRL {
     local d_`v' = (`v'[2] - `v'[1])/`v'[1]
 }
 
 clear
 set obs 1
-foreach v in employment sales productivity ROA{
+foreach v in lnR exporter lnL lnK ROA lnRL{
     gen `v' = `d_`v''
 }
 gen n_firm = .
 
-mkmat employment sales productivity ROA n_firm, matrix(Md)
+mkmat lnR exporter lnL lnK ROA lnRL n_firm, matrix(Md)
 matrix Combined = M1 \ M2 \ Md
-
-matrix colnames Combined = "Employment" "Sales" "Productivity" "ROA" "Firms"
-matrix rownames Combined = "Without CEO switch" "With CEO Switch" "Change from -4 to 3"
+matrix colnames Combined = "lnR" "Exporter" "lnL" "lnK" "ROA" "lnRL" "N"
+matrix rownames Combined = "Without CEO Switch" "With CEO Switch" "Change from -4 to 3"
 
 file open tab using "table/switch-descriptives.tex", write replace
 file write tab "\begin{tabular}{lccccc}" _n
 file write tab "\hline\hline" _n
-file write tab " & Employment & Sales & Productivity & ROA & Firms \\" _n
+file write tab " & lnR & Exporter & lnL & lnK & ROA & lnR & N \\" _n
 file write tab "\hline" _n
 
 local rownames `""Without CEO switch" "With CEO Switch" "Change from t=-4 to t=3""'

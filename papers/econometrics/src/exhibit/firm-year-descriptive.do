@@ -4,8 +4,20 @@ sort frame_id_numeric year ceo_spell
 by frame_id_numeric: gen ceo_switch = ceo_spell != ceo_spell[_n-1]  if _n > 1
 replace ceo_switch = 0 if missing(ceo_switch)
 
+preserve
+collapse (count) n_firms = frame_id_numeric (sum) ceo_switch (mean) employment
+tempfile totals
+save `totals'
+restore
+
 collapse (count) n_firms = frame_id_numeric (sum) ceo_switch (mean) employment, by(year)
-mkmat n_firms ceo_switch employment, matrix(YearTab) rownames(year)
+drop if year == 2021 | year == 2022
+append using `totals'
+sort year
+tostring year, gen(year_str) format(%9.0f) force
+replace year_str = "Total" if year == .
+order year_str, first
+mkmat n_firms ceo_switch employment, matrix(YearTab) rownames(year_str)
 
 matrix colnames YearTab = "Firms" "CEO Switches" "Employment"
 

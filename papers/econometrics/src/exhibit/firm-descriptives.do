@@ -17,37 +17,10 @@ forvalues ceo_num = 1/4 {
 }
 
 collapse (firstnm) firm_age = max_firm_age nr_ceo_switches ceo1_tenure ceo2_tenure ceo3_tenure ceo4_tenure two_ceos ceo_switch_at_least, by(frame_id_numeric)
-* verify there are no zero spells
-forvalues ceo_num = 1/4 {
-    count if ceo`ceo_num'_tenure == 0
-    assert r(N) == 0
-}
-
-* Overall number of firms
-count
-local n_firms = r(N)
-count if two_ceos
-local two_ceos = r(N)/`n_firms'*100
-count if nr_ceo_switches > 0
-local ceo_switches = r(N)/`n_firms'*100
-
-
-* Calculate percentiles for firm years
-_pctile firm_age, p(25 50 75)
-local row1col2 = r(r1)
-local row1col3 = r(r2)
-local row1col4 = r(r3)
-
-* Calculate percentiles for CEO switches
-_pctile ceo_switch_at_least, p(25 50 75)
-local row6col2 = r(r1)
-local row6col3 = r(r2)
-local row6col4 = r(r3)
-
 
 * Calculate percentiles for CEO tenures (excluding last CEOs)
 forvalues ceo_num = 1/4 {
-    local row_num =  `ceo_num' + 1
+    local row_num =  `ceo_num'
     qui count if !missing(ceo`ceo_num'_tenure)
     if r(N) > 0 {
         _pctile ceo`ceo_num'_tenure if !missing(ceo`ceo_num'_tenure), p(25 50 75)
@@ -62,31 +35,16 @@ forvalues ceo_num = 1/4 {
     }
 }
 
-local rows = 9
+local rows = 4
 
 matrix stats = J(`rows', 4, .)
 matrix colnames stats = "Statistic" "P25" "P50" "P75"
 
-forvalues row = 1/6{
+forvalues row = 1/`rows'{
    forvalues col = 2/4{
     matrix stats[`row', `col'] = `row`row'col`col''
   }
 }
-
-* Row 7: % of firms that have ceo switch
-matrix stats[7, 2] = `ceo_switches'
-matrix stats[7, 3] = .
-matrix stats[7, 4] = .
-
-* Row 8: % of firms that ever had 2 ceos in one year
-matrix stats[8, 2] = `two_ceos'
-matrix stats[8, 3] = .
-matrix stats[8, 4] = .
-
-* Row 8: Number of firms
-matrix stats[9, 2] = `n_firms'
-matrix stats[9, 3] = .
-matrix stats[9, 4] = .
 
 local texheader1 "\begin{tabular}{l*{3}{c}}"
 local texheader2 "\hline\hline"
@@ -102,15 +60,10 @@ forvalues num = 1/4{
 }
 
 
-local label1 "Firm max age"
-local label2 "1st CEO tenure"
-local label3 "2nd CEO tenure"
-local label4 "3rd CEO tenure"
-local label5 "4th or higher CEO tenure"
-local label6 "CEO switches | at least one switch"
-local label7 "\% of firms with CEO switches"
-local label8 "\% of firms with 2 CEOs"
-local label9 "Nr. of Firms"
+local label1 "1st CEO tenure"
+local label2 "2nd CEO tenure"
+local label3 "3rd CEO tenure"
+local label4 "4th or higher CEO tenure"
 
 forvalues row = 1/`rows' {
   file write texfile "`label`row'' & "
