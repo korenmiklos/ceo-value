@@ -2,10 +2,10 @@ args sample FE
 clear all
 
 local A lnR
-local B exporter
-local C lnL
-local D lnK
-local E ROA
+local B lnL
+local C ROA
+local D exporter
+local E lnK
 local F lnRL
 
 foreach outcome in A B C D E F {
@@ -15,7 +15,7 @@ foreach outcome in A B C D E F {
 }
 
 graph combine panelA panelB panelC panelD panelE panelF, ///
-    cols(3) graphregion(color(white)) imargin(small) xsize(5) ysize(7.5)
+    cols(3) graphregion(color(white)) imargin(small) xsize(7.5) ysize(5)
 
 graph export "figure/outcomes_`sample'_`FE'.pdf", replace
 graph drop panel*

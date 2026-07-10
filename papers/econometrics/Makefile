@@ -18,8 +18,7 @@ all: $(foreach sample,$(REAL_SAMPLES),$(foreach fe, $(FIXED_EFFECTS), figure/out
 	table/firm-descriptives.tex \
 	table/firm-year-descriptives.tex \
 	table/switch-descriptives.tex \
-	table/max-emp-by-ceo-switches.tex \
-	table/ceo-counts.tex \
+	table/industry-descriptives.tex \
 	table/atets.tex \
 	figure/ceo-spell-distributions.pdf \
 	figure/ceo-spell-distributions-weighted.pdf \
