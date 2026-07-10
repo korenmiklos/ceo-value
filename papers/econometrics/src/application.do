@@ -11,10 +11,10 @@ do "src/exhibit/event_study.do" C "R-squared" "" Rsq
 
 do "src/exhibit/event_study.do" E "Own beta" "" beta
 
-import delimited "data/full_Exporter.csv", clear case(preserve)
+import delimited "data/full_exporter.csv", clear case(preserve)
 * drop ATET estimates
 drop if xvar == "ATET"
-do "src/exhibit/event_study.do" F "Exporter beta" "" beta
+do "src/exhibit/event_study.do" F "exporter beta" "" beta
 
 graph combine panelA panelB panelC panelD panelE panelF, ///
     cols(2) graphregion(color(white)) imargin(small) xsize(5) ysize(7.5)

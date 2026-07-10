@@ -2,7 +2,7 @@ args sample FE
 clear all
 
 local A lnR
-local B Exporter
+local B exporter
 local C lnL
 local D lnK
 local E ROA

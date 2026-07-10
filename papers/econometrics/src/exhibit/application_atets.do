@@ -3,7 +3,7 @@ args sample FE
 clear all
 
 * Define outcomes in order matching table columns
-local outcomes "lnR Exporter lnL lnK ROA lnRL"
+local outcomes "lnR exporter lnL lnK ROA lnRL"
 
 * which results to extract for the table
 local row1 Cov1[1]/Var1z1[1]
@@ -48,7 +48,7 @@ matrix list stats
 
 local texheader1 "\begin{tabular}{l*{6}{c}}"
 local texheader2 "\hline\hline"
-local texheader3 " Estimate & lnR & export & lnL & lnK & ROA & lnRL \\"
+local texheader3 " Estimate & lnR & Exporter & lnL & lnK & ROA & lnRL \\"
 local texheader4 "\hline"
 
 local texfooter1 "\hline\hline"

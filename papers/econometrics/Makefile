@@ -7,16 +7,16 @@ STATA := stata-mp
 SCENARIOS = baseline persistent excessvariance excessvariance_corr all trend longpanel
 EVENT_STUDIES_TABLE = $(addprefix data/atet_,$(addsuffix _lnR-lnR.csv,$(SCENARIOS)))
 EVENT_STUDIES_GRAPH = $(addprefix data/,$(addsuffix _lnR-lnR.csv,$(SCENARIOS)))
-OUTCOMES :=  lnR exporter lnL lnK ROA lnYL
+OUTCOMES :=  lnR exporter lnL lnK ROA lnRL
 REAL_SAMPLES := full one2one twos
-FIXED_EFFECTS := lnR ROA lnYL
+FIXED_EFFECTS := lnR ROA lnRL
 DATALIB := ../../temp/analysis-sample.dta ../../temp/manager_value.dta
 CODELIB := ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do
 
 all: $(foreach sample,$(REAL_SAMPLES),$(foreach fe, $(FIXED_EFFECTS), figure/outcomes_$(sample)_$(fe).pdf)) \
 	$(foreach fe, $(FIXED_EFFECTS), table/atets_full_$(fe).tex)\
 	table/firm-descriptives.tex \
-	table/firm-year-descriptive.tex \
+	table/firm-year-descriptives.tex \
 	table/switch-descriptives.tex \
 	table/max-emp-by-ceo-switches.tex \
 	table/ceo-counts.tex \
@@ -49,12 +49,12 @@ data/$(1)_%-ROA.csv: $$(CODELIB) $$(DATALIB) data/placebo_$(1).dta
 endef
 $(foreach sample,$(REAL_SAMPLES),$(eval $(call ROA_RULE,$(sample))))
 
-define lnYL_RULE
-data/$(1)_%-lnYL.csv: $$(CODELIB) $$(DATALIB) data/placebo_$(1).dta
+define lnRL_RULE
+data/$(1)_%-lnRL.csv: $$(CODELIB) $$(DATALIB) data/placebo_$(1).dta
 	mkdir -p data
-	$(STATA) -b do "../../lib/estimate/event_study.do" $(1) $$* no lnYL excessvariance
+	$(STATA) -b do "../../lib/estimate/event_study.do" $(1) $$* no lnRL excessvariance
 endef
-$(foreach sample,$(REAL_SAMPLES),$(eval $(call lnYL_RULE,$(sample))))
+$(foreach sample,$(REAL_SAMPLES),$(eval $(call lnRL_RULE,$(sample))))
 
 data/atet_full_%-lnR.csv: $(CODELIB) $(DATALIB) data/placebo_full.dta
 	mkdir -p data
@@ -64,9 +64,9 @@ data/atet_full_%-ROA.csv: $(CODELIB) $(DATALIB) data/placebo_full.dta
 	mkdir -p data
 	$(STATA) -b do ../../lib/estimate/event_study_atet.do full $* no ROA excessvariance
 
-data/atet_full_%-lnYL.csv: $(CODELIB) $(DATALIB) data/placebo_full.dta
+data/atet_full_%-lnRL.csv: $(CODELIB) $(DATALIB) data/placebo_full.dta
 	mkdir -p data
-	$(STATA) -b do ../../lib/estimate/event_study_atet.do full $* no lnYL excessvariance
+	$(STATA) -b do ../../lib/estimate/event_study_atet.do full $* no lnRL excessvariance
 
 
 #################################################################################
@@ -101,7 +101,7 @@ figure/outcomes_$(1)_%.pdf: src/exhibit/outcomes.do $$(CODELIB) $$(foreach outco
 endef
 $(foreach sample,$(REAL_SAMPLES),$(eval $(call OUTCOMES_RULE,$(sample))))
 
-figure/outcomes.pdf: src/exhibit/final_outcomes.do src/exhibit/event_study.do data/full_lnR-lnR.csv data/full_ROA-lnR.csv data/full_lnK-ROA.csv data/full_lnL-lnYL.csv
+figure/outcomes.pdf: src/exhibit/final_outcomes.do src/exhibit/event_study.do data/full_lnR-lnR.csv data/full_ROA-lnR.csv data/full_lnK-ROA.csv data/full_lnL-lnRL.csv
 	mkdir -p figure
 	$(STATA) -b do $<
 
