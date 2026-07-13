@@ -651,7 +651,7 @@ requires identifying and removing both $A_h^{jk}$ and $B^{k}$. In the
 next section, we show how matched firms that do not change CEOs can be
 used to estimate these bias terms.
 
-%read this next
+
 \section{Placebo-Controlled Debiasing}
 \label{sec:placebo_debiasing}
 
@@ -1138,9 +1138,7 @@ Notes: Event studies of various second moments around CEO transitions. All panel
     \caption{Monte Carlo Parameters by Scenario}
     \vspace{.2cm}
     \label{tab:table_MC}
-    \begin{tabular}{lcccc}
     \input{\tablepath/atets.tex}
-    \end{tabular}
     \begin{minipage}{15.5cm}
     \vspace{.2cm}
     \footnotesize{Notes: Naive and placebo debiased coefficients and the values of the corresponding $R^2$ in Monte-Carlo simulations (50,000 treated firms and 50,000 control firms). Estimation of $\Delta z$ on lnR, when $\Delta z$ is measured by lnR. Treatment (placebo treatment) year drawn from a geometric distribution with a constant hazard of CEO change. Column 1 (baseline scenario): $\sigma(\Delta z) = 1$, $\sigma(\epsilon) = 0.71$, $\rho=0.9$, $T_1=T_2=4$; Column 2-3 (excess variance): $\sigma(\epsilon) = 1.2 \cdot 0.71$ in the treated group; Column 4 (long panel): firm spells are raised to $T_1=T_2=10$. $R^2$: the estimation based on all years (ATET); $R^2 \text{ at } t =3)$: the estimation is based on the difference between three years after relative to the year precedent to the treatment.}
