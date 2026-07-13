@@ -11,7 +11,7 @@ save `totals'
 restore
 
 collapse (count) n_firms = frame_id_numeric (sum) ceo_switch (mean) employment, by(year)
-drop if year == 2021 | year == 2022
+keep if inlist(year, 1992, 1995, 2000, 2005, 2010, 2015, 2020, 2023)
 append using `totals'
 sort year
 tostring year, gen(year_str) format(%9.0f) force
