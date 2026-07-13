@@ -24,6 +24,8 @@
 \newcommand{\Var}{\text{Var}}
 \newcommand{\Cov}{\text{Cov}}
 
+\DeclareMathOperator*{\plim}{plim}
+
 % Define \sym command for significance stars from esttab
 \newcommand{\sym}[1]{{#1}}
 
@@ -186,9 +188,9 @@ Throughout the paper, we refer to it as a CEO effect for
 brevity, but the empirical object is the component of firm performance
 associated with a CEO spell at a particular firm.
 
-
-\subsection{Changes in CEO-spell components}
-\label{subsec:spell_changes}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Changes in CEO-spell components}\label{subsec:spell_changes}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Our interest is not in the level of the firm fixed effect. To remove $\alpha_i^{k}$, we difference outcomes across adjacent CEO spells within the same firm. As we are interested in changes within firm, we do not need to restrict our attention only to the connected CEO-firm mobility network as required in AKM type estimations, and we can study all the firms with a CEO replacement. For firm $i$, consider two adjacent CEO spells, $s-1$ and $s$. The
 true change in the CEO-spell component measured using outcome $k$ is
@@ -339,11 +341,15 @@ other exactly, the naive estimator converges to a value different from the true
 $\beta_h^{jk}$ and $R^{2,jk}_h$.
 \end{comment}
 
-\subsection{Second moment biases}
-\label{subsec:variance_bias}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Second moment biases}\label{subsec:variance_bias}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\textbf{Bias in the variance.} The noise in the estimated CEO-spell change is the difference between
-the average firm-level shocks in spells $s$ and $s-1$.\footnote{For formal derivations of the biases, see Appendix \ref{sec: appA}.} Let the variance
+The short CEO spells bias both the estimate variance $\operatorname{Var}\!\left(
+\Delta\widehat z_{is}^{k} \right)$ and the covariance between $\Delta z$ and the change in firm attribute, $\operatorname{Cov}\!\left(\Delta\widehat z_{is}^{k},\Delta_h q_{is}^{j}\right)$.
+\vspace{.2cm}
+
+\textbf{Bias in the variance.} The noise in the estimated CEO-spell change is the difference between the average firm-level shocks in spells $s$ and $s-1$.\footnote{For formal derivations of the biases, see Appendix \ref{sec: appA}.} Let the variance
 of this estimation error be
 \begin{equation}
 B^{k}
@@ -413,9 +419,8 @@ within a spell affects the precision of each spell average, while
 correlation between shocks in the two adjacent spells affects the
 precision of their difference.
 
-This variance distortion does not disappear simply because the number
-of firms grows. If spell lengths remain bounded, then, as the number of
-observed adjacent spell pairs grows,
+This variance distortion does not disappear as the number
+of firms with CEO replacements increase. If spell lengths remain bounded, then, as the number of observed adjacent spell pairs grows,
 \begin{equation}
 \widehat{\operatorname{Var}}\!\left(
 \Delta\widehat z_{is}^{k}
@@ -434,6 +439,7 @@ spell changes. The distortion disappears only if the within-spell
 estimation error converges to zero, or otherwise the estimated variance will be upward biased. For example, as the number of
 observations in both spells grows under conditions that allow the
 firm-level shocks to average out.
+\vspace{.2cm}
 
 \textbf{Bias in the covariance.} The numerator of the naive estimator is also affected by the
 estimation error in the CEO-spell change. Using the decomposition of
@@ -505,9 +511,9 @@ the dependent variable. Here, short-spell estimation error can affect
 both the variance of the explanatory variable and its covariance with
 the dependent variable.
 
-
-\subsection{Implications for commonly reported statistics}
-\label{subsec:implications}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Implications for commonly reported statistics}\label{subsec:implications}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %Dynamic bias and spurious pre-trends
 
@@ -538,7 +544,47 @@ B^{k}.
 \label{eq:bias_summary}
 \end{align}
 
-The biased variance and covariance will have implications on the commonly reported statistics used in this literature. We are interested in the explanatory power of $\Delta z$, which is embedded in $R^2$, and the coefficient $\beta_h^jk$, which shows the relation between $\Delta z$ (measured by $\Delta_h q_k$) and the change in $q_j$ (commonly reported as dynamic coefficients).\footnote{Instead of dynamic coefficients, an overall $\beta$ can also be estimated, which would reflect the effect of $\Delta z$ on the difference between the average $q_j$ after and before the CEO change. As the bias of this coefficient is very similar to the dynamic coefficients, we do not show it here.}
+Although $\Delta\widehat z_{is}^{k}$ is an unbiased estimate of
+$\Delta z_{is}^{k}$, this does not imply that moments constructed from
+the estimated changes equal the corresponding moments of the true
+changes. Short-spell estimation error inflates the variance of the
+estimated spell changes and may also affect their covariance with the
+outcome contrast. We are interested in the explanatory power of $\Delta z$, which is embedded in $R^2$, and the coefficient $\beta_h^jk$, which shows the relation between $\Delta z$ (measured by $\Delta_h q_k$) and the change in $q_j$ (commonly reported as dynamic coefficients).\footnote{Instead of dynamic coefficients, an overall $\beta$ can also be estimated, which would reflect the effect of $\Delta z$ on the difference between the average $q_j$ after and before the CEO change. As the bias of this coefficient is very similar to the dynamic coefficients, we do not show it here.}
+
+In the two-way fixed effects literature, the explanatory power of CEO-spell changes has received more attention than the estimation OLS coefficient. This can be summarized by the estimated population $R^2$, 
+
+\begin{equation}
+\widehat R^{2,jk}_{h,\mathrm{naive}}
+=
+\frac{
+\widehat{\Cov}\!\left(\Delta \hat z^{k}_{is},\Delta_{h} q^{j}_{is}\right)^2
+}{
+\widehat{\Var}\!\left(\Delta \hat z^{k}_{is}\right)
+\widehat{\Var}\!\left(\Delta_{h} q^{j}_{is}\right)
+}.
+\end{equation}
+
+The estimated $R^2$ has the following form:
+
+\begin{equation}
+\plim \widehat R^{2,jk}_{h,\mathrm{naive}}
+=
+\frac{
+\left[
+\Cov\!\left(\Delta z^k_{is},\Delta^h q^j_{is}\right)
++A_h^{jk}
+\right]^2
+}{
+\left[
+\Var\!\left(\Delta z^k_{is}\right)
++B^k
+\right]
+\Var\!\left(\Delta^h q^j_{is}\right)
+}.
+\end{equation}
+
+This is generally biased because both the covariance in the numerator and the variance of the estimated CEO-spell change in the denominator are contaminated by short-spell estimation error.
+
 
 The population linear-projection coefficient of interest is
 \begin{equation}
@@ -577,55 +623,6 @@ replaces $\Delta z_{is}^{k}$ with $\Delta\widehat z_{is}^{k}$:
 }.
 \label{eq:naive_beta}
 \end{equation}
-
-In the two-way fixed effects literature, the explanatory power of CEO-spell changes has received more attention than the estimation OLS coefficient. This can be summarized by the estimated population $R^2$, 
-
-\begin{equation}
-\widehat R^{2,jk}_{h,\mathrm{naive}}
-=
-\frac{
-\widehat{\Cov}\!\left(\Delta \hat z^{k}_{is},\Delta_{h} q^{j}_{is}\right)^2
-}{
-\widehat{\Var}\!\left(\Delta \hat z^{k}_{is}\right)
-\widehat{\Var}\!\left(\Delta_{h} q^{j}_{is}\right)
-}.
-\end{equation}
-
-Although $\Delta\widehat z_{is}^{k}$ is an unbiased estimate of
-$\Delta z_{is}^{k}$, this does not imply that moments constructed from
-the estimated changes equal the corresponding moments of the true
-changes. Short-spell estimation error inflates the variance of the
-estimated spell changes and may also affect their covariance with the
-outcome contrast. Unless these two distortions happen to offset each
-other exactly, the naive estimator converges to a value different from the true
-$\beta_h^{jk}$ and $R^{2,jk}_h$.
-\end{comment}
-
-
-The estimated $R^2$ has the following form:
-
-\begin{equation}
-\plim \widehat R^{2,jk}_{h,\mathrm{naive}}
-=
-\frac{
-\left[
-\Cov\!\left(\Delta z^k_{is},\Delta^h q^j_{is}\right)
-+A_h^{jk}
-\right]^2
-}{
-\left[
-\Var\!\left(\Delta z^k_{is}\right)
-+B^k
-\right]
-\Var\!\left(\Delta^h q^j_{is}\right)
-}.
-\end{equation}
-
-This is generally biased because both the covariance in the numerator and the variance of the estimated CEO-spell change in the denominator are contaminated by short-spell estimation error.
-
-
-
-
 Combining the variance and covariance decompositions, the probability
 limit of the naive estimator is
 \begin{equation}
@@ -1206,14 +1203,14 @@ Notes: Event studies of various second moments around CEO transitions. All panel
 \vspace{.5cm}
 
 
-\begin{table}[H]
+\begin{table}
     \centering
     \caption{Estimated Effect of CEO Change and $\text{R}^2$ -- Naive and Placebo-Controlled Debiased Methods }
     \vspace{.2cm}
     \label{tab:table_application}
     \input{\tablepath/atets_full_lnR.tex}
     \input{\tablepath/atets_full_ROA.tex}
-    \input{\tablepath/atets_full_lnYL.tex}
+    \input{\tablepath/atets_full_lnRL.tex}
     \begin{minipage}{16cm}
     \vspace{.2cm}
     \footnotesize{Notes: The table presents the naive and placebo-controlled debiased estimated coefficients and the corresponding $R^2$ of CEO replacement. The variable used for estimating $\Delta z$ is log revenue (top panel), return on assets (middle panel), log labor productivity (bottom panel). lnR = log revenue; Export = dummy variable = 1 if the firm exports in the given year; lnL = log labor; lnK = log tangible assets; ROA = return on assets; lnRL = log labor productivity.}
