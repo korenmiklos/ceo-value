@@ -81,7 +81,7 @@ file write tab "\hline\hline" _n
 file write tab " & lnR & Exporter & lnL & lnK & ROA & lnR & N \\" _n
 file write tab "\hline" _n
 
-local rownames `""Without CEO Switch" "With CEO Switch" "Change from t=-4 to t=3""'
+local rownames `""Without CEO Switch" "With CEO Switch" "Change from $ t=-4 $ to $ t=3 $""'
 
 forvalues r = 1/3 {
     local rname : word `r' of `rownames'
@@ -100,7 +100,7 @@ forvalues r = 1/3 {
             local cell : display %9.0f `val'
           }
         }
-        local line `"`line' & `cell'"'
+        local line `"`line' & $`cell'$"'
     }
     file write tab `"`line' \\"' _n
 }

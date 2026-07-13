@@ -17,14 +17,14 @@ local row7 Rsq[8]
 local row8 dRsq[8]
 * compute p values for significance stars
 
-local label1 "\addlinespace$\hat Var(dz) (OLS)"
+local label1 "\addlinespace$\hat Var(dz)$ (OLS)"
 local label2 "$\hat Var(dz)$ (debiased)"
 local label3 "\addlinespace$\hat Cov(dz, dy)$ (OLS)"
 local label4 "$\hat Cov(dz,dy)$ (debiased)"
-local label5 "\addlinespace $ R^2$ (Naive)"
+local label5 "\addlinespace $ R^2$ (OLS)"
 local label6 "$ R^2$ (debiased)"
-local label7 "\addlinespace $ R^2$ at t=3 (Naive)"
-local label8 "$ R^2$ at t=3 (debiased)"
+local label7 "\addlinespace $ R^2$ at $ t=3$ (OLS)"
+local label8 "$ R^2$ at $ t=3$ (debiased)"
 
 local rows 8
 

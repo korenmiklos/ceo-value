@@ -47,7 +47,7 @@ forvalues r = 1/`N' {
     local n_str  = string(n_firm[`r'], "%5.0f")
     local pct_str = string(pct[`r'], "%5.1f")
 
-    file write tab "\quad `rname' & `n_str' & `pct_str' \\" _n
+    file write tab "\quad `rname' & $`n_str'$ & $`pct_str'$ \\" _n
 
     local prev_cat = `this_cat'
 }
