@@ -50,8 +50,8 @@ matrix M1 = r(Stat1)
 matrix M2 = r(Stat2)
 
 * Overwrite the n_firm column with the real firm counts
-matrix M1[1, 5] = `n_firms_no'
-matrix M2[1, 5] = `n_firms_yes'
+matrix M1[1, 7] = `n_firms_no'
+matrix M2[1, 7] = `n_firms_yes'
 
 keep if inrange(time_since_switch, -4, 3)
 gen before = time_since_switch < 0
@@ -78,7 +78,7 @@ matrix rownames Combined = "Without CEO Switch" "With CEO Switch" "Change from -
 file open tab using "table/switch-descriptives.tex", write replace
 file write tab "\begin{tabular}{lccccc}" _n
 file write tab "\hline\hline" _n
-file write tab " & lnR & Exporter & lnL & lnK & ROA & lnR & N \\" _n
+file write tab " & lnR & Exporter & lnL & lnK & ROA & lnRL & N \\" _n
 file write tab "\hline" _n
 
 local rownames `""Without CEO Switch" "With CEO Switch" "Change from $ t=-4 $ to $ t=3 $""'
@@ -87,7 +87,7 @@ forvalues r = 1/3 {
     local rname : word `r' of `rownames'
     local dec = cond(`r' == 3, 2, 1)
     local line "`rname'"
-    forvalues c = 1/5 {
+    forvalues c = 1/7 {
         local val = Combined[`r', `c']
         if missing(`val') {
             local cell ""
