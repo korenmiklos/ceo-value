@@ -349,7 +349,7 @@ The short CEO spells bias both the estimate variance $\operatorname{Var}\!\left(
 \Delta\widehat z_{is}^{k} \right)$ and the covariance between $\Delta z$ and the change in firm attribute, $\operatorname{Cov}\!\left(\Delta\widehat z_{is}^{k},\Delta_h q_{is}^{j}\right)$.
 \vspace{.2cm}
 
-\textbf{Bias in the variance.} The noise in the estimated CEO-spell change is the difference between the average firm-level shocks in spells $s$ and $s-1$.\footnote{For formal derivations of the biases, see Appendix \ref{sec: appA}.} Let the variance
+\paragraph{Bias in the variance.} The noise in the estimated CEO-spell change is the difference between the average firm-level shocks in spells $s$ and $s-1$.\footnote{For formal derivations of the biases, see Appendix \ref{sec: appA}.} Let the variance
 of this estimation error be
 \begin{equation}
 B^{k}
@@ -441,7 +441,7 @@ observations in both spells grows under conditions that allow the
 firm-level shocks to average out.
 \vspace{.2cm}
 
-\textbf{Bias in the covariance.} The numerator of the naive estimator is also affected by the
+\paragraph{Bias in the covariance.} The numerator of the naive estimator is also affected by the
 estimation error in the CEO-spell change. Using the decomposition of
 the estimated spell change,
 \begin{align}
@@ -653,8 +653,6 @@ distortions happen to offset each other in the ratio, the naive
 estimator may recover $\beta_h^{jk}$, but there is no general reason
 for such an exact offset to occur.
 
-
-
 The covariance distortion is particularly important in event-study
 applications. The estimated CEO-spell change in
 Equation~\eqref{eq:estimated_spell_change} uses outcomes observed
@@ -721,33 +719,17 @@ Recovering the relationship between CEO-spell changes and firm outcomes requires
 
 Our approach constructs placebo CEO transitions to identify and remove
 the bias terms $A_h^{jk}$ and $B^k$ without specifying the full
-covariance structure of firm-level shocks. The key insight of the method is that the
-short-spell bias depends on two objects: the design matrix (how the estimated CEO-spell
-change and the outcome change relative to the reference year are
-constructed, including the pre- and post-spell lengths, transition
-dates, and event-time comparisons) and the variance and covariance
-structure of firm-level shocks. A placebo sample that reproduces these
-features but has no true CEO-spell change can therefore identify the
-bias under an appropriate restriction on the shock process.
+covariance structure of firm-level shocks. 
 
-\paragraph{Construction of the placebo sample and identification
-restriction.}
-For each firm that moves from CEO spell (s-1) to spell (s), we select observably similar firms whose CEO does not change over the full calendar period spanned by the treated firm’s two adjacent CEO spells, from the first year of spell (s-1) through the last year of spell (s).
- We match firms on characteristics such as one-digit sector, birth cohort in bins of three years and maximum employment during the life time of the firm (always below 10 or exceeded 10). We assign each matched firm a placebo transition in
-the same calendar year $g_{is}$ as the corresponding actual transition. This ensures
-that treated and placebo firms are compared over the same macroeconomic
-period.
-We divide placebo firms' uninterrupted CEO spell into artificial pre- and
-post-transition segments with the same lengths as the two spells in
-the corresponding treated firm. For notational simplicity, we label
+The key insight of the method is that the short-spell bias depends on two objects. The first is the design matrix, which depicts the construction of the estimated CEO-spell change and the outcome change relative to the reference year, including the pre- and post-spell lengths, transition dates, and event-time comparisons. The second is the variance and covariance structure of firm-level shocks. A placebo sample that reproduces these features but has no true CEO-spell change can therefore identify the bias under an appropriate restriction on the shock process.
+
+\paragraph{Construction of the placebo sample and identification restriction.}
+We match each firm that moves from CEO spell (s-1) to spell (s) with an observationally equivalent firm whose CEO does not change over the full period spanned by the treated firm’s two adjacent CEO spells, from the first year of spell (s-1) through the last year of spell (s). We match firms on characteristics such as one-digit sector, birth cohort in bins of three years and maximum employment during the life time of the firm (always below 10 or exceeded 10). We assign each matched firm a placebo transition in the same calendar year $g_{is}$ as the corresponding actual transition. This ensures that treated and placebo firms are compared over the same macroeconomic period. We divide placebo firms' uninterrupted CEO spell into artificial pre- and post-transition segments with the same lengths as the two spells in the corresponding treated firm. For notational simplicity, we label
 these artificial segments $s-1$ and $s$.
 
-We then apply exactly the same transformations to the treated and
-placebo observations. In particular, we use the same pre- and
-post-spell lengths to construct $\Delta\widehat z_{is}^k$ and the same
-event-time comparisons to construct $\Delta_h q_{is}^j$. 
+We then apply identical transformations to the treated and placebo observations. In particular, we use the same pre- and post-spell lengths to construct $\Delta\widehat z_{is}^k$ and the same event-time comparisons to construct $\Delta_h q_{is}^j$. 
 
-We use the superscripts $\mathrm{tr}$ and $\mathrm{pl}$ to distinguish
+We use the superscripts ``$\mathrm{tr}$'' and ``$\mathrm{pl}$'' to distinguish
 moments calculated in the treated and placebo samples. Population
 moments without a sample superscript continue to refer to firms
 experiencing actual CEO transitions.
@@ -764,7 +746,7 @@ and $k$,
 e_{it}^{k},e_{ir}^{j}
 \right)
 =
-c^{jk}\,
+c^{jk}\, \cdot
 \operatorname{Cov}^{\mathrm{pl}}\!\left(
 e_{it}^{k},e_{ir}^{j}
 \right)
@@ -777,11 +759,7 @@ When $j=k$, we write $c^k \equiv c^{kk}$.
 We refer to this restriction as the
 \emph{proportional shock covariance restriction}.
 
-The restriction allows firms that change CEOs to have systematically
-larger or smaller shocks than firms that do not change CEOs. It
-requires the temporal pattern of variances, autocovariances, and
-cross-outcome covariances to be the same in the two groups up to the
- scale factor $c^{jk}$, $c^{kk}$.
+This identification restriction requires the temporal pattern of variances, autocovariances, and cross-outcome covariances to be the same in the treated and placebo groups up to the  scale factor $c^{jk}$, $c^{kk}$. But it allows for treated firms having systematically larger or smaller shocks than firms that do not change CEOs. 
 
 The restriction must cover covariances across different outcomes
 because the variable used to measure the CEO-spell change need not be
@@ -794,9 +772,6 @@ contrast. We therefore require cross-outcome covariances, as well as
 within-outcome autocovariances, to be proportional between treated and
 placebo firms. When $j=k$, the restriction reduces to proportionality
 of the autocovariance structure of a single outcome.
-
-
-
 
 The artificial transition in a placebo firm divides one uninterrupted
 CEO spell into two segments. There is therefore no true change in the
@@ -939,7 +914,7 @@ probability limits of the treated moments.
 
 For regression coefficients and other nonlinear functions of second
 moments, we first debias the underlying moments and then form the
-relevant statistic. The debiased projection coefficient is
+relevant statistic. For example, the debiased projection coefficient is
 \begin{equation}
 \widehat\beta_{h,\mathrm{db}}^{jk}
 =
