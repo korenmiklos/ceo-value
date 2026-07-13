@@ -86,7 +86,7 @@ local rownames `""Without CEO Switch" "With CEO Switch" "Change from $ t=-4 $ to
 forvalues r = 1/3 {
     local rname : word `r' of `rownames'
     local dec = cond(`r' == 3, 2, 1)
-    local line `"`rname'"'
+    local line "`rname'"
     forvalues c = 1/5 {
         local val = Combined[`r', `c']
         if missing(`val') {
@@ -94,15 +94,15 @@ forvalues r = 1/3 {
         }
         else {
           if `c'!=5 {
-            local cell : display %9.`dec'f `val'
-          }
+            local cell = string(`val', "%5.1f")
+            }
           else {
-            local cell : display %9.0f `val'
+            local cell = string(`val', "%5.0f")
           }
         }
-        local line `"`line' & $`cell'$"'
+        local line "`line' & $`cell'$"
     }
-    file write tab `"`line' \\"' _n
+    file write tab "`line' \\" _n
 }
 
 file write tab "\hline\hline" _n
