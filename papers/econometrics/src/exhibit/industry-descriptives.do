@@ -19,12 +19,10 @@ label define ind_cat_lbl ///
     6 "Other Services"
 label values ind_cat ind_cat_lbl
 
-collapse (count) n_firm=frame_id_numeric (percent) pct=frame_id_numeric, by(ind_cat teaor08_1d)
+collapse (count) n_firms=frame_id_numeric (percent) pct=frame_id_numeric, by(ind_cat)
+sort ind_cat
+mkmat n_firms pct, matrix(IndTab) rownames(ind_cat)
 
-sort ind_cat teaor08_1d
-
-* számláló ahány sora van a táblának (industry sorok, group header sorok nélkül)
-local N = _N
 
 file open tab using "table/industry-descriptives.tex", write replace
 file write tab "\begin{tabular}{l*{2}{c}}" _n
@@ -32,24 +30,13 @@ file write tab "\hline\hline" _n
 file write tab "Industry & N & \% \\" _n
 file write tab "\hline" _n
 
-local prev_cat = .
 
-forvalues r = 1/`N' {
-    local this_cat = ind_cat[`r']
-
-    * ha új csoportba lépünk, írjunk ki egy fejléc-sort
-    if `this_cat' != `prev_cat' {
-        local cat_label : label ind_cat_lbl `this_cat'
-        file write tab "\multicolumn{3}{l}{\textit{`cat_label'}} \\" _n
-    }
-
-    local rname = teaor08_1d[`r']
-    local n_str  = string(n_firm[`r'], "%5.0f")
-    local pct_str = string(pct[`r'], "%5.1f")
-
-    file write tab "\quad `rname' & $`n_str'$ & $`pct_str'$ \\" _n
-
-    local prev_cat = `this_cat'
+forvalues cat = 1/6 {
+    local cat_label : label ind_cat_lbl `cat'
+    local rname = "`cat_label'"
+    local n_str  = string(n_firm[`cat'], "%5.0f")
+    local pct_str = string(pct[`cat'], "%5.1f")
+    file write tab "`rname' & $`n_str'$ & $`pct_str'$ \\" _n
 }
 
 file write tab "\hline\hline" _n
