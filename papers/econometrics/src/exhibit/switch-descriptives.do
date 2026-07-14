@@ -73,6 +73,29 @@ gen n_firm = .
 mkmat lnR exporter lnL lnK ROA lnRL n_firm, matrix(Md1)
 restore
 
+* --- SD of the firm-level change from t=-4 to t=3 ---
+* (paired before/after average per firm, then % change per firm, then sd across firms)
+preserve
+collapse (mean) lnR exporter lnL lnK ROA lnRL, by(frame_id_numeric after)
+reshape wide lnR exporter lnL lnK ROA lnRL, i(frame_id_numeric) j(after)
+
+foreach v in lnR exporter lnL lnK ROA lnRL {
+    gen d_`v' = (`v'1 - `v'0)/`v'0
+    quietly summarize d_`v'
+    local sd_`v' = r(sd)
+}
+
+clear
+set obs 1
+foreach v in lnR exporter lnL lnK ROA lnRL {
+    gen `v' = `sd_`v''
+}
+gen n_firm = .
+
+mkmat lnR exporter lnL lnK ROA lnRL n_firm, matrix(Md1sd)
+restore
+
+preserve
 collapse lnR exporter lnL lnK ROA lnRL, by(time_since_switch)
 
 foreach v in lnR exporter lnL lnK ROA lnRL {
@@ -87,55 +110,69 @@ foreach v in lnR exporter lnL lnK ROA lnRL{
 gen n_firm = .
 
 mkmat lnR exporter lnL lnK ROA lnRL n_firm, matrix(Md2)
+restore
 
-matrix Combined = M1 \ M2 \ Md1 \ Md2
+* --- SD of the firm-level change from t=-4 to t=-1 (point to point) ---
+preserve
+keep if inlist(time_since_switch, -4, -1)
+gen byte period2 = (time_since_switch == -1)   // 0 = t-4, 1 = t-1; avoids negative-value reshape suffixes
+collapse (mean) lnR exporter lnL lnK ROA lnRL, by(frame_id_numeric period2)
+reshape wide lnR exporter lnL lnK ROA lnRL, i(frame_id_numeric) j(period2)
+
+foreach v in lnR exporter lnL lnK ROA lnRL {
+    gen d_`v' = (`v'1 - `v'0)/`v'0
+    quietly summarize d_`v'
+    local sd_`v' = r(sd)
+}
+
+clear
+set obs 1
+foreach v in lnR exporter lnL lnK ROA lnRL {
+    gen `v' = `sd_`v''
+}
+gen n_firm = .
+
+mkmat lnR exporter lnL lnK ROA lnRL n_firm, matrix(Md2sd)
+restore
+
+matrix Combined = M1 \ M2 \ Md1 \ Md1sd \ Md2 \ Md2sd
 matrix colnames Combined = "lnR" "Exporter" "lnL" "lnK" "ROA" "lnRL" "N"
-matrix rownames Combined = "Without CEO Switch" "" "With CEO Switch" "" "Change from -4 to 3" "Change from -4 to -1"
+matrix rownames Combined = "Without CEO Switch" "" "With CEO Switch" "" "Change from -4 to 3" "" "Change from -4 to -1" ""
 
 file open tab using "table/switch-descriptives.tex", write replace
-file write tab "\begin{tabular}{lccccc}" _n
+file write tab "\begin{tabular}{lccccccc}" _n
 file write tab "\hline\hline" _n
 file write tab " & lnR & Exporter & lnL & lnK & ROA & lnRL & N \\" _n
 file write tab "\hline" _n
 
-local rownames `""Without CEO Switch" "" "With CEO Switch" "" "Change from $ t=-4 $ to $ t=3 $" "Change from $ t=-4$ to $ t=-1 $" "'
+local rownames `""Without CEO Switch" "" "With CEO Switch" "" "Change from $ t=-4 $ to $ t=3 $" "" "Change from $ t=-4$ to $ t=-1 $" "" "'
 
-forvalues r = 1/6 {
+forvalues r = 1/8 {
     local rname : word `r' of `rownames'
     local line "`rname'"
-    if `r' >= 5 {
-      forvalues c = 1/7 {
+    forvalues c = 1/7 {
         local val = Combined[`r', `c']
         if missing(`val') {
             local cell ""
         }
         else {
-          if `c'!=7 {
-            local cell = string(`val', "%5.3f")
+            if `r' >= 5 {
+                local numfmt = string(`val', "%5.3f")
             }
-          else {
-            local cell = string(`val', "%5.0f")
-          }
-        }
-        local line "`line' & $`cell'$"
-      }
-    }
-    else {
-      forvalues c = 1/7 {
-        local val = Combined[`r', `c']
-        if missing(`val') {
-            local cell ""
-        }
-        else {
-          if `c'!=7 {
-            local cell = string(`val', "%5.1f")
+            else {
+                local numfmt = string(`val', "%5.1f")
             }
-          else {
-            local cell = string(`val', "%5.0f")
-          }
+            if `c' == 7 {
+                local numfmt = string(`val', "%5.0f")
+            }
+            if inlist(`r', 2, 4, 6, 8) {
+                local cell = "($`numfmt'$)"
+            }
+            else {
+                local cell = "$`numfmt'$"
+            }
         }
-        local line "`line' & $`cell'$"
-      }
+        local line "`line' & `cell'"
     }
     file write tab "`line' \\" _n
 }
