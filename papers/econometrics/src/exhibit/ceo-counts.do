@@ -77,3 +77,18 @@ file write fh "\shortstack{Firms w/ only\\single-firm CEO} & \multicolumn{2}{c}{
 file write fh "\bottomrule" _n
 file write fh "\end{tabular}" _n
 file close fh
+
+*** Some descriptive numbers on firms and ceos
+use "../../temp/manager-firm-facts.dta", clear
+
+preserve
+collapse (count) n_firms = frame_id_numeric, by(person_id)
+gen ceo_at2firms = n_firms >= 2
+tab ceo_at2firms
+tempfile ceo_at2firms
+save `ceo_at2firms', replace
+restore
+
+merge m:1 person_id using `ceo_at2firms', keep(match) nogen
+unique frame_id_numeric if ceo_at2firms
+unique frame_id_numeric
