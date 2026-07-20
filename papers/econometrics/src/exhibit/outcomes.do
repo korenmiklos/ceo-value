@@ -10,8 +10,13 @@ local F lnRL
 
 foreach outcome in A B C D E F {
     import delimited "data/`sample'_``outcome''-`FE'.csv", clear case(preserve)
+    if "``outcome''" != "exporter"{
+       do "src/exhibit/event_study.do" `outcome' "``outcome''" "``outcome''" beta
+    }
+    else{
+       do "src/exhibit/event_study.do" `outcome' "Exporter" "Exporter" beta
+    }
 
-    do "src/exhibit/event_study.do" `outcome' "``outcome''" "``outcome''" beta
 }
 
 graph combine panelA panelB panelC panelD panelE panelF, ///

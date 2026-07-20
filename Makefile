@@ -10,7 +10,7 @@ LATEX := pdflatex
 PANDOC := pandoc
 UTILS := $(wildcard lib/util/*.do)
 
-SAMPLES := full one2one twos
+SAMPLES := full one2one twos fnd2non non2non
 OUTCOMES := lnK lnWL lnM has_intangible
 
 # Commit hashes for reproducible file extraction
@@ -23,7 +23,8 @@ COMMIT_EXPERIMENT := experiment/preferred  # Update with specific hash when need
 PRECIOUS_FILES := temp/balance.dta temp/ceo-panel.dta temp/intervals.dta temp/unfiltered.dta \
                   temp/analysis-sample.dta temp/placebo.dta temp/edgelist.csv \
                   temp/large_component_managers.csv \
-                  temp/manager_value.dta temp/manager_value_spell.dta temp/revenue_models.ster $(foreach sample,$(SAMPLES),temp/placebo_$(sample).dta)
+                  temp/manager_value.dta temp/manager_value_spell.dta temp/revenue_models.ster \
+									$(foreach sample,$(SAMPLES),temp/placebo_$(sample).dta)
 
 # Mark these files as PRECIOUS so make won't delete them
 .PRECIOUS: $(PRECIOUS_FILES)
@@ -35,7 +36,8 @@ PRECIOUS_FILES := temp/balance.dta temp/ceo-panel.dta temp/intervals.dta temp/un
 .PHONY: data
 
 # Data wrangling pipeline
-data: temp/manager_value.dta temp/placebo_full.dta temp/placebo_one2one.dta temp/placebo_twos.dta
+data: temp/manager_value.dta \
+	$(foreach sample, $(SAMPLES), temp/placebo_$(sample).dta)
 
 install: install.log
 

@@ -8,13 +8,15 @@ SCENARIOS = baseline persistent excessvariance excessvariance_corr all trend lon
 EVENT_STUDIES_TABLE = $(addprefix data/atet_,$(addsuffix _lnR-lnR.csv,$(SCENARIOS)))
 EVENT_STUDIES_GRAPH = $(addprefix data/,$(addsuffix _lnR-lnR.csv,$(SCENARIOS)))
 OUTCOMES :=  lnR exporter lnL lnK ROA lnRL
-REAL_SAMPLES := full one2one twos
+REAL_SAMPLES := full one2one twos fnd2non non2non
+RSQ_SAMPLES := one2one twos fnd2non non2non
 FIXED_EFFECTS := lnR ROA lnRL
 DATALIB := ../../temp/analysis-sample.dta ../../temp/manager_value.dta
 CODELIB := ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do
 
 all: $(foreach sample,$(REAL_SAMPLES),$(foreach fe, $(FIXED_EFFECTS), figure/outcomes_$(sample)_$(fe).pdf)) \
 	$(foreach fe, $(FIXED_EFFECTS), table/atets_full_$(fe).tex)\
+	$(foreach sample, $(RSQ_SAMPLES), $(foreach fe, $(FIXED_EFFECTS), table/r2s_$(sample)_$(fe).tex))\
 	table/firm-descriptives.tex \
 	table/firm-year-descriptives.tex \
 	table/switch-descriptives.tex \
@@ -34,39 +36,36 @@ data/placebo_%.dta: ../../temp/placebo_%.dta
 	mkdir -p $(dir $@)
 	cp $< $@
 
-define lnR_RULE
+define effects_RULE
 data/$(1)_%-lnR.csv: $$(CODELIB) $$(DATALIB) data/placebo_$(1).dta
 	mkdir -p data
 	$(STATA) -b do "../../lib/estimate/event_study.do" $(1) $$* no lnR excessvariance
-endef
-$(foreach sample,$(REAL_SAMPLES),$(eval $(call lnR_RULE,$(sample))))
 
-define ROA_RULE
 data/$(1)_%-ROA.csv: $$(CODELIB) $$(DATALIB) data/placebo_$(1).dta
 	mkdir -p data
 	$(STATA) -b do "../../lib/estimate/event_study.do" $(1) $$* no ROA excessvariance
-endef
-$(foreach sample,$(REAL_SAMPLES),$(eval $(call ROA_RULE,$(sample))))
 
-define lnRL_RULE
 data/$(1)_%-lnRL.csv: $$(CODELIB) $$(DATALIB) data/placebo_$(1).dta
 	mkdir -p data
 	$(STATA) -b do "../../lib/estimate/event_study.do" $(1) $$* no lnRL excessvariance
 endef
-$(foreach sample,$(REAL_SAMPLES),$(eval $(call lnRL_RULE,$(sample))))
+$(foreach sample,$(REAL_SAMPLES),$(eval $(call effects_RULE,$(sample))))
 
-data/atet_full_%-lnR.csv: $(CODELIB) $(DATALIB) data/placebo_full.dta
+
+define atets_RULE
+data/atet_$(1)_%-lnR.csv: $(CODELIB) $(DATALIB) data/placebo_$(1).dta
 	mkdir -p data
-	$(STATA) -b do ../../lib/estimate/event_study_atet.do full $* no lnR excessvariance
+	$(STATA) -b do ../../lib/estimate/event_study_atet.do $(1) $$* no lnR excessvariance
 
-data/atet_full_%-ROA.csv: $(CODELIB) $(DATALIB) data/placebo_full.dta
+data/atet_$(1)_%-ROA.csv: $(CODELIB) $(DATALIB) data/placebo_$(1).dta
 	mkdir -p data
-	$(STATA) -b do ../../lib/estimate/event_study_atet.do full $* no ROA excessvariance
+	$(STATA) -b do ../../lib/estimate/event_study_atet.do $(1) $$* no ROA excessvariance
 
-data/atet_full_%-lnRL.csv: $(CODELIB) $(DATALIB) data/placebo_full.dta
+data/atet_$(1)_%-lnRL.csv: $(CODELIB) $(DATALIB) data/placebo_$(1).dta
 	mkdir -p data
-	$(STATA) -b do ../../lib/estimate/event_study_atet.do full $* no lnRL excessvariance
-
+	$(STATA) -b do ../../lib/estimate/event_study_atet.do $(1) $$* no lnRL excessvariance
+endef
+$(foreach sample, $(REAL_SAMPLES),$(eval $(call atets_RULE,$(sample))))
 
 #################################################################################
 ####### Monte Carlo :Generate event study data for monte carlo scenarios ########
@@ -107,6 +106,18 @@ figure/outcomes.pdf: src/exhibit/final_outcomes.do src/exhibit/event_study.do da
 table/atets_full_%.tex: src/exhibit/application_atets.do $(CODELIB) $(foreach outcome, $(OUTCOMES), data/atet_full_$(outcome)-%.csv)
 	mkdir -p table
 	$(STATA) -b do $< full $*
+
+table/r2s_%_lnR.tex: src/exhibit/application_r2s.do $(CODELIB) $(foreach outcome, $(OUTCOMES), data/atet_%_$(outcome)-lnR.csv)
+	mkdir -p table
+	$(STATA) -b do $< $* lnR
+
+table/r2s_%_ROA.tex: src/exhibit/application_r2s.do $(CODELIB) $(foreach outcome, $(OUTCOMES), data/atet_%_$(outcome)-ROA.csv)
+	mkdir -p table
+	$(STATA) -b do $< $* ROA
+
+table/r2s_%_lnRL.tex: src/exhibit/application_r2s.do $(CODELIB) $(foreach outcome, $(OUTCOMES), data/atet_%_$(outcome)-lnRL.csv)
+	mkdir -p table
+	$(STATA) -b do $< $* lnRL
 
 table/atets.tex: src/exhibit/atets.do $(EVENT_STUDIES_TABLE) $(EVENT_STUDIES_GRAPH) $(CODELIB)
 	mkdir -p table

@@ -5,8 +5,8 @@ confirm existence `sample'
 * ACCEPTED VALUES FOR sample *
 ******************************
 local full         1
-local fnd2non      founder1 == 1 & founder2 == 0
-local non2non      founder1 == 0 & founder2 == 0
+local fnd2non      has_founder1 == 1 & has_founder2 == 0
+local non2non      has_founder1 == 0 & has_founder2 == 0
 local small        max_size == 1
 local large        max_size == 2
 local one2one      n_ceo1 == 1 & n_ceo2 == 1
@@ -51,7 +51,7 @@ egen max_n_ceo = max(n_ceo), by(frame_id_numeric)
 tabulate n_ceo max_n_ceo, missing
 keep if max_n_ceo <= ${max_n_ceo}
 
-* limit sample to clean changes  
+* limit sample to clean changes
 keep if ceo_spell <= max_ceo_spell
 keep if !missing(${fixed_effect})
 
@@ -63,7 +63,7 @@ replace cohort = min_cohort if cohort != min_cohort
 drop min_cohort
 
 * refactor to collapse
-collapse (mean) MS = manager_skill (count) T = ${fixed_effect} (min) change_year = year (max) window_end = year n_ceo (firstnm) $exact_match_on, by(frame_id_numeric ceo_spell)
+collapse (mean) MS = manager_skill (count) T = ${fixed_effect} (min) change_year = year (max) window_end = year n_ceo has_founder (firstnm) $exact_match_on, by(frame_id_numeric ceo_spell)
 
 drop if missing(MS)
 drop if T < ${min_T}
@@ -82,13 +82,13 @@ expand duplicate
 
 bysort frame_id_numeric ceo_spell: generate index = _n
 sort frame_id_numeric ceo_spell index
-generate byte new_spell = ceo_spell[_n-1] == ceo_spell & frame_id_numeric[_n-1] == frame_id_numeric  
+generate byte new_spell = ceo_spell[_n-1] == ceo_spell & frame_id_numeric[_n-1] == frame_id_numeric
 bysort frame_id_numeric (ceo_spell index): generate byte spell_id = sum(new_spell)
 
 drop first_spell last_spell duplicate index new_spell
 bysort frame_id_numeric spell_id (ceo_spell): generate index = _n
 
-reshape wide MS T change_year window_end ceo_spell n_ceo, i(frame_id_numeric spell_id) j(index)
+reshape wide MS T change_year window_end ceo_spell n_ceo has_founder, i(frame_id_numeric spell_id) j(index)
 rename change_year2 change_year
 
 generate window_start = change_year1
@@ -159,7 +159,7 @@ foreach cohort of local cohorts {
         * only keep controls that have weakly larger spell windows than the event window
         keep if window_start1 <= window_start & window_end1 >= window_end
         count
-        keep frame_id_numeric ceo_spell $exact_match_on window_start window_end N_treated n_treated* 
+        keep frame_id_numeric ceo_spell $exact_match_on window_start window_end N_treated n_treated*
 
         * sample control firms, we have way too many
         egen n_control = total(1), by($exact_match_on window_start window_end)
@@ -175,7 +175,7 @@ foreach cohort of local cohorts {
         * now create placebo times for CEO arrival
         generate byte t0 = .
         * bugfix: treatment time may be two digits
-        unab treatmens : n_treated*  
+        unab treatmens : n_treated*
         local T : word count `treatmens'
         generate p = .
         forvalues t = 1/`T' {
@@ -200,7 +200,7 @@ egen tg_tag = tag($exact_match_on window_start window_end)
 summarize N_treated if tg_tag, detail
 summarize n_control if tg_tag, detail
 
-keep frame_id_numeric ceo_spell $exact_match_on window_start window_end change_year weight 
+keep frame_id_numeric ceo_spell $exact_match_on window_start window_end change_year weight
 * the same frame_id_numeric may appear multiple times
 egen fake_id = group(frame_id_numeric ceo_spell window_start window_end change_year)
 * make sure no overlap with fake_ids of treated firms
@@ -220,7 +220,7 @@ append using "`treated_firms'"
 tabulate placebo
 tabulate placebo [iw = weight]
 
-tabulate change_year placebo 
+tabulate change_year placebo
 
 generate T1 = change_year - window_start
 generate T2 = window_end - change_year + 1

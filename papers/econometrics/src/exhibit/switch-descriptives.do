@@ -137,7 +137,7 @@ restore
 
 matrix Combined = M1 \ M2 \ Md1 \ Md1sd \ Md2 \ Md2sd
 matrix colnames Combined = "lnR" "Exporter" "lnL" "lnK" "ROA" "lnRL" "N"
-matrix rownames Combined = "Without CEO Switch" "" "With CEO Switch" "" "Change from -4 to 3" "" "Change from -4 to -1" ""
+matrix rownames Combined = "Without CEO Switch" "" "With CEO Switch" "" "Growth" "" "Pre-trend" ""
 
 file open tab using "table/switch-descriptives.tex", write replace
 file write tab "\begin{tabular}{lccccccc}" _n
@@ -145,7 +145,7 @@ file write tab "\hline\hline" _n
 file write tab " & lnR & Exporter & lnL & lnK & ROA & lnRL & N \\" _n
 file write tab "\hline" _n
 
-local rownames `""Without CEO Switch" "" "With CEO Switch" "" "Change from $ t=-4 $ to $ t=3 $" "" "Change from $ t=-4$ to $ t=-1 $" "" "'
+local rownames `""Without CEO Switch" "" "With CEO Switch" "" "Growth" "" "Pre-trend" "" "'
 
 forvalues r = 1/8 {
     local rname : word `r' of `rownames'
