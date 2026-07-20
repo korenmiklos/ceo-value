@@ -4,15 +4,19 @@ confirm existence `sample'
 ******************************
 * ACCEPTED VALUES FOR sample *
 ******************************
-local full         1
-local fnd2non      has_founder1 == 1 & has_founder2 == 0
-local non2non      has_founder1 == 0 & has_founder2 == 0
-local small        max_size == 1
-local large        max_size == 2
-local one2one      n_ceo1 == 1 & n_ceo2 == 1
-local twos         n_ceo1 == 2 | n_ceo2 == 2
+local full          1
+local fnd2non       has_founder1 == 1 & has_founder2 == 0
+local non2non       has_founder1 == 0 & has_founder2 == 0
+local small         max_size == 1
+local large         max_size == 2
+local one2one       n_ceo1 == 1 & n_ceo2 == 1
+local twos          n_ceo1 == 2 | n_ceo2 == 2
+local age           (n_ceo1 == 1 & n_ceo2 == 1) & ((ceo_age1-ceo_age2 > 20) | (ceo_age1-ceo_age2 < -20))
+local gender        n_ceo_male1 != n_ceo_male2
+local nogender      n_ceo_male1 == n_ceo_male2
 
-assert inlist("`sample'", "full", "fnd2non", "non2non", "small", "large", "one2one", "twos")
+local valid_samples full fnd2non non2non small large one2one twos age gender nogender
+assert strpos(" `valid_samples' ", " `sample' ") > 0
 
 clear all
 tempfile cohortsfile
@@ -44,6 +48,7 @@ restore
 joinby frame_id_numeric year using "`ceo_person_year'"
 
 merge m:1 frame_id_numeric person_id using "temp/manager_value.dta", keep(master match) nogen
+merge m:1 person_id using "temp/manager-facts.dta", keep(master match) nogen
 
 * keep single-ceo firms
 * we can also compute our analysis for spells with n_ceo > 1
@@ -62,8 +67,10 @@ egen min_cohort = min(cohort), by(frame_id_numeric)
 replace cohort = min_cohort if cohort != min_cohort
 drop min_cohort
 
+gen ceo_age = 2023-birth_year
+
 * refactor to collapse
-collapse (mean) MS = manager_skill (count) T = ${fixed_effect} (min) change_year = year (max) window_end = year n_ceo has_founder (firstnm) $exact_match_on, by(frame_id_numeric ceo_spell)
+collapse (mean) MS = manager_skill (count) T = ${fixed_effect} (min) change_year = year ceo_age (max) window_end = year n_ceo has_founder (firstnm) $exact_match_on n_ceo_male, by(frame_id_numeric ceo_spell)
 
 drop if missing(MS)
 drop if T < ${min_T}
@@ -88,7 +95,7 @@ bysort frame_id_numeric (ceo_spell index): generate byte spell_id = sum(new_spel
 drop first_spell last_spell duplicate index new_spell
 bysort frame_id_numeric spell_id (ceo_spell): generate index = _n
 
-reshape wide MS T change_year window_end ceo_spell n_ceo has_founder, i(frame_id_numeric spell_id) j(index)
+reshape wide MS T change_year window_end ceo_spell n_ceo has_founder ceo_age n_ceo_male, i(frame_id_numeric spell_id) j(index)
 rename change_year2 change_year
 
 generate window_start = change_year1
