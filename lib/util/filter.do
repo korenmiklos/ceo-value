@@ -57,3 +57,9 @@ drop if max_employment < `min_employment'
 
 * clean up
 drop max_n_ceo firm_tag
+drop if missing(lnR)
+drop if missing(ROA)
+drop if missing(lnL)
+drop if missing(lnK)
+drop if missing(lnRL)
+drop if missing(export)

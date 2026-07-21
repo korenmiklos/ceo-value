@@ -79,7 +79,16 @@ file write fh "\end{tabular}" _n
 file close fh
 
 *** Some descriptive numbers on firms and ceos
+use "../../temp/analysis-sample.dta", clear
+
+keep frame_id_numeric
+duplicates drop frame_id_numeric, force
+tempfile firm_id
+save `firm_id', replace
+
 use "../../temp/manager-firm-facts.dta", clear
+
+merge m:1 frame_id_numeric using `firm_id', nogen keep(matched)
 
 preserve
 collapse (count) n_firms = frame_id_numeric, by(person_id)
