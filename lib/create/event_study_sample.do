@@ -11,11 +11,12 @@ local small         max_size == 1
 local large         max_size == 2
 local one2one       n_ceo1 == 1 & n_ceo2 == 1
 local twos          n_ceo1 == 2 | n_ceo2 == 2
-local age           (n_ceo1 == 1 & n_ceo2 == 1) & ((ceo_age1-ceo_age2 > 20) | (ceo_age1-ceo_age2 < -20))
+local gap           (n_ceo1 == 1 & n_ceo2 == 1) & (age_diff > 20)
+local nogap         (n_ceo1 == 1 & n_ceo2 == 1) & (age_diff < 20)
 local gender        n_ceo_male1 != n_ceo_male2
 local nogender      n_ceo_male1 == n_ceo_male2
 
-local valid_samples full fnd2non non2non small large one2one twos age gender nogender
+local valid_samples full fnd2non non2non small large one2one twos gap nogap gender nogender
 assert strpos(" `valid_samples' ", " `sample' ") > 0
 
 clear all
@@ -103,7 +104,8 @@ generate window_end = window_end2
 * need to sort on skill
 drop if missing(MS1, MS2)
 drop if ceo_spell1 != ceo_spell2 - 1
-
+gen age_diff = ceo_age1 - ceo_age2
+replace age_diff = ceo_age2-ceo_age1 if age_diff<0
 *********************
 * LIMIT SAMPLE HERE *
 *********************
