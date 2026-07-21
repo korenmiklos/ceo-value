@@ -9,14 +9,13 @@ EVENT_STUDIES_TABLE = $(addprefix data/atet_,$(addsuffix _lnR-lnR.csv,$(SCENARIO
 EVENT_STUDIES_GRAPH = $(addprefix data/,$(addsuffix _lnR-lnR.csv,$(SCENARIOS)))
 OUTCOMES :=  lnR exporter lnL lnK ROA lnRL
 REAL_SAMPLES := full one2one twos fnd2non non2non gender nogender age
-RSQ_SAMPLES := one2one twos fnd2non non2non gender nogender age
 FIXED_EFFECTS := lnR ROA lnRL
 DATALIB := ../../temp/analysis-sample.dta ../../temp/manager_value.dta
 CODELIB := ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do
 
 all: $(foreach sample,$(REAL_SAMPLES),$(foreach fe, $(FIXED_EFFECTS), figure/outcomes_$(sample)_$(fe).pdf)) \
 	$(foreach fe, $(FIXED_EFFECTS), table/atets_full_$(fe).tex)\
-	$(foreach sample, $(RSQ_SAMPLES), $(foreach fe, $(FIXED_EFFECTS), table/r2s_$(sample)_$(fe).tex))\
+	$(foreach sample, $(REAL_SAMPLES), $(foreach fe, $(FIXED_EFFECTS), table/r2s_$(sample)_$(fe).tex))\
 	table/firm-descriptives.tex \
 	table/firm-year-descriptives.tex \
 	table/switch-descriptives.tex \
