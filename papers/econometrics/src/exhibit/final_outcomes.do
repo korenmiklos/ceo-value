@@ -9,7 +9,7 @@ local outcomeD lnL
 local feA lnR
 local feB lnR
 local feC ROA
-local feD lnYL
+local feD lnRL
 
 foreach outcome in A B C D{
   import delimited "data/full_`outcome`outcome''-`fe`outcome''.csv", clear case(preserve)

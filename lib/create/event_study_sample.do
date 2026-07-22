@@ -4,15 +4,20 @@ confirm existence `sample'
 ******************************
 * ACCEPTED VALUES FOR sample *
 ******************************
-local full         1
-local fnd2non      founder1 == 1 & founder2 == 0
-local non2non      founder1 == 0 & founder2 == 0
-local small        max_size == 1
-local large        max_size == 2
-local one2one      n_ceo1 == 1 & n_ceo2 == 1
-local twos         n_ceo1 == 2 | n_ceo2 == 2
+local full          1
+local fnd2non       has_founder1 == 1 & has_founder2 == 0
+local non2non       has_founder1 == 0 & has_founder2 == 0
+local small         max_size == 1
+local large         max_size == 2
+local one2one       n_ceo1 == 1 & n_ceo2 == 1
+local twos          n_ceo1 == 2 | n_ceo2 == 2
+local gap           (n_ceo1 == 1 & n_ceo2 == 1) & (age_diff > 20)
+local nogap         (n_ceo1 == 1 & n_ceo2 == 1) & (age_diff < 20)
+local gender        n_ceo_male1 != n_ceo_male2
+local nogender      n_ceo_male1 == n_ceo_male2
 
-assert inlist("`sample'", "full", "fnd2non", "non2non", "small", "large", "one2one", "twos")
+local valid_samples full fnd2non non2non small large one2one twos gap nogap gender nogender
+assert strpos(" `valid_samples' ", " `sample' ") > 0
 
 clear all
 tempfile cohortsfile
@@ -44,6 +49,7 @@ restore
 joinby frame_id_numeric year using "`ceo_person_year'"
 
 merge m:1 frame_id_numeric person_id using "temp/manager_value.dta", keep(master match) nogen
+merge m:1 person_id using "temp/manager-facts.dta", keep(master match) nogen
 
 * keep single-ceo firms
 * we can also compute our analysis for spells with n_ceo > 1
@@ -51,7 +57,7 @@ egen max_n_ceo = max(n_ceo), by(frame_id_numeric)
 tabulate n_ceo max_n_ceo, missing
 keep if max_n_ceo <= ${max_n_ceo}
 
-* limit sample to clean changes  
+* limit sample to clean changes
 keep if ceo_spell <= max_ceo_spell
 keep if !missing(${fixed_effect})
 
@@ -62,8 +68,10 @@ egen min_cohort = min(cohort), by(frame_id_numeric)
 replace cohort = min_cohort if cohort != min_cohort
 drop min_cohort
 
+gen ceo_age = 2023-birth_year
+
 * refactor to collapse
-collapse (mean) MS = manager_skill (count) T = ${fixed_effect} (min) change_year = year (max) window_end = year n_ceo (firstnm) $exact_match_on, by(frame_id_numeric ceo_spell)
+collapse (mean) MS = manager_skill (count) T = ${fixed_effect} (min) change_year = year ceo_age (max) window_end = year n_ceo has_founder (firstnm) $exact_match_on n_ceo_male, by(frame_id_numeric ceo_spell)
 
 drop if missing(MS)
 drop if T < ${min_T}
@@ -82,13 +90,13 @@ expand duplicate
 
 bysort frame_id_numeric ceo_spell: generate index = _n
 sort frame_id_numeric ceo_spell index
-generate byte new_spell = ceo_spell[_n-1] == ceo_spell & frame_id_numeric[_n-1] == frame_id_numeric  
+generate byte new_spell = ceo_spell[_n-1] == ceo_spell & frame_id_numeric[_n-1] == frame_id_numeric
 bysort frame_id_numeric (ceo_spell index): generate byte spell_id = sum(new_spell)
 
 drop first_spell last_spell duplicate index new_spell
 bysort frame_id_numeric spell_id (ceo_spell): generate index = _n
 
-reshape wide MS T change_year window_end ceo_spell n_ceo, i(frame_id_numeric spell_id) j(index)
+reshape wide MS T change_year window_end ceo_spell n_ceo has_founder ceo_age n_ceo_male, i(frame_id_numeric spell_id) j(index)
 rename change_year2 change_year
 
 generate window_start = change_year1
@@ -96,7 +104,8 @@ generate window_end = window_end2
 * need to sort on skill
 drop if missing(MS1, MS2)
 drop if ceo_spell1 != ceo_spell2 - 1
-
+gen age_diff = ceo_age1 - ceo_age2
+replace age_diff = ceo_age2-ceo_age1 if age_diff<0
 *********************
 * LIMIT SAMPLE HERE *
 *********************
@@ -159,7 +168,7 @@ foreach cohort of local cohorts {
         * only keep controls that have weakly larger spell windows than the event window
         keep if window_start1 <= window_start & window_end1 >= window_end
         count
-        keep frame_id_numeric ceo_spell $exact_match_on window_start window_end N_treated n_treated* 
+        keep frame_id_numeric ceo_spell $exact_match_on window_start window_end N_treated n_treated*
 
         * sample control firms, we have way too many
         egen n_control = total(1), by($exact_match_on window_start window_end)
@@ -175,7 +184,7 @@ foreach cohort of local cohorts {
         * now create placebo times for CEO arrival
         generate byte t0 = .
         * bugfix: treatment time may be two digits
-        unab treatmens : n_treated*  
+        unab treatmens : n_treated*
         local T : word count `treatmens'
         generate p = .
         forvalues t = 1/`T' {
@@ -200,7 +209,7 @@ egen tg_tag = tag($exact_match_on window_start window_end)
 summarize N_treated if tg_tag, detail
 summarize n_control if tg_tag, detail
 
-keep frame_id_numeric ceo_spell $exact_match_on window_start window_end change_year weight 
+keep frame_id_numeric ceo_spell $exact_match_on window_start window_end change_year weight
 * the same frame_id_numeric may appear multiple times
 egen fake_id = group(frame_id_numeric ceo_spell window_start window_end change_year)
 * make sure no overlap with fake_ids of treated firms
@@ -220,7 +229,7 @@ append using "`treated_firms'"
 tabulate placebo
 tabulate placebo [iw = weight]
 
-tabulate change_year placebo 
+tabulate change_year placebo
 
 generate T1 = change_year - window_start
 generate T2 = window_end - change_year + 1

@@ -51,7 +51,7 @@ xt2denoise `outcome', ///
     z(manager_skill) treatment(actual_ceo) control(placebo_ceo) ///
     pre(`pre') post(`post') detail `excessvariance' baseline(atet)
 
-tempname Cov Cov_naive VarY Var1z dVarz
+tempname Cov Cov_naive VarY Var1z dVarz se_naive dse
 matrix `Var1z'        = e(var_z1)
 matrix `Var1z'        = `Var1z''
 matrix `dVarz'        = e(var_z_diff)
@@ -61,6 +61,8 @@ matrix `Cov'          = `Cov''
 matrix `Cov_naive'    = e(cov1)
 matrix `Cov_naive'    = `Cov_naive''
 matrix `VarY'         = e(var_y1)
+matrix `se_naive'     = e(V_naive)
+matrix `dse'          = e(V)
 scalar _N_obs         = e(N)
 * =============================================================================
 * Build unified dCov frame with all series for both exhibit scripts
@@ -77,11 +79,15 @@ frame atet {
     svmat `Cov', names(dCov)
     svmat `Cov_naive', names(Cov)
     svmat `VarY', names(VarY)
+    svmat `se_naive', names(se_naive)
+    svmat `dse', names(dse)
     generate N = _N_obs
     generate Rsq = (Cov1)^2/(VarY1*Var1z1)
     generate dRsq = (dCov1)^2/(VarY1*dVarz1)
     generate i = _n
-    order i Var1z dVarz dCov Cov VarY Rsq dRsq N
+    replace se_naive = sqrt(se_naive)
+    replace dse = sqrt(dse)
+    order i Var1z dVarz dCov Cov VarY Rsq dRsq se_naive dse N
     export delimited "data/atet_`sample'_`OC'-`FE'.csv", replace
 }
 
