@@ -22,7 +22,7 @@ COMMIT_EXPERIMENT := experiment/preferred  # Update with specific hash when need
 # Define costly intermediate files to preserve
 PRECIOUS_FILES := temp/balance.dta temp/ceo-panel.dta temp/intervals.dta temp/unfiltered.dta \
                   temp/analysis-sample.dta temp/placebo.dta temp/edgelist.csv \
-                  temp/large_component_managers.csv \
+                  temp/large_component_managers.csv temp/edgelist_leverage.csv \
                   temp/manager_value.dta temp/manager_value_spell.dta temp/revenue_models.ster $(foreach sample,$(SAMPLES),temp/placebo_$(sample).dta)
 
 # Mark these files as PRECIOUS so make won't delete them
@@ -69,6 +69,10 @@ temp/edgelist.csv: lib/create/edgelist.do temp/analysis-sample.dta
 
 # Find largest connected component of managers
 temp/large_component_managers.csv: lib/create/connected_component.jl temp/edgelist.csv
+	$(JULIA) $<
+
+# Compute leverage of each firm-manager edge in the giant component
+temp/edgelist_leverage.csv: lib/create/leverage.jl temp/edgelist.csv
 	$(JULIA) $<
 
 # Create unfiltered dataset for table creation
