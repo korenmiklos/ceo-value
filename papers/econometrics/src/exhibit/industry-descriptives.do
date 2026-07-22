@@ -19,7 +19,9 @@ label define ind_cat_lbl ///
     6 "Other Services"
 label values ind_cat ind_cat_lbl
 
-collapse (count) n_firms=frame_id_numeric (percent) pct=frame_id_numeric, by(ind_cat)
+egen firm_year_tag = tag(frame_id_numeric year)
+
+collapse (sum) n_firms=firm_year_tag (percent) pct=frame_id_numeric, by(ind_cat)
 sort ind_cat
 mkmat n_firms pct, matrix(IndTab) rownames(ind_cat)
 

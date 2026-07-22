@@ -3,14 +3,15 @@ use "../../temp/analysis-sample.dta", clear
 sort frame_id_numeric year ceo_spell
 by frame_id_numeric: gen ceo_switch = ceo_spell != ceo_spell[_n-1]  if _n > 1
 replace ceo_switch = 0 if missing(ceo_switch)
+egen firm_year_tag = tag(frame_id_numeric year)
 
 preserve
-collapse (count) n_firms = frame_id_numeric (sum) ceo_switch (mean) employment
+collapse (sum) n_firms = firm_year_tag ceo_switch (mean) employment
 tempfile totals
 save `totals'
 restore
 
-collapse (count) n_firms = frame_id_numeric (sum) ceo_switch (mean) employment, by(year)
+collapse (sum) n_firms = firm_year_tag ceo_switch (mean) employment, by(year)
 keep if inlist(year, 1992, 1995, 2000, 2005, 2010, 2015, 2020, 2023)
 append using `totals'
 sort year
