@@ -75,11 +75,11 @@ The starting point of our estimation is a standard two-way fixed effects model i
 Because CEO mobility across firms is relatively rare among SMEs, we concentrate on within-firm CEO replacements. Instead of using separate CEO fixed effects, we estimate the difference between the CEO-spell fixed effects of the departing CEO and the incoming CEO. To do so, we transform the two-way fixed-effects model into first differences, which removes the firm fixed effect from the specification. The key advantage of this approach is that it can be applied to the full set of firms experiencing a CEO transition, substantially enhancing the power of the analysis and the external validity of the estimates. Moreover, the method does not require restricting the sample to the largest connected component of the CEO–firm network, since we do not rank CEOs in the sample. Our aim is more modest: we only aspire to identify how the change of CEOs within a firm explains changes in firm attributes.
 
 %description of the method
-To correct the small-sample bias inherent in estimated CEO fixed effects, we introduce a \textit{placebo-controlled debiasing} method. We assign to each firm with a CEO change a matched control firm that does not change its CEO during the same period. We then assign the control firm a placebo CEO transition in the same year as the treated firm and replicate the treated firm’s spell structure. Because no actual CEO change occurs in the placebo firm, any estimated variance, covariance, or event-study ``effect'' measured around the placebo transition reflects only estimation noise arising from short CEO spells and persistent firm-level shocks.\footnote{Using firms which do not change CEOs to control for noise in the data is in the spirit of \cite{fitza2014use} and \cite{jarosiewicz2023revisiting}.} Thus, changes around the placebo CEO replacement can be used to purge the estimated effect of CEO change from the idiosyncratic noise arising from the short time series of CEO spell.
+To correct the small-sample bias inherent in estimated CEO fixed effects, we introduce a \textit{placebo-controlled debiasing} method. To each firm with a CEO change, we assign a matched control firm that does not change its CEO during the same period. We then assign the control firm a placebo CEO transition in the same year as the treated firm and replicate the treated firm’s spell structure. Because no actual CEO change occurs in the placebo firm, any estimated variance, covariance, or event-study ``effect'' measured around the placebo transition reflects only estimation noise arising from short CEO spells and persistent firm-level shocks.\footnote{Using firms which do not change CEOs to control for noise in the data is in the spirit of \cite{fitza2014use} and \cite{jarosiewicz2023revisiting}.} Thus, changes around the placebo CEO replacement can be used to purge the estimated effect of CEO change from the idiosyncratic noise arising from the short time series of CEO spell.
 
-Our estimation uses two identifying assumptions. The first is standard in the literature and states that changes in CEO-spell effects are uncorrelated with firm-level shocks. Under this strict exogeneity assumption, the estimated change in the CEO effect is an unbiased measure of the true change in CEO quality. We call the second identifying assumption the \textit{proportional autocovariance assumption}, which states that the variance-covariance matrix of shocks is identical in the treated and placebo samples up to a scalar multiplier. This assumption requires the temporal correlation structure of idiosyncratic firm-level shocks to be the same across the treated and placebo groups. At the same time, it allows firms which replace their CEO to experience larger or smaller idiosyncratic shocks than firms with stable CEOs. Conceptually, the proportional autocovariance assumption resembles the parallel trends assumption in difference-in-differences designs. Our method can be viewed as difference-in-differences for second moments: we difference out the bias by comparing treated and control firms' variances and covariances.
+Our estimation uses two identifying assumptions. The first is the standard \textit{exogeneity assumption} and states that changes in CEO-spell effects are uncorrelated with firm-level shocks. Under this assumption, the estimated change in the CEO effect is an unbiased measure of the true change in CEO quality. We call the second identifying assumption the \textit{proportional autocovariance assumption}, which states that the variance-covariance matrix of shocks is identical in the treated and placebo samples up to a scalar multiplier. This assumption requires the temporal correlation structure of idiosyncratic firm-level shocks to be the same across the treated and placebo groups. At the same time, it allows firms which replace their CEO to experience larger or smaller idiosyncratic shocks than firms with stable CEOs. Conceptually, the proportional autocovariance assumption resembles the parallel trends assumption in difference-in-differences designs. Our method can be viewed as difference-in-differences for second moments: we difference out the bias by comparing treated and control firms' variances and covariances.
 
-Under the two assumptions, the placebo sample reproduces the same small-sample bias present in the treated sample. Subtracting these placebo moments from the corresponding moments based on the treated firms yields unbiased estimates of CEO-related variance, covariance, and dynamic treatment effects.
+Under the two assumptions, the placebo sample reproduces the same small-sample bias present in the treated sample. Subtracting the placebo moments from the corresponding moments based on the treated firms yields unbiased estimates of CEO-related variance, covariance, and dynamic treatment effects.
 
 %what we use the method for
 Our approach exploits within-firm CEO transitions and measures the change in the CEO effect using the firm-level outcome that appears in the estimating equation. As a result, the estimated change in the CEO fixed effect has the same units as the underlying firm variable. This allows us to construct an unbiased estimate of the fraction of variation in firm outcomes attributable to CEO changes and thus obtain a bias-corrected $R^2$. In addition, the estimated change in the CEO effect can be related to changes in other firm outcomes. For example, a CEO who is particularly successful at increasing revenue may also affect employment, capital investment, profitability, productivity, or export behavior. Examining these relationships provides insight into which dimensions of firm performance are influenced by different types of CEOs and how managerial talent translates into broader firm outcomes. 
@@ -90,13 +90,33 @@ The estimated change in CEO quality can also be used in an event-study framework
 We illustrate our method in Monte Carlo experiments designed to mimic the characteristics of firm-level panels with CEO transitions. The simulations generate firms with two CEO spells and outcomes determined by a CEO effect and an idiosyncratic shock process. We consider a range of empirically relevant environments, including short CEO tenures (the baseline scenario), persistent shocks, excess variance in treated firms, all complications at the same time, long panels and a pretrend (to check how the method performs when some of the identifying assumptions are not satisfied). The experiments show that conventional estimators substantially overstate the variance of CEO effects and can generate spurious pre-trends and distorted post-transition dynamics even when the identifying assumptions hold. In contrast, the placebo-controlled estimator consistently recovers the true variances, covariances, and event-study coefficients across all scenarios. These results demonstrate that the method is robust to all the complications we inserted in the data.
 
 %application
-We apply the placebo-controlled debiasing method to the universe of Hungarian firms between 1992 and 2023, leveraging administrative data that link CEOs to firm balance sheets and income statements. The data cover the population of SMEs (5.6 million firms) and about 376,000 CEO transitions.\footnote{In these data, managerial mobility is the exception rather than the rule: only XX\% have CEOs who also served in another firm and XX\% of all CEOs led at least two firms. The connected component comprises XX\% of all firms. Had we applied the conventional methods in the literature, we would have used only XX\% of our sample.}
+We apply the placebo-controlled debiasing method to the universe of Hungarian firms between 1992 and 2023, leveraging administrative data that link CEOs to firm balance sheets and income statements. The data cover the population of SMEs (472 thousand firms) and about 376,000 CEO transitions.\footnote{Perhaps the best alternative of our method is the leave-one-out method \citep{kline2020leave}. This method is based on the sample of firms which are connected by CEO movement with at least two paths. In our data, this contain XX firms only.}
+
+
+\begin{comment}
+\footnote{In these data, managerial mobility is the exception rather than the rule: only XX\% have CEOs who also served in another firm and XX\% of all CEOs led at least two firms. The connected component comprises XX\% of all firms. Had we applied the conventional methods in the literature, we would have used only XX\% of our sample.}
+
+Number of unique firms in the data: 471K
+    
+Number of firms with a CEO who also served at another firms: 266K, or 56%
+
+Gratest connected component: 110K firms. 
+
+Number of CEO switches in the connected component:
+
+Number of firms which would be used in with the leave-one-out method (leverage < 1)
+
+Number of CEOs: 772K
+
+CEOs who served in at least two firms: 158K or 20%
+
+\end{comment}
 
 We use CEO replacements to estimate changes in CEO quality measured along three dimensions: revenue growth, profitability, and labor productivity. We then study how these changes affect a range of firm outcomes, including revenue, employment, capital, productivity, profitability, and export participation. The framework allows us to quantify both the explanatory power of CEO changes and the channels through which managerial quality influences firm performance.
 
 The empirical results show that conventional estimators substantially overstate the importance of CEOs. Naive estimates attribute 40–60 percent of revenue variation to CEO changes, whereas the debiased estimates imply a contribution of roughly 20–30 percent. We also find that event-study estimates based on conventional methods display pronounced pre-trends that disappear after debiasing, indicating that they are artifacts of small-sample bias rather than evidence against the identification strategy. Finally, the corrected estimates reveal immediate and persistent effects of CEO replacements on firm outcomes and show that CEOs who improve performance along one dimension also affect a broader set of firm decisions and outcomes.
 
-%relation to other methods
+%litrev
 \paragraph{Literature.} Our work connects primarily to the literature on the effects of CEOs on firm policy measured by CEO fixed effects. After the seminal work of \cite{Bertrand2003-io}, who first used two-way fixed effects to study the importance of managers, and showed that CEOs are connected to a investment, growth, productivity and other firm outcomes, researchers connected managerial fixed effects with risk taking \cite{schoar2024effect}, found that CEO effects increase over time \citep{quigley2015has} and are correlated with nationwide institutions, such as the origin of the legal system, labor market flexibility, and ownership structure \citep{crossland2011differences}. \cite{baltrunaite2023managerial} demonstrated that managerial quality is associated with the adoption of better managerial practices. The studies use data from listed companies, except for \cite{baltrunaite2023managerial} who use the universe of Italian limited liability companies over 20 employees and they also correct for the limited mobility bias (unlike the other studies). Because they can only use the connected component of the data and estimate from those firms which have a CEO who also served at another firm, they use approximately 15\% of their sample. Using a similar methodology, \cite{lazear2015value} employed manager and worker fixed effects to estimate managers' contribution to worker productivity in one very large service company and found that higher-quality managers significantly increase worker productivity. Researchers also found the CEOs affect public sector organizations as well \citep{fenizia2022managers, janke2024role}. 
 
 Our study uses the universe of Hungarian firms (we only drop corporations with fewer than 2 employees on average). For identification, our method uses all the firms which experience a CEO change (about 375,000 changes) and we do not need to restrict the sample to the connected component. 
@@ -535,7 +555,15 @@ $\Delta z_{is}^{k}$, this does not imply that moments constructed from
 the estimated changes equal the corresponding moments of the true
 changes. Short-spell estimation error inflates the variance of the
 estimated spell changes and may also affect their covariance with the
-outcome contrast. We are interested in the explanatory power of $\Delta z$, which is embedded in $R^2$, and the coefficient $\beta_h^{jk}$, which shows the relation between $\Delta z^k$ and $\Delta q^j$ (commonly reported as dynamic coefficients).\footnote{Instead of dynamic coefficients, an overall $\beta$ can also be estimated, which would reflect the effect of $\Delta z$ on the difference between the average $q_j$ after and before the CEO change. As the bias of this coefficient is very similar to the dynamic coefficients, we do not show it here.}
+outcome contrast. We are interested in both the explanatory power of the true CEO-spell
+change, summarized by $R^2$, and the projection coefficient
+$\beta_h^{jk}$, which describes the relationship between
+$\Delta z_{is}^{k}$ and $\Delta_h q_{is}^{j}$.\footnote{Instead of
+event-time projection coefficients, one can also estimate an overall
+projection coefficient relating $\Delta z_{is}^{k}$ to the difference
+between average post-transition and pre-transition outcomes. Because
+the bias of this coefficient is analogous to the bias of the event-time
+coefficients, we do not show it here.}
 
 One implication of the biased second moments is that the $R^2$ statistic is biased, as well. This is a particularly important measure in the literature on understanding CEO effects, in that it captures how important CEO-s or CEO changes are in explaining firm outcomes. The estimated $R^2$ is, 
 
@@ -981,13 +1009,15 @@ Constructing CEO time series across firms poses several challenges.\footnote{In 
 
 After the construction of the CEO time series, we take a yearly snapshot of the data because firm level information is available yearly. We consider a person to be the CEO of a given firm in a year if she was recorded as the CEO on June 21.
 
-Firms with multiple CEO changes are handled by splitting their history into adjacent transition pairs. After collapsing firm-CEO spells, intermediate spells are duplicated so that a firm with spells 1/2/3 contributes two transitions, 1→2 and 2→3. Each transition defines a pseudo-firm, indexed by a constructed identifier that groups the true firm with the relevant spell window. Fixed effects are estimated separately for these pseudo-firms, so outcomes around different transitions are allowed to have distinct firm intercepts. These pseudo-firms are not treated as independent statistical units. We retain the original firm identifier and cluster standard errors by the true firm. 
+Firms with multiple CEO changes are handled by splitting their history into adjacent transition pairs. After collapsing firm-CEO spells, intermediate spells are duplicated so that a firm with spells 1/2/3 contributes two transitions, $1 \rightarrow 2$ and $2 \rightarrow 3$. Each transition defines a pseudo-firm, indexed by a constructed identifier that groups the true firm with the relevant spell window. Fixed effects are estimated separately for these pseudo-firms, so outcomes around different transitions are allowed to have distinct firm intercepts. These pseudo-firms are not treated as independent statistical units. We retain the original firm identifier and cluster standard errors by the true firm. 
 
 We apply several restrictions to create a sample suitable for the analysis. We drop firm-years without a CEO and with more than 12 CEO spells during the observed period to reduce noise from misclassified transitions. We drop firms ever having more than 2 simultaneous CEOs to avoid complex governance structures that complicate identification. We drop the finance sector due to specialized accounting frameworks and regulatory environments. We drop the first year of firms to avoid mixing stock variables with flow variables observed over less than 12 months. Finally, we drop firms which never reach 3 employees during the observation period. This filter removes a substantial portion of observations but eliminates shell companies, tax optimization vehicles, and self-employment arrangements masquerading as corporations. The remaining firms represent genuine businesses with meaningful economic activity where management quality affects performance. For each CEO replacement, we keep a maximum of 4 precedent and subsequent firm-years (the latter includes the replacement year), forming a symmetric interval around the CEO change.
 
-The final sample has XX firms and XX firm-years, as Appendix Table \ref{tab:year_desc} shows along with the number of firms and their average employment each year. The number of Hungarian firms increased abruptly during the nineties, from 52 thousand in 1992 to 168 thousand in 2000. The number of firms was quite stable during the next 13 years, and it grew again as the country went out of the great recession of 2008. In 2023 (the last year of our data), the number of firms was over 250 thousand. The average employment size was rather large in early years (19) as it was strongly influenced by the large socialist companies. But employment size quickly declined as small firms entered the data: by 1997 it fell to 9 and remained between 7 and 9 throughout of the subsequent period.
+The final sample has 471 thousand firms and 4,363,067 firm-years. Appendix Table \ref{tab:year_desc} shows the number of firms for several years along with the number of firms and their average employment each year. The number of Hungarian firms increased abruptly during the nineties, from 52 thousand in 1992 to 168 thousand in 2000. The number of firms was quite stable during the next 13 years, and it grew again as the country went out of the great recession of 2008. In 2023 (the last year of our data), the number of firms was over 250 thousand. The average employment size was rather large in early years (19) as it was strongly influenced by the large socialist companies. But employment size quickly declined as small firms entered the data: by 1997 it fell to 9 and remained between 7 and 9 throughout of the subsequent period.
 
-In our data, 48\% of firms replace their CEO. Among these firms, the typical company experiences one CEO change, as the median of the distribution is 1. Multiple CEO replacements over the 23 year long period covered by our data are uncommon; even at the 75th percentile, firms have experienced only 2 CEO changes. The proportion of firms with two CEOs serving at the same time is 28\%. The average (median) firm age is XX (10), but we have firms which survive a long time (the 75 percentile of firm age distribution is 19).
+We observe 772 thousand distinct CEOs in the data. They typically manage the firm alone, but 158 thousand (20.4\%) have a period when two CEOs serve together. This affected about 128/855 thousand firms (firm-years). Thus, multiple CEOs are not a rare event in our data, as 27\% of firms and 19\% of firm-years have two CEOs.
+
+In our data, 48\% of firms replace their CEO. Among these firms, the typical company experiences one CEO change, as the median of the distribution is 1. Multiple CEO replacements over the 23 year long period covered by our data are uncommon; even at the 75th percentile, firms have experienced only 2 CEO changes. The proportion of firms with two CEOs serving at the same time is 28\%. The average (median) years we observe the firm is XX (10), but we have firms which survive a long time (the 75 percentile of firm age distribution is 19).
 
 The table also shows the number of firms with a CEO replacement. Depending on the year, we observe between 3,500 and 23,000 CEO switches, corresponding to a proportion of firms with a CEO replacement of approximately 5\% to 9\%. In total, we have 376,241 CEO switches, which provides a solid basis for estimating the effect of CEO changes.
 
@@ -1409,6 +1439,14 @@ Here $\Bar\lambda$ is the average CEO effect variance. Bias terms depend on $\ma
     \input{\tablepath/r2s_nogender_lnR.tex}
     \end{table}   
 
+\begin{table}
+    \centering
+    \vspace{.2cm}
+    \caption{age difference large, age difference small}
+    \input{\tablepath/r2s_gap_lnR.tex}
+    \input{\tablepath/r2s_nogap_lnR.tex}
+    \end{table}       
+
 \clearpage
 
 \begin{table}
@@ -1435,6 +1473,14 @@ Here $\Bar\lambda$ is the average CEO effect variance. Bias terms depend on $\ma
     \input{\tablepath/r2s_nogender_ROA.tex}
     \end{table}   
 
+\begin{table}
+    \centering
+    \vspace{.2cm}
+    \caption{age difference large, age difference small}
+    \input{\tablepath/r2s_gap_ROA.tex}
+    \input{\tablepath/r2s_nogap_ROA.tex}
+    \end{table}       
+
 \clearpage
 
 \begin{table}
@@ -1459,6 +1505,14 @@ Here $\Bar\lambda$ is the average CEO effect variance. Bias terms depend on $\ma
     \caption{gender switch, same gender}
     \input{\tablepath/r2s_gender_lnRL.tex}
     \input{\tablepath/r2s_nogender_lnRL.tex}
+    \end{table}       
+
+\begin{table}
+    \centering
+    \vspace{.2cm}
+    \caption{age difference large, age difference small}
+    \input{\tablepath/r2s_gap_lnRL.tex}
+    \input{\tablepath/r2s_nogap_lnRL.tex}
     \end{table}       
 
 \end{document}
