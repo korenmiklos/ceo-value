@@ -1,24 +1,16 @@
-.PHONY: all montecarlo paper clean
+.PHONY: all montecarlo clean
 STATA := stata-mp
 
 SCENARIOS = baseline persistent excessvariance excessvariance_corr all trend longpanel
-EVENT_STUDIES_TABLE = $(addprefix data/atet_,$(addsuffix _lnR-lnR.csv,$(SCENARIOS)))
-EVENT_STUDIES_GRAPH = $(addprefix data/,$(addsuffix _lnR-lnR.csv,$(SCENARIOS)))
-ALL_OUTCOMES :=  lnR exporter lnL lnK ROA lnRL
-OUTCOMES := lnL lnK lnRL
-REAL_SAMPLES := full one2one twos fnd2non non2non gender nogender gap nogap
+OUTCOMES :=  lnR lnL lnK ROA lnRL
+SAMPLES := full one2one twos fnd2non non2non gender nogender gap nogap
 FIXED_EFFECTS := lnR ROA lnRL
 DATALIB := ../../temp/analysis-sample.dta ../../temp/manager_value.dta
 CODELIB := ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do
 
-.SECONDARY: $(foreach sample,$(REAL_SAMPLES),$(foreach outcome,$(ALL_OUTCOMES),$(foreach fe,$(FIXED_EFFECTS),data/$(sample)_$(outcome)-$(fe).csv))) \
-	$(foreach outcome,$(ALL_OUTCOMES),$(foreach fe,$(FIXED_EFFECTS),data/atet_full_$(outcome)-$(fe).csv)) \
-	$(EVENT_STUDIES_TABLE) $(EVENT_STUDIES_GRAPH)
-
-
-all: $(foreach sample,$(REAL_SAMPLES),$(foreach fe, $(FIXED_EFFECTS), figure/outcomes_$(sample)_$(fe).pdf)) \
+all: $(foreach sample,$(SAMPLES), figure/outcomes_$(sample).pdf) \
 	$(foreach fe, $(FIXED_EFFECTS), table/atets_full_$(fe).tex)\
-	$(foreach sample, $(REAL_SAMPLES), table/r2s_$(sample).tex)\
+	$(foreach sample, $(SAMPLES), table/r2s_$(sample).tex)\
 	table/firm-descriptives.tex \
 	table/firm-year-descriptives.tex \
 	table/switch-descriptives.tex \
@@ -39,42 +31,18 @@ data/placebo_%.dta: ../../temp/placebo_%.dta
 	cp $< $@
 
 define effects_RULE
-data/$(1)_%-lnR.csv: $$(CODELIB) $$(DATALIB) data/placebo_$(1).dta
+data/$(1)_$(2)-$(2).csv: $$(CODELIB) $$(DATALIB) data/placebo_$(1).dta
 	mkdir -p data
-	$(STATA) -b do "../../lib/estimate/event_study.do" $(1) $$* no lnR excessvariance
-
-data/$(1)_%-ROA.csv: $$(CODELIB) $$(DATALIB) data/placebo_$(1).dta
-	mkdir -p data
-	$(STATA) -b do "../../lib/estimate/event_study.do" $(1) $$* no ROA excessvariance
-
-data/$(1)_%-lnRL.csv: $$(CODELIB) $$(DATALIB) data/placebo_$(1).dta
-	mkdir -p data
-	$(STATA) -b do "../../lib/estimate/event_study.do" $(1) $$* no lnRL excessvariance
+	$$(STATA) -b do "../../lib/estimate/event_study.do" $(1) $(2) no $(2) excessvariance
 endef
-$(foreach sample,$(REAL_SAMPLES), $(eval $(call effects_RULE,$(sample))))
-
+$(foreach sample,$(SAMPLES),$(foreach outcome, $(OUTCOMES), $(eval $(call effects_RULE,$(sample),$(outcome)))))
 
 define atets_RULE
-data/atet_$(1)_%-lnR.csv: $(CODELIB) $(DATALIB) data/placebo_$(1).dta
-	mkdir -p data
-	$(STATA) -b do ../../lib/estimate/event_study_atet.do $(1) $$* no lnR excessvariance
-
-data/atet_$(1)_%-ROA.csv: $(CODELIB) $(DATALIB) data/placebo_$(1).dta
-	mkdir -p data
-	$(STATA) -b do ../../lib/estimate/event_study_atet.do $(1) $$* no ROA excessvariance
-
-data/atet_$(1)_%-lnRL.csv: $(CODELIB) $(DATALIB) data/placebo_$(1).dta
-	mkdir -p data
-	$(STATA) -b do ../../lib/estimate/event_study_atet.do $(1) $$* no lnRL excessvariance
-endef
-$(foreach sample, $(REAL_SAMPLES), $(eval $(call atets_RULE,$(sample))))
-
-define outcome_atets_RULE
 data/atet_$(1)_$(2)-$(2).csv: $(CODELIB) $(DATALIB) data/placebo_$(1).dta
 	mkdir -p data
 	$(STATA) -b do ../../lib/estimate/event_study_atet.do $(1) $(2) no $(2) excessvariance
 endef
-$(foreach sample,$(REAL_SAMPLES),$(foreach outcome,$(OUTCOMES),$(eval $(call outcome_atets_RULE,$(sample),$(outcome)))))
+$(foreach sample,$(SAMPLES),$(foreach outcome,$(OUTCOMES),$(eval $(call outcome_atets_RULE,$(sample),$(outcome)))))
 
 #################################################################################
 ####### Monte Carlo :Generate event study data for monte carlo scenarios ########
@@ -99,12 +67,11 @@ data/placebo_%.dta: src/montecarlo/%.do src/montecarlo/params.do src/montecarlo/
 #################################################################################
 ############################ EXHIBTIS ###########################################
 #################################################################################
-define OUTCOMES_RULE
-figure/outcomes_$(1)_%.pdf: src/exhibit/outcomes.do $$(CODELIB) $$(foreach outcome, $$(ALL_OUTCOMES), data/$(1)_$$(outcome)-%.csv)
+figure/outcomes_%.pdf: src/exhibit/outcomes.do \
+	$(CODELIB) \
+	$(foreach outcome, $(OUTCOMES), data/%_$(outcome)-$(outcome).csv)
 	mkdir -p figure
-	$(STATA) -b do $$< $(1) $$*
-endef
-$(foreach sample,$(REAL_SAMPLES),$(eval $(call OUTCOMES_RULE,$(sample))))
+	$(STATA) -b do $< $*
 
 figure/outcomes.pdf: src/exhibit/final_outcomes.do \
 		src/exhibit/event_study.do \
@@ -117,7 +84,7 @@ figure/outcomes.pdf: src/exhibit/final_outcomes.do \
 
 table/atets_full_%.tex: src/exhibit/application_atets.do \
 	$(CODELIB) \
-	$(foreach outcome, $(ALL_OUTCOMES), data/atet_full_$(outcome)-%.csv)
+	$(foreach outcome, $(OUTCOMES), data/atet_full_$(outcome)-%.csv)
 	mkdir -p table
 	$(STATA) -b do $< full $*
 
@@ -153,21 +120,3 @@ figure/ceo-%-weighted.pdf: src/exhibit/%.do $(DATALIB)
 figure/%.pdf: src/exhibit/%.do $(DATALIB)
 	$(STATA) -b do $<
 
-paper.pdf: paper.tex table/atets.tex \
-	figure/application.pdf \
-	../application/table/table1_panelAB.tex \
-	../application/table/table2.tex \
-	../application/table/tableA1.tex \
-	../application/table/tableA3.tex \
-	../application/table/tableA4.tex \
-	../application/figure/figure1.pdf \
-	../application/figure/figure2.pdf \
-	../application/figure/figure3.pdf \
-	figure/figuremc.pdf \
-	../../lib/references.bib
-	pdflatex paper.tex
-	bibtex paper
-	pdflatex paper.tex
-	pdflatex paper.tex
-
-paper: paper.pdf
