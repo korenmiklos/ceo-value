@@ -9,16 +9,18 @@ DATALIB := ../../temp/analysis-sample.dta ../../temp/manager_value.dta
 CODELIB := ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do
 
 all: $(foreach sample,$(SAMPLES), figure/outcomes_$(sample).pdf) \
-	$(foreach sample, $(SAMPLES), table/r2s_$(sample).tex)\
+	table/r2s_full.tex\
 	table/firm-descriptives.tex \
 	table/firm-year-descriptives.tex \
 	table/switch-descriptives.tex \
 	table/industry-descriptives.tex \
 	table/atets.tex \
+	table/debiased_r2s.tex \
 	figure/ceo-spell-distributions.pdf \
 	figure/ceo-spell-distributions-weighted.pdf \
 	figure/tenure-snapshots.pdf \
 	figure/outcomes.pdf
+
 
 montecarlo: figure/figuremc.pdf table/atets.tex
 
@@ -49,11 +51,18 @@ data/full_lnL-lnRL.csv: $(CODELIB) $(DATALIB) data/placebo_full.dta
 	$(STATA) -b do "../../lib/estimate/event_study.do" full lnL no lnRL excessvariance
 
 define atets_RULE
-data/atet_$(1)_$(2)-$(2).csv: $(CODELIB) $(DATALIB) data/placebo_$(1).dta
+data/atet_$(1)_$(2)-$(2).csv: $$(CODELIB) $$(DATALIB) data/placebo_$(1).dta
 	mkdir -p data
-	$(STATA) -b do ../../lib/estimate/event_study_atet.do $(1) $(2) no $(2) excessvariance
+	$$(STATA) -b do ../../lib/estimate/event_study_atet.do $(1) $(2) no $(2) excessvariance
 endef
 $(foreach sample,$(SAMPLES),$(foreach outcome,$(OUTCOMES),$(eval $(call atets_RULE,$(sample),$(outcome)))))
+
+define atets_lnR_RULE
+data/atet_$(1)_$(2)-lnR.csv: $$(CODELIB) $$(DATALIB) data/placebo_$(1).dta
+	mkdir -p data
+	$$(STATA) -b do ../../lib/estimate/event_study_atet.do $(1) $(2) no lnR excessvariance
+endef
+$(foreach sample,$(SAMPLES),$(foreach outcome,$(OUTCOMES),$(eval $(call atets_lnR_RULE,$(sample),$(outcome)))))
 
 #################################################################################
 ####### Monte Carlo :Generate event study data for monte carlo scenarios ########
@@ -93,14 +102,21 @@ figure/outcomes.pdf: src/exhibit/final_outcomes.do \
 	mkdir -p figure
 	$(STATA) -b do $<
 
-table/r2s_%.tex: src/exhibit/application_r2s.do $(CODELIB) \
-		data/atet_%_lnR-lnR.csv \
-		data/atet_%_lnRL-lnRL.csv \
-		data/atet_%_ROA-ROA.csv \
-		data/atet_%_lnL-lnL.csv \
-		data/atet_%_lnK-lnK.csv
+table/r2s_full.tex: src/exhibit/application_r2s.do $(CODELIB) \
+		data/atet_full_lnR-lnR.csv \
+		data/atet_full_lnRL-lnRL.csv \
+		data/atet_full_ROA-ROA.csv \
+		data/atet_full_lnL-lnL.csv \
+		data/atet_full_lnK-lnK.csv
 	mkdir -p table
-	$(STATA) -b do $< $*
+	$(STATA) -b do $< full
+
+table/debiased_r2s.tex: src/exhibit/debiased_r2s.do $(CODELIB) \
+	$(foreach sample, $(SAMPLES),$(foreach outcome, $(OUTCOMES), data/atet_$(sample)_$(outcome)-lnR.csv))
+
+	mkdir -p table
+	$(STATA) -b do $<
+
 
 table/atets.tex: src/exhibit/atets.do $(EVENT_STUDIES_TABLE) $(EVENT_STUDIES_GRAPH) $(CODELIB)
 	mkdir -p table
