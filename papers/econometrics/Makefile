@@ -9,7 +9,6 @@ DATALIB := ../../temp/analysis-sample.dta ../../temp/manager_value.dta
 CODELIB := ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do
 
 all: $(foreach sample,$(SAMPLES), figure/outcomes_$(sample).pdf) \
-	$(foreach fe, $(FIXED_EFFECTS), table/atets_full_$(fe).tex)\
 	$(foreach sample, $(SAMPLES), table/r2s_$(sample).tex)\
 	table/firm-descriptives.tex \
 	table/firm-year-descriptives.tex \
@@ -37,12 +36,24 @@ data/$(1)_$(2)-$(2).csv: $$(CODELIB) $$(DATALIB) data/placebo_$(1).dta
 endef
 $(foreach sample,$(SAMPLES),$(foreach outcome, $(OUTCOMES), $(eval $(call effects_RULE,$(sample),$(outcome)))))
 
+data/full_ROA-lnR.csv: $(CODELIB) $(DATALIB) data/placebo_full.dta
+	mkdir -p data
+	$(STATA) -b do "../../lib/estimate/event_study.do" full ROA no lnR excessvariance
+
+data/full_lnK-ROA.csv: $(CODELIB) $(DATALIB) data/placebo_full.dta
+	mkdir -p data
+	$(STATA) -b do "../../lib/estimate/event_study.do" full lnK no ROA excessvariance
+
+data/full_lnL-lnRL.csv: $(CODELIB) $(DATALIB) data/placebo_full.dta
+	mkdir -p data
+	$(STATA) -b do "../../lib/estimate/event_study.do" full lnL no lnRL excessvariance
+
 define atets_RULE
 data/atet_$(1)_$(2)-$(2).csv: $(CODELIB) $(DATALIB) data/placebo_$(1).dta
 	mkdir -p data
 	$(STATA) -b do ../../lib/estimate/event_study_atet.do $(1) $(2) no $(2) excessvariance
 endef
-$(foreach sample,$(SAMPLES),$(foreach outcome,$(OUTCOMES),$(eval $(call outcome_atets_RULE,$(sample),$(outcome)))))
+$(foreach sample,$(SAMPLES),$(foreach outcome,$(OUTCOMES),$(eval $(call atets_RULE,$(sample),$(outcome)))))
 
 #################################################################################
 ####### Monte Carlo :Generate event study data for monte carlo scenarios ########
@@ -81,12 +92,6 @@ figure/outcomes.pdf: src/exhibit/final_outcomes.do \
 		data/full_lnL-lnRL.csv
 	mkdir -p figure
 	$(STATA) -b do $<
-
-table/atets_full_%.tex: src/exhibit/application_atets.do \
-	$(CODELIB) \
-	$(foreach outcome, $(OUTCOMES), data/atet_full_$(outcome)-%.csv)
-	mkdir -p table
-	$(STATA) -b do $< full $*
 
 table/r2s_%.tex: src/exhibit/application_r2s.do $(CODELIB) \
 		data/atet_%_lnR-lnR.csv \

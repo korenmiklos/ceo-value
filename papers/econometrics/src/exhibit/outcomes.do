@@ -9,11 +9,11 @@ local E lnRL
 
 foreach outcome in A B C D E {
     import delimited "data/`sample'_``outcome''-``outcome''.csv", clear case(preserve)
-    do "src/exhibit/event_study.do" `outcome' "``outcome''"
+    do "src/exhibit/event_study.do" `outcome' "``outcome''" "``outcome''" beta
 
 }
 
-graph combine panelA panelB panelC panelD panelE, ///
+graph combine panelA panelB panelC panelD panelE , ///
     cols(3) graphregion(color(white)) imargin(small) xsize(7.5) ysize(5)
 
 graph export "figure/outcomes_`sample'.pdf", replace
