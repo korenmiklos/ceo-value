@@ -57,13 +57,6 @@ data/atet_$(1)_$(2)-$(2).csv: $$(CODELIB) $$(DATALIB) data/placebo_$(1).dta
 endef
 $(foreach sample,$(SAMPLES),$(foreach outcome,$(OUTCOMES),$(eval $(call atets_RULE,$(sample),$(outcome)))))
 
-define atets_lnR_RULE
-data/atet_$(1)_$(2)-lnR.csv: $$(CODELIB) $$(DATALIB) data/placebo_$(1).dta
-	mkdir -p data
-	$$(STATA) -b do ../../lib/estimate/event_study_atet.do $(1) $(2) no lnR excessvariance
-endef
-$(foreach sample,$(SAMPLES),$(foreach outcome,$(OUTCOMES),$(eval $(call atets_lnR_RULE,$(sample),$(outcome)))))
-
 #################################################################################
 ####### Monte Carlo :Generate event study data for monte carlo scenarios ########
 #################################################################################
@@ -112,7 +105,7 @@ table/r2s_full.tex: src/exhibit/application_r2s.do $(CODELIB) \
 	$(STATA) -b do $< full
 
 table/debiased_r2s.tex: src/exhibit/debiased_r2s.do $(CODELIB) \
-	$(foreach sample, $(SAMPLES),$(foreach outcome, $(OUTCOMES), data/atet_$(sample)_$(outcome)-lnR.csv))
+	$(foreach sample, $(SAMPLES),$(foreach outcome, $(OUTCOMES), data/atet_$(sample)_$(outcome)-$(outcome).csv))
 
 	mkdir -p table
 	$(STATA) -b do $<

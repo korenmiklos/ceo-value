@@ -3,40 +3,44 @@ clear all
 
 * Define outcomes in order matching table columns
 local outcomes "lnR lnL lnK ROA lnRL"
-local samples "full one2one twos fnd2non non2non gender nogender gap nogap"
+local samples "one2one twos fnd2non non2non gender nogender gap nogap"
 
-local rows 9
+local rows 8
 
-local label1 "Full"
-local label2 "One-to-One"
-local label3 "Twos"
-local label4 "Founder-to-Non"
-local label5 "Non-to-Non"
-local label6 "Gender switch"
-local label7 "No gender switch"
-local label8 "Age gap"
-local label9 "No age gap"
+local label1  "One-to-One"
+local label2  "Twos"
+local label3  "Founder-to-Non"
+local label4  "Non-to-Non"
+local label5  "Gender switch"
+local label6  "No gender switch"
+local label7  "Age gap"
+local label8  "No age gap"
+local label9  "Employment <10"
+local label10 "Employment 11-50"
+local label11 "Employment 51-100"
+local label12 "Employment 100+"
 
-matrix stats = J(`rows', 5, .)
+matrix stats = J(`rows', 6, .)
 
 * Loop through outcomes and extract ATET
-local col = 1
-foreach outcome of local outcomes {
-  local row = 1
-  foreach sample of local samples{
+local row = 1
+foreach sample of local samples {
+  local col = 1
+  foreach outcome of local outcomes{
       * Import CSV file
-      import delimited "data/atet_`sample'_`outcome'-lnR.csv", clear varnames(1) case(preserve)
+      import delimited "data/atet_`sample'_`outcome'-`outcome'.csv", clear varnames(1) case(preserve)
       matrix stats[`row', `col'] = dRsq[1]
-      local ++row
+      local ++col
     }
-    local ++col
+    matrix stats[`row', `col'] = N[1]
+    local ++row
 }
 
 matrix list stats
 
 local texheader1 "\begin{tabular}{l*{5}{c}}"
 local texheader2 "\hline\hline"
-local texheader3 "Samples & lnR & lnL & lnK & ROA & lnRL \\"
+local texheader3 "Samples & lnR & lnL & lnK & ROA & lnRL & N \\"
 local texheader4 "\hline"
 
 local texfooter1 "\hline\hline"
@@ -53,13 +57,14 @@ forvalues num = 1/4{
 forvalues row = 1/`rows' {
     * Set row label
     file write texfile "`label`row'' & "
-    forvalues i = 1/5 {
+    forvalues i = 1/6 {
         local coef = stats[`row', `i']
-        local coef_str = string(`coef', "%5.3f")
-        if `i' < 5 {
+        if `i' < 6 {
+          local coef_str = string(`coef', "%5.3f")
           file write texfile "$`coef_str'$ & "
         }
         else {
+          local coef_str = string(`coef', "%5.0f")
           file write texfile "$`coef_str'$ \\" _n
         }
     }
