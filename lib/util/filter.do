@@ -1,3 +1,20 @@
+args sample
+confirm existence `sample'
+
+******************************
+* ACCEPTED VALUES FOR sample *
+******************************
+local full
+local size1         employment <= 5
+local size2         employment > 5 & employment <= 10
+local size3         employment > 10 & employment <=25
+local size4         employment > 25
+local pre2000       year <= 2000
+local post2000      year > 2000
+
+local valid_samples full pre2000 post2000 size1 size2 size3 size4
+assert strpos(" `valid_samples' ", " `sample' ") > 0
+
 * =============================================================================
 * SAMPLE FILTER PARAMETERS
 * =============================================================================
@@ -63,3 +80,9 @@ drop if missing(lnL)
 drop if missing(lnK)
 drop if missing(lnRL)
 drop if missing(export)
+
+*********************
+* LIMIT SAMPLE HERE *
+*********************
+display "Keeping `sample' sample: ``sample''"
+keep if ``sample''

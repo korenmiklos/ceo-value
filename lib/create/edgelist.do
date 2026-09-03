@@ -1,5 +1,5 @@
 * get the set of firms in the analysis sample
-use "temp/analysis-sample.dta", clear
+use "temp/full-analysis-sample.dta", clear
 keep frame_id_numeric
 duplicates drop
 tempfile firms

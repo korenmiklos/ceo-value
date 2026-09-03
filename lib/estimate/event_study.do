@@ -1,4 +1,4 @@
-args sample outcome montecarlo fixed_effects excesssvariance
+args variation sample outcome montecarlo fixed_effects excesssvariance
 
 if ("`fixed_effects'" == "") {
     local fixed_effects `outcome'
@@ -10,10 +10,12 @@ if ("`sample'" == "excessvariance_corr"){
 else {
   local s `sample'
 }
-confirm file "data/placebo_`s'.dta"
+confirm file "data/`variation'_placebo_`s'.dta"
+confirm existence `variation'
+confirm existence `sample'
 confirm existence `outcome'
 
-do "../../lib/estimate/setup_event_study.do" `s' `fixed_effects' `montecarlo'
+do "../../lib/estimate/setup_event_study.do" `variation' `s' `fixed_effects' `montecarlo'
 if !("`montecarlo'" == "montecarlo") {
   foreach var in outcome fixed_effects {
     tempvar mean_`var' demean_`var'
@@ -77,8 +79,6 @@ ereturn post `Cov' `V_Cov', obs(`=_N_obs')
 e2frame, generate(_dCov) numeric
 ereturn post `Cov_naive' `V_Cov_naive', obs(`=_N_obs')
 e2frame, generate(_Cov1) numeric
-
-** FIXME: this seems wrong, E(dy) =/= dy
 
 * =============================================================================
 * Call 2: VarY — xt2denoise with cov detail, z = outcome itself
@@ -209,7 +209,7 @@ frame dCov {
     generate dRsq = coef_dCov^2/(VarY*`dVar')
     sort t
 
-    export delimited "data/`sample'_`OC'-`FE'.csv", replace
+    export delimited "data/`variation'_`sample'_`OC'-`FE'.csv", replace
 }
 
 frames drop _dbeta _beta1 _dCov _Cov1 _dVarY _VarY1

@@ -1,6 +1,6 @@
-args sample
+args variation sample
 confirm existence `sample'
-
+confirm existence `variation'
 ******************************
 * ACCEPTED VALUES FOR sample *
 ******************************
@@ -11,10 +11,11 @@ local small         max_size == 1
 local large         max_size == 2
 local one2one       n_ceo1 == 1 & n_ceo2 == 1
 local twos          n_ceo1 == 2 | n_ceo2 == 2
-local gap           (n_ceo1 == 1 & n_ceo2 == 1) & (age_diff > 20)
-local nogap         (n_ceo1 == 1 & n_ceo2 == 1) & (age_diff < 20)
+local gap           (n_ceo1 == 1 & n_ceo2 == 1) & (age_diff > 10)
+local nogap         (n_ceo1 == 1 & n_ceo2 == 1) & (age_diff <= 10)
 local gender        n_ceo_male1 != n_ceo_male2
 local nogender      n_ceo_male1 == n_ceo_male2
+
 
 local valid_samples full fnd2non non2non small large one2one twos gap nogap gender nogender
 assert strpos(" `valid_samples' ", " `sample' ") > 0
@@ -32,7 +33,7 @@ global max_n_ceo 2                // Maximum number of CEOs per firm for analysi
 global exact_match_on cohort sector max_size  // Variables to exactly match on for placebo
 global fixed_effect ROA
 
-use "temp/analysis-sample.dta", clear
+use "temp/`variation'-analysis-sample.dta", clear
 
 * person_id lives in intervals.dta, not in the firm-year panel
 preserve
@@ -106,6 +107,7 @@ drop if missing(MS1, MS2)
 drop if ceo_spell1 != ceo_spell2 - 1
 gen age_diff = ceo_age1 - ceo_age2
 replace age_diff = ceo_age2-ceo_age1 if age_diff<0
+su age_diff, det
 *********************
 * LIMIT SAMPLE HERE *
 *********************
@@ -145,7 +147,7 @@ scalar MEAN = r(mean)
 scalar MULTIPLE = `TARGET_N_CONTROL' / MEAN
 scalar list
 
-use "temp/analysis-sample.dta", clear
+use "temp/`variation'-analysis-sample.dta", clear
 keep frame_id_numeric year ceo_spell ${exact_match_on}
 
 collapse (min) window_start1 = year (max) window_end1 = year (min) $exact_match_on, by(frame_id_numeric ceo_spell)
@@ -242,4 +244,4 @@ keep `vars'
 order `vars'
 compress
 
-save "temp/placebo_`sample'.dta", replace
+save "temp/`variation'_placebo_`sample'.dta", replace

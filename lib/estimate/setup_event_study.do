@@ -1,6 +1,6 @@
-args sample outcome montecarlo
+args variation sample outcome montecarlo
 
-confirm file "data/placebo_`sample'.dta"
+confirm file "data/`variation'_placebo_`sample'.dta"
 
 * =============================================================================
 * EVENT STUDY PARAMETERS
@@ -21,7 +21,7 @@ which reghdfe
 which e2frame
 
 if !("`montecarlo'" == "montecarlo") {
-    use "../../temp/analysis-sample.dta", clear
+    use "../../temp/`variation'-analysis-sample.dta", clear
     merge m:1 frame_id_numeric ceo_spell using "../../temp/manager_value_spell.dta", keep(master match) nogen
     * redefine variables here so as not to rerun everything
     confirm numeric variable `outcome'
@@ -38,7 +38,7 @@ if !("`montecarlo'" == "montecarlo") {
     drop ever_in_sample in_sample firm_tag
 
     * the same firm may appear multipe times as control, repeat those observations
-    joinby frame_id_numeric using "data/placebo_`sample'.dta"
+    joinby frame_id_numeric using "data/`variation'_placebo_`sample'.dta"
 
     * limit to relevant CEO spells
     keep if inrange(year, window_start, window_end)
@@ -47,11 +47,11 @@ if !("`montecarlo'" == "montecarlo") {
     egen N_control = total(placebo == 1), by(group)
     * for comparison, only keep groups with both treated and control firms
     keep if N_treated > 0 & N_control > 0
-    tabulate N_control 
+    tabulate N_control
     tabulate N_treated
 }
 else {
-    use "data/placebo_`sample'.dta", clear
+    use "data/`variatino'_placebo_`sample'.dta", clear
 }
 * check balance
 tabulate year placebo
