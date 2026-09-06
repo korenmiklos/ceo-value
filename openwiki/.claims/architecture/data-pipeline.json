@@ -1,0 +1,236 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:55e88bee0c9de68117d8cdb1fc210e85404f6f544ab646efe41fed7be3677d5c",
+  "claims": [
+    {
+      "id": "claim_4150d1ac2d074e93a29a9d57c907ef44",
+      "statement": "The data pipeline starts from two raw data sources: Hungarian balance sheet records (input/merleg-LTS-2023/balance/balance_sheet_80_22.dta) and a CEO panel registry (input/manager-db-ceo-panel/ceo-panel.dta).",
+      "evidence": [
+        {
+          "resource": "repo://Makefile#L50-L91",
+          "version": "repo-lines-v1:sha256:e1b5ad4668fdf9ea995aa90659eb59abc65d5a0a473c3a90924c5422fd96411b:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQwOWU5NDAyZmY0MDgwNWE5N2YzYzRiNGIwYjM2OTZkZDhkNjE2ZDBkZjEyMjNmOTA0ZDFhNGUzMmMwOWMzMzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNlMDE2NDBjNGJhZDkxNDg4ZDlkZGY5ZmMzNmJmNWUxYmQyOGE0ODU2NWVlMjUxMTU1YmFjNjcwMmM1MzJjOWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZjZGNlZTkwMzUwNmY3Yzk5NWRkNjY2NTg1NGE5MDZkNzFlOGNiNjZmNmIzZTJjNzliODNmNDU2MjBhYjYwMjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIxNDVmZTNhNjc1MzFiMTFlNzVkZjczZjE0Nzg1ZDRiOWJhZjBlNzRkMWFmZmMzOTM4MWJmZTc5YWEyYjRmZGUifQ"
+        },
+        {
+          "resource": "repo://doc/data-flow.md#L1-L5",
+          "version": "repo-lines-v1:sha256:48322545488f6bd569a57999a8cdd1b080a5701d9228819c565817ae2b4403f3:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDlmODRlZmFkYTMxZjU1ZjIxNzY2ZWZiOWRiMzgxNmYwOGM1NWYxZDdlZGEwMmZmNTQyZTc3ZjUyZDU5NjY2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTY5NDhlM2RkNzJjY2U4ODk3MjgxNzFlMDc2MTJmNDAyNzRlZGM3NDYzOWQ2NDQyOGY2ZGU3NTg3ZTg3YWFjOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjM1NGI2NWMzNjQxN2ZlNDA2ZjJmMDNlOWMzZGQ4ZjM2ODI3MTk0YWI3MDdhNDBkM2E0YWZjY2EwZGJiZTFkMiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_2d720bd6d1844ff9bfdb7faffb2185b4",
+      "statement": "Stage 1 (lib/create/balance.do) processes raw balance sheet data: filters to 1992-2022, drops missing core variables, computes EBITDA and capital stock, and saves temp/balance.dta.",
+      "evidence": [
+        {
+          "resource": "repo://Makefile#L50-L52",
+          "version": "repo-lines-v1:sha256:e9b768faf9c76beaef686c5b0a5ae2708a004353efda6184a1daa1ba01cb5973:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDA5ZTk0MDJmZjQwODA1YTk3ZjNjNGI0YjBiMzY5NmRkOGQ2MTZkMGRmMTIyM2Y5MDRkMWE0ZTMyYzA5YzMzMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2UwMTY0MGM0YmFkOTE0ODhkOWRkZjlmYzM2YmY1ZTFiZDI4YTQ4NTY1ZWUyNTExNTViYWM2NzAyYzUzMmM5YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNmNkY2VlOTAzNTA2ZjdjOTk1ZGQ2NjY1ODU0YTkwNmQ3MWU4Y2I2NmY2YjNlMmM3OWI4M2Y0NTYyMGFiNjAyMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmZjMjBmOWE1M2M4NmE4NzA0ZjAzNzUyZDg0MDAwNmExMjIyYTA5YWRjN2Q5MTIwZDA4Yjc5ZTY2MWRhODlmMCJ9"
+        },
+        {
+          "resource": "repo://lib/create/balance.do",
+          "version": "repo-file-v1:sha256:c00e484d35d50fe45e188910a837b59faf46ddc04a6b050d47b178572c41c07e"
+        }
+      ]
+    },
+    {
+      "id": "claim_cc9d261c7d7b4f49830c1157ddacb5b5",
+      "statement": "Stage 2 (lib/create/intervals.do + lib/util/potholes.do) cleans CEO tenure intervals using Allen's interval algebra: fills 1-2 year potholes, classifies all 13 interval relations, drops short overlapping intervals, and truncates long overlaps, saving temp/intervals.dta.",
+      "evidence": [
+        {
+          "resource": "repo://lib/create/intervals.do",
+          "version": "repo-file-v1:sha256:869f2a7621c5f10357a644c0826bb5857b3838a8941eaab92f2978b5ad751d1d"
+        },
+        {
+          "resource": "repo://lib/util/potholes.do",
+          "version": "repo-file-v1:sha256:6a4bfc950174741c18eab92287d060ee8e57e104dee83514997c0bcc89c5815a"
+        }
+      ]
+    },
+    {
+      "id": "claim_ce9c036716214650b1f6f363b3da937f",
+      "statement": "Stage 4 (lib/create/ceo-panel.do) expands cleaned intervals to a firm-person-year panel, merges manager facts, creates transition indicators, and collapses to firm-year level with CEO spell counters, saving temp/ceo-panel.dta.",
+      "evidence": [
+        {
+          "resource": "repo://Makefile#L58-L60",
+          "version": "repo-lines-v1:sha256:6a92da499ab3c8f7bbeb2f9855c3bdd4a02a9c3b508f2cad87c4c75416aa4fcb:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDhmOGZmYmY5YjZlZTIxYzdiNDY4YmUyZmYxM2QwNWFlNjk0YTFmYmJjZGFjN2Q4ZDQxZWNmNTMyNjkwMDU4ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2UwMTY0MGM0YmFkOTE0ODhkOWRkZjlmYzM2YmY1ZTFiZDI4YTQ4NTY1ZWUyNTExNTViYWM2NzAyYzUzMmM5YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2I5ODI3YThlOGE3YWRjM2FiNDIxY2YzYTcyOTFiYjNhZGQwYjhjM2E2NTdhNTA3YTJjNTZjMGQ0Zjc1NTJkZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODQ0NDA2ZTA4MDhjMWZiZTVjOGIyYjc3YzIzZWM5NzdlOTZkYzRhMTcwODlkNjgxZDczOWRhYTVkZjhhZTg5YyJ9"
+        },
+        {
+          "resource": "repo://lib/create/ceo-panel.do",
+          "version": "repo-file-v1:sha256:181003a2c1ad038a9714eff757b1034cc39fa538ad66227c408da9670d4a47d6"
+        }
+      ]
+    },
+    {
+      "id": "claim_1670ea76a3154fbf82de38a1ec1a1943",
+      "statement": "Stage 5 (lib/create/unfiltered.do) merges balance sheet and CEO panel data, applies industry classification (7 sectors from TEAOR08 1-digit codes), creates 20+ derived variables (log transforms, ratios, flags, aggregates), and saves temp/unfiltered.dta.",
+      "evidence": [
+        {
+          "resource": "repo://lib/create/unfiltered.do",
+          "version": "repo-file-v1:sha256:57775f1f0520f837462fef9dcd809c79cff9d9607da239e3ff2a80437d357f4f"
+        },
+        {
+          "resource": "repo://lib/util/industry.do",
+          "version": "repo-file-v1:sha256:46d37d9b2d7f90b46cfb4512df0d2d46ac6ace2583e0c2df2a01503254f754d5"
+        },
+        {
+          "resource": "repo://lib/util/variables.do",
+          "version": "repo-file-v1:sha256:4896fede21b1ee276c13643d826317bcff3a60675e98e02a859989b497902a3a"
+        }
+      ]
+    },
+    {
+      "id": "claim_7d5d302c78024d67bdd2299e547644c9",
+      "statement": "Stage 6 (lib/create/analysis-sample.do + lib/util/filter.do) produces analysis sample variations (full, size1-4, pre2000, post2000) by applying base filters (max 2 CEOs/year, max 12 spells, min age 1, exclude finance, min 3 employees) plus variation-specific filters.",
+      "evidence": [
+        {
+          "resource": "repo://lib/create/analysis-sample.do",
+          "version": "repo-file-v1:sha256:c5c3934444e0317343643989bac7543094ea0d3117084c8ff2be7abd22428395"
+        },
+        {
+          "resource": "repo://lib/util/filter.do",
+          "version": "repo-file-v1:sha256:8c3d2ddbc830806fb64f3cf17420f302b1487293902c20248c111beaacb4a3c8"
+        }
+      ]
+    },
+    {
+      "id": "claim_db1db477fda6443dbf89d241327bb2c1",
+      "statement": "Stage 7 (lib/create/edgelist.do) extracts firm-person pairs from temp/intervals.dta restricted to firms in the analysis sample, exporting a bipartite edgelist CSV.",
+      "evidence": [
+        {
+          "resource": "repo://Makefile#L73-L75",
+          "version": "repo-lines-v1:sha256:8d446aa9b17387785a4afc0633aa25291c5a1eab7a59d3c61c48a05a6a6be717:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjMwMzgzYTEyNjA1ZTM0N2Q5NmZlY2IwMDAyM2NiODRhMTBkZjZlZTYwZTI5YTM5YTdiZTlhODUyNzMzMGY0OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2UwMTY0MGM0YmFkOTE0ODhkOWRkZjlmYzM2YmY1ZTFiZDI4YTQ4NTY1ZWUyNTExNTViYWM2NzAyYzUzMmM5YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2VjNzRiZmIxNjczODYxYzE5NWQzZDdiMTEzNTNlODE5M2VjYWExZWY5MjM1Nzc3MjMxYzNmNGMzNGUwM2ViNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmNkNDk4ZWRjNzE4NDVhMDJjMTIxNTJmNDNkODdmODI1NzcwNmRiMTUzMWU5MDNkZTJlOTkwMWYwMjQ2YTY1MiJ9"
+        },
+        {
+          "resource": "repo://lib/create/edgelist.do",
+          "version": "repo-file-v1:sha256:13e67c64e78d94976b37ac3637ffac576b49776419ba20986862e88f98d7d2de"
+        }
+      ]
+    },
+    {
+      "id": "claim_3c5d3599ffcc463fbf43c0cddce050c3",
+      "statement": "Stage 8 (lib/create/connected_component.jl) projects the bipartite firm-manager edgelist to a manager-manager co-employment network via sparse matrix multiplication P = B'B, finds connected components with >= 30 managers, and saves temp/large_component_managers.csv.",
+      "evidence": [
+        {
+          "resource": "repo://Makefile#L77-L79",
+          "version": "repo-lines-v1:sha256:23977df506ece0b446ec3ecdf0fbeeeb526abe4d820f8e8ad99ffc1664a78978:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzQyNjBkMWQxOGYwZjg3NzZlZWRhMjkwZDRiYzJlODE1M2VhYzRkNzViNWVlY2EzNTM4MDY0ZjNkMjhmMTU0YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjMyNjRhNDdhZTljMTViMDFhOTE1Mzg5ODM4NTMxOGFhY2NlZjAyODc3NzgzZWEzMjM5ODQ5OGUwMDQwZGMwMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzE3ZDI1ZDkxOWQ5YmViNGQyZDI1ZjM3YzJiODM3OTUwOWQ5MzNjNjUyM2JhYzcwMTk4MmFmNmY4MjcyY2ZhNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjZhNzE0ZTBlZDdiMDFlM2QwYzdlY2VkNzI0YWMyYmFkY2M1M2UwODZiMzBjNjdmODc1Yzc4ZDBmNDVkN2MxMyJ9"
+        },
+        {
+          "resource": "repo://lib/create/connected_component.jl",
+          "version": "repo-file-v1:sha256:d2175bdc1ce9e3402ee16fa4f9ec636d7d80333f54ce2ab1031595da68841788"
+        }
+      ]
+    },
+    {
+      "id": "claim_56b973f639384e52a8c3c0a704841067",
+      "statement": "Stage 9 (lib/estimate/manager_value.do) computes within-firm manager skill (ROA deviations from first CEO), estimates two-way fixed effects via reghdfe, normalizes to giant component mean = 0, and outputs manager_value.dta (firm-person) and manager_value_spell.dta (spell-level).",
+      "evidence": [
+        {
+          "resource": "repo://lib/create/network-sample.do",
+          "version": "repo-file-v1:sha256:a7424b7e63d8d35f83ebd6e89fbdfdccef44dec441ce05160e36bf8c2526da13"
+        },
+        {
+          "resource": "repo://lib/estimate/manager_value.do",
+          "version": "repo-file-v1:sha256:8b80fade63c1bd684b3b6ebf9469c2fc254fcc24d69834ba40e14089d9e19ec3"
+        }
+      ]
+    },
+    {
+      "id": "claim_12fe95f0b66f4c4d9b3cd54f7fa3dbdd",
+      "statement": "Stage 10 (lib/create/event_study_sample.do) constructs placebo-controlled event study datasets for 11 sample specifications by matching control firms on cohort/sector/size strata, sampling with 10:1 control-to-treated ratio, assigning placebo change years from the treated t0 distribution, and computing sampling weights.",
+      "evidence": [
+        {
+          "resource": "repo://Makefile#L66-L71",
+          "version": "repo-lines-v1:sha256:ba44c72bf86228faf8703d79da4127e06c8443d87be8e5df2be984092a8a6d6f:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmM3ZmM3ODkyMzFhYTllZTAzY2QzYmYwZWE4YjQ0M2VkNTk2MjI3ODU4NGJiYWIwYWUzMTE0NTk1ODQzYjNhYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWU0MGE0ZTFhMWZjOTUxMmMzOTIwYWY0OGI4MDJiODlmMjQ0YzI0ZGY4NjQ1MjIxZmY3MmViNjI3ODFjYTRiYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDdlYWI5NjM2NDRiZDUxNDM3ZDE0OTllNjk1NGE3MTFmNWFjY2NhMTRhOWUxZmNmOTkwM2I3ZDE0NmJiMTQ0YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzAxNTM3OWE5NGYzOTU3OTNiZDdlZGIxZDlkYjIwZTA1NzJmZTVmMjJmMTNiMDcyYzhhZjlkMjM2MmY0YjBjOSJ9"
+        },
+        {
+          "resource": "repo://lib/create/event_study_sample.do",
+          "version": "repo-file-v1:sha256:96de0c99a8e1545f402e88fc8fca35d844a7a01737774a348b82fc8523035016"
+        }
+      ]
+    },
+    {
+      "id": "claim_8d4539dfe5484877a7f0861c771dd1ce",
+      "statement": "Stage 11 estimation scripts (event_study.do, event_study_atet.do, revenue_function.do, balance.do) consume the placebo samples and analysis samples, running xt2denoise event study estimation with denoised/naive coefficients and revenue function regressions.",
+      "evidence": [
+        {
+          "resource": "repo://lib/estimate/event_study.do",
+          "version": "repo-file-v1:sha256:3873eb2e90e44ca748eda3ca121ac58bdc8db68af3019d46f831c358fb8585ce"
+        },
+        {
+          "resource": "repo://lib/estimate/revenue_function.do",
+          "version": "repo-file-v1:sha256:a0b03a7987516c99f4ff3847137313fd01433fbd264ef0388f65cbdcb1a0dc8a"
+        },
+        {
+          "resource": "repo://lib/estimate/setup_event_study.do",
+          "version": "repo-file-v1:sha256:cc0721ee1545b9385319b729cac2ddf97c9b4f584eb28864410c0ad68b5f60bc"
+        }
+      ]
+    },
+    {
+      "id": "claim_b8485002c54540fcac5497dc0ca0a243",
+      "statement": "The pipeline produces analysis samples parameterized by 6 analysis variations (full, size1-4, pre2000, post2000) and 11 sample specifications (full, one2one, twos, fnd2non, non2non, gender, nogender, gap, nogap, small, large) in a full Cartesian product.",
+      "evidence": [
+        {
+          "resource": "repo://Makefile#L13-L14",
+          "version": "repo-lines-v1:sha256:75c9c0e49c344653382b1a8c7da7156ffe8ac0ba9b9645d9c98108cc1bf42448:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzA2ZjA3MWUzZGJlZDNjMGI0MzdjZTJkNmViY2IyYzA5ZWE2NmVlNzkwM2ZkMjAxYjgyOTFhZTlmMjIyMjU3MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGIxYmMxNzZjY2M1ZTY1ZTc3YTdiYjMzMGM2NGFjM2IxYTFjNDM1NTI2ZmEwMTAwNmQ4OGM2ODFiMjU3NmY1NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmMzY2UzYzhiZTUzZTY4YTQ4MjM1YzJlZWY4NmY3MTdmNzdjZDE1MzNjOTRiOGE1MTU0MjEwZTc3MGM0NDZjZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDdjZGJmMWU5ODg0ZThlNDQzNWIyOGI2YTJkZWQ4NDFhZGQwZGNkN2E0YWMzODI5M2VkNWExMjQ5YTk5MDQ1MiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_2622d8ff6d6a42a29b8a84b19e8ec560",
+      "statement": "Costly intermediate files are declared .PRECIOUS in the Makefile to prevent automatic deletion by make after downstream targets complete.",
+      "evidence": [
+        {
+          "resource": "repo://Makefile#L23-L29",
+          "version": "repo-lines-v1:sha256:b68e17c4c2ca584f04aecb61ce434c4468b48a7bc36d13097c71d63c56507961:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzdiZGM3MDIxNmRmZGUyZWRjMjcxNDczYWM0MGU3NTQ0ZDAyM2UxNmFhOWRkZWNhMzQ3ZmEyZTk2MTNiNDA0MyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjJiYzE3NzljZDA2MTExMzUwMzQwYmZmZWZjOWI1YjVhNWJkMjNmYmQ5MDFkOTIxODhiOGU0MzI1OGFmZGNhNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmU3NDRhMGM5NmIwZGFhMTAyZTg4ZDMwODMxODllYjgwMGQ1NTU4ZWVkODNmNWE5YzhhOTY4MjQ0ZjAyNDg5YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzk4Y2YyNmMxMDdkZmQ1MDMxZDE0MzFlMmFjZTZlOTI4MTMzNGVlNTM0YTZlMGZlOTM1OTJiNTE3NDdhMjEyNiJ9"
+        },
+        {
+          "resource": "repo://Makefile#L31-L32",
+          "version": "repo-lines-v1:sha256:4112994ab71aaa9e16cc27190cbd9b3f59dee67d9f522474d50e7b10ab05a68b:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTZmYzgyNjdkZmU0MTUwYzI3NzcwYjhmNjUzNjA0ZDhhODE4NWM3ZmM3YmY5MjdmM2QxMDMyZjhkNmEwYjUwNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTE3MzhiNjk3YjZkY2UyMzY2MWIyNDg2YjRmNWJhMDExOWI3OGY4N2IzYzhhODUzYjllMmEwMGRjZDJkYzJjMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjQ2ZWNiZThmZTljYTAwOGFjNjVmMmNiOTEyOTc3OGU3ZTY2N2MyZWM5YTgyZjZkN2QyNTViOTJjMGU5NzY1NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTMwNzdlYTc3NWNhYTBmNmE2YTcwNjM3NzYxMjU2MjJkMzM3MTIyNGU1NTcxYzBmZmJmY2JmYTM5N2VkYzE4YSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_77b6ffc968ed4b68bc16d2c47bb25286",
+      "statement": "The connected component analysis uses COMPONENT_SIZE_CUTOFF = 30 to filter components; managers in smaller components are excluded from the manager value estimation.",
+      "evidence": [
+        {
+          "resource": "repo://lib/create/connected_component.jl#L108-L110",
+          "version": "repo-lines-v1:sha256:cdff66a76b524f688c9c9c5219cd13145810dccae14e4e57a98296a8e29be16e:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzc0ZmVkODNmMmZmY2I1ZTNhMjg5NGQyMzRlMGY0N2Q5MzY1MDZhYzFjMjY2MTQ3Y2Q3YWFhMGM2OTJhNzE0NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDU5Njk0MmI0MTVmMzA3YWQxNzgzZWRmNDg4MTgzZjhmZTIxMWUyNWZlZjQ0ODc1MzcwNTEzYTZlYzc1OGY5MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmVmYWMyMjcyNjg5ZDM5Y2E5Njk2OTU5YTEzN2YxOTEwOTE1NzI3OWJhMjhiZTE0ZWZmN2NkMDZmZjk4OGE3OSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_8a4b42e3f8fb47cfa7a9743b6a437e84",
+      "statement": "Placebo construction uses a random seed (SEED = 1391) and a target control-to-treated ratio (TARGET_N_CONTROL = 10) for reproducibility of the control pool sampling.",
+      "evidence": [
+        {
+          "resource": "repo://lib/create/event_study_sample.do#L27-L28",
+          "version": "repo-lines-v1:sha256:9ce25a29cd7dc8e5607bb1ba2d4611becbc9495ee0e6ef6fdc363cdf2d9d6d47:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzE0YjViOTFmNzdkMGQ1NWFmYWQ0ZTBhODEwZTUxMzg3MTFjODY0NDc1YTFhMDMzYjgyNTMzZWE3ZTc3NDJmMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmFkZjg2NjhjZDEzNDdlYWJhMWNhYTYyNDk5NmQwN2NjNGQzOWUyNmE3MzA0Y2YxYTJhZTI5MjE5OGIwNTA1NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmQ5YzU2MDJhMzVmMjdjM2Q0NTMxOGRiZWQ2N2I0NDU1NDQ1NTBjYjY4MGQ0ZjRiMjBjYWRlOTg2MjkyNjU3ZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODZmN2JiNWNmYWU0MmI1NzUxYmEzNGJiOGU4NDQ0YTg2MzkxYWIzYjBjZGM2ZDc4NjUzMThhMjVkOTU2MzE0NiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_6ff82dae01f04e59a5d0c1fe8ae8b66d",
+      "statement": "The pothole-filling utility (lib/util/potholes.do) fills gaps of 1-2 years in CEO spells by cloning rows and backfilling years, then asserts that no gaps ≤ 2 years remain.",
+      "evidence": [
+        {
+          "resource": "repo://lib/util/potholes.do",
+          "version": "repo-file-v1:sha256:6a4bfc950174741c18eab92287d060ee8e57e104dee83514997c0bcc89c5815a"
+        }
+      ]
+    },
+    {
+      "id": "claim_dcca68ea7d7843f08faf786a09665ced",
+      "statement": "The manager_value.do target depends on temp/large_component_managers.csv via lib/create/network-sample.do, creating a chain from edgelist to connected components to manager skill estimation.",
+      "evidence": [
+        {
+          "resource": "repo://Makefile#L97-L100",
+          "version": "repo-lines-v1:sha256:664779e32e1d260653b327347c9ce7f9066ec282265c3784dfa1035d1c021efc:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjk2NGVhNjExMmViOGRhOWVkZTBmYjdkMGJlNWY2M2FmZWMwNjc3YTdiMDdjODU4ZTk2Y2FjMmVlM2EwNjA4NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2UwMTY0MGM0YmFkOTE0ODhkOWRkZjlmYzM2YmY1ZTFiZDI4YTQ4NTY1ZWUyNTExNTViYWM2NzAyYzUzMmM5YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjc3NzdmY2Q3OGE4MWRkMDgxNDFmYjQwZWUyMzVhNTU4ODFhNGUxYmE0ZTBiMjY4OThlNWFhM2ZjMmYxYjFhMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjNjMWNiNDIyOGNmMjVhY2E2NjMxOWNmNzQ3NDU3ODI2ODU5OTM5Njc0ODMyZTFmYWZmZWQzMjc5NDQ2ZDZkMyJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-06T17:56:56.777Z"
+  }
+}

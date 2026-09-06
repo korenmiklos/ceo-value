@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:384ec701cf91415f7690acd559be5625585562c0035a03d143e5a32131c0ae39",
+  "claims": [
+    {
+      "id": "claim_4ffcafe590674e179f2a2ce7c2e25dc5",
+      "statement": "There are two Monte Carlo implementations: a standalone generator at /lib/create/montecarlo.do and a multi-scenario framework at /papers/econometrics/src/montecarlo/.",
+      "evidence": [
+        {
+          "resource": "repo://lib/create/montecarlo.do",
+          "version": "repo-file-v1:sha256:5deaa2da9c9cefa5d2e8e1bca094904eb754b1eda065c3a68404f2b02eb6596a"
+        },
+        {
+          "resource": "repo://papers/econometrics/Makefile#L67-L82",
+          "version": "repo-lines-v1:sha256:2ad50c3a9f3eaabddb5f75d2c9079a216b0a60af51e572e5b404decf7b2c6a38:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdiMjkwYzZiNmQxM2I1NGQ3ODBjNTgwZDQ4ODE4ZTk0MjUxNDQyMTRlY2UyZTUzNzMxMWExMWRjM2NiYzMzM2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhlNjllZWQzNTA2ZjQ1ZTYxOTY0ODEzNDU2NDkzMTJlMGE0MjMzMzg4YmY1NzBlZTZhMDZiNzMzMWU3NzVlMjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIwODU4ZGU5M2UwNmRkMmY0NDM0ZjhhNjExYjM5YjZiZmI2ZWE5ZmFjMWEwZmJkYmQ2YzlmMGI2MjJhZjNjYTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRhNTc1NDE2N2RkNjhhMTQxOGE5OTU4YjIxNDYxMmQ3NTUwNWZlNGRkY2I3Nzc4OTQ1YzhjMmY5ODNiOGJlMWYifQ"
+        },
+        {
+          "resource": "repo://papers/econometrics/src/montecarlo/run.do",
+          "version": "repo-file-v1:sha256:f5b27242e354876bf3501a4a7580121035a0854be79eb5b28ff2f7144ecf2315"
+        }
+      ]
+    },
+    {
+      "id": "claim_740e3e75a3b64c06a9ba3db1b82f77e9",
+      "statement": "The standalone Monte Carlo generator (/lib/create/montecarlo.do) uses parameters: N_changes=10000, hazard=0.2, sigma_z=0.1, sigma_epsilon0=0.05, sigma_epsilon1=0.06, rho=0.97, control_treated_ratio=9, T_max=20.",
+      "evidence": [
+        {
+          "resource": "repo://lib/create/montecarlo.do#L4-L19",
+          "version": "repo-lines-v1:sha256:eb0476872045c05ba92a765029bf91e170aae631bc31b56ad2ccc876cf4c9152:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNlOTVhOTM3MWEzNjAyMGE0NGUwNzZkYzlhNjQ4ZWU4MmQ1NmZiNjk4NGQwMTg2OTlmYjc0ZGE4OWM5NDBkMGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3ZWM1M2FjMzhhZDJjN2Y3NTA4NTY1YmY0NWIzM2I1NzhmNWVlYWEwYTE5YjZkNjllNzAyOWM3MjRjNGY5ODgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlhODlhOWU4NTZmZGE2ZmVhZGU0NmYxNWMyMDY0MjA4MTdkNjY5NGFmNzNhNjQzZDIzYzc4ZWYyYzE5Y2Y5NjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxNDRiYTZhZDkwZmQyODQ4ZWExNTE0YWU5YzIxZTI1NGY4ZDBjZjhjZjQyMGM4NjI2MzM4YjQ5Y2Q3ZWEwMjAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_56e8769d7f2e4dd39a17b0e4d1aeb556",
+      "statement": "The expected true effect in the Monte Carlo is computed as half_normal * sigma_z, where half_normal = sqrt(2/pi) ≈ 0.797885.",
+      "evidence": [
+        {
+          "resource": "repo://lib/create/montecarlo.do#L9-L10",
+          "version": "repo-lines-v1:sha256:df2f2f27b904272562d3aa3100adc607279c256361168d46815db75801261629:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWM3OGVkYTI0MmY1MjQxNmJiNjU5ZTUxYTQ3ZTkyMDJhYTBmMWFjMjI4NjE5ODc1YTBhZmNjZGNmYmVlZDU3ZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjFiZTE1OTZiODZmOGQxZjYxM2VmMDcxODNiNDYxOWFkOWM0ZmVlMWNmMjQwOTVhYWMyNWJmZTk5YWU0YzcwZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTRiNThkYzAzYzUzMmJmYjA1MGZlMmZiMmJmNzZmZmE2N2EyNjEyNzA2YjFlMDc2YTdhMGEwOTEwMGY5M2QwYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmQ0MDY5NDE2OTVjZTRjMDlmNmNjOTUxNGMzYTk0MThjZGM2ZDcwZTEyYjkyNzcyMWM2NTQzNTc4N2RhN2I5MyJ9"
+        },
+        {
+          "resource": "repo://papers/econometrics/src/montecarlo/params.do#L7-L8",
+          "version": "repo-lines-v1:sha256:07b1d88439f08456975c0767dc5e75d4669dd9d5c2717500e2b4140f4dad2f2d:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjFiZTE1OTZiODZmOGQxZjYxM2VmMDcxODNiNDYxOWFkOWM0ZmVlMWNmMjQwOTVhYWMyNWJmZTk5YWU0YzcwZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjE2ZjcyZmQyOGIwZmQ0NGM2ODI5NTM1YzExZjM2ODJkNDU5MDFlZGM2NGVjYzhmNmI3MWFlZGUxYmE0YTIwNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmUzYjVkYzg2ZjVmZjQ3MjY0YTUwZmZkOTEwYmFkZGJhNTAwY2Y3ZTExMTk2ZWNkNDczNTE4NGM1N2MwYjJmMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzFkM2VkOGJiZGNlZjU4NWM5OTc4NzQ5ZWViOTUyOWVlNTZmNjNkODg4MzYzMjA4MGZmOGJjOGJjZmMwNjVkNSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_7ae4c311262642f8b480506d78194197",
+      "statement": "The estimation pipeline supports a montecarlo argument that causes setup_event_study.do to skip the merge with real manager-value data and the industry-year demeaning step, loading the Monte Carlo dataset directly.",
+      "evidence": [
+        {
+          "resource": "repo://lib/estimate/event_study.do#L19-L32",
+          "version": "repo-lines-v1:sha256:bfb153f5bbed438d69d97f8c19b44947ff1f04e2cef0804eda9b05c28ada8bf5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM5ZjU4MTYyMzQwN2U1ZWNhNTQ3NzFjZTUyZGFkNjMwN2M0NjNmNTc2YzkzZWJmZDQ5YTU4YmYyYjNjODBkZjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjliNjcyZTNiY2QyMmQ2ZjRmZDZjNTBjMzFjYTMyMGVmNTJiZjJkYjM0MTU0YTg4YWQ4NDQ5MTk4Mjc3N2FmZTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI1NWQ3ZTNhZjRmYzljMjZmNTA3MTY2ZGJmMzQyMDk3NjdmZjVmMDA5ZDVkYjdkNmNmNWIxMjk0NDA1NmFmNTcifQ"
+        },
+        {
+          "resource": "repo://lib/estimate/setup_event_study.do#L23-L55",
+          "version": "repo-lines-v1:sha256:9ea0da738dde43f743dd863deb21810f8ba17fabaedb94ff96577d804d332b5f:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM5ZjU4MTYyMzQwN2U1ZWNhNTQ3NzFjZTUyZGFkNjMwN2M0NjNmNTc2YzkzZWJmZDQ5YTU4YmYyYjNjODBkZjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY3NzJiNjU5YWM0YWQ1ZmM2NGE3MGQzNGE3OGExNjM2ZTE5OTVhZTY1MzAwM2E3YWU2MmRmNDRhNWM3MTg3NzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZlYmFjMGRhZWM2ZjM2ZjNkYTUwZTZiYmM5MDc3YWExNmNkZGM0ZmJkMjNhNTNhNTA5ZTZjYzU0YjRhN2NiNDQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6295a26b56e74463a9d3d519bda7393d",
+      "statement": "The multi-scenario Monte Carlo framework defines seven scenarios (baseline, persistent, excessvariance, excessvariance_corr, all, trend, longpanel), each overriding specific DGP parameters, and orchestrated by the montecarlo Makefile target in /papers/econometrics/Makefile.",
+      "evidence": [
+        {
+          "resource": "repo://papers/econometrics/Makefile#L67-L82",
+          "version": "repo-lines-v1:sha256:2ad50c3a9f3eaabddb5f75d2c9079a216b0a60af51e572e5b404decf7b2c6a38:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdiMjkwYzZiNmQxM2I1NGQ3ODBjNTgwZDQ4ODE4ZTk0MjUxNDQyMTRlY2UyZTUzNzMxMWExMWRjM2NiYzMzM2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhlNjllZWQzNTA2ZjQ1ZTYxOTY0ODEzNDU2NDkzMTJlMGE0MjMzMzg4YmY1NzBlZTZhMDZiNzMzMWU3NzVlMjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIwODU4ZGU5M2UwNmRkMmY0NDM0ZjhhNjExYjM5YjZiZmI2ZWE5ZmFjMWEwZmJkYmQ2YzlmMGI2MjJhZjNjYTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRhNTc1NDE2N2RkNjhhMTQxOGE5OTU4YjIxNDYxMmQ3NTUwNWZlNGRkY2I3Nzc4OTQ1YzhjMmY5ODNiOGJlMWYifQ"
+        },
+        {
+          "resource": "repo://papers/econometrics/src/montecarlo/all.do",
+          "version": "repo-file-v1:sha256:8e7e6c0a959799a273ce4526cb2c6814a6b7c05bbf2fb8248af4137dc4fb29b0"
+        },
+        {
+          "resource": "repo://papers/econometrics/src/montecarlo/baseline.do",
+          "version": "repo-file-v1:sha256:6db952999c6fa8eac2e4c5861205ed8b83464f262a9cd3543376155add8dc159"
+        },
+        {
+          "resource": "repo://papers/econometrics/src/montecarlo/excessvariance.do",
+          "version": "repo-file-v1:sha256:83a75d237ce0ebdf2dcc2ee5d5b2de5761b937141ebf42ab9f169d75732ba9ee"
+        },
+        {
+          "resource": "repo://papers/econometrics/src/montecarlo/excessvariance_corr.do",
+          "version": "repo-file-v1:sha256:83a75d237ce0ebdf2dcc2ee5d5b2de5761b937141ebf42ab9f169d75732ba9ee"
+        },
+        {
+          "resource": "repo://papers/econometrics/src/montecarlo/longpanel.do",
+          "version": "repo-file-v1:sha256:4a680e6b3ec993ab056fb505efadf7cf03488ddfc66c366290cf6947b8accb4c"
+        },
+        {
+          "resource": "repo://papers/econometrics/src/montecarlo/persistent.do",
+          "version": "repo-file-v1:sha256:603498d3e684caaa19d7107b92ebef596205b5e88c3c71f5b88629315d7b13d9"
+        },
+        {
+          "resource": "repo://papers/econometrics/src/montecarlo/trend.do",
+          "version": "repo-file-v1:sha256:5cfc643764ea1b9d35eda29d8af2670e54e7daba022da48357daaca8e6f4e9c7"
+        }
+      ]
+    },
+    {
+      "id": "claim_c70e1378878c4dc2ab558f688b72fa9b",
+      "statement": "The setup engine in /papers/econometrics/src/montecarlo/setup.do generates synthetic panel data following an AR(1) process with separate persistence parameters for treated and control firms (rho0, rho1), adds a CEO ability shock z drawn from N(0, sigma_z), and constructs placebo controls with the specified control_treated_ratio.",
+      "evidence": [
+        {
+          "resource": "repo://papers/econometrics/src/montecarlo/setup.do#L1-L83",
+          "version": "repo-lines-v1:sha256:517ddd9c4fb343de2fee37a6a56a33074744e3c66b740e141bdfb53a285f74aa:eyJzZWxlY3RlZExpbmVDb3VudCI6ODMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZmZTI2MzQ5MDQ4NjdjNTViMDA1MjJlMTA2MGMwZmFhYjIxYWMyMTAzMTI2MDdlODgwYjQxYmEzOGE1NWUzYTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM1NjdkMGM2OTc1ODE3NDIzZTY4NjEwYmY4ZmIxMGUyMzY5M2E4MzdkYWIwYzhiNDVkYTlmMDJmNWI3ODRmMjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE1NjVjMWRhNzc5ZTU4NDBjZDc0NmQ0MGNkNGRmNmRjY2UzMDFjYWI0ZTMwNzE2ZWRjY2ViODI3NGFjNjlhN2IifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ef60e3b3f6d74717abc95856131b6f00",
+      "statement": "The Monte Carlo output includes a six-panel comparison figure (figure/figuremc.pdf) comparing naive vs. debiased estimates across scenarios, plus ATET tables (table/atets.tex).",
+      "evidence": [
+        {
+          "resource": "repo://papers/econometrics/Makefile#L26-L26",
+          "version": "repo-lines-v1:sha256:2524d4bcba7e9ed6d5c626bbaa325e3812013314df3db82e81c12a4a3a308fe5:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjUyNGQ0YmNiYTdlOWVkNmQ1YzYyNmJiYWEzMjVlMzgxMjAxMzMxNGRmM2RiODJlODFjMTJhNGEzYTMwOGZlNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjUyNGQ0YmNiYTdlOWVkNmQ1YzYyNmJiYWEzMjVlMzgxMjAxMzMxNGRmM2RiODJlODFjMTJhNGEzYTMwOGZlNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGYwYTJjMGVlZmVjNjljODhlMDRjODYzZjhlZmYzOTc0NjA3MjExOTJiYTA5ZTg4ZTQ3ZTg1ZWUyNmYzMzYyNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGRkZmRmYzgwNWEyYzAxNDJjZTY1Mzk1ZTJkZGVmOTE2YTMxZTlkNDFkZWJjZWI1ZGZiM2UzNDI3ZTI0Mzc3MiJ9"
+        },
+        {
+          "resource": "repo://papers/econometrics/src/figuremc.do",
+          "version": "repo-file-v1:sha256:b3d13199426c39a1184abada43f992600b8c1b6a40833f4d3dd93208601eb598"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-06T17:56:56.777Z"
+  }
+}

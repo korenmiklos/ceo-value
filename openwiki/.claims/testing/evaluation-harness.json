@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:5bde179d74037b31cbc44d5aaba044ff44527f62d2bdb5f46b2bd06ede4bc992",
+  "claims": [
+    {
+      "id": "claim_dd7391b1b9f94c2f8eec4282d77a1be3",
+      "statement": "The evaluation harness in eval/ tests AI coding agents on their ability to answer questions about Stata .do files by launching a headless opencode process per test case, sending structured prompts with TRUE/FALSE: or NUMERIC: answer prefixes, and scoring responses via regex parsing.",
+      "evidence": [
+        {
+          "resource": "repo://eval/runner.py",
+          "version": "repo-file-v1:sha256:de6bda1c0e2144b6ebcc539db90c2ff00935e7335850aced7cb250982df5aaeb"
+        },
+        {
+          "resource": "repo://eval/schemas.py",
+          "version": "repo-file-v1:sha256:9fe56974649c8bb6f7fda40d3d3ef58864593ecdffcd9209140ea32e7d5bf0ce"
+        }
+      ]
+    },
+    {
+      "id": "claim_52feb0faff39411fbb10598a0d6d7c66",
+      "statement": "Two question types are supported: true_false (parsed by regex for TRUE/FALSE: prefix) and numeric (parsed by regex for NUMERIC: prefix followed by an integer); partial or non-conforming responses are scored as failures.",
+      "evidence": [
+        {
+          "resource": "repo://eval/runner.py",
+          "version": "repo-file-v1:sha256:de6bda1c0e2144b6ebcc539db90c2ff00935e7335850aced7cb250982df5aaeb"
+        },
+        {
+          "resource": "repo://eval/schemas.py",
+          "version": "repo-file-v1:sha256:9fe56974649c8bb6f7fda40d3d3ef58864593ecdffcd9209140ea32e7d5bf0ce"
+        }
+      ]
+    },
+    {
+      "id": "claim_d41e6a54d40e488b93266a9e002e1a63",
+      "statement": "The harness consists of five Python modules: __main__.py (CLI entrypoint), schemas.py (Pydantic data models), questions.py (YAML test-case discovery), server.py (headless opencode process lifecycle), and runner.py (evaluation orchestration and reporting).",
+      "evidence": [
+        {
+          "resource": "repo://eval/__main__.py",
+          "version": "repo-file-v1:sha256:08113ca2e6ca0e97d84385afd0c94acd450c5a063b4ac8729f9a01b5a07f0a1b"
+        },
+        {
+          "resource": "repo://eval/questions.py",
+          "version": "repo-file-v1:sha256:295e1d3ac48566b5b34f2c77116475985e4c2e3df25fdbd97f35f3ba1d28cde5"
+        },
+        {
+          "resource": "repo://eval/runner.py",
+          "version": "repo-file-v1:sha256:de6bda1c0e2144b6ebcc539db90c2ff00935e7335850aced7cb250982df5aaeb"
+        },
+        {
+          "resource": "repo://eval/schemas.py",
+          "version": "repo-file-v1:sha256:9fe56974649c8bb6f7fda40d3d3ef58864593ecdffcd9209140ea32e7d5bf0ce"
+        },
+        {
+          "resource": "repo://eval/server.py",
+          "version": "repo-file-v1:sha256:af03f66ce69aa1f9f5dd46dcb14d2d93d8cd04023e4d9d30867da75b6af0a608"
+        }
+      ]
+    },
+    {
+      "id": "claim_d7bb9fa7858a42dbae909a52de86afc3",
+      "statement": "Test cases are defined by pairing a YAML metadata file (eval/{name}.yaml) with a subdirectory (eval/{name}/) containing the relevant Stata .do files; both must exist or the test case is silently skipped.",
+      "evidence": [
+        {
+          "resource": "repo://eval/ceo_overlap.yaml",
+          "version": "repo-file-v1:sha256:ff96c60949a13a9237e45a680a182ddef258d88d16ad1c2da76553fdee73c3a2"
+        },
+        {
+          "resource": "repo://eval/filter_restrictions.yaml",
+          "version": "repo-file-v1:sha256:22393cc428a660dc239a6027e47ca95b486abd8d7facef131f2cbbe2770a133d"
+        },
+        {
+          "resource": "repo://eval/placebo_controls.yaml",
+          "version": "repo-file-v1:sha256:b213cf06e3fe09bb8d73cf7e288a5b8885e8fac6d4bf951d29a7910ac63fe7d6"
+        },
+        {
+          "resource": "repo://eval/questions.py",
+          "version": "repo-file-v1:sha256:295e1d3ac48566b5b34f2c77116475985e4c2e3df25fdbd97f35f3ba1d28cde5"
+        }
+      ]
+    },
+    {
+      "id": "claim_b5a5a1ae06c049828a4e8473740a6a4a",
+      "statement": "OpenCodeServer (eval/server.py) is a context manager that spawns 'opencode serve' on a chosen port, waits for a health-check endpoint, sends prompts via 'opencode run --attach', and terminates the subprocess on exit with SIGTERM then SIGKILL after 10s timeout.",
+      "evidence": [
+        {
+          "resource": "repo://eval/server.py",
+          "version": "repo-file-v1:sha256:af03f66ce69aa1f9f5dd46dcb14d2d93d8cd04023e4d9d30867da75b6af0a608"
+        }
+      ]
+    },
+    {
+      "id": "claim_3a6741c439074f8881a76f4637a32ded",
+      "statement": "Three test cases exist: ceo_overlap (overlap truncation threshold in intervals.do), filter_restrictions (sample exclusion thresholds for max CEOs per year and max spells), and placebo_controls (placebo-to-actual ratio in event_study_sample.do).",
+      "evidence": [
+        {
+          "resource": "repo://eval/ceo_overlap.yaml",
+          "version": "repo-file-v1:sha256:ff96c60949a13a9237e45a680a182ddef258d88d16ad1c2da76553fdee73c3a2"
+        },
+        {
+          "resource": "repo://eval/filter_restrictions.yaml",
+          "version": "repo-file-v1:sha256:22393cc428a660dc239a6027e47ca95b486abd8d7facef131f2cbbe2770a133d"
+        },
+        {
+          "resource": "repo://eval/placebo_controls.yaml",
+          "version": "repo-file-v1:sha256:b213cf06e3fe09bb8d73cf7e288a5b8885e8fac6d4bf951d29a7910ac63fe7d6"
+        }
+      ]
+    },
+    {
+      "id": "claim_0f587a03cccb4daca4caa8bd099cf548",
+      "statement": "Results are saved as timestamped JSON files in eval/results/ containing per-question scores, the full agent response text, and a summary with pass count and percentage.",
+      "evidence": [
+        {
+          "resource": "repo://eval/runner.py",
+          "version": "repo-file-v1:sha256:de6bda1c0e2144b6ebcc539db90c2ff00935e7335850aced7cb250982df5aaeb"
+        }
+      ]
+    },
+    {
+      "id": "claim_a6c2aabea47445f09f238b421a057d89",
+      "statement": "The CLI (python -m eval) accepts --model, --port, --concurrency, and --results-dir arguments that override values in the DEFAULT_CONFIG (EvalConfig with model_id='openai/gpt-5.4-mini', results_dir='eval/results', concurrency=1).",
+      "evidence": [
+        {
+          "resource": "repo://eval/__main__.py",
+          "version": "repo-file-v1:sha256:08113ca2e6ca0e97d84385afd0c94acd450c5a063b4ac8729f9a01b5a07f0a1b"
+        },
+        {
+          "resource": "repo://eval/config.py",
+          "version": "repo-file-v1:sha256:d9de6d7c9c15bdea881001128142b73171ba4463fe7546421df499f7d77e6fee"
+        },
+        {
+          "resource": "repo://eval/schemas.py",
+          "version": "repo-file-v1:sha256:9fe56974649c8bb6f7fda40d3d3ef58864593ecdffcd9209140ea32e7d5bf0ce"
+        }
+      ]
+    },
+    {
+      "id": "claim_75a550f912974f5ba70c552dfb2a6db3",
+      "statement": "The prompt template instructs the agent to first glob, grep, and read .do files before answering, and to provide reasoning after the answer, simulating realistic research-assistant behavior.",
+      "evidence": [
+        {
+          "resource": "repo://eval/runner.py",
+          "version": "repo-file-v1:sha256:de6bda1c0e2144b6ebcc539db90c2ff00935e7335850aced7cb250982df5aaeb"
+        }
+      ]
+    },
+    {
+      "id": "claim_0ccb2f8559de4153bd5414643afceedf",
+      "statement": "The working directory for each test case is isolated to eval/{testcase_name}/ so the agent only has access to the .do files relevant to that test case, preventing cross-case contamination.",
+      "evidence": [
+        {
+          "resource": "repo://eval/runner.py",
+          "version": "repo-file-v1:sha256:de6bda1c0e2144b6ebcc539db90c2ff00935e7335850aced7cb250982df5aaeb"
+        },
+        {
+          "resource": "repo://eval/server.py",
+          "version": "repo-file-v1:sha256:af03f66ce69aa1f9f5dd46dcb14d2d93d8cd04023e4d9d30867da75b6af0a608"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-06T17:56:56.777Z"
+  }
+}

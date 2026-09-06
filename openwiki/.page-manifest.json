@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "pages": {
+    "/openwiki/architecture/data-pipeline.md": {
+      "pageVersion": "sha256:55e88bee0c9de68117d8cdb1fc210e85404f6f544ab646efe41fed7be3677d5c",
+      "completedBy": "openwiki/0.5.0",
+      "completedRunId": "98d59c03-ef94-415f-823b-8e38044ed17f",
+      "gitHead": "c48f62639fcab8ab0d002f2f0fee6842fd3a04aa",
+      "sourceFingerprint": "sha256:5c8263e95687246e8b9462213d87c73fb60d6121c4d424d240c21d2827022f95"
+    },
+    "/openwiki/architecture/estimation-system.md": {
+      "pageVersion": "sha256:c75c3eab18934b2fe1f6c2e752d20021c487992bcfee854fecf86a61bdf7594d",
+      "completedBy": "openwiki/0.5.0",
+      "completedRunId": "98d59c03-ef94-415f-823b-8e38044ed17f",
+      "gitHead": "c48f62639fcab8ab0d002f2f0fee6842fd3a04aa",
+      "sourceFingerprint": "sha256:5c8263e95687246e8b9462213d87c73fb60d6121c4d424d240c21d2827022f95"
+    },
+    "/openwiki/concepts/connected-network.md": {
+      "pageVersion": "sha256:27421560d4aecdc5e1bb851131037b2c6b7243f84fff659d9305432db4d79a7f",
+      "completedBy": "openwiki/0.5.0",
+      "completedRunId": "98d59c03-ef94-415f-823b-8e38044ed17f",
+      "gitHead": "c48f62639fcab8ab0d002f2f0fee6842fd3a04aa",
+      "sourceFingerprint": "sha256:5c8263e95687246e8b9462213d87c73fb60d6121c4d424d240c21d2827022f95"
+    },
+    "/openwiki/concepts/manager-skill-estimation.md": {
+      "pageVersion": "sha256:8ab159aabff04cc7530a43f4e63410e09698fdff92eb9bd3ccac324350a488da",
+      "completedBy": "openwiki/0.5.0",
+      "completedRunId": "98d59c03-ef94-415f-823b-8e38044ed17f",
+      "gitHead": "c48f62639fcab8ab0d002f2f0fee6842fd3a04aa",
+      "sourceFingerprint": "sha256:5c8263e95687246e8b9462213d87c73fb60d6121c4d424d240c21d2827022f95"
+    },
+    "/openwiki/concepts/placebo-controlled-event-study.md": {
+      "pageVersion": "sha256:a23dedd7f2e662a3acb3b6ffeb2247dce950f94225dba5d03c31280168f58d3c",
+      "completedBy": "openwiki/0.5.0",
+      "completedRunId": "98d59c03-ef94-415f-823b-8e38044ed17f",
+      "gitHead": "c48f62639fcab8ab0d002f2f0fee6842fd3a04aa",
+      "sourceFingerprint": "sha256:5c8263e95687246e8b9462213d87c73fb60d6121c4d424d240c21d2827022f95"
+    },
+    "/openwiki/integrations/julia-graph-analysis.md": {
+      "pageVersion": "sha256:6eb033381fb73ca1e0dd36720d87725931e7a2e5058c4080211d4878f8ef056a",
+      "completedBy": "openwiki/0.5.0",
+      "completedRunId": "98d59c03-ef94-415f-823b-8e38044ed17f",
+      "gitHead": "c48f62639fcab8ab0d002f2f0fee6842fd3a04aa",
+      "sourceFingerprint": "sha256:5c8263e95687246e8b9462213d87c73fb60d6121c4d424d240c21d2827022f95"
+    },
+    "/openwiki/integrations/stata-ecosystem.md": {
+      "pageVersion": "sha256:78782b4e301b1bfc07bb2a4f46459a095d16ce24f99e8a3a2c31e773ab7488c0",
+      "completedBy": "openwiki/0.5.0",
+      "completedRunId": "98d59c03-ef94-415f-823b-8e38044ed17f",
+      "gitHead": "c48f62639fcab8ab0d002f2f0fee6842fd3a04aa",
+      "sourceFingerprint": "sha256:5c8263e95687246e8b9462213d87c73fb60d6121c4d424d240c21d2827022f95"
+    },
+    "/openwiki/operations/runtime-parameters.md": {
+      "pageVersion": "sha256:b1c80e0bf30c80524f4c499fbefdd4bc17bc0a79a75e9456d726766dd767e894",
+      "completedBy": "openwiki/0.5.0",
+      "completedRunId": "98d59c03-ef94-415f-823b-8e38044ed17f",
+      "gitHead": "c48f62639fcab8ab0d002f2f0fee6842fd3a04aa",
+      "sourceFingerprint": "sha256:5c8263e95687246e8b9462213d87c73fb60d6121c4d424d240c21d2827022f95"
+    },
+    "/openwiki/quickstart.md": {
+      "pageVersion": "sha256:e1743453e73053eef3daa53e47d3ac2978ec9ceed0d24f77fb80f870710568f4",
+      "completedBy": "openwiki/0.5.0",
+      "completedRunId": "98d59c03-ef94-415f-823b-8e38044ed17f",
+      "gitHead": "c48f62639fcab8ab0d002f2f0fee6842fd3a04aa",
+      "sourceFingerprint": "sha256:5c8263e95687246e8b9462213d87c73fb60d6121c4d424d240c21d2827022f95"
+    },
+    "/openwiki/testing/evaluation-harness.md": {
+      "pageVersion": "sha256:5bde179d74037b31cbc44d5aaba044ff44527f62d2bdb5f46b2bd06ede4bc992",
+      "completedBy": "openwiki/0.5.0",
+      "completedRunId": "98d59c03-ef94-415f-823b-8e38044ed17f",
+      "gitHead": "c48f62639fcab8ab0d002f2f0fee6842fd3a04aa",
+      "sourceFingerprint": "sha256:5c8263e95687246e8b9462213d87c73fb60d6121c4d424d240c21d2827022f95"
+    },
+    "/openwiki/testing/montecarlo-simulations.md": {
+      "pageVersion": "sha256:384ec701cf91415f7690acd559be5625585562c0035a03d143e5a32131c0ae39",
+      "completedBy": "openwiki/0.5.0",
+      "completedRunId": "98d59c03-ef94-415f-823b-8e38044ed17f",
+      "gitHead": "c48f62639fcab8ab0d002f2f0fee6842fd3a04aa",
+      "sourceFingerprint": "sha256:5c8263e95687246e8b9462213d87c73fb60d6121c4d424d240c21d2827022f95"
+    },
+    "/openwiki/workflows/full-build.md": {
+      "pageVersion": "sha256:acb817a3d4965a5d05c76c45634166944216a22f4d8950449433f1e45c445ea0",
+      "completedBy": "openwiki/0.5.0",
+      "completedRunId": "98d59c03-ef94-415f-823b-8e38044ed17f",
+      "gitHead": "c48f62639fcab8ab0d002f2f0fee6842fd3a04aa",
+      "sourceFingerprint": "sha256:5c8263e95687246e8b9462213d87c73fb60d6121c4d424d240c21d2827022f95"
+    },
+    "/openwiki/workflows/placebo-construction.md": {
+      "pageVersion": "sha256:c6c7456580127c45a28d332349af146bc35e1ef38977da3314d17c4fd637545d",
+      "completedBy": "openwiki/0.5.0",
+      "completedRunId": "98d59c03-ef94-415f-823b-8e38044ed17f",
+      "gitHead": "c48f62639fcab8ab0d002f2f0fee6842fd3a04aa",
+      "sourceFingerprint": "sha256:5c8263e95687246e8b9462213d87c73fb60d6121c4d424d240c21d2827022f95"
+    },
+    "/openwiki/workflows/sampling-filtering.md": {
+      "pageVersion": "sha256:f9e260390ce0b34e44c8b0e09fceac03a3bd38005669191247097fad9129e65b",
+      "completedBy": "openwiki/0.5.0",
+      "completedRunId": "98d59c03-ef94-415f-823b-8e38044ed17f",
+      "gitHead": "c48f62639fcab8ab0d002f2f0fee6842fd3a04aa",
+      "sourceFingerprint": "sha256:5c8263e95687246e8b9462213d87c73fb60d6121c4d424d240c21d2827022f95"
+    }
+  }
+}

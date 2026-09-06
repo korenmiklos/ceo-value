@@ -273,3 +273,11 @@ This project uses proprietary data that cannot be shared. Data files in `input/`
 - Add `.bak` files to `.gitignore` alongside other LaTeX auxiliary files
 - When creating backup files, use `.bak` extension consistently
 - Ensure auxiliary file patterns in `.gitignore` cover all LaTeX compilation outputs
+
+<!-- OPENWIKI:START -->
+
+## OpenWiki
+
+See [AGENTS.md](AGENTS.md) for OpenWiki agent instructions.
+
+<!-- OPENWIKI:END -->

@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:6eb033381fb73ca1e0dd36720d87725931e7a2e5058c4080211d4878f8ef056a",
+  "claims": [
+    {
+      "id": "claim_13b1b019272b4c199ef169cce51901a7",
+      "statement": "The Julia graph analysis environment uses Julia 1.10.4 with packages CSV, DataFrames, Graphs, SparseArrays, LeaveOut, and Random as declared in Project.toml and resolved in Manifest.toml.",
+      "evidence": [
+        {
+          "resource": "repo://Manifest.toml#L3-L3",
+          "version": "repo-lines-v1:sha256:d129a8ff8c29b3d257c93a7fde6f2f4248edf73b731accebd169b89e8c74a3b9:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDEyOWE4ZmY4YzI5YjNkMjU3YzkzYTdmZGU2ZjJmNDI0OGVkZjczYjczMWFjY2ViZDE2OWI4OWU4Yzc0YTNiOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDEyOWE4ZmY4YzI5YjNkMjU3YzkzYTdmZGU2ZjJmNDI0OGVkZjczYjczMWFjY2ViZDE2OWI4OWU4Yzc0YTNiOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjIsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmZiNDAxZDcyMDBlOTZlYjNhNDRmZTBiYTFjMDBjNmI3NjIxNjUyODU0N2I3YjI5YjM3MDYyMTc4NzJlNDk3NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmFmNWQ5Y2M3NmI0Zjg5NzlhNGQwNjc4MDM4YWY1NmU2ZDI3ZWY3ZGIyNzBkZjk5OGI3ODhjYTdhY2QxZjc4NSJ9"
+        },
+        {
+          "resource": "repo://Project.toml#L1-L6",
+          "version": "repo-lines-v1:sha256:eb8789fc4daa5fec7dbe3ed9ddb5726b657e776371fa49950cde5400c893c008:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGQ2ODAzYTMyYWExYTg1Njc5MTY5ZmU1YmE5MWZmYjVkOTZjOGY2YTZkN2I4MjQ1Mzk5OTQ2ZWY3OTUwZDYyYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYWM4MzBhOTc1OWMwMmI1NDQxNjg1ZWIzNjkyMjllZWNjM2E1YTk2OTM3OTA4NGZhY2VlZjI0ZTkwODBkNmQ3NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWU1NjI0NjI4YjBlYzA2N2UxNTIyMTJjMTRhNjAyNWEwNDFlYWQ2OGQ4OWQ0NjM1Yjg0MmViMDU1MmYwMTUxNSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_5da52b77189c4f22b98d331a8bcf489e",
+      "statement": "connected_component.jl defines BipartiteGraph (parallel sources/targets vectors) and ProjectedGraph (sparse adjacency matrix + node index dictionary) as core data structures for bipartite and projected graph representation.",
+      "evidence": [
+        {
+          "resource": "repo://lib/create/connected_component.jl#L7-L17",
+          "version": "repo-lines-v1:sha256:b25628f916312653afd0f8843d3258fc9a87cb91cea6fc4912911f5c0a14c9d1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdiZjAxMjI3YmE1MzZhYzlkZWY3ZWZlNDg2YTBmYTBiOTdhNjBlZjUwOWM3ZjlhYjQxYWE5MDZlZmJmNjQyOGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4MzMyZmU2NjdiYzUxYWM0YTUxYmEwZWZlNzM0NDQxYzkwZGVmNTVjNjBhMjZkN2RiMjc1ZWNiYmNmNDJmMTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkyZDYxNzlhMDY3ZGM3MTUzMzI5ZTIyY2VmYzU2OTUzZTRhMTlhY2IwZWEyYjExMjUyM2NkMjgxZGE3MGU5ODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE4NTM2NjJiNjc4MzQ5NGZkNGMzMWE5M2Q4NTEwMDAzZmEwMWQ1ODE5NGFiMWYxNzhiMGM0NGMyMDhkNjk2MzcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7283c6393ff54168ba1b25b0b8b6265e",
+      "statement": "The bipartite-to-manager projection computes the co-employment matrix P = B'B via sparse matrix multiplication, where B is the n_firms × n_managers incidence matrix, then removes self-loops.",
+      "evidence": [
+        {
+          "resource": "repo://lib/create/connected_component.jl#L43-L58",
+          "version": "repo-lines-v1:sha256:bf81902fad0313d6dfb5a5570732bb084eda052715b61f5bf7115638aed9fb76:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhjYjliNzAxYmE2NmY1NzhkMjFlYzEwOTBiODM4ZjFjZTNiNTgwN2FiM2YyMmIxY2FiMWFiODdjMjY5ZGNmODQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4MzMyZmU2NjdiYzUxYWM0YTUxYmEwZWZlNzM0NDQxYzkwZGVmNTVjNjBhMjZkN2RiMjc1ZWNiYmNmNDJmMTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQzZGQ5NzBkZDU1NDI1MGRjZjllNDhiM2E0YmFkYmM2N2IyNmIwN2ZmZjYzN2NmYzg3NTU4YzU1OTU5ODZmN2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNlZmQyNDk0ODg2MDlhYTc1MzZmMjQ4ODQyZjQ5NDcyYzNhMjhhZTgyZTUzMTQyYzg5NjYyNzI2Zjg1YjM1ZGUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0431d3fbb8704c95bfba09b3b6c146e6",
+      "statement": "Connected components are detected by calling Graphs.jl connected_components() on a SimpleGraph constructed from the projected adjacency matrix, then filtered to components with at least COMPONENT_SIZE_CUTOFF (30) nodes and sorted descending by size.",
+      "evidence": [
+        {
+          "resource": "repo://lib/create/connected_component.jl#L60-L93",
+          "version": "repo-lines-v1:sha256:fcb1daa83ba2f0746901789e7e5bdceed3accbfcdfe3d3ab762a9b4fbd4288e7:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyNjA2NjQzYTk3NWQ0NDk2ZWQzYzA4M2RmZjEyYjllNDAwNzcyNWQxYzc5MTg5MDU1Y2RiNjE4Y2QwNWY4MjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4MzMyZmU2NjdiYzUxYWM0YTUxYmEwZWZlNzM0NDQxYzkwZGVmNTVjNjBhMjZkN2RiMjc1ZWNiYmNmNDJmMTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjllZGQ4NDFlOTIwYmNhNzJlN2VmYzAxZjdkNGY4Nzc4MGVkYTllYTEyM2NiM2Y3ZmJlNzgwZDkxZGYwOGVhZDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVmZWZhZjQwMjIyZjZlOTI2NDRlMjcwNjRmMjc3Y2M4NDk3NmU3NzhiNzVmYzc3ZTIzZjgwNWIwZmI5NDVkNGQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ab5f5b23f62940ec9d19b978d04f97e9",
+      "statement": "leverage.jl computes edge leverage scores by building a unified bipartite SimpleGraph, selecting a component via the COMPONENT_RANK environment variable (default 1 = giant component), then applying LeaveOut.jl's Design/prepare API to compute hat values.",
+      "evidence": [
+        {
+          "resource": "repo://lib/create/leverage.jl#L27-L52",
+          "version": "repo-lines-v1:sha256:aa235c25ab17d24ff25735da0375581dcac0a44127946a1dcac53072d5f8817e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwYWY5MjVhZGNjMmRlMTA2MjNlZmRlMzBlNzYwY2Q3MGQ0MzYyNjkzZjY3ZDM3MTg1Y2JjODQ0NzA3NzAzNmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhZjMxZmNiMDMwMzk1ZTU5OWNhNTlmOGJiY2UyMmJmY2QwNWE2NjI0OWIyNzY3MDUxYTA3YmY1NjI0MjQyM2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ4NjE5NzQzMTcwODIxYzZmODYyZTYwNmZhYzhhZDQxNWIwNzM3YzhjZjA5ODc3YTM3YTZiMmMwZTdmOTdiZGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdmZTIzMDRjYjNhN2I0MmE5MGRjYjlmNDNmOTJjNzA4NDYyYjdhMWVlNWFhNjI0MmU4M2Y2OTI2ZDhlYjc2MDYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6c5b800195e846e3b2b177f4c78b0c14",
+      "statement": "test_network.jl tests manager-manager connectivity using has_path on the projected graph and finds firm-level bipartite paths via bidirectional BFS using pre-built adjacency dictionaries firm_to_managers and manager_to_firms.",
+      "evidence": [
+        {
+          "resource": "repo://lib/test/test_network.jl#L137-L177",
+          "version": "repo-lines-v1:sha256:0121f3202b1ff5eaa6d4ef5f6283c44c3505915c3a1e4946bdb7c9049846b299:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc4NzU3MjljNTFmN2M3YzhhOTM2ODE4MzI4NTg1OGUzOGVjNjdjMDdlN2I4ODg3OTU3Mzc3NTRhYzY5N2Y2NjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4MzMyZmU2NjdiYzUxYWM0YTUxYmEwZWZlNzM0NDQxYzkwZGVmNTVjNjBhMjZkN2RiMjc1ZWNiYmNmNDJmMTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVjMjk5ZGNiNjgwNGRmZTE4YzFhZGVhOWEwYmZlM2M4ZTVjOWZlNjJjNzExNWU2NjhhMzg3NDExN2Q5YzNjZTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU3ODZiMGY2YjNiM2Y2OTE5NjllMzBkYzJmODkyYTgxZmY3NWIxM2QxNjAzYjgyMGZkNDk0NTI0YWM4YWVlNTYifQ"
+        },
+        {
+          "resource": "repo://lib/test/test_network.jl#L179-L239",
+          "version": "repo-lines-v1:sha256:1c3fb08ef5c3e78dbcc5a2c3a60a48723ec5af9066be64eab9ac5c4ade61c072:eyJzZWxlY3RlZExpbmVDb3VudCI6NjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0ZDNiNDhmYTlkYWNkMGVjMWYwMzA3MWIwMTNhY2U0ODM1MjNlMmM0MDk1NjkxMzI2NDRiZGEzY2VjYWQ3NjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQwYTgyMmYzOTNhYmU5MzEzZTUzODEwMTY3N2JhYjBjZGNhMjk0NWI3ZTFkM2FlZjA2OTg0ZDU2OGMxZjE4MjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMzYTRmYmIyZjc5ODE4MGZkZjY5NjdlMjEwZjNmMmE5YTM4ZTE5MDg1NGQxOTMzYjc2YTA4YzVlODlkYWFmMzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlkNmZlYzc3NDY5MDljNmQ4MjkxZjBmZDY2MjZiOGE5YjFkMGQ5YTgyNmIwMzJiYjY2NjkwMWQ2MmVlYTM4OGEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_292e9ad4d41141d0acfe905b6f7ee878",
+      "statement": "The Makefile invokes both connected_component.jl and leverage.jl via `julia --project=.` and registers the outputs temp/large_component_managers.csv and temp/edgelist_leverage.csv as precious intermediate files.",
+      "evidence": [
+        {
+          "resource": "repo://Makefile#L24-L29",
+          "version": "repo-lines-v1:sha256:11f122c192d2eadd15cf2d83c777484b788462e8ed4efc5bc7a26512827aac63:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWM4NDgxM2RmZGM0ZGZhZjEwYTZmMGVkMGU3ZjgxNTkwMzcyNDk1YzVlMTc4NjgwNjRiMTAyZGY5ZGYwMmYzZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjJiYzE3NzljZDA2MTExMzUwMzQwYmZmZWZjOWI1YjVhNWJkMjNmYmQ5MDFkOTIxODhiOGU0MzI1OGFmZGNhNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWI4MzVkNWU4Mzg3OWYxMDdhMDFjOTQ2ZGMwODYwYzU5MTBhOTc0Y2JhNDdkYzQzM2JhNzQ0MGUzYzcwNGY0OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzk4Y2YyNmMxMDdkZmQ1MDMxZDE0MzFlMmFjZTZlOTI4MTMzNGVlNTM0YTZlMGZlOTM1OTJiNTE3NDdhMjEyNiJ9"
+        },
+        {
+          "resource": "repo://Makefile#L78-L83",
+          "version": "repo-lines-v1:sha256:abc2dd1f64258609f26783dc2322d8d49d661a278b43396e8f4f7dcc4e4af1bd:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTRlOTBmNDg1ZGQ3NmJmMTMyMjZjZGE1YTMzMzkzNzk2MDNlY2I4YTc0MTNjNzljN2E2ZGY0NzQwNDUxNzU3NyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjMyNjRhNDdhZTljMTViMDFhOTE1Mzg5ODM4NTMxOGFhY2NlZjAyODc3NzgzZWEzMjM5ODQ5OGUwMDQwZGMwMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2RjYTQ2OTg5NGQxYmMwNGIwMTkxY2U5ZGFlMTJjZTk2NzM1MDA3NDg1NzQ1OWI0NDU3NjMxM2FlYWEwNWNkZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjE1NmZhMzVjN2MxYjhmMTg1MWQ3M2VmN2QxYjU1MjBhMTA1OTMzNmM2NDBhMDczMmJmNTVlYjVkNzY1Yjc3ZiJ9"
+        },
+        {
+          "resource": "repo://Makefile#L8-L8",
+          "version": "repo-lines-v1:sha256:320cde3234dde6e993d3303062693c02635eb8e37e0ac1a73c0b72891b56b515:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzIwY2RlMzIzNGRkZTZlOTkzZDMzMDMwNjI2OTNjMDI2MzVlYjhlMzdlMGFjMWE3M2MwYjcyODkxYjU2YjUxNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzIwY2RlMzIzNGRkZTZlOTkzZDMzMDMwNjI2OTNjMDI2MzVlYjhlMzdlMGFjMWE3M2MwYjcyODkxYjU2YjUxNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWMyMTUzNzdkYmRhNWUzNmZmYWU5MjQzMGIxMjdjODhhOTk5OGM2NzcwNjhmZDVmZDg2NTZjOTYzMTIxZTlkYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmUwNDk5OTZmMzc5ZGY1NWNkNDc1YTFiMTFjOTRhMzRlMDMwN2IwMzY0YWIxMTljZGE5Y2ZmNTU2ZWI0YWEyYSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_ebb4d0add72441fbb65accaef7653c9c",
+      "statement": "The connected component output is consumed by the Stata pipeline via lib/create/network-sample.do, which merges component IDs into the estimation sample and defines giant_component (component_id==1) and connected_components (size>=30) indicator variables.",
+      "evidence": [
+        {
+          "resource": "repo://Makefile#L98-L100",
+          "version": "repo-lines-v1:sha256:cf31e9ea8876b5c63656fd3e295a99d240afd32ab301305fb8d212930c6b7927:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTY3MDdiMjFmNDI1ZTMzOWJlMmRmNmZiYTIxMWU4ODljMWRmMGZmMjJmZmZhZWZlZWZhZjExZmNjNGQ1M2I3NyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2UwMTY0MGM0YmFkOTE0ODhkOWRkZjlmYzM2YmY1ZTFiZDI4YTQ4NTY1ZWUyNTExNTViYWM2NzAyYzUzMmM5YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjFiNDY1MDBiOTEzMmE2NWJmNGY4NWY2ZTkzNGIyZTE2MmU3OTdjMjM4NTZkNjk4YjQ5YTkzY2QyYzQ0NDI3NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjNjMWNiNDIyOGNmMjVhY2E2NjMxOWNmNzQ3NDU3ODI2ODU5OTM5Njc0ODMyZTFmYWZmZWQzMjc5NDQ2ZDZkMyJ9"
+        },
+        {
+          "resource": "repo://lib/create/network-sample.do",
+          "version": "repo-file-v1:sha256:a7424b7e63d8d35f83ebd6e89fbdfdccef44dec441ce05160e36bf8c2526da13"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-06T17:56:56.777Z"
+  }
+}

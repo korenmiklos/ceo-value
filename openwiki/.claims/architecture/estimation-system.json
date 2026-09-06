@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:c75c3eab18934b2fe1f6c2e752d20021c487992bcfee854fecf86a61bdf7594d",
+  "claims": [
+    {
+      "id": "claim_64f00d52de0b4fdb9f9f86410c006d43",
+      "statement": "Manager value estimation (manager_value.do) decomposes ROA into firm fixed effect (frame_id_numeric) and manager person effect (person_id) via reghdfe with two-way absorb(), using connected components to ensure cross-firm comparability and clipping within-firm skill to [-1,1] log points.",
+      "evidence": [
+        {
+          "resource": "repo://lib/create/network-sample.do",
+          "version": "repo-file-v1:sha256:a7424b7e63d8d35f83ebd6e89fbdfdccef44dec441ce05160e36bf8c2526da13"
+        },
+        {
+          "resource": "repo://lib/estimate/manager_value.do",
+          "version": "repo-file-v1:sha256:8b80fade63c1bd684b3b6ebf9469c2fc254fcc24d69834ba40e14089d9e19ec3"
+        }
+      ]
+    },
+    {
+      "id": "claim_40cadd8a2ffa41919ec7ecc089ff7b83",
+      "statement": "Revenue function estimation (revenue_function.do) estimates 6 reghdfe specifications across 4 outcomes (lnR, lnEBITDA, lnWL, lnM), with base controls (lnK, has_intangible, foreign_owned, state_owned, founder, owner) and rich controls (+ceo_age, ceo_age_sq, ceo_tenure, ceo_tenure_sq), clustering at frame_id_numeric.",
+      "evidence": [
+        {
+          "resource": "repo://lib/estimate/revenue_function.do",
+          "version": "repo-file-v1:sha256:a0b03a7987516c99f4ff3847137313fd01433fbd264ef0388f65cbdcb1a0dc8a"
+        }
+      ]
+    },
+    {
+      "id": "claim_86433fed09684a149dd4709e4d1f9a9a",
+      "statement": "The placebo-controlled event study (event_study.do) calls xt2denoise with pre(4)/post(3) windows, z(manager_skill), treatment(actual_ceo), control(placebo_ceo), capturing both naive (e(b_naive)/e(V_naive)) and denoised (e(b)/e(V)) coefficients and constructing derived beta series (dCov/dVar, Cov1/Var1, Cov0/Var0) in a unified dCov frame.",
+      "evidence": [
+        {
+          "resource": "repo://lib/estimate/event_study.do",
+          "version": "repo-file-v1:sha256:3873eb2e90e44ca748eda3ca121ac58bdc8db68af3019d46f831c358fb8585ce"
+        },
+        {
+          "resource": "repo://lib/estimate/setup_event_study.do",
+          "version": "repo-file-v1:sha256:cc0721ee1545b9385319b729cac2ddf97c9b4f584eb28864410c0ad68b5f60bc"
+        }
+      ]
+    },
+    {
+      "id": "claim_a5255e01a82543c194dfd2645bf67b80",
+      "statement": "The ATET variant (event_study_atet.do) uses xt2denoise with baseline(atet) to estimate a single collapsed ATET parameter, exports matrix-based output (Var1z, dVarz, dCov, Cov, VarY, Rsq, dRsq, se_naive, dse) to CSV without the industry-year demeaning step.",
+      "evidence": [
+        {
+          "resource": "repo://lib/estimate/event_study_atet.do",
+          "version": "repo-file-v1:sha256:2ac2a4bb8a3c3bab33aea7ce4ffccfab3a6b53ab7de28da4751f372d6b49089a"
+        }
+      ]
+    },
+    {
+      "id": "claim_8755a7df27dc4d42bb3b35aa2b4e8e5d",
+      "statement": "The variance decomposition script (xt2var.do) implements excess variance methodology manually via iterative fixed-point estimation of eVarY/eVarZ (4 iterations of no-constant OLS on pre-period squared deviations), followed by reghdfe event-time regressions for variance, covariance, and driver variance components with delta-method standard errors.",
+      "evidence": [
+        {
+          "resource": "repo://lib/estimate/xt2var.do",
+          "version": "repo-file-v1:sha256:b15c733a21a3794d2976249b7f5c65c9bc727c008c3f99e1e0be704b489cacd4"
+        }
+      ]
+    },
+    {
+      "id": "claim_cbe7d8c6b024475abb19df33d0a907a5",
+      "statement": "Monte Carlo simulation (montecarlo.do) generates synthetic panel data with 10,000 CEO changes, AR(1) TFP (rho=0.97), known true ATET (half_normal*sigma_z=0.0798), 9:1 placebo:treated ratio, and excess variance (sigma_epsilon1=0.06 vs 0.05) to validate the event study methodology.",
+      "evidence": [
+        {
+          "resource": "repo://lib/create/montecarlo.do",
+          "version": "repo-file-v1:sha256:5deaa2da9c9cefa5d2e8e1bca094904eb754b1eda065c3a68404f2b02eb6596a"
+        }
+      ]
+    },
+    {
+      "id": "claim_4fc88562a7594b69b9d962a4506be8c7",
+      "statement": "The KSS leave-out MATLAB routines (leave_out_KSS.m, leave_out_COMPLETE.m) perform AKM estimation via PCG on the connected set, compute leverage (Bii) and permutation (Pii) diagonals, and produce bias-corrected variance components (sigma2_psi, sigma_psi_alpha, sigma2_alpha) with optional Johnson-Lindenstrauss approximation.",
+      "evidence": [
+        {
+          "resource": "repo://lib/KSS/leave_out_COMPLETE.m",
+          "version": "repo-file-v1:sha256:cb85db402651a9fc9df46355cffed948f9931d4ed4f2ac57c84248a76c9f5fc3"
+        },
+        {
+          "resource": "repo://lib/KSS/leave_out_KSS.m",
+          "version": "repo-file-v1:sha256:2e705422781da96feb546bc9920f4ebd30df4b7369c8e579493f1cecb9313d31"
+        }
+      ]
+    },
+    {
+      "id": "claim_b458bfac881140278c5798392909ad2f",
+      "statement": "The Bloom autonomy analysis (bloom_autonomy_analysis.do) tests family-controlled firm autonomy using ppmlhdfe on Bloom et al (2012) replication data, with outcomes (central5, hiring, marketing, product) and fixed effects sets (country-only, country+industry, country+industry+analyst), clustering at firm id.",
+      "evidence": [
+        {
+          "resource": "repo://lib/estimate/bloom_autonomy_analysis.do",
+          "version": "repo-file-v1:sha256:87a7dcfd15e41c39369c42e086e73fbb1958c1614aa6b38d698d7d8585ed4035"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-06T17:56:56.777Z"
+  }
+}
