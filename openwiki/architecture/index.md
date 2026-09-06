@@ -1,4 +1,4 @@
 # Files
 
-- [Data Pipeline Architecture](data-pipeline.md) - End-to-end data flow mapping 10+ stages from raw balance sheet and CEO panel inputs through intermediate datasets to final estimation outputs, including Makefile targets, script locations, and file formats.
-- [Estimation System](estimation-system.md) - Documents all econometric estimation methods including manager FE estimation, revenue function estimation, xt2denoise placebo-controlled event study, ATET variant, variance decomposition, Monte Carlo simulation, and external KSS leave-out MATLAB routines.
+- [Econometric Estimation Subsystem](estimation.md) - Documents the estimation scripts (surplus share, revenue function, manager value, event study, variance decomposition, ANOVA) that transform samples into econometric results for the CEO value project.
+- [Data and Analysis Pipeline](pipeline.md) - Documents the end-to-end data flow, Makefile dependency graph, script ordering, and temp-file handoffs across three Stata layers (create, estimate, exhibit) and the Julia network layer for the CEO value placebo-controlled event study project.

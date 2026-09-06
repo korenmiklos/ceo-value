@@ -1,106 +1,68 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:e1743453e73053eef3daa53e47d3ac2978ec9ceed0d24f77fb80f870710568f4",
+  "pageVersion": "sha256:bc8a4bb5e03613d814a49a86b6a347f4f1c598518ab76c9fed0664b3e712f2a5",
   "claims": [
     {
-      "id": "claim_1dada8502f4d4e9a85ded701e659538a",
-      "statement": "The repository implements a placebo-controlled event study design to estimate the causal effect of CEO quality on firm performance using Hungarian administrative data (1992-2022).",
+      "id": "claim_42e75ef2c3aa49caa2687174ab10b0cf",
+      "statement": "The project implements a placebo-controlled event study design that estimates the causal effect of CEO quality on firm performance using comprehensive Hungarian administrative data (1992–2022) covering approximately 1 million firms and 1 million managers.",
       "evidence": [
         {
-          "resource": "repo://CLAUDE.md#L5-L7",
-          "version": "repo-lines-v1:sha256:dcb57cb018a66fbdc57ab79bdd26922a648ae867953a4477e793ef58e75e1781:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTdhZGEyN2YxMWMxYzBjYzhjMTk4NWJiZWUyOWU4MGZlMzFhMTljMWVmYmRlMzM3MTYwNmQ4ZGNlZmI2ODRjMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDBlY2I3YWI0YTE3ZmU1ZDYyZmI1NGU1ZmZhM2I4NWM3MDY4ZmM3MWJmZmY0ZTljN2RhMGRhYjRjMzA1MWZlNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTYxYjUzYzI4OTY4MjM3OTlhYmEyNjgwNTI4OWIxNjFmYWZjZDA3ZjczODIzZTU4YjU2YWVlZDkwNDUzZGE3YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDU3OGEyNmQ1YzBjNWQ0ZmQ4OTRjOWZiMzg5NWJmMmUyZDM4ZTQxYTA3MmEwM2RlOTE2OWQ1MTY1OWZmOGRhZCJ9"
+          "resource": "repo://CLAUDE.md#L7-L8",
+          "version": "repo-lines-v1:sha256:9e68afd4942e5ddebdf3f6ef1ad6a1385fe583fb92dc5ee78bb39032a1f565ab:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDBlY2I3YWI0YTE3ZmU1ZDYyZmI1NGU1ZmZhM2I4NWM3MDY4ZmM3MWJmZmY0ZTljN2RhMGRhYjRjMzA1MWZlNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzdlYWI0ZGJiMGQ3ZDdmZGE0NzFkNTI0M2JmMzZkZGU4OWI2YTA4OTVlYTJmN2ZiMTVkNGMzYTYxNTU5YjdhYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWE5ZWMyM2ZkMmI3MWQyODE3ODRmNTExY2FhOGM5YTAzZWU3ZWJhZGRlZjQ1MDdjZDQxM2IzMTUyODQzOWUyOCJ9"
         },
         {
-          "resource": "repo://README.md#L3-L7",
-          "version": "repo-lines-v1:sha256:554a655cb8fcb6c20aa887e81cbf9b21e9a25a750b699207b40e0b4a01b79238:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ3MzNhOGFkM2IyYTQ5YWZlN2I0ODEyYzQ5ZjQ1NGVjYmFlMTMxZjAyOTg2MDM4ZWIxOWJmOWE2ZDU1YzJmOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDQ0NzRiYzk3MzExZDMyZWViNDlmZDFhNTQ3NGE0MjhkOWUyMmIwZTNlNjcwZDZjNmEyMDMyZjcyZGRlYWI4NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjIsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmNiMzA0YTdjNDRiMDFjYWY4ODA1ZTYwZGZmYmMwNWQ2YTkzOTM3MzBkNzEwY2U0YTI2ODljNzE4MzViNzQ3YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTFhM2Q3YjQ1MDEzNTljNmRhY2I5NDY4MDA4MWZjNTU2YWJhOWFhMTkxMTM1YzlkMTdhYjMzZjY0NjUxNmZjNCJ9"
-        },
-        {
-          "resource": "repo://SUMMARIZE.md#L2-L3",
-          "version": "repo-lines-v1:sha256:900f19d026087b3f8f6c008fddc1258bf7e83a11a0b029fa471bcc35b00d762d:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2U1MzE3ZDZiZjk0ZTJiOGU0OTk1ODAwZDZkOGFiMDI5ZmIzMmFkMWFiZTQxNzFhNDQ2ZjhjODVhMWZjNjhiNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjEsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTQ3MmFjOGNhMzczMzA5NzhlOTQwNjFhMTIyNGQ3Y2Q5NzQ2ODkzODZkNzRiZjI2M2RiOTc0NDU0MGVhZjI2ZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzcwYjM1ZmJiYjUxMTA3MDFlZjU4ODA5MWJlM2U5YjBlYzljYjRlNGFjNDNmMjRmZmZiNTMwMjFjN2EwZmNiYyJ9"
-        },
-        {
-          "resource": "repo://WARP.md#L5-L5",
-          "version": "repo-lines-v1:sha256:f4bea35380066f3cf8e1d45f934f1899833dda26b3ef21cbc2007f6d780812a8:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjRiZWEzNTM4MDA2NmYzY2Y4ZTFkNDVmOTM0ZjE4OTk4MzNkZGEyNmIzZWYyMWNiYzIwMDdmNmQ3ODA4MTJhOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjRiZWEzNTM4MDA2NmYzY2Y4ZTFkNDVmOTM0ZjE4OTk4MzNkZGEyNmIzZWYyMWNiYzIwMDdmNmQ3ODA4MTJhOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODEyYjE4ODc0YmQ4YTZkNmI1ZWNmYTBjNWQ4NjYyOGFiMTM3MDYwNjJmMTNhMThiOWUzNDYxODA1OGU5MWZiZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODcwYjBhYzQwNjJjZmRjZDgxZThjNGQ3NzkzNjQ4OTZhMzJiZWVkOTc0MzU4NGNiNGMzN2UwMDJlNWExMDQ0OCJ9"
+          "resource": "repo://README.md#L7-L8",
+          "version": "repo-lines-v1:sha256:21e35d6c8a8bdcdd978a89e0ec18869b0d51c576368f8c58a7a3d02aabb377e0:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDQ0NzRiYzk3MzExZDMyZWViNDlmZDFhNTQ3NGE0MjhkOWUyMmIwZTNlNjcwZDZjNmEyMDMyZjcyZGRlYWI4NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTVlZDE4MDBmNzQ2MTY5OTU2ODdjZDRlYzhhYjJiMGZkNmNkZTI3MTViYzM4ZTEwNGM4N2M5ZjVkOTc5OGE3YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDFhYmJkOTY5ODg4NzMwOWI3ZTQyZThjYjhkZWRmMmVkODc2N2MyYmQ2NWJlZTBmMjQzNjc2ZTZjYjA4MGI4NSJ9"
         }
       ]
     },
     {
-      "id": "claim_806be5d45ecb4d2dbe255244bc6704c9",
-      "statement": "The key finding of the research is that 75% of apparent CEO effects are spurious, with a true causal effect of 5.5% -- only 25% of the raw 22.5% correlation.",
+      "id": "claim_2993215e0f29448c91f48ecd9c8236f4",
+      "statement": "The true causal CEO effect after placebo debiasing is 5.5%, with 77% of apparent CEO effects found to be spurious.",
       "evidence": [
         {
-          "resource": "repo://CLAUDE.md#L167-L169",
-          "version": "repo-lines-v1:sha256:181077fc87d4a1eae0594a165cd893b2b7ef87ab68cdf661d6f34a726996fbef:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjVjM2NiZTRmYTY1ZWY4N2IzN2ZlMzg2Zjk1NTczYjY2NjcxMWMwOTBjMmVjMTA3NzIyZjczNTJkNzYyYTUzMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOGMyZTQxZDhmMmExZDM5ZmVmM2M0MGJiOTJhOTE0OGIyYTExZGM5ZTEyNmNkMzkxYTFmNDhkMzA4OTY1MTc5NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNmYzN2U0MWQwMjNkODdmOTQ5NTA0ZmVjODM1NTc2ODVjOWUxODUwZDU0OTY1NjljMTE1YzBjMzQzMmZkZmNjZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTdiZWEzNTc2ZWFiZjhiY2NjZTUxOTA2ZDExMjQ4OWI0Mjg5ZTg2NDUwODQwNjY1OGZjNzRhZWIzMjI1MGM0ZiJ9"
+          "resource": "repo://README.md#L240-L243",
+          "version": "repo-lines-v1:sha256:08e8b63c4633e02b2dfb75d85acdcc31c426ad322cc30afbb3a0cc20ee210fe2:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjQ3Y2E4ZjczYjcxYTRjZDkwYTZmMjY4ZWZlOTljNDE5NTE4NTc2NmVkNmMyZDBkM2RkYjc3NTA0MTAwYTBjNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTU1NGZlZjFhZjBlMDIyODE1NTQxODFjMWU5MTk0ZjA3NmFhNjAzMDFlM2ZlNzBlMjNmNGEyZWUxZTRiNWRlYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmUzYTk0YmQxMzU3YTYzZGQwNDUwMjg4NzZmNmI2OTQ0NDQ5NzViZjk4ZGZlZTZiYTRhYTk3MTcyZTlhMzAyNiJ9"
         }
       ]
     },
     {
-      "id": "claim_fd60b45fd1db48ec9abd20984c65e3bf",
-      "statement": "The technology stack combines Stata 18.0 (data processing and econometric estimation), Julia 1.10.4 (graph/network analysis), Make (end-to-end orchestration), LaTeX (paper compilation), and Python (AI agent evaluation harness).",
+      "id": "claim_aad54b10d3c446a7b0f759b9b2a3dc17",
+      "statement": "Two papers share the same lib/ library: an application paper (papers/application/Makefile) reporting main results, and an econometrics paper (papers/econometrics/Makefile) with methodological derivations and Monte Carlo simulations.",
       "evidence": [
         {
-          "resource": "repo://CLAUDE.md#L181-L184",
-          "version": "repo-lines-v1:sha256:695c74aa021e514af2d93ba2528232ff40037c80b7c525ae3df10166ae6380f6:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTRkNmViMzk3MmFjM2RhYWE1ZWJmMDlmMzM4NWE1YzdhN2UxZTFiY2U2MjI5YzkwZWM3NGQyNTgxZmNmYzI1OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTM1ODA0ZTFmNjc3MWIwMDQxODRiZmM4MDM2MTBmOTUyNDlmNzUyM2U2NmIyMmU4MjA2YzAwMzJkNTg4OWVkYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzdhN2EzNDE4ODZiNGZlMDYwZTM5OWJkY2RmMmZlNzgxN2M2Y2U3ZjAxZDBiZTU2ZDdlZGFjMzc0Y2E5ZGZkZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWExYWY1OTMwOTFjNDk2Y2E3YjQ2YjZiZmQ1ZGI1MmIwOWU0MDMyYWMyNGNiNmExN2YwNDdmMzQ2NGIxM2I0YSJ9"
+          "resource": "repo://papers/application/Makefile",
+          "version": "repo-file-v1:sha256:8d95ffd070e399dd2b9be81fccd5c95a3804a1e83ba3fc694544379db2bed9d2"
         },
         {
-          "resource": "repo://Makefile#L7-L9",
-          "version": "repo-lines-v1:sha256:d1eb62763ca903702197b3105451c90cb3aabeb9db9eebe49b398e418806d73b:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjI5NmM1NDE1ZmNmYjI2N2ZhMjFiZTlmNTNmZmVkMzFiNDNkN2MyYjFhZGI3NGY0N2I4NTU4MzFhMTllYTk2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODEzY2I5OGE2YzhjZWE2MmEyMDY0NDgyMzhhYWNkMDk5MDk0MjFlODVmNjBmNDNjMGE4OGQ0YTk5N2FjZGM4NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWRkNDQ5MWQ5ZTQ0MjUzMDE4MGI0NzhhZjA0ZWNlMDkxYzZkOGJkODRlYmE5NWQxOWVmZWM5ZjJlNWY2YjM2NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmMzY2UzYzhiZTUzZTY4YTQ4MjM1YzJlZWY4NmY3MTdmNzdjZDE1MzNjOTRiOGE1MTU0MjEwZTc3MGM0NDZjZiJ9"
-        },
-        {
-          "resource": "repo://README.md#L72-L81",
-          "version": "repo-lines-v1:sha256:9bdcc6b15e9bbf66ca8e804813f47deff17cb592a719d244b548931c58a93408:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdkZjE0ZjdjNjhiMGExYTA3N2ExYzk2MjJlMDU5YTA1NzZlMTEyZDBlYjZhZWFkMTE5YzEyZDk1Y2RmNGY0NDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBkOGQ3MTRlNGIyOGU0ZGEwYjQ3ZTBmMTAxZTkzYmMwN2EwZjk1MjZhZTkxMzExMmRhZWJkYzkyZTgwYWEyMDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA0YzQzMWYzNThlZTJlN2FkNzVhMDFiMTM4NmRmYTU2ZTE2ZWZmZGIwMmI3ZGI4YjA4NDI2YmQ4NzkzMGIzOTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBlMjJkMjMxNTVkYzFkOWRlOTJiYzA3ZjY0NWExMmEwNjljZjJiNTJiODZhMTdjNzc4NDRjN2Q0MDI4ZTliZjcifQ"
-        },
-        {
-          "resource": "repo://WARP.md#L82-L83",
-          "version": "repo-lines-v1:sha256:bd09eab78a0fb11fe3f0110cda401e12f70af37ea40523aefb3d82829a18aef2:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzkyNGJkMGQ4ZGRjNzNhNWNiNTI5ODM5NWIwY2I5MDFhMmFkOTRjZTU1ZThhY2U1ZTMxNjY4YjhhMTA4MzNlYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTA0MzYzYzg1ZmI1YzQxMDcyM2RkYjM0MmQ1ZmEzNjBmYzIzZjljMWIxMDc3OWY5OGFhMmM3MDNlMTIyNDJkMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDExMTJlNTJiZjE0MjU3ZjIxNTQ3MTU0NGRmZTc2M2ZlZTVkNjIyZDk4YzczMjE2ZjYzMmMwZGQxOThkNTkxOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjNjYThjOTU4ZDE5ODkxZTQzMTc3NTZiZmZhMTkwNGFjYzQxMzQxOGQwMTNlNzcwMjRjN2YzNmFjY2M0YWQ2MCJ9"
+          "resource": "repo://papers/econometrics/Makefile",
+          "version": "repo-file-v1:sha256:27e54baa55e1c3d9f01285a2aaa1c08a001c788e22c643e3b84e2ecb8d538ec4"
         }
       ]
     },
     {
-      "id": "claim_151c1f20a16d47c8a92d77f7ba9b6f83",
-      "statement": "Proprietary Hungarian administrative data (balance_sheet_80_22.dta and ceo-panel.dta) is not included in the repository; researchers must obtain it from Opten Zrt or KRTK Adatbank.",
+      "id": "claim_efd27213a9e14a20b7df99f1fd69b347",
+      "statement": "The final analytical sample contains 8,872,039 firm-year observations representing 891,631 unique firms.",
       "evidence": [
         {
-          "resource": "repo://CLAUDE.md#L97-L98",
-          "version": "repo-lines-v1:sha256:3f86bfeb14b2b6e379d940e2ddd92dc154917867a35148868fe65cea30a93c6a:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTQ1MjBkNDhkOTQwNzI5NmUwMzFkOWI5ZWQ5NjNhMmJkZjg4NzMzZWJhY2M3MDEwYWY5Mjc3NzAzYTY4MmMyYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTAyZmRiOTRiNzAzOTVlYzMzNzU2YmMyZDlhOGEwYzgxNjU0YjY2ZWRmN2ZmMGQ1NjUxZGM5NTY3NDRlYzY2OCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTdhNzU3OTk3M2ZiMDZkZGEzZjcwYzIyMzhjNDIxYTFlMDBkZjE2MjEwZGUzMjY3ZGJhYTgyZDRhZTZmNjJkYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjE4NThlOTI2ZGQ4OTU3MjQ1YjVlNDk2MThlMmRhZmY3MzgzZWU2ODFjN2RmYjQ2MDVmNDU1NjQ0ODc2YWY4ZiJ9"
-        },
-        {
-          "resource": "repo://README.md#L9-L51",
-          "version": "repo-lines-v1:sha256:39eb9dc68060fac89520b208d5f75ce34a076dfda9ca8cf7950f05e1a5cbb79f:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQwYjEwZGQ0NTU3N2Q3NDA4MDVkMmQ3YzIyNDliMWQzYTNlZjI3MzBlOGUxN2Y4MDFlYWM2NGQwM2ViNmMwNTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQwZDdiMDI3NzlkNTNlYzdkM2VhMWE2YTdmZDBkZDQ2ZjYzYjljZTUzZjNkZWI4Yzg0NTAwNzI0NTU0Zjg0ZjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjljNTU5ZWRjY2U5N2QxZDkzZWE5NTAyNmQwMTZhOThhYTU1MDk3YTYxZTI4NzQ4ZmZjNDNhMDYzZjQxYzZiNDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMyMjRmZGI1ZTVmMDIxZjQzY2M0NDU4YTRiMTRiMWIxZDlmMWJkMjg3MDYzNGExZGIyNTJkNzRiN2JlNWEyYjMifQ"
+          "resource": "repo://README.md#L206-L207",
+          "version": "repo-lines-v1:sha256:b6e8ee8fa8be1dc26f26c92d7f8e018282c75e8f6ee4150379b1a48e190eb82a:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzdhYTUyOGE0MDg5NjRkZGJiYThkY2E4NTg0OTMwYTBjZjcwYTk1YjU1MjRlNjRmYjFmZjM2YTlkZGE1MjQ4NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDY3M2JjMjQxYWJmOWZkY2ZhMTc4ZmY2NTk1NDViYzk5ZDBiNWY4ZDZkNmI3YjFkYWUwNWZhZTVkOTQyNTkxYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2FjNGI3YjcxM2VlNDNlMzQ1ZWJkMTgzZGQ5MDg1ODM2ZTlkNGJlMTNhMzUyNGRiNzBlZDVjMWU2M2ExMTBiOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTBiNmUxNGJiNzM0YTc3ODA1YjNhMDJkNWVmMmE4NzhiOGIxZDIwYWQ3ZWVmYWZjNmU1ZDMzZTliMDA3MWI3MCJ9"
         }
       ]
     },
     {
-      "id": "claim_e86bf5d6a583446c8e367915e981be2e",
-      "statement": "The repository directory structure organizes creation scripts in code/create/, estimation in code/estimate/, exhibits in code/exhibit/, tests in code/test/, and utilities in code/util/ relative to the project root.",
+      "id": "claim_e9d2bb29c6d646f1a1260ab54949e249",
+      "statement": "The largest connected component of mobile managers contains 189,108 managers.",
       "evidence": [
         {
-          "resource": "repo://CLAUDE.md#L97-L142",
-          "version": "repo-lines-v1:sha256:bc322e5fa0e5143a057e2011d3cc434b40c5e4c0c3170bb38ba795fa83a61b8f:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU0NTIwZDQ4ZDk0MDcyOTZlMDMxZDliOWVkOTYzYTJiZGY4ODczM2ViYWNjNzAxMGFmOTI3NzcwM2E2ODJjMmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc5MWU4NDM4NjE3OTJjNWJiNDNiMDM4NjJjMzA0YjczZmU0NzhjMDUwMGU4YTBlZmNkOGQzMmYyNTZkYTJiYzUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE3YTc1Nzk5NzNmYjA2ZGRhM2Y3MGMyMjM4YzQyMWExZTAwZGYxNjIxMGRlMzI2N2RiYWE4MmQ0YWU2ZjYyZGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIyODk5NWZmOWJlMjg2ZmM1ZThkMWM4N2UyMTI5MDk2M2IwMWU0ODUzZTk1NWE4MDg2MTg4Y2E3MDJjZmMyYzUifQ"
-        }
-      ]
-    },
-    {
-      "id": "claim_6c8c30117fe04812a44ec1d9f3ffd5e1",
-      "statement": "The wiki documents six domains: architecture (data pipeline, estimation system), concepts (event study, manager skill, connected network), integrations (Julia, Stata), operations (runtime parameters), testing (Monte Carlo, evaluation harness), and workflows (full build, placebo construction, sampling/filtering).",
-      "evidence": [
-        {
-          "resource": "repo://CLAUDE.md#L107-L109",
-          "version": "repo-lines-v1:sha256:0ee4110d9f2c1dc549646e2c44b681e71ea96ee5f115f733752b393ce9fc0404:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWI5MmUzN2I1YTE1OTRmMmFlMzAwMGU5ZTEzOTE5M2NkMDJmMmNmZjc5ODI2Yzk3ZWU1NzM4ZTI1YWE4MWEwOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTJlMTA1MDM4ZTJhZTlkZTRlMGFkMDgxNzU3NWFhNDRhZDhmNzMxNTllZmNiYWFkZTc3ZTBhOWY2OTAxNGU3OCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjI1NWIzN2FhODA5NGMzYzRiNjdkMTM1NjllMDhjNGNmMDcyNGNjOTVmZjIyNThlNWRiMjhmYWExNjAwYmJkMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWJiZTkyZGJkZDc3YjNmMGM0MTE0MTZmYWMwOTI0MzNhZjE0YTE1NTlkYTVmODBiZDkwZDIxZWNjZjk0ZGZiMSJ9"
-        },
-        {
-          "resource": "repo://Makefile#L13-L16",
-          "version": "repo-lines-v1:sha256:922d015fae12b904c3dac8c942c7fe9b044b19b7245dff130636896818815be3:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzA2ZjA3MWUzZGJlZDNjMGI0MzdjZTJkNmViY2IyYzA5ZWE2NmVlNzkwM2ZkMjAxYjgyOTFhZTlmMjIyMjU3MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmMzY2UzYzhiZTUzZTY4YTQ4MjM1YzJlZWY4NmY3MTdmNzdjZDE1MzNjOTRiOGE1MTU0MjEwZTc3MGM0NDZjZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjQxMjJhYzBjZDgxMzI2ZTYxYjExZWVjMTYzYmIzNjFlNTc0OTQ3YzQzMzhjNjI3YmZkNWRjN2FjMzc4MzhhNyJ9"
-        },
-        {
-          "resource": "repo://Makefile#L17-L21",
-          "version": "repo-lines-v1:sha256:718571367feafdc6d444bef7785d1eb9af3283b13925eda18aa02e4b68f25793:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTgzNTQzMWU0Njc2YzM4ZTVhMjhkMTUzYzI1OTE4ZjQyMTMwNmY4YWZmY2Q2ZmE1MWIxMzk4MTlkOTg1YzVhZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTNiNDRhYTNiNTFjNTA4ZmQzMjViOTM1OThjOTI0ZDBjNTU1NjgwYzJkNjk0ODAxNmFiZDdmNjQyYzJhNDlkZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjc2ZmVhNzQ0NzljNzFlMDA3OTRkY2I0M2UyMmNjZTU2NzYxNzZjMDY1ZTgxNGM3YmMxZmFiMzQzY2E0ZTQ2ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2U4NzgzY2MzMzg3MzY5NDQxMWVlYjA3ZGZiYTBjMjVkMzA1NDA3M2U3NDM0Nzg2ZGJiZDgxZTE2NWIyMDkyMiJ9"
+          "resource": "repo://README.md#L207-L208",
+          "version": "repo-lines-v1:sha256:059d822d04b5344aa08829a3ed02a6ed880ab674cff9134dfa9482272d4945f4:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDY3M2JjMjQxYWJmOWZkY2ZhMTc4ZmY2NTk1NDViYzk5ZDBiNWY4ZDZkNmI3YjFkYWUwNWZhZTVkOTQyNTkxYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODRiYWZiMmE3ODMxMzhlODQzODk3YzBlYjM0NWM2NGZmMTA1Yzc0OTkzMDNkZTJmMTRlNGY3ZGExMWQ1MDJjZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjU2ZThjZGVmZWYxNTEzNjlkZTlmMjgyMmE2MjNhYTNkNzY1YTU4N2I4MTkzMmY5ZmJlNjg4NDJjMzAzNWYzZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiZDYzMTFiZmRiNzUxNzNhZTIyYTQ1ZWQyNjE2OTI2YTQxYzA5NTgyMzIxYzNkOGIxZDY3YjNiZWFlODYxYyJ9"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-06T17:56:56.777Z"
+    "at": "2026-09-06T19:57:00.087Z"
   }
 }

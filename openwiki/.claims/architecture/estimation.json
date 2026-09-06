@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:73628d070ad6a6d35c8ee0254ebd1ffd149bb82deb30b4da9eed5746f4a96ac6",
+  "claims": [
+    {
+      "id": "claim_9ce32e93b56c4d2293936ce421826cea",
+      "statement": "The estimation pipeline is sequential: surplus.do → revenue_function.do → manager_value.do → event_study_sample.do (placebo generation) → event_study.do / event_study_atet.do / xt2var.do (event study estimation), with each stage consuming the output of the previous stage as documented in the Makefile dependency chain.",
+      "evidence": [
+        {
+          "resource": "repo://Makefile#L67-L71",
+          "version": "repo-lines-v1:sha256:1fe0411583072b32cc64f322181a1f7d456aadfe01d9756a51a2293daed34518:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDQ3NjkyMDllNWI0OTJkY2FlZGY0YTRjZmNjYTU5M2UxNDEwNTBmZjkwYWNmYTIyYzRmMDBmZDcyMWMxZjQ4NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWU0MGE0ZTFhMWZjOTUxMmMzOTIwYWY0OGI4MDJiODlmMjQ0YzI0ZGY4NjQ1MjIxZmY3MmViNjI3ODFjYTRiYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTI0MDI3MzU2YThhNjBhMjQzZTU2MzFhMTAzZGUzMTU4ZDBmYzNmMzEwOTcyMDU4YjE5ODE5NGE1MTA5Mzg3ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzAxNTM3OWE5NGYzOTU3OTNiZDdlZGIxZDlkYjIwZTA1NzJmZTVmMjJmMTNiMDcyYzhhZjlkMjM2MmY0YjBjOSJ9"
+        },
+        {
+          "resource": "repo://Makefile#L93-L100",
+          "version": "repo-lines-v1:sha256:cce142c5fb208e788d073d6b3602e52730afd4bf1bfc69553aec0d666bc9beca:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjY5M2JmNzcwYzQwMWE1YzNiZTczNGUxZTE5ODgyODgyYjMyNGE2OWE0ZDEzN2YxOWNhOWMyOWI1NmI4NGQ3YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2UwMTY0MGM0YmFkOTE0ODhkOWRkZjlmYzM2YmY1ZTFiZDI4YTQ4NTY1ZWUyNTExNTViYWM2NzAyYzUzMmM5YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTZlMThmYTZiNDViNmJhYWRlMmM0ZTViMDU2ZjY1YzY4OGM5YzgxMDllYjFlNjEyN2U5NGU4OWUwYWQ0MGIxMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjNjMWNiNDIyOGNmMjVhY2E2NjMxOWNmNzQ3NDU3ODI2ODU5OTM5Njc0ODMyZTFmYWZmZWQzMjc5NDQ2ZDZkMyJ9"
+        },
+        {
+          "resource": "repo://Makefile#L97-L98",
+          "version": "repo-lines-v1:sha256:e373b106806e5feaa043371dfc4f2a7de72bcddd4b46149b5ddf815b8fbd6dcb:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjk2NGVhNjExMmViOGRhOWVkZTBmYjdkMGJlNWY2M2FmZWMwNjc3YTdiMDdjODU4ZTk2Y2FjMmVlM2EwNjA4NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTY3MDdiMjFmNDI1ZTMzOWJlMmRmNmZiYTIxMWU4ODljMWRmMGZmMjJmZmZhZWZlZWZhZjExZmNjNGQ1M2I3NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjc3NzdmY2Q3OGE4MWRkMDgxNDFmYjQwZWUyMzVhNTU4ODFhNGUxYmE0ZTBiMjY4OThlNWFhM2ZjMmYxYjFhMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODRjMzUxZjU4NGIyM2E3Y2Y4ZTAwOTk5MjkxNjkzZDM1YzgwNGE1NThiMTZlNWExNzA3YTk4ZjFkZTNjMTJkOSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_5738c41300884576bd3c17668bc61644",
+      "statement": "surplus.do computes the surplus share χ as the sector-level, sales-weighted mean of EBITDA/sales, then runs sector-level reghdfe lnR on lnK and has_intangible with firm×CEO-spell and sector×year fixed effects to produce residualized surplus lnStilde = χ × (lnR − β_lnK×lnK − β_has_intangible×has_intangible − sector_time_effect).",
+      "evidence": [
+        {
+          "resource": "repo://surplus.log#L25-L87",
+          "version": "repo-lines-v1:sha256:471d8c7a97192dc8faab3c35ec827a4a824a9ef4ccd77060d1b5a9a1d04732e0:eyJzZWxlY3RlZExpbmVDb3VudCI6NjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmY2I1NmQ5NWRlMWYwZTkwMmE2ODllMGQzYzJkODRlZjk5ODI3MmRlOGVlOGY2YWQyNDU3ZmFjOWQ2NWZlOWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmYmRjYTBhNGI0YjRmNjdmN2Q4ZTU1MjdkZGEzMGRlZGQzMzMwOTdmYWU2MWY5MjdmZThiNTBjNjZiMDAxNWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ5NDE5NWJmMGY0ZmMyNjg3Y2E2YTU2Y2U2MDE0NTVlOTQ0ZTU3YTE0NWYyN2IxMDVhMjYwZDUyN2QzZDZhMzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRiZmE3Y2U5YWQyYmUyNzc4NmY0NWU1YTFhYjNlZThmMTFmYzcwODg4Y2U1ZjA4ODNiNDljNTQyYzE0YjlkYzUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bac3d62afe2e4c0482dbdb707ef833f8",
+      "statement": "revenue_function.do estimates six revenue function specifications — four rotating alternative outcomes (lnR, lnEBITDA, lnWL, lnM) with basic controls, one with rich controls and firm×CEO-spell fixed effects, and one restricted to connected components — saving all to temp/revenue_models.ster.",
+      "evidence": [
+        {
+          "resource": "repo://lib/estimate/revenue_function.do#L1-L39",
+          "version": "repo-lines-v1:sha256:05083b27094dcdc8cdc0148b329dd4a12f7e837b5eaf4a66ebd1d6c6d0f36b77:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZkZjc0Y2I5OWUxNzYwYTBjZTA2MmVlZDgzYTQ4ZjE1ZWQ4ZTNkZWVlNTkwMDU3MmRmN2I4MDc0ZWEzYzRlZWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyNDMwZWM0MDBiOTAwZWExMGU3OGFkZGE4ZTM1Mzc5MDVlNGUyOThjMTBlMTQ5OWM2OWNlMWYwM2U0YjNiYTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9a14b09b30154adcabf9cbd377664a82",
+      "statement": "manager_value.do estimates manager fixed effects via reghdfe ROA with absorb(firm_fixed_effect=frame_id_numeric manager_skill=person_id), computes within-firm manager skill by demeaning ROA by firm-person mean and subtracting the first CEO's mean, and produces two outputs: temp/manager_value.dta (firm×manager fixed effects) and temp/manager_value_spell.dta (spell-level skill).",
+      "evidence": [
+        {
+          "resource": "repo://lib/estimate/manager_value.do#L29-L71",
+          "version": "repo-lines-v1:sha256:71cb65416c8bf900f9905bd1d6ecd04adfcb3cdebbe3fe86de4342fe73f915a5:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc4NTlkZjMwNTQ5Njk1NzU1ODRkNGI2MTY1ZjVmNjI1YWYyYTQ4ZWUxMmYyOWVmYjI0NzE4YWM0NDUxOWQ4N2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZhZTk5YTRhMmQzM2YyNDI5ZTNmMDI5ZjBiNzYyYWUxNzFiYzMyODc2YjljZjM5MjY5MzU1Y2M3MzA5OTU4ZGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQyYTQ1Zjc4OWUyM2VjNWM4MjlkNzMwNTc5MjM1ZDJlODRiNTY0MjQ5MzY4YWNhNzNjZDlmYTU3NzNjMWViNzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_925907fa1f2d497aa69ebac516ba3f2c",
+      "statement": "event_study_sample.do constructs placebo CEO transitions by exact matching on cohort, sector, and max_size, drawing control firms from the firm-year panel with event windows fitting inside their lifespan, and assigning random t0 (pre-change length) from the treated group's distribution, targeting a 10:1 control-to-treated ratio.",
+      "evidence": [
+        {
+          "resource": "repo://lib/create/event_study_sample.do#L155-L220",
+          "version": "repo-lines-v1:sha256:01eca0ca48a9456ec931eb03cc1420367c2b6912e9c0c151eb02ffa9ad311154:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZlNjZlMGIxZWI5ZTA1NzI3YjU4YWI2OGQ2ZDY2OTkxMTc2YzQ5MDU1ZjFkY2FhYjQwNmU4NDJkMGZjODc0ZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUxMTc2NmIzY2Y2ZWZjOTNiODM0Yzc1Mzc5MzA5ZDMyZmYxMTIzZDE1NTZmMzliMTRjNzQ2YjUyMGNhODFiMTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNjOTJhYWIxMTRkOTIwYWVmMGExNTg1NzBlYmUyNGFlMGQ3NDgyOGZiZTVkNDQ3NzAwMDUxYWMyNzYwNGY3MzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk4MDgwMzQ4YzcyODEyNjIzODM5Y2JiN2I1ODNkNjhjNDg2MDBmN2M1ZTNlNGE1ZTQ5ZWNkYTViNDU0Y2Y4N2YifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_cfcdf199057147e3bcdd68159e13e8f1",
+      "statement": "event_study.do uses xt2denoise with z=manager_skill, treatment=actual_ceo, control=placebo_ceo, pre(4), post(3), and baseline(atet) to produce denoised ATET and covariance estimates, exporting results to data/atet_{variation}_{sample}_{OC}-{FE}.csv.",
+      "evidence": [
+        {
+          "resource": "repo://lib/estimate/event_study.do#L52-L94",
+          "version": "repo-lines-v1:sha256:5b5b288a4b4085007b54e80bd7d696adcce0c02c5c19458bcbfe1219f1dacbc6:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkZjA2NTJkYThjZWFlZDZhMGNmMTM2NjVlN2Y0YTAxYjBiMjU1MzRhYjliMjViNmVhNGNlNGU0ZDFjM2Q4NGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJkODVmZjFhNzg2ZGU2NDJkMjY1M2E0YmMxMWU3YWU3NTQxNjZkOGRkMTNlOTc2Mzk2OGY4ZDIzNzY1NDA5OTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ3MTllZjkwMzNjNTljZjBjZDhiNGE2ZjI4ZWU5MmM3NTVhNGE1YWJmODczODNmM2EzZDE1MjcxMWYxYmRjMzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZmMzE2NDZmNWUzNjY1NzcyYjIzN2NkNzZiZWM3NTdkYjA3OGFiMmVkOTEyNDA5Zjg0ZTUyZGRlOTNkZTkzZTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2100fdec1b5b4a7e9f7203ad7b11df9f",
+      "statement": "xt2var.do implements excess variance decomposition by iteratively reweighting (4 iterations) control-group variances to match treated-group pre-treatment variances via OLS, then running reghdfe on demeaned variance/covariance terms to separate bias from treatment effects.",
+      "evidence": [
+        {
+          "resource": "repo://lib/estimate/xt2var.do#L52-L62",
+          "version": "repo-lines-v1:sha256:0f3b22996678f9d3342a3e71fbf541b24b3174e1cf4d854d9e05c2cab5358e4c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhiNGI5OGU2Yzg5MGJmYjhiZDAwOTEwNTQ0NTZkZjRlYWQ0ZDczM2M4ZWRhNDRlZTk4MWU3NmNjZjU1YmJiNGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUwZDg3ZWY0NGNmNWY3YTU5YjBlYmRkODA5ZmYwYTMwMWJlYjllOGNlNzc5MDI2NDVkN2IwZTMxZWY4MmI2ZGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE3NTYxOTFiMWYwZTU2MDA2MWZlNWJiZDQxNzgzYWM0Mjg4NmZiMmRmNjgyMTQzNWZmYWZkOTMyNGUyYjYxZDQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_97580fd540c34bca8b190d9d9f76a99a",
+      "statement": "The event study window spans event times −4 to +3 relative to change_year, with year −1 as baseline, as configured by globals in setup_event_study.do.",
+      "evidence": [
+        {
+          "resource": "repo://lib/estimate/setup_event_study.do#L8-L9",
+          "version": "repo-lines-v1:sha256:fadd4d9875a1e7371c3919eea964dfdca26d736201448dd3cf6a380026d0123d:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDgzYWJmMDRkYWYwYmFlYTQ2ZjhkNWE3Y2MwZTUxYTlhZTUzYmQwOWY3ZmMxZjc0NzMxYmIxZGI5OTY0NzM3OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODRhMTQyYWI1ODMyMDUyNjk2OGE4NDBhMWZhYzVmYTJhMjYxZDhiYTUzNWM3YTBmZDk1NzJjOTZkOGEwYjg0YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGQ2YzA3NzM2Y2NhMjdmZWZjYmEyOWQxNjY4NDhmYzI1OGJiZDE3MTQ5YzExMzAwODQxYmJhNWY4OTM1ODVlOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzU5YWE5M2M0NDZkMmQ5ODdjY2JmMWQzNTZiMjE1ZDc4MTdjYTJiOGZmMjBkYWZiNjk4Y2ZlMDgwODE5YjI3MCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_496010b20f9f43508d99db4b3154756e",
+      "statement": "bloom_autonomy_analysis.do runs 28 specifications (6 PPML × 4 autonomy dimensions + 6 OLS on log investment) testing whether family-controlled firms have less autonomy, using Bloom et al. (2012) replication data.",
+      "evidence": [
+        {
+          "resource": "repo://lib/estimate/bloom_autonomy_analysis.do#L83-L142",
+          "version": "repo-lines-v1:sha256:95b3aa3518c28e29bde261b71e7bdb070af5975818b54e54d9d719b67e65c47d:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRjZjRkN2MyZWY2NjQ1NGE3OTBiNDAwMTQ3NzY4ZmRhMzBkMWRiOWM3ZDhjNDlkMWNiZTVhOGM3YjdjYmI5ZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE4MjEzY2VkZGJhYjFlM2Q5Zjc5ZmIyYjA0ZTMyZjJkMWFiZWY5YzA0NzI5YWVjNDlkZThkZDEyNDJhNDM2MjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYyYTAwOTViYWQ0ZTQxMDQ1ZmJjZTVkM2IwNWM2MDQzMDk0NjA5MTFhNzIxMzU3YTE0NWYwMjNhMmI3ODc0NWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI0YjhmZDRmOTFlMTc3Njk3NWNlNTIyMDM2NWI1MzFiMzllN2QxMzg4MGM5MGJhNmI3ZjMwMWFhNDEzMmMzMjYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a6452faaf2a547bfa80b60e2bd44ef11",
+      "statement": "The Monte Carlo simulation in lib/create/montecarlo.do generates 10,000 synthetic CEO transitions with known true_effect = sqrt(2/π) × σ_z, autocorrelated TFP (ρ=0.97), and excess variance in treated firms (σ_ε1=0.06 vs σ_ε0=0.05) to validate the event study estimator.",
+      "evidence": [
+        {
+          "resource": "repo://lib/create/montecarlo.do#L3-L114",
+          "version": "repo-lines-v1:sha256:b8706ca28e96535bd58abe9bb3e6babc174b3a02d8b706804d0a4f7f71878665:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEyLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJmNjdlMzkwNzU2MWU0MWM0MjJmYWU4NTk0YzZkNTVlZThjMTJkZDk3NTEzMTJjMzAwOWEzOTUyNjgyNWVlZWI3IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI2ZmEwODg4MWYxNjliOTYzNDJkZWI0MDBmNmI1NTQwZmY1YzkwNjg0NDE4ZDVkYjZiYmU5MzY4ZWViZTBkY2Y1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MiwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJkOTdlZTQ2ZWJhMmVhNWY4NzE3NGQ0ZTQwOTQzZWJiZTk1YzY4OTIyNmJiNzQ2MjQ5MTRiZWQwZjQxNmVlOTRhIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-06T19:57:00.087Z"
+  }
+}

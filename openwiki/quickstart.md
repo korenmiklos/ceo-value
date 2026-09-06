@@ -1,166 +1,150 @@
 ---
-type: entry-point
-title: OpenWiki Quickstart
-description: Entry point and task-routing map for the CEO Value Research Project wiki. Links to every wiki page organized by agent goal, with a concise project overview and a goal-to-page routing table.
-tags: [entry-point, task-routing, quickstart, reference]
+type: entry point
+title: CEO Value Research Project Quickstart
+description: Entry point for the wiki. Routes readers to architecture, concepts, operations, testing, and integration pages based on what they need to understand, replicate, or modify in this placebo-controlled CEO event study pipeline.
+tags: [quickstart, entry-point, CEO-value, placebo-design, research-pipeline, documentation-map]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-06T17:56:56.777Z
+    at: 2026-09-06T19:57:00.087Z
 sources:
   - id: openwiki-source-a2371d6362e5db4bc834ad03
     resource: repo://CLAUDE.md
-  - id: openwiki-source-012f2c78e3b1446dfc35803f
-    resource: repo://Makefile
+  - id: openwiki-source-668d3dee65423484e813acea
+    resource: repo://papers/application/Makefile
+  - id: openwiki-source-59f2f40c6cfbe469fc787915
+    resource: repo://papers/econometrics/Makefile
   - id: openwiki-source-23775c3de52f3ab95a13cb8b
     resource: repo://README.md
-  - id: openwiki-source-d122eb20a9952e2f755cb685
-    resource: repo://SUMMARIZE.md
-  - id: openwiki-source-dcc9abf02abf0b020a0c918d
-    resource: repo://WARP.md
-generated: { by: "openwiki/0.5.0", at: "2026-09-06T17:56:56.777Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-06T19:57:00.087Z" }
 ---
 
-# OpenWiki Quickstart
+# CEO Value Research Project Quickstart
 
 ## Project Overview
 
-This repository implements a **placebo-controlled event study design** to estimate the causal effect of CEO quality on firm performance. It uses comprehensive Hungarian administrative data (1992--2022) covering approximately 1M firms and 1M managers over 30 years.
+This repository implements a **placebo-controlled event study design** that estimates the causal effect of CEO quality on firm performance. Using comprehensive Hungarian administrative data (1992–2022, ~1M firms, ~1M managers), the method constructs *fake* CEO transitions — called placebo transitions — in firms that undergo no actual CEO change. Because placebo firms have no true treatment effect, their measured moments nonparametrically estimate the bias components. Subtracting placebo moments from treated moments yields debiased causal estimates of CEO impact. The headline finding: **77% of apparent CEO effects are spurious; the true causal impact is 5.5%**.
 
-**Key finding:** 75% of apparent CEO effects are spurious (noise rather than true skill differences). The true causal effect is 5.5% -- only 25% of the raw 22.5% correlation.
+The codebase integrates three languages under GNU Make orchestration:
 
-### Technology Stack
+| Layer | Language | Responsibility |
+|-------|----------|---------------|
+| Data preparation | Stata (`.do`) | Cleaning, merging, sample construction |
+| Network analysis | Julia (`.jl`) | Bipartite graph projection, connected component identification |
+| Econometric estimation | Stata (`.do`) | Manager fixed effects, event studies, ANOVA |
+| Paper compilation | LaTeX (`.tex`) | Tables, figures, final PDF |
 
-| Layer | Tool | Role |
-|---|---|---|
-| Data processing & estimation | Stata 18.0 | All `.do` scripts: cleaning, merging, econometrics (reghdfe, estout, xt2treatments, e2frame) |
-| Network analysis | Julia 1.10.4 | Bipartite graph projection, connected components, edge leverage (`CSV`, `DataFrames`, `Graphs`, `SparseArrays`, `LeaveOut`) |
-| Orchestration | Make | End-to-end dependency tracking (`make all`, incremental rebuilds) |
-| Paper | LaTeX | `output/paper.pdf` with tables and figures |
-| Evaluation harness | Python | AI agent evaluation on Stata code understanding (`eval/`) |
-
-**Data:** Proprietary Hungarian administrative data (not included). See `README.md` for access instructions.
+Two papers share the same `lib/` library: an **application paper** (`papers/application/`) reporting the main results, and an **econometrics paper** (`papers/econometrics/`) with methodological derivations and Monte Carlo simulations.
 
 ---
 
-## Task-Routing Map
+## What Do You Want to Do?
 
-Use the table below to find the right page for your goal. Every page in this wiki is listed at least once.
+### Understand the Architecture
 
-| If you want to... | Start here |
-|---|---|
-| Run the full end-to-end build | [/openwiki/workflows/full-build.md](/openwiki/workflows/full-build.md) |
-| Understand the core identification strategy | [/openwiki/concepts/placebo-controlled-event-study.md](/openwiki/concepts/placebo-controlled-event-study.md) |
-| Modify the placebo construction logic | [/openwiki/workflows/placebo-construction.md](/openwiki/workflows/placebo-construction.md) |
-| Understand how manager skill is estimated (AKM two-way FE) | [/openwiki/concepts/manager-skill-estimation.md](/openwiki/concepts/manager-skill-estimation.md) |
-| Follow the end-to-end data flow (raw inputs to final outputs) | [/openwiki/architecture/data-pipeline.md](/openwiki/architecture/data-pipeline.md) |
-| Modify econometric estimation (revenue function, event study, ATET, ANOVA) | [/openwiki/architecture/estimation-system.md](/openwiki/architecture/estimation-system.md) |
-| Understand sampling filters (size, time, transition type) | [/openwiki/workflows/sampling-filtering.md](/openwiki/workflows/sampling-filtering.md) |
-| Work with the Julia graph/network analysis | [/openwiki/integrations/julia-graph-analysis.md](/openwiki/integrations/julia-graph-analysis.md) |
-| Understand connected components and why they matter for FE identification | [/openwiki/concepts/connected-network.md](/openwiki/concepts/connected-network.md) |
-| Install Stata packages or understand Stata patterns | [/openwiki/integrations/stata-ecosystem.md](/openwiki/integrations/stata-ecosystem.md) |
-| Tweak runtime parameters (filter thresholds, Monte Carlo settings) | [/openwiki/operations/runtime-parameters.md](/openwiki/operations/runtime-parameters.md) |
-| Validate the event study design with Monte Carlo simulation | [/openwiki/testing/montecarlo-simulations.md](/openwiki/testing/montecarlo-simulations.md) |
-| Add test cases or run the AI agent evaluation harness | [/openwiki/testing/evaluation-harness.md](/openwiki/testing/evaluation-harness.md) |
-| Debug a build failure or understand Make targets | [/openwiki/workflows/full-build.md](/openwiki/workflows/full-build.md) |
+| If you want to... | Read this page |
+|-------------------|---------------|
+| See how data flows from raw input through estimation to exhibits | [Data and Analysis Pipeline](/openwiki/architecture/pipeline.md) — Documents Makefile dependencies, the three Stata layers (create, estimate, exhibit), Julia graph analysis, and the `code/` → `lib/` naming convention |
+| Understand the econometric estimation scripts and their ordering | [Econometric Estimation Subsystem](/openwiki/architecture/estimation.md) — Covers surplus share estimation, revenue function, manager fixed effects, event study, variance decomposition, and ANOVA |
+
+### Grasp the Core Concepts
+
+| If you want to... | Read this page |
+|-------------------|---------------|
+| Learn how placebo CEO transitions are constructed, matched, and used for bias correction | [Placebo-Controlled Event Study Design](/openwiki/concepts/placebo-design.md) — The methodological core: matching logic, bias decomposition, debiased second moments, and Monte Carlo validation |
+| See what data sources we use and how to get access | [Input Data Sources](/openwiki/concepts/data-sources.md) — Mérleg LTS balance sheets and Cégjegyzék LTS CEO panel: provenance, schema, placement, and confidentiality |
+| Understand the two-layer sample architecture | [Analysis Samples](/openwiki/concepts/samples.md) — Analysis variations (`full`, `size1`–`size4`, `pre2000`, `post2000`) and event study sample filters (`fnd2non`, `non2non`, `gap`, `nogap`, `gender`, `nogender`, etc.) |
+
+### Set Up and Run the Pipeline
+
+| If you want to... | Read this page |
+|-------------------|---------------|
+| Install dependencies (Stata packages, Julia environment, Python) and place the proprietary data | [Setup and Dependencies](/openwiki/operations/setup.md) — Environment requirements, package installation, data placement, first-run checklist |
+| Execute builds and run individual scripts | [Build and Execution](/openwiki/operations/running.md) — All Makefile targets, parameterized builds via variation/sample/outcome cross products, paper compilation |
+
+### Test and Validate
+
+| If you want to... | Read this page |
+|-------------------|---------------|
+| Add test cases or run the agent evaluation harness | [Agent Eval Harness](/openwiki/testing/eval-harness.md) — The Python-based `eval/` framework that tests AI agents on Stata do-file comprehension |
+
+### Learn About External Tools
+
+| If you want to... | Read this page |
+|-------------------|---------------|
+| Understand which Stata packages, Julia libraries, and LaTeX toolchain are required | [External Tools and Packages](/openwiki/integrations/external-tools.md) — `reghdfe`, `estout`, `xt2treatments`, `e2frame`, Julia dependencies (CSV, DataFrames, Graphs, LeaveOut, SparseArrays), KSS estimators |
 
 ---
 
-## Page Index by Domain
+## Quick Start (Minimal Setup)
 
-### Architecture
+```bash
+# 1. Install Stata packages (one-time)
+make install
+# or: stata -b do lib/util/install.do
 
-- [Data Pipeline Architecture](/openwiki/architecture/data-pipeline.md) -- Maps the complete 10+ stage flow from raw inputs through intermediate datasets to final outputs, including script locations, file formats, and Makefile targets. Every stage is a `.PRECIOUS` artifact.
-- [Estimation System](/openwiki/architecture/estimation-system.md) -- Documents all econometric estimation methods: AKM-style manager FE (two-way reghdfe), revenue function (six specifications), placebo-controlled event study via xt2denoise, ATET variant, variance decomposition of CEO skill, Monte Carlo simulation, and external KSS leave-out MATLAB routines.
+# 2. Place proprietary data (if you have access):
+#    input/merleg-LTS-2023/balance/balance_sheet_80_22.dta
+#    input/ceo-panel/ceo-panel.dta
 
-### Concepts
+# 3. Run the full data pipeline
+make data
 
-- [Placebo-Controlled Event Study Design](/openwiki/concepts/placebo-controlled-event-study.md) -- The core causal identification strategy. Explains why standard event studies fail (dynamic endogeneity + measurement noise), the second-moment differencing logic (true variance = Var(treated) - Var(placebo)), and the three-step process (identify transitions, generate placebos via stratified matching, estimate via xt2denoise).
-- [Manager Skill Estimation](/openwiki/concepts/manager-skill-estimation.md) -- How manager quality is decomposed into within-firm skill (relative to first CEO, winsorized to [-1, 1]) and between-firm skill (two-way FE on connected component). Includes person-year expansion logic.
-- [Connected Component Network Analysis](/openwiki/concepts/connected-network.md) -- Bipartite firm-manager graph projection to manager-manager co-employment network, connected component detection (minimum component size 30), edge leverage computation, and why components are necessary for FE identification (effects are only identified up to a constant within each component).
+# 4. Build the application paper (from papers/application/)
+cd papers/application && make all
+```
 
-### Integrations
+**Important:** All commands must be run from the project root unless stated otherwise. Relative file paths are used throughout.
 
-- [Julia Graph Analysis Subsystem](/openwiki/integrations/julia-graph-analysis.md) -- The three Julia scripts (connected_component.jl, leverage.jl, test_network.jl), environment (Project.toml), data structures (BipartiteGraph, ProjectedGraph), and test harness.
-- [Stata Ecosystem and Required Packages](/openwiki/integrations/stata-ecosystem.md) -- Stata 18.0 environment, required packages (reghdfe 6.12.3, estout 3.31, xt2treatments 0.9.0, e2frame 0.1.0), installation via `make install`, key patterns (reghdfe usage, estimate persistence via .ster files, log management).
+---
 
-### Operations
+## Key Results at a Glance
 
-- [Runtime Parameters and Configuration](/openwiki/operations/runtime-parameters.md) -- Catalog of all configurable parameters organized by subsystem: Makefile build iterators (ANALYSIS_VARIATIONS, SAMPLES, OUTCOMES), balance sheet processing (start_year, end_year), filtering (max_ceos_per_year, max_ceo_spells, min_employment), event study sample construction, and Monte Carlo simulation parameters.
-
-### Testing
-
-- [Monte Carlo Simulation](/openwiki/testing/montecarlo-simulations.md) -- Two Monte Carlo implementations validating the event study design: a standalone generator (`lib/create/montecarlo.do`, 10,000 transitions, AR(1) TFP, known true effect ~0.0798), and a multi-scenario framework in `papers/econometrics/src/montecarlo/`. Documents how the same estimation code handles real and synthetic data.
-- [AI Agent Evaluation Harness](/openwiki/testing/evaluation-harness.md) -- Python harness in `eval/` that tests AI coding agents on Stata code understanding. Two question types (true_false, numeric), opencode-based orchestration, per-test-case YAML question definitions, and JSON report output.
-
-### Workflows
-
-- [Full Build and Make Workflow](/openwiki/workflows/full-build.md) -- End-to-end build orchestration via two Makefiles (root + `papers/application/`). Phony targets (all, data, analysis, report), complete dependency chain from raw data to paper.pdf, and incremental build guidance.
-- [Placebo Construction Workflow](/openwiki/workflows/placebo-construction.md) -- How placebo CEO transitions are constructed in `lib/create/event_study_sample.do`: stratified matching on cohort/sector/size, timing distribution alignment, sampling probability (10 controls per treated), weighting, and the 12 transition-type subsamples.
-- [Sampling and Filtering Subsystem](/openwiki/workflows/sampling-filtering.md) -- Two-layer hierarchical sampling: Layer 1 (filter.do: universal quality filters + variation-specific subsample) and Layer 2 (event_study_sample.do: CEO transition-type restriction). The Makefile generates all 7 × 12 = 84 combinations automatically.
+| Finding | Value |
+|---------|-------|
+| Raw correlation (naive comparison) | 25.3% |
+| Spurious effect from placebo transitions | 19.7% |
+| **True causal effect** | **5.5%** |
+| Variance decomposition: within-firm (p25→p75) | 9.6% |
+| Variance decomposition: cross-firm connected component (p25→p75) | 24.6% |
+| Share of apparent CEO effects that is spurious | 77% |
+| Event study window | −4 to +3 years (baseline: year −1) |
+| Final analytical sample | 8,872,039 firm-year observations, 891,631 unique firms |
+| Managers in largest connected component | 189,108 |
 
 ---
 
 ## Repository Map
 
 ```
-input/                         # Proprietary data (not included)
-├── merleg-LTS-2023/balance/   #   balance_sheet_80_22.dta
-└── manager-db-ceo-panel/      #   ceo-panel.dta
-
-lib/
-├── create/                    # Data wrangling scripts
-│   ├── balance.do             #   Stage 1: balance sheet processing
-│   ├── ceo-panel.do           #   Stage 3: CEO panel construction
-│   ├── intervals.do           #   Stage 2: CEO tenure cleaning
-│   ├── manager-facts.do       #   Stage 3: manager demographics
-│   ├── unfiltered.do          #   Stage 4: merged unfiltered dataset
-│   ├── analysis-sample.do     #   Stage 5: filtered analysis sample
-│   ├── event_study_sample.do  #   Stage 6: placebo transitions
-│   ├── edgelist.do            #   Stage 7: firm-manager edgelist
-│   ├── connected_component.jl #   Stage 8: Julia graph analysis
-│   ├── leverage.jl            #   Stage 9: edge leverage
-│   ├── network-sample.do      #   Helper: merge components
-│   ├── montecarlo.do          #   Monte Carlo data generator
-│   └── extract.do             #   Confidential data extracts
-├── estimate/                  # Econometric estimation
-│   ├── surplus.do             #   Revenue function residualization
-│   ├── revenue_function.do    #   6 specification revenue models
-│   ├── manager_value.do       #   Two-way FE manager skill
-│   ├── event_study.do         #   Placebo-controlled event study
-│   ├── setup_event_study.do   #   Event study setup helper
-│   ├── anova.do               #   ANOVA decomposition
-│   └── setup_anova.do         #   ANOVA setup helper
-├── exhibit/                   # Tables and figures
-│   ├── table1.do - table4.do #   Main paper tables
-│   ├── tableA0.do, tableA1.do #   Appendix tables
-│   ├── figure1.do - figure3.do #   Paper figures
-│   └── event_study.do         #   Event study figure helper
-├── test/                      # Tests
-│   ├── test_network.jl        #   Julia graph test harness
-│   └── placebo.do             #   Stata placebo test
-└── util/                      # Utilities
-    ├── install.do             #   Package installer
-    ├── filter.do              #   Sample filter logic
-    ├── variables.do           #   Variable construction
-    ├── industry.do            #   Industry classification
-    └── potholes.do            #   Gap-filling for CEO spells
-
-temp/                          # Intermediate data (generated)
-output/                        # Final artifacts
-├── table/                     #   LaTeX tables
-├── figure/                    #   Publication-ready figures
-├── event_study/               #   Event study coefficients (CSV)
-├── paper.pdf                  #   Final compiled paper
-└── slides60.pdf               #   Presentation slides
-
-eval/                          # AI agent evaluation harness
-├── __main__.py                #   CLI entrypoint
-├── schemas.py                 #   Pydantic data models
-├── questions.py               #   YAML test case loader
-├── server.py                  #   OpenCode server lifecycle
-└── runner.py                  #   Evaluation orchestrator
-
-papers/                        # LaTeX paper sources
-├── application/               #   Main paper Makefile
-└── econometrics/              #   Monte Carlo framework
+/                           Root directory — run all Stata/Julia commands from here
+├── lib/                    Shared script library (the old code/ directory)
+│   ├── create/             Data wrangling: balance.do, ceo-panel.do, event_study_sample.do, etc.
+│   ├── estimate/           Econometric estimation: surplus.do, manager_value.do, event_study.do, etc.
+│   ├── util/               Utility includes: filter.do, variables.do, industry.do, install.do
+│   ├── test/               Unit/integration tests
+│   ├── KSS/                KSS methodology (Koren-Szilagyi-Szoke) code
+│   └── references.bib      Shared bibliography
+├── input/                  Proprietary data (not included in repository)
+├── temp/                   Intermediate datasets generated by the pipeline
+├── output/                 Final artifacts: tables, figures, compiled paper PDF
+├── papers/
+│   ├── application/        Main application paper
+│   └── econometrics/       Econometric methods paper + Monte Carlo simulations
+├── eval/                   Agent eval harness (Python)
+├── Makefile                Root build orchestration
+└── openwiki/               Wiki documentation (this page and all pages linked above)
 ```
+
+---
+
+## Related Pages
+
+- [/openwiki/architecture/pipeline.md](/openwiki/architecture/pipeline.md) — End-to-end data flow, Makefile dependency graph, script ordering
+- [/openwiki/architecture/estimation.md](/openwiki/architecture/estimation.md) — Econometric estimation subsystem
+- [/openwiki/concepts/placebo-design.md](/openwiki/concepts/placebo-design.md) — Placebo-controlled event study design
+- [/openwiki/concepts/data-sources.md](/openwiki/concepts/data-sources.md) — Proprietary Hungarian administrative datasets
+- [/openwiki/concepts/samples.md](/openwiki/concepts/samples.md) — Analysis samples catalogue
+- [/openwiki/operations/setup.md](/openwiki/operations/setup.md) — Setup and dependencies
+- [/openwiki/operations/running.md](/openwiki/operations/running.md) — Build and execution
+- [/openwiki/testing/eval-harness.md](/openwiki/testing/eval-harness.md) — Agent eval harness
+- [/openwiki/integrations/external-tools.md](/openwiki/integrations/external-tools.md) — External tools and packages

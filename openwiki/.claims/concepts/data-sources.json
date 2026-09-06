@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:2764af6ac397c1df42a7ae31f78c8ab56ffbd9155a4a916629374248c5fadeee",
+  "claims": [
+    {
+      "id": "claim_c2dd7e5b322c4f059daf1f45f7987eb2",
+      "statement": "The CEO value project uses two proprietary Hungarian administrative datasets: the Mérleg LTS balance sheet data and the Cégjegyzék LTS CEO panel, both distributed by HUN-REN KRTK and originally published by Opten Zrt.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L13-L14",
+          "version": "repo-lines-v1:sha256:f8d2ab192ccd00fa939228a1c0ebc11adc2bef3d16fd2b71eae0067a24637214:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTIyOTNjYWJjYTk4ZWUwZjUwNzE3ODI2OTE2NWVhYTgwYmYzZGViZWQwNzU5ZDQ3MGQzYTA1OTQ3ZWNkM2E0ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2ZiMDAzNzhjNWE0YTFjMDgxYjRiZmJhODQ1MWQ4NDE5Zjk4ZTMxNzE5ZmIzNWY4NGFjNWM0ZTYxODE5ZmI4MiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDAxMTYwMWVhN2RjNGIwOTE5NDYxNGY5YjNmNTg4ODJhZmI2YWRlYWNjNGNiYmFlOTc1NmM5ZWVmNWM1M2ExOCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_0becbef67e6e40c3a4d2d08ecc977e55",
+      "statement": "Neither dataset can be redistributed due to strict confidentiality and redistribution restrictions under the original data use agreements with Opten Zrt and HUN-REN KRTK.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L15-L17",
+          "version": "repo-lines-v1:sha256:4011601ea7dc4b09194614f9b3f58882afb6adeacc4cbbae9756c9eef5c53a18:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzA2ODRmYzQzZWNlZjJkMzZkZGE4NjVhZWZmODQ0NDI3MTFlM2Y0ZTI2ZDAzOTk5YmMyZWE5Njk3MjFiNjhmMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTZmNjA2NDhiNGVkM2Q3N2E2M2ZmNmI2ZGViOWRlOGE1ZmVlMjIwMGQ1NDVkYmU4OGM2MjU1ZTY2NDUyNjA0MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDY5YjhiMmQ5ODI1NjkyNThlNWUyZTViMzBhNmQ1NjY1NDA5Y2NiMmIwOGFiYzhlNTU2MTc1NTc3OGIyYzNjZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWUxNDQ2N2EzODYyZWY3YjgxMjQ4N2ZmMjBjODU4ZThiOTg5ZGYxOWUzNWZmNzkwZjhhMTBkYWUyYjhiNWQ5OCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_560e997da9d842eb9ae1c10c0312571d",
+      "statement": "The Mérleg LTS balance sheet raw file is balance_sheet_80_22.dta (10,545,843 observations, 71 variables, covering 1980–2022) placed at input/merleg-LTS-2023/balance/.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L57-L57",
+          "version": "repo-lines-v1:sha256:d3c6e6452832161555f26bf48c49e5f030d16dff766c1b40ab53bf719911464c:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDNjNmU2NDUyODMyMTYxNTU1ZjI2YmY0OGM0OWU1ZjAzMGQxNmRmZjc2NmMxYjQwYWI1M2JmNzE5OTExNDY0YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDNjNmU2NDUyODMyMTYxNTU1ZjI2YmY0OGM0OWU1ZjAzMGQxNmRmZjc2NmMxYjQwYWI1M2JmNzE5OTExNDY0YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjZmMDUzOTYxZjk3MjdkMGY3NDkwM2MzMzJkNTMxODU3YjdlZjkzNjUzOGIzYWE0OTkwNmViZDg3YTY4YTE2MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWY5MzM3MWFiMmJlNzU4YzEwNGU5YjhkMDE5ZTVhMzhiZTkyYzVlN2I5MjQwM2IxMjk0ZDRiMzk4MzI4MzUyOSJ9"
+        },
+        {
+          "resource": "repo://input/merleg-LTS-2023/balance/README_v_20240912.txt#L87-L91",
+          "version": "repo-lines-v1:sha256:193405d2923674e7ed3e7992f0ddb5d3270b91c9e11d58f35046393ff16044ea:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDlmZWYzODMxOTAzYWFkNjc2NDE3NDUxOTlmODg0MmFhNWM1OGRiNmE1NWZmMTllNGVkYTRjY2M2NjQ0MTkwMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2ViNzAyNTc1OTNkYTA2ZjY4MmEzZGRkYTU0YTlkMjYwZDRmYzUxNGY2NDUyMzdmNWNhNzRiMDhmOGRhNjFhNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWU0ZWQ0YzY1ZTcwZGE0OTQ4MTU0N2ExYTQzODRjMjRhNDI4OWFkODBhMzIwNjU1OGUyMTU3OTUwNWYxOTA3YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDI2ZWJhMDllMTJhYjA2N2QwYTNiMzhiOGI5M2FjYjM1YzkzMjI5YmU5YjMxNTMyNGU0M2Y4ZmEzYmUyZWRmZiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_49e1c7332e844171911df1e532397775",
+      "statement": "lib/create/balance.do transforms the raw balance sheet by dropping only_originalid frames, filtering to 1992–2022, keeping only analysis-relevant variables, renaming Hungarian identifiers to English, screening for missing core variables, zero-filling remaining missings, and computing EBITDA and capital.",
+      "evidence": [
+        {
+          "resource": "repo://lib/create/balance.do#L1-L68",
+          "version": "repo-lines-v1:sha256:c00e484d35d50fe45e188910a837b59faf46ddc04a6b050d47b178572c41c07e:eyJzZWxlY3RlZExpbmVDb3VudCI6NjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjllNjRhNzZhMmE1NDRlNTk4NzE4Mjk3N2E1Nzk1ZjdhOWEwMzc1Mzc1YTUyZjBlMDg2MGNmZmUwYjk3NGQxNzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc1Zjg4NWViNDhmMzdmYWJlMjdlNTgzZjQ0NTczODY4NWJlYzVlZDcyNjQ4OWRhOGVkMTBmNDMyNzFhMjM1NGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_06613ec4e4bb4f3096a63d1007449b29",
+      "statement": "The Cégjegyzék LTS CEO panel raw file (ceo-panel.dta) is placed at input/ceo-panel/ (also available at input/manager-db-ceo-panel/).",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L58-L58",
+          "version": "repo-lines-v1:sha256:d4b661572e82bb8d1564a61b3860c047bc39c5edcdc398a67df22ad751b969d0:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDRiNjYxNTcyZTgyYmI4ZDE1NjRhNjFiMzg2MGMwNDdiYzM5YzVlZGNkYzM5OGE2N2RmMjJhZDc1MWI5NjlkMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDRiNjYxNTcyZTgyYmI4ZDE1NjRhNjFiMzg2MGMwNDdiYzM5YzVlZGNkYzM5OGE2N2RmMjJhZDc1MWI5NjlkMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzM2ZTdmY2E0MzkyYzM3NDZhYzEwYzA2MjBmN2MwNTgzMTBkZWIzNjI3OTBiZmI1YTc5MGY5NDJkOTcwMjJlYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjk5Njg2ZWI4ZDNkZGQ2NGZlMjdmYzU3MDUxMzFkOWZiNDNmMWJkOTkxYWM2MjJhMGI3NjY3YjZmMjE4Y2Q0ZSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_d1dfaef31f7a4c988c615d0890513e92",
+      "statement": "lib/util/potholes.do fills gaps of 1 or 2 years in CEO spells by expanding clone rows and adjusting years, ensuring that brief raw-data interruptions do not break a CEO spell.",
+      "evidence": [
+        {
+          "resource": "repo://lib/util/potholes.do#L20-L31",
+          "version": "repo-lines-v1:sha256:b1a5176856aff119d5af0160e3e70c05d0577242891b34d8018ec9840e226012:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdiNWVkZTMyMGU4ZDYyMDI5MmZkMzAyYzZkZTU4Y2VhNTZiMmRiYWQxZmFmYTZlNjFmODMwNTA3NWJiZTg1NDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU2Yzk3MWY5MmFiOTk5YjA0NzU1YmIzMTg0NGYzY2UzYjE2M2Q2MWY4ZDk3MDJmOTNmOWJiMWMxOTU5OTY5YWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgzMDllMDEyMGYxOTc2NmY5ZGUzYTE5YzZmMTI4M2E5NDE3NTQyYThmYzc2MmRiMjdkNjlhMTZjMWZkY2ExNGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlmMDYwMTkxMDViODc5YTViOWNjMjM0OTYzYTI0MmJiMDc1MjY0MTg3M2E3MDg0NzBlZDUxZDk0YWU3YTcwMTkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3128f5152325403a9067f38ae7b51362",
+      "statement": "lib/create/intervals.do applies Allen's interval algebra to classify relationships between CEO intervals at the same firm, drops short nested intervals (≤2 years), and truncates small overlaps, producing cleaned spell boundaries in temp/intervals.dta.",
+      "evidence": [
+        {
+          "resource": "repo://lib/create/intervals.do#L39-L81",
+          "version": "repo-lines-v1:sha256:d567cac483749a32114bd49c592ec62ee016ff73c105f2f12f1677373c9c513a:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNjODI1MDgwYjdhZDIzNTBlYWI1OGVhNzljOTc5ZjA4MTg1ZTI4NzI2YjkyMGUxYzE4Y2M5ZGZiZTNlOGNlZGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU4YjFlN2MxNTI2NjMxOGFkOTlmMjA3M2JhMTZmMmFmNGVhODRmYjkwODRmNTM1NDE1NTlkZGM1MGY2Mjg4NTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFkYTU4MzIxYzgwYWI0MDc5YmU4Y2E1YzljMWY2OGNiOGQ3ZDQ3MjFlYmZkM2I5MzIyMmNmMDY3MzhjZmYzMzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjcyZjI4ZmJjOGIzNGU2NWY0MmNiNTFmNTY1YmE1NjM3MThlN2MyYWYyOGQ1ZWUyZWRmNDM3OTMzZThiYzkxNzYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d8366e11569a457189500a51feec9168",
+      "statement": "lib/create/ceo-panel.do expands intervals to firm-person-year rows, merges manager facts (gender, manager category, nationality), collapses to firm-year with CEO count and transition variables, and outputs temp/ceo-panel.dta.",
+      "evidence": [
+        {
+          "resource": "repo://lib/create/ceo-panel.do#L1-L25",
+          "version": "repo-lines-v1:sha256:181003a2c1ad038a9714eff757b1034cc39fa538ad66227c408da9670d4a47d6:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRhMTY1YzY5MGQyNTcyNGUxYmQ4MDE2NjkyOTE3NTBhMGY0YmQ4ZDNjODgyOGUzZDQ1YzhiZmUwMTRhMDM1MTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNjOTg4MTZhZjg5M2M0M2Q2ZDg4OWUyMThkZmFjNzlkMTUwNDI1NTM2N2Q1NmRiZmMxMTFlNzNjYTY0ZjA1ZmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2567afeb8f6b4669ad142671d9c07db3",
+      "statement": "Raw input file paths are hardcoded in the processing scripts: lib/create/balance.do reads from input/merleg-LTS-2023/balance/ and lib/create/intervals.do reads from input/manager-db-ceo-panel/. All scripts must run from the project root.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L83-L83",
+          "version": "repo-lines-v1:sha256:699e95b74e8882b6cf98de687540c2f4c3c03f762921e355b70c174aa49f6206:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjk5ZTk1Yjc0ZTg4ODJiNmNmOThkZTY4NzU0MGMyZjRjM2MwM2Y3NjI5MjFlMzU1YjcwYzE3NGFhNDlmNjIwNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjk5ZTk1Yjc0ZTg4ODJiNmNmOThkZTY4NzU0MGMyZjRjM2MwM2Y3NjI5MjFlMzU1YjcwYzE3NGFhNDlmNjIwNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODRjZWJmMTBkMGI2NzgzMjlkN2VhMjE5MGQ3YjhlMjE3MzA2Yzk0NDk5MDY3ZGM4MWI4ZmYyNTE4ZmY0MmY3YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTU5ZjY5OWM3YjU4MzRjMmVjYjgxNWQ1Zjg5NzYzNmY1ZGQ0MDk5ZjhjNTc2ZGFhZWViZDA1MzY4YzhkZDJhYiJ9"
+        },
+        {
+          "resource": "repo://lib/create/balance.do#L7-L7",
+          "version": "repo-lines-v1:sha256:1d80388347b3b8746cff056933fd0bcf5124007531e750e73136465c203841a6:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWQ4MDM4ODM0N2IzYjg3NDZjZmYwNTY5MzNmZDBiY2Y1MTI0MDA3NTMxZTc1MGU3MzEzNjQ2NWMyMDM4NDFhNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWQ4MDM4ODM0N2IzYjg3NDZjZmYwNTY5MzNmZDBiY2Y1MTI0MDA3NTMxZTc1MGU3MzEzNjQ2NWMyMDM4NDFhNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmFmZGY0N2U3YTFlNDBmOWEzZDFhYmJkNmQzMjNiZjIwYjRhYTExMWI2MmI5NjEyMzI1NjdhM2VlNjFjZGNmZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzAyOWVkOGQ5MmRlYzgzYjQ3NDQ0OWNhN2M3YTE4ZWIzZTA0YWE2MTcwNTc2ZjMwYTNlZWRmOTY0NzhjYjA1YiJ9"
+        },
+        {
+          "resource": "repo://lib/create/intervals.do#L4-L4",
+          "version": "repo-lines-v1:sha256:ec5721e966978820151bf4c448396f52f9100db992f0c0357ba4470d682f75fa:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWM1NzIxZTk2Njk3ODgyMDE1MWJmNGM0NDgzOTZmNTJmOTEwMGRiOTkyZjBjMDM1N2JhNDQ3MGQ2ODJmNzVmYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWM1NzIxZTk2Njk3ODgyMDE1MWJmNGM0NDgzOTZmNTJmOTEwMGRiOTkyZjBjMDM1N2JhNDQ3MGQ2ODJmNzVmYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDgyNDczNTZjM2RiODZiN2ZmN2Q0OWVlOTFmMjM4NjI2N2UxOGRkNDBhNDg0NWI0NGIyN2IyOThjMDEzZWVmYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzFlNWVmNTc1M2ZhZjM0NTVjZDkyNmQ1Zjc5MzRjNDc4YmEzMzEwMWNjYjZkMWQ3ODQ5OTQ2NGE0ZTlhNmE5MSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_41b7a268aad34048a3a929ce869bbfe8",
+      "statement": "Commercial access to the data requires contacting Opten Zrt (annual license ~€10,000). Academic/replication access is via KRTK Adatbank at https://adatbank.krtk.mta.hu/.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L21-L26",
+          "version": "repo-lines-v1:sha256:e80704c03e045f0fdacf5f2a03bf1434a13cdfda4d40057967cc88e073278af7:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTM0MjNhODk1YjJlYzVjZTQzYzBjOWRkYTgyMTBhYTAxZGIzOTZjOGQ4ZGFmZWI0NzEwYTBlOGEyZmY3NmMyZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWUxNDQ2N2EzODYyZWY3YjgxMjQ4N2ZmMjBjODU4ZThiOTg5ZGYxOWUzNWZmNzkwZjhhMTBkYWUyYjhiNWQ5OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjcxMWM4OThmYTA2Y2ZiNTYwZDNjMjNiODE2MjU4MWQzMjNjYjI4NzBkY2E2MDFjZGQ1Njk0YmQ2ZjIzOGM4OCJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-06T19:57:00.087Z"
+  }
+}

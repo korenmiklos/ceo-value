@@ -1,4 +1,3 @@
 # Files
 
-- [Julia Graph Analysis Subsystem](julia-graph-analysis.md)
-- [Stata Ecosystem and Required Packages](stata-ecosystem.md) - Documents the Stata 18.0 environment, required packages (reghdfe, estout, xt2treatments, e2frame), installation workflow, key commands, estimate persistence conventions, and log management for the CEO value pipeline.
+- [External Tools and Packages](external-tools.md) - Documents the external software dependencies and their roles across Stata, Julia, Matlab, and LaTeX toolchains used in the firm-manager fixed-effect bias-correction pipeline.

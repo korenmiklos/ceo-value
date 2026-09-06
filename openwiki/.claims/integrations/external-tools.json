@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:70dbfe5e640052cb5bec075bfca8aff0bdab61d8d6809e5cba5208a7f115911d",
+  "claims": [
+    {
+      "id": "claim_60fb5f8a24084238971db6cebd03cef7",
+      "statement": "Stata package reghdfe is required for high-dimensional fixed-effects linear regression across the estimation pipeline; installed from SSC.",
+      "evidence": [
+        {
+          "resource": "repo://lib/estimate/bloom_autonomy_analysis.do#L127-L142",
+          "version": "repo-lines-v1:sha256:53c6a463ec15ad421267397d47672f85771f4ea655c75a57e4a4b9e7507b1fe7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIxMzBhMjM2ODNmMmM5YTIwMzEyZDBlNzRmMDFkOTkwOTcwZjY5ZTEzYTViN2IxNWI1YzZhNDM0YTkxZWQ2MTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE4MjEzY2VkZGJhYjFlM2Q5Zjc5ZmIyYjA0ZTMyZjJkMWFiZWY5YzA0NzI5YWVjNDlkZThkZDEyNDJhNDM2MjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVkZGFhMTNlZjVlNjU0OGRhYWFlMjNhNzU0NGJkM2M0MTBhZGUwOTNlZWQzZjUwZmZjYjIzZjM4YTY1N2FkYTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI0YjhmZDRmOTFlMTc3Njk3NWNlNTIyMDM2NWI1MzFiMzllN2QxMzg4MGM5MGJhNmI3ZjMwMWFhNDEzMmMzMjYifQ"
+        },
+        {
+          "resource": "repo://lib/estimate/manager_value.do#L49-L49",
+          "version": "repo-lines-v1:sha256:e448a6466b6479224520b8bbcefb156ae2ca381427aa0f18282abd015796f42c:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTQ0OGE2NDY2YjY0NzkyMjQ1MjBiOGJiY2VmYjE1NmFlMmNhMzgxNDI3YWEwZjE4MjgyYWJkMDE1Nzk2ZjQyYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTQ0OGE2NDY2YjY0NzkyMjQ1MjBiOGJiY2VmYjE1NmFlMmNhMzgxNDI3YWEwZjE4MjgyYWJkMDE1Nzk2ZjQyYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjY2NWQxNjQ2ZWI5NzA4YWY4Mjc1OWUyZWQ0NWM2YWExZjZmYjg5NjQzZjJmNzFkMzUxYmIyYTU1YmEyNjVhMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDBjNzc0ZWQxNzZhMTUyMWFmNmJlMzk5MjRkZTBmNjA5NjJhMWVhNzk3NzdiZjE5NDI0ZWNkYTljYWZhMDc5MCJ9"
+        },
+        {
+          "resource": "repo://lib/estimate/revenue_function.do#L23-L38",
+          "version": "repo-lines-v1:sha256:4834d38482e82c0b087984eb1c54b8867403bb571aac4ad6306bb53d7513578b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyMzRkMzk1M2ZlZjIyYWZhNjY4MDlkZDAyYTQzZGY1ZGNlZTExNWNmNjE1ZTI1ZWM1Yzg4MTQ3MDY0ZWQxNDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE1MDBjMDlkNTgwNzk3ZDA0MGYyMjBmMTllYzdmMTFjZjQ0MTg5OWVlZDhjNmM0NmQ5NzgwMDRiMGQwMjM4YmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFiNTU1YzAyNzhjMGU1ZDM3MGIyZTQwMTYxYmZhOGIxMmE5MTFjNDA1OWIwNWRjMGMwYzBmN2E5OGRjNjFmODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU5NTIwMDU3NjVjMzAxMWYwOWQ0MWVmNWQyM2Q1YTU5NzJlNjQyMTQzOWFiYWQwNjc5NGRjNGQ0NjEwZTU4OTkifQ"
+        },
+        {
+          "resource": "repo://lib/estimate/xt2var.do#L82-L133",
+          "version": "repo-lines-v1:sha256:b248fd0c183e2daf051ec0c47c725ef7f9c3724a43c366900ac953bad6c092a1:eyJzZWxlY3RlZExpbmVDb3VudCI6NTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJlZjU1YzJmYmI4YmU4ZGJmZDhhMjIxMDBiMDZhZGU3NjRkYTkwZWRkNDczNTMxZGE5NjMzM2M5ODcyMjc3ZGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFmZmM5YjkyNzI4M2RmNTRlYjc3Mzk3MGM5OWYyMWY1MmQzMDc0NGNjNGM5MDQ2MTkyZWZjZGMzYzI0ZmMyZGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQzODExY2RkYWRlNmMyNmM2ZTc5N2U5ZmQxNDhlOWY4Yjk1NGE3MjMyNjJkYzY5ZWY4M2I0NzU0NDY4M2MzNjQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNjNGQ0YjAyNzcwYzY1YjVlM2JlNDdlMGI2N2Q3NTIwMmYxNjRiYTNkYTVhOTNlNzY5MjIxZmZjYTVkMTQxOTMifQ"
+        },
+        {
+          "resource": "repo://lib/util/install.do#L6-L9",
+          "version": "repo-lines-v1:sha256:7d3c12521f6f898c4ee4af7a4d666f5c62b133434726d7906ca4740c64ff2d51:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTQyNzRiNjIwODhhYWUzMGI1NjlhNzg4MDEyM2E0MWRlOWFkOGU4NzhjYzBkOGI1NWRjMGFmMWY4ODczODA0NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmIwZjI1Zjg4MDM0NGIwZThhMzQzMjUzMjgxYWU0NDBkMWIyOTgyZjkxNWIyNzdmZTAxYmE4ZmI4ZTFkNzA3MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWQ0ZDdlNDUwMzVkMmU3MzVlYWM4NjUxODA2ZTRlYmEyZmM3ZjkxNWM4ZGM2N2YyODBjZjA2Nzc0ZjI0YThjOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_af1d71d4384f4c19a401c5168ffeaa4a",
+      "statement": "Stata package estout provides eststo/esttab commands for exporting regression tables to LaTeX; installed from SSC.",
+      "evidence": [
+        {
+          "resource": "repo://lib/estimate/revenue_function.do#L21-L38",
+          "version": "repo-lines-v1:sha256:37ddf342822a91dee1af60c87b93f9fd6b2d3b8f420888d5d577d81c17dc4a9c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiZmYxMjNiMjM2ZWU2ODkxMzM5NThlZWNkNjNjN2IwZGYwZDA4NTc0OTRhN2NkZmYxOTM1ZTIxMWVmN2I5MmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE1MDBjMDlkNTgwNzk3ZDA0MGYyMjBmMTllYzdmMTFjZjQ0MTg5OWVlZDhjNmM0NmQ5NzgwMDRiMGQwMjM4YmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZjMzljNDc4NDRlN2FmN2FlMWQ2YWJhYTAxZjExOGMyNjUwMGVhNjE3ZTkwZWEzYmIzZmNkOWU2OTUyZjRmYzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU5NTIwMDU3NjVjMzAxMWYwOWQ0MWVmNWQyM2Q1YTU5NzJlNjQyMTQzOWFiYWQwNjc5NGRjNGQ0NjEwZTU4OTkifQ"
+        },
+        {
+          "resource": "repo://lib/estimate/setup_event_study.do#L19-L19",
+          "version": "repo-lines-v1:sha256:ed5899b040d502a7414ca4582a2cc4158a0e1633c3f0d5b7778744ef1369633f:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWQ1ODk5YjA0MGQ1MDJhNzQxNGNhNDU4MmEyY2M0MTU4YTBlMTYzM2MzZjBkNWI3Nzc4NzQ0ZWYxMzY5NjMzZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWQ1ODk5YjA0MGQ1MDJhNzQxNGNhNDU4MmEyY2M0MTU4YTBlMTYzM2MzZjBkNWI3Nzc4NzQ0ZWYxMzY5NjMzZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWJhNjdjNWRmMTk1OTc5YzM0ZDY0MmUwYjg1NDdhMTI2ZThkZDc1ZTNiYTBmYTM4ZmMxMWZhNDIxYjk5MjY0NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjc3MmI2NTlhYzRhZDVmYzY0YTcwZDM0YTc4YTE2MzZlMTk5NWFlNjUzMDAzYTdhZTYyZGY0NGE1YzcxODc3MSJ9"
+        },
+        {
+          "resource": "repo://lib/util/install.do#L6-L9",
+          "version": "repo-lines-v1:sha256:7d3c12521f6f898c4ee4af7a4d666f5c62b133434726d7906ca4740c64ff2d51:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTQyNzRiNjIwODhhYWUzMGI1NjlhNzg4MDEyM2E0MWRlOWFkOGU4NzhjYzBkOGI1NWRjMGFmMWY4ODczODA0NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmIwZjI1Zjg4MDM0NGIwZThhMzQzMjUzMjgxYWU0NDBkMWIyOTgyZjkxNWIyNzdmZTAxYmE4ZmI4ZTFkNzA3MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWQ0ZDdlNDUwMzVkMmU3MzVlYWM4NjUxODA2ZTRlYmEyZmM3ZjkxNWM4ZGM2N2YyODBjZjA2Nzc0ZjI0YThjOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_6768110b352d44e4a7e51210b5b1466a",
+      "statement": "Stata package xt2treatments is used for staggered difference-in-differences with two-way fixed effects; installed from GitHub and requires version 0.9+ for correct clustering.",
+      "evidence": [
+        {
+          "resource": "repo://lib/estimate/setup_event_study.do#L17-L18",
+          "version": "repo-lines-v1:sha256:aea84d4bf152977350fe178cc334320bd97937408ab8d40b61ad74830d07e380:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWVmNWY2YjkzNmRhMDc5N2JmYTI3ZDc2OWI3YmYyZDk1Y2QwNTYxODU1MDgyNDI1YWFiODU2ODEzZWJlYzEwNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzMwZWI1YTBiYTgxNDlhYzQ4OTA5MWFhYjAwMmNiOTU3ZTNhNDI5MmM4OTIzNzQ0OTViNzM2YzBjNDIwZWM3ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDA1MmNlMDIzNTgxNzJkMTUzYTgxZDQ5M2Y0MmFjNzQ0ODI0OWJlMmZiYTJiMWY4NDg1MDViMGRmMWYwZGRhMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzA3MTEyODE5M2RmOWIwMDMwNjUyYzU3ZjYyNmM0Y2MwOGEyMTk2OTdiYjNmY2VmNWZlMjkyNDQzZjFjYmU5ZSJ9"
+        },
+        {
+          "resource": "repo://lib/estimate/xt2var.do",
+          "version": "repo-file-v1:sha256:b15c733a21a3794d2976249b7f5c65c9bc727c008c3f99e1e0be704b489cacd4"
+        },
+        {
+          "resource": "repo://lib/util/install.do#L1-L4",
+          "version": "repo-lines-v1:sha256:a951243f65a4f9bfa3c52e4614c918d8755b3964a622c4798f3068a87247a272:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2I0YzBhOWU5MjExYjdiYTI2ZDk5NTcyNzVkNGZjZWQzZWZmMjA1MDljODYyMzI4MmRmOGEwZDQ3YzIzNzU2ZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGVjN2ZiMzQ3ZDJiYTQ0OTY3ZGQzOTNhY2NjMDgzODNhZWYzNDFhMzRlYThjN2JlNDgyNDk2ZTBhMWQzNzlhOSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_008c357bf068447b9e85dae8a36a052f",
+      "statement": "Stata package e2frame extracts estimation results (coefficients, covariance matrices) into Stata frames for post-estimation bias correction; installed from GitHub.",
+      "evidence": [
+        {
+          "resource": "repo://lib/estimate/event_study.do#L61-L111",
+          "version": "repo-lines-v1:sha256:cb55cd7b6d1b4a0f14d10386d2d39c1d417d0e2075cd665142d6f96612aad1e0:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMwZDFjNDE0MjJkNjkxZWNlZTJkYTcwZTEyNDU4MGViY2YxZjM1NmU1N2Q3NWVjYjFkYmUzZDZiMWViMGZjZjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjZDU2OWU1MzE2YWU4MmRiMDhiMjc0NTA0YjNmZGZlOTNkMWQwMmU2NDE5YjZiYzk1NWVjMmFlMThmMzBhNzQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIzYjMwMmYxNGYxYzk2MDJiYzIwMjAyNDRjZDZkNGFjZTc3Y2ZlNGZkNWQ3ZmQ1NWQyNTQzYmQwOGIwZDAzNTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIxN2E3OGE4ZDdiY2MxZjVlZmUwZGJlMTNkNDU2OTc0NDQ3Mzk0YTcyMWM2MjVjNjU1Y2M0OTE4ZGMzYzY2YWUifQ"
+        },
+        {
+          "resource": "repo://lib/estimate/xt2var.do#L101-L114",
+          "version": "repo-lines-v1:sha256:38f6b96250e49b7213362ce7b8f44a1e0f0c2f97f05b005fb5060f23d97e2cb0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFjZTY1NmUwZDFjNDc2MDRiNTI3NTJjZTNiZWYzYTgzMzg1NTg2OGVhYjYzOGI3MWRhOGM2ZWQwN2EwMjg4MjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUwODIwNGU4NWUxYjBhYzNkZjQ1ZjQ1ZTBkNTE4Y2ZjYWRhYjZiMjZkNGE1NzM4ZDMwYWI5ZTkyY2U1NDE3YWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ2MTMwNDY3ZTRjY2JiYzI0M2U1YTI4NGM1ZGM2ZjExODZjOWRjNzg5Y2NiODY2NzcxMTBiZjZjMTVjM2MwMTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk2NGY2NzVmNjMzMDcyMGNiZDBkZTQ4OWI0ZjYyOTBhY2ZlMDk4NDAyZjY1ZmM1YjU0MmFlMjdiOTFlOTU4ZTAifQ"
+        },
+        {
+          "resource": "repo://lib/util/install.do#L1-L4",
+          "version": "repo-lines-v1:sha256:a951243f65a4f9bfa3c52e4614c918d8755b3964a622c4798f3068a87247a272:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2I0YzBhOWU5MjExYjdiYTI2ZDk5NTcyNzVkNGZjZWQzZWZmMjA1MDljODYyMzI4MmRmOGEwZDQ3YzIzNzU2ZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGVjN2ZiMzQ3ZDJiYTQ0OTY3ZGQzOTNhY2NjMDgzODNhZWYzNDFhMzRlYThjN2JlNDgyNDk2ZTBhMWQzNzlhOSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_9941cf431f1446cba8e2b7871997ba64",
+      "statement": "Julia package LeaveOut computes edge leverages (hat values) for the bipartite firm-manager graph incidence matrix via Design/prepare.",
+      "evidence": [
+        {
+          "resource": "repo://Project.toml#L5-L5",
+          "version": "repo-lines-v1:sha256:f5338349a9383b2536913a53ea999462200d3555fd4a4c9ca6287d6d22b33040:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjUzMzgzNDlhOTM4M2IyNTM2OTEzYTUzZWE5OTk0NjIyMDBkMzU1NWZkNGE0YzljYTYyODdkNmQyMmIzMzA0MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjUzMzgzNDlhOTM4M2IyNTM2OTEzYTUzZWE5OTk0NjIyMDBkMzU1NWZkNGE0YzljYTYyODdkNmQyMmIzMzA0MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjMxNDVhNzZhN2I2NDRiYmI1Y2UxYWZmNzAwZmM3ZGQwNTJhZGIxZDFhMzc4ZWMxNTY2Yzc2NmEwNmZkZmI0NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjIsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDdlYjk4MjI2ZmM0MTcwOTBlYzY1NTg0ZDM5Y2U1ZjljNWQ2NzYzZGVmMjc2MzMzNDMwMjc0MmEwNzc3NGY4NSJ9"
+        },
+        {
+          "resource": "repo://lib/create/leverage.jl#L48-L52",
+          "version": "repo-lines-v1:sha256:498b4cf7ba16549f6905c6b29bdce6f26edac3935b0201a2b28417488f4ff04b:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2RkZDlmZGRmMjk0MjA5MmZkYmNkZTc5MzVmMzVlYzczZmU4MjMzZjkxZDQxMDQxNjE4Y2M4ZmQ4ZjI3OTNmZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNWFmMzFmY2IwMzAzOTVlNTk5Y2E1OWY4YmJjZTIyYmZjZDA1YTY2MjQ5YjI3NjcwNTFhMDdiZjU2MjQyNDIzYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTU2MTA4YmEwNTU3OWJiZThhYTJmZTk4ZDBiN2I3Y2FmZjgxODRjMzE2MDAxMzY4MDFhZjE0MjdjZWRmOGJiYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2ZlMjMwNGNiM2E3YjQyYTkwZGNiOWY0M2Y5MmM3MDg0NjJiN2ExZWU1YWE2MjQyZTgzZjY5MjZkOGViNzYwNiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_0e1b14a3e4b843ec9b5a20b24a46931a",
+      "statement": "Julia packages CSV, DataFrames, Graphs, Random, and SparseArrays support edgelist I/O, graph projection, and connected-components analysis; declared in Project.toml.",
+      "evidence": [
+        {
+          "resource": "repo://Project.toml#L1-L7",
+          "version": "repo-lines-v1:sha256:f98302a88c3857c186a834c374393742a919397763a17a23748d68d10a6160bc:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGQ2ODAzYTMyYWExYTg1Njc5MTY5ZmU1YmE5MWZmYjVkOTZjOGY2YTZkN2I4MjQ1Mzk5OTQ2ZWY3OTUwZDYyYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWU1NjI0NjI4YjBlYzA2N2UxNTIyMTJjMTRhNjAyNWEwNDFlYWQ2OGQ4OWQ0NjM1Yjg0MmViMDU1MmYwMTUxNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://lib/create/connected_component.jl#L1-L3",
+          "version": "repo-lines-v1:sha256:f4ab51dddcdd73b698727427b16f5d372097e1c152ee2b89130312d7e44bf6c0:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzdkY2FhZmNjYTM1Nzc5MzJhMWM3MmY0ZmI4NjRiNDQ3OWZmOWNiMTIwN2QwM2JhZjUyZjVmN2Q1OTRlZTY4NyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTcyNzM0MzRhZTQ3YTQzNjQ4MTJiNWU0NTIyMjliNTYzMjFmMzRiYjAxZDg2ZWQ3NzhmYmEyOTY5NWI3NzdiYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTJkNjE3OWEwNjdkYzcxNTMzMjllMjJjZWZjNTY5NTNlNGExOWFjYjBlYTJiMTEyNTIzY2QyODFkYTcwZTk4MSJ9"
+        },
+        {
+          "resource": "repo://lib/create/leverage.jl#L1-L2",
+          "version": "repo-lines-v1:sha256:1d497a7bebd8c1b7295e0170ab1be7c1cf95f76014177bac99a9886ee28433bf:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzIxNGY4MTVmMTk1MDM4NTM1ZDcxYWQ4N2IyZmM4OTc4N2U3MDdhYzlmZjQ4NmFmNjIwOGViNjhhODcxY2VmMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2M2MThkODkyNmM5MDY2MTcxZjU4Mjk4NTU0NTBiMTJiYzhlOGEwNDc1YWFiMzcxMGM4OGZlZTVmOWZiNWYzZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2NlM2RiYTQzZGU1ZTJjNjNlZWEwNWE3YmJjMjdiMzFhMDk4NWRlNTkwNjc2MzI0MzljMjQ3Y2U1ZmVkMjRiNSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_a4fe55ca9d36418b87e0529037b14a47",
+      "statement": "Matlab function leave_out_COMPLETE implements the full KSS leave-out variance correction for two-way fixed-effects models in levels, supporting exact and JL-approximated leverage computation.",
+      "evidence": [
+        {
+          "resource": "repo://lib/KSS/leave_out_COMPLETE.m#L1-L7",
+          "version": "repo-lines-v1:sha256:3559126be22e17db30bb9f833203673d4ae132918d864e378a42bc8a3d3db983:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTZjMjY2ZDM3Mzk1MmRkNWVjMWFjYThiMjViYThiODI5OTUxZDYwMDUwMmU3YmU2MzY4MjA3ZTBmM2EwMDQ4YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTc4YjBlZDA3NzIwN2ExYjNmYWUzOTZiYjQ1ZDI0NTc2NjI4Y2Y3NmM5MzY2ZWZmYmUwZTdiN2IzOGM3YzJhZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODA1M2JmNGM5NzdkNWI1M2UzMmUwYWJhZGYxY2Q2MzEzNmZjNTNkNWZhYzMyYTRhMzUyY2YxOWNhZTA4YjA5NiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_0f971877403c41cba510835df3a1b763",
+      "statement": "Matlab function leave_out_FD implements the KSS leave-out variance correction in first-differences or pooled first-differences specification, with leave-two-out connected set option.",
+      "evidence": [
+        {
+          "resource": "repo://lib/KSS/leave_out_FD.m#L1-L25",
+          "version": "repo-lines-v1:sha256:07354fefb5e3baf417bc5cfa94b63a0b08f50307d2403f34230b5d60a46d18ec:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNmNWJkYTgyMTdmZTc5YzM4YWJlMGUyYzI0YWEzY2FjMWYwMjU5ZDk2MjBkODIzZTM2NTE2NThkZWRmNDk1NWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ1ODAxMmI4N2JhNmU4YzMzNzAwMDExYzkxM2Y4OWQ2MGEwMjI0NzVlMjM4MzYwOWUxYjgwMDVhMzBlMjgxZGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjcxMDI2MmY0YTIyZTNjMjMwMmVlMDZjNmM3ZDM0Yjk0Zjg4NzE0ZmRiMDZmMTVlZGYyNTkzMTExYTZlOGU2ZTIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9a1f4fbddaa5440c8c7c113259d9faa2",
+      "statement": "Matlab function leave_out_KSS is a simplified wrapper of leave_out_COMPLETE that replaces the JL epsilon parameter with a direct simulation-count scale parameter.",
+      "evidence": [
+        {
+          "resource": "repo://lib/KSS/leave_out_KSS.m#L1-L8",
+          "version": "repo-lines-v1:sha256:8d1278629391978d834e5de3ba5347603aad4acb4a41ae8e11391cc8654bca7f:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzY4ZmMzZjA3OWNiYjQzM2U2N2M4ZjAyZGFjMDkzYTc0MjY2OWRjNmFiYWUwZWYwNWJlYTJmMDY4NDRiMjY3NyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjI2MDA4MzQ2ZWFiNTE5YjVlNjkxNGZmMmIxNWNhYzE3MWM5MmY0OWQ4NDc4ZjY3NmJiNDIyOWFhN2JkMmEyMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmEzY2Y1MTkyMzU0ZjcxNjE1YWM1MTAzNGIzZTk3YzIwZWRhOTk2NDNmY2FmNWJiZTZkNDFhZDU5YmQxMjE2NyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_a322f8c61a5547f8b57587a910336480",
+      "statement": "The LaTeX paper depends on booktabs, threeparttable, and the locally-defined \\sym command to render estout-generated table fragments with significance stars.",
+      "evidence": [
+        {
+          "resource": "repo://papers/econometrics/paper.tex#L1-L24",
+          "version": "repo-lines-v1:sha256:8ad9fe9dd0d14ff191d867e7d7eab65115243d49bb1b1fb5c7164c7b13dee520:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkyNzUyMjgxYzUwMzI5OGYyYjhhMDkyYTcxN2Q4ZGRjMTU3MGI2MzhkMjEzNWFjNzA1ZjQ2ZDVhODFlZDZkMmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM0MzFlMjg3OWZkYWIzMTAwYThiOWNjNjYzNzYzMGE4MzA5YmY2MTg2N2ViMGNlYjE1NWY2N2JkYmI3Y2QxNjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVhNjU1ZjQwMTk4ZDU1YTA1Y2Y5NzNmMDg5ZDk2ZTU5NWNiODFhNDliYWYzODRjNWU1NjEyOTAzYTkyYjZiZGYifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-06T19:57:00.087Z"
+  }
+}
