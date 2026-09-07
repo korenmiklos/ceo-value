@@ -3,7 +3,7 @@ clear all
 * Define outcomes in order matching table columns
 local outcomes "lnR lnL lnK ROA lnRL"
 local samples "one2one twos fnd2non non2non gender nogender gap nogap"
-local variations "size1 size2 size3 size4 pre2000 post2000"
+local variations "size1 size2 size3 size4 pre post"
 
 local rows 14
 
@@ -16,11 +16,11 @@ local label6  "No gender switch"
 local label7  "Age gap"
 local label8  "No age gap"
 local label9  "Emp. < 5"
-local label10 "Emp. (5,10]"
-local label11 "Emp. (10,25]"
+local label10 "Emp. \(5,10\]"
+local label11 "Emp. \(10,25\]"
 local label12 "Emp. > 25"
-local label13 "Pre 2000"
-local label14 "Post 2000"
+local label13 "Pre 2005"
+local label14 "Post 2005"
 
 matrix stats = J(`rows', 6, .)
 

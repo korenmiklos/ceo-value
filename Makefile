@@ -10,7 +10,7 @@ LATEX := pdflatex
 PANDOC := pandoc
 UTILS := $(wildcard lib/util/*.do)
 
-ANALYSIS_VARIATIONS := full size1 size2 size3 size4 pre2000 post2000
+ANALYSIS_VARIATIONS := full size1 size2 size3 size4 pre post
 SAMPLES := full one2one twos fnd2non non2non gender nogender gap nogap
 OUTCOMES := lnK lnWL lnM has_intangible
 

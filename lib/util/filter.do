@@ -9,10 +9,10 @@ local size1         employment <= 5
 local size2         employment > 5 & employment <= 10
 local size3         employment > 10 & employment <=25
 local size4         employment > 25
-local pre2000       year <= 2000
-local post2000      year > 2000
+local pre           year <= 2005
+local post          year > 2005
 
-local valid_samples full pre2000 post2000 size1 size2 size3 size4
+local valid_samples full pre post size1 size2 size3 size4
 assert strpos(" `valid_samples' ", " `sample' ") > 0
 
 * =============================================================================

@@ -5,7 +5,7 @@ SCENARIOS = baseline persistent excessvariance excessvariance_corr all trend lon
 OUTCOMES :=  lnR lnL lnK ROA lnRL
 SAMPLES := full one2one twos fnd2non non2non gender nogender gap nogap
 FIXED_EFFECTS := lnR ROA lnRL
-VARIATIONS := full size1 size2 size3 size4 pre2000 post2000
+VARIATIONS := full size1 size2 size3 size4 pre post
 DATALIB := ../../temp/analysis-sample.dta ../../temp/manager_value.dta
 CODELIB := ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do
 
@@ -16,7 +16,7 @@ all: $(foreach sample,$(SAMPLES), figure/outcomes_$(sample).pdf) \
 	table/switch-descriptives.tex \
 	table/industry-descriptives.tex \
 	table/atets.tex \
-	$(foreach variation,$(VARIATIONS),table/$(variation)_debiased_r2s.tex) \
+	table/debiased_r2s.tex \
 	figure/ceo-spell-distributions.pdf \
 	figure/ceo-spell-distributions-weighted.pdf \
 	figure/tenure-snapshots.pdf \
@@ -108,13 +108,11 @@ table/r2s_full.tex: src/exhibit/application_r2s.do $(CODELIB) \
 	mkdir -p table
 	$(STATA) -b do $< full
 
-define debiased_rule
-table/$(1)_debiased_r2s.tex: src/exhibit/debiased_r2s.do $$(CODELIB) \
-	$$(foreach sample, $$(SAMPLES),$$(foreach outcome, $$(OUTCOMES), data/atet_$(1)_$$(sample)_$$(outcome)-$$(outcome).csv))
+table/debiased_r2s.tex: src/exhibit/debiased_r2s.do $(CODELIB) \
+	$(foreach sample, $(SAMPLES),$(foreach outcome, $(OUTCOMES), data/atet_full_$(sample)_$(outcome)-$(outcome).csv)) \
+	$(foreach variation, $(VARIATIONS), $(foreach outcome, $(OUTCOMES), data/atet_$(variation)_full_$(outcome)-$(outcome).csv))
 	mkdir -p table
-	$$(STATA) -b do $$< $(1)
-endef
-$(foreach variation, $(VARIATIONS), $(eval $(call debiased_rule,$(variation))))
+	$(STATA) -b do $<
 
 
 table/atets.tex: src/exhibit/atets.do $(CODELIB)
