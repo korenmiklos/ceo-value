@@ -1,17 +1,11 @@
-args variation
-*Extract atet setimates from appliation and write to LaTeX table rows
 clear all
 
 * Define outcomes in order matching table columns
 local outcomes "lnR lnL lnK ROA lnRL"
-if "`variation'" == "size4"{
-  local samples "one2one twos fnd2non non2non gender nogender gap"
-}
-else{
-  local samples "one2one twos fnd2non non2non gender nogender gap nogap"
-}
+local samples "one2one twos fnd2non non2non gender nogender gap nogap"
+local variations "size1 size2 size3 size4 pre2000 post2000"
 
-local rows 8
+local rows 14
 
 local label1  "One-to-One"
 local label2  "Twos"
@@ -21,6 +15,12 @@ local label5  "Gender switch"
 local label6  "No gender switch"
 local label7  "Age gap"
 local label8  "No age gap"
+local label9  "Emp. < 5"
+local label10 "Emp. (5,10]"
+local label11 "Emp. (10,25]"
+local label12 "Emp. > 25"
+local label13 "Pre 2000"
+local label14 "Post 2000"
 
 matrix stats = J(`rows', 6, .)
 
@@ -30,12 +30,23 @@ foreach sample of local samples {
   local col = 1
   foreach outcome of local outcomes{
       * Import CSV file
-      import delimited "data/atet_`variation'_`sample'_`outcome'-`outcome'.csv", clear varnames(1) case(preserve)
+      import delimited "data/atet_full_`sample'_`outcome'-`outcome'.csv", clear varnames(1) case(preserve)
       matrix stats[`row', `col'] = dRsq[1]
       local ++col
     }
     matrix stats[`row', `col'] = N[1]
     local ++row
+}
+
+foreach variation of local variations{
+  local col = 1
+  foreach outcome of local outcomes{
+    import delimited "data/atet_`variation'_full_`outcome'-`outcome'.csv", clear varnames(1) case(preserve)
+    matrix stats[`row', `col'] = dRsq[1]
+    local ++col
+  }
+  matrix stats[`row', `col'] = N[1]
+  local ++row
 }
 
 matrix list stats
@@ -50,7 +61,7 @@ local texfooter2 "\end{tabular}"
 
 
 * Open LaTeX file for writing
-file open texfile using "table/`variation'_debiased_r2s.tex", write replace
+file open texfile using "table/debiased_r2s.tex", write replace
 forvalues num = 1/4{
   file write texfile "`texheader`num''" _n
 }
