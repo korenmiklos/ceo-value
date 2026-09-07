@@ -1,20 +1,26 @@
-args sample
+args sample FE
 clear all
 
 local A lnR
 local B lnL
 local C ROA
-local D lnK
-local E lnRL
+local D exporter
+local E lnK
+local F lnRL
 
-foreach outcome in A B C D E {
-    import delimited "data/`sample'_``outcome''-``outcome''.csv", clear case(preserve)
-    do "src/exhibit/event_study.do" `outcome' "``outcome''" "``outcome''" beta
+foreach outcome in A B C D E F {
+    import delimited "data/`sample'_``outcome''-`FE'.csv", clear case(preserve)
+    if "``outcome''" != "exporter"{
+       do "src/exhibit/event_study.do" `outcome' "``outcome''" "``outcome''" beta
+    }
+    else{
+       do "src/exhibit/event_study.do" `outcome' "Exporter" "Exporter" beta
+    }
 
 }
 
-graph combine panelA panelB panelC panelD panelE , ///
+graph combine panelA panelB panelC panelD panelE panelF, ///
     cols(3) graphregion(color(white)) imargin(small) xsize(7.5) ysize(5)
 
-graph export "figure/outcomes_`sample'.pdf", replace
+graph export "figure/outcomes_`sample'_`FE'.pdf", replace
 graph drop panel*
