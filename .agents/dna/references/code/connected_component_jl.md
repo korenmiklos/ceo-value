@@ -1,0 +1,99 @@
+---
+type: Reference
+title: Connected component Julia code
+description: Evidence excerpt from lib/create/connected_component.jl, bipartite projection and component detection.
+status: draft
+generated:
+  by: build-replication-wiki
+  at: 2026-09-07T09:44:50Z
+---
+
+# Connected component Julia code
+
+## Source
+
+- Path: `lib/create/connected_component.jl`
+- SHA-256: `d2175bdc1ce9e3402ee16fa4f9ec636d7d80333f54ce2ab1031595da68841788`
+- Inspected: exact source slices below
+
+## Excerpts
+
+### Lines 43-58
+```text
+function project_bipartite_graph(bipartite::BipartiteGraph)::ProjectedGraph
+    sources, targets = bipartite.sources, bipartite.targets
+    uniq_sources = unique(sources)
+    uniq_targets = unique(targets)
+    source_idx = Dict(s => i for (i, s) in enumerate(uniq_sources))
+    target_idx = Dict(t => i for (i, t) in enumerate(uniq_targets))
+
+    rows = [source_idx[s] for s in sources]
+    cols = [target_idx[t] for t in targets]
+    B = sparse(rows, cols, ones(Bool, length(rows)), length(uniq_sources), length(uniq_targets))
+
+    P = B' * B
+    P = dropzeros!(P - spdiagm(0 => diag(P)))  # remove self-loops
+
+    return ProjectedGraph(P, target_idx)
+end
+```
+
+### Lines 60-93
+```text
+function large_connected_components(graph::ProjectedGraph, min_size::Int=1000)::Tuple{Vector{Int}, Vector{Int}, Vector{Int}}
+    G = SimpleGraph(graph.adjacency)
+    components = connected_components(G)
+    println("Number of components: ", length(components))
+    
+    # Filter components with at least min_size nodes
+    large_components = filter(c -> length(c) >= min_size, components)
+    println("Number of components with at least $min_size nodes: ", length(large_components))
+    
+    # Sort by size (descending)
+    sort!(large_components, by=length, rev=true)
+    
+    # Print component sizes
+    for (i, comp) in enumerate(large_components)
+        println("Component $i size: ", length(comp))
+    end
+    
+    # Convert indices to original IDs and assign component IDs
+    idx_to_id = Dict(v => k for (k, v) in graph.node_idx)
+    person_ids = Int[]
+    component_ids = Int[]
+    sizes = Int[]
+    
+    for (comp_id, component) in enumerate(large_components)
+        size = length(component)
+        for idx in component
+            push!(person_ids, idx_to_id[idx])
+            push!(component_ids, comp_id)
+            push!(sizes, size)
+        end
+    end
+
+    return person_ids, component_ids, sizes
+end
+```
+
+### Lines 109-121
+```text
+const COMPONENT_SIZE_CUTOFF = 30
+
+# Read firm-manager edgelist from Stata output
+bipartite = read_edgelist("temp/edgelist.csv", "frame_id_numeric", "person_id")
+println("Read ", length(bipartite.sources), " edges")
+
+# Project to manager-manager network and find large connected components
+graph = project_bipartite_graph(bipartite)
+person_ids, component_ids, component_sizes = large_connected_components(graph, COMPONENT_SIZE_CUTOFF)
+println("Total managers in components with $(COMPONENT_SIZE_CUTOFF)+ nodes: ", length(person_ids))
+
+# Write manager person_ids and component_ids to CSV
+write_component_csv("temp/large_component_managers.csv", person_ids, component_ids, component_sizes)
+```
+
+## Notes
+
+- Projects the firm-manager bipartite graph onto manager co-employment via `P = B'B`, drops self-loops, keeps components with at least 30 managers (`COMPONENT_SIZE_CUTOFF =   30`; note the function default is 1000 but the caller passes 30}.
+- Outputs `temp/large_component_managers.csv` with person_id, component_id, component_size.

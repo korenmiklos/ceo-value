@@ -1,5 +1,0 @@
-# Files
-
-- [Proprietary Hungarian Administrative Datasets (Mérleg LTS and Cégjegyzék LTS)](data-sources.md) - Documents the two proprietary Hungarian administrative datasets used in the CEO value research project—the Mérleg LTS balance sheet data and the Cégjegyzék LTS CEO panel—covering data provenance, schema, access procedures, confidentiality constraints, and placement requirements.
-- [Placebo-Controlled Event Study Design](placebo-design.md) - Documents the methodological core of the project—how placebo CEO transitions are constructed, matched, and used to debias second moments of estimated CEO effects; covers matching logic, bias decomposition, sample definitions, and Monte Carlo validation.
-- [Analysis Samples Catalogue](samples.md) - Documents all sample definitions across the codebase — analysis variations (full, size1–size4, pre2000, post2000) applied via filter.do, and event study sample filters (full, one2one, twos, fnd2non, non2non, gap, nogap, gender, nogender, small, large) applied in event_study_sample.do — their Stata conditions, dual-layer architecture, and interlocking role in the Makefile's cross-product build targets.
