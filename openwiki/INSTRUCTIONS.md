@@ -40,6 +40,7 @@ Source pointers should be anchored to content hashes or an immutable snapshot. T
 
 Retain the distinction between the knowledge representation and the policy controlling exposure:
 
+- Source code execution is part of evidence. A script listed as a dependency or drawn in a pipeline diagram is not proof it runs—trace actual invocation (Makefile recipes, do/run/include calls). Verification is distinct from downstream representation.
 - OKF represents available knowledge and evidence.
 - Context selection supplies a bounded packet for one claim.
 - A verifier requests specific missing facts.
