@@ -3,7 +3,7 @@ STATA := stata-mp
 
 SCENARIOS = baseline persistent excessvariance excessvariance_corr all trend longpanel
 OUTCOMES :=  lnR lnL lnK ROA lnRL
-SAMPLES := full one2one twos fnd2non non2non gender nogender gap nogap
+SAMPLES := full one2one twos fnd2non non2non gender nogender gap nogap size1 size2 size3 size4 pre post
 FIXED_EFFECTS := lnR ROA lnRL
 DATALIB := ../../temp/analysis-sample.dta ../../temp/manager_value.dta
 CODELIB := ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do
@@ -60,19 +60,21 @@ $(foreach sample,$(SAMPLES),$(foreach outcome,$(OUTCOMES),$(eval $(call atets_RU
 #################################################################################
 ####### Monte Carlo :Generate event study data for monte carlo scenarios ########
 #################################################################################
-MC_SCENARIOS := baseline persistent all trend longpanel excessvariance excessvariance_corr
 
 define GEN_MC
 data/$(1)_lnR-lnR.csv: $$(CODELIB) data/placebo_$$(if $$(filter excessvariance%,$(1)),excessvariance,$(1)).dta
 	mkdir -p data
 	$$(STATA) -b do ../../lib/estimate/event_study.do $(1) lnR montecarlo lnR $$(if $$(findstring _corr,$(1)),excessvariance,)
+endef
+$(foreach scenario,$(SCENARIOS),$(eval $(call GEN_MC,$(scenario))))
 
+
+define GEN_MC_ATET
 data/atet_$(1)_lnR-lnR.csv: $$(CODELIB) data/placebo_$$(if $$(filter excessvariance%,$(1)),excessvariance,$(1)).dta
 	mkdir -p data
 	$$(STATA) -b do ../../lib/estimate/event_study_atet.do $(1) lnR montecarlo lnR $$(if $$(findstring _corr,$(1)),excessvariance,)
 endef
-
-$(foreach scenario,$(MC_SCENARIOS),$(eval $(call GEN_MC,$(scenario))))
+$(foreach scenario,$(SCENARIOS),$(eval $(call GEN_MC_ATET,$(scenario))))
 
 data/placebo_%.dta: src/montecarlo/%.do src/montecarlo/params.do src/montecarlo/setup.do
 	$(STATA) -b do src/montecarlo/run.do $*
@@ -106,19 +108,19 @@ table/r2s_full.tex: src/exhibit/application_r2s.do $(CODELIB) \
 
 table/debiased_r2s.tex: src/exhibit/debiased_r2s.do $(CODELIB) \
 	$(foreach sample, $(SAMPLES),$(foreach outcome, $(OUTCOMES), data/atet_$(sample)_$(outcome)-$(outcome).csv))
-
 	mkdir -p table
 	$(STATA) -b do $<
 
 
-table/atets.tex: src/exhibit/atets.do $(EVENT_STUDIES_TABLE) $(EVENT_STUDIES_GRAPH) $(CODELIB)
+table/atets.tex: src/exhibit/atets.do  $(CODELIB) \
+	$(foreach scenario, $(SCENARIOS), data/atet_$(scenario)_lnR-lnR.csv)
 	mkdir -p table
 	$(STATA) -b do src/exhibit/atets.do
 
 figure/figuremc.pdf: src/figuremc.do  \
 	src/exhibit/event_study2.do \
 	src/exhibit/event_study3.do \
-	$(EVENT_STUDIES_GRAPH)
+	$(foreach scenario, $(SCENARIOS), data/$(scenario)_lnR-lnR.csv)
 	mkdir -p figure
 	$(STATA) -b do src/figuremc.do
 

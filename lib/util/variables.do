@@ -61,9 +61,11 @@ foreach var in firm_age {
 egen byte early_exporter = max(exporter & (ceo_spell <= 1)), by(frame_id_numeric)
 egen early_employment = max(cond(ceo_spell <= 1, employment, .)), by(frame_id_numeric)
 generate max_size = cond(max_employment < 10, 1, 2)
+replace max_size = 3 if max_employment >= 50
+replace max_size = 4 if max_employment >= 100
 generate early_size = cond(early_employment < 10, 1, 2)
 
-label define size 1 "Small (2-9)" 2 "Large (10+)"
+label define size 1 "Max. Emp. 2-9" 2 "Max. Emp. 10-50" 3 "Max. Emp. 50-100" 4 "Max. Emp. 100+"
 label values max_size size
 label values early_size size
 

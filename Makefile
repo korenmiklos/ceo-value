@@ -10,7 +10,7 @@ LATEX := pdflatex
 PANDOC := pandoc
 UTILS := $(wildcard lib/util/*.do)
 
-SAMPLES := full one2one twos fnd2non non2non gender nogender age
+SAMPLES := full one2one twos fnd2non non2non gender nogender gap nogap size1 size2 size3 size4 pre post
 OUTCOMES := lnK lnWL lnM has_intangible
 
 # Commit hashes for reproducible file extraction
