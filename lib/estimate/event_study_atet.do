@@ -12,6 +12,7 @@ else {
 }
 
 confirm file "data/placebo_`s'.dta"
+confirm existence `s'
 confirm existence `outcome'
 
 do "../../lib/estimate/setup_event_study.do" `s' `fixed_effects' `montecarlo'

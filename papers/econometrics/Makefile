@@ -6,7 +6,7 @@ OUTCOMES :=  lnR lnL lnK ROA lnRL
 SAMPLES := full one2one twos fnd2non non2non gender nogender gap nogap size1 size2 size3 size4 pre post
 FIXED_EFFECTS := lnR ROA lnRL
 DATALIB := ../../temp/analysis-sample.dta ../../temp/manager_value.dta
-CODELIB := ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do ../../lib/estimate/xt2var.do
+CODELIB := ../../lib/estimate/event_study.do ../../lib/estimate/setup_event_study.do
 
 all: $(foreach sample,$(SAMPLES), figure/outcomes_$(sample).pdf) \
 	table/r2s_full.tex\
@@ -67,7 +67,6 @@ data/$(1)_lnR-lnR.csv: $$(CODELIB) data/placebo_$$(if $$(filter excessvariance%,
 	$$(STATA) -b do ../../lib/estimate/event_study.do $(1) lnR montecarlo lnR $$(if $$(findstring _corr,$(1)),excessvariance,)
 endef
 $(foreach scenario,$(SCENARIOS),$(eval $(call GEN_MC,$(scenario))))
-
 
 define GEN_MC_ATET
 data/atet_$(1)_lnR-lnR.csv: $$(CODELIB) data/placebo_$$(if $$(filter excessvariance%,$(1)),excessvariance,$(1)).dta

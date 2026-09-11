@@ -1,4 +1,3 @@
-*Extract atet setimates from appliation and write to LaTeX table rows
 clear all
 
 * Define outcomes in order matching table columns

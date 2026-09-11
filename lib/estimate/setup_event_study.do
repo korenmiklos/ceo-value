@@ -47,7 +47,7 @@ if !("`montecarlo'" == "montecarlo") {
     egen N_control = total(placebo == 1), by(group)
     * for comparison, only keep groups with both treated and control firms
     keep if N_treated > 0 & N_control > 0
-    tabulate N_control 
+    tabulate N_control
     tabulate N_treated
 }
 else {

@@ -1,6 +1,5 @@
 args sample
 confirm existence `sample'
-
 ******************************
 * ACCEPTED VALUES FOR sample *
 ******************************
@@ -110,6 +109,7 @@ drop if missing(MS1, MS2)
 drop if ceo_spell1 != ceo_spell2 - 1
 gen age_diff = ceo_age1 - ceo_age2
 replace age_diff = ceo_age2-ceo_age1 if age_diff<0
+su age_diff, det
 *********************
 * LIMIT SAMPLE HERE *
 *********************

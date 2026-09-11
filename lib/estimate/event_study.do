@@ -11,6 +11,7 @@ else {
   local s `sample'
 }
 confirm file "data/placebo_`s'.dta"
+confirm existence `sample'
 confirm existence `outcome'
 
 do "../../lib/estimate/setup_event_study.do" `s' `fixed_effects' `montecarlo'
@@ -77,8 +78,6 @@ ereturn post `Cov' `V_Cov', obs(`=_N_obs')
 e2frame, generate(_dCov) numeric
 ereturn post `Cov_naive' `V_Cov_naive', obs(`=_N_obs')
 e2frame, generate(_Cov1) numeric
-
-** FIXME: this seems wrong, E(dy) =/= dy
 
 * =============================================================================
 * Call 2: VarY — xt2denoise with cov detail, z = outcome itself
