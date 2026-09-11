@@ -10,8 +10,7 @@ LATEX := pdflatex
 PANDOC := pandoc
 UTILS := $(wildcard lib/util/*.do)
 
-ANALYSIS_VARIATIONS := full size1 size2 size3 size4 pre post
-SAMPLES := full one2one twos fnd2non non2non gender nogender gap nogap
+SAMPLES := full one2one twos fnd2non non2non gender nogender gap nogap size1 size2 size3 size4 pre post
 OUTCOMES := lnK lnWL lnM has_intangible
 
 # Commit hashes for reproducible file extraction
@@ -22,11 +21,10 @@ COMMIT_EXPERIMENT := experiment/preferred  # Update with specific hash when need
 
 # Define costly intermediate files to preserve
 PRECIOUS_FILES := temp/balance.dta temp/ceo-panel.dta temp/intervals.dta temp/unfiltered.dta \
-                  $(foreach variation, $(ANALYSIS_VARIATIONS), temp/$(variation)-analysis-sample.dta) \
-									temp/edgelist.csv \
+                  temp/analysis-sample.dta temp/edgelist.csv \
                   temp/large_component_managers.csv temp/edgelist_leverage.csv \
                   temp/manager_value.dta temp/manager_value_spell.dta temp/revenue_models.ster \
-									$(foreach sample,$(SAMPLES),$(foreach variation,$(ANALYSIS_VARIATIONS),temp/$(variation)_placebo_$(sample).dta))
+									$(foreach sample,$(SAMPLES),temp/placebo_$(sample).dta)
 
 # Mark these files as PRECIOUS so make won't delete them
 .PRECIOUS: $(PRECIOUS_FILES)
@@ -39,7 +37,7 @@ PRECIOUS_FILES := temp/balance.dta temp/ceo-panel.dta temp/intervals.dta temp/un
 
 # Data wrangling pipeline
 data: temp/manager_value.dta \
-	$(foreach sample, $(SAMPLES),$(foreach variation, $(ANALYSIS_VARIATIONS), temp/$(variation)_placebo_$(sample).dta))
+	$(foreach sample, $(SAMPLES), temp/placebo_$(sample).dta)
 
 install: install.log
 
@@ -60,18 +58,15 @@ temp/ceo-panel.dta: lib/create/ceo-panel.do input/manager-db-ceo-panel/ceo-panel
 	$(STATA) $<
 
 # Create analysis sample
-temp/%-analysis-sample.dta: lib/create/analysis-sample.do temp/unfiltered.dta lib/util/filter.do
-	$(STATA) $< $*
+temp/analysis-sample.dta: lib/create/analysis-sample.do temp/unfiltered.dta lib/util/filter.do
+	$(STATA) $<
 
 # Generate placebo CEO transitions
-define GEN_PLACEBO
-temp/$(1)_placebo_$(2).dta: lib/create/event_study_sample.do temp/$(1)-analysis-sample.dta temp/manager_value.dta
-	$$(STATA) $$< $(1) $(2)
-endef
-$(foreach variation, $(ANALYSIS_VARIATIONS), $(foreach sample, $(SAMPLES), $(eval $(call GEN_PLACEBO,$(variation),$(sample)))))
+temp/placebo_%.dta: lib/create/event_study_sample.do temp/analysis-sample.dta temp/manager_value.dta
+	$(STATA) $< $*
 
 # Extract firm-manager edgelist
-temp/edgelist.csv: lib/create/edgelist.do temp/full-analysis-sample.dta
+temp/edgelist.csv: lib/create/edgelist.do temp/analysis-sample.dta
 	$(STATA) $<
 
 # Find largest connected component of managers
@@ -95,13 +90,13 @@ temp/intervals.dta: lib/create/intervals.do input/manager-db-ceo-panel/ceo-panel
 # =============================================================================
 
 # Estimate manager fixed effects and variance decomposition components
-temp/manager_value.dta: lib/estimate/manager_value.do temp/full-analysis-sample.dta temp/large_component_managers.csv lib/create/network-sample.do
+temp/manager_value.dta: lib/estimate/manager_value.do temp/analysis-sample.dta temp/large_component_managers.csv lib/create/network-sample.do
 	mkdir -p $(dir $@)
 	$(STATA) $<
 
 
 # Balance estimation (alternative analysis)
-balance.log: lib/estimate/balance.do temp/full-analysis-sample.dta lib/create/network-sample.do
+balance.log: lib/estimate/balance.do temp/analysis-sample.dta lib/create/network-sample.do
 	$(STATA) $<
 
 # Test placebo analysis

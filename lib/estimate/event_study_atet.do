@@ -1,4 +1,4 @@
-args variation sample outcome montecarlo fixed_effects excessvariance
+args sample outcome montecarlo fixed_effects excessvariance
 
 if ("`fixed_effects'" == "") {
     local fixed_effects `outcome'
@@ -11,12 +11,11 @@ else {
   local s `sample'
 }
 
-confirm file "data/`variation'_placebo_`s'.dta"
-confirm existence `variation'
+confirm file "data/placebo_`s'.dta"
 confirm existence `s'
 confirm existence `outcome'
 
-do "../../lib/estimate/setup_event_study.do" `variation' `s' `fixed_effects' `montecarlo'
+do "../../lib/estimate/setup_event_study.do" `s' `fixed_effects' `montecarlo'
 if !("`montecarlo'" == "montecarlo") {
   foreach var in outcome fixed_effects {
     tempvar mean_`var' demean_`var'
@@ -90,6 +89,6 @@ frame atet {
     replace se_naive = sqrt(se_naive)
     replace dse = sqrt(dse)
     order i Var1z dVarz dCov Cov VarY Rsq dRsq se_naive dse N
-    export delimited "data/atet_`variation'_`sample'_`OC'-`FE'.csv", replace
+    export delimited "data/atet_`sample'_`OC'-`FE'.csv", replace
 }
 

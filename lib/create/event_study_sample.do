@@ -1,23 +1,25 @@
-args variation sample
+args sample
 confirm existence `sample'
-confirm existence `variation'
 ******************************
 * ACCEPTED VALUES FOR sample *
 ******************************
 local full          1
 local fnd2non       has_founder1 == 1 & has_founder2 == 0
 local non2non       has_founder1 == 0 & has_founder2 == 0
-local small         max_size == 1
-local large         max_size == 2
+local size1         max_size == 1
+local size2         max_size == 2
+local size3         max_size == 3
+local size4         max_size == 4
 local one2one       n_ceo1 == 1 & n_ceo2 == 1
 local twos          n_ceo1 == 2 | n_ceo2 == 2
 local gap           (n_ceo1 == 1 & n_ceo2 == 1) & (age_diff > 10)
 local nogap         (n_ceo1 == 1 & n_ceo2 == 1) & (age_diff <= 10)
 local gender        n_ceo_male1 != n_ceo_male2
 local nogender      n_ceo_male1 == n_ceo_male2
+local pre           change_year <= 2000
+local post          change_year > 2000
 
-
-local valid_samples full fnd2non non2non small large one2one twos gap nogap gender nogender
+local valid_samples full fnd2non non2non size1 size2 size3 size4 one2one twos gap nogap gender nogender pre post
 assert strpos(" `valid_samples' ", " `sample' ") > 0
 
 clear all
@@ -33,7 +35,7 @@ global max_n_ceo 2                // Maximum number of CEOs per firm for analysi
 global exact_match_on cohort sector max_size  // Variables to exactly match on for placebo
 global fixed_effect ROA
 
-use "temp/`variation'-analysis-sample.dta", clear
+use "temp/analysis-sample.dta", clear
 
 * person_id lives in intervals.dta, not in the firm-year panel
 preserve
@@ -147,7 +149,7 @@ scalar MEAN = r(mean)
 scalar MULTIPLE = `TARGET_N_CONTROL' / MEAN
 scalar list
 
-use "temp/`variation'-analysis-sample.dta", clear
+use "temp/analysis-sample.dta", clear
 keep frame_id_numeric year ceo_spell ${exact_match_on}
 
 collapse (min) window_start1 = year (max) window_end1 = year (min) $exact_match_on, by(frame_id_numeric ceo_spell)
@@ -159,6 +161,9 @@ compress
 set seed `SEED'
 
 * to save memory, perform joinbys year by year
+if "`sample'" == "pre"{
+  drop if cohort > 2000
+}
 levelsof cohort, local(cohorts)
 foreach cohort of local cohorts {
     display "Processing cohort `cohort'"
@@ -244,4 +249,4 @@ keep `vars'
 order `vars'
 compress
 
-save "temp/`variation'_placebo_`sample'.dta", replace
+save "temp/placebo_`sample'.dta", replace
