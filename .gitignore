@@ -31,3 +31,6 @@ branches/
 
 # Large generated econometrics data
 papers/econometrics/data/*.dta
+
+# Generated DNA/RNA evidence
+.dodo/
