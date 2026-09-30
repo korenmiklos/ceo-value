@@ -192,6 +192,23 @@ q_{it}^{k}
 q_{it}^{k}.
 \label{eq:estimated_spell_change}
 \end{equation}
+\begin{samepage}
+To express the estimation error compactly, define the average firm-level shock during spell $s$ and its change across adjacent spells as
+\begin{equation}
+\begin{aligned}
+\bar e_{is}^{k}
+&\equiv
+\frac{1}{T_{is}}
+\sum_{t:\,s(i,t)=s} e_{it}^{k},\\
+\Delta\bar e_{is}^{k}
+&\equiv
+\bar e_{is}^{k}
+-
+\bar e_{i,s-1}^{k}.
+\end{aligned}
+\label{eq:spell_average_shock}
+\end{equation}
+\end{samepage}
 
 Substituting Equation~\eqref{eq:outcome_model} into
 Equation~\eqref{eq:estimated_spell_change}, the firm fixed effect
@@ -201,17 +218,10 @@ cancels, and the estimated spell change can be written as
 =
 \Delta z_{is}^{k}
 +
-\frac{1}{T_{is}}
-\sum_{t:\,s(i,t)=s}
-e_{it}^{k}
--
-\frac{1}{T_{i,s-1}}
-\sum_{t:\,s(i,t)=s-1}
-e_{it}^{k}.
+\Delta\bar e_{is}^{k}.
 \label{eq:spell_change_error}
 \end{equation}
-The last two terms constitute the estimation error in the measured
-change in the CEO-spell component.
+The second term is the estimation error in the measured change in the CEO-spell component.
 
 Under strict exogeneity,
 \begin{equation}
@@ -224,7 +234,7 @@ E\!\left[
 \Delta z_{is}^{k}.
 \label{eq:unbiased_spell_change}
 \end{equation}
-Thus, under strict exogeneity, the estimated change is unbiased regardless of spell length. Unbiasedness does not, however, make the estimate precise. When spells are short, the two average shocks in Equation~\eqref{eq:spell_change_error} need not be close to zero, so $\Delta\widehat z_{is}^{k}$ remains noisy. Increasing the number of firms estimates the distribution of these noisy changes more precisely but does not remove the noise within each change. Consequently, the variance of estimated changes and their covariance with other outcomes can differ systematically from the corresponding moments of the true changes.
+Thus, under strict exogeneity, the estimated change is unbiased regardless of spell length. Unbiasedness does not, however, make the estimate precise. When spells are short, $\Delta\bar e_{is}^{k}$ need not be close to zero, so $\Delta\widehat z_{is}^{k}$ remains noisy. Increasing the number of firms estimates the distribution of these noisy changes more precisely but does not remove the noise within each change. Consequently, the variance of estimated changes and their covariance with other outcomes can differ systematically from the corresponding moments of the true changes.
 
 We study how a firm outcome changes when firm $i$ moves from CEO spell
 $s-1$ to $s$. Let $q_{it}^{j}$ denote outcome $j$ of firm $i$ in
@@ -259,17 +269,12 @@ The short CEO spells bias both the variance $\operatorname{Var}\!\left(
 \Delta\widehat z_{is}^{k} \right)$ and the covariance between $\Delta\widehat z_{is}^{k}$ and the change in the firm attribute, $\operatorname{Cov}\!\left(\Delta\widehat z_{is}^{k},\Delta_h q_{is}^{j}\right)$.
 \vspace{.2cm}
 
-\paragraph{Bias in the variance.} The noise in the estimated CEO-spell change is the difference between the average firm-level shocks in spells $s$ and $s-1$.\footnote{For formal derivations of the biases, see Appendix \ref{sec: appA}.} Let the variance
-of this estimation error be
+\paragraph{Bias in the variance.} The noise in the estimated CEO-spell change is $\Delta\bar e_{is}^{k}$, the difference between the average firm-level shocks in spells $s$ and $s-1$.\footnote{For formal derivations of the biases, see Appendix \ref{sec: appA}.} Let the variance of this estimation error be
 \begin{equation}
 B^{k}
 =
 \operatorname{Var}\!\left(
-\frac{1}{T_{is}}
-\sum_{t:\,s(i,t)=s} e_{it}^{k}
--
-\frac{1}{T_{i,s-1}}
-\sum_{t:\,s(i,t)=s-1} e_{it}^{k}
+\Delta\bar e_{is}^{k}
 \right)
 \geq 0.
 \label{eq:B_definition}
@@ -305,19 +310,13 @@ B^{k}.
 The probability limit distinguishes large-$N$ from large-$T$ asymptotics. With many firms but short spells, the sample variance becomes precise around a moment that still contains $B^k$. The bias disappears only when the number of observations within each spell grows and dependence is weak enough for the spell-average shocks to converge to zero.
 \vspace{.2cm}
 
-\paragraph{Bias in the covariance.} Let $A_h^{jk}$ denote the covariance between the estimation error in Equation~\eqref{eq:spell_change_error} and the outcome contrast:
+\paragraph{Bias in the covariance.} Let $A_h^{jk}$ denote the covariance between $\Delta\bar e_{is}^{k}$ and the outcome contrast:
 \begin{equation}
 A_h^{jk}
 =
 \operatorname{Cov}\!\left(
-\begin{aligned}
-&\frac{1}{T_{is}}
-\sum_{t:\,s(i,t)=s} e_{it}^{k}
--
-\frac{1}{T_{i,s-1}}
-\sum_{t:\,s(i,t)=s-1} e_{it}^{k},\\
-&\Delta_h q_{is}^{j}
-\end{aligned}
+\Delta\bar e_{is}^{k},
+\Delta_h q_{is}^{j}
 \right).
 \label{eq:A_definition}
 \end{equation}
@@ -337,7 +336,7 @@ A_h^{jk}.
 \label{eq:covariance_bias}
 \end{equation}
 
-Equation~\eqref{eq:covariance_bias} shows that $A_h^{jk}$ distorts the covariance because the firm-level shocks averaged into $\Delta\widehat z_{is}^{k}$ may also enter, or be correlated with shocks entering, $\Delta_h q_{is}^{j}$. When $j=k$, the same outcome shocks can enter both objects directly. When $j\neq k$, the distortion depends on cross-outcome shock covariances. Because the outcome contrast changes with event time, the magnitude and sign of $A_h^{jk}$ may also vary with $h$. Short spells keep these shocks from averaging out. Unlike classical measurement error, the noise can therefore affect both the variance of the explanatory variable and its covariance with the outcome. This source of bias disappears as spell lengths grow and firm-level shocks average out.
+Equation~\eqref{eq:covariance_bias} shows that $A_h^{jk}$ distorts the covariance because the average-shock difference $\Delta\bar e_{is}^{k}$ may also enter, or be correlated with shocks entering, $\Delta_h q_{is}^{j}$. When $j=k$, the same outcome shocks can enter both objects directly. When $j\neq k$, the distortion depends on cross-outcome shock covariances. Because the outcome contrast changes with event time, the magnitude and sign of $A_h^{jk}$ may also vary with $h$. Short spells keep these shocks from averaging out. Unlike classical measurement error, the noise can therefore affect both the variance of the explanatory variable and its covariance with the outcome. This source of bias disappears as spell lengths grow and firm-level shocks average out.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Implications for commonly reported statistics}\label{subsec:implications}
@@ -563,19 +562,11 @@ placebo firm's CEO-spell component:
 \label{eq:placebo_true_change}
 \end{equation}
 
-Nevertheless, the averages calculated over the two artificial segments
-generally differ because they contain different realizations of
-firm-level shocks. The estimated placebo change is therefore
+Nevertheless, $\Delta\bar e_{is}^{k}$ generally differs from zero because the two artificial segments contain different realizations of firm-level shocks. The estimated placebo change is therefore
 \begin{align}
 \Delta\widehat z_{is}^{k}
 ={}&
-\frac{1}{T_{is}}
-\sum_{t:\,s(i,t)=s}
-e_{it}^{k}
--
-\frac{1}{T_{i,s-1}}
-\sum_{t:\,s(i,t)=s-1}
-e_{it}^{k}
+\Delta\bar e_{is}^{k}
 \nonumber\\
 &\text{in the placebo sample}.
 \label{eq:placebo_estimated_change}
@@ -1051,6 +1042,7 @@ $$
 \Delta\hat z_i = \mathbf w'\hat{\mathbf z}_i = \mathbf w'\mathbf P\,\mathbf y_i = \Delta z_i + \eta_i,\qquad \eta_i:=\mathbf w'\mathbf P\,\mathbf e_i,
 $$
 and recall that $\Delta y_i = \Delta z_i + \varepsilon_i$ where $\varepsilon_i=\mathbf w'\mathbf e_i$. 
+For the adjacent-spell contrast used in the main text, $\eta_i$ corresponds to $\Delta\bar e_{is}^{k}$.
 
 The naive regression slope is
 \begin{equation}
