@@ -22,13 +22,13 @@
 \title{CEO Replacements and Firm Growth: Correcting for Small-Sample Bias in Fixed-Effect Estimates}
 
 \author{Miklós Koren}
-\affiliation{\institution{Central European University, ELTE Centre for Economic and Regional Studies, CEPR and CESifo}\city{Vienna; Budapest; London; Munich}\country{Austria; Hungary; United Kingdom; Germany}}
-\email{korenm@ceu.edu}
+\affiliation{\institution{Central European University, ELTE Centre for Economic and Regional Studies, CEPR and CESifo}}
+\email{miklos@koren.work}
 \author{Krisztina Orbán}
-\affiliation{\institution{Monash University}\city{Melbourne}\country{Australia}}
+\affiliation{\institution{Monash University}}
 \email{krisztina.orban@monash.edu}
 \author{Álmos Telegdy}
-\affiliation{\institution{Corvinus University of Budapest}\city{Budapest}\country{Hungary}}
+\affiliation{\institution{Corvinus University of Budapest}}
 \email{almos.telegdy@uni-corvinus.hu}
 
 \date{August 2026}
@@ -56,7 +56,7 @@ The role of managers in shaping firm outcomes has attracted substantial attentio
 A central challenge of the two-way fixed effects estimation is that managerial spells in firms are usually short. As a consequence, estimated manager effects are noisy, and any statistic involving second moments are subject to limited mobility bias even if many CEO transitions are observed \citep{kline2024firm}. A growing methodological literature has therefore focused on correcting biases in second moments of estimated fixed effects. These include parametric corrections for estimation error \citep{andrews2008high, gaure2014correlation}, leave-one-out estimators \citep{kline2020leave}, and approaches based on grouping observations to reduce dimensionality \citep{Bonhomme2019-xi,bonhomme2023much}. While these contributions have substantially improved inference, they rely on settings where managerial mobility across firms is sufficiently rich to identify managerial heterogeneity from observed movements across organizations.
 
 %Limitations of the literature
-Existing evidence on managerial effects typically concerns large, often publicly listed corporations, where managers switch firms and where rich information on executives is available (as we detail at the end of this section).\footnote{Even among large firms, external CEO appointments remain the exception rather than the rule. Among the listed companies of the US, 72\% of CEO hires are internal promotions and over 80\% are current or former employees or board members \citep{cziraki2022market}.} Much less is known about managerial effects among small and medium-sized enterprises (SMEs), despite that they account for roughly two-thirds of employment in advanced economies and an even larger fraction in developing countries \citep{MadgavkarEtAl2024_MSMEs}. In these firms managers typically spend most or all of their careers at a single firm, and little information on firm outcomes is available beyond standard accounting records. As a result, the approach used in the literature would exclude most firms and managers from analysis, leaving open the question of how important managers are in the broader population of firms. Moreover, the estimation sample is further reduced because the standard two-way fixed effects estimation can only be applied to the connected component of the data. These requirements reduce the share of firms which can be used in the analysis making estimates imprecise due to small sample problems. The small sample also calls into question the external validity of the results if SMEs which switch CEOs are different from the bulk of firms which do not.\footnote{\cite{cziraki2022market} shows that among the US listed companies, external hiring depends of firm characteristics.}
+Existing evidence on managerial effects typically concerns large, often publicly listed corporations, where managers switch firms and where rich information on executives is available (as we detail at the end of this section).\footnote{Even among large firms, external CEO appointments remain the exception rather than the rule. Among the listed companies of the US, 72\% of CEO hires are internal promotions and over 80\% are current or former employees or board members \citep{cziraki2022market}.} Much less is known about managerial effects among small and medium-sized enterprises (SMEs), even though they account for roughly two-thirds of employment in advanced economies and an even larger fraction in developing countries \citep{MadgavkarEtAl2024_MSMEs}. In these firms managers typically spend most or all of their careers at a single firm, and little information on firm outcomes is available beyond standard accounting records. As a result, the approach used in the literature would exclude most firms and managers from the analysis, leaving open the question of how important managers are in the broader population of firms. Moreover, the estimation sample is further reduced because the standard two-way fixed effects estimation can only be applied to the connected component of the data. These requirements reduce the share of firms which can be used in the analysis making estimates imprecise due to small sample problems. The small sample also calls into question the external validity of the results if SMEs which switch CEOs are different from the bulk of firms which do not.\footnote{\cite{cziraki2022market} shows that among the US listed companies, external hiring depends of firm characteristics.}
 
 %summary in one para
 This paper makes three contributions. First, we develop an estimator that recovers unbiased second moments of CEO-spell effects under mild identification assumptions and corrects the bias in variance decompositions and event-study coefficients. Second, we construct a new dataset linking CEOs to the universe of almost half million Hungarian firms for the period of 1992 -- 2023. Third, we use the new dataset and methodology to quantify the importance of managerial heterogeneity in SMEs, showing that conventional estimators substantially overstate the explanatory power of CEO changes and generate spurious dynamic patterns around CEO transitions. 
@@ -65,10 +65,10 @@ This paper makes three contributions. First, we develop an estimator that recove
 The starting point of our estimation is a standard two-way fixed effects model in which the dependent variable is a measure of firm performance (e.g., revenue), while firm and CEO effects capture persistent heterogeneity across firms and managers. Specifically, firm performance is modeled as the sum of a firm fixed effect, a CEO-spell fixed effect, and a transitory error term.
 
 %use only within firm ceo changes
-Because CEO mobility across firms is relatively rare among SMEs, we use within-firm CEO replacements for identification. Instead of using separate CEO fixed effects, we transform the two-way fixed-effects model into first differences, which removes the firm fixed effect from the specification and estimate the variation of firm outcomes around the CEO change. The key advantage of this approach is that it can be applied to the full set of firms experiencing a CEO transition, substantially enhancing the power of the analysis and the external validity of the estimates. Moreover, the method does not require restricting the sample to the largest connected component of the CEO–firm network, since we do not rank CEOs in the sample. Our aim is more modest: we only aspire to identify how the change of CEOs within a firm explains changes in firm attributes.
+Because CEO mobility across firms is relatively rare among SMEs, we use within-firm CEO replacements for identification. Instead of using separate CEO fixed effects, we transform the two-way fixed-effects model into first differences, which removes the firm fixed effect from the specification and estimate the variation of firm outcomes around the CEO change. The key advantage of this approach is that it can be applied to the full set of firms experiencing a CEO transition, not only those in the largest connected component of the CEO–firm network.
 
 %description of the method
-To correct the small-sample bias inherent in estimated CEO fixed effects, we introduce a \textit{placebo-controlled debiasing} method. To each firm with a CEO change, we assign a matched control firm that does not change its CEO during the same period. We then assign the control firm a placebo CEO transition in the same year as the treated firm, replicating the treated firm's spell structure. Because no actual CEO change occurs in the placebo firm, any estimated variance, covariance, or event-study ``effect'' measured around the placebo transition reflects only estimation noise arising from short CEO spells and persistent firm-level shocks. Thus, changes around the placebo CEO replacement can be used to purge the estimated effect of CEO change from the idiosyncratic noise arising from the short time series of CEO spell.\footnote{Using firms which do not change CEOs to control for noise in the data is in the spirit of \cite{fitza2014use} and \cite{jarosiewicz2023revisiting}.}
+To correct the small-sample noise inherent in estimated CEO fixed effects, we introduce a \textit{placebo-controlled debiasing} method. To each firm with a CEO change, we assign one ore more matched control firm that does not change its CEO during the same period. We then assign the control firm a placebo CEO transition in the same year as the treated firm, replicating the treated firm's spell structure. Because no actual CEO change occurs in the placebo firm, any estimated variance, covariance, or event-study ``effect'' measured around the placebo transition reflects only estimation noise arising from short CEO spells and persistent firm-level shocks. Thus, changes around the placebo CEO replacement can be used to purge the estimated effect of CEO change from the idiosyncratic noise arising from the short time series of CEO spell.\footnote{Using firms which do not change CEOs to control for noise in the data is in the spirit of \cite{fitza2014use} and \cite{jarosiewicz2023revisiting}.}
 
 Our estimation uses two identifying assumptions. The first is the standard \textit{exogeneity assumption} and states that changes in CEO-spell effects are uncorrelated with firm-level shocks. Under this assumption, the estimated change in the CEO effect is an unbiased measure of the true change in CEO quality. We call the second identifying assumption the \textit{proportional autocovariance assumption}, which states that the variance-covariance matrix of shocks is identical in the treated and placebo samples up to a scalar multiplier. This assumption requires the temporal correlation structure of idiosyncratic firm-level shocks to be the same across the treated and placebo groups. At the same time, it allows firms which replace their CEO to experience larger or smaller idiosyncratic shocks than firms with stable CEOs. Conceptually, the proportional autocovariance assumption resembles the parallel trends assumption in difference-in-differences designs. Our method can be viewed as difference-in-differences for second moments: we difference out the bias by comparing treated and control firms' variances and covariances.
 
@@ -78,7 +78,7 @@ Under the two assumptions, the placebo sample reproduces the same small-sample b
 We construct two statistics, which contain the second moments of the data and thus are contaminated by the small sample bias. The first is the $R^2$ of the estimation, which measures the share of the variance of the firm variable attributable to CEO change. The second is a full set of event-time coefficients, which shows both the trend in the dependent variable pre-transition and its post-transition dynamics. These features are particularly important because pre-trends are commonly used to assess the validity of the identification strategy, while the shape of the post-transition response reveals how quickly CEO effects materialize and whether they persist over time. 
 
 %MC
-CHANGE We test the validity of the placebo-controlled debasing in Monte Carlo experiments designed to mimic the characteristics of firm-level panels with CEO transitions. The simulations generate firms with two CEO spells and outcomes determined by a CEO effect and an idiosyncratic shock process. We consider a range of empirically relevant environments, including short CEO tenures (the baseline scenario), persistent shocks, excess variance in treated firms, all complications at the same time, long panels and a pre-trend (to check how the method performs when some of the identifying assumptions are not satisfied). The experiments show that conventional estimators substantially overstate the variance of CEO effects and can generate spurious pre-trends and distorted post-transition dynamics even when the identifying assumptions hold. In contrast, the placebo-controlled estimator consistently recovers the true variances, covariances, and event-study coefficients across all scenarios. These results demonstrate that the method is robust to all the complications we inserted in the data.
+We test the validity of the placebo-controlled debasing in Monte Carlo experiments designed to mimic the characteristics of firm-level panels with CEO transitions. The simulations generate firms with two CEO spells and outcomes determined by a CEO effect and an idiosyncratic shock process. We consider a range of empirically relevant environments, including short CEO tenures (the baseline scenario), persistent shocks, excess variance in treated firms, all complications at the same time, long panels and a pre-trend (to check how the method performs when some of the identifying assumptions are not satisfied). The experiments show that conventional estimators substantially overstate the variance of CEO effects and can generate spurious pre-trends and distorted post-transition dynamics even when the identifying assumptions hold. In contrast, the placebo-controlled estimator consistently recovers the true variances, covariances, and event-study coefficients across all scenarios. These results demonstrate that the method is robust to all the complications we inserted in the data.
 
 %application
 We apply the placebo-controlled debiasing method to the universe of Hungarian firms between 1992 and 2023, leveraging administrative data that link CEOs to firm balance sheets and income statements. The data cover the population of SMEs (471,000 firms and over 2.5 million firm-years), 475,000 distinct CEOs and about 266,000 within firm CEO transitions.\footnote{Perhaps the best alternative of our method is the leave-one-out method \citep{kline2020leave}. This method is based on the sample of firms which have a CEO transition where both CEOs also served in another firm. In addition, this method can be performed only on the connected component of the data. The final sample is XX firms, only XX\% of the data.}
@@ -86,19 +86,17 @@ We apply the placebo-controlled debiasing method to the universe of Hungarian fi
 We estimate the variation of several firm attributes around CEO transitions:  output, inputs (labor and capital), and productivity (return on assets and labor productivity. The empirical results show that conventional estimators substantially overstate the importance of CEOs. The $R^2$ of conventional estimates is 0.65-0.75, whereas the debiased estimates imply $R^2$s between 0.19-0.29. The explanatory power of the estimation is larger when the incumbent and the new CEO differ along some dimension (founder–nonfounder, female–male, age), or when one CEO cleanly replaces another, rather than cases where one CEO remains permanently with the firm while a second CEO leaves or joins. We also find that event-study estimates based on conventional methods display pronounced pre-trends that disappear after debiasing, indicating that they are artifacts of small-sample bias rather than evidence against the identification strategy. 
 
 %litrev
-\paragraph{Literature.} Our work connects primarily to the literature using firm and manager fixed effects to estimate the CEO influence on firm policy. \cite{Bertrand2003-io} was the first to use two-way fixed effects to study the importance of managers, and showed that CEOs influence investment, growth, productivity and other firm outcomes. Researchers connected managerial fixed effects with profitability \citep{mackey2008effect}, risk taking \cite{schoar2024effect}, and employee quality \citep{lazear2015value} (this paper used manager and worker fixed effects). Papers established that CEO effects increase over time \citep{quigley2015has} and are correlated with nationwide institutions, such as the origin of the legal system, labor market flexibility, and ownership structure \citep{crossland2011differences}. These studies use data from listed companies. \cite{quigley2022ceo} uses data of large listed and private companies, and finds that that CEOs affect private firms to a larger extent. One exception in terms of firm size is \cite{baltrunaite2023managerial}, who use the universe of Italian limited liability companies over 20 employees. The paper finds that managerial quality is associated with the adoption of better managerial practices.  
+\paragraph{Literature.} Our work connects primarily to the literature using firm and manager fixed effects to estimate the CEO influence on firm policy. \cite{Bertrand2003-io} was the first to use two-way fixed effects to study the importance of managers, and showed that CEOs influence investment, growth, productivity and other firm outcomes. Researchers connected managerial fixed effects with profitability \citep{mackey2008effect}, risk taking \cite{schoar2024effect}, and employee quality \citep{lazear2015value} (this paper used manager and worker fixed effects). Papers established that CEO effects increase over time \citep{quigley2015has} and are correlated with nationwide institutions, such as the origin of the legal system, labor market flexibility, and ownership structure \citep{crossland2011differences}. These studies use data from listed companies. \cite{quigley2022ceo} uses data of large listed and private companies, and finds that that CEOs affect private firms to a larger extent. One exception in terms of firm size is \cite{baltrunaite2023managerial}, who use the universe of Italian limited liability companies over 20 employees. The paper finds that managerial quality is associated with the adoption of better managerial practices.  Similar methods were also applied to the public sector and also find that CEOs are important in this area as well \citep{fenizia2022managers, janke2024role}. 
 
 In contrast to these datasets, our study uses the universe of Hungarian firms (we only drop corporations with fewer than 2 employees on average). For identification, our method uses all the firms which experience a CEO change (about a quarter of million transitions) and we do not need to restrict the sample to the connected component. 
 
-Similar methods were also applied to the public sector and also find that CEOs are important in this area as well \citep{fenizia2022managers, janke2024role}. 
-
-Methodologically, we connect to the literature correcting the limited mobility bias in two-way fixed effects analysis. In terms of variance-covariance correction, three broad methods are proposed: assuming and estimating a parametric model for error covariance structure \citep{andrews2008high,gaure2014correlation,kline2024firm}, leave-one-out adjustments \citep{kline2020leave}, and grouping observations to reduce the number of parameters to be estimated \citep{Bonhomme2019-xi}. Parametric methods require correctly specifying and estimating complex autocorrelation patterns, while our method needs only mild identifying assumptions. The leave-one-out method is impractical in CEO markets where most managers work at only one firm and mobility is limited. Since our interest is understanding heterogeneity of CEOs and factors that correlate with this heterogeneity, keeping the original dimensionality of the data is preferable. 
+Methodologically, we connect to the literature correcting the limited mobility bias in two-way fixed effects analysis. In terms of variance-covariance correction, three broad methods are proposed: assuming and estimating a parametric model for error covariance structure \citep{andrews2008high,gaure2014correlation,kline2024firm,koren2026gmrf}, leave-one-out adjustments \citep{kline2020leave}, and grouping observations to reduce the number of parameters to be estimated \citep{Bonhomme2019-xi}. Parametric methods require correctly specifying and estimating complex autocorrelation patterns, while our method needs only mild identifying assumptions. The leave-one-out method is impractical in CEO markets where most managers work at only one firm and mobility is limited. Since our interest is understanding heterogeneity of CEOs and factors that correlate with this heterogeneity, keeping the original dimensionality of the data is preferable. 
 
 The main difference between the methods described above and our is the we estimate from within firm, rather than between firm, CEO changes. Similar approach was employed \cite{fitza2014use} and \cite{jarosiewicz2023revisiting}. They state that the limited mobility bias distorts the second estimated moments of CEO fixed effects and use placebo CEO switches to correct for this bias. They do not, however, demonstrate formally under what identifying assumptions will the corrected estimate be unbiased, nor they correct for the coefficients of event time analysis. In addition, they use listed firms while we use the whole Hungarian population. 
 
 %Finally, event studies are used to assess how outcomes evolve before and after CEO transitions to test for pre-trends and to understand post-transition dynamics \citep{schoar2024effect}.
 
-Our paper also builds on the two-way fixed effects literature in labor economics that decomposes wages into worker and firm components (see the recent review of \citep{kline2024firm}. Unlike the labor literature, our focus is on understanding manager fixed effects rather than firm fixed effects. We include firm fixed effects in our estimation model, but remove them in the estimation step by differencing or demeaning, so we cannot comment on the correlation between firm and worker (CEO) effects, a common question in labor studies.
+Our paper also builds on the two-way fixed effects literature in labor economics that decomposes wages into worker and firm components \citep{kline2024firm}. Unlike the labor literature, our focus is on understanding manager fixed effects rather than firm fixed effects. We include firm fixed effects in our estimation model, but remove them in the estimation step by differencing or demeaning, so we cannot comment on the correlation between firm and worker (CEO) effects, a common question in labor studies.
 
 The paper proceeds as follows. Section \ref{sec:econometric_problem} presents the econometric problem, explains briefly the small sample bias and shows its implication on commonly used statistics. Section \ref{sec:placebo_debiasing} introduces the placebo-controlled debiasing method, which we evaluate in Section \ref{sec:MC} with Monte Carlo estimations. Section \ref{sec:application} applies the method to CEO transitions in Hungarian firms and studies the role of managerial heterogeneity in shaping firm outcomes. Section \ref{sec:concl} concludes.
 
@@ -116,29 +114,28 @@ q_{it}^{k}
 =
 \alpha_i^{k}
 +
-z_{is(i,t)}^{k}
+z_{is}^{k}
 +
 e_{it}^{k},
 \label{eq:outcome_model}
 \end{equation}
-where $\alpha_i^{k}$ is a firm fixed effect, $s(i,t)$ indexes the CEO
-spell in place at firm $i$ in year $t$, and $z_{is(i,t)}^{k}$ is the
-component of firm performance associated with that CEO spell. The spell component is constant during a CEO spell and changes when the firm replaces the CEO. The remaining variation is captured by the firm-level
+where $\alpha_i^{k}$ is a firm fixed effect, $s$ indexes the CEO
+spell (first, second, etc), and $z_{is}^{k}$ is the component of firm performance associated with that CEO spell. The spell component is constant during a CEO spell and changes when the firm replaces the CEO. The remaining variation is captured by the firm-level
 shock $e_{it}^{k}$.
 
-Let $\mathcal S_i$ denote the set of CEO spells observed at firm $i$.
+Let $\mathcal S_i$ denote the number of CEO spells observed at firm $i$.
 We impose strict exogeneity of firm-level shocks with respect to the entire CEO-spell history:
 \begin{equation}
 E\!\left[
 e_{it}^{k}
 \mid
 \alpha_i^{k},
-\{z_{is}^{k}\}_{s\in\mathcal S_i}, {s(i,r)}_r
+\{z_{is}^{k}\}_{s=1,2,...,|\mathcal S_i|}
 \right]
 =
 0
 \qquad
-\text{for every }t.
+\text{for every $i$ and $t$}.
 \label{eq:strict_exogeneity}
 \end{equation}
 This assumption requires the firm-level shock in each period to have
@@ -174,7 +171,6 @@ z_{is}^{k}
 z_{i,s-1}^{k}.
 \label{eq:true_spell_change}
 \end{equation}
-
 We do not observe either spell component directly. Let $T_{is}$
 denote the number of years in which firm $i$ is observed during CEO
 spell $s$. We estimate the difference between the two spell components
@@ -236,8 +232,8 @@ E\!\left[
 \end{equation}
 Thus, under strict exogeneity, the estimated change is unbiased regardless of spell length. Unbiasedness does not, however, make the estimate precise. When spells are short, $\Delta\bar e_{is}^{k}$ need not be close to zero, so $\Delta\widehat z_{is}^{k}$ remains noisy. Increasing the number of firms estimates the distribution of these noisy changes more precisely but does not remove the noise within each change. Consequently, the variance of estimated changes and their covariance with other outcomes can differ systematically from the corresponding moments of the true changes.
 
-We study how a firm outcome changes when firm $i$ moves from CEO spell
-$s-1$ to $s$. Let $q_{it}^{j}$ denote outcome $j$ of firm $i$ in
+We study how a firm outcome changes when firm $i$ replaces CEO 
+$s-1$ with CEO $s$. Let $q_{it}^{j}$ denote outcome $j$ of firm $i$ in
 year $t$. The outcome $j$ need not be the same variable as the measure
 $k$ used to construct the CEO-spell change. For example, we may measure
 the change in the CEO-spell component using revenue and study how
@@ -391,12 +387,10 @@ and its probability limit is:
 \right)
 }.
 \end{equation}
-
 This is generally biased because both the covariance in the numerator and the variance of the estimated CEO-spell change in the denominator are contaminated by short-spell estimation error.
 This expression shows why the direction of the $R^2$ bias is not mechanical. The nonnegative variance bias $B^k$ enters the denominator, while $A_h^{jk}$ shifts the covariance before it is squared in the numerator. Depending on the sign and magnitude of the true covariance and $A_h^{jk}$, the two distortions can reinforce or offset one another. Correcting only the variance or only the covariance would therefore combine moments referring to different underlying objects.
 
-
-The population linear-projection coefficient of interest is
+We are also interested in the regression coefficients of the outcome contrast on the estimated CEO-spell change at various event times. The population coefficient is
 \begin{equation}
 \beta_h^{jk}
 =
@@ -455,10 +449,9 @@ B^{k}
 }.
 \label{eq:naive_beta_plim}
 \end{equation}
-
 This differs from classical attenuation. Although $B^k$ increases the denominator, $A_h^{jk}$ simultaneously shifts the numerator and may have either sign. The naive coefficient can therefore be above or below $\beta_h^{jk}$. In special cases the two distortions may be proportional and cancel in the ratio, but strict exogeneity alone does not imply such an offset.
 
-The covariance distortion is particularly important in event studies because Equation~\eqref{eq:estimated_spell_change} uses outcomes throughout the pre- and post-transition CEO spells. Consider a positive firm-level shock that begins before the transition and persists into the incoming CEO's spell. The shock raises outcomes used to estimate the incoming spell component, so it enters $\Delta\widehat z_{is}^{k}$. Because it began earlier, it is also correlated with pre-transition outcome contrasts. The estimated CEO-spell change can then appear to predict outcomes before the incoming CEO arrives, even when the true change does not. Persistence is essential to this mechanism: short spells create estimation noise, while serial correlation links that noise to outcomes at other event times. Under no anticipation, the true coefficient satisfies $\beta_h^{jk}=0$ for $h<-1$. Nevertheless, the probability limit of the naive estimator is
+The covariance distortion is particularly important in event studies because Equation~\eqref{eq:estimated_spell_change} uses outcomes throughout the pre- and post-transition CEO spells. Consider a positive firm-level shock that begins before the transition and persists into the incoming CEO's spell. The shock raises outcomes used to estimate the incoming spell component, so it enters $\Delta\widehat z_{is}^{k}$. Because it began earlier, it is also correlated with pre-transition outcome contrasts. The estimated CEO-spell change can then appear to predict outcomes before the incoming CEO arrives, even when the true change does not. Persistence is essential to this mechanism: short spells create estimation noise, while serial correlation links that noise to outcomes at other event times. Under the standard assumption of exogenous mobility, the true coefficient satisfies $\beta_h^{jk}=0$ for $h<0$. Nevertheless, the probability limit of the naive estimator is
 \begin{equation}
 \operatorname{plim}
 \widehat\beta_{h,\mathrm{naive}}^{jk}
