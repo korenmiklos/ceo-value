@@ -715,13 +715,89 @@ post-transition dynamics.
 \section{Monte Carlo Design and Interpretation}\label{sec:MC}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-We use Monte Carlo experiments to separate the short-spell bias that our placebo estimator is designed to remove from violations of its identifying assumptions. We begin with 50,000 candidate CEO transitions. For each transition, we draw the lengths of the first and second CEO spells independently from an exponential duration distribution with rate 0.2 and round them up to whole years. In the main experiments, we retain transitions for which both spells last at most five years. We then construct an actual transition and a placebo transition with the same spell lengths.
+This section asks two questions. First, does the placebo correction recover the variance, covariance, and event-time response when its identifying assumptions hold in a short and persistent panel? Second, what remains in the estimates when those assumptions fail? We answer these questions in four steps. We first describe the simulated firms and CEO spells. We then specify the firm-level shock process and the assignment of the incoming CEO-spell component. Next, we identify the parameter restrictions that correspond to the assumptions in Section~\ref{sec:placebo_debiasing}. Finally, we change these parameters one at a time and compare the naive and placebo-controlled estimates. Figure~\ref{fig:mc} gives the main results as complete event-time paths; Table~\ref{tab:table_MC} reports the corresponding moments.
 
-Outcomes consist of an autoregressive firm-level shock and, after an actual transition, a permanent change in the CEO-spell component. For group \(g\), the shock follows \(e_{it}=\rho_g e_{i,t-1}+\varepsilon_{it}\), where \(\varepsilon_{it}\) is normally distributed with standard deviation \(\sigma_{\varepsilon,g}\). The first CEO-spell component and the firm fixed effect are normalized to zero. Let \(t_i\) denote the transition year. At the actual transition, we draw the change in the CEO-spell component as \(z_i=\gamma\ln R_{i,t_i}+\nu_i\), where \(\nu_i\) is normal with standard deviation \(\sigma_z=1\). We add \(z_i\) to the outcome in every post-transition year. Placebo firms receive no CEO-spell change. Except in the pretrend experiment, \(\gamma=0\), so the change in the CEO-spell component is independent of the firm's shocks. The population event-time coefficient is therefore zero before the transition and one from the transition year onward.
+We begin with 50,000 candidate CEO transitions. For each transition, we draw continuous waiting times independently from an exponential distribution with rate 0.2 and round them up to obtain the integer-valued lengths \(T_{1i}\) and \(T_{2i}\) of the first and second CEO spells. The resulting discrete spell lengths are geometric, with an annual probability of CEO change equal to \(1-\exp(-0.2)\). In the main experiments, we retain transitions for which both spells last at most five years. We then create an actual firm and a placebo firm with the same spell lengths and transition year. The actual firm receives a new CEO-spell component at the transition. The placebo firm does not, but we divide its observations into artificial pre- and post-transition spells at the same event date.
 
-We use six experiments to isolate different sources of bias. The baseline gives actual and placebo firms the same persistence, \(\rho_1=\rho_0=0.9\), and the same innovation standard deviation, \(\sigma_{\varepsilon,1}=\sigma_{\varepsilon,0}=\sqrt{0.5}\). The persistence experiment changes the placebo coefficient to \(\rho_0=0.8\) while holding the actual coefficient at \(\rho_1=0.9\). It therefore tests differential persistence, rather than persistence itself. Serial correlation is common in firm panels \citep{Olley1996-wy,Syverson2011-ti}, but different autoregressive coefficients violate the proportional shock covariance restriction. The excess-variance experiment instead holds persistence equal and raises the actual firms' innovation standard deviation to \(1.2\sqrt{0.5}\). The next experiment uses the same simulated observations but applies the estimator's excess-variance correction. The ``all'' experiment combines excess variance with differential persistence, setting \(\rho_1=0.8\) and \(\rho_0=0.9\). Finally, the pretrend experiment sets \(\gamma=0.1\), which makes the incoming CEO-spell component depend on the firm's outcome at the transition and deliberately violates strict exogeneity.
+The identification results above do not require firm-level shocks to follow an AR(1) process. A simulation, however, must specify how shocks evolve over time. We use an AR(1) process because persistent shocks make observations within a short CEO spell highly dependent and therefore make the small-sample problem consequential. For group \(g\in\{\mathrm{tr},\mathrm{pl}\}\), the shock is
+\begin{equation}
+e_{it}^{g}
+=
+\rho_g e_{i,t-1}^{g}
++
+\varepsilon_{it}^{g},
+\qquad
+\varepsilon_{it}^{g}
+\sim
+N\!\left(0,\sigma_{\varepsilon,g}^{2}\right),
+\label{eq:mc_shock_process}
+\end{equation}
+where \(\mathrm{tr}\) denotes actual transitions and \(\mathrm{pl}\) denotes placebo transitions. We allow persistence \(\rho_g\) and innovation variance \(\sigma_{\varepsilon,g}^{2}\) to differ across the two groups. In the baseline, shocks are highly persistent in both groups: \(\rho_{\mathrm{tr}}=\rho_{\mathrm{pl}}=0.9\). High persistence is therefore part of the environment that the method is intended to handle, not itself a violation of identification.
 
-Table~\ref{tab:table_MC} reports four comparisons that summarize the behavior of the underlying moments. It shows the baseline, excess variance without and with the scale correction, and an auxiliary long-panel experiment that raises the maximum spell length from 5 to 20 years. The table reports the variance of the estimated CEO-spell change, its covariance with the outcome change, and the resulting \(R^2\), both over the full post-transition spell and at event time \(t=3\).
+We normalize the firm fixed effect and the first CEO-spell component to zero. Let \(D_i=1\) for an actual transition and \(D_i=0\) for a placebo transition, and let \(t_i\) denote the first year of the second spell. The simulated outcome is
+\begin{equation}
+\ln R_{it}
+=
+e_{it}^{g}
++
+D_i\mathbf{1}\{t\geq t_i\}z_i.
+\label{eq:mc_outcome}
+\end{equation}
+Before the transition, outcomes contain only the firm-level shock. From the transition year onward, the actual firm also receives the permanent CEO-spell component \(z_i\). The placebo firm never receives this component. The population event-time coefficient is therefore zero before the transition and one afterward when the incoming component is assigned independently of the shock process.
+
+The final part of the data-generating process determines whether that independence holds. We draw
+\begin{equation}
+z_i
+=
+\gamma \ln R_{i,t_i}^{\mathrm{pre}}
++
+\nu_i,
+\qquad
+\nu_i
+\sim
+N\!\left(0,\sigma_z^2\right),
+\label{eq:mc_ceo_assignment}
+\end{equation}
+where \(\ln R_{i,t_i}^{\mathrm{pre}}\) is the transition-year outcome before adding \(z_i\), and \(\sigma_z=1\). When \(\gamma=0\), the incoming CEO-spell component is independent of the firm's current and past shocks. When \(\gamma>0\), firms experiencing better performance at the transition receive systematically different CEO-spell components. Because the AR(1) process carries past shocks into the transition-year outcome, this specification allows the CEO change to respond to the firm's prior performance.
+
+The special case covered by our identification argument sets
+\begin{equation}
+\gamma=0
+\qquad\text{and}\qquad
+\rho_{\mathrm{tr}}=\rho_{\mathrm{pl}}.
+\label{eq:mc_identified_case}
+\end{equation}
+The first equality imposes strict exogeneity. The second gives treated and placebo shocks the same temporal covariance pattern. Their innovation variances may still differ: when the autoregressive coefficients are equal, a difference in \(\sigma_{\varepsilon,g}^{2}\) scales the entire covariance matrix by a constant and satisfies the proportional shock covariance restriction. The baseline imposes the still simpler case \(\sigma_{\varepsilon,\mathrm{tr}}=\sigma_{\varepsilon,\mathrm{pl}}=\sqrt{0.5}\). It therefore evaluates the placebo correction in a setting where both identifying conditions hold, despite short spells and common persistence of 0.9.
+
+The remaining experiments change one part of this special case at a time. Panel B sets \(\rho_{\mathrm{tr}}=0.9\) and \(\rho_{\mathrm{pl}}=0.8\). The shock covariance matrices then differ in shape, not only scale, so the proportional covariance restriction fails. Panels C and D keep persistence equal but raise the actual firms' innovation standard deviation to \(1.2\sqrt{0.5}\). This difference is proportional: Panel C omits the scale adjustment, while Panel D applies it to the same simulated observations. Panel E combines excess variance with unequal persistence, setting \(\rho_{\mathrm{tr}}=0.8\) and \(\rho_{\mathrm{pl}}=0.9\). Panel F instead keeps the baseline shock process and sets \(\gamma=0.1\), so that the incoming CEO-spell component responds to transition-year performance and strict exogeneity fails.
+
+Figure~\ref{fig:mc} provides the clearest summary of the experiments. The red line reports the naive OLS coefficient, and the blue line reports the ratio of the placebo-debiased covariance to the placebo-debiased variance. Event time \(t=-1\) is the reference year. Under the maintained assumptions, the target is zero before the CEO transition and one in every post-transition year.
+\begin{figure*}[t]
+\centering
+\includegraphics[height=0.68\textheight,keepaspectratio]{\figurepath/figuremc.pdf}
+\caption{Monte Carlo Event Studies Under Six Scenarios} \label{fig:mc}
+\vspace{.2cm}
+
+\begin{minipage}{0.9\textwidth}
+\footnotesize{Notes: Event-time coefficients from the naive OLS estimator (red) and the placebo-controlled estimator (blue). Shaded areas report 95\% confidence intervals. Event time \(t=0\) is the first year of the second CEO spell, and \(t=-1\) is the reference year. Panel A uses the baseline parameters \(\rho_1=\rho_0=0.9\) and \(\sigma_{\varepsilon,1}=\sigma_{\varepsilon,0}=\sqrt{0.5}\). Panel B sets \(\rho_1=0.9\) and \(\rho_0=0.8\). Panels C and D set \(\sigma_{\varepsilon,1}=1.2\sqrt{0.5}\); Panel D uses the same simulated data as Panel C but applies the excess-variance correction. Panel E combines excess variance with \(\rho_1=0.8\) and \(\rho_0=0.9\). Panel F sets \(\gamma=0.1\), making the incoming CEO-spell component depend on the transition-year outcome.}
+\end{minipage}
+\end{figure*}
+
+Panel A is the central result. The naive estimates show a strong negative pretrend and a gradual post-transition response even though the population response is exactly zero before the transition and jumps immediately to one afterward. The pretrend is entirely spurious: the same short-spell shocks enter both the estimated CEO-spell change and the event-time outcome. Once the placebo moments are removed, the blue coefficients are approximately zero before the transition and one afterward. Thus, when the identifying assumptions hold, the method works essentially perfectly. More importantly, the panel shows that even a visually strong pretrend need not signal anticipation or endogenous treatment timing; it can be generated by short-panel estimation noise alone.
+
+The remaining panels ask what happens away from this benchmark. Panel B gives actual and placebo shocks different persistence. This violates the proportional covariance restriction, and the correction no longer removes the entire pretrend or fully recovers the impact response. It nevertheless moves both parts of the profile toward their population targets. The failure is therefore informative rather than catastrophic: violations of the covariance restriction make debiasing less accurate, but the adjustment still removes part of the short-panel distortion.
+
+Panels C and D isolate excess variance. They use the same simulated observations, in which actual firms have more volatile innovations than placebo firms. Without the scale adjustment, Panel C retains a negative pretrend and understates the impact response. Applying the excess-variance correction in Panel D removes most of the pre-transition distortion and brings the post-transition path much closer to the benchmark. This is the second main result. A difference in shock variance is an empirically important departure from the baseline, but it is one that the explicitly scaled placebo correction handles well.
+
+Panel E combines excess variance with unequal persistence. The placebo-controlled estimates again move substantially toward zero before the transition and toward one afterward, although small pre-transition deviations and a post-transition overshoot remain. Across Panels B and E, violations of the identifying restrictions make the method less precise, but debiasing continues to move the estimates in the right direction.
+
+\balance
+
+Panel F serves as an informal power test: it asks whether the method mechanically erases any pretrend, including one generated by the treatment itself. Here the incoming CEO-spell component depends on performance at the transition, so the pretrend reflects genuine endogenous assignment rather than only short-spell noise. The correction does not eliminate it. This distinction is built into the estimator. It removes the pretrend found in the placebo group, scaled when necessary for excess variance; it does not subtract a pretrend that appears only in the actual treatment process.
+
+The figure therefore delivers three conclusions. Under the maintained assumptions, the correction removes a strong spurious pretrend and recovers the sharp population response almost exactly. When the covariance restrictions fail, the correction is incomplete but still helpful. Excess variance can be handled particularly well by scaling the placebo moments, while a true treatment-related pretrend remains visible.
+
+Table~\ref{tab:table_MC} gives a numerical representation of these findings rather than a separate qualitative lesson. It reports the variance of the estimated CEO-spell change, its covariance with the outcome change, and the resulting \(R^2\), both over the full post-transition spell and at event time \(t=3\).
 \begin{table*}[t]
     \centering
     \caption{Monte Carlo Estimates by Scenario}
@@ -730,38 +806,16 @@ Table~\ref{tab:table_MC} reports four comparisons that summarize the behavior of
     \input{\tablepath/atets.tex}
     \begin{minipage}{\textwidth}
     \vspace{.2cm}
-    \footnotesize{Notes: The simulation begins with 50,000 candidate CEO transitions. Spell lengths are independent rounded-up exponential draws with rate 0.2. Unless noted otherwise, transitions are retained when both spells last at most five years, \(\sigma_z=1\), \(\sigma_{\varepsilon,1}=\sigma_{\varepsilon,0}=\sqrt{0.5}\), and \(\rho_1=\rho_0=0.9\). In the excess-variance columns, \(\sigma_{\varepsilon,1}=1.2\sqrt{0.5}\). The correction column uses the same simulated data as the preceding column but applies the excess-variance adjustment. The long-panel column raises the maximum spell length to 20 years. OLS denotes the naive estimate; debiased denotes the placebo-controlled estimate. The full-spell \(R^2\) uses the ATET specification based on all retained years. The event-time \(R^2\) uses the outcome at \(t=3\) relative to the final pre-transition year.}
+    \footnotesize{Notes: The simulation begins with 50,000 candidate CEO transitions. Continuous waiting times are independent exponential draws with rate 0.2 and are rounded up to obtain geometric spell lengths; the implied annual probability of CEO change is \(1-\exp(-0.2)\). Unless noted otherwise, transitions are retained when both spells last at most five years, \(\sigma_z=1\), \(\sigma_{\varepsilon,1}=\sigma_{\varepsilon,0}=\sqrt{0.5}\), and \(\rho_1=\rho_0=0.9\). In the excess-variance columns, \(\sigma_{\varepsilon,1}=1.2\sqrt{0.5}\). The correction column uses the same simulated data as the preceding column but applies the excess-variance adjustment. The long-panel column raises the maximum spell length to 20 years. OLS denotes the naive estimate; debiased denotes the placebo-controlled estimate. The full-spell \(R^2\) uses the ATET specification based on all retained years. The event-time \(R^2\) uses the outcome at \(t=3\) relative to the final pre-transition year.}
     \end{minipage}
 \end{table*}
 
-The baseline illustrates that a regression coefficient can conceal substantial bias in its component moments. The naive variance of the estimated CEO-spell change is 1.776 and its covariance with the outcome change is 1.764, although both population moments equal one. Because the two biases are similar, their ratio is close to the correct coefficient. The placebo correction separately recovers a variance of 1.000 and a covariance of 1.001. Correcting these moments reduces the full-spell \(R^2\) from 0.889 to 0.508 and the event-time \(R^2\) from 0.779 to 0.382. A coefficient close to one therefore does not imply that the underlying variance decomposition is accurate.
+The magnitudes show that the biases are quantitatively important. In the baseline, the naive variance and covariance are 1.776 and 1.764 even though both population moments equal one. The placebo correction recovers 1.000 and 1.001. Correcting these moments lowers the full-spell \(R^2\) from 0.889 to 0.508 and the event-time \(R^2\) from 0.779 to 0.382. A naive event-study coefficient near one can therefore coexist with large errors in the underlying variance decomposition and with the strong spurious pretrend in Panel A.
 
-Excess variance breaks this offset. Without the scale correction, the placebo-debiased variance and covariance remain at 1.339 and 1.334, respectively. Applying the excess-variance correction to the same data lowers the corrected covariance to 1.174 and the full-spell \(R^2\) from 0.555 to 0.430, but it leaves the corrected variance at 1.339. The implemented adjustment therefore reduces the distortion without restoring every moment to its unit benchmark. In the long-panel experiment, spell lengths remain random rather than being fixed at 20 years. Raising their maximum length consequently does not eliminate the naive bias: the naive variance and covariance are 2.029 and 1.821. The placebo correction recovers 1.015 and 1.013, showing that the correction continues to matter when the observation window is longer.
+The excess-variance columns quantify the comparison between Panels C and D. Applying the scale correction to the same simulated data lowers the corrected covariance from 1.334 to 1.174, the full-spell \(R^2\) from 0.555 to 0.430, and the event-time \(R^2\) from 0.432 to 0.322. The adjustment does not force every component moment to one, but it substantially reduces the economically relevant distortion. The long-panel experiment reaches the same broader conclusion: even when the maximum spell length rises from 5 to 20 years, the naive variance and covariance remain 2.029 and 1.821, whereas the placebo correction recovers 1.015 and 1.013. Short-panel bias is therefore large enough to matter for substantive conclusions, and it does not disappear merely because some CEO spells are longer.
 
-Figure~\ref{fig:mc} turns from the aggregate moments to the complete event-time profile. The red line reports the naive OLS coefficient, and the blue line reports the ratio of the placebo-debiased covariance to the placebo-debiased variance. Event time \(t=-1\) is the reference year. Under the maintained assumptions, the target is zero before the CEO transition and one in every post-transition year.
-\begin{figure*}[t]
-\centering
-\includegraphics[height=0.68\textheight,keepaspectratio]{\figurepath/figuremc.pdf}
-\caption{Monte Carlo Event Studies Under Six Scenarios} \label{fig:mc}
-\vspace{.2cm}
-
-\begin{minipage}{0.9\textwidth}
-\footnotesize{Notes: Event-time coefficients from the naive OLS estimator (red) and the placebo-controlled estimator (blue). Shaded areas report 95\% confidence intervals. Event time \(t=0\) is the first year of the second CEO spell, and \(t=-1\) is the reference year. Panel A uses the baseline parameters \(\rho_1=\rho_0=0.9\) and \(\sigma_{\varepsilon,1}=\sigma_{\varepsilon,0}=\sqrt{0.5}\). Panel B sets \(\rho_1=0.9\) and \(\rho_0=0.8\). Panels C and D set \(\sigma_{\varepsilon,1}=1.2\sqrt{0.5}\); Panel D uses the same simulated data as Panel C but applies the excess-variance correction. Panel E combines excess variance with \(\rho_1=0.8\) and \(\rho_0=0.9\). Panel F sets \(\gamma=0.1\), making the incoming CEO-spell component depend on the transition-year outcome. All other parameters follow the baseline.}
-\end{minipage}
-\end{figure*}
-
-Panel A shows the estimator under its maintained assumptions. The naive coefficient is negative before the transition and rises gradually after it, even though the population response is a step function. These dynamics arise because the same short-spell shocks enter both the estimated CEO-spell change and the event-time outcome. The placebo correction removes this mechanical relationship: the blue coefficients are approximately zero before the transition and one afterward.
-
-Panel B changes the persistence of placebo shocks relative to actual shocks. The naive pretrend becomes more pronounced, and the placebo correction removes only part of it. Both series approach one after the transition, but the corrected coefficient remains below the target on impact. This residual bias is informative: when the two autoregressive coefficients differ, a scalar adjustment cannot make the entire shock covariance structures proportional.
-
-Panels C and D use the same excess-variance data to isolate the role of the scale adjustment. Without that adjustment, the corrected series in Panel C retains a negative pretrend and understates the impact coefficient, although it converges toward one. The scale correction in Panel D reduces the pre-transition discrepancy, but the corrected post-transition coefficients remain below 0.9. In this calibration, scaling the placebo covariance improves one dimension of the event-time profile without fully recovering the benchmark.
-
-Panel E combines differential persistence and excess variance. OLS again displays a negative pretrend and a gradual post-transition response. The placebo-controlled estimates stay much closer to zero before the transition and jump to approximately one afterward, although small pre-transition deviations and a modest post-transition overshoot remain. Panel F creates a different failure by correlating the incoming CEO-spell component with the transition-year outcome. Debiasing attenuates the resulting pretrend but cannot eliminate it, because the placebo comparison corrects short-spell noise rather than endogenous CEO transitions.
-
-The experiments therefore separate correction from identification. When actual and placebo firms share the same shock covariance structure, the placebo estimator recovers the sharp event-time response despite persistent shocks and short spells. A scale adjustment can reduce bias when shock variances differ. Differences in persistence violate the proportional shock covariance restriction, while the pretrend experiment violates strict exogeneity; neither failure can be repaired by subtracting placebo moments alone.
 \clearpage
-
-
+\nobalance
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Application: CEO Replacements in Hungarian Firms}\label{sec:application}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
