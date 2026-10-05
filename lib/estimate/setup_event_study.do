@@ -1,4 +1,4 @@
-args sample outcome montecarlo
+args sample measurement montecarlo
 
 confirm file "data/placebo_`sample'.dta"
 
@@ -12,7 +12,7 @@ global random_seed 2181            // Random seed for reproducibility
 global sample 100                   // Sample selection for analysis
 global cluster frame_id_numeric     // Clustering variable
 global T_min 1
-
+local measurements lnR ROA lnRL lnL lnK
 * report package versions
 which xt2treatments
 * clustering requites xt2treatments 0.9 or higher
@@ -24,7 +24,7 @@ if !("`montecarlo'" == "montecarlo") {
     use "../../temp/analysis-sample.dta", clear
     merge m:1 frame_id_numeric ceo_spell using "../../temp/manager_value_spell.dta", keep(master match) nogen
     * redefine variables here so as not to rerun everything
-    confirm numeric variable `outcome'
+    confirm numeric variable `measurement'
 
     * ceo_spell is also in the placebo file, drop before joinby to avoid implicit matching on it
     drop ceo_spell
@@ -49,6 +49,13 @@ if !("`montecarlo'" == "montecarlo") {
     keep if N_treated > 0 & N_control > 0
     tabulate N_control
     tabulate N_treated
+
+    foreach var of local measurements {
+      egen double mean_`var' = mean(`var'), by(teaor08_2d year)
+      generate demean_`var' = `var' - mean_`var'
+      drop mean_`var' `var'
+      rename demean_`var' `var'
+    }
 }
 else {
     use "data/placebo_`sample'.dta", clear
@@ -67,8 +74,8 @@ assert r(min) == `s1'
 assert r(max) == `s2'
 tabulate ceo_spell placebo
 
-* CEO skill is also fake, computed from actual outcome
-egen fake_manager_skill = mean(`outcome'), by(fake_id ceo_spell)
+* CEO skill is also fake, computed from actual measurement
+egen fake_manager_skill = mean(`measurement'), by(fake_id ceo_spell)
 * always use fake manager skill, we are doing dynamic estimates here
 replace manager_skill = fake_manager_skill
 drop fake_manager_skill
@@ -76,9 +83,9 @@ drop fake_manager_skill
 * limit event window here, not sooner so that placebo is constructed correctly
 keep if inrange(year, change_year + ${event_window_start}, change_year + ${event_window_end})
 
-keep if !missing(`outcome')
-egen T1 = total(cond(ceo_spell == `s1', !missing(`outcome'), .)), by(fake_id)
-egen T2 = total(cond(ceo_spell == `s2', !missing(`outcome'), .)), by(fake_id)
+keep if !missing(`measurement')
+egen T1 = total(cond(ceo_spell == `s1', !missing(`measurement'), .)), by(fake_id)
+egen T2 = total(cond(ceo_spell == `s2', !missing(`measurement'), .)), by(fake_id)
 keep if T1 >= ${T_min} & T2 >= ${T_min}
 drop T1 T2
 
