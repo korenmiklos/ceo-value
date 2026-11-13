@@ -299,7 +299,7 @@ other organizational regimes. The approach is applicable when comparable
 units can be observed without a change in the relevant latent component
 and the required restrictions on transitory shock processes are
 plausible. It therefore provides a method for recovering second moments
-and dynamic relationships involving latent spell effects in settings
+and dynamic relationships involving  spell effects in settings
 where short panels make conventional plug-in estimates unreliable.
 
 The remainder of the paper proceeds as follows. Section~\ref{sec:econometric_problem}
@@ -364,7 +364,7 @@ replacements in Hungarian firms, and Section~\ref{sec:conclusion} concludes.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Econometric Problem}\label{sec:econometric_problem}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+We introduce the econometric problem in the CEO setting, but as discussed in the introduction other settings where persistent latent components are inferred in the presence of short spells is the general problem we address.
 Let $q_{it}^{k}$ denote measure $k$ of firm $i$'s performance in year
 $t$. Such measures can include log
 revenue, return on assets, log labor productivity, etc. For each measure
@@ -490,7 +490,7 @@ E\!\left[
 \Delta z_{is}^{k}.
 \label{eq:unbiased_spell_change}
 \end{equation}
-Thus, under strict exogeneity, the estimated change is unbiased regardless of spell length. Unbiasedness does not, however, make the estimate precise. When spells are short, $\Delta\bar e_{is}^{k}$ need not be close to zero, so $\Delta\widehat z_{is}^{k}$ remains noisy. Increasing the number of firms estimates the distribution of these noisy changes more precisely but does not remove the noise within each change. Consequently, the variance of estimated changes and their covariance with other outcomes can differ systematically from the corresponding moments of the true changes.
+Thus, under strict exogeneity, the estimated change is unbiased regardless of spell length. Unbiasedness does not, however, make the estimate precise. When spells are short, $\Delta\bar e_{is}^{k}$ need not be close to zero, so $\Delta\widehat z_{is}^{k}$ remains noisy. Increasing the number of firms allows the estimation of the distribution of these noisy changes more precisely but does not remove the noise within each change. Consequently, the variance of estimated changes and their covariance with other outcomes can differ systematically from the corresponding moments of the true changes.
 
 We study how a firm outcome changes when firm $i$ replaces CEO 
 $s-1$ with CEO $s$. Let $q_{it}^{j}$ denote outcome $j$ of firm $i$ in
@@ -550,7 +550,7 @@ B^{k}.
 \label{eq:variance_bias}
 \end{equation}
 
-Equation~\eqref{eq:variance_bias} shows that the observed dispersion combines genuine heterogeneity in CEO-spell changes with noise from firm-level shocks. A variance decomposition based directly on $\Delta\widehat z_{is}^{k}$ therefore overstates the variance of the true changes. The size of $B^k$ depends on both spell lengths and the temporal covariance of shocks. Short spells use fewer observations to estimate each average. Correlation within a spell determines how much independent information those observations contain, while correlation across the two spells affects the precision of their difference. Thus, identical spell lengths can generate different biases under different shock processes. Increasing the number of firms estimates the variance of the noisy changes more precisely but does not remove their noise. When spell lengths remain bounded,
+Equation~\eqref{eq:variance_bias} shows that the observed dispersion combines genuine heterogeneity in CEO-spell changes with noise from firm-level shocks. A variance decomposition based directly on $\Delta\widehat z_{is}^{k}$ therefore overstates the variance of the true changes. The size of $B^k$ depends on both spell lengths and the temporal covariance of shocks. In the case of short spells fewer observations are used to estimate each average. Correlation within a spell determines how much independent information those observations contain, while correlation across the two spells affects the precision of their difference. Thus, identical spell lengths can generate different biases under different shock processes. Increasing the number of firms estimates the variance of the noisy changes more precisely but does not remove their noise. When spell lengths remain bounded,
 \begin{equation}
 \widehat{\operatorname{Var}}\!\left(
 \Delta\widehat z_{is}^{k}
