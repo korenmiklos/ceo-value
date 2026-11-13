@@ -550,7 +550,7 @@ B^{k}.
 \label{eq:variance_bias}
 \end{equation}
 
-Equation~\eqref{eq:variance_bias} shows that the observed dispersion combines genuine heterogeneity in CEO-spell changes with noise from firm-level shocks. A variance decomposition based directly on $\Delta\widehat z_{is}^{k}$ therefore overstates the variance of the true changes. The size of $B^k$ depends on both spell lengths and the temporal covariance of shocks. In the case of short spells fewer observations are used to estimate each average. Correlation within a spell determines how much independent information those observations contain, while correlation across the two spells affects the precision of their difference. Thus, identical spell lengths can generate different biases under different shock processes. Increasing the number of firms estimates the variance of the noisy changes more precisely but does not remove their noise. When spell lengths remain bounded,
+Equation~\eqref{eq:variance_bias} shows that the observed dispersion combines genuine heterogeneity in CEO-spell changes with noise from firm-level shocks. A variance decomposition based directly on $\Delta\widehat z_{is}^{k}$ therefore overstates the variance of the true changes. The size of $B^k$ depends on both spell lengths and the temporal covariance of shocks. In the case of short spells fewer observations are used to estimate each average. Correlation across observations within a spell determines how much independent information those observations contain, while correlation across observations in two different spells affects the precision of their difference. Thus, identical spell lengths can generate different biases under different shock processes. Increasing the number of firms results in more precise estimates of the variance of the noisy changes but does not remove their noise. When spell lengths remain bounded,
 \begin{equation}
 \widehat{\operatorname{Var}}\!\left(
 \Delta\widehat z_{is}^{k}
@@ -563,7 +563,7 @@ Equation~\eqref{eq:variance_bias} shows that the observed dispersion combines ge
 B^{k}.
 \label{eq:variance_plim}
 \end{equation}
-The probability limit distinguishes large-$N$ from large-$T$ asymptotics. With many firms but short spells, the sample variance becomes precise around a moment that still contains $B^k$. The bias disappears only when the number of observations within each spell grows and dependence is weak enough for the spell-average shocks to converge to zero.
+The probability limit distinguishes large-$N$ from large-$T$ asymptotics. With many firms but short spells (large N, small T), the sample variance becomes precise around a moment that still contains $B^k$. The bias disappears only when the number of observations within each spell grows and dependence is weak enough for the spell-average shocks to converge to zero.
 \vspace{.2cm}
 
 \paragraph{Bias in the covariance.} Let $A_h^{jk}$ denote the covariance between $\Delta\bar e_{is}^{k}$ and the outcome contrast:
@@ -592,7 +592,7 @@ A_h^{jk}.
 \label{eq:covariance_bias}
 \end{equation}
 
-Equation~\eqref{eq:covariance_bias} shows that $A_h^{jk}$ distorts the covariance because the average-shock difference $\Delta\bar e_{is}^{k}$ may also enter, or be correlated with shocks entering, $\Delta_h q_{is}^{j}$. When $j=k$, the same outcome shocks can enter both objects directly. When $j\neq k$, the distortion depends on cross-outcome shock covariances. Because the outcome contrast changes with event time, the magnitude and sign of $A_h^{jk}$ may also vary with $h$. Short spells keep these shocks from averaging out. Unlike classical measurement error, the noise can therefore affect both the variance of the explanatory variable and its covariance with the outcome. This source of bias disappears as spell lengths grow and firm-level shocks average out.
+Equation~\eqref{eq:covariance_bias} shows that $A_h^{jk}$ distorts the covariance because the average-shock difference $\Delta\bar e_{is}^{k}$ may also enter, or be correlated with shocks entering $\Delta_h q_{is}^{j}$. When $j=k$, the same outcome shocks can enter both objects directly. When $j\neq k$, the distortion depends on cross-outcome shock covariances. Because the outcome contrast changes with event time, the magnitude and sign of $A_h^{jk}$ may also vary with $h$. When spell lengths remain bounded, the estimation error $\Delta\bar e_{is}^{k}$ does not vanish as the number of firms increases, and its covariance with the event-time outcome contrast can remain nonzero. Unlike classical measurement error, the noise can therefore affect both the variance of the explanatory variable and its covariance with the outcome. This source of bias disappears as spell lengths grow and firm-level shocks average out.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Implications for commonly reported statistics}\label{subsec:implications}
