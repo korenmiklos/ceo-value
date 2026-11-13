@@ -600,10 +600,10 @@ Equation~\eqref{eq:covariance_bias} shows that $A_h^{jk}$ distorts the covarianc
 
 %Dynamic bias and spurious pre-trends
 
-Equations~\eqref{eq:variance_plim} and \eqref{eq:covariance_bias} establish the distinction needed below: $\Delta\widehat z_{is}^{k}$ is mean-unbiased, but its variance and covariance need not equal the corresponding moments of the true change. We study two functions of these moments. The first is $R^2$, which measures the explanatory power of the true CEO-spell change. The second is the projection coefficient $\beta_h^{jk}$, which describes its relationship with $\Delta_h q_{is}^{j}$.\footnote{Instead of event-time projection coefficients, one can also estimate an overall projection coefficient relating $\Delta z_{is}^{k}$ to the difference between average post-transition and pre-transition outcomes. Because the bias of this coefficient is analogous to the bias of the event-time coefficients, we do not show it here.}
-The two statistics answer different economic questions. The $R^2$ is a unit-free measure of the share of outcome variation linearly associated with the CEO-spell change. The coefficient $\beta_h^{jk}$ measures the outcome response per unit change in the CEO-spell component and retains the scale of the variables. Because $R^2$ squares the covariance and also depends on the variance of the outcome contrast, the same $A_h^{jk}$ and $B^k$ can distort the two statistics differently. We therefore derive both rather than treat them as interchangeable measures of CEO importance.
+Equations~\eqref{eq:variance_plim} and \eqref{eq:covariance_bias} establish the distinction needed below: $\Delta\widehat z_{is}^{k}$ is mean-unbiased, but its variance and covariance need not equal the corresponding moments of the true change. We study two functions of these moments. The first is $R^2$, which measures the explanatory power of the true CEO-spell change. The second is the projection coefficient $\beta_h^{jk}$, which describes the relationship of $\Delta_h q_{is}^{j}$ with the true change $\Delta z_{is}^{k}$.\footnote{Instead of event-time projection coefficients, one can also estimate an overall projection coefficient relating $\Delta z_{is}^{k}$ to the difference between average post-transition and pre-transition outcomes. Because the bias of this coefficient is analogous to the bias of the event-time coefficients, we do not show it here.}
+The two statistics answer different economic questions. The $R^2$ is a unit-free measure of the share of outcome variation linearly associated with the CEO-spell change. The coefficient $\beta_h^{jk}$ measures the outcome change per unit change in the CEO-spell component and retains the scale of the variables. Because $R^2$ squares the covariance and also depends on the variance of the outcome contrast, the same $A_h^{jk}$ and $B^k$ can distort the two statistics differently. We therefore derive both statistics.
 
-The naive $R^2$ is
+The estimator for the naive $R^2$ is
 
 \begin{equation}
 \widehat R^{2,jk}_{h,\mathrm{naive}}
@@ -647,7 +647,7 @@ and its probability limit is:
 \right)
 }.
 \end{equation}
-This is generally biased because both the covariance in the numerator and the variance of the estimated CEO-spell change in the denominator are contaminated by short-spell estimation error.
+The estimator for the naive $R^2$ is generally biased because both the covariance in the numerator and the variance of the estimated CEO-spell change in the denominator are contaminated by short-spell estimation error.
 This expression shows why the direction of the $R^2$ bias is not mechanical. The nonnegative variance bias $B^k$ enters the denominator, while $A_h^{jk}$ shifts the covariance before it is squared in the numerator. Depending on the sign and magnitude of the true covariance and $A_h^{jk}$, the two distortions can reinforce or offset one another. Correcting only the variance or only the covariance would therefore combine moments referring to different underlying objects.
 
 We are also interested in the regression coefficients of the outcome contrast on the estimated CEO-spell change at various event times. The population coefficient is
@@ -711,7 +711,7 @@ B^{k}
 \end{equation}
 This differs from classical attenuation. Although $B^k$ increases the denominator, $A_h^{jk}$ simultaneously shifts the numerator and may have either sign. The naive coefficient can therefore be above or below $\beta_h^{jk}$. In special cases the two distortions may be proportional and cancel in the ratio, but strict exogeneity alone does not imply such an offset.
 
-The covariance distortion is particularly important in event studies because Equation~\eqref{eq:estimated_spell_change} uses outcomes throughout the pre- and post-transition CEO spells. Consider a positive firm-level shock that begins before the transition and persists into the incoming CEO's spell. The shock raises outcomes used to estimate the incoming spell component, so it enters $\Delta\widehat z_{is}^{k}$. Because it began earlier, it is also correlated with pre-transition outcome contrasts. The estimated CEO-spell change can then appear to predict outcomes before the incoming CEO arrives, even when the true change does not. Persistence is essential to this mechanism: short spells create estimation noise, while serial correlation links that noise to outcomes at other event times. Under the standard assumption of exogenous mobility, the true coefficient satisfies $\beta_h^{jk}=0$ for $h<0$. Nevertheless, the probability limit of the naive estimator is
+The covariance distortion is particularly important in event studies because Equation~\eqref{eq:estimated_spell_change} uses outcomes throughout the pre- and post-transition CEO spells. Consider a positive firm-level shock that begins before the transition and persists into the incoming CEO's spell. The shock raises outcomes used to estimate the incoming spell component, so it enters $\Delta\widehat z_{is}^{k}$. Because it began pre-transition, it is also correlated with pre-transition outcome contrasts. The estimated CEO-spell change can then appear to predict outcomes before the incoming CEO arrives, even when the true change does not. Persistence of the error term is essential to this mechanism: short spells create estimation noise, while serial correlation links that noise to outcomes at other event times. Under the standard assumption of exogenous mobility, the true coefficient satisfies $\beta_h^{jk}=0$ for $h<0$. Nevertheless, the probability limit of the naive estimator is
 \begin{equation}
 \operatorname{plim}
 \widehat\beta_{h,\mathrm{naive}}^{jk}
@@ -737,7 +737,7 @@ gradually, decline over time, or overshoot, depending on how the
 estimation error in the CEO-spell change covaries with the outcome
 contrast at different event times. The observed event-study pattern
 may therefore partly reflect the temporal covariance structure of
-firm-level shocks rather than the timing of the change associated with
+firm-level shocks rather than the change associated with
 the CEO spell.
 
 The variance bias $B^k$ is nonnegative, whereas the covariance distortion $A_h^{jk}$ may have either sign and can vary across event time. Consequently, $R^2$, projection coefficients, and event-study dynamics must be constructed from corrected variances and covariances; correcting only one component is insufficient. In particular, short-spell noise can create spurious pre-trends or reshape post-transition dynamics even under strict exogeneity. The next section shows how matched firms without CEO changes identify both bias terms.
