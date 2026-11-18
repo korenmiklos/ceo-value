@@ -940,8 +940,8 @@ nonvanishing short-spell bias that would otherwise remain in the
 probability limits of the treated moments.
 
 For regression coefficients and other nonlinear functions of second
-moments, we first debias the underlying moments and then form the
-relevant statistic. For example, the debiased projection coefficient is
+moments, such as $R^2$ statistics, we first debias the underlying second moments and then form the
+relevant statistic using the appropriate nonlinear transformation. For example, the debiased projection coefficient is
 \begin{equation}
 \widehat\beta_{h,\mathrm{db}}^{jk}
 =
@@ -958,12 +958,6 @@ relevant statistic. For example, the debiased projection coefficient is
 \label{eq:debiased_beta}
 \end{equation}
 
-Thus, the correction is performed at the level of the covariance and
-variance. In general, it is not equivalent to subtracting a placebo
-regression coefficient from the treated regression coefficient.
-Correlations, $R^2$ statistics, and other functions of second moments
-are constructed in the same way: we first correct each underlying
-variance and covariance and then apply the nonlinear transformation.
 
 The placebo-control approach has three advantages. First, it does not
 require a parametric model for the full covariance structure of
