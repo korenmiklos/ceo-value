@@ -794,15 +794,24 @@ We refer to this restriction as the
 
 This restriction requires, for each pair of outcomes \(j\) and \(k\), the temporal pattern of variances, autocovariances, and cross-outcome covariances to be the same in the treated and placebo groups up to the pair-specific scale factor \(c^{jk}\) or \(c^{k}\). The restriction therefore allows the magnitudes of shock variances and cross-outcome covariances to differ systematically between treated and placebo firms.
 
-The proportionality restriction must also hold for
+When $j=k$, the proportionality restriction
+reduces to proportionality of the autocovariance structure
+of a single outcome. The restriction must also hold for
 cross-outcome covariances when the CEO-spell change
 is measured using a different variable from the
 outcome of interest. For example, if CEO-spell changes
 are measured using revenue and the outcome is employment,
 the covariance bias depends on the covariance between
-revenue and employment shocks. When $j=k$, the restriction
-reduces to proportionality of the autocovariance structure
-of a single outcome.
+revenue and employment shocks. 
+
+The scale factors $c^{jk}$ and $c^k$ capture systematic differences in
+shock covariances and variances between firms that change CEOs and firms that do not. We
+estimate $c^{jk}$ and $c^{k}$ using pre-transition within-spell second moments, before the incoming
+CEO-spell component can affect the firm's outcomes. In the application,
+we use a minimum-distance estimator that selects $c^{jk}$ and $c^{k}$ to align a set of
+treated and placebo pre-transition moments. Under the proportional
+shock covariance restriction, this estimator converges to the relative
+scale of the treated and placebo shock processes.
 
 The artificial transition in a placebo firm divides one uninterrupted
 CEO spell into two segments. There is therefore no true change in the
@@ -825,8 +834,10 @@ Nevertheless, $\Delta\bar e_{is}^{k}$ generally differs from zero because the tw
 \end{align}
 
 Consequently, the variance and covariance calculated in the placebo
-sample contain only the short-spell bias. Under the proportional shock covariance restriction and the matched
-placebo construction,
+sample contain only the short-spell bias. Under the proportional shock covariance restriction and
+the matched placebo construction, as $N \to \infty$,
+the sample placebo moments converge in probability
+to the corresponding scaled bias terms:
 \begin{equation}
 \widehat{\operatorname{Cov}}^{\mathrm{pl}}\!\left(
 \Delta\widehat z_{is}^{k},
@@ -851,18 +862,11 @@ the short-spell bias, whereas the corresponding placebo moments
 contain only the bias. Scaling the placebo moments by $c^{jk}$ and $c^{k}$ therefore
 recovers the bias terms that contaminate the treated moments.
 
-The scale factors $c^{jk}$ and $c^k$ capture systematic differences in
-shock covariances and variances between firms that change CEOs and firms that do not. We
-estimate $c^{jk}$ and $c^{k}$ using pre-transition within-spell second moments, before the incoming
-CEO-spell component can affect the firm's outcomes. In the application,
-we use a minimum-distance estimator that selects $c^{jk}$ and $c^{k}$ to align a set of
-treated and placebo pre-transition moments. Under the proportional
-shock covariance restriction, this estimator converges to the relative
-scale of the treated and placebo shock processes.
+
 
 \paragraph{Debiased moments.}
-Subtracting the scaled placebo covariance from the treated covariance
-gives
+Subtracting the estimated scaled placebo covariance from the estimated treated covariance
+gives the debiased covariance estimator
 \begin{align}
 \widehat{\operatorname{Cov}}^{\mathrm{db}}\!\left(
 \Delta\widehat z_{is}^{k},
@@ -883,7 +887,7 @@ gives
 \label{eq:debiased_covariance}
 \end{align}
 
-Similarly, the debiased variance is
+Similarly, the estimated debiased variance estimator is
 \begin{equation}
 \widehat{\operatorname{Var}}^{\mathrm{db}}\!\left(
 \Delta\widehat z_{is}^{k}
