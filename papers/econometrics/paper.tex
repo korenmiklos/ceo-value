@@ -794,17 +794,15 @@ We refer to this restriction as the
 
 This restriction requires, for each pair of outcomes \(j\) and \(k\), the temporal pattern of variances, autocovariances, and cross-outcome covariances to be the same in the treated and placebo groups up to the pair-specific scale factor \(c^{jk}\) or \(c^{k}\). The restriction therefore allows the magnitudes of shock variances and cross-outcome covariances to differ systematically between treated and placebo firms.
 
-The restriction must cover covariances across different outcomes
-because the variable used to measure the CEO-spell change need not be
-the same as the outcome whose response is being studied. For example,
-suppose that the CEO-spell change is measured using revenue, while the
-outcome of interest is employment. The covariance bias then depends on
-the covariance between the revenue shocks entering the estimated
-CEO-spell change and the employment shocks entering the outcome
-contrast. We therefore require cross-outcome covariances, as well as
-within-outcome autocovariances, to be proportional between treated and
-placebo firms. When $j=k$, the restriction reduces to proportionality
-of the autocovariance structure of a single outcome.
+The proportionality restriction must also hold for
+cross-outcome covariances when the CEO-spell change
+is measured using a different variable from the
+outcome of interest. For example, if CEO-spell changes
+are measured using revenue and the outcome is employment,
+the covariance bias depends on the covariance between
+revenue and employment shocks. When $j=k$, the restriction
+reduces to proportionality of the autocovariance structure
+of a single outcome.
 
 The artificial transition in a placebo firm divides one uninterrupted
 CEO spell into two segments. There is therefore no true change in the
